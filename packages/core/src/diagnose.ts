@@ -1,10 +1,12 @@
-import { CapturePayload, TellReport } from "@tell/schema";
+import { BrandDNA, CapturePayload, TellReport } from "@tell/schema";
+import { computeMeasures } from "@tell/redesign";
 import { buildFingerprint } from "./fingerprint/build-fingerprint";
 import { detectFindings } from "./detectors";
 
-export function diagnoseCapture(capture: CapturePayload): TellReport {
+export function diagnoseCapture(capture: CapturePayload, dna?: BrandDNA): TellReport {
   const fingerprint = buildFingerprint(capture);
   const findings = detectFindings(fingerprint, capture);
+  const measures = computeMeasures(capture, fingerprint, dna);
   const verdicts = findings.map((finding) => ({
     findingId: finding.id,
     verdict: finding.verdictHint,
@@ -23,6 +25,7 @@ export function diagnoseCapture(capture: CapturePayload): TellReport {
       intentional: verdicts.filter((v) => v.verdict === "intentional").length,
       uncertain: verdicts.filter((v) => v.verdict === "uncertain").length,
     },
+    measures,
   });
 }
 
