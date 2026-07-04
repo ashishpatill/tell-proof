@@ -73,6 +73,21 @@ function luminance(rgb: Rgb): number {
   return 0.2126 * f(rgb.r) + 0.7152 * f(rgb.g) + 0.0722 * f(rgb.b);
 }
 
+function contrastRatio(a: string, b: string): number {
+  const ca = parseColor(a);
+  const cb = parseColor(b);
+  if (!ca || !cb) return 1;
+  const la = luminance(ca);
+  const lb = luminance(cb);
+  const light = Math.max(la, lb);
+  const dark = Math.min(la, lb);
+  return (light + 0.05) / (dark + 0.05);
+}
+
+function formatRatio(ratio: number): string {
+  return `${Math.round(ratio * 10) / 10}:1`;
+}
+
 function inkFor(hex: string): string {
   const rgb = parseColor(hex);
   if (!rgb) return "#FFFFFF";
@@ -246,6 +261,16 @@ function shadowSummary(value: string): string {
   return spreads > 1 ? `${spreads} stacked shadows` : "single heavy shadow";
 }
 
+function readablePair(surface: string): { surface: string; text: string; ratio: number } {
+  const candidates = ["#17140F", "#FBF7F0", "#0F172A", "#FFFFFF"];
+  let best = { surface, text: inkFor(surface), ratio: contrastRatio(surface, inkFor(surface)) };
+  for (const text of candidates) {
+    const ratio = contrastRatio(surface, text);
+    if (ratio > best.ratio) best = { surface, text, ratio };
+  }
+  return best;
+}
+
 // ── The reconciliation itself ────────────────────────────────────────
 
 export function reconcile(
@@ -257,10 +282,15 @@ export function reconcile(
   const dir = resolveDirection(directionId);
   const before = extractTokens(capture, fingerprint);
   const { hex: accentAfter, tamed } = reconcileAccent(before.accent, dir);
-  const accentInk = inkFor(accentAfter);
+  const accentPair = readablePair(accentAfter);
+  const accentInk = accentPair.text;
 
   const surfaceAfter = before.surfaceIsDark ? dir.paperDark : dir.paperLight;
-  const textAfter = inkFor(surfaceAfter);
+  const textPair = readablePair(surfaceAfter);
+  const textAfter = textPair.text;
+  const beforeContrast = contrastRatio(before.surface, before.text);
+  const afterContrast = textPair.ratio;
+  const accentContrast = accentPair.ratio;
 
   const has = (id: string) => findings.some((f) => f.id === id || f.detector === id);
   const grayCluster = fingerprint.nearDuplicateGrays[0];
@@ -282,6 +312,13 @@ export function reconcile(
     note: GENERIC_FONTS.test(before.headingFont)
       ? "Replaces the default system stack with a display + text pairing."
       : "Re-pairs headline and body for a clearer hierarchy.",
+  });
+  rows.push({
+    key: "contrast",
+    label: "Contrast floor",
+    before: formatRatio(beforeContrast),
+    after: `${formatRatio(afterContrast)} text · ${formatRatio(accentContrast)} controls`,
+    note: "Text color is only forced inside surfaces Tell also owns, so contrast changes stay paired.",
   });
   rows.push({
     key: "accent",
@@ -326,16 +363,16 @@ export function reconcile(
     rows.push({
       key: "gradient",
       label: "Hero treatment",
-      before: "violet→pink gradient crutch",
-      after: `solid ${surfaceAfter} ground`,
-      note: "Trades the default gradient for a composed surface.",
+      before: "detected gradient background",
+      after: `solid ${surfaceAfter} ground with ${formatRatio(afterContrast)} text`,
+      note: "Removes decorative gradient only where Tell can also set a readable foreground.",
     });
   }
 
   return {
     directionId: dir.id,
     label: dir.label,
-    summary: dir.summary,
+    summary: `${dir.summary} Contrast floor: ${formatRatio(afterContrast)} text, ${formatRatio(accentContrast)} controls.`,
     rows,
     css,
     fontImport,
@@ -373,27 +410,45 @@ function buildReconcileCss(args: {
 }
 ${remap}
 html,body{
-  background:var(--tell-paper) !important;
-  color:var(--tell-ink) !important;
+  background-color:var(--tell-paper) !important;
+  color:var(--tell-ink);
   font-family:var(--tell-body),ui-sans-serif,system-ui,-apple-system,sans-serif !important;
 }
 h1,h2,h3,h4,[class*="title"],[class*="heading"],[class*="hero"] h1,[class*="hero"] h2,[class*="display"]{
   font-family:var(--tell-display),Georgia,"Times New Roman",serif !important;
   letter-spacing:-.012em !important;
   font-weight:${dir.headingWeight} !important;
+}
+
+/* Contrast rule: Tell only forces text color inside surfaces it also controls. */
+section[class*="hero"],section[class*="banner"],section[class*="bg-gradient"],main[class*="bg-gradient"],header[class*="bg-gradient"],footer[class*="bg-gradient"],[class*="hero"]{
+  background-color:var(--tell-paper) !important;
+  background-image:none !important;
   color:var(--tell-ink) !important;
 }
-p,li,span,label,input,textarea{ color:var(--tell-ink); }
-a{ color:var(--tell-accent) !important; text-decoration-color:var(--tell-accent) !important; }
-button,[class*="btn"],[class*="button"],[type="submit"],[type="button"],[class*="primary"],[class*="cta"],[role="button"]{
+section[class*="hero"] :is(h1,h2,h3,h4,p,li,span,label),section[class*="banner"] :is(h1,h2,h3,h4,p,li,span,label),section[class*="bg-gradient"] :is(h1,h2,h3,h4,p,li,span,label),main[class*="bg-gradient"] :is(h1,h2,h3,h4,p,li,span,label),header[class*="bg-gradient"] :is(h1,h2,h3,h4,p,li,span,label),footer[class*="bg-gradient"] :is(h1,h2,h3,h4,p,li,span,label),[class*="hero"] :is(h1,h2,h3,h4,p,li,span,label){
+  color:inherit !important;
+}
+:is(h1,h2,h3,h4,p,span)[class*="text-transparent"],:is(h1,h2,h3,h4,p,span)[class*="bg-clip-text"]{
+  color:var(--tell-accent) !important;
+  -webkit-text-fill-color:var(--tell-accent) !important;
+  background-image:none !important;
+}
+a{ text-decoration-color:currentColor !important; }
+:is(a,button,[role="button"])[class*="text-blue"],:is(a,button,[role="button"])[class*="text-cyan"]{
+  color:var(--tell-accent) !important;
+}
+:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="bg-blue"],:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="bg-cyan"],:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="from-blue"],:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="from-cyan"],:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="primary"],:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="cta"]{
   background-color:var(--tell-accent) !important;
+  background-image:none !important;
   border-color:var(--tell-accent) !important;
   color:var(--tell-accent-ink) !important;
 }
-/* neutralize the gradient crutch — reveal the composed ground */
-[class*="hero"],[class*="gradient"],[class*="banner"],[style*="gradient"]{ background-image:none !important; }
+:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="bg-blue"] *,:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="bg-cyan"] *,:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="from-blue"] *,:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="from-cyan"] *{
+  color:inherit !important;
+}
 /* compose depth instead of repeating it */
-[class*="card"],[class*="panel"],[class*="tile"],[class*="box"],article,button,[class*="btn"]{ box-shadow:var(--tell-shadow) !important; }
+[class*="card"],[class*="panel"],[class*="tile"],[class*="box"],article,:is(button,a)[class*="shadow"]{ box-shadow:var(--tell-shadow) !important; }
 /* one radius language */
 button,input,select,textarea,[class*="btn"],[class*="button"],[class*="card"],[class*="panel"],img,video,[class*="rounded"]{
   border-radius:var(--tell-radius) !important;

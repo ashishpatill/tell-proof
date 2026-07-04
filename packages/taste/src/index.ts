@@ -1,58 +1,11 @@
 import { ArtDirection, DesignFingerprint, Finding, TasteVerdict } from "@tell/schema";
 import { createTasteEngine, deterministicVerdict, type TasteEngine } from "./engine";
+import { parseDirectionPlan } from "./parse-direction";
+import { DIRECTION_PRESETS } from "./presets";
 
 export * from "./engine";
-
-export const DIRECTION_PRESETS = {
-  editorial: {
-    id: "editorial-warm",
-    label: "Editorial warm",
-    keywords: ["warm", "editorial", "less shadow", "serif"],
-    tokenOverrides: {
-      "--font-display": "Instrument Serif",
-      "--accent": "#D4714A",
-      "--radius-card": "16px",
-      "--shadow-card": "0 2px 8px rgba(0,0,0,.25)",
-    },
-    summary: "Warm paper tones, serif headlines, restrained depth.",
-  },
-  precision: {
-    id: "precision-instrument",
-    label: "Precision instrument",
-    keywords: ["precise", "instrument", "measured", "mono"],
-    tokenOverrides: {
-      "--font-display": "IBM Plex Mono",
-      "--accent": "#C4A035",
-      "--radius-card": "4px",
-      "--shadow-card": "none",
-    },
-    summary: "Measured spacing, sharper radius, data-forward surfaces.",
-  },
-  "warm-minimal": {
-    id: "warm-minimal",
-    label: "Warm minimal",
-    keywords: ["warm", "minimal", "quiet"],
-    tokenOverrides: {
-      "--font-display": "Instrument Serif",
-      "--accent": "#B85A32",
-      "--radius-card": "8px",
-      "--shadow-card": "none",
-    },
-    summary: "Quieter surfaces with one human accent.",
-  },
-  "bold-contrast": {
-    id: "bold-contrast",
-    label: "Bold contrast",
-    keywords: ["bold", "contrast", "memorable"],
-    tokenOverrides: {
-      "--font-display": "Instrument Serif",
-      "--accent": "#E8926F",
-      "--radius-card": "2px",
-      "--shadow-card": "0 12px 40px rgba(0,0,0,.45)",
-    },
-    summary: "Stronger hierarchy and sharper editorial contrast.",
-  },
-} satisfies Record<string, ArtDirection>;
+export * from "./parse-direction";
+export { DIRECTION_PRESETS } from "./presets";
 
 /** Deterministic single-finding verdict (offline-safe). */
 export function classifyFinding(finding: Finding): TasteVerdict {
@@ -93,9 +46,5 @@ export async function classifyWithTaste(
 }
 
 export function parseDirection(input: string): ArtDirection {
-  const normalized = input.toLowerCase();
-  if (normalized.includes("precision") || normalized.includes("instrument")) return ArtDirection.parse(DIRECTION_PRESETS.precision);
-  if (normalized.includes("minimal")) return ArtDirection.parse(DIRECTION_PRESETS["warm-minimal"]);
-  if (normalized.includes("bold") || normalized.includes("contrast")) return ArtDirection.parse(DIRECTION_PRESETS["bold-contrast"]);
-  return ArtDirection.parse(DIRECTION_PRESETS.editorial);
+  return parseDirectionPlan(input).artDirection;
 }

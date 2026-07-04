@@ -176,6 +176,37 @@ function runScriptArgs(pm: string, script: string): string[] {
   return ["run", script]; // npm, pnpm, bun
 }
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function canReach(url: string): Promise<boolean> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 1500);
+  try {
+    await fetch(url, { signal: controller.signal });
+    return true;
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function waitForAnyReachable(urls: string[], timeoutMs: number): Promise<string | null> {
+  const candidates = Array.from(new Set(urls));
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    for (const url of candidates) {
+      // eslint-disable-next-line no-await-in-loop
+      if (await canReach(url)) return url;
+    }
+    // eslint-disable-next-line no-await-in-loop
+    await sleep(500);
+  }
+  return null;
+}
+
 // Frameworks whose dev server ignores the PORT env var and needs an explicit
 // --port flag (Vite-family). Everything else honors PORT, so we set it in env.
 const PORT_FLAG_FRAMEWORKS = new Set(["Vite", "SvelteKit", "Astro", "Angular"]);
@@ -301,7 +332,7 @@ export async function detectPlan(repoDir: string): Promise<DetectedPlan | { erro
   return { error: "No package.json with a runnable dev/start script was found in this repo." };
 }
 
-/** Start the dev server; resolve with the detected localhost URL or reject. */
+/** Start the dev server; resolve only after the localhost URL is actually reachable. */
 function startDevServer(job: SetupJob, appDir: string, pm: string, args: string[], port: number): Promise<string> {
   return new Promise((resolve, reject) => {
     const env = augmentedEnv(port);
@@ -312,37 +343,71 @@ function startDevServer(job: SetupJob, appDir: string, pm: string, args: string[
     registry.child = child;
     registry.childJobId = job.id;
 
-    let resolved = false;
-    const timeout = setTimeout(() => {
-      if (resolved) return;
-      reject(new Error("Dev server started but never printed a localhost URL within 100s."));
+    let settled = false;
+    let checking = false;
+    const forcedUrl = `http://localhost:${port}`;
+    let fallbackProbe: ReturnType<typeof setTimeout> | null = null;
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+
+    const finish = (url: string) => {
+      if (settled) return;
+      settled = true;
+      if (timeout) clearTimeout(timeout);
+      if (fallbackProbe) clearTimeout(fallbackProbe);
+      resolve(url);
+    };
+
+    const fail = (err: Error) => {
+      if (settled) return;
+      settled = true;
+      if (timeout) clearTimeout(timeout);
+      if (fallbackProbe) clearTimeout(fallbackProbe);
+      killTree(child);
+      reject(err);
+    };
+
+    const checkReady = async (candidateUrl: string) => {
+      if (settled || checking) return;
+      checking = true;
+      const candidates = candidateUrl === forcedUrl ? [forcedUrl] : [candidateUrl, forcedUrl];
+      log(job, `Checking dev server reachability: ${candidates.join(" or ")}`);
+      const reachable = await waitForAnyReachable(candidates, 75_000);
+      if (reachable) {
+        log(job, `Dev server is reachable at ${reachable}`);
+        finish(reachable);
+        return;
+      }
+      checking = false;
+    };
+
+    fallbackProbe = setTimeout(() => {
+      void checkReady(forcedUrl);
+    }, 2500);
+    timeout = setTimeout(() => {
+      fail(new Error(`Dev server did not become reachable within 100s. Tried ${forcedUrl}.`));
     }, 100_000);
 
     const scan = (buf: Buffer) => {
       const text = buf.toString();
       text.split("\n").forEach((l) => log(job, l));
-      if (resolved) return;
+      if (settled) return;
       const m = text.match(LOCALHOST_RE);
       if (m) {
         const found = m[0].replace(/127\.0\.0\.1|0\.0\.0\.0/, "localhost").replace(/[).,'"`]+$/, "");
-        resolved = true;
-        clearTimeout(timeout);
-        // Give the server a beat to finish its first compile before capture.
-        setTimeout(() => resolve(found), 1500);
+        void checkReady(found);
       }
     };
 
     child.stdout?.on("data", scan);
     child.stderr?.on("data", scan);
     child.on("error", (err) => {
-      if (resolved) return;
-      clearTimeout(timeout);
-      reject(err);
+      if (fallbackProbe) clearTimeout(fallbackProbe);
+      fail(err);
     });
     child.on("close", (code) => {
-      if (resolved) return;
-      clearTimeout(timeout);
-      reject(new Error(`Dev server exited early (code ${code ?? "?"}). Check the logs above.`));
+      if (fallbackProbe) clearTimeout(fallbackProbe);
+      if (settled) return;
+      fail(new Error(`Dev server exited early (code ${code ?? "?"}). Check the logs above.`));
     });
   });
 }

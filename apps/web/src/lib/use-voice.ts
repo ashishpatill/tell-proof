@@ -2,10 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-// Minimal typings for the Web Speech API (not in lib.dom for all targets).
-type SpeechRecognitionResultLike = { transcript: string };
+type SpeechRecognitionAlternativeLike = { transcript: string };
+type SpeechRecognitionResultItemLike = ArrayLike<SpeechRecognitionAlternativeLike> & {
+  isFinal?: boolean;
+};
 type SpeechRecognitionEventLike = {
-  results: ArrayLike<ArrayLike<SpeechRecognitionResultLike>>;
+  resultIndex: number;
+  results: ArrayLike<SpeechRecognitionResultItemLike>;
 };
 interface RecognitionLike {
   lang: string;
@@ -28,45 +31,113 @@ function getRecognitionCtor(): (new () => RecognitionLike) | null {
 }
 
 /**
- * Voice art-direction capture. Falls back gracefully when the browser has no
- * Web Speech API — the caller keeps preset chips as the text equivalent.
+ * Voice art-direction capture. Appends new dictation to existing transcript
+ * instead of replacing it. Falls back gracefully when Web Speech API is absent.
  */
 export function useVoice(onTranscript: (text: string) => void) {
   const [listening, setListening] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [supported, setSupported] = useState(false);
   const recRef = useRef<RecognitionLike | null>(null);
+  const sessionBaseRef = useRef("");
+  const sessionFinalRef = useRef("");
+  const listeningRef = useRef(false);
+  const transcriptRef = useRef("");
+  const onTranscriptRef = useRef(onTranscript);
+
+  onTranscriptRef.current = onTranscript;
+  transcriptRef.current = transcript;
 
   useEffect(() => {
     const Ctor = getRecognitionCtor();
     setSupported(Boolean(Ctor));
     if (!Ctor) return;
+
     const rec = new Ctor();
     rec.lang = "en-US";
-    rec.continuous = false;
+    rec.continuous = true;
     rec.interimResults = true;
+
     rec.onresult = (e) => {
-      const text = Array.from({ length: e.results.length }, (_, i) => e.results[i]?.[0]?.transcript ?? "").join(" ").trim();
-      setTranscript(text);
-      onTranscript(text);
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const result = e.results[i];
+        const chunk = result?.[0]?.transcript ?? "";
+        if (result?.isFinal) {
+          sessionFinalRef.current += `${chunk} `;
+        } else {
+          interim += chunk;
+        }
+      }
+      const full = `${sessionBaseRef.current}${sessionFinalRef.current}${interim}`.trim();
+      setTranscript(full);
+      transcriptRef.current = full;
+      onTranscriptRef.current(full);
     };
-    rec.onend = () => setListening(false);
-    rec.onerror = () => setListening(false);
+
+    rec.onend = () => {
+      if (listeningRef.current) {
+        try {
+          rec.start();
+        } catch {
+          /* already started */
+        }
+        return;
+      }
+      setListening(false);
+    };
+
+    rec.onerror = () => {
+      listeningRef.current = false;
+      setListening(false);
+    };
+
     recRef.current = rec;
     return () => rec.stop();
-  }, [onTranscript]);
+  }, []);
 
   const start = useCallback(() => {
     if (!recRef.current) return;
-    setTranscript("");
+    const base = transcriptRef.current.trim();
+    sessionBaseRef.current = base ? `${base} ` : "";
+    sessionFinalRef.current = "";
+    listeningRef.current = true;
     setListening(true);
-    try { recRef.current.start(); } catch { /* already started */ }
+    try {
+      recRef.current.start();
+    } catch {
+      /* already started */
+    }
   }, []);
 
   const stop = useCallback(() => {
+    listeningRef.current = false;
     recRef.current?.stop();
     setListening(false);
   }, []);
 
-  return { listening, transcript, supported, start, stop };
+  const clear = useCallback(() => {
+    sessionBaseRef.current = "";
+    sessionFinalRef.current = "";
+    setTranscript("");
+    transcriptRef.current = "";
+    onTranscriptRef.current("");
+  }, []);
+
+  const setTranscriptExternal = useCallback((text: string) => {
+    sessionBaseRef.current = text;
+    sessionFinalRef.current = "";
+    setTranscript(text);
+    transcriptRef.current = text;
+  }, []);
+
+  return {
+    listening,
+    transcript,
+    supported,
+    start,
+    stop,
+    clear,
+    setTranscript: setTranscriptExternal,
+  };
 }

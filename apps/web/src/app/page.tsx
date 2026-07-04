@@ -19,7 +19,7 @@ import {
   Wand2,
 } from "lucide-react";
 import type { Reconciliation, RedesignProposal, TellReport, Verdict } from "@tell/schema";
-import { parseDirection } from "@tell/taste";
+import { DIRECTION_PRESETS, parseDirectionPlan, type DirectionPlan } from "@tell/taste";
 import { RECONCILE_DIRECTIONS, buildOverridesPatch, reconcile, resolveDirection } from "@tell/redesign";
 import { demoReport } from "@/lib/demo-report";
 import { BeforeAfterSeam } from "@/components/BeforeAfterSeam";
@@ -44,6 +44,7 @@ const PRESET_CHIPS: { key: string; label: string }[] = [
 type CaptureState = "idle" | "capturing" | "done";
 type DraftState = "idle" | "drafting" | "ready" | "copied" | "error";
 type CaptureMeta = { live: boolean; requestedUrl: string; capturedUrl: string; error?: string };
+type UiNotice = { tone: "success" | "error" | "info"; title: string; message: string };
 
 function isGitHubRepoUrl(url: string) {
   let raw = url.trim();
@@ -81,10 +82,16 @@ export default function HomePage() {
   const [proposal, setProposal] = useState<RedesignProposal | null>(null);
   const [draftState, setDraftState] = useState<DraftState>("idle");
   const [draftError, setDraftError] = useState("");
+  const [directionPlan, setDirectionPlan] = useState<DirectionPlan | null>(null);
+  const [directionParsing, setDirectionParsing] = useState(false);
+  const parseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [uiNotice, setUiNotice] = useState<UiNotice | null>(null);
+  const noticeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── GitHub repo setup ──
   const [setupJob, setSetupJob] = useState<SetupJob | null>(null);
   const [setupError, setSetupError] = useState("");
+  const [setupStarting, setSetupStarting] = useState(false);
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const autoCapturedRef = useRef<string | null>(null);
 
@@ -103,12 +110,67 @@ export default function HomePage() {
     [report],
   );
 
-  const applyTranscript = useCallback((text: string) => {
-    if (text.trim().length < 2) return;
-    setDirectionId(resolveDirection(parseDirection(text).id).id);
+  const applyDirectionPlan = useCallback((plan: DirectionPlan) => {
+    setDirectionPlan(plan);
+    setDirectionId(resolveDirection(plan.presetId).id);
+    setProposal(null);
+    setDraftState("idle");
   }, []);
 
-  const voice = useVoice(applyTranscript);
+  const scheduleDirectionParse = useCallback(
+    (text: string) => {
+      if (parseTimerRef.current) clearTimeout(parseTimerRef.current);
+      const trimmed = text.trim();
+      if (trimmed.length < 2) {
+        setDirectionPlan(null);
+        return;
+      }
+
+      applyDirectionPlan(parseDirectionPlan(trimmed));
+
+      parseTimerRef.current = setTimeout(async () => {
+        setDirectionParsing(true);
+        try {
+          const res = await fetch("/api/voice", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ transcript: trimmed }),
+          });
+          if (res.ok) {
+            const plan = (await res.json()) as DirectionPlan;
+            applyDirectionPlan(plan);
+          }
+        } catch {
+          /* local parse already applied */
+        } finally {
+          setDirectionParsing(false);
+        }
+      }, 650);
+    },
+    [applyDirectionPlan],
+  );
+
+  const onVoiceTranscript = useCallback(
+    (text: string) => {
+      scheduleDirectionParse(text);
+    },
+    [scheduleDirectionParse],
+  );
+
+  const voice = useVoice(onVoiceTranscript);
+
+  const showNotice = useCallback((notice: UiNotice) => {
+    setUiNotice(notice);
+    if (noticeTimerRef.current) clearTimeout(noticeTimerRef.current);
+    noticeTimerRef.current = setTimeout(() => setUiNotice(null), notice.tone === "error" ? 12_000 : 7000);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (parseTimerRef.current) clearTimeout(parseTimerRef.current);
+      if (noticeTimerRef.current) clearTimeout(noticeTimerRef.current);
+    };
+  }, []);
 
   const selectedFinding = report.findings.find((f) => f.id === selectedId) ?? report.findings[0];
   const verdict = report.verdicts.find((v) => v.findingId === selectedFinding?.id);
@@ -124,6 +186,8 @@ export default function HomePage() {
       setCaptureState("capturing");
       setCaptureNote(`Launching headless browser for ${siteLabel(target)}…`);
       setDraftError("");
+      setProposal(null);
+      setPages([]);
       try {
         const res = await fetch("/api/diagnose", {
           method: "POST",
@@ -131,27 +195,42 @@ export default function HomePage() {
           body: JSON.stringify({ url: target }),
         });
         const payload = (await res.json()) as { report: TellReport; meta: CaptureMeta };
-        setCaptureNote(payload.meta.live ? "Reconciling the rendered surface…" : "Capture failed — loaded offline demo.");
+        setCaptureNote(payload.meta.live ? "Capture complete." : "Capture failed — loaded offline demo.");
         setReport(payload.report);
         setCaptureMeta(payload.meta);
         setSelectedId(payload.report.findings[0]?.id ?? "");
-        setProposal(null);
         setDraftState("idle");
         setSeam(50);
         setCaptureState("done");
         if (payload.meta.live) {
           setPages(discoverRoutes(payload.report.capture.snapshotHtml, payload.report.capture.url));
+          setDraftError("");
+          showNotice({
+            tone: "success",
+            title: "Capture complete",
+            message: `Tell scanned ${siteLabel(payload.report.capture.url)} and found ${payload.report.score.total} findings.`,
+          });
         }
         if (!payload.meta.live) {
           setDraftError(payload.meta.error ?? "Live capture failed. Fix Playwright or paste a reachable URL.");
+          showNotice({
+            tone: "error",
+            title: "Capture failed",
+            message: payload.meta.error ?? `Tell could not reach ${target}. The offline demo report is showing instead.`,
+          });
         }
       } catch {
         setCaptureNote("Capture failed — showing the last committed report.");
         setCaptureState("done");
         setDraftError("Network error while capturing. Is the dev server running?");
+        showNotice({
+          tone: "error",
+          title: "Capture failed",
+          message: `Network error while capturing ${target}. Is the dev server running?`,
+        });
       }
     },
-    [],
+    [showNotice],
   );
 
   const pollSetup = useCallback(
@@ -166,11 +245,23 @@ export default function HomePage() {
             setSetupJob(job);
             if (job.state === "ready" && job.url && autoCapturedRef.current !== job.url) {
               autoCapturedRef.current = job.url;
+              setInputUrl(job.url);
+              showNotice({
+                tone: "info",
+                title: "Repo is running",
+                message: `${job.repoLabel} is reachable at ${job.url}. Starting capture now.`,
+              });
               void runCapture(job.url);
               return;
             }
             if (SETUP_ACTIVE_STATES.includes(job.state)) {
               pollRef.current = setTimeout(tick, 1200);
+            } else if (job.state === "needs-manual" || job.state === "error") {
+              showNotice({
+                tone: "error",
+                title: "Setup needs manual help",
+                message: job.error ?? job.step,
+              });
             }
           } else {
             pollRef.current = setTimeout(tick, 2000);
@@ -181,7 +272,7 @@ export default function HomePage() {
       };
       void tick();
     },
-    [runCapture],
+    [runCapture, showNotice],
   );
 
   useEffect(() => () => { if (pollRef.current) clearTimeout(pollRef.current); }, []);
@@ -189,6 +280,9 @@ export default function HomePage() {
   const startSetup = useCallback(
     async (repoUrl: string) => {
       setSetupError("");
+      setSetupStarting(true);
+      setSetupJob(null);
+      setCaptureNote(`Creating setup job for ${repoUrl.trim()}…`);
       autoCapturedRef.current = null;
       try {
         const res = await fetch("/api/setup/start", {
@@ -199,15 +293,32 @@ export default function HomePage() {
         const data = await res.json();
         if (!res.ok) {
           setSetupError(data.error ?? "Could not start setup.");
+          showNotice({
+            tone: "error",
+            title: "Setup failed to start",
+            message: data.error ?? "Could not start setup.",
+          });
           return;
         }
         setSetupJob(data.job as SetupJob);
+        showNotice({
+          tone: "info",
+          title: "Setup started",
+          message: `Cloning and booting ${(data.job as SetupJob).repoLabel}. This can take a minute on first install.`,
+        });
         pollSetup((data.job as SetupJob).id);
       } catch {
         setSetupError("Network error starting setup. Is the dev server running?");
+        showNotice({
+          tone: "error",
+          title: "Setup failed to start",
+          message: "Network error starting setup. Is the dev server running?",
+        });
+      } finally {
+        setSetupStarting(false);
       }
     },
-    [pollSetup],
+    [pollSetup, showNotice],
   );
 
   const stopApp = useCallback(async () => {
@@ -217,12 +328,29 @@ export default function HomePage() {
       /* ignore */
     }
     setSetupJob(null);
+    setSetupStarting(false);
   }, []);
 
   const isRepo = isGitHubRepoUrl(inputUrl);
-  const setupActive = Boolean(setupJob && SETUP_ACTIVE_STATES.includes(setupJob.state));
+  const setupActive = setupStarting || Boolean(setupJob && SETUP_ACTIVE_STATES.includes(setupJob.state));
+  const operationActive = setupActive || captureState === "capturing";
+  const operationTitle = setupStarting
+    ? "Starting repo setup"
+    : setupJob && SETUP_ACTIVE_STATES.includes(setupJob.state)
+      ? `${STATE_LABEL[setupJob.state]} ${setupJob.repoLabel}`
+      : captureState === "capturing"
+        ? "Capturing rendered surface"
+        : "";
+  const operationDetail = setupStarting
+    ? captureNote
+    : setupJob && SETUP_ACTIVE_STATES.includes(setupJob.state)
+      ? setupJob.step
+      : captureState === "capturing"
+        ? captureNote
+        : "";
 
   function onPrimary() {
+    if (operationActive) return;
     if (isRepo) void startSetup(inputUrl);
     else void runCapture(inputUrl);
   }
@@ -303,16 +431,17 @@ export default function HomePage() {
           <input
             value={inputUrl}
             onChange={(e) => setInputUrl(e.target.value)}
-            onKeyDown={(e) => { if (e.key === "Enter" && !setupActive && captureState !== "capturing") onPrimary(); }}
+            onKeyDown={(e) => { if (e.key === "Enter" && !operationActive) onPrimary(); }}
+            disabled={operationActive}
             spellCheck={false}
             aria-label="URL to capture or GitHub repo to run"
-            className="min-w-0 flex-1 bg-transparent text-text outline-none placeholder:text-muted"
+            className="min-w-0 flex-1 bg-transparent text-text outline-none placeholder:text-muted disabled:cursor-wait disabled:opacity-70"
             placeholder="https://your-app.com  ·  or  github.com/owner/repo"
           />
         </label>
         <button
           onClick={onPrimary}
-          disabled={setupActive || captureState === "capturing"}
+          disabled={operationActive}
           className="inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 font-semibold text-white transition hover:bg-accent-hover active:scale-[0.99] disabled:opacity-60"
         >
           {setupActive ? (
@@ -325,8 +454,14 @@ export default function HomePage() {
             "Capture"
           )}
         </button>
-        <span className={`rounded-full border px-3 py-2 font-mono text-xs ${captureMeta?.live ? "border-ok/40 bg-ok/10 text-ok" : "border-drift/40 bg-drift/10 text-drift"}`}>
-          {captureMeta?.live ? "● Live capture" : captureMeta ? "● Offline fallback" : "● Demo loaded"}
+        <span className={`rounded-full border px-3 py-2 font-mono text-xs ${
+          operationActive
+            ? "border-accent/40 bg-accent/10 text-accent"
+            : captureMeta?.live
+              ? "border-ok/40 bg-ok/10 text-ok"
+              : "border-drift/40 bg-drift/10 text-drift"
+        }`}>
+          {operationActive ? "● Working" : captureMeta?.live ? "● Live capture" : captureMeta ? "● Offline fallback" : "● Demo loaded"}
         </span>
       </header>
 
@@ -404,18 +539,24 @@ export default function HomePage() {
                 direction: {dirMeta.id}
               </span>
             </div>
-            <BeforeAfterSeam
-              seam={seam}
-              setSeam={setSeam}
-              findings={report.findings}
-              reconciliation={reconciliation}
-              selectedId={selectedId}
-              onSelectFinding={setSelectedId}
-              snapshotHtml={report.capture.snapshotHtml || undefined}
-              screenshotBase64={report.capture.screenshotBase64 || undefined}
-            />
+            {operationActive ? (
+              <OperationPlaceholder title={operationTitle} detail={operationDetail} />
+            ) : (
+              <BeforeAfterSeam
+                seam={seam}
+                setSeam={setSeam}
+                findings={report.findings}
+                reconciliation={reconciliation}
+                selectedId={selectedId}
+                onSelectFinding={setSelectedId}
+                snapshotHtml={report.capture.snapshotHtml || undefined}
+                screenshotBase64={report.capture.screenshotBase64 || undefined}
+              />
+            )}
             <p className="mt-2 font-mono text-[11px] text-muted">
-              {liveCapture
+              {operationActive
+                ? "Tell is working on the requested target. The previous capture is hidden until this operation finishes."
+                : liveCapture
                 ? "Drag the seam · ←/→ to nudge · double-click to reset · switch directions below to re-reconcile the live page"
                 : "Drag the seam · ←/→ to nudge · double-click to reset · click a proof mark to inspect its finding"}
             </p>
@@ -424,34 +565,54 @@ export default function HomePage() {
           <ReconciliationTable reconciliation={reconciliation} live={liveCapture} />
 
           <section className="rounded-card border border-border bg-surface p-4">
-            <div className="mb-4 flex items-center gap-2">
-              <Mic className="h-4 w-4 text-accent" />
-              <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary">Voice director</p>
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Mic className="h-4 w-4 text-accent" />
+                <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary">Voice director</p>
+              </div>
+              {directionPlan ? (
+                <span className="font-mono text-[11px] text-muted">
+                  direction: {resolveDirection(directionPlan.presetId).label.toLowerCase()}
+                  {directionParsing ? " · refining…" : null}
+                </span>
+              ) : null}
             </div>
             <div className="grid gap-3 md:grid-cols-[1fr_auto]">
-              <div className="flex items-center gap-3 rounded-md border border-border bg-bg px-4 py-3 text-secondary">
+              <div className="flex gap-3 rounded-md border border-border bg-bg px-3 py-2 text-secondary">
                 {voice.supported ? (
                   <button
                     onClick={voice.listening ? voice.stop : voice.start}
                     aria-label={voice.listening ? "Stop listening" : "Start voice direction"}
-                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border transition ${
+                    className={`mt-0.5 grid h-9 w-9 shrink-0 place-items-center self-start rounded-full border transition ${
                       voice.listening ? "animate-pulse border-accent bg-accent/20 text-accent" : "border-border text-secondary hover:border-accent hover:text-accent"
                     }`}
                   >
                     {voice.listening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </button>
                 ) : null}
-                <span className="truncate">
-                  {voice.transcript || (voice.listening ? "Listening…" : "Describe the direction — warmer, more editorial, precision instrument…")}
-                </span>
+                <textarea
+                  value={voice.transcript}
+                  onChange={(event) => {
+                    voice.setTranscript(event.target.value);
+                    scheduleDirectionParse(event.target.value);
+                  }}
+                  rows={3}
+                  placeholder={voice.listening ? "Listening… keep speaking to append more direction." : "Describe the direction — warmer, more editorial, less shadow…"}
+                  className="min-h-[4.5rem] max-h-28 w-full resize-none overflow-y-auto bg-transparent text-sm leading-relaxed text-secondary placeholder:text-muted focus:outline-none"
+                />
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap content-start gap-2">
                 {PRESET_CHIPS.map((chip) => {
                   const active = directionId === chip.key;
                   return (
                     <button
                       key={chip.key}
-                      onClick={() => { setDirectionId(chip.key); setProposal(null); setDraftState("idle"); }}
+                      onClick={() => {
+                        const preset = DIRECTION_PRESETS[chip.key as keyof typeof DIRECTION_PRESETS];
+                        const text = preset?.summary ?? chip.label;
+                        voice.setTranscript(text);
+                        applyDirectionPlan(parseDirectionPlan(text));
+                      }}
                       className={`rounded-full border px-3 py-2 font-mono text-xs transition ${
                         active ? "border-accent bg-accent/10 text-accent" : "border-border text-secondary hover:border-accent hover:text-accent"
                       }`}
@@ -462,9 +623,29 @@ export default function HomePage() {
                 })}
               </div>
             </div>
-            {!voice.supported ? (
-              <p className="mt-2 font-mono text-[11px] text-muted">Voice input needs a Chromium browser — use the presets as the text equivalent.</p>
+            {directionPlan?.actionItems.length ? (
+              <div className="mt-3 space-y-2">
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">Action items</p>
+                <ul className="flex flex-wrap gap-2">
+                  {directionPlan.actionItems.map((item) => (
+                    <li
+                      key={item.id}
+                      className="rounded-md border border-border bg-bg/70 px-2.5 py-1.5 font-mono text-[11px] text-secondary"
+                    >
+                      <span className="mr-1.5 text-muted">{item.category}</span>
+                      {item.label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ) : null}
+            {!voice.supported ? (
+              <p className="mt-2 font-mono text-[11px] text-muted">Voice input needs a Chromium browser — type your direction or use the presets.</p>
+            ) : (
+              <p className="mt-2 font-mono text-[11px] text-muted">
+                Tap mic again to append more direction. Text wraps and scrolls after ~4 lines.
+              </p>
+            )}
           </section>
         </div>
 
@@ -514,7 +695,7 @@ export default function HomePage() {
               <div className="mt-5 flex flex-wrap gap-2">
                 <button
                   onClick={draftFix}
-                  disabled={draftState === "drafting"}
+                  disabled={draftState === "drafting" || operationActive}
                   className="flex items-center gap-2 rounded-md bg-accent px-4 py-2 font-semibold text-white transition hover:bg-accent-hover disabled:opacity-60"
                 >
                   <Wand2 className="h-4 w-4" /> {draftState === "drafting" ? "Drafting…" : "Draft fix"}
@@ -527,6 +708,9 @@ export default function HomePage() {
           ) : null}
         </aside>
       </section>
+
+      {operationActive ? <OperationCurtain title={operationTitle} detail={operationDetail} /> : null}
+      {uiNotice ? <ToastNotice notice={uiNotice} onClose={() => setUiNotice(null)} /> : null}
     </main>
   );
 }
@@ -541,6 +725,63 @@ const STATE_LABEL: Record<SetupJob["state"], string> = {
   "needs-manual": "Needs a hand",
   error: "Error",
 };
+
+function OperationPlaceholder({ title, detail }: { title: string; detail: string }) {
+  return (
+    <div className="grid min-h-[420px] place-items-center rounded-md border border-accent/30 bg-bg/80">
+      <div className="max-w-md px-6 text-center">
+        <div className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-accent/40 bg-accent/10">
+          <Loader2 className="h-5 w-5 animate-spin text-accent" />
+        </div>
+        <p className="mt-4 font-display text-3xl text-text">{title || "Tell is working"}</p>
+        <p className="mt-2 text-sm text-secondary">{detail || "Preparing the next rendered surface…"}</p>
+        <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">previous capture hidden while this runs</p>
+      </div>
+    </div>
+  );
+}
+
+function OperationCurtain({ title, detail }: { title: string; detail: string }) {
+  return (
+    <div className="fixed inset-0 z-40 bg-bg/45 backdrop-blur-[2px]" aria-live="polite" aria-busy="true">
+      <div className="absolute left-1/2 top-5 w-[min(560px,calc(100vw-32px))] -translate-x-1/2 rounded-card border border-accent/40 bg-surface-raised p-4 shadow-signal">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-accent/40 bg-accent/10">
+            <Loader2 className="h-4 w-4 animate-spin text-accent" />
+          </span>
+          <div>
+            <p className="font-mono text-sm text-text">{title || "Tell is working"}</p>
+            <p className="mt-1 text-sm text-secondary">{detail || "Please wait while the current operation finishes."}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ToastNotice({ notice, onClose }: { notice: UiNotice; onClose: () => void }) {
+  const tone =
+    notice.tone === "success"
+      ? "border-ok/40 bg-ok/10 text-ok"
+      : notice.tone === "error"
+        ? "border-drift/40 bg-drift/10 text-drift"
+        : "border-accent/40 bg-accent/10 text-accent";
+  const Icon = notice.tone === "success" ? Check : notice.tone === "error" ? AlertTriangle : Loader2;
+  return (
+    <div className={`fixed bottom-5 right-5 z-50 max-w-md rounded-card border p-4 shadow-signal ${tone}`} role={notice.tone === "error" ? "alert" : "status"}>
+      <div className="flex items-start gap-3">
+        <Icon className={`mt-0.5 h-4 w-4 shrink-0 ${notice.tone === "info" ? "animate-spin" : ""}`} />
+        <div className="min-w-0">
+          <p className="font-mono text-sm text-text">{notice.title}</p>
+          <p className="mt-1 text-sm text-secondary">{notice.message}</p>
+        </div>
+        <button onClick={onClose} className="ml-2 font-mono text-xs text-muted transition hover:text-text" aria-label="Dismiss notice">
+          dismiss
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function SetupPanel({
   job,
