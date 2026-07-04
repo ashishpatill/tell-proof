@@ -1,465 +1,127 @@
 import type {
-  CapturePayload,
-  DesignFingerprint,
-  Finding,
-  Reconciliation,
-  ReconTokenRow,
+  BrandDNA, CapturePayload, DesignFingerprint, Finding, Reconciliation, ReconTokenRow, ScoreAxis,
 } from "@tell/schema";
+import { round1 } from "./color";
+import { AXIS_WEIGHTS, genericness, measureAxes } from "./measures";
+import { DIRECTIONS, resolveDirection, type Direction } from "./scales";
+import { afterAxes, buildRestylePlan, emitRestyleCss } from "./restyle";
 
-// ── Color math (dependency-free, works in browser + node) ────────────
+// Back-compat alias — the web app imports RECONCILE_DIRECTIONS.
+export const RECONCILE_DIRECTIONS = DIRECTIONS;
+export { resolveDirection };
+export type { Direction };
 
-type Rgb = { r: number; g: number; b: number };
-
-function parseColor(input: string): Rgb | null {
-  if (!input) return null;
-  const s = input.trim().toLowerCase();
-  const rgb = s.match(/rgba?\(\s*(\d+(?:\.\d+)?)[,\s]+(\d+(?:\.\d+)?)[,\s]+(\d+(?:\.\d+)?)/);
-  if (rgb) return { r: +rgb[1]!, g: +rgb[2]!, b: +rgb[3]! };
-  const hex6 = s.match(/^#([0-9a-f]{6})$/);
-  if (hex6) {
-    const n = parseInt(hex6[1]!, 16);
-    return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
-  }
-  const hex3 = s.match(/^#([0-9a-f]{3})$/);
-  if (hex3) {
-    const h = hex3[1]!;
-    return { r: parseInt(h[0]! + h[0]!, 16), g: parseInt(h[1]! + h[1]!, 16), b: parseInt(h[2]! + h[2]!, 16) };
-  }
-  return null;
+function fontImportFor(plan: { display: string; body: string; mono: string; direction: Direction }, dna?: BrandDNA): string {
+  const spec = (family: string) => `${encodeURIComponent(family).replace(/%20/g, "+")}:wght@400;500;600;700`;
+  const fams = dna
+    ? [spec(plan.display), spec(plan.body), plan.mono ? spec(plan.mono) : ""]
+    : [plan.direction.displayGF, plan.direction.bodyGF, plan.direction.monoGF];
+  const q = fams.filter(Boolean).map((f) => `family=${f}`).join("&");
+  return `@import url('https://fonts.googleapis.com/css2?${q}&display=swap');`;
 }
 
-function toHex({ r, g, b }: Rgb): string {
-  return `#${[r, g, b].map((v) => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0")).join("")}`.toUpperCase();
-}
-
-function rgbToHsl({ r, g, b }: Rgb): { h: number; s: number; l: number } {
-  const rn = r / 255, gn = g / 255, bn = b / 255;
-  const mx = Math.max(rn, gn, bn), mn = Math.min(rn, gn, bn);
-  const l = (mx + mn) / 2;
-  if (mx === mn) return { h: 0, s: 0, l };
-  const d = mx - mn;
-  const s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
-  let h = 0;
-  if (mx === rn) h = ((gn - bn) / d + (gn < bn ? 6 : 0));
-  else if (mx === gn) h = (bn - rn) / d + 2;
-  else h = (rn - gn) / d + 4;
-  return { h: h * 60, s, l };
-}
-
-function hslToRgb(h: number, s: number, l: number): Rgb {
-  h = ((h % 360) + 360) % 360;
-  const c = (1 - Math.abs(2 * l - 1)) * s;
-  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-  const m = l - c / 2;
-  let [r, g, b] = [0, 0, 0];
-  if (h < 60) [r, g, b] = [c, x, 0];
-  else if (h < 120) [r, g, b] = [x, c, 0];
-  else if (h < 180) [r, g, b] = [0, c, x];
-  else if (h < 240) [r, g, b] = [0, x, c];
-  else if (h < 300) [r, g, b] = [x, 0, c];
-  else [r, g, b] = [c, 0, x];
-  return { r: (r + m) * 255, g: (g + m) * 255, b: (b + m) * 255 };
-}
-
-function hslHex(h: number, s: number, l: number): string {
-  return toHex(hslToRgb(h, s, l));
-}
-
-function luminance(rgb: Rgb): number {
-  const f = (v: number) => {
-    const c = v / 255;
-    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-  };
-  return 0.2126 * f(rgb.r) + 0.7152 * f(rgb.g) + 0.0722 * f(rgb.b);
-}
-
-function contrastRatio(a: string, b: string): number {
-  const ca = parseColor(a);
-  const cb = parseColor(b);
-  if (!ca || !cb) return 1;
-  const la = luminance(ca);
-  const lb = luminance(cb);
-  const light = Math.max(la, lb);
-  const dark = Math.min(la, lb);
-  return (light + 0.05) / (dark + 0.05);
-}
-
-function formatRatio(ratio: number): string {
-  return `${Math.round(ratio * 10) / 10}:1`;
-}
-
-function inkFor(hex: string): string {
-  const rgb = parseColor(hex);
-  if (!rgb) return "#FFFFFF";
-  return luminance(rgb) > 0.42 ? "#1A1712" : "#FBF7F0";
-}
-
-function sameColor(a: string, b: string, tol = 10): boolean {
-  const ca = parseColor(a), cb = parseColor(b);
-  if (!ca || !cb) return a.trim().toLowerCase() === b.trim().toLowerCase();
-  return Math.abs(ca.r - cb.r) <= tol && Math.abs(ca.g - cb.g) <= tol && Math.abs(ca.b - cb.b) <= tol;
-}
-
-// ── Direction strategies (intent, not fixed hexes) ───────────────────
-
-type Direction = {
-  id: string;
-  label: string;
-  summary: string;
-  display: string;
-  displayGF: string;
-  body: string;
-  bodyGF: string;
-  headingWeight: number;
-  radius: string;
-  shadow: string;
-  sig: { h: number; s: number; l: number }; // signature accent for generic/acid inputs
-  band: { s: number; l: number };           // harmonize band for decent brand colors
-  paperLight: string;
-  paperDark: string;
-};
-
-export const RECONCILE_DIRECTIONS: Record<string, Direction> = {
-  editorial: {
-    id: "editorial",
-    label: "Editorial warm",
-    summary: "Serif headlines on warm paper, one considered accent, depth composed not repeated.",
-    display: "Instrument Serif",
-    displayGF: "Instrument+Serif:ital@0;1",
-    body: "Source Sans 3",
-    bodyGF: "Source+Sans+3:wght@400;500;600;700",
-    headingWeight: 500,
-    radius: "10px",
-    shadow: "0 1px 2px rgba(23,20,15,.08), 0 18px 40px -24px rgba(23,20,15,.35)",
-    sig: { h: 18, s: 0.55, l: 0.5 },
-    band: { s: 0.52, l: 0.5 },
-    paperLight: "#F4EEE3",
-    paperDark: "#17140F",
-  },
-  precision: {
-    id: "precision",
-    label: "Precision instrument",
-    summary: "Grotesk display, measured neutrals, sharp radius, zero decorative depth.",
-    display: "Space Grotesk",
-    displayGF: "Space+Grotesk:wght@400;500;600;700",
-    body: "IBM Plex Sans",
-    bodyGF: "IBM+Plex+Sans:wght@400;500;600",
-    headingWeight: 600,
-    radius: "4px",
-    shadow: "none",
-    sig: { h: 45, s: 0.48, l: 0.46 },
-    band: { s: 0.42, l: 0.46 },
-    paperLight: "#ECEAE4",
-    paperDark: "#131311",
-  },
-  "warm-minimal": {
-    id: "warm-minimal",
-    label: "Warm minimal",
-    summary: "Quiet surfaces, a single human accent, flat depth, generous type.",
-    display: "Fraunces",
-    displayGF: "Fraunces:opsz,wght@9..144,400;9..144,600",
-    body: "Source Sans 3",
-    bodyGF: "Source+Sans+3:wght@400;500;600",
-    headingWeight: 500,
-    radius: "8px",
-    shadow: "none",
-    sig: { h: 24, s: 0.42, l: 0.46 },
-    band: { s: 0.4, l: 0.47 },
-    paperLight: "#FAF6EF",
-    paperDark: "#16130F",
-  },
-  "bold-contrast": {
-    id: "bold-contrast",
-    label: "Bold contrast",
-    summary: "Heavy editorial display, high-contrast accent, dramatic single-source depth.",
-    display: "Fraunces",
-    displayGF: "Fraunces:opsz,wght@9..144,600;9..144,900",
-    body: "Space Grotesk",
-    bodyGF: "Space+Grotesk:wght@400;500;700",
-    headingWeight: 800,
-    radius: "2px",
-    shadow: "0 22px 60px -18px rgba(10,8,6,.6)",
-    sig: { h: 12, s: 0.78, l: 0.55 },
-    band: { s: 0.7, l: 0.54 },
-    paperLight: "#F1EAE0",
-    paperDark: "#120F0C",
-  },
-};
-
-const DIRECTION_ALIASES: Record<string, string> = {
-  "editorial-warm": "editorial",
-  "precision-instrument": "precision",
-  "warm-minimal": "warm-minimal",
-  "bold-contrast": "bold-contrast",
-};
-
-/** Accepts reconcile ids, taste-preset ids ("editorial-warm"), or free text. */
-export function resolveDirection(id: string): Direction {
-  const key = (id ?? "").toLowerCase().trim();
-  if (RECONCILE_DIRECTIONS[key]) return RECONCILE_DIRECTIONS[key]!;
-  if (DIRECTION_ALIASES[key]) return RECONCILE_DIRECTIONS[DIRECTION_ALIASES[key]!]!;
-  const hit = Object.keys(RECONCILE_DIRECTIONS).find((k) => key.includes(k) || k.includes(key));
-  return hit ? RECONCILE_DIRECTIONS[hit]! : RECONCILE_DIRECTIONS.editorial!;
-}
-
-// ── Token extraction from the real capture ───────────────────────────
-
-const GENERIC_FONTS = /inter|system-ui|-apple-system|segoe|roboto|helvetica|arial|sans-serif/i;
-
-export type BeforeTokens = {
-  headingFont: string;
-  bodyFont: string;
-  accent: string;      // hex
-  accentSources: string[];
-  surface: string;     // hex
-  text: string;        // hex
-  radius: string;
-  shadow: string;
-  surfaceIsDark: boolean;
-};
-
-export function extractTokens(capture: CapturePayload, fingerprint: DesignFingerprint): BeforeTokens {
-  const st = capture.surfaceTokens;
-  const primaryFont = fingerprint.fontFamilies[0]?.family ?? st?.bodyFont ?? "Inter";
-  const surfaceRaw = st?.bodyBg ?? "rgb(255,255,255)";
-  const surfaceRgb = parseColor(surfaceRaw) ?? { r: 255, g: 255, b: 255 };
-  const accentRaw = st?.accent ?? fingerprint.colors.find((c) => {
-    const rgb = parseColor(c.normalizedHex);
-    return rgb ? rgbToHsl(rgb).s > 0.4 : false;
-  })?.normalizedHex ?? "#8B5CF6";
-
-  return {
-    headingFont: st?.headingFont ?? primaryFont,
-    bodyFont: st?.bodyFont ?? primaryFont,
-    accent: toHex(parseColor(accentRaw) ?? { r: 139, g: 92, b: 246 }),
-    accentSources: (st?.accentSources ?? []).concat(accentRaw),
-    surface: toHex(surfaceRgb),
-    text: toHex(parseColor(st?.bodyText ?? "#1a1a1a") ?? { r: 26, g: 26, b: 26 }),
-    radius: st?.radius ?? fingerprint.radii.find((r) => r.value !== "0px")?.value ?? "8px",
-    shadow: st?.shadow ?? fingerprint.shadows.find((s) => s.value !== "none")?.value ?? "none",
-    surfaceIsDark: luminance(surfaceRgb) < 0.22,
-  };
-}
-
-/** Tame an acid/generic accent; harmonize a decent brand color. */
-function reconcileAccent(beforeHex: string, dir: Direction): { hex: string; tamed: boolean } {
-  const rgb = parseColor(beforeHex);
-  if (!rgb) return { hex: hslHex(dir.sig.h, dir.sig.s, dir.sig.l), tamed: true };
-  const { h, s } = rgbToHsl(rgb);
-  const isCold = h >= 200 && h <= 300;      // violet/blue "AI acid" band
-  const isAcid = s > 0.72;
-  if ((isCold && s > 0.5) || isAcid) {
-    return { hex: hslHex(dir.sig.h, dir.sig.s, dir.sig.l), tamed: true };
-  }
-  // Respect the brand hue, harmonize saturation + lightness into the band.
-  return { hex: hslHex(h, dir.band.s, dir.band.l), tamed: false };
-}
-
-function shadowSummary(value: string): string {
-  if (!value || value === "none") return "no shadow";
-  const spreads = value.split("),").length;
-  return spreads > 1 ? `${spreads} stacked shadows` : "single heavy shadow";
-}
-
-function readablePair(surface: string): { surface: string; text: string; ratio: number } {
-  const candidates = ["#17140F", "#FBF7F0", "#0F172A", "#FFFFFF"];
-  let best = { surface, text: inkFor(surface), ratio: contrastRatio(surface, inkFor(surface)) };
-  for (const text of candidates) {
-    const ratio = contrastRatio(surface, text);
-    if (ratio > best.ratio) best = { surface, text, ratio };
-  }
-  return best;
-}
-
-// ── The reconciliation itself ────────────────────────────────────────
-
+/**
+ * Page-grounded, MEASURED redesign. Builds an element-precise restyle plan from the real
+ * captured elements, scores the page before and after on the 6-axis genericness rubric
+ * (docs/05), and returns CSS that the live "after" preview injects verbatim.
+ */
 export function reconcile(
   capture: CapturePayload,
   fingerprint: DesignFingerprint,
-  findings: Finding[],
+  _findings: Finding[],
   directionId: string,
+  dna?: BrandDNA,
 ): Reconciliation {
   const dir = resolveDirection(directionId);
-  const before = extractTokens(capture, fingerprint);
-  const { hex: accentAfter, tamed } = reconcileAccent(before.accent, dir);
-  const accentPair = readablePair(accentAfter);
-  const accentInk = accentPair.text;
+  const plan = buildRestylePlan(capture, fingerprint, dir, dna);
+  const css = emitRestyleCss(plan);
+  const fontImport = fontImportFor(plan, dna);
 
-  const surfaceAfter = before.surfaceIsDark ? dir.paperDark : dir.paperLight;
-  const textPair = readablePair(surfaceAfter);
-  const textAfter = textPair.text;
-  const beforeContrast = contrastRatio(before.surface, before.text);
-  const afterContrast = textPair.ratio;
-  const accentContrast = accentPair.ratio;
+  const before = measureAxes(capture, fingerprint, dna);
+  const after = afterAxes(plan, { contrast: before.contrast });
+  const scoreBefore = genericness(before, before.tellScore);
+  const scoreAfter = genericness(after, 0);
 
-  const has = (id: string) => findings.some((f) => f.id === id || f.detector === id);
-  const grayCluster = fingerprint.nearDuplicateGrays[0];
+  const rationale: Record<ScoreAxis["key"], string> = {
+    contrast: "Forced ≥4.5:1 text on surfaces Tell owns; hierarchy from a committed display/body ramp (§6).",
+    typescale: `Snapped every size onto a ${dir.ratio} modular scale (§2).`,
+    spacing: `Normalized padding onto a ${plan.spacingBase}pt token grid (§3).`,
+    depth: `Collapsed shadows to ${Math.max(1, plan.elevationLevels)} considered level(s); ${plan.floatedCount} surface(s) float, the rest sit flat (§4).`,
+    accent: plan.accentTamed
+      ? "Replaced an AI-default / acid accent with one considered hue (§5)."
+      : "Kept the brand hue, pulled its saturation + lightness into a considered band (§5).",
+    identity: `Paired ${plan.display} + ${plan.body} — distinct type classes, committed display weight (§7).`,
+  };
 
-  // Remap the page's own accent custom properties to the reconciled accent.
-  const remappedVars = (capture.cssVariables ?? []).filter((v) =>
-    before.accentSources.some((src) => sameColor(v.value, src)),
-  );
+  const axes: ScoreAxis[] = ([
+    ["contrast", "Contrast & hierarchy", before.contrast, after.contrast],
+    ["typescale", "Type scale", before.typescale, after.typescale],
+    ["spacing", "Spacing rhythm", before.spacing, after.spacing],
+    ["depth", "Depth restraint", before.depth, after.depth],
+    ["accent", "Accent discipline", before.accent, after.accent],
+    ["identity", "Type identity", before.identity, after.identity],
+  ] as const).map(([k, label, b, a]) => ({
+    key: k, label, weight: AXIS_WEIGHTS[k], before: round1(b), after: round1(a),
+    beforeText: before.text[k], afterText: afterText(k, plan),
+    rationale: rationale[k],
+  }));
 
-  const css = buildReconcileCss({ dir, before, accentAfter, accentInk, surfaceAfter, textAfter, remappedVars });
-  const fontImport = `@import url('https://fonts.googleapis.com/css2?family=${dir.displayGF}&family=${dir.bodyGF}&display=swap');`;
-
-  const rows: ReconTokenRow[] = [];
-  rows.push({
-    key: "type",
-    label: "Typeface",
-    before: `${before.headingFont} / ${before.bodyFont}`,
-    after: `${dir.display} / ${dir.body}`,
-    note: GENERIC_FONTS.test(before.headingFont)
-      ? "Replaces the default system stack with a display + text pairing."
-      : "Re-pairs headline and body for a clearer hierarchy.",
-  });
-  rows.push({
-    key: "contrast",
-    label: "Contrast floor",
-    before: formatRatio(beforeContrast),
-    after: `${formatRatio(afterContrast)} text · ${formatRatio(accentContrast)} controls`,
-    note: "Text color is only forced inside surfaces Tell also owns, so contrast changes stay paired.",
-  });
-  rows.push({
-    key: "accent",
-    label: "Accent",
-    before: before.accent,
-    after: accentAfter,
-    swatchBefore: before.accent,
-    swatchAfter: accentAfter,
-    note: tamed ? "Tamed an acid/default accent into a considered hue." : "Kept your brand hue, harmonized its saturation.",
-  });
-  rows.push({
-    key: "radius",
-    label: "Corner radius",
-    before: before.radius,
-    after: dir.radius,
-    note: "One radius language across controls and cards.",
-  });
-  rows.push({
-    key: "depth",
-    label: "Depth",
-    before: shadowSummary(before.shadow),
-    after: dir.shadow === "none" ? "flat, no decorative shadow" : "one composed elevation",
-    note: has("ShadowEverywhereTell") ? "Stops repeating the same shadow on every card." : "Depth becomes intentional.",
-  });
-  rows.push({
-    key: "focus",
-    label: "Focus ring",
-    before: `${Math.round(fingerprint.focusRingCoverage * 100)}% of controls`,
-    after: "2px accent ring on 100%",
-    note: "Adds the keyboard-focus contract the surface was missing.",
-  });
-  if (grayCluster) {
-    rows.push({
-      key: "neutrals",
-      label: "Neutrals",
-      before: `${grayCluster.values.length} near-duplicate grays (ΔE ${grayCluster.deltaE})`,
-      after: "one intentional neutral ground",
-      note: "Collapses the gray mush into a single surface.",
-    });
-  }
-  if (fingerprint.gradientDetected) {
-    rows.push({
-      key: "gradient",
-      label: "Hero treatment",
-      before: "detected gradient background",
-      after: `solid ${surfaceAfter} ground with ${formatRatio(afterContrast)} text`,
-      note: "Removes decorative gradient only where Tell can also set a readable foreground.",
-    });
-  }
+  const rows: ReconTokenRow[] = [
+    {
+      key: "type", label: "Typeface",
+      before: primaryOf(capture, "display") || "system default",
+      after: `${plan.display} / ${plan.body}`,
+      note: "Authored display + body pairing, distinct type classes (§7).",
+    },
+    {
+      key: "accent", label: "Accent",
+      before: plan.accentBefore, after: plan.accentAfter,
+      swatchBefore: plan.accentBefore, swatchAfter: plan.accentAfter,
+      note: plan.accentTamed ? "Tamed an AI-default / acid accent into a considered hue (§5)." : "Kept brand hue, harmonized saturation + lightness (§5).",
+    },
+    { key: "typescale", label: "Type scale", before: before.text.typescale, after: `${plan.distinctSizesAfter} sizes on a ${dir.ratio} scale`, note: rationale.typescale },
+    { key: "spacing", label: "Spacing", before: before.text.spacing, after: `${plan.distinctSpacesAfter} steps · 100% on-grid`, note: rationale.spacing },
+    { key: "depth", label: "Depth", before: before.text.depth, after: `${plan.floatedCount} float · rest flat`, note: rationale.depth },
+    { key: "radius", label: "Corner radius", before: capture.surfaceTokens?.radius || "mixed", after: plan.radius, note: "One radius language across controls + cards." },
+  ];
 
   return {
     directionId: dir.id,
     label: dir.label,
-    summary: `${dir.summary} Contrast floor: ${formatRatio(afterContrast)} text, ${formatRatio(accentContrast)} controls.`,
+    summary: `${dir.summary} Genericness ${scoreBefore} → ${scoreAfter}.`,
     rows,
     css,
     fontImport,
-    accentBefore: before.accent,
-    accentAfter,
-    surfaceAfter,
-    textAfter,
-  };
+    accentBefore: plan.accentBefore,
+    accentAfter: plan.accentAfter,
+    surfaceAfter: plan.surface,
+    textAfter: plan.ink,
+    scoreBefore,
+    scoreAfter,
+    axes,
+    elementsRestyled: plan.ops.length,
+    scoredAgainst: dna ? "brand-dna" : "baseline",
+  } satisfies Reconciliation;
 }
 
-function buildReconcileCss(args: {
-  dir: Direction;
-  before: BeforeTokens;
-  accentAfter: string;
-  accentInk: string;
-  surfaceAfter: string;
-  textAfter: string;
-  remappedVars: { name: string; value: string }[];
-}): string {
-  const { dir, accentAfter, accentInk, surfaceAfter, textAfter, remappedVars } = args;
-  const remap = remappedVars.length
-    ? `\n/* remap the page's own accent variables to the reconciled accent */\n:root{\n${remappedVars.map((v) => `  ${v.name}: ${accentAfter} !important;`).join("\n")}\n}\n`
-    : "";
-
-  return `/* Tell · ${dir.label} — reconciled from the captured page */
-:root{
-  --tell-display:"${dir.display}";
-  --tell-body:"${dir.body}";
-  --tell-accent:${accentAfter};
-  --tell-accent-ink:${accentInk};
-  --tell-radius:${dir.radius};
-  --tell-shadow:${dir.shadow};
-  --tell-paper:${surfaceAfter};
-  --tell-ink:${textAfter};
-}
-${remap}
-html,body{
-  background-color:var(--tell-paper) !important;
-  color:var(--tell-ink);
-  font-family:var(--tell-body),ui-sans-serif,system-ui,-apple-system,sans-serif !important;
-}
-h1,h2,h3,h4,[class*="title"],[class*="heading"],[class*="hero"] h1,[class*="hero"] h2,[class*="display"]{
-  font-family:var(--tell-display),Georgia,"Times New Roman",serif !important;
-  letter-spacing:-.012em !important;
-  font-weight:${dir.headingWeight} !important;
+function afterText(k: ScoreAxis["key"], plan: ReturnType<typeof buildRestylePlan>): string {
+  switch (k) {
+    case "contrast": return "≥4.5:1 text · committed hierarchy";
+    case "typescale": return `${plan.distinctSizesAfter} sizes · one ratio`;
+    case "spacing": return `${plan.distinctSpacesAfter} steps · on-grid`;
+    case "depth": return `${Math.max(1, plan.elevationLevels)} level · ${plan.floatedCount} float`;
+    case "accent": return `${plan.accentAfter} · one hue`;
+    case "identity": return `${plan.display} + ${plan.body}`;
+  }
 }
 
-/* Contrast rule: Tell only forces text color inside surfaces it also controls. */
-section[class*="hero"],section[class*="banner"],section[class*="bg-gradient"],main[class*="bg-gradient"],header[class*="bg-gradient"],footer[class*="bg-gradient"],[class*="hero"]{
-  background-color:var(--tell-paper) !important;
-  background-image:none !important;
-  color:var(--tell-ink) !important;
-}
-section[class*="hero"] :is(h1,h2,h3,h4,p,li,span,label),section[class*="banner"] :is(h1,h2,h3,h4,p,li,span,label),section[class*="bg-gradient"] :is(h1,h2,h3,h4,p,li,span,label),main[class*="bg-gradient"] :is(h1,h2,h3,h4,p,li,span,label),header[class*="bg-gradient"] :is(h1,h2,h3,h4,p,li,span,label),footer[class*="bg-gradient"] :is(h1,h2,h3,h4,p,li,span,label),[class*="hero"] :is(h1,h2,h3,h4,p,li,span,label){
-  color:inherit !important;
-}
-:is(h1,h2,h3,h4,p,span)[class*="text-transparent"],:is(h1,h2,h3,h4,p,span)[class*="bg-clip-text"]{
-  color:var(--tell-accent) !important;
-  -webkit-text-fill-color:var(--tell-accent) !important;
-  background-image:none !important;
-}
-a{ text-decoration-color:currentColor !important; }
-:is(a,button,[role="button"])[class*="text-blue"],:is(a,button,[role="button"])[class*="text-cyan"]{
-  color:var(--tell-accent) !important;
-}
-:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="bg-blue"],:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="bg-cyan"],:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="from-blue"],:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="from-cyan"],:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="primary"],:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="cta"]{
-  background-color:var(--tell-accent) !important;
-  background-image:none !important;
-  border-color:var(--tell-accent) !important;
-  color:var(--tell-accent-ink) !important;
-}
-:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="bg-blue"] *,:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="bg-cyan"] *,:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="from-blue"] *,:is(button,a,[role="button"],[type="submit"],[type="button"])[class*="from-cyan"] *{
-  color:inherit !important;
-}
-/* compose depth instead of repeating it */
-[class*="card"],[class*="panel"],[class*="tile"],[class*="box"],article,:is(button,a)[class*="shadow"]{ box-shadow:var(--tell-shadow) !important; }
-/* one radius language */
-button,input,select,textarea,[class*="btn"],[class*="button"],[class*="card"],[class*="panel"],img,video,[class*="rounded"]{
-  border-radius:var(--tell-radius) !important;
-}
-/* the missing focus contract */
-*:focus-visible{ outline:2px solid var(--tell-accent) !important; outline-offset:2px !important; }
-`;
+function primaryOf(capture: CapturePayload, role: string): string {
+  const s = capture.styles.find((x) => x.role === role);
+  if (!s) return "";
+  return (s.fontFamily.split(",")[0] ?? "").replace(/["']/g, "").trim();
 }
 
-// ── Real, page-grounded patch (drop-in override sheet) ───────────────
-
+// ── Legacy drop-in patch (kept for callers not yet on the source-aware patch) ──
 export function buildOverridesPatch(recon: Reconciliation, url: string): { file: string; unifiedDiff: string; summary: string }[] {
   const file = "tell-overrides.css";
   const body = `${recon.fontImport}\n${recon.css}`;
@@ -472,20 +134,13 @@ index 0000000..1111111
 +++ b/${file}
 @@ -0,0 +1,${lines.length} @@
 ${hunk}`;
-
-  return [
-    {
-      file,
-      summary: `${recon.label} for ${hostOf(url)} — import this after your global stylesheet (or ask the Cursor agent to fold it into your tokens).`,
-      unifiedDiff,
-    },
-  ];
+  return [{
+    file,
+    summary: `${recon.label} for ${hostOf(url)} — genericness ${recon.scoreBefore} → ${recon.scoreAfter}. Import after the global stylesheet (or ask Cursor to fold it into tokens).`,
+    unifiedDiff,
+  }];
 }
 
 function hostOf(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return "your page";
-  }
+  try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return "your page"; }
 }
