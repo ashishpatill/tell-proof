@@ -13,7 +13,8 @@ Capture rendered UI → deterministic fingerprint → detect tells + drift → t
 3. **Schemas** — all boundaries use `@tell/schema` zod types.
 4. **Tokens only** in `apps/web` — no raw hex in classNames (dogfood).
 5. **User-first copy** — critic voice, problem-oriented, see USER_STORY copy bank.
-6. **Build order** — follow BUILD.md §8 milestones M1→M10; protect cut line.
+6. **Measured reconciliation** — any after-state must preserve readable contrast and explain the measured improvement.
+7. **Build order** — follow BUILD.md §8 milestones M1→M10; protect cut line.
 
 ## Where things live
 
@@ -21,11 +22,11 @@ Capture rendered UI → deterministic fingerprint → detect tells + drift → t
 |---|---|
 | `packages/schema` | Zod contracts — edit first |
 | `packages/core` | Capture, fingerprint, detectors |
-| `packages/taste` | Gemini taste + voice direction |
-| `packages/redesign` | Diff generation |
+| `packages/taste` | Gemini taste + deterministic/Gemini voice direction parsing |
+| `packages/redesign` | Contrast-grounded reconciliation + diff generation |
 | `packages/mcp` | Cursor MCP server |
-| `apps/web` | Priya-facing UI + `/api/diagnose`, `/api/setup/*`, `/api/redesign` |
-| `apps/web/src/lib/repo-runner.ts` | GitHub clone → install → dev server (local only) |
+| `apps/web` | Priya-facing UI + `/api/diagnose`, `/api/setup/*`, `/api/voice`, `/api/redesign` |
+| `apps/web/src/lib/repo-runner.ts` | GitHub clone → install → reachable dev server (local only) |
 | `apps/web/src/lib/discover-routes.ts` | Multi-page route discovery from snapshot HTML |
 | `packages/redesign/src/reconcile.ts` | Deterministic token reconciliation for live seam |
 | `fixtures/generic-app` | Demo "before" (labeled input, not our work) |
@@ -63,11 +64,11 @@ pnpm -F @tell/web typecheck
 
 ## Demo narrative (do not lead with architecture)
 
-1. Paste a live URL **or** `github.com/owner/repo` → Set up & run / Capture
+1. Paste a live URL **or** `github.com/owner/repo` → Set up & run / Capture with clear loading and failure states
 2. Named tells with evidence on the real rendered page
 3. Pages strip — scan `/pricing` or other routes for drift
-4. Seam drag — live reconciliation of the captured page (not a mock overlay)
-5. Voice: "warmer, editorial" → reconciliation table updates
+4. Seam drag — live reconciliation of the captured page with contrast floor called out
+5. Voice: "warmer, editorial, less shadow" → action items + reconciliation table update
 6. Draft fix → copy patch → Apply in Cursor
 7. Dogfood: zero tells on Tell itself
 

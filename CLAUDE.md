@@ -14,19 +14,20 @@ Read [USER_STORY.md](./USER_STORY.md) before planning.
 
 ## Stack
 
-TypeScript · pnpm workspaces · Playwright capture · Next.js 14 · Tailwind · Gemini (taste) · Anthropic (redesign diffs) · MCP stdio · zod · vitest
+TypeScript · pnpm workspaces · Playwright capture · Next.js 14 · Tailwind · Gemini (taste + voice refinement) · deterministic reconciliation · MCP stdio · zod · vitest
 
 ## Architecture
 
 ```
-capture → fingerprint → detect (tells + drift) → taste → art-direct → reconcile → diff
+capture → fingerprint → detect (tells + drift) → taste → art-direct → contrast-grounded reconcile → diff
 ```
 
 Shared by web app and MCP. Deterministic through detection; LLM only for judgment and diffs.
 
 **Web-only conveniences (local dev):**
-- `/api/setup/*` — clone a GitHub repo, install, run dev server, capture localhost (trusted repos only)
-- `packages/redesign/reconcile.ts` — token-grounded before/after from captured CSS variables (no LLM)
+- `/api/setup/*` — clone a GitHub repo, install, verify a reachable dev server, capture localhost (trusted repos only)
+- `/api/voice` — parse compound text/voice direction into action items with deterministic fallback
+- `packages/redesign/reconcile.ts` — token-grounded before/after from captured CSS variables with contrast-floor reporting (no LLM)
 - Live seam — replays captured `snapshotHtml` with reconciled CSS custom properties
 
 ## Rules
@@ -35,6 +36,7 @@ Shared by web app and MCP. Deterministic through detection; LLM only for judgmen
 - Do NOT auto-apply fixes
 - Do NOT use Inter / violet gradients / shadow-everywhere in Tell's own UI
 - DO enforce full state matrix on interactive components (empty, loading, error, focus-visible)
+- DO keep reconciliation measurable: contrast, focus, radius, depth, and token consistency must be visible in the report
 - DO prefer committed `fixtures/reports/tell-report.json` for demo reliability
 
 ## Custom instructions (paste into Claude Project)
@@ -44,8 +46,9 @@ You are the build partner for Tell. Priya shipped with Cursor; her UI looks gene
 
 Always assume:
 - Tell captures RENDERED UI, detects genericness tells + consistency drift, reasons with taste,
-  accepts voice art-direction, drafts diffs for Cursor MCP.
-- Deterministic core (capture/fingerprint/detect) has zero LLM. Taste and redesign only.
+  accepts voice art-direction, drafts measurable diffs for Cursor MCP.
+- Deterministic core (capture/fingerprint/detect/reconcile) has zero LLM. Taste explanation and
+  voice refinement may use a model, with deterministic fallback.
 - docs/01_DESIGN_SYSTEM.md wins on visuals; BUILD.md wins on engineering; USER_STORY.md wins on copy.
 
 When I paste status, give ONE next action and what to cut if behind. Protect BUILD.md §8 cut line.

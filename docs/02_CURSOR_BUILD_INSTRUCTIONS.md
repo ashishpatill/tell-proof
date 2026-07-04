@@ -26,9 +26,10 @@ codebase-viz space is crowded. We own the **rendered-surface taste critic** nobo
 
 ## 1. Golden rules for Cursor
 
-1. **Deterministic core, LLM only for taste.** Capture normalization, fingerprinting, and detection
-   are pure, testable functions with zero LLM calls. The LLM (Gemini) only classifies findings,
-   parses voice direction, and explains. Redesign diffs may use Anthropic behind an interface.
+1. **Deterministic core, LLM only for taste.** Capture normalization, fingerprinting, detection, and
+   baseline reconciliation are pure, testable functions with zero LLM calls. The LLM (Gemini) only
+   classifies findings, refines voice direction, and explains. Redesign diffs may use Anthropic
+   behind an interface, but the demo path must not depend on it.
 2. **Capture the rendered truth.** Input is what users *see* (computed styles + screenshot), not
    just source files. Source parsing (`ts-morph`) is only for generating apply-in-Cursor diffs.
 3. **Everything is a token.** No raw hex/px in `apps/web` component classNames. Go through the
@@ -37,10 +38,12 @@ codebase-viz space is crowded. We own the **rendered-surface taste critic** nobo
 4. **Never auto-apply fixes.** `tell_apply` returns a diff. A human applies it in Cursor.
 5. **Schemas are contracts.** All cross-package data uses the zod schemas in `packages/schema`.
    Parse at every boundary; never pass loose objects.
-6. **Ship the spine before the polish.** Order in §8 is not negotiable under time pressure.
-7. **Fixtures are the demo.** The seeded generic app is a first-class deliverable; its tells are
+6. **Reconciliation must improve measured facts.** Any "after" CSS must preserve or improve readable
+   foreground/background pairings. Do not force global text colors unless Tell also owns the surface.
+7. **Ship the spine before the polish.** Order in §8 is not negotiable under time pressure.
+8. **Fixtures are the demo.** The seeded generic app is a first-class deliverable; its tells are
    hand-chosen to land in the demo (§7).
-8. **Commit legibly.** Conventional commits, timestamps inside the event window, and a
+9. **Commit legibly.** Conventional commits, timestamps inside the event window, and a
    `CONTRIBUTIONS.md` distinguishing our work from the seeded fixture (disqualification risk).
 
 Do **not**: add a database, add auth, build a settings page, generalize beyond URL capture +
@@ -55,9 +58,10 @@ React+Tailwind diff output, or let fingerprint/detection jitter nondeterministic
 - **Capture:** Playwright (Chromium) + CDP `Runtime.evaluate` for computed styles; full-page screenshot.
 - **Web:** Next.js 14 (App Router) · React 18 · Tailwind CSS · raw SVG/React for seam + proof marks.
 - **Taste engine:** Gemini API (`gemini-2.x`) via `@google/generative-ai`, structured JSON output.
-- **Voice:** Web Speech API (browser) for demo; text presets as fallback. Direction parsing via Gemini.
-- **Redesign/fix generation:** Claude Code / Anthropic API for unified-diff patches (thematic for the
-  Cursor track; keep behind an interface so it's swappable).
+- **Voice:** Web Speech API (browser) for demo; continuous transcript append; text presets as fallback.
+  Direction parsing is deterministic first, Gemini-refined when `GEMINI_API_KEY` is present.
+- **Redesign/fix generation:** deterministic contrast-grounded reconciliation CSS for the live seam and
+  patch; Anthropic can sit behind the interface for richer diffs later.
 - **Source diff (optional):** `ts-morph` to map token/CSS changes back to component files when repo
   path is provided.
 - **MCP:** `@modelcontextprotocol/sdk`, stdio transport.
@@ -79,8 +83,8 @@ tell/
   packages/
     schema/                    # zod schemas + inferred TS types (the contracts)
     core/                      # capture + fingerprint + detectors (pure, no LLM, no network*)
-    taste/                     # Gemini reasoning + voice direction parsing + reflection loop
-    redesign/                  # diff generation (Anthropic behind an interface)
+    taste/                     # Gemini reasoning + deterministic/Gemini voice direction parsing
+    redesign/                  # contrast-grounded reconciliation + diff generation
     mcp/                       # MCP server exposing capture/diagnose/redesign/apply
   apps/
     web/                       # Next.js UI: Tell Report, seam, inspector, voice director
@@ -93,8 +97,8 @@ tell/
 unit tests run against committed capture JSON without launching a browser.
 
 `core`, `taste`, `redesign` are independently unit-testable. `web` reads a report artifact (JSON) or
-calls a thin local API route that invokes `core`/`taste`. The MCP server wraps the same functions so
-Cursor and the web app share one engine.
+calls thin local API routes that invoke `core`/`taste`/`redesign`. The MCP server wraps the same
+functions so Cursor and the web app share one engine.
 
 ---
 
@@ -343,10 +347,12 @@ For each `Finding`, build a grounded request and get a `TasteVerdict`.
 
 **Voice / art-direction parsing:**
 - Input: transcript string or preset id (`editorial`, `precision`, `warm-minimal`, `bold-contrast`).
-- Output: `ArtDirection` with `keywords` + proposed `tokenOverrides` (CSS vars for fonts, colors,
-  radius, shadow).
-- Re-run is cheap: direction updates `activeDirection` on the report; before/after preview uses
-  tokenOverrides as CSS filter/variable overlay on the screenshot (stretch: re-render fixture).
+- Output: `DirectionPlan` with a preset id, plain-English summary, categorized action items, and an
+  `ArtDirection`.
+- Deterministic parser runs first so the demo works without keys; `/api/voice` refines with Gemini
+  when `GEMINI_API_KEY` is present.
+- Re-run is cheap: direction updates the live reconciliation and the before/after preview injects the
+  exact CSS generated by `packages/redesign`.
 
 **Prompt contract (system):** "You are Tell's taste engine. You classify rendered-UI findings.
 You are given deterministic facts you must not contradict. Decide: generic / drift / intentional /
@@ -429,14 +435,16 @@ Follow exactly. Each milestone has a DoD; do not advance until met.
   subprocess). On failure, returns the committed `fixtures/reports/tell-report.json` artifact with
   `meta.live: false`.
 - `/api/setup/start|status|stop` — local-only GitHub repo runner (`repo-runner.ts`). Clones to a temp
-  dir, parses README + `package.json`, installs, spawns dev server, polls for localhost URL. **Never
-  expose publicly** — executes arbitrary install/dev scripts from cloned repos.
+  dir, parses README + `package.json`, installs, spawns the dev server on a free port, and only marks
+  it ready after the URL responds. **Never expose publicly** — executes arbitrary install/dev scripts
+  from cloned repos.
 - BeforeAfterSeam: when `capture.snapshotHtml` is present, renders the captured page in an iframe and
-  applies reconciled CSS custom properties from `packages/redesign/reconcile.ts` on the "after" side.
+  applies contrast-grounded reconciled CSS from `packages/redesign/reconcile.ts` on the "after" side.
   Fallback: screenshot + CSS overlay when no snapshot.
 - `discover-routes.ts` parses anchor tags from snapshot HTML for the Pages strip; user can add routes
   manually and scan all (up to 8).
-- ReconciliationTable shows token before/after rows grounded in captured CSS variables.
+- ReconciliationTable shows token before/after rows grounded in captured CSS variables, including
+  contrast ratios for text and controls.
 - Draft fix calls `buildOverridesPatch(reconciliation)` client-side — emits `tell-overrides.css` diff.
 - Evidence pins: absolute-positioned proof-mark SVGs over screenshot using `evidence.region` coords.
 - All colors/spacing/fonts via tokens from `01_DESIGN_SYSTEM.md`. No Inter. No violet gradient.
@@ -487,18 +495,19 @@ correctly. `tell_apply` never writes files — it returns the patch for the huma
 | `/api/setup/start` | POST `{ repoUrl }` | Clone GitHub repo, begin install/run job → `{ job }` |
 | `/api/setup/status` | GET `?id=` | Poll setup job state, logs, detected URL |
 | `/api/setup/stop` | POST | Stop spawned dev server, clear job |
-| `/api/voice` | POST `{ transcript }` | Parse → `ArtDirection` |
+| `/api/voice` | POST `{ transcript }` | Parse → `DirectionPlan` |
 
-**Setup job states:** `cloning` → `installing` → `detecting` → `starting` → `waiting` → `ready` |
-`needs-manual` (user pastes localhost URL) | `error`.
+**Setup job states:** `cloning` → `installing` → `detecting` → `starting` → `waiting` (reachability
+probe) → `ready` | `needs-manual` (user pastes localhost URL) | `error`.
 
 ---
 
 ## 13. Redesign diff strategy (`packages/redesign`)
 
 **`reconcile.ts`** — deterministic token reconciliation from captured CSS variables + findings. Powers
-the live before/after seam and `ReconciliationTable`. No LLM. Direction presets: editorial, precision,
-warm-minimal, brutalist.
+the live before/after seam and `ReconciliationTable`. No LLM. It computes text/control contrast
+ratios and only forces foreground colors inside surfaces Tell also controls. Direction presets:
+editorial, precision, warm-minimal, bold-contrast.
 
 **`buildOverridesPatch`** — emits a site-wide `tell-overrides.css` with CSS custom properties derived
 from the reconciliation. One apply covers every page in the Pages strip.
@@ -516,4 +525,5 @@ export interface RedesignGenerator {
 }
 ```
 
-Default impl: Anthropic API with report+fingerprint+direction as context; output unified diff only.
+Default impl: `OfflineRedesignGenerator`, which emits the same contrast-grounded reconciliation CSS
+used by the live seam. Anthropic can be added behind the interface later for richer source-aware diffs.

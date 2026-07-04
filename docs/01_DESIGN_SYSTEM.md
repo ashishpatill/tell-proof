@@ -111,6 +111,9 @@ Components consume only these.
 - `--accent-wash` = terra-alpha-16
 - `--accent-fg` = paper-50
 
+Primary control foreground/background pairs must meet at least 4.5:1. If a reconciled accent cannot
+support `--accent-fg`, choose the readable foreground instead of preserving the nominal token.
+
 **Positive / intentional**
 - `--ok` = ink-500
 - `--ok-wash` = ink-alpha-16
@@ -339,7 +342,7 @@ if any is missing. This table is the spec Tell enforces on *itself*.
 | **focus-visible** | all focusable | 2px `--focus-ring`, 2px offset, radius matches control. Never browser default. |
 | **active / press** | all buttons | `--accent-press` or −2% brightness |
 | **disabled** | all controls | `--text-disabled` fg, no shadow, `cursor: not-allowed`, aria-disabled; token-based |
-| **loading** | async controls | proof-mark spinner, width preserved, `aria-busy` |
+| **loading** | async controls | proof-mark spinner, width preserved, `aria-busy`; disable duplicate actions |
 | **selected** | list/findings | `e-signal` or left 2px `--accent` bar |
 | **error** | inputs, async | `--v-generic` border + caption message; message says what happened + fix |
 | **empty** | any data region | icon + one-line "what this is" + primary action |
@@ -349,6 +352,9 @@ design surface.` / `[Capture]`.
 
 **Error copy pattern:** `Capture failed: couldn't reach localhost:3000.` / `[Retry] [Edit URL]`.
 Errors never apologize and never stay vague.
+
+Async setup/capture operations hide stale previews while running. A previous capture must never remain
+visually active in a way that implies the new target has already succeeded.
 
 ---
 
@@ -381,6 +387,7 @@ draggable seam.
 ## 9. Accessibility floor
 
 - Text contrast ≥ 4.5:1 (`--text` on `--surface` verified).
+- Reconciliation previews may force text color only inside surfaces they also recolor.
 - Non-text/UI contrast ≥ 3:1 for borders, focus rings, verdict markers.
 - Visible `focus-visible` on every focusable element (2px `--focus-ring`, offset 2px).
 - Min pointer target 36×36 for dense controls, 40×40 for primary actions; seam handle 44px wide.

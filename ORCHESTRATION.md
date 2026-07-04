@@ -22,7 +22,7 @@
 |---|---|---|---|
 | `orchestrator` | Composer 2.5 | Milestones, merges, parallel Task splits | Starting a work session or milestone |
 | `core-engineer` | Opus 4.8 | `packages/schema`, `packages/core` | Detectors, fingerprint, capture |
-| `taste-engineer` | Opus 4.8 | `packages/taste`, prompts | Taste verdicts, voice parsing |
+| `taste-engineer` | Opus 4.8 | `packages/taste`, prompts | Taste verdicts, direction parsing |
 | `ui-builder` | Composer 2.5 | `apps/web`, components | Tell Report, seam, inspector |
 | `ux-copywriter` | GPT 5.5 | Copy, USER_STORY, empty states | Any user-visible string |
 | `fixture-smith` | Composer 2.5 | `fixtures/generic-app` | Bland demo app |
@@ -38,7 +38,7 @@ Run **4 parallel Tasks** from Composer orchestrator after M1 schema is merged:
 
 ```
 Task 1 [Opus · core-engineer]  → packages/core capture + fingerprint + detectors
-Task 2 [Opus · taste-engineer]  → packages/taste mock engine + presets (parallel to core)
+Task 2 [Opus · taste-engineer]  → packages/taste mock engine + direction presets (parallel to core)
 Task 3 [Composer · ui-builder]  → apps/web shell + CaptureBar + empty state (Priya copy)
 Task 4 [Composer · fixture-smith] → fixtures/generic-app (all planted tells)
 ```
@@ -48,8 +48,8 @@ Task 4 [Composer · fixture-smith] → fixtures/generic-app (all planted tells)
 ## Multitask parallel plan (Day 2)
 
 ```
-Task 1 [Composer · ui-builder]  → BeforeAfterSeam + TellReport + inspector
-Task 2 [Opus · taste-engineer]  → Live Gemini + reflection loop
+Task 1 [Composer · ui-builder]  → BeforeAfterSeam + TellReport + inspector + setup/capture states
+Task 2 [Opus · taste-engineer]  → Live Gemini + reflection loop + direction parser fallback
 Task 3 [Composer · orchestrator] → packages/mcp + .cursor/mcp.json smoke test
 Task 4 [GPT 5.5 · ux-copywriter] → Landing page + demo script polish
 Task 5 [Opus · dogfood-auditor] → M10 zero tells on apps/web
@@ -117,4 +117,4 @@ Fix any generic tells. Target: zero tells per docs/01_DESIGN_SYSTEM.md §12.
 
 ## Cut line reminder
 
-Live URL capture, GitHub repo setup, token reconciliation, and draft-fix diffs are shipped. If something breaks at demo time: fall back to the committed `fixtures/reports/tell-report.json` artifact and the seeded fixture — the offline path still lands Priya's journey.
+Live URL capture, GitHub repo setup, contrast-grounded token reconciliation, voice/text direction parsing, and draft-fix diffs are shipped. If something breaks at demo time: fall back to the committed `fixtures/reports/tell-report.json` artifact and the seeded fixture — the offline path still lands Priya's journey.

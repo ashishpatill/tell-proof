@@ -48,9 +48,9 @@ journey
       Clicks SystemFontTell — sees Inter on every role: 5: Priya
       Realizes it is not her taste failing — it is a pattern: 5: Priya
     section Envision
-      Drags before/after seam — sees editorial direction: 5: Priya
-      Holds mic — warmer more editorial: 5: Priya
-      After side updates — this feels like my product: 5: Priya
+      Drags before/after seam — sees editorial direction with contrast floor: 5: Priya
+      Holds mic — warmer more editorial less shadow: 5: Priya
+      After side updates with action items — this feels directed, not random: 5: Priya
     section Ship
       Draft fix — diff appears: 4: Priya
       Apply in Cursor — patch on globals.css: 5: Priya
@@ -66,8 +66,8 @@ journey
 **Feels:** Low friction; not another dev tool dashboard.
 
 ### Scene 2 — Capture
-**Priya sees:** Progress readout `Launching headless browser…` then `Reconciling the rendered surface…` — or, for a GitHub repo, a setup panel: Cloning → Installing → Running → auto-capture.
-**Feels:** Tell is looking at the *real* product, not her repo structure. She didn't have to figure out how to run it.
+**Priya sees:** Progress readout `Launching headless browser…` then `Capture complete.` — or, for a GitHub repo, a setup panel: Cloning → Installing → Waiting for reachable URL → Running → auto-capture. The old preview is hidden while setup/capture is in progress, and failures say what URL could not be reached.
+**Feels:** Tell is looking at the *real* product, not her repo structure. She knows when the app is working, when it failed, and what to do next.
 
 ### Scene 2b — Multi-page (optional beat)
 **Priya sees:** Pages strip with `/`, `/pricing`, `/about` discovered from her snapshot. She scans `/pricing` and finds a drift finding that only shows there.
@@ -82,11 +82,12 @@ journey
 **Feels:** Tell has taste, not lint rules.
 
 ### Scene 5 — Before/after (the aha)
-**Priya drags the seam.** Left: her captured page as it actually renders. Right: the same page with reconciled tokens — warm paper, serif headlines, restrained shadow — grounded in what Tell measured.
-**Feels:** "This is the redesign I've needed for a year" — without hiring anyone.
+**Priya drags the seam.** Left: her captured page as it actually renders. Right: the same page with reconciled tokens — type hierarchy, accent, radius, depth, focus ring, and contrast floor — grounded in what Tell measured.
+**Feels:** "This is a direction I can defend" — not a random reskin.
 
 ### Scene 6 — Voice art-direction
 **Priya says:** "Warmer, more editorial, less shadow."
+**Priya sees:** Tell breaks that into action items and maps it to a direction preset before any model refinement.
 **Feels:** Art-directing like a creative director, not writing CSS.
 
 ### Scene 7 — Reconcile in Cursor
@@ -102,6 +103,7 @@ journey
 | Time to first finding | < 10s on fixture |
 | "Named my problem" moment | SystemFontTell or GradientCrutchTell with evidence |
 | "Saw a future" moment | Seam drag before/after |
+| "This is grounded" moment | Contrast floor and token changes visible in reconciliation table |
 | "Shipped the fix" moment | Diff applied in Cursor without leaving IDE |
 | Emotional outcome | Priya would share Tell in Cursor Discord |
 

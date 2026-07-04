@@ -57,10 +57,10 @@ No new dashboard to babysit. No design handoff. No leaving your workflow.
 | 🎯 | **8 genericness detectors** | Deterministic checks for the classic AI tells: `SystemFontTell`, `GradientCrutchTell`, `ShadowEverywhereTell`, `RadiusMonotoneTell`, `AcidAccentTell`, `EmojiChromeTell`, `CenteredEverythingTell`, `GrayMushTell`. |
 | 📉 | **6 consistency-drift detectors** | Catches the slow decay: `TokenBypass`, `NearDuplicateValues`, `FocusRingInconsistency`, `TypeScaleDrift`, `SpacingChaos`, `StateGap`. |
 | 🧠 | **Taste engine** | Classifies every finding as *generic*, *drift*, or *intentional* with a plain-English rationale and a confidence score. A reflection pass rejects any reasoning that contradicts the measured facts. |
-| 🎙️ | **Voice art-direction** | Say "warmer, more editorial, less shadow" and Tell re-proposes a direction. Falls back to text presets so a demo never dies on a bad mic. |
+| 🎙️ | **Voice art-direction** | Say "warmer, more editorial, less shadow" and Tell breaks the instruction into action items, maps it to a direction preset, and refines with Gemini when available. Text presets keep the demo safe when mic access fails. |
 | 🪄 | **Redesign as a diff** | Turns a chosen direction into a unified diff. It **never** auto-applies — you stay in control. |
-| ↔️ | **Before/after seam** | A draggable diagonal reveal between your captured page and a live reconciliation — same content, restyled from detected tokens. |
-| 🐙 | **GitHub repo setup** | Paste `github.com/owner/repo` and Tell clones it, reads the README, installs deps, boots the dev server, and captures localhost automatically. |
+| ↔️ | **Before/after seam** | A draggable diagonal reveal between your captured page and a live reconciliation — same content, restyled from detected tokens with contrast ratios called out. |
+| 🐙 | **GitHub repo setup** | Paste `github.com/owner/repo` and Tell clones it, reads the README, installs deps, boots the dev server on a reachable free port, and captures localhost automatically. |
 | 📄 | **Multi-page scanning** | Discovers routes from the captured snapshot; scan each page to catch drift that only shows on some routes. |
 | 🔌 | **Cursor MCP server** | Run the whole pipeline from Cursor chat with `tell_capture`, `tell_diagnose`, `tell_redesign`, and `tell_apply`. |
 
@@ -80,6 +80,7 @@ flowchart LR
     drift --> taste
     voice["Voice / text\nart-direction"] --> taste
     taste --> report["Tell Report +\nbefore/after seam"]
+    report --> contrast["Contrast floor +\nreachable-state feedback"]
     taste --> diff["Redesign diff"]
     diff --> cursor["Apply in Cursor\nvia MCP"]
 ```
@@ -104,7 +105,7 @@ Then start the Tell app:
 pnpm dev           # the Tell app → http://localhost:3000
 ```
 
-**The one-click way — point Tell at a GitHub repo.** Paste a repo URL (e.g. `github.com/owner/app`) into the bar and hit **Set up &amp; run**. Tell clones it, reads the README + `package.json` to figure out how to start it, installs, boots the dev server on a free port, and captures the localhost URL automatically. If the run steps aren't clear, Tell shows what it found from the README and asks you to start it and paste the URL — no guessing.
+**The one-click way — point Tell at a GitHub repo.** Paste a repo URL (e.g. `github.com/owner/app`) into the bar and hit **Set up &amp; run**. Tell clones it, reads the README + `package.json` to figure out how to start it, installs, boots the dev server on a free port, verifies the URL responds, and captures localhost automatically. The UI blocks duplicate clicks, hides stale captures while work is running, and surfaces success or failure in plain language. If the run steps aren't clear, Tell shows what it found from the README and asks you to start it and paste the URL — no guessing.
 
 **The direct way — capture any URL.** Paste a live URL (your deployed app, or a local `http://localhost:3000`) and hit **Capture**.
 
@@ -130,7 +131,7 @@ Copy `.env.example` to `.env` and fill in what you have. Tell runs fully without
 
 ```bash
 GEMINI_API_KEY=      # powers the taste engine's richer rationales
-ANTHROPIC_API_KEY=   # powers full redesign diffs (optional)
+ANTHROPIC_API_KEY=   # reserved for richer source-aware diffs (optional)
 ```
 
 </details>
@@ -201,8 +202,8 @@ tell/
 | Monorepo | pnpm workspaces |
 | Capture | Playwright / Chrome DevTools Protocol |
 | Web app | Next.js 14 + Tailwind CSS |
-| Taste reasoning | Google Gemini |
-| Redesign diffs | Anthropic |
+| Taste reasoning | Google Gemini with deterministic fallback |
+| Redesign diffs | Deterministic reconciliation CSS; Anthropic-ready interface |
 | Editor integration | Model Context Protocol (stdio) |
 | Validation | zod |
 | Tests | Vitest (golden detector tests) |
@@ -219,6 +220,7 @@ tell/
 - [x] Live URL capture (any reachable HTTP URL, with offline artifact fallback)
 - [x] GitHub repo setup — clone, install, run, and capture localhost
 - [x] Token-grounded live reconciliation in the before/after seam
+- [x] Contrast-grounded reconciliation with readable text/control pairings
 - [x] Multi-page route discovery and per-page scanning
 - [ ] Per-state evidence thumbnails (hover, focus, error) in the report
 - [ ] A shareable, hosted report link

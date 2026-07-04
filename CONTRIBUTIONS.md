@@ -8,12 +8,12 @@ Everything under these paths is **original hackathon work**:
 
 - `packages/schema/` — zod data contracts
 - `packages/core/` — capture, fingerprint, detectors
-- `packages/taste/` — taste engine, voice direction parsing
-- `packages/redesign/` — redesign diff generation
+- `packages/taste/` — taste engine, deterministic/Gemini direction parsing, direction presets
+- `packages/redesign/` — contrast-grounded reconciliation and redesign diff generation
 - `packages/mcp/` — Cursor MCP server
-- `apps/web/` — Tell product UI (editorial/print-atelier design system) + live capture/setup API routes
-- `apps/web/src/lib/repo-runner.ts`, `discover-routes.ts`, `run-diagnose.ts` — local repo runner and live pipeline helpers
-- `packages/redesign/src/reconcile.ts` — deterministic token reconciliation for live seam
+- `apps/web/` — Tell product UI (editorial/print-atelier design system) + live capture/setup/voice API routes
+- `apps/web/src/lib/repo-runner.ts`, `discover-routes.ts`, `run-diagnose.ts`, `use-voice.ts` — local repo runner and live pipeline helpers
+- `packages/redesign/src/reconcile.ts` — deterministic token reconciliation for live seam, including contrast-floor reporting
 - `.cursor/` — rules, hooks, MCP config
 - `AGENTS.md`, `CLAUDE.md`, `USER_STORY.md`, `README.md`, `BUILD.md`
 - `fixtures/reports/tell-report.json` — **generated report artifact** from our engine (not hand-authored fiction)
@@ -22,6 +22,7 @@ Everything under these paths is **original hackathon work**:
 ## Demo input (NOT our contribution)
 
 - `fixtures/generic-app/` — **deliberately bland** sample app hand-built to trigger Tell detectors for demo purposes. It simulates "Priya's AI-built landing page." Licensed MIT for demo use only. Clearly labeled in UI as demo target.
+- Public GitHub repositories pasted into Tell during a demo are **external inputs only**. Tell may clone, run, and scan them locally, but they are not part of this repository and are not claimed as original work.
 
 ## Third-party
 
@@ -32,7 +33,7 @@ Everything under these paths is **original hackathon work**:
 ## How to verify at demo time
 
 1. We show Tell scanning `fixtures/generic-app` — the bland app is **input**, not the product.
-2. The product is the capture → diagnose → art-direct → reconcile loop in Tell UI + MCP.
+2. The product is the capture → diagnose → art-direct → contrast-grounded reconcile loop in Tell UI + MCP.
 3. Git history shows Tell engine and UI commits during the event window.
 
 ## Fork / attribution
