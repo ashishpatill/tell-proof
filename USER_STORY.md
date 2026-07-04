@@ -41,8 +41,8 @@ journey
     title Priya's evening before the demo
     section Discover
       Opens Tell after seeing a tweet about AI sameness: 3: Priya
-      Pastes localhost URL of her app: 4: Priya
-      Clicks Capture: 5: Priya
+      Pastes github.com/her-startup/landing or a live URL: 4: Priya
+      Clicks Set up & run or Capture: 5: Priya
     section Understand
       Reads score line — 8 findings, 5 generic: 4: Priya
       Clicks SystemFontTell — sees Inter on every role: 5: Priya
@@ -66,8 +66,12 @@ journey
 **Feels:** Low friction; not another dev tool dashboard.
 
 ### Scene 2 — Capture
-**Priya sees:** Her bland landing page loading; progress readout `reading computed styles… detecting tells…`
-**Feels:** Tell is looking at the *real* product, not her repo structure.
+**Priya sees:** Progress readout `Launching headless browser…` then `Reconciling the rendered surface…` — or, for a GitHub repo, a setup panel: Cloning → Installing → Running → auto-capture.
+**Feels:** Tell is looking at the *real* product, not her repo structure. She didn't have to figure out how to run it.
+
+### Scene 2b — Multi-page (optional beat)
+**Priya sees:** Pages strip with `/`, `/pricing`, `/about` discovered from her snapshot. She scans `/pricing` and finds a drift finding that only shows there.
+**Feels:** Tell catches inconsistency across the surface, not just the hero.
 
 ### Scene 3 — The tell (emotional beat)
 **Priya sees:** `SystemFontTell · GENERIC` — *"Inter appears on every text role with no display face. This is the default AI type stack, not a considered choice."*
@@ -78,7 +82,7 @@ journey
 **Feels:** Tell has taste, not lint rules.
 
 ### Scene 5 — Before/after (the aha)
-**Priya drags the seam.** Left: her page. Right: warm paper, serif headlines, restrained shadow.
+**Priya drags the seam.** Left: her captured page as it actually renders. Right: the same page with reconciled tokens — warm paper, serif headlines, restrained shadow — grounded in what Tell measured.
 **Feels:** "This is the redesign I've needed for a year" — without hiring anyone.
 
 ### Scene 6 — Voice art-direction
