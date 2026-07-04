@@ -117,4 +117,4 @@ Fix any generic tells. Target: zero tells per docs/01_DESIGN_SYSTEM.md §12.
 
 ## Cut line reminder
 
-If behind on Day 2: drop live URL capture + full redesign diff. Ship fixture-only diagnose + Tell Report + seam + inspector. Still wins if Priya's journey lands.
+Live URL capture, GitHub repo setup, token reconciliation, and draft-fix diffs are shipped. If something breaks at demo time: fall back to the committed `fixtures/reports/tell-report.json` artifact and the seeded fixture — the offline path still lands Priya's journey.
