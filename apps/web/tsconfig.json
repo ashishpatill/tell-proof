@@ -3,15 +3,38 @@
   "compilerOptions": {
     "jsx": "preserve",
     "noEmit": true,
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@tell/schema": ["../../packages/schema/src"],
-      "@tell/taste": ["../../packages/taste/src"],
-      "@tell/redesign": ["../../packages/redesign/src"],
-      "@tell/core": ["../../packages/core/src"]
-    }
+      "@/*": [
+        "./src/*"
+      ],
+      "@tell/schema": [
+        "../../packages/schema/src"
+      ],
+      "@tell/taste": [
+        "../../packages/taste/src"
+      ],
+      "@tell/redesign": [
+        "../../packages/redesign/src"
+      ],
+      "@tell/core": [
+        "../../packages/core/src"
+      ]
+    },
+    "allowJs": true,
+    "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

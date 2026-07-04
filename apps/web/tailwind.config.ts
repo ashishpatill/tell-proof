@@ -12,6 +12,7 @@ const config: Config = {
         secondary: "rgb(var(--text-secondary) / <alpha-value>)",
         muted: "rgb(var(--text-muted) / <alpha-value>)",
         accent: "rgb(var(--accent) / <alpha-value>)",
+        "accent-hover": "rgb(var(--accent-hover) / <alpha-value>)",
         ok: "rgb(var(--ok) / <alpha-value>)",
         drift: "rgb(var(--drift) / <alpha-value>)",
         border: "rgb(var(--border) / <alpha-value>)",

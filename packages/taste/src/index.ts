@@ -1,6 +1,6 @@
 import { ArtDirection, Finding, TasteVerdict } from "@tell/schema";
 
-export const DIRECTION_PRESETS: Record<string, ArtDirection> = {
+export const DIRECTION_PRESETS = {
   editorial: {
     id: "editorial-warm",
     label: "Editorial warm",
@@ -49,7 +49,7 @@ export const DIRECTION_PRESETS: Record<string, ArtDirection> = {
     },
     summary: "Stronger hierarchy and sharper editorial contrast.",
   },
-};
+} satisfies Record<string, ArtDirection>;
 
 export function classifyFinding(finding: Finding): TasteVerdict {
   return TasteVerdict.parse({
