@@ -1,87 +1,223 @@
+<div align="center">
+
 # Tell
 
-> **Every AI-built UI has a tell.** You shipped fast with Cursor. Now make it look like *yours*.
+### Every AI-built UI has a tell.
 
-Tell captures what your product actually looks like in the browser, names the patterns that make it read as generic, catches consistency drift across the surface, and — in plain English or by voice — proposes a distinctive art direction you apply as a diff inside Cursor.
+**Tell is an open-source design critic that reads the *rendered* UI of your product, names exactly what makes it look AI-generated, and helps you art-direct a distinctive redesign — without leaving Cursor.**
 
-**Built for the Cursor hackathon track.** Runs in the browser and inside Cursor via MCP.
+[Quick start](#quick-start) · [Features](#features) · [How it works](#how-it-works) · [Use it in Cursor](#use-it-in-cursor) · [Project structure](#project-structure)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](./LICENSE)
+[![Built for Cursor](https://img.shields.io/badge/built%20for-Cursor-black.svg)](https://cursor.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6.svg)](https://www.typescriptlang.org/)
+[![Next.js 14](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
+[![MCP](https://img.shields.io/badge/MCP-stdio-black.svg)](https://modelcontextprotocol.io/)
+
+<br/>
+
+![Tell capturing a page, naming its tells, and revealing a redesign](./docs/media/tell-demo.gif)
+
+</div>
 
 ---
 
-## The problem (a real day)
+## The problem
 
-**Priya** shipped her SaaS landing page in a weekend with Cursor. It works. It converts. But when she opens it next to three other AI-built products, they could swap homepages and nobody would notice.
+You can ship a whole product in a weekend now. That's the good news.
 
-She doesn't have a designer on retainer. She doesn't want another dashboard. She wants to:
+The bad news is that most of what gets shipped looks *identical*. Inter everywhere. One purple gradient in the hero. A soft shadow on every card. Rounded corners at exactly 8 pixels. It isn't ugly — it's **forgettable**. And as you and your AI agent keep iterating, the surface quietly drifts: six almost-identical grays, focus rings that only half the app bothers with, an empty state nobody designed.
 
-1. See *what* makes her UI feel generic — with evidence, not vibes
-2. Preview what a considered direction could look like — before touching code
-3. Say "warmer, more editorial" and get a patch she applies in Cursor — without a sync meeting
+You can *feel* that something is off, but you can't name it. "Add more whitespace" isn't a direction. Hiring a designer for a day is $800 and a two-week wait. Your demo is tomorrow.
 
-That's Tell.
+**Tell fixes the part that's actually hard: knowing what's wrong, and showing you a better direction you can ship yourself.**
+
+---
+
+## What Tell does
+
+Tell looks at your product the way a person does — it opens the page in a real browser and reads what actually renders, not your source code. Then it does four things:
+
+1. **Names the tells.** It points at the specific patterns that read as generic, with evidence you can see on the screenshot.
+2. **Catches the drift.** It flags where your design has quietly become inconsistent across the surface.
+3. **Uses taste, not lint rules.** It tells the difference between a lazy default and a deliberate choice, and explains why.
+4. **Closes the loop in Cursor.** You describe a direction in plain English (or with your voice), and Tell drafts the redesign as a diff you apply right inside your editor.
+
+No new dashboard to babysit. No design handoff. No leaving your workflow.
+
+---
+
+## Features
+
+| | Feature | What it does |
+|---|---|---|
+| 🔍 | **Rendered capture** | Opens your URL in a headless browser and records a full screenshot plus a computed-style fingerprint — fonts, colors, shadows, radii, spacing, contrast, and interactive states. |
+| 🎯 | **8 genericness detectors** | Deterministic checks for the classic AI tells: `SystemFontTell`, `GradientCrutchTell`, `ShadowEverywhereTell`, `RadiusMonotoneTell`, `AcidAccentTell`, `EmojiChromeTell`, `CenteredEverythingTell`, `GrayMushTell`. |
+| 📉 | **6 consistency-drift detectors** | Catches the slow decay: `TokenBypass`, `NearDuplicateValues`, `FocusRingInconsistency`, `TypeScaleDrift`, `SpacingChaos`, `StateGap`. |
+| 🧠 | **Taste engine** | Classifies every finding as *generic*, *drift*, or *intentional* with a plain-English rationale and a confidence score. A reflection pass rejects any reasoning that contradicts the measured facts. |
+| 🎙️ | **Voice art-direction** | Say "warmer, more editorial, less shadow" and Tell re-proposes a direction. Falls back to text presets so a demo never dies on a bad mic. |
+| 🪄 | **Redesign as a diff** | Turns a chosen direction into a unified diff. It **never** auto-applies — you stay in control. |
+| ↔️ | **Before/after seam** | A draggable diagonal reveal between your current UI and the proposed one. The "aha" is visual, not a spreadsheet. |
+| 🔌 | **Cursor MCP server** | Run the whole pipeline from Cursor chat with `tell_capture`, `tell_diagnose`, `tell_redesign`, and `tell_apply`. |
+
+---
+
+## How it works
+
+Tell is one pipeline, shared by both the web app and the Cursor MCP server. Everything up to the taste step is **deterministic** — no model, no network — so results are reproducible run to run. The model is only used for judgment and for drafting diffs.
+
+```mermaid
+flowchart LR
+    url["Your URL or a\nlocal route"] --> capture["Capture\nrendered UI"]
+    capture --> fingerprint["Build a\ndesign fingerprint"]
+    fingerprint --> tells["Detect\ngenericness tells"]
+    fingerprint --> drift["Detect\nconsistency drift"]
+    tells --> taste["Taste engine\n(generic / drift / intentional)"]
+    drift --> taste
+    voice["Voice / text\nart-direction"] --> taste
+    taste --> report["Tell Report +\nbefore/after seam"]
+    taste --> diff["Redesign diff"]
+    diff --> cursor["Apply in Cursor\nvia MCP"]
+```
+
+**Why deterministic-first matters:** the parts that must be trustworthy — reading the page and measuring it — never hallucinate. The model only weighs in where judgment is genuinely needed, and even then its rationale is checked against the hard facts before you see it.
 
 ---
 
 ## Quick start
 
+You'll need **Node 20+** and **pnpm 9+**.
+
 ```bash
+git clone <your-repo-url> tell
 cd tell
 pnpm install
-pnpm dev:fixture   # deliberately bland demo app → http://localhost:3001
-pnpm dev           # Tell UI → http://localhost:3000
 ```
 
-Open Tell, capture `http://localhost:3001`, read the report, drag the before/after seam, art-direct with voice or presets, apply the diff in Cursor.
+Then run the demo in two terminals:
 
-**Offline demo:** Tell loads `fixtures/reports/tell-report.json` if live capture is slow.
+```bash
+pnpm dev:fixture   # a deliberately bland sample app  → http://localhost:3001
+pnpm dev           # the Tell app                     → http://localhost:3000
+```
+
+Open Tell, paste `http://localhost:3001`, and hit **Capture**. Read the report, drag the before/after seam, art-direct a new direction, and draft the diff.
+
+> **No time to wait on live capture?** Tell ships with a committed report at `fixtures/reports/tell-report.json` and loads it automatically as an offline fallback, so the demo always works.
+
+<details>
+<summary><strong>Environment variables (optional)</strong></summary>
+
+Copy `.env.example` to `.env` and fill in what you have. Tell runs fully without keys — the taste and redesign steps simply fall back to their deterministic behavior.
+
+```bash
+GEMINI_API_KEY=      # powers the taste engine's richer rationales
+ANTHROPIC_API_KEY=   # powers full redesign diffs (optional)
+```
+
+</details>
+
+<details>
+<summary><strong>Handy scripts</strong></summary>
+
+```bash
+pnpm test              # run the golden detector tests
+pnpm typecheck         # strict type-check across every package
+pnpm capture:fixture   # capture the sample app to a fresh report
+pnpm diagnose:fixture  # diagnose the sample app from a capture
+```
+
+</details>
 
 ---
 
-## Cursor integration
+## Use it in Cursor
 
-1. Open this repo in Cursor
-2. MCP server `tell` is registered in `.cursor/mcp.json`
-3. In Agent chat: *"Run tell_diagnose on http://localhost:3001 and draft an editorial redesign"*
+Tell registers itself as an MCP server, so you can drive the whole pipeline from Cursor's Agent chat.
 
-Tools: `tell_capture`, `tell_diagnose`, `tell_redesign`, `tell_apply`
+1. Open this repo in Cursor — the `tell` server is already registered in `.cursor/mcp.json`.
+2. In Agent chat, ask for a diagnosis in plain English:
 
----
+   > "Run `tell_diagnose` on `http://localhost:3001` and draft an editorial redesign."
 
-## Docs
+3. Review the findings and the proposed diff, then apply it — Tell hands you the patch, but you decide what lands.
 
-| Doc | Purpose |
+**Available tools**
+
+| Tool | What it returns |
 |---|---|
-| [USER_STORY.md](./USER_STORY.md) | Persona, journey, judge-facing narrative |
-| [BUILD.md](./BUILD.md) | Engineering spec + build order |
-| [docs/01_DESIGN_SYSTEM.md](./docs/01_DESIGN_SYSTEM.md) | Visual contract |
-| [docs/04_CLAUDE_PROJECT.md](./docs/04_CLAUDE_PROJECT.md) | Vision, scope, demo script |
-| [AGENTS.md](./AGENTS.md) | Instructions for Cursor Agent |
-| [CLAUDE.md](./CLAUDE.md) | Instructions for Claude Code / Claude Project |
+| `tell_capture` | The rendered screenshot + computed-style evidence for a URL. |
+| `tell_diagnose` | The full report: findings, taste verdicts, and the Tell score. |
+| `tell_redesign` | A redesign proposal (patch text) for one finding or the whole report. |
+| `tell_apply` | The unified diff plus instructions — it never writes files for you. |
 
 ---
 
-## Monorepo
+## Project structure
+
+Tell is a pnpm monorepo. Each package has one job.
 
 ```
-packages/schema   → zod contracts
-packages/core     → capture, fingerprint, detectors (deterministic)
-packages/taste    → taste engine + voice direction
-packages/redesign → diff generation
-packages/mcp      → Cursor MCP server
-apps/web          → Tell UI
-fixtures/generic-app → demo "before" app
+tell/
+├── packages/
+│   ├── schema/      # zod contracts shared by everything
+│   ├── core/        # capture + fingerprint + detectors (pure, no model)
+│   ├── taste/       # taste engine + voice/text art-direction
+│   ├── redesign/    # turns a direction into a diff
+│   └── mcp/          # the Cursor-facing MCP server
+├── apps/
+│   └── web/         # the Tell app: report, before/after seam, voice director
+├── fixtures/
+│   ├── generic-app/ # a deliberately bland app used as demo input
+│   └── reports/     # a committed report artifact for offline demos
+└── docs/            # design system and reference notes
 ```
 
 ---
 
-## Hackathon compliance
+## Tech stack
 
-- Public repo, original work documented in [CONTRIBUTIONS.md](./CONTRIBUTIONS.md)
-- The product is the **capture → diagnose → art-direct → reconcile loop**, not a dashboard
-- Seeded generic-app is labeled demo input, not our contribution
+| Layer | Choice |
+|---|---|
+| Language | TypeScript (strict) |
+| Monorepo | pnpm workspaces |
+| Capture | Playwright / Chrome DevTools Protocol |
+| Web app | Next.js 14 + Tailwind CSS |
+| Taste reasoning | Google Gemini |
+| Redesign diffs | Anthropic |
+| Editor integration | Model Context Protocol (stdio) |
+| Validation | zod |
+| Tests | Vitest (golden detector tests) |
+
+---
+
+## Roadmap
+
+- [x] Deterministic capture → fingerprint → 14 detectors
+- [x] Taste engine with reflection + safe fallback
+- [x] Tell Report with draggable before/after seam
+- [x] Voice art-direction with text-preset fallback
+- [x] Cursor MCP server (`capture` / `diagnose` / `redesign` / `apply`)
+- [ ] Capture any public URL, not just local routes
+- [ ] Per-state evidence thumbnails (hover, focus, error) in the report
+- [ ] A shareable, hosted report link
+
+---
+
+## Contributing
+
+Contributions are welcome. The short version:
+
+1. Fork the repo and create a branch: `git checkout -b feature/your-idea`
+2. Make your change and keep it green: `pnpm typecheck && pnpm test`
+3. Open a pull request describing the *why*, not just the *what*.
+
+New detectors are the highest-leverage contribution — they live in `packages/core/src/detectors` and each ships with a golden test.
 
 ---
 
 ## License
 
-MIT
+Released under the [MIT License](./LICENSE).
+
+The sample app under `fixtures/generic-app/` is a deliberately bland demo target used only as input for Tell — it is not part of the product. See [CONTRIBUTIONS.md](./CONTRIBUTIONS.md) for the full breakdown of what's original work versus demo input.
