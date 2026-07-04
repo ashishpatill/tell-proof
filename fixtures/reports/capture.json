@@ -1,0 +1,75 @@
+{
+  "url": "http://localhost:3001",
+  "capturedAt": "2026-07-04T10:00:00.000Z",
+  "viewport": { "width": 1440, "height": 1100 },
+  "screenshotBase64": "",
+  "styles": [
+    {
+      "selector": "body",
+      "fontFamily": "Inter, system-ui, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "color": "rgb(244, 244, 245)",
+      "backgroundColor": "rgb(15, 15, 15)",
+      "borderRadius": "0px",
+      "boxShadow": "none",
+      "padding": "0px",
+      "textAlign": "center",
+      "lineHeight": "normal",
+      "backgroundImage": "none"
+    },
+    {
+      "selector": "header.hero",
+      "fontFamily": "Inter, system-ui, sans-serif",
+      "fontSize": "18px",
+      "fontWeight": "400",
+      "color": "rgb(244, 244, 245)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderRadius": "8px",
+      "boxShadow": "none",
+      "padding": "77px 23px 93px",
+      "textAlign": "center",
+      "lineHeight": "normal",
+      "backgroundImage": "linear-gradient(135deg, rgb(139, 92, 246), rgb(236, 72, 153))"
+    },
+    {
+      "selector": "article.card",
+      "fontFamily": "Inter, system-ui, sans-serif",
+      "fontSize": "19px",
+      "fontWeight": "400",
+      "color": "rgb(245, 245, 244)",
+      "backgroundColor": "rgb(17, 24, 39)",
+      "borderRadius": "8px",
+      "boxShadow": "0 10px 25px rgba(0,0,0,.35)",
+      "padding": "31px",
+      "textAlign": "center",
+      "lineHeight": "normal",
+      "backgroundImage": "none"
+    },
+    {
+      "selector": "button.button",
+      "fontFamily": "Inter, system-ui, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgb(139, 92, 246)",
+      "borderRadius": "8px",
+      "boxShadow": "0 10px 25px rgba(0,0,0,.35)",
+      "padding": "13px 27px",
+      "textAlign": "center",
+      "lineHeight": "normal",
+      "backgroundImage": "none"
+    }
+  ],
+  "probes": [
+    { "role": "a", "selector": ".button.no-focus", "hasHoverDiff": false, "hasFocusVisibleDiff": false, "hasDisabledAttr": false, "ariaDisabled": false },
+    { "role": "button", "selector": "button.button", "hasHoverDiff": false, "hasFocusVisibleDiff": true, "hasDisabledAttr": false, "ariaDisabled": false },
+    { "role": "a", "selector": ".button.secondary", "hasHoverDiff": false, "hasFocusVisibleDiff": false, "hasDisabledAttr": false, "ariaDisabled": false }
+  ],
+  "domSummary": {
+    "headingCount": 7,
+    "buttonCount": 4,
+    "centeredBlockRatio": 0.88,
+    "emojiInUiCount": 6
+  }
+}

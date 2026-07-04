@@ -1,0 +1,13 @@
+---
+description: Deterministic core — packages/schema and packages/core
+globs: packages/schema/**/*,packages/core/**/*
+alwaysApply: false
+---
+
+# Core engine rules
+
+- **No LLM imports** in packages/core
+- Detectors are pure: `(fingerprint, capture) => Finding[]`
+- Emit deterministic `facts` + `evidence` — taste layer judges, core detects
+- Golden tests against `fixtures/reports/capture.json`
+- Use `@tell/core-engineer` subagent (Opus 4.8) for new detectors

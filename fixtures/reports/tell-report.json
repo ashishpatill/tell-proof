@@ -1,0 +1,94 @@
+{
+  "capture": {
+    "url": "http://localhost:3001",
+    "capturedAt": "2026-07-04T10:00:00.000Z",
+    "viewport": { "width": 1440, "height": 1100 },
+    "screenshotBase64": "",
+    "styles": [],
+    "probes": [],
+    "domSummary": { "headingCount": 7, "buttonCount": 6, "centeredBlockRatio": 0.88, "emojiInUiCount": 6 }
+  },
+  "fingerprint": {
+    "url": "http://localhost:3001",
+    "generatedAt": "2026-07-04T10:00:00.000Z",
+    "fontFamilies": [{ "family": "Inter", "count": 42, "roles": ["body", "h1", "button", "nav"] }],
+    "colors": [],
+    "shadows": [{ "value": "0 10px 25px rgba(0,0,0,.35)", "count": 8 }],
+    "radii": [{ "value": "8px", "count": 34 }],
+    "spacingValues": [],
+    "typeScale": [],
+    "centeredBlockRatio": 0.88,
+    "emojiInUiCount": 6,
+    "gradientDetected": true,
+    "gradientSamples": ["linear-gradient(135deg, #8B5CF6, #EC4899)"],
+    "nearDuplicateGrays": [{ "values": ["#F3F4F6", "#F4F4F5", "#F5F5F4", "#F2F2F2", "#F6F6F6"], "deltaE": 2 }],
+    "focusRingCoverage": 0.33,
+    "stateCoverage": { "hover": 0.5, "focus": 0.33, "disabled": 0 }
+  },
+  "findings": [
+    {
+      "id": "tell-system-font",
+      "family": "tell",
+      "detector": "SystemFontTell",
+      "verdictHint": "generic",
+      "facts": { "family": "Inter", "ratio": 1 },
+      "evidence": [{ "kind": "computed", "label": "Primary typeface", "value": "Inter, system-ui" }],
+      "severity": "high"
+    },
+    {
+      "id": "tell-gradient-crutch",
+      "family": "tell",
+      "detector": "GradientCrutchTell",
+      "verdictHint": "generic",
+      "facts": { "gradient": "violet to pink" },
+      "evidence": [{ "kind": "computed", "label": "Hero gradient", "value": "linear-gradient(135deg, #8B5CF6, #EC4899)" }],
+      "severity": "medium"
+    },
+    {
+      "id": "drift-focus-ring",
+      "family": "drift",
+      "detector": "FocusRingInconsistency",
+      "verdictHint": "drift",
+      "facts": { "focusRingCoverage": 0.33 },
+      "evidence": [{ "kind": "probe", "label": "Focus coverage", "value": "33%" }],
+      "severity": "high"
+    },
+    {
+      "id": "tell-intentional-mono",
+      "family": "tell",
+      "detector": "SystemFontTell",
+      "verdictHint": "intentional",
+      "facts": { "route": "/brutalist", "reason": "documented route-level art direction" },
+      "evidence": [{ "kind": "dom", "label": "Intentional section", "value": "data-intentional='mono'" }],
+      "severity": "low"
+    }
+  ],
+  "verdicts": [
+    {
+      "findingId": "tell-system-font",
+      "verdict": "generic",
+      "confidence": 0.91,
+      "rationale": "Inter appears on every text role with no display face. This is the default AI type stack, not a considered choice."
+    },
+    {
+      "findingId": "tell-gradient-crutch",
+      "verdict": "generic",
+      "confidence": 0.81,
+      "rationale": "The hero leans on the violet-to-pink gradient while the rest of the surface has no distinct treatment. That is decoration, not direction."
+    },
+    {
+      "findingId": "drift-focus-ring",
+      "verdict": "drift",
+      "confidence": 0.86,
+      "rationale": "Only one third of focusable controls expose a visible focus style. The visual system splits at keyboard interaction."
+    },
+    {
+      "findingId": "tell-intentional-mono",
+      "verdict": "intentional",
+      "confidence": 0.74,
+      "rationale": "The mono-only treatment is scoped to a documented brutalist route. Keep it as a choice, not a site-wide default.",
+      "intentionalReason": "Route-level art direction."
+    }
+  ],
+  "score": { "total": 4, "generic": 2, "drift": 1, "intentional": 1, "uncertain": 0 }
+}

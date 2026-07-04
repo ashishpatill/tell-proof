@@ -1,0 +1,13 @@
+---
+description: Taste and voice — packages/taste
+globs: packages/taste/**/*
+alwaysApply: false
+---
+
+# Taste engine rules
+
+- Facts from detectors are authoritative — validate rationale against facts
+- Verdicts: generic | drift | intentional | uncertain
+- Rationale ≤ 3 sentences, critic voice
+- Mock/fallback path required for offline demo
+- Use `@taste-engineer` subagent (Opus 4.8)

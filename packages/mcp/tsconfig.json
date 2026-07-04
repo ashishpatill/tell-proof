@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "@tell/core": ["../core/src"],
+      "@tell/redesign": ["../redesign/src"],
+      "@tell/schema": ["../schema/src"],
+      "@tell/taste": ["../taste/src"]
+    }
+  },
+  "include": ["src"]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "tell",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Every AI-built UI has a tell — capture, diagnose, art-direct, reconcile in Cursor.",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm -F @tell/web dev",
+    "dev:fixture": "pnpm -F @tell/generic-app dev",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "pnpm -r typecheck",
+    "capture:fixture": "pnpm -F @tell/core capture:fixture",
+    "diagnose:fixture": "pnpm -F @tell/core diagnose:fixture"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.15.0"
+}
