@@ -61,7 +61,8 @@ React+Tailwind diff output, or let fingerprint/detection jitter nondeterministic
 - **Voice:** Web Speech API (browser) for demo; continuous transcript append; text presets as fallback.
   Direction parsing is deterministic first, Gemini-refined when `GEMINI_API_KEY` is present.
 - **Redesign/fix generation:** deterministic contrast-grounded reconciliation CSS for the live seam and
-  patch; Anthropic can sit behind the interface for richer diffs later.
+  patch; `/api/redesign` can ask the Cursor SDK for a richer patch when `CURSOR_API_KEY` is present,
+  then falls back to deterministic output.
 - **Source diff (optional):** `ts-morph` to map token/CSS changes back to component files when repo
   path is provided.
 - **MCP:** `@modelcontextprotocol/sdk`, stdio transport.
@@ -491,7 +492,7 @@ correctly. `tell_apply` never writes files — it returns the patch for the huma
 | Route | Method | Purpose |
 |---|---|---|
 | `/api/diagnose` | POST `{ url? }` | Full pipeline → `{ report, meta }`; timeout/error → offline artifact |
-| `/api/redesign` | POST `{ report?, direction, findingId? }` | `RedesignProposal` (uses passed report or demo fallback) |
+| `/api/redesign` | POST `{ report?, direction, findingId? }` | `RedesignProposal`; Cursor SDK when configured, deterministic fallback otherwise |
 | `/api/setup/start` | POST `{ repoUrl }` | Clone GitHub repo, begin install/run job → `{ job }` |
 | `/api/setup/status` | GET `?id=` | Poll setup job state, logs, detected URL |
 | `/api/setup/stop` | POST | Stop spawned dev server, clear job |
@@ -525,5 +526,9 @@ export interface RedesignGenerator {
 }
 ```
 
-Default impl: `OfflineRedesignGenerator`, which emits the same contrast-grounded reconciliation CSS
-used by the live seam. Anthropic can be added behind the interface later for richer source-aware diffs.
+Default deterministic impl: `OfflineRedesignGenerator`, which emits the same contrast-grounded
+reconciliation CSS used by the live seam. Web route enhancement: when `CURSOR_API_KEY` is present,
+`/api/redesign` runs a one-shot Cursor SDK agent in a temp working directory, asks for JSON-only patch
+output, validates it as a `RedesignProposal`, and falls back to deterministic output on timeout,
+auth/runtime failure, or invalid JSON. Anthropic can be added behind the interface later for richer
+source-aware diffs.
