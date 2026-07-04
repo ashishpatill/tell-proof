@@ -18,6 +18,8 @@
 
 ![Tell capturing a page, naming its tells, and revealing a redesign](./docs/media/tell-demo.gif)
 
+The shipped README demo asset lives in `docs/media/tell-demo.gif`. Raw Playwright recordings can be regenerated under `output/playwright/`, which stays ignored as local build output.
+
 </div>
 
 ---
@@ -57,7 +59,9 @@ No new dashboard to babysit. No design handoff. No leaving your workflow.
 | 🧠 | **Taste engine** | Classifies every finding as *generic*, *drift*, or *intentional* with a plain-English rationale and a confidence score. A reflection pass rejects any reasoning that contradicts the measured facts. |
 | 🎙️ | **Voice art-direction** | Say "warmer, more editorial, less shadow" and Tell re-proposes a direction. Falls back to text presets so a demo never dies on a bad mic. |
 | 🪄 | **Redesign as a diff** | Turns a chosen direction into a unified diff. It **never** auto-applies — you stay in control. |
-| ↔️ | **Before/after seam** | A draggable diagonal reveal between your current UI and the proposed one. The "aha" is visual, not a spreadsheet. |
+| ↔️ | **Before/after seam** | A draggable diagonal reveal between your captured page and a live reconciliation — same content, restyled from detected tokens. |
+| 🐙 | **GitHub repo setup** | Paste `github.com/owner/repo` and Tell clones it, reads the README, installs deps, boots the dev server, and captures localhost automatically. |
+| 📄 | **Multi-page scanning** | Discovers routes from the captured snapshot; scan each page to catch drift that only shows on some routes. |
 | 🔌 | **Cursor MCP server** | Run the whole pipeline from Cursor chat with `tell_capture`, `tell_diagnose`, `tell_redesign`, and `tell_apply`. |
 
 ---
@@ -94,14 +98,28 @@ cd tell
 pnpm install
 ```
 
-Then run the demo in two terminals:
+Then start the Tell app:
 
 ```bash
-pnpm dev:fixture   # a deliberately bland sample app  → http://localhost:3001
-pnpm dev           # the Tell app                     → http://localhost:3000
+pnpm dev           # the Tell app → http://localhost:3000
 ```
 
-Open Tell, paste `http://localhost:3001`, and hit **Capture**. Read the report, drag the before/after seam, art-direct a new direction, and draft the diff.
+**The one-click way — point Tell at a GitHub repo.** Paste a repo URL (e.g. `github.com/owner/app`) into the bar and hit **Set up &amp; run**. Tell clones it, reads the README + `package.json` to figure out how to start it, installs, boots the dev server on a free port, and captures the localhost URL automatically. If the run steps aren't clear, Tell shows what it found from the README and asks you to start it and paste the URL — no guessing.
+
+**The direct way — capture any URL.** Paste a live URL (your deployed app, or a local `http://localhost:3000`) and hit **Capture**.
+
+Either way: read the report, walk every page from the **Pages** strip, drag the before/after seam, art-direct a new direction, draft the diff, and copy it back into Cursor.
+
+<details>
+<summary><strong>Prefer the seeded sample app?</strong></summary>
+
+Run the deliberately bland fixture in a second terminal and capture it:
+
+```bash
+pnpm dev:fixture   # a deliberately bland sample app → http://localhost:3001
+```
+
+</details>
 
 > **No time to wait on live capture?** Tell ships with a committed report at `fixtures/reports/tell-report.json` and loads it automatically as an offline fallback, so the demo always works.
 
@@ -198,7 +216,10 @@ tell/
 - [x] Tell Report with draggable before/after seam
 - [x] Voice art-direction with text-preset fallback
 - [x] Cursor MCP server (`capture` / `diagnose` / `redesign` / `apply`)
-- [ ] Capture any public URL, not just local routes
+- [x] Live URL capture (any reachable HTTP URL, with offline artifact fallback)
+- [x] GitHub repo setup — clone, install, run, and capture localhost
+- [x] Token-grounded live reconciliation in the before/after seam
+- [x] Multi-page route discovery and per-page scanning
 - [ ] Per-state evidence thumbnails (hover, focus, error) in the report
 - [ ] A shareable, hosted report link
 
