@@ -31,9 +31,7 @@
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top left, rgb(var(--accent) / .08), transparent 28rem),
-    rgb(var(--bg));
+  background: rgb(var(--bg));
   color: rgb(var(--text));
   font-family: var(--font-sans), ui-sans-serif, system-ui;
 }
