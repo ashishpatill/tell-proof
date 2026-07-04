@@ -19,10 +19,15 @@ TypeScript · pnpm workspaces · Playwright capture · Next.js 14 · Tailwind ·
 ## Architecture
 
 ```
-capture → fingerprint → detect (tells + drift) → taste → art-direct → reconcile
+capture → fingerprint → detect (tells + drift) → taste → art-direct → reconcile → diff
 ```
 
 Shared by web app and MCP. Deterministic through detection; LLM only for judgment and diffs.
+
+**Web-only conveniences (local dev):**
+- `/api/setup/*` — clone a GitHub repo, install, run dev server, capture localhost (trusted repos only)
+- `packages/redesign/reconcile.ts` — token-grounded before/after from captured CSS variables (no LLM)
+- Live seam — replays captured `snapshotHtml` with reconciled CSS custom properties
 
 ## Rules
 
