@@ -102,6 +102,7 @@ export function buildFingerprint(capture: CapturePayload): DesignFingerprint {
   }));
   const nearDuplicateGrays = nearDuplicateGrayClusters(colors.map((c) => c.normalizedHex));
   const probes = capture.probes.length || 1;
+  const disabledProbes = capture.probes.filter((p) => p.hasDisabledAttr || p.ariaDisabled).length;
 
   return DesignFingerprint.parse({
     url: capture.url,
@@ -125,7 +126,7 @@ export function buildFingerprint(capture: CapturePayload): DesignFingerprint {
     stateCoverage: {
       hover: capture.probes.filter((p) => p.hasHoverDiff).length / probes,
       focus: capture.probes.filter((p) => p.hasFocusVisibleDiff).length / probes,
-      disabled: capture.probes.filter((p) => p.hasDisabledAttr || p.ariaDisabled).length / probes,
+      disabled: disabledProbes === 0 ? 1 : disabledProbes / probes,
     },
   });
 }
