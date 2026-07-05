@@ -19,12 +19,15 @@ interface RunnerRegistry {
   jobs: Map<string, SetupJob>;
   child: ChildProcess | null;
   childJobId: string | null;
+  workspaces: Map<string, { repoDir: string; appDir: string }>;
 }
 
 // Survive Next.js dev HMR by parking the registry on globalThis.
 const g = globalThis as unknown as { __tellRunner?: RunnerRegistry };
 const registry: RunnerRegistry =
-  g.__tellRunner ?? (g.__tellRunner = { jobs: new Map(), child: null, childJobId: null });
+  g.__tellRunner ?? (g.__tellRunner = { jobs: new Map(), child: null, childJobId: null, workspaces: new Map() });
+// Older HMR snapshots predate source-aware workspaces.
+registry.workspaces ??= new Map();
 
 const MAX_LOG_LINES = 200;
 const LOCALHOST_RE = /https?:\/\/(?:localhost|127\.0\.0\.1|0\.0\.0\.0)(?::(\d+))?(?:\/[^\s"'`]*)?/i;
@@ -114,6 +117,29 @@ async function pathExists(p: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+/** Restore a proof patch left behind by a browser refresh or server restart. */
+async function restoreStrandedProofPatch(job: SetupJob, repoDir: string): Promise<void> {
+  const marker = path.join(repoDir, ".git", "tell-proof.patch");
+  if (!(await pathExists(marker))) return;
+  const patch = await fs.readFile(marker, "utf8");
+  await new Promise<void>((resolve, reject) => {
+    const child = spawn("git", ["apply", "--whitespace=nowarn", "--reverse", "-"], {
+      cwd: repoDir,
+      env: process.env,
+    });
+    let stderr = "";
+    child.stderr.on("data", (chunk: Buffer) => { stderr += chunk.toString(); });
+    child.on("error", reject);
+    child.on("close", (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(stderr.trim() || "Could not restore the previous proof checkout."));
+    });
+    child.stdin.end(patch);
+  });
+  await fs.rm(marker, { force: true });
+  log(job, "Restored a temporary proof patch left by the previous session.");
 }
 
 /** Run a short-lived command to completion, streaming output into the job log. */
@@ -447,6 +473,7 @@ async function runPipeline(job: SetupJob, cloneUrl: string) {
     // 1. Clone (reuse an existing checkout for fast repeat demos).
     if (await pathExists(path.join(repoDir, ".git"))) {
       log(job, `Reusing existing checkout at ${repoDir}`);
+      await restoreStrandedProofPatch(job, repoDir);
     } else {
       // Clear any partial/broken leftover before a fresh clone.
       if (await pathExists(repoDir)) await fs.rm(repoDir, { recursive: true, force: true });
@@ -466,6 +493,7 @@ async function runPipeline(job: SetupJob, cloneUrl: string) {
     }
     job.detected = plan;
     const appDir = path.join(repoDir, plan.appDir);
+    registry.workspaces.set(job.id, { repoDir, appDir });
 
     if (!plan.runCmd || !plan.scriptName) {
       job.needsManual = true;
@@ -536,6 +564,11 @@ export function startSetup(repoUrlInput: string): SetupJob | { error: string } {
 
 export function getJob(id: string): SetupJob | undefined {
   return registry.jobs.get(id);
+}
+
+/** Server-only checkout location used by the source patch + proof loop. */
+export function getJobWorkspace(id: string): { repoDir: string; appDir: string } | undefined {
+  return registry.workspaces.get(id);
 }
 
 export function stopRunningApp(): { stopped: boolean } {
