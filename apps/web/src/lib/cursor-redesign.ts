@@ -1,6 +1,7 @@
 import os from "node:os";
 import { RedesignProposal, type ArtDirection, type BrandDNA, type TellReport } from "@tell/schema";
 import { OfflineRedesignGenerator } from "@tell/redesign";
+import type { DirectionActionItem } from "@tell/taste";
 
 type CursorPatchResponse = {
   files?: { file?: string; unifiedDiff?: string; summary?: string }[];
@@ -69,6 +70,8 @@ export async function proposeWithCursorAgent(
   direction: ArtDirection,
   findingId?: string,
   dna?: BrandDNA,
+  actionItems?: DirectionActionItem[],
+  directionBrief?: string,
 ): Promise<RedesignProposal> {
   const deterministic = await new OfflineRedesignGenerator().propose(report, direction, findingId, dna);
   const apiKey = process.env.CURSOR_API_KEY?.trim();
@@ -96,6 +99,10 @@ export async function proposeWithCursorAgent(
       "- Output schema: {\"files\":[{\"file\":\"path\",\"summary\":\"why this patch helps\",\"unifiedDiff\":\"diff --git ...\"}]}",
       "",
       `Direction: ${JSON.stringify(direction)}`,
+      directionBrief ? `Voice direction brief: ${directionBrief}` : "",
+      actionItems?.length
+        ? `Parsed action items (implement each): ${JSON.stringify(actionItems.map((item) => ({ category: item.category, label: item.label })))}`
+        : "",
       dna ? `Brand DNA target (steer toward these tokens): ${JSON.stringify(dna)}` : "Brand DNA target: none — score against the generic baseline.",
       `Report summary: ${JSON.stringify(summarizeReport(report, findingId))}`,
       `Deterministic fallback proposal: ${JSON.stringify(deterministic.files)}`,
