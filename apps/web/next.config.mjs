@@ -10,9 +10,9 @@ loadEnvConfig(tellRoot);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["@tell/schema", "@tell/taste", "@tell/redesign"],
+  transpilePackages: ["@tell/schema", "@tell/taste", "@tell/redesign", "@tell/core"],
   experimental: {
-    serverComponentsExternalPackages: ["playwright", "@tell/core"],
+    serverComponentsExternalPackages: ["playwright"],
   },
 };
 

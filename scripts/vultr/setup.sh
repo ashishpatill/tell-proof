@@ -62,6 +62,7 @@ docker run -d \
   --name "$CONTAINER_NAME" \
   --restart unless-stopped \
   -p 3000:3000 \
+  -e PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright \
   --env-file "$ENV_FILE" \
   tell-capture:latest
 
