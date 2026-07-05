@@ -8,6 +8,20 @@ Tell Proof is an independent visual proof layer for AI-built interfaces: it capt
 
 AI agents can build a working interface in minutes, but they usually leave behind the same visual fingerprints: default type, purple gradients, soft cards everywhere, inconsistent focus states, and design tokens that quietly drift. Tell Proof gives developers a second pair of eyes with evidence. It opens the actual page in a browser, measures what rendered, explains the specific tells, lets you art-direct a better direction, then proves the candidate repair in a disposable checkout. The result is not "make it prettier". It is a measured, reviewable path from generic UI to a product surface with taste.
 
+## 1-Minute Pitch
+
+Every AI-built UI has a tell: the same fonts, the same violet gradients, the same rounded cards, and the same "good enough" look.
+
+Tell Proof is an independent visual proof layer for AI-built frontends. It does not generate another random redesign. It captures the real rendered product in a browser, analyzes what users actually see, and detects the patterns that make it feel generic or inconsistent.
+
+Under the hood, Tell uses Playwright to capture screenshots, DOM structure, computed styles, contrast, tokens, spacing, shadows, radii, and focus states. Then deterministic detectors flag issues like system-font overuse, gradient crutches, shadow everywhere, token drift, and inconsistent focus states.
+
+The key difference is this: Cursor or v0 can build the UI, but Tell grades it independently. It gives evidence, explains the design problem, lets you art-direct the fix by voice or text, drafts source-grounded code changes, and proves the result in a disposable checkout before anything lands.
+
+Existing tools either generate UI, compare pixels, or check design tokens. Tell Proof owns the missing layer: rendered-surface taste, consistency analysis, source-aware repair, and visual proof.
+
+Every AI-built interface has a tell. Tell Proof finds it, fixes it, and proves it.
+
 ## 90-Second Pitch
 
 Every AI-built UI has two problems. First, it often looks like every other AI-built UI. Second, the agent that created it is usually asked to fix and evaluate its own work. That is a bad feedback loop.
