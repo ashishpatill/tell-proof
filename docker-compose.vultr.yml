@@ -10,6 +10,5 @@ services:
     env_file:
       - /etc/tell-capture.env
     environment:
-      TELL_DISABLE_REPO_SETUP: "1"
       TELL_REPO_ROOT: /app
       TELL_CAPTURE_TIMEOUT_MS: "90000"

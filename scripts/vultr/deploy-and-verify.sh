@@ -123,22 +123,61 @@ container_running() {
   docker ps --format '{{.Names}}' | grep -qx "$CONTAINER_NAME"
 }
 
+generate_repo_setup_token() {
+  if command -v openssl >/dev/null 2>&1; then
+    openssl rand -hex 32
+  else
+    python3 -c 'import secrets; print(secrets.token_hex(32))'
+  fi
+}
+
 ensure_env_file() {
   if [[ -f "$ENV_FILE" ]]; then
     return 0
   fi
   warn "Creating $ENV_FILE — add GEMINI_API_KEY before demo"
   mkdir -p "$(dirname "$ENV_FILE")"
+  local repo_setup_token
+  repo_setup_token="$(generate_repo_setup_token)"
   cat >"$ENV_FILE" <<'EOF'
 GEMINI_API_KEY=
 CURSOR_API_KEY=
-TELL_DISABLE_REPO_SETUP=1
+TELL_DISABLE_REPO_SETUP=0
 TELL_REPO_ROOT=/app
+TELL_REPO_SETUP_TOKEN=__TELL_REPO_SETUP_TOKEN__
 TELL_CAPTURE_TIMEOUT_MS=90000
 NODE_ENV=production
 PORT=3000
 EOF
+  python3 - "$ENV_FILE" "$repo_setup_token" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+token = sys.argv[2]
+path.write_text(path.read_text().replace("__TELL_REPO_SETUP_TOKEN__", token))
+PY
   chmod 600 "$ENV_FILE"
+}
+
+ensure_repo_setup_env() {
+  if ! grep -q '^TELL_REPO_SETUP_TOKEN=.\+' "$ENV_FILE"; then
+    local repo_setup_token
+    repo_setup_token="$(generate_repo_setup_token)"
+    printf '\nTELL_REPO_SETUP_TOKEN=%s\n' "$repo_setup_token" >>"$ENV_FILE"
+    chmod 600 "$ENV_FILE"
+    warn "Added TELL_REPO_SETUP_TOKEN to $ENV_FILE; set the same value on Vercel for repo setup proxying."
+  fi
+
+  if [[ "${TELL_VULTR_REPO_SETUP:-1}" == "1" ]]; then
+    if grep -q '^TELL_DISABLE_REPO_SETUP=' "$ENV_FILE"; then
+      sed -i 's/^TELL_DISABLE_REPO_SETUP=.*/TELL_DISABLE_REPO_SETUP=0/' "$ENV_FILE"
+    else
+      printf '\nTELL_DISABLE_REPO_SETUP=0\n' >>"$ENV_FILE"
+    fi
+  else
+    warn "Leaving repo setup disabled because TELL_VULTR_REPO_SETUP=${TELL_VULTR_REPO_SETUP:-0}"
+  fi
 }
 
 gemini_key_set() {
@@ -405,6 +444,7 @@ print_summary() {
   echo " Commit:    $commit"
   echo " API:       http://${ip}:${PORT}"
   echo " Vercel:    TELL_CAPTURE_API_URL=http://${ip}:${PORT}"
+  echo " Setup:     set Vercel TELL_REPO_SETUP_TOKEN to match $ENV_FILE"
   echo " Frontend:  ${VERCEL_PROD_URL} (script state: $(vercel_deployed_commit))"
   echo " Health:    curl http://127.0.0.1:${PORT}/api/health/capture"
   echo ""
@@ -430,6 +470,7 @@ main() {
   ensure_docker
   ensure_repo
   ensure_env_file
+  ensure_repo_setup_env
 
   info "Deployed commit: $(deployed_commit) | HEAD: $(current_commit)"
 

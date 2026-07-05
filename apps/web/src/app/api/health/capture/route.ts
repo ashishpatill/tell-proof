@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
 import { createRequire } from "node:module";
 import { hasRemoteCaptureBackend } from "@/lib/run-diagnose-remote";
+import { remoteBackendBaseUrl } from "@/lib/remote-api";
 
 export const dynamic = "force-dynamic";
 
 /** Quick Playwright sanity check on the capture server. */
 export async function GET() {
   if (hasRemoteCaptureBackend()) {
-    const base = process.env.TELL_CAPTURE_API_URL?.trim().replace(/\/$/, "");
+    const base = remoteBackendBaseUrl();
     try {
+      if (!base) throw new Error("TELL_CAPTURE_API_URL is not configured");
       const res = await fetch(`${base}/api/health/capture`, {
         cache: "no-store",
         signal: AbortSignal.timeout(30_000),

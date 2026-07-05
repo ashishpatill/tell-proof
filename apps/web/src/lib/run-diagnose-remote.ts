@@ -1,27 +1,21 @@
 import { TellReport } from "@tell/schema";
-
-function captureBackendUrl(): string | null {
-  const raw = process.env.TELL_CAPTURE_API_URL?.trim();
-  return raw ? raw.replace(/\/$/, "") : null;
-}
+import { fetchRemoteBackend, hasRemoteBackend, remoteBackendBaseUrl } from "./remote-api";
 
 /** When set (e.g. on Vercel), proxy capture to a remote Docker backend. */
 export function hasRemoteCaptureBackend(): boolean {
-  return captureBackendUrl() !== null;
+  return hasRemoteBackend();
 }
 
 export async function runDiagnoseRemote(url: string): Promise<TellReport> {
-  const base = captureBackendUrl();
+  const base = remoteBackendBaseUrl();
   if (!base) {
     throw new Error("TELL_CAPTURE_API_URL is not configured");
   }
 
-  const timeoutMs = Number(process.env.TELL_CAPTURE_TIMEOUT_MS ?? 90_000);
-  const res = await fetch(`${base}/api/diagnose`, {
+  const res = await fetchRemoteBackend("/api/diagnose", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ url }),
-    signal: AbortSignal.timeout(timeoutMs),
   });
 
   if (!res.ok) {

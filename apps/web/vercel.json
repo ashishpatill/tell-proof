@@ -9,6 +9,12 @@
   "functions": {
     "src/app/api/diagnose/route.ts": {
       "maxDuration": 90
+    },
+    "src/app/api/redesign/route.ts": {
+      "maxDuration": 90
+    },
+    "src/app/api/proof/apply/route.ts": {
+      "maxDuration": 180
     }
   }
 }

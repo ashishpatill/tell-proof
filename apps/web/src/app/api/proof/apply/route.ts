@@ -3,6 +3,8 @@ import { TellReport } from "@tell/schema";
 import { getJob } from "@/lib/repo-runner";
 import { runDiagnose } from "@/lib/run-diagnose";
 import { applyPatchToWorkspace, revertWorkspacePatch } from "@/lib/source-worktree";
+import { hasRemoteBackend, proxyRemoteBackend } from "@/lib/remote-api";
+import { assertRepoSetupEnabled } from "@/lib/setup-guard";
 
 export const runtime = "nodejs";
 export const maxDuration = 180;
@@ -12,6 +14,13 @@ function scoreOf(report: TellReport): number {
 }
 
 export async function POST(request: Request) {
+  if (hasRemoteBackend()) {
+    return proxyRemoteBackend(request, "/api/proof/apply", { timeoutMs: 180_000 });
+  }
+
+  const blocked = assertRepoSetupEnabled(request);
+  if (blocked) return blocked;
+
   const body = await request.json().catch(() => ({}));
   const jobId = typeof body.jobId === "string" ? body.jobId : "";
   const patch = typeof body.patch === "string" ? body.patch : "";

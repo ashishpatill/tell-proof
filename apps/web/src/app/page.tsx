@@ -674,10 +674,29 @@ export default function HomePage() {
   async function copyPatch(applyIntent = false) {
     if (!proposal) return;
     const patch = proposal.files.map((file) => file.unifiedDiff).join("\n\n");
+    const cursorHandoff = [
+      `Tell generated a UI fix for ${report.capture.url}.`,
+      "",
+      "Apply this unified diff in the matching local repository, then run the app and verify the affected route visually.",
+      sourceContext?.mode === "repo"
+        ? `Source context: ${sourceContext.filesLoaded}/${sourceContext.filesDiscovered} files loaded from the disposable checkout; ${sourceContext.matchedFiles} files matched rendered evidence.`
+        : "Source context: generated from rendered capture only. Check paths before applying if your local repo differs.",
+      "",
+      "```diff",
+      patch,
+      "```",
+    ].join("\n");
     try {
-      await navigator.clipboard.writeText(patch);
+      await navigator.clipboard.writeText(applyIntent ? cursorHandoff : patch);
       setDraftState("copied");
-      setDraftError(applyIntent ? "Patch copied. Paste it into Cursor and ask the Agent to apply it." : "");
+      setDraftError(applyIntent ? "Cursor handoff copied. Paste it into Cursor chat in the target repo and ask the Agent to apply it." : "");
+      showNotice({
+        tone: "success",
+        title: applyIntent ? "Ready for Cursor" : "Patch copied",
+        message: applyIntent
+          ? "The clipboard now contains a Cursor-ready prompt plus the unified diff."
+          : "The unified diff is on your clipboard.",
+      });
     } catch {
       setDraftError("Clipboard access was blocked. Select and copy the patch manually.");
       setDraftState("error");
@@ -778,8 +797,8 @@ export default function HomePage() {
         </p>
       ) : null}
 
-      <section className="grid gap-6 py-8 lg:grid-cols-[1.4fr_.8fr]">
-        <div className="space-y-6">
+      <section className="grid gap-6 py-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(320px,.8fr)]">
+        <div className="min-w-0 space-y-6">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary">Rendered surface</p>
             <h1 className="mt-2 max-w-3xl font-display text-6xl leading-[0.95] text-text">
@@ -813,7 +832,7 @@ export default function HomePage() {
             />
           ) : null}
 
-          <section className="rounded-card border border-border bg-surface p-4 shadow-card">
+          <section className="min-w-0 rounded-card border border-border bg-surface p-4 shadow-card">
             <div className="mb-3 flex items-center justify-between gap-3">
               <div>
                 <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary" aria-live="polite">
@@ -950,7 +969,7 @@ export default function HomePage() {
           </section>
         </div>
 
-        <aside className="space-y-4">
+        <aside className="min-w-0 space-y-4 lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto lg:pr-1">
           <div className="rounded-card border border-border bg-surface p-4">
             <p className="mb-3 font-mono text-xs uppercase tracking-[0.16em] text-secondary">Findings</p>
             <div className="space-y-2">
@@ -978,17 +997,17 @@ export default function HomePage() {
           </div>
 
           {selectedFinding && verdict ? (
-            <section className="rounded-card border border-accent/40 bg-surface-raised p-5 shadow-signal">
+            <section className="min-w-0 rounded-card border border-accent/40 bg-surface-raised p-5 shadow-signal">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="font-mono text-lg">{selectedFinding.detector}</h2>
                 <VerdictBadge verdict={verdict.verdict} />
               </div>
               <ConfidenceMeter value={verdict.confidence} />
               <p className="mt-4 text-secondary">{verdict.rationale}</p>
-              <div className="mt-5 rounded-md border border-border bg-bg p-4">
+              <div className="mt-5 overflow-hidden rounded-md border border-border bg-bg p-4">
                 <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted">Evidence</p>
                 {selectedFinding.evidence.map((evidence) => (
-                  <p key={`${evidence.label}-${evidence.value}`} className="mt-2 font-mono text-sm text-secondary">
+                  <p key={`${evidence.label}-${evidence.value}`} className="mt-2 break-words font-mono text-sm text-secondary">
                     <span className="text-accent">⊕</span> {evidence.label}: {evidence.value}
                   </p>
                 ))}
@@ -1643,20 +1662,20 @@ function DiffViewer({
   const proving = proofState === "applying" || proofState === "verifying";
 
   return (
-    <section className="mt-5 overflow-hidden rounded-md border border-border bg-bg">
+    <section className="mt-5 min-w-0 overflow-hidden rounded-md border border-border bg-bg">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
-        <div>
+        <div className="min-w-0">
           <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted">
             {sourceContext?.mode === "repo" ? "Source-grounded patch" : "Cursor patch"} · {proposal.files.length} file{proposal.files.length === 1 ? "" : "s"}
           </p>
-          <p className="mt-1 text-sm text-secondary">{proposal.files[0]?.summary}</p>
+          <p className="mt-1 break-words text-sm text-secondary">{proposal.files[0]?.summary}</p>
           {sourceContext?.mode === "repo" ? (
-            <p className="mt-1 font-mono text-[10px] text-muted">
+            <p className="mt-1 break-words font-mono text-[10px] text-muted">
               Read {sourceContext.filesLoaded}/{sourceContext.filesDiscovered} project files · evidence matched {sourceContext.matchedFiles} · {Math.round(sourceContext.totalBytes / 1024)}KB context
             </p>
           ) : null}
         </div>
-        <div className="flex gap-2">
+        <div className="flex shrink-0 gap-2">
           <button onClick={onCopy} className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 font-mono text-xs text-secondary transition hover:text-text">
             <Clipboard className="h-3.5 w-3.5" /> {draftState === "copied" ? "Copied" : "Copy patch"}
           </button>
@@ -1681,7 +1700,12 @@ function DiffViewer({
           <ShieldCheck className="h-3.5 w-3.5 text-ok" />
           Applies only to Tell&apos;s disposable clone · hot reloads · captures again · checks score and focus states
         </div>
-      ) : null}
+      ) : (
+        <div className="flex items-center gap-2 border-b border-border bg-accent/5 px-4 py-2 font-mono text-[10px] text-secondary">
+          <GitPullRequest className="h-3.5 w-3.5 text-accent" />
+          Send to Cursor copies a prompt plus diff for the local repo. No fragile editor deep link required.
+        </div>
+      )}
       {proofError ? <p className="border-b border-drift/30 bg-drift/10 px-4 py-2 font-mono text-[11px] text-drift">{proofError}</p> : null}
       <pre className="max-h-80 overflow-auto p-4 text-left font-mono text-[11px] leading-relaxed text-secondary">
         <code>{patch}</code>

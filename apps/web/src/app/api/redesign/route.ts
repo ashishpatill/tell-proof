@@ -5,13 +5,41 @@ import { parseDirection, type DirectionPlan } from "@tell/taste";
 import { demoReport } from "@/lib/demo-report";
 import { proposeWithCursorAgent } from "@/lib/cursor-redesign";
 import { collectProjectSources, rankSourcesForReport } from "@/lib/source-worktree";
+import { fetchRemoteBackend, hasRemoteBackend } from "@/lib/remote-api";
+import { assertRepoSetupEnabled } from "@/lib/setup-guard";
 
 const tracer = trace.getTracer("tell.redesign");
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => ({}));
+  const rawBody = await request.text();
+  const body = rawBody
+    ? (() => {
+        try {
+          return JSON.parse(rawBody);
+        } catch {
+          return {};
+        }
+      })()
+    : {};
+  const setupJobId = typeof body.setupJobId === "string" ? body.setupJobId : "";
+  if (setupJobId && hasRemoteBackend()) {
+    const res = await fetchRemoteBackend("/api/redesign", {
+      method: "POST",
+      headers: { "content-type": request.headers.get("content-type") ?? "application/json" },
+      body: rawBody || "{}",
+    });
+    const text = await res.text();
+    return new NextResponse(text, {
+      status: res.status,
+      headers: { "content-type": res.headers.get("content-type") ?? "application/json" },
+    });
+  }
+  if (setupJobId) {
+    const blocked = assertRepoSetupEnabled(request);
+    if (blocked) return blocked;
+  }
   const parsedReport = TellReport.safeParse(body.report);
   const report = parsedReport.success ? parsedReport.data : demoReport;
   const directionPlan = body.directionPlan as DirectionPlan | undefined;
@@ -19,7 +47,6 @@ export async function POST(request: Request) {
   const findingId = typeof body.findingId === "string" ? body.findingId : undefined;
   const parsedDna = BrandDNA.safeParse(body.dna);
   const dna = parsedDna.success ? parsedDna.data : undefined;
-  const setupJobId = typeof body.setupJobId === "string" ? body.setupJobId : "";
 
   return tracer.startActiveSpan("tell.redesign", async (span: Span) => {
     span.setAttributes({
