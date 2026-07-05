@@ -5,7 +5,7 @@ function captureBackendUrl(): string | null {
   return raw ? raw.replace(/\/$/, "") : null;
 }
 
-/** When set (e.g. on Vercel), proxy capture to the Render Docker backend. */
+/** When set (e.g. on Vercel), proxy capture to a remote Docker backend. */
 export function hasRemoteCaptureBackend(): boolean {
   return captureBackendUrl() !== null;
 }
