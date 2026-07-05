@@ -8,7 +8,7 @@
 // Matching on VALUES (not structure) covers plain-CSS, CSS-vars, and Tailwind-config projects
 // with one deterministic, zero-LLM strategy — consistent with Tell's trustworthy core.
 
-import type { BrandDNA, CapturePayload, DesignFingerprint } from "@tell/schema";
+import type { BrandDNA, CapturePayload, DesignFingerprint, Reconciliation } from "@tell/schema";
 import { parseColor } from "./color";
 import { resolveDirection } from "./scales";
 import { buildRestylePlan } from "./restyle";
@@ -198,4 +198,57 @@ export function buildSourcePatch(
     });
   }
   return out;
+}
+
+/**
+ * Last-resort source-grounded patch for projects whose authored literals do not
+ * match the browser's computed rgb/font values. Appending to an existing global
+ * stylesheet keeps the proof loop executable; a standalone unimported CSS file
+ * would look like a patch while changing nothing at runtime.
+ */
+export function buildAppendedOverridePatch(reconciliation: Reconciliation, sources: SourceFile[]): PatchFile[] {
+  const styles = sources
+    .filter((source) => /\.(css|scss|sass|less)$/i.test(source.path) && !/\.module\.(css|scss|sass|less)$/i.test(source.path))
+    .sort((a, b) => {
+      const score = (file: string) => /(^|\/)(global|globals|app|index|style|styles)\.(css|scss|sass|less)$/i.test(file) ? 0 : 1;
+      return score(a.path) - score(b.path) || a.path.localeCompare(b.path);
+    });
+  const target = styles[0];
+  if (!target) return [];
+
+  const original = target.contents.replace(/\n+$/g, "");
+  const originalLines = original.split("\n");
+  // `data-tell-id` attributes are capture-time instrumentation and do not
+  // exist in the authored app when the browser takes its screenshot. Shipping
+  // those selectors would let the diagnostic DOM improve without changing the
+  // pixels users actually saw, so the executable fallback keeps only stable
+  // global/variable selectors.
+  const stableCss = reconciliation.css
+    .replace(/\[data-tell-id="[^"]+"\]\{[^}]*\}\n?/g, "")
+    .replace(/^\s*--tell-(display|body|mono):.*$/gm, "")
+    .replace(/\s*font-family:[^;]+!important;?/g, "")
+    .trim();
+  const addition = [
+    "",
+    "/* Tell Proof · candidate repair (verified in a disposable checkout) */",
+    stableCss,
+  ].filter((line) => line !== "").join("\n").split("\n");
+  const context = originalLines.slice(Math.max(0, originalLines.length - 3));
+  const start = Math.max(1, originalLines.length - context.length + 1);
+  const beforeCount = context.length;
+  const afterCount = beforeCount + addition.length;
+  const diff = [
+    `--- a/${target.path}`,
+    `+++ b/${target.path}`,
+    `@@ -${start},${beforeCount} +${start},${afterCount} @@`,
+    ...context.map((line) => ` ${line}`),
+    ...addition.map((line) => `+${line}`),
+    "",
+  ].join("\n");
+
+  return [{
+    file: target.path,
+    unifiedDiff: diff,
+    summary: `${reconciliation.label} · appended stable global reconciliation rules to the existing stylesheet so the running app can be recaptured and judged.`,
+  }];
 }
