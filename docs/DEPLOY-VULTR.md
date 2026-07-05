@@ -20,21 +20,45 @@ Vercel proxies `/api/diagnose` to `TELL_CAPTURE_API_URL` on your Vultr box.
 4. **Plan:** at least **2 vCPU / 4 GB RAM** (~$24/mo — well within $200 credits)
 5. **SSH key:** add yours (recommended) or use password
 6. **Firewall / Group:** allow **TCP 22** (SSH) and **TCP 3000** (Tell API)
-7. Deploy → copy the **public IPv4**
+7. Optional: open **Cloud-Init User-Data** and paste the complete contents of
+   [`scripts/vultr/cloud-init.yaml`](../scripts/vultr/cloud-init.yaml). This installs Tell automatically on first boot.
+8. Deploy → copy the **public IPv4**
 
 Do **not** expose secrets in Vultr “User Data”; set keys on the server in step 3.
 
 ---
 
-## 2. One-command install (SSH)
+## 2. Install Tell
+
+If you supplied the cloud-init file, wait for it after connecting:
+
+```bash
+ssh root@YOUR_VULTR_IP
+cloud-init status --wait
+docker ps --filter name=tell-capture
+```
+
+To inspect a failed or incomplete first-boot install:
+
+```bash
+tail -n 100 /var/log/cloud-init-output.log
+```
+
+If you did **not** use cloud-init, run the deploy script over SSH:
 
 ```bash
 ssh root@YOUR_VULTR_IP
 
 curl -fsSL https://raw.githubusercontent.com/ashishpatill/tell-ai-ui-critic/master/scripts/vultr/setup.sh | bash
+# or, if repo already at /opt/tell:
+bash /opt/tell/scripts/vultr/deploy-and-verify.sh
 ```
 
-First build takes **10–15 minutes** (Playwright + Chromium).
+The script pulls latest code, builds (cached layers), starts the container, and **reports what failed**.
+
+- First build: **~15 min** (Playwright download)
+- Code-only updates: **~3–5 min** (Playwright layer cached)
+- Force rebuild: `TELL_FORCE_REBUILD=1 bash /opt/tell/scripts/vultr/deploy-and-verify.sh`
 
 ---
 
@@ -128,7 +152,8 @@ Then set `TELL_CAPTURE_API_URL=https://capture.yourdomain.com` on Vercel.
 | Connection refused on :3000 | Vultr firewall group + `ufw allow 3000` |
 | Container OOM | Upgrade to 4 GB+ RAM plan |
 | Capture timeout | Increase `TELL_CAPTURE_TIMEOUT_MS=120000` in `/etc/tell-capture.env` |
-| Vercel still offline demo | Confirm `TELL_CAPTURE_API_URL` and redeploy Vercel |
+| Cloud-init is still running | `cloud-init status --wait`, then check `/var/log/cloud-init-output.log` |
+| Vercel still offline demo | Confirm `TELL_CAPTURE_API_URL` is set for Production and redeploy Vercel |
 
 ---
 

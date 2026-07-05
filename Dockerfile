@@ -1,22 +1,21 @@
 # Tell — full-stack deployment (Option B: live Playwright capture)
 #
-# Build:  docker build -t tell .
-# Run:    docker run --rm -p 3000:3000 --env-file .env tell
+# Layer order is tuned for cache: dependency + Playwright layers survive source-only changes.
 #
-# Requires ~2 GB RAM for Chromium. Use Render/Railway/Fly with this Dockerfile.
+# Build:  docker build -t tell-capture:latest .
+# Run:    docker run --rm -p 3000:3000 --env-file /etc/tell-capture.env tell-capture:latest
 
 FROM node:20-bookworm
 
 RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 
-# Playwright system deps for headless Chromium
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Workspace manifests first (layer cache)
+# ── Layer 1: manifests (cache until lockfile changes) ──
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/schema/package.json ./packages/schema/
 COPY packages/core/package.json ./packages/core/
@@ -28,17 +27,19 @@ COPY fixtures/generic-app/package.json ./fixtures/generic-app/
 
 RUN pnpm install --frozen-lockfile
 
-# Source + fixtures (offline demo artifact)
+# ── Layer 2: Playwright browsers (cache until deps change — skip on code-only edits) ──
+RUN pnpm --filter @tell/core exec playwright install --with-deps chromium
+ENV PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
+
+# ── Layer 3: source + build (re-runs when app code changes) ──
 COPY tsconfig.base.json ./
 COPY packages ./packages
 COPY apps ./apps
 COPY fixtures ./fixtures
 
-# Chromium for capture pipeline (playwright is a dep of @tell/core, not the workspace root)
-RUN pnpm --filter @tell/core exec playwright install --with-deps chromium
-ENV PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
+ARG GIT_COMMIT=unknown
+LABEL org.opencontainers.image.revision=$GIT_COMMIT
 
-# Build workspace packages (@tell/core dist/) then the Next.js app
 RUN pnpm -F @tell/web... build
 
 ENV NODE_ENV=production
