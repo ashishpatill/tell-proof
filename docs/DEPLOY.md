@@ -1,14 +1,16 @@
 # Deploy Tell
 
-**Recommended for the hackathon:** deploy **both** Vercel + Render and wire them together for the full flow on one judge-facing URL.
+**Recommended for the hackathon:** deploy **Vercel (UI)** + **Vultr or Render (capture)** and wire them together.
 
 | Layer | Platform | Role |
 |---|---|---|
 | **UI (share this URL)** | Vercel | Fast Next.js app, seam, voice, redesign |
-| **Capture engine** | Render (Docker) | Playwright + Chromium for live URL diagnosis |
+| **Capture engine** | **Vultr VPS** (Docker) or Render | Playwright + Chromium for live URL diagnosis |
 | **Cursor MCP** | Local | Clone repo — stdio server in Cursor |
 
-Set `TELL_CAPTURE_API_URL` on Vercel to your Render service URL. The Vercel `/api/diagnose` route proxies capture to Render automatically.
+Set `TELL_CAPTURE_API_URL` on Vercel to your capture backend URL (Vultr: `http://YOUR_IP:3000`).
+
+**Have Vultr credits?** → **[docs/DEPLOY-VULTR.md](./DEPLOY-VULTR.md)** (recommended over Render if MCP is broken)
 
 ---
 

@@ -1,0 +1,15 @@
+# Vultr VPS: docker compose -f docker-compose.vultr.yml up -d --build
+services:
+  tell-capture:
+    build: .
+    image: tell-capture:latest
+    container_name: tell-capture
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - /etc/tell-capture.env
+    environment:
+      TELL_DISABLE_REPO_SETUP: "1"
+      TELL_REPO_ROOT: /app
+      TELL_CAPTURE_TIMEOUT_MS: "90000"

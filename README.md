@@ -155,17 +155,18 @@ pnpm diagnose:fixture  # diagnose the sample app from a capture
 
 ## Deploy
 
-**Best hackathon setup:** **Vercel** (judge-facing URL) + **Render** (Playwright capture). Set `TELL_CAPTURE_API_URL` on Vercel → live capture on the fast UI.
+**Best hackathon setup:** **Vercel** (judge URL) + **Vultr VPS** or **Render** (Playwright capture). Set `TELL_CAPTURE_API_URL` on Vercel.
 
 | Layer | Platform | Role |
 |---|---|---|
-| UI | Vercel | Share this URL with judges |
-| Capture | Render (Docker) | Live URL diagnosis via proxy |
+| UI | Vercel | [tell-five.vercel.app](https://tell-five.vercel.app) |
+| Capture | **Vultr** (recommended if you have credits) or Render | Live URL diagnosis |
 | MCP | Local Cursor | `tell_diagnose` in Agent chat |
 
-Full hybrid walkthrough: **[docs/DEPLOY.md](./docs/DEPLOY.md)**
+- **Vultr ($200 credits):** [docs/DEPLOY-VULTR.md](./docs/DEPLOY-VULTR.md)
+- **Render / general:** [docs/DEPLOY.md](./docs/DEPLOY.md)
 
-Configs: `apps/web/vercel.json`, `Dockerfile`, `render.yaml`
+Configs: `Dockerfile`, `scripts/vultr/setup.sh`, `docker-compose.vultr.yml`
 
 ---
 
