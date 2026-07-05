@@ -1,10 +1,10 @@
 <div align="center">
 
-# Tell
+# Tell Proof
 
-### Every AI-built UI has a tell.
+### Your coding agent should not grade its own homework.
 
-**Tell is an open-source design critic that reads the *rendered* UI of your product, names exactly what makes it look AI-generated, and helps you art-direct a distinctive redesign — without leaving Cursor.**
+**Tell Proof is an independent visual-check layer for coding agents. It reads a rendered route and relevant source context, runs a candidate repair in a disposable checkout, recaptures the live app, and shows what measurably changed.**
 
 [Quick start](#quick-start) · [Features](#features) · [How it works](#how-it-works) · [Deploy](#deploy) · [Use it in Cursor](#use-it-in-cursor) · [Project structure](#project-structure)
 
@@ -38,14 +38,15 @@ You can *feel* that something is off, but you can't name it. "Add more whitespac
 
 ## What Tell does
 
-Tell looks at your product the way a person does — it opens the page in a real browser and reads what actually renders, not your source code. Then it does four things:
+Tell looks at your product the way a reviewer does — it opens the page in a real browser, reads what actually renders, maps the evidence to source, and closes the verification loop:
 
 1. **Names the tells.** It points at the specific patterns that read as generic, with evidence you can see on the screenshot.
 2. **Catches the drift.** It flags where your design has quietly become inconsistent across the surface.
-3. **Uses taste, not lint rules.** It tells the difference between a lazy default and a deliberate choice, and explains why.
-4. **Closes the loop in Cursor.** You describe a direction in plain English (or with your voice), and Tell drafts the redesign as a diff you apply right inside your editor.
+3. **Ranks relevant real source.** When Tell boots a repository, redesign planning receives source files matched by rendered tokens and selectors instead of guessing from a screenshot.
+4. **Runs the repair in isolation.** The candidate patch is checked and applied only inside Tell's disposable clone.
+5. **Checks the rendered outcome.** Tell hot-reloads, captures the same route again, and reports measured genericness, focus coverage, and structural integrity.
 
-No new dashboard to babysit. No design handoff. No leaving your workflow.
+The authoring agent proposes the change. Tell supplies a separate, single-route visual check. It is evidence for review—not a substitute for functional, responsive, accessibility, or security testing.
 
 ---
 
