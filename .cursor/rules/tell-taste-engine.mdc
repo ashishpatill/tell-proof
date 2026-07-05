@@ -1,13 +1,15 @@
 ---
 description: Taste and voice — packages/taste
-globs: packages/taste/**/*
+globs: "packages/taste/**/*"
 alwaysApply: false
 ---
 
 # Taste engine rules
 
-- Facts from detectors are authoritative — validate rationale against facts
-- Verdicts: generic | drift | intentional | uncertain
-- Rationale ≤ 3 sentences, critic voice
-- Mock/fallback path required for offline demo
-- Use `@taste-engineer` subagent (Opus 4.8)
+- Facts from detectors are authoritative; validate every rationale against them.
+- Verdicts are only `generic`, `drift`, `intentional`, or `uncertain`.
+- Rationale is <= 3 sentences, critic voice, no apology, no emoji, no invented findings.
+- Gemini is optional enhancement. Deterministic fallback must preserve demo behavior without keys.
+- Voice direction parses deterministically first; Gemini may refine when `GEMINI_API_KEY` exists.
+- Tests must mock model/fetch behavior and never hit live Gemini.
+- Use `@taste-engineer` subagent for prompts, reflection validation, and direction parsing.
