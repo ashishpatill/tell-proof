@@ -164,6 +164,13 @@ export function buildRestylePlan(
   // ── (contrast + globals) page, selection, headings, links ──
   rules.push(...pageRules(p), ...selectionRule(p), ...headingRules(p), ...linkRules(p));
 
+  // ── (legibility net) unsampled elements the page's own CSS fills dark ──
+  // Only ~30 selector kinds get sampled + stamped; anything else keeps its authored fill
+  // while inheriting the new ink (dark-on-dark chips). Read the snapshot's inlined
+  // stylesheet and counter simple selectors whose solid fill the ink can't read on.
+  // Element-precise [data-tell-id] ops are emitted later, so they win ties.
+  rules.push(...counterUnsampledFills(capture.snapshotHtml ?? "", p));
+
   // ── (recipes) hero ──
   const heroHeading = styles.find((s) => s.tellId === layout.heroHeadingId);
   const heroSize = fitHeroSize(dir.recipe.hero.px, heroHeading?.rect?.w ?? null);
@@ -330,6 +337,43 @@ function buildDirectionNotes(p: Palette, heroSize: number, floated: number, layo
 }
 
 /** Element-precise CSS that lands in the live "after" iframe. */
+/**
+ * Counter-rules for elements capture never sampled but the page's own CSS fills with a
+ * color the direction's ink can't read on. Grounded in the snapshot's inlined stylesheet:
+ * simple class/tag selectors declaring a solid, ink-illegible background become outlined
+ * chips on the new paper. Gradients, compound selectors, and page roots are left alone.
+ */
+function counterUnsampledFills(snapshotHtml: string, p: Palette): EmittedRule[] {
+  const inlined = snapshotHtml.match(/<style[^>]*data-tell-inlined[^>]*>([\s\S]*?)<\/style>/i);
+  if (!inlined) return [];
+  const out: EmittedRule[] = [];
+  const seen = new Set<string>();
+  for (const m of inlined[1]!.matchAll(/([^{}@]+)\{([^{}]*)\}/g)) {
+    const selector = m[1]!.trim();
+    // simple selectors only (single class or tag, optional comma list) — no combinators,
+    // pseudo-classes, or attribute selectors; never the page roots.
+    if (!/^[.#]?[a-z][\w-]*(\s*,\s*[.#]?[a-z][\w-]*)*$/i.test(selector)) continue;
+    if (/\b(html|body)\b/i.test(selector)) continue;
+    const bg = m[2]!.match(/background(?:-color)?:\s*(rgba?\([^)]+\)|#[0-9a-f]{3,8})\s*;?/i);
+    if (!bg || !parseColor(bg[1]!)) continue;
+    if (contrastRatio(p.ink, bg[1]!) >= 4.5) continue; // ink reads fine → authored fill survives
+    if (seen.has(selector)) continue;
+    seen.add(selector);
+    out.push({
+      selector,
+      decls: {
+        "background-color": "transparent",
+        "background-image": "none",
+        color: p.ink,
+        border: `1px solid ${p.hairlineStrong}`,
+        "box-shadow": "none",
+      },
+    });
+    if (out.length >= 24) break;
+  }
+  return out;
+}
+
 export function emitRestyleCss(plan: RestylePlan): string {
   const p = plan.palette;
   const header = `/* Tell · ${plan.direction.label} — v2 art-directed restyle of the captured page */
