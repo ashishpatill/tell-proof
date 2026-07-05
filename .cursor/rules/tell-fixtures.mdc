@@ -1,0 +1,15 @@
+---
+description: Demo fixtures and offline report rules
+globs: "fixtures/**/*,CONTRIBUTIONS.md"
+alwaysApply: false
+---
+
+# Fixture rules
+
+- `fixtures/generic-app` is demo input, not the Tell product; keep that attribution clear in `CONTRIBUTIONS.md`.
+- The fixture should intentionally trigger the planted genericness tells and drift findings from `BUILD.md`.
+- If fixture UI changes, regenerate or update `fixtures/reports/capture.json` and `fixtures/reports/tell-report.json` together.
+- Detector expectations must move with fixture/report changes.
+- Keep the fixture bland on purpose: Inter/system font, violet-pink gradient, repeated shadows/radii, emoji chrome, centered sections, gray mush.
+- Preserve a brutalist or intentional case so taste can mark at least one finding `intentional`.
+- The committed report is the offline demo fallback; do not break it while improving live capture.
