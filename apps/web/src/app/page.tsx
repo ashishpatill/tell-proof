@@ -3,17 +3,23 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertTriangle,
+  Activity,
   Check,
+  CheckCircle2,
   Clipboard,
   ExternalLink,
   Eye,
+  FileCode2,
   Fingerprint,
   Github,
+  GitPullRequest,
   Layers,
   Loader2,
   Mic,
   MicOff,
   Plus,
+  RotateCcw,
+  ShieldCheck,
   Split,
   Square,
   TerminalSquare,
@@ -49,9 +55,40 @@ type CaptureMeta = {
   requestedUrl: string;
   capturedUrl: string;
   error?: string;
-  backend?: "render" | "local";
+  backend?: "remote" | "local";
 };
 type UiNotice = { tone: "success" | "error" | "info"; title: string; message: string };
+type SourceContext = {
+  filesLoaded: number;
+  filesDiscovered: number;
+  matchedFiles: number;
+  totalBytes: number;
+  mode: "repo" | "capture";
+};
+type ProofState = "idle" | "applying" | "verifying" | "passed" | "review" | "failed" | "error";
+type ProofResult = {
+  status: "passed" | "review" | "failed";
+  afterReport: TellReport;
+  proof: {
+    beforeScore: number;
+    afterScore: number;
+    scoreDelta: number;
+    findingsBefore: number;
+    findingsAfter: number;
+    focusBefore: number;
+    focusAfter: number;
+    focusRegressed: boolean;
+    screenshotsDiffer: boolean;
+    structureRegressed: boolean;
+    headingsBefore: number;
+    headingsAfter: number;
+    buttonsBefore: number;
+    buttonsAfter: number;
+    changedFiles: string[];
+    capturedAt: string;
+    url: string;
+  };
+};
 
 function isGitHubRepoUrl(url: string) {
   let raw = url.trim();
@@ -69,9 +106,27 @@ function isGitHubRepoUrl(url: string) {
 
 function siteLabel(url: string) {
   try {
-    return new URL(url).hostname.replace(/^www\./, "");
+    return new URL(normalizeCaptureUrl(url) || url).hostname.replace(/^www\./, "");
   } catch {
     return "this page";
+  }
+}
+
+function normalizeCaptureUrl(url: string) {
+  const trimmed = url.trim();
+  if (!trimmed) return "";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (/^(localhost|127\.0\.0\.1|0\.0\.0\.0)(?::\d+)?(?:[/?#]|$)/i.test(trimmed)) {
+    return `http://${trimmed}`;
+  }
+  return `https://${trimmed}`;
+}
+
+function sameOrigin(left: string, right: string) {
+  try {
+    return new URL(left).origin === new URL(right).origin;
+  } catch {
+    return false;
   }
 }
 
@@ -89,6 +144,10 @@ export default function HomePage() {
   const [proposal, setProposal] = useState<RedesignProposal | null>(null);
   const [draftState, setDraftState] = useState<DraftState>("idle");
   const [draftError, setDraftError] = useState("");
+  const [sourceContext, setSourceContext] = useState<SourceContext | null>(null);
+  const [proofState, setProofState] = useState<ProofState>("idle");
+  const [proofResult, setProofResult] = useState<ProofResult | null>(null);
+  const [proofError, setProofError] = useState("");
   const [directionPlan, setDirectionPlan] = useState<DirectionPlan | null>(null);
   const [directionParsing, setDirectionParsing] = useState(false);
   const [directionSource, setDirectionSource] = useState<"gemini" | "local" | null>(null);
@@ -232,12 +291,23 @@ export default function HomePage() {
 
   const runCapture = useCallback(
     async (url: string) => {
-      const target = url.trim();
+      const rawTarget = url.trim();
+      const target = normalizeCaptureUrl(rawTarget);
       if (!target) return;
+      if (target !== rawTarget) setInputUrl(target);
+      if (proofResult) {
+        showNotice({
+          tone: "error",
+          title: "Resolve the visual worktree first",
+          message: "Copy the verified patch or revert the temporary change before capturing another baseline.",
+        });
+        return;
+      }
       setCaptureState("capturing");
       setCaptureNote(`Launching headless browser for ${siteLabel(target)}…`);
       setDraftError("");
       setProposal(null);
+      setSourceContext(null);
       setPages([]);
       try {
         const res = await fetch("/api/diagnose", {
@@ -248,8 +318,8 @@ export default function HomePage() {
         const payload = (await res.json()) as { report: TellReport; meta: CaptureMeta };
         setCaptureNote(
           payload.meta.live
-            ? payload.meta.backend === "render"
-              ? "Capture complete — live diagnosis via Render."
+            ? payload.meta.backend === "remote"
+              ? "Capture complete — live diagnosis via capture backend."
               : "Capture complete."
             : "Capture failed — loaded offline demo.",
         );
@@ -279,15 +349,15 @@ export default function HomePage() {
       } catch {
         setCaptureNote("Capture failed — showing the last committed report.");
         setCaptureState("done");
-        setDraftError("Network error while capturing. Is the dev server running?");
+        setDraftError("Network error while contacting Tell's capture API.");
         showNotice({
           tone: "error",
           title: "Capture failed",
-          message: `Network error while capturing ${target}. Is the dev server running?`,
+          message: `Network error while capturing ${target}. Check the capture backend and try again.`,
         });
       }
     },
-    [showNotice],
+    [proofResult, showNotice],
   );
 
   const pollSetup = useCallback(
@@ -336,9 +406,20 @@ export default function HomePage() {
 
   const startSetup = useCallback(
     async (repoUrl: string) => {
+      if (proofResult) {
+        showNotice({
+          tone: "error",
+          title: "Resolve the visual worktree first",
+          message: "Revert the temporary change before setting up another repository.",
+        });
+        return;
+      }
       setSetupError("");
       setSetupStarting(true);
       setSetupJob(null);
+      setSourceContext(null);
+      setProofResult(null);
+      setProofState("idle");
       setCaptureNote(`Creating setup job for ${repoUrl.trim()}…`);
       autoCapturedRef.current = null;
       try {
@@ -375,10 +456,18 @@ export default function HomePage() {
         setSetupStarting(false);
       }
     },
-    [pollSetup, showNotice],
+    [pollSetup, proofResult, showNotice],
   );
 
   const stopApp = useCallback(async () => {
+    if (proofResult) {
+      showNotice({
+        tone: "error",
+        title: "Proof patch is still applied",
+        message: "Revert the visual worktree before stopping its dev server.",
+      });
+      return;
+    }
     try {
       await fetch("/api/setup/stop", { method: "POST" });
     } catch {
@@ -386,9 +475,10 @@ export default function HomePage() {
     }
     setSetupJob(null);
     setSetupStarting(false);
-  }, []);
+  }, [proofResult, showNotice]);
 
   const isRepo = isGitHubRepoUrl(inputUrl);
+  const normalizedInputUrl = normalizeCaptureUrl(inputUrl);
   const setupActive = setupStarting || Boolean(setupJob && SETUP_ACTIVE_STATES.includes(setupJob.state));
   const operationActive = setupActive || captureState === "capturing";
   const operationTitle = setupStarting
@@ -414,8 +504,14 @@ export default function HomePage() {
 
   const liveCapture = captureMeta?.live === true && Boolean(report.capture.snapshotHtml || report.capture.screenshotBase64);
   const scannedSite = captureMeta?.live ? siteLabel(report.capture.url) : null;
+  const captureBelongsToSetup = Boolean(
+    setupJob?.state === "ready" &&
+    setupJob.url &&
+    captureMeta?.live &&
+    sameOrigin(report.capture.url, setupJob.url),
+  );
   const needsRecapture = Boolean(
-    captureMeta?.live && !isRepo && inputUrl.trim() && inputUrl.trim() !== captureMeta.requestedUrl,
+    captureMeta?.live && !isRepo && normalizedInputUrl && normalizedInputUrl !== captureMeta.requestedUrl,
   );
 
   function addPage() {
@@ -448,14 +544,16 @@ export default function HomePage() {
           directionPlan: directionPlan ?? undefined,
           findingId: selectedFinding?.id,
           dna: brandDna ?? undefined,
+          setupJobId: captureBelongsToSetup ? setupJob?.id : undefined,
         }),
       });
       if (!res.ok) throw new Error("redesign request failed");
-      const payload = (await res.json()) as RedesignProposal;
+      const payload = (await res.json()) as RedesignProposal & { sourceContext?: SourceContext };
       setProposal({
         ...payload,
         reconciliation: payload.reconciliation ?? reconciliation,
       });
+      setSourceContext(payload.sourceContext ?? null);
       setDraftState("ready");
     } catch {
       const files = buildOverridesPatch(reconciliation, report.capture.url);
@@ -474,6 +572,103 @@ export default function HomePage() {
       setDraftState("ready");
       setDraftError("Cursor-backed draft was unavailable, so Tell used the deterministic patch.");
     }
+  }
+
+  async function provePatch() {
+    if (!proposal || !setupJob?.id || !captureBelongsToSetup) {
+      await copyPatch(true);
+      return;
+    }
+    const patch = proposal.files.map((file) => file.unifiedDiff).join("\n\n");
+    setProofError("");
+    setProofResult(null);
+    setProofState("applying");
+    showNotice({
+      tone: "info",
+      title: "Visual worktree started",
+      message: `Applying ${proposal.files.length} source patch${proposal.files.length === 1 ? "" : "es"} to the disposable checkout.`,
+    });
+    try {
+      // The endpoint applies, waits for HMR, then recaptures the running product.
+      setProofState("verifying");
+      const res = await fetch("/api/proof/apply", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ jobId: setupJob.id, patch, beforeReport: report }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error ?? "The visual proof run failed.");
+      const result = payload as ProofResult;
+      setProofResult(result);
+      setProofState(result.status);
+      setSeam(50);
+      showNotice({
+        tone: result.status === "passed" ? "success" : result.status === "failed" ? "error" : "info",
+        title: result.status === "passed" ? "Verified against rendered truth" : "Human review required",
+        message: result.status === "passed"
+          ? `The live recapture improved by ${Math.abs(result.proof.scoreDelta)} points with no focus regression.`
+          : "Tell kept the change isolated and surfaced the measured tradeoffs for review.",
+      });
+    } catch (error) {
+      setProofState("error");
+      setProofError(error instanceof Error ? error.message : String(error));
+      showNotice({
+        tone: "error",
+        title: "Proof run stopped",
+        message: error instanceof Error ? error.message : String(error),
+      });
+    }
+  }
+
+  async function revertProof() {
+    if (!setupJob?.id) return;
+    try {
+      const res = await fetch("/api/proof/revert", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ jobId: setupJob.id }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error ?? "Could not revert the proof patch.");
+      if (!payload.reverted) throw new Error("Tell could not find an applied proof patch to revert.");
+      setProofResult(null);
+      setProofState("idle");
+      setProofError("");
+      showNotice({
+        tone: "success",
+        title: "Worktree restored",
+        message: "The temporary source patch was reverted. Your original repository was never touched.",
+      });
+    } catch (error) {
+      setProofError(error instanceof Error ? error.message : String(error));
+    }
+  }
+
+  function markIntentional() {
+    if (!selectedFinding) return;
+    setReport((current) => {
+      const verdicts = current.verdicts.map((item) =>
+        item.findingId === selectedFinding.id
+          ? { ...item, verdict: "intentional" as const, confidence: 1, rationale: "Accepted as an intentional product decision in this review." }
+          : item,
+      );
+      return {
+        ...current,
+        verdicts,
+        score: {
+          ...current.score,
+          generic: verdicts.filter((item) => item.verdict === "generic").length,
+          drift: verdicts.filter((item) => item.verdict === "drift").length,
+          intentional: verdicts.filter((item) => item.verdict === "intentional").length,
+          uncertain: verdicts.filter((item) => item.verdict === "uncertain").length,
+        },
+      };
+    });
+    showNotice({
+      tone: "success",
+      title: "Decision recorded",
+      message: `${selectedFinding.detector} is now treated as intentional for this review.`,
+    });
   }
 
   async function copyPatch(applyIntent = false) {
@@ -495,8 +690,8 @@ export default function HomePage() {
         <div className="flex items-center gap-3">
           <div className="grid h-9 w-9 place-items-center rounded-full border border-accent/50 bg-accent/10 font-mono text-accent">⊕</div>
           <div>
-            <p className="font-display text-3xl leading-none">Tell</p>
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-secondary">Every AI-built UI has a tell</p>
+            <p className="font-display text-3xl leading-none">Tell Proof</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-secondary">Independent visual checks for agent-built software</p>
           </div>
         </div>
         <label className="ml-auto flex min-w-[320px] flex-1 items-center gap-2 rounded-card border border-border bg-surface px-3 py-2 font-mono text-sm text-secondary">
@@ -538,6 +733,13 @@ export default function HomePage() {
         </span>
       </header>
 
+      <WorkflowRail
+        captured={liveCapture}
+        sourceMapped={sourceContext?.mode === "repo" && sourceContext.filesLoaded > 0}
+        patchReady={Boolean(proposal)}
+        proofState={proofState}
+      />
+
       {isRepo && !setupJob ? (
         <p className="mt-3 flex items-center gap-2 font-mono text-[11px] text-secondary">
           <Github className="h-3.5 w-3.5 text-accent" />
@@ -568,6 +770,14 @@ export default function HomePage() {
         </p>
       ) : null}
 
+      {captureMeta && !captureMeta.live ? (
+        <p className="mt-3 font-mono text-[11px] text-drift">
+          Tried <span className="text-text">{captureMeta.requestedUrl}</span> · showing offline demo fixture from{" "}
+          <span className="text-text">{captureMeta.capturedUrl}</span>
+          {captureMeta.backend === "local" ? " · live Vercel capture needs TELL_CAPTURE_API_URL" : null}
+        </p>
+      ) : null}
+
       <section className="grid gap-6 py-8 lg:grid-cols-[1.4fr_.8fr]">
         <div className="space-y-6">
           <div>
@@ -575,17 +785,17 @@ export default function HomePage() {
             <h1 className="mt-2 max-w-3xl font-display text-6xl leading-[0.95] text-text">
               {scannedSite ? (
                 <>
-                  {scannedSite} has tells.
-                  <span className="block text-4xl text-secondary">Tell names them — and restyles the real page you can ship.</span>
+                  Cursor wrote the change.
+                  <span className="block text-4xl text-secondary">Tell shows what survived the browser on {scannedSite}.</span>
                 </>
               ) : (
-                <>You shipped fast. Tell shows why it still feels generic.</>
+                <>Your coding agent should not grade its own homework.</>
               )}
             </h1>
             <p className="mt-4 max-w-2xl text-lg text-secondary">
               {liveCapture
-                ? "The seam wipes between your captured page and a real reconciliation of it — same content, restyled from your own detected tokens. Draft fix ships that as a patch."
-                : "Paste a live URL — or a GitHub repo and let Tell run it — capture the rendered UI, name the tells, and see the page restyled in place, then draft the patch for Cursor."}
+                ? "Tell reads the rendered product and the source behind it, runs the candidate fix in a disposable checkout, then recaptures the app as an independent acceptance test."
+                : "Paste a repository. Tell boots it, maps rendered problems to real source, runs the fix in isolation, and returns before/after evidence you can trust."}
             </p>
           </div>
 
@@ -605,9 +815,12 @@ export default function HomePage() {
 
           <section className="rounded-card border border-border bg-surface p-4 shadow-card">
             <div className="mb-3 flex items-center justify-between gap-3">
-              <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary" aria-live="polite">
-                {captureState === "capturing" ? captureNote : scoreLine}
-              </p>
+              <div>
+                <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary" aria-live="polite">
+                  {captureState === "capturing" ? captureNote : "Concept preview · not yet verified"}
+                </p>
+                {captureState !== "capturing" ? <p className="mt-1 font-mono text-[10px] text-muted">{scoreLine}</p> : null}
+              </div>
               <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-xs text-accent">
                 direction: {dirMeta.id}
               </span>
@@ -635,11 +848,22 @@ export default function HomePage() {
             </p>
           </section>
 
+          {proofResult ? (
+            <VerifiedProofPanel
+              baseline={report}
+              result={proofResult}
+              seam={seam}
+              setSeam={setSeam}
+              onRevert={revertProof}
+              onCopy={() => { void copyPatch(); }}
+            />
+          ) : null}
+
           <BrandDnaBar dna={brandDna} onLearn={learnDna} onClear={clearDna} live={liveCapture} />
 
-          <Scorecard reconciliation={reconciliation} live={liveCapture} />
+          {!proofResult ? <Scorecard reconciliation={reconciliation} live={liveCapture} /> : null}
 
-          <ReconciliationTable reconciliation={reconciliation} live={liveCapture} />
+          {!proofResult ? <ReconciliationTable reconciliation={reconciliation} live={liveCapture} /> : null}
 
           <section className="rounded-card border border-border bg-surface p-4">
             <div className="mb-4 flex items-center justify-between gap-3">
@@ -775,12 +999,23 @@ export default function HomePage() {
                   disabled={draftState === "drafting" || operationActive}
                   className="flex items-center gap-2 rounded-md bg-accent px-4 py-2 font-semibold text-white transition hover:bg-accent-hover disabled:opacity-60"
                 >
-                  <Wand2 className="h-4 w-4" /> {draftState === "drafting" ? "Drafting…" : "Draft fix"}
+                  <Wand2 className="h-4 w-4" /> {draftState === "drafting" ? "Mapping source…" : setupJob?.state === "ready" ? "Plan source fix" : "Draft fix"}
                 </button>
-                <button className="rounded-md border border-border px-4 py-2 text-secondary transition hover:text-text">Mark intentional</button>
+                <button onClick={markIntentional} className="rounded-md border border-border px-4 py-2 text-secondary transition hover:text-text">Mark intentional</button>
               </div>
               {draftError ? <p className="mt-3 font-mono text-xs text-drift">{draftError}</p> : null}
-              {proposal ? <DiffViewer proposal={proposal} draftState={draftState} onCopy={() => copyPatch()} onApply={() => copyPatch(true)} /> : null}
+              {proposal ? (
+                <DiffViewer
+                  proposal={proposal}
+                  draftState={draftState}
+                  sourceContext={sourceContext}
+                  proofState={proofState}
+                  proofError={proofError}
+                  canProve={captureBelongsToSetup}
+                  onCopy={() => copyPatch()}
+                  onApply={provePatch}
+                />
+              ) : null}
             </section>
           ) : null}
         </aside>
@@ -802,6 +1037,48 @@ const STATE_LABEL: Record<SetupJob["state"], string> = {
   "needs-manual": "Needs a hand",
   error: "Error",
 };
+
+function WorkflowRail({
+  captured,
+  sourceMapped,
+  patchReady,
+  proofState,
+}: {
+  captured: boolean;
+  sourceMapped: boolean;
+  patchReady: boolean;
+  proofState: ProofState;
+}) {
+  const proofDone = proofState === "passed" || proofState === "review" || proofState === "failed";
+  const steps = [
+    { label: "Observe", detail: "Rendered browser truth", done: captured, active: !captured },
+    { label: "Match", detail: "Rank relevant source context", done: sourceMapped, active: captured && !sourceMapped },
+    { label: "Repair", detail: "Disposable checkout", done: patchReady, active: sourceMapped && !patchReady },
+    { label: "Check", detail: "Single-route live recapture", done: proofDone, active: patchReady && !proofDone },
+  ];
+  return (
+    <div className="mt-4 grid overflow-hidden rounded-card border border-border bg-surface md:grid-cols-4">
+      {steps.map((step, index) => (
+        <div key={step.label} className={`relative px-4 py-3 ${index ? "border-t border-border md:border-l md:border-t-0" : ""}`}>
+          <div className="flex items-center gap-2">
+            <span className={`grid h-5 w-5 place-items-center rounded-full border font-mono text-[9px] ${
+              step.done
+                ? "border-ok/50 bg-ok/10 text-ok"
+                : step.active
+                  ? "border-accent/50 bg-accent/10 text-accent"
+                  : "border-border text-muted"
+            }`}>
+              {step.done ? <Check className="h-3 w-3" /> : index + 1}
+            </span>
+            <span className={`font-mono text-xs uppercase tracking-[0.12em] ${step.done || step.active ? "text-text" : "text-muted"}`}>{step.label}</span>
+            {step.active ? <span className="ml-auto h-1.5 w-1.5 animate-pulse rounded-full bg-accent" /> : null}
+          </div>
+          <p className="mt-1 pl-7 text-xs text-muted">{step.detail}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function OperationPlaceholder({ title, detail }: { title: string; detail: string }) {
   return (
@@ -1204,35 +1481,208 @@ function ReconciliationTable({ reconciliation, live }: { reconciliation: Reconci
   );
 }
 
+function VerifiedProofPanel({
+  baseline,
+  result,
+  seam,
+  setSeam,
+  onRevert,
+  onCopy,
+}: {
+  baseline: TellReport;
+  result: ProofResult;
+  seam: number;
+  setSeam: (value: number) => void;
+  onRevert: () => void;
+  onCopy: () => void;
+}) {
+  const { proof } = result;
+  const improved = proof.scoreDelta < 0;
+  const tone = result.status === "passed"
+    ? "border-ok/50"
+    : result.status === "failed"
+      ? "border-drift/50"
+      : "border-accent/40";
+  const afterClip = `polygon(${seam}% 0, 100% 0, 100% 100%, ${seam}% 100%)`;
+
+  return (
+    <section className={`overflow-hidden rounded-card border bg-surface-raised shadow-signal ${tone}`}>
+      <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border px-5 py-4">
+        <div className="flex items-start gap-3">
+          <span className={`mt-0.5 grid h-9 w-9 place-items-center rounded-full border ${
+            result.status === "passed" ? "border-ok/50 bg-ok/10 text-ok" : "border-accent/40 bg-accent/10 text-accent"
+          }`}>
+            {result.status === "passed" ? <ShieldCheck className="h-5 w-5" /> : <Activity className="h-5 w-5" />}
+          </span>
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary">Independent visual proof</p>
+            <h2 className="mt-1 font-display text-3xl text-text">
+              {result.status === "passed" ? "Passed this visual check." : "The code ran. The evidence needs judgment."}
+            </h2>
+            <p className="mt-1 max-w-2xl text-sm text-secondary">
+              Two separate browser captures from the running checkout. The after side is rendered source—not a CSS simulation.
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={onCopy}
+            className="inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 font-mono text-xs font-semibold text-white transition hover:bg-accent-hover"
+          >
+            <Clipboard className="h-3.5 w-3.5" /> Copy verified patch
+          </button>
+          <button
+            onClick={onRevert}
+            className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 font-mono text-xs text-secondary transition hover:border-drift hover:text-text"
+          >
+            <RotateCcw className="h-3.5 w-3.5" /> Revert worktree
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 divide-x divide-border border-b border-border md:grid-cols-4">
+        <ProofMetric label="Genericness" before={String(proof.beforeScore)} after={String(proof.afterScore)} good={improved} />
+        <ProofMetric
+          label="Structure"
+          before={`${proof.headingsBefore}h · ${proof.buttonsBefore}b`}
+          after={`${proof.headingsAfter}h · ${proof.buttonsAfter}b`}
+          good={!proof.structureRegressed}
+        />
+        <ProofMetric label="Focus coverage" before={`${Math.round(proof.focusBefore * 100)}%`} after={`${Math.round(proof.focusAfter * 100)}%`} good={!proof.focusRegressed} />
+        <div className="px-4 py-3">
+          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Verdict</p>
+          <p className={`mt-1 flex items-center gap-1.5 font-mono text-sm uppercase ${
+            result.status === "passed" ? "text-ok" : result.status === "failed" ? "text-drift" : "text-accent"
+          }`}>
+            {result.status === "passed" ? <CheckCircle2 className="h-4 w-4" /> : <AlertTriangle className="h-4 w-4" />}
+            {result.status}
+          </p>
+        </div>
+      </div>
+
+      <div className="p-4">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+          Scope · 1 route · {baseline.capture.viewport.width}×{baseline.capture.viewport.height} · default rendered state
+        </p>
+        <div className="relative h-[500px] overflow-hidden rounded-md border border-border bg-bg">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`data:image/png;base64,${baseline.capture.screenshotBase64}`}
+            alt="Baseline browser capture"
+            className="absolute left-0 top-0 h-auto w-full bg-white"
+          />
+          <div className="absolute inset-0 overflow-hidden" style={{ clipPath: afterClip, WebkitClipPath: afterClip }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`data:image/png;base64,${result.afterReport.capture.screenshotBase64}`}
+              alt="Verified browser capture after source patch"
+              className="h-auto w-full bg-white"
+            />
+          </div>
+          <span className="absolute bottom-0 top-0 z-10 w-px bg-accent" style={{ left: `${seam}%` }} />
+          <span className="absolute left-3 top-3 z-10 rounded bg-black/70 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white">Baseline</span>
+          <span className="absolute right-3 top-3 z-10 rounded bg-black/70 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white">Recaptured source</span>
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={seam}
+            onChange={(event) => setSeam(Number(event.target.value))}
+            aria-label="Compare baseline and verified capture"
+            className="absolute bottom-4 left-1/2 z-20 w-48 -translate-x-1/2 accent-[rgb(var(--accent))]"
+          />
+        </div>
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+          <p className="font-mono text-[11px] text-muted">
+            Verified {new Date(proof.capturedAt).toLocaleTimeString()} · {proof.url}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {proof.changedFiles.map((file) => (
+              <span key={file} className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg px-2.5 py-1 font-mono text-[10px] text-secondary">
+                <FileCode2 className="h-3 w-3 text-accent" /> {file}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProofMetric({ label, before, after, good }: { label: string; before: string; after: string; good: boolean }) {
+  return (
+    <div className="px-4 py-3">
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{label}</p>
+      <p className="mt-1 font-mono text-sm text-secondary">
+        {before} <span className={good ? "text-ok" : "text-drift"}>→ {after}</span>
+      </p>
+    </div>
+  );
+}
+
 function DiffViewer({
   proposal,
   draftState,
+  sourceContext,
+  proofState,
+  proofError,
+  canProve,
   onCopy,
   onApply,
 }: {
   proposal: RedesignProposal;
   draftState: DraftState;
+  sourceContext: SourceContext | null;
+  proofState: ProofState;
+  proofError: string;
+  canProve: boolean;
   onCopy: () => void;
   onApply: () => void;
 }) {
   const patch = proposal.files.map((file) => file.unifiedDiff).join("\n\n");
+  const proving = proofState === "applying" || proofState === "verifying";
 
   return (
     <section className="mt-5 overflow-hidden rounded-md border border-border bg-bg">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted">Cursor patch · {proposal.files[0]?.file}</p>
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted">
+            {sourceContext?.mode === "repo" ? "Source-grounded patch" : "Cursor patch"} · {proposal.files.length} file{proposal.files.length === 1 ? "" : "s"}
+          </p>
           <p className="mt-1 text-sm text-secondary">{proposal.files[0]?.summary}</p>
+          {sourceContext?.mode === "repo" ? (
+            <p className="mt-1 font-mono text-[10px] text-muted">
+              Read {sourceContext.filesLoaded}/{sourceContext.filesDiscovered} project files · evidence matched {sourceContext.matchedFiles} · {Math.round(sourceContext.totalBytes / 1024)}KB context
+            </p>
+          ) : null}
         </div>
         <div className="flex gap-2">
           <button onClick={onCopy} className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 font-mono text-xs text-secondary transition hover:text-text">
             <Clipboard className="h-3.5 w-3.5" /> {draftState === "copied" ? "Copied" : "Copy patch"}
           </button>
-          <button onClick={onApply} className="rounded-md bg-accent px-3 py-2 font-mono text-xs font-semibold text-white transition hover:bg-accent-hover">
-            Apply in Cursor
+          <button
+            onClick={onApply}
+            disabled={proving || proofState === "passed" || proofState === "review" || proofState === "failed"}
+            className="inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 font-mono text-xs font-semibold text-white transition hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {proving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : canProve ? <ShieldCheck className="h-3.5 w-3.5" /> : <GitPullRequest className="h-3.5 w-3.5" />}
+            {proofState === "applying"
+              ? "Applying in worktree…"
+              : proofState === "verifying"
+                ? "Recapturing…"
+                : canProve
+                  ? "Run & prove"
+                  : "Send to Cursor"}
           </button>
         </div>
       </div>
+      {canProve ? (
+        <div className="flex items-center gap-2 border-b border-border bg-ok/5 px-4 py-2 font-mono text-[10px] text-secondary">
+          <ShieldCheck className="h-3.5 w-3.5 text-ok" />
+          Applies only to Tell&apos;s disposable clone · hot reloads · captures again · checks score and focus states
+        </div>
+      ) : null}
+      {proofError ? <p className="border-b border-drift/30 bg-drift/10 px-4 py-2 font-mono text-[11px] text-drift">{proofError}</p> : null}
       <pre className="max-h-80 overflow-auto p-4 text-left font-mono text-[11px] leading-relaxed text-secondary">
         <code>{patch}</code>
       </pre>
