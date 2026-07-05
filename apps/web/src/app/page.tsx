@@ -30,6 +30,7 @@ import { DIRECTION_PRESETS, parseDirectionPlan, type DirectionPlan } from "@tell
 import { RECONCILE_DIRECTIONS, buildOverridesPatch, learnBrandDNA, reconcile, resolveDirection } from "@tell/redesign";
 import { demoReport } from "@/lib/demo-report";
 import { BeforeAfterSeam } from "@/components/BeforeAfterSeam";
+import { useLlmRestyle } from "@/lib/use-llm-restyle";
 import { useVoice } from "@/lib/use-voice";
 import { SETUP_ACTIVE_STATES, type SetupJob } from "@/lib/setup-types";
 import { discoverRoutes, routeFromInput, type DiscoveredRoute } from "@/lib/discover-routes";
@@ -182,6 +183,16 @@ export default function HomePage() {
     () => reconcile(report.capture, report.fingerprint, report.findings, directionId, brandDna ?? undefined),
     [report, directionId, brandDna],
   );
+
+  // v2: deterministic reconciliation ships instantly above; this fires the Gemini-refined
+  // sheet in the background (debounced/abortable) and resets whenever direction/capture/DNA changes.
+  const llmRestyle = useLlmRestyle({
+    capture: report.capture,
+    fingerprint: report.fingerprint,
+    directionId,
+    dna: brandDna ?? undefined,
+    enabled: Boolean(report.capture.snapshotHtml),
+  });
 
   const verdictOf = useCallback(
     (id: string): Verdict => report.verdicts.find((v) => v.findingId === id)?.verdict ?? "uncertain",
@@ -856,6 +867,10 @@ export default function HomePage() {
                 onSelectFinding={setSelectedId}
                 snapshotHtml={report.capture.snapshotHtml || undefined}
                 screenshotBase64={report.capture.screenshotBase64 || undefined}
+                llmStatus={llmRestyle.status}
+                llmSheet={llmRestyle.sheet}
+                llmMode={llmRestyle.mode}
+                onLlmModeChange={llmRestyle.setMode}
               />
             )}
             <p className="mt-2 font-mono text-[11px] text-muted">
@@ -881,6 +896,16 @@ export default function HomePage() {
           <BrandDnaBar dna={brandDna} onLearn={learnDna} onClear={clearDna} live={liveCapture} />
 
           {!proofResult ? <Scorecard reconciliation={reconciliation} live={liveCapture} /> : null}
+
+          {!proofResult ? (
+            <WhatChangedList
+              notes={
+                llmRestyle.mode === "ai" && llmRestyle.sheet?.notes.length
+                  ? llmRestyle.sheet.notes
+                  : reconciliation?.directionNotes ?? []
+              }
+            />
+          ) : null}
 
           {!proofResult ? <ReconciliationTable reconciliation={reconciliation} live={liveCapture} /> : null}
 
@@ -1451,6 +1476,24 @@ function Scorecard({ reconciliation, live }: { reconciliation: Reconciliation; l
       <p className="mt-4 font-mono text-[11px] text-muted">
         {reconciliation.elementsRestyled} real elements restyled by <span className="text-secondary">data-tell-id</span> — the preview transforms the page itself, not a filter.
       </p>
+    </section>
+  );
+}
+
+/** Compact "what the direction actually did" bullets — narration for the demo, not a diff. */
+function WhatChangedList({ notes }: { notes: string[] }) {
+  if (!notes.length) return null;
+  return (
+    <section className="rounded-card border border-border bg-surface p-4">
+      <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary">What changed</p>
+      <ul className="mt-2 space-y-1.5">
+        {notes.map((note, i) => (
+          <li key={i} className="flex items-start gap-2 text-sm text-text">
+            <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+            <span>{note}</span>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
