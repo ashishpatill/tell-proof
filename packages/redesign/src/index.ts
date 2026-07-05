@@ -1,6 +1,6 @@
 import { ArtDirection, BrandDNA, RedesignProposal, TellReport } from "@tell/schema";
 import { buildOverridesPatch, reconcile, resolveDirection } from "./reconcile";
-import { buildSourcePatch, type SourceFile } from "./source-patch";
+import { buildAppendedOverridePatch, buildSourcePatch, type SourceFile } from "./source-patch";
 
 export * from "./reconcile";
 export * from "./scales";
@@ -8,7 +8,7 @@ export * from "./measures";
 export { learnBrandDNA } from "./dna";
 export { buildRestylePlan, emitRestyleCss, afterAxes } from "./restyle";
 export type { RestylePlan, ElOp } from "./restyle";
-export { buildSourcePatch } from "./source-patch";
+export { buildAppendedOverridePatch, buildSourcePatch } from "./source-patch";
 export type { SourceFile, PatchFile } from "./source-patch";
 export * as color from "./color";
 
@@ -32,7 +32,14 @@ export class OfflineRedesignGenerator implements RedesignGenerator {
     const sourceFiles = sources?.length
       ? buildSourcePatch(report.capture, report.fingerprint, dir.id, dna, sources)
       : [];
-    const files = sourceFiles.length ? sourceFiles : buildOverridesPatch(recon, report.capture.url);
+    const appendedFallback = sources?.length && !sourceFiles.length
+      ? buildAppendedOverridePatch(recon, sources)
+      : [];
+    const files = sourceFiles.length
+      ? sourceFiles
+      : appendedFallback.length
+        ? appendedFallback
+        : buildOverridesPatch(recon, report.capture.url);
 
     return RedesignProposal.parse({
       findingId,
