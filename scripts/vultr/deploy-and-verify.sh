@@ -4,6 +4,11 @@
 # Usage (on the VPS as root):
 #   bash /opt/tell/scripts/vultr/deploy-and-verify.sh
 #   TELL_FORCE_REBUILD=1 bash ...   # ignore cache / redeploy anyway
+#   TELL_VERCEL_AUTO_DEPLOY=0 bash ...   # verify Vercel without deploying it
+#
+# Vercel deploys are optional but automatic when:
+#   - Vercel CLI is installed/authenticated on the VPS, or VERCEL_TOKEN is exported
+#   - the checkout is linked with .vercel/project.json, or VERCEL_ORG_ID/VERCEL_PROJECT_ID are exported
 #
 # First-time bootstrap still works via setup.sh (installs Docker + clones repo).
 
@@ -20,6 +25,11 @@ DEPLOYED_COMMIT_FILE="$STATE_DIR/deployed-commit"
 CAPTURE_URL="${TELL_TEST_URL:-https://example.com}"
 CAPTURE_TIMEOUT="${TELL_VERIFY_TIMEOUT:-120}"
 PORT="${TELL_PORT:-3000}"
+VERCEL_PROD_URL="${TELL_VERCEL_PROD_URL:-https://tell-five.vercel.app}"
+VERCEL_CLI="${TELL_VERCEL_CLI:-vercel}"
+VERCEL_DEPLOYED_COMMIT_FILE="$STATE_DIR/vercel-deployed-commit"
+VERCEL_AUTO_DEPLOY="${TELL_VERCEL_AUTO_DEPLOY:-1}"
+VERCEL_CHECK="${TELL_VERCEL_CHECK:-1}"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -52,6 +62,31 @@ ensure_docker() {
   systemctl enable --now docker
 }
 
+print_github_push_instructions() {
+  local reason="$1"
+  warn "$reason"
+  cat <<EOF
+
+Ship code to GitHub first, then rerun this VPS deploy:
+
+  cd "\${LOCAL_TELL_REPO:-/path/to/tell}"
+  git status --short
+  git add .
+  git commit -m "Prepare demo deployment"
+  git push origin ${BRANCH}
+
+Then on Vultr:
+
+  ssh root@YOUR_VULTR_IP
+  bash ${APP_DIR}/scripts/vultr/deploy-and-verify.sh
+
+EOF
+}
+
+checkout_dirty() {
+  [[ -d "$APP_DIR/.git" ]] && [[ -n "$(git -C "$APP_DIR" status --porcelain)" ]]
+}
+
 ensure_repo() {
   if [[ ! -d "$APP_DIR/.git" ]]; then
     info "Cloning Tell into $APP_DIR..."
@@ -59,6 +94,13 @@ ensure_repo() {
     git clone --depth 1 --branch "$BRANCH" "$REPO" "$APP_DIR"
     return 0
   fi
+
+  if checkout_dirty; then
+    print_github_push_instructions "VPS checkout has local changes; refusing to reset or deploy a dirty tree."
+    fail "Commit/push local changes to GitHub before backend or frontend deployment"
+    print_summary
+  fi
+
   info "Fetching latest code..."
   git -C "$APP_DIR" fetch origin "$BRANCH"
   git -C "$APP_DIR" checkout "$BRANCH"
@@ -243,6 +285,115 @@ open_firewall() {
   fi
 }
 
+vercel_deployed_commit() {
+  if [[ -f "$VERCEL_DEPLOYED_COMMIT_FILE" ]]; then
+    cat "$VERCEL_DEPLOYED_COMMIT_FILE"
+  else
+    echo "unknown"
+  fi
+}
+
+vercel_cli_available() {
+  command -v "$VERCEL_CLI" >/dev/null 2>&1
+}
+
+run_vercel() {
+  if [[ -n "${VERCEL_TOKEN:-}" ]]; then
+    "$VERCEL_CLI" "$@" --token "$VERCEL_TOKEN"
+  else
+    "$VERCEL_CLI" "$@"
+  fi
+}
+
+vercel_project_linked() {
+  [[ -f "$APP_DIR/.vercel/project.json" ]] || [[ -n "${VERCEL_ORG_ID:-}" && -n "${VERCEL_PROJECT_ID:-}" ]]
+}
+
+vercel_alias_has_commit() {
+  local commit="$1" inspect
+  vercel_cli_available || return 1
+  inspect="$(run_vercel inspect "$VERCEL_PROD_URL" 2>/dev/null || true)"
+  [[ "$inspect" == *"$commit"* ]]
+}
+
+deploy_vercel_if_needed() {
+  if [[ "$VERCEL_CHECK" != "1" ]]; then
+    warn "Skipping Vercel check because TELL_VERCEL_CHECK=$VERCEL_CHECK"
+    return 0
+  fi
+
+  local head known
+  head="$(current_commit)"
+  known="$(vercel_deployed_commit)"
+
+  if [[ "$known" == "$head" && "${TELL_VERCEL_FORCE_DEPLOY:-0}" != "1" ]]; then
+    pass "Vercel previously deployed commit $head from this script"
+    return 0
+  fi
+
+  if vercel_alias_has_commit "$head" && [[ "${TELL_VERCEL_FORCE_DEPLOY:-0}" != "1" ]]; then
+    mkdir -p "$STATE_DIR"
+    echo "$head" >"$VERCEL_DEPLOYED_COMMIT_FILE"
+    pass "Vercel alias already points at commit $head"
+    return 0
+  fi
+
+  info "Vercel deployed commit: $known | HEAD: $head"
+
+  if [[ "$VERCEL_AUTO_DEPLOY" != "1" ]]; then
+    print_github_push_instructions "Vercel may not be on HEAD; auto deploy disabled with TELL_VERCEL_AUTO_DEPLOY=$VERCEL_AUTO_DEPLOY."
+    return 0
+  fi
+
+  if ! vercel_cli_available; then
+    print_github_push_instructions "Vercel CLI not found on this VPS; cannot deploy frontend from the script."
+    warn "Install/authenticate Vercel CLI or deploy frontend locally: vercel deploy --prod --yes"
+    return 0
+  fi
+
+  if ! vercel_project_linked; then
+    print_github_push_instructions "Vercel project is not linked on this VPS."
+    warn "Run vercel link in $APP_DIR, or set VERCEL_ORG_ID and VERCEL_PROJECT_ID with VERCEL_TOKEN."
+    return 0
+  fi
+
+  info "Deploying Vercel frontend for commit $head..."
+  if run_vercel deploy --prod --yes --cwd "$APP_DIR" --meta "tellGitCommit=$head"; then
+    mkdir -p "$STATE_DIR"
+    echo "$head" >"$VERCEL_DEPLOYED_COMMIT_FILE"
+    pass "Vercel production deployed @ $head"
+  else
+    fail "Vercel production deploy failed"
+  fi
+}
+
+verify_vercel_public_flow() {
+  if [[ "$VERCEL_CHECK" != "1" ]]; then
+    return 0
+  fi
+
+  local health diagnose detail
+  info "Checking Vercel public health at ${VERCEL_PROD_URL}..."
+  health="$(curl -sS -m 30 "${VERCEL_PROD_URL%/}/api/health/capture" 2>/dev/null || true)"
+  if [[ "$health" == *'"ok":true'* && "$health" == *'"backend":"remote"'* ]]; then
+    pass "Vercel /api/health/capture → remote backend OK"
+  else
+    fail "Vercel /api/health/capture is not using a healthy remote backend"
+  fi
+
+  info "Checking Vercel live capture proxy (${CAPTURE_URL})..."
+  diagnose="$(curl -sS -m "$CAPTURE_TIMEOUT" -X POST "${VERCEL_PROD_URL%/}/api/diagnose" \
+    -H 'content-type: application/json' \
+    -d "{\"url\":\"$CAPTURE_URL\"}" 2>/dev/null || echo '{}')"
+  if [[ "$diagnose" == *'"live":true'* ]] || [[ "$diagnose" == *'"live": true'* ]]; then
+    pass "Vercel /api/diagnose → live capture OK"
+    return 0
+  fi
+
+  detail="$(printf '%s' "$diagnose" | python3 -c "import json,sys; d=json.load(sys.stdin); m=d.get('meta',{}); print(m.get('detail') or m.get('error') or 'unknown')" 2>/dev/null || echo unknown)"
+  fail "Vercel /api/diagnose did not return live capture ($detail)"
+}
+
 print_summary() {
   local ip commit
   ip="$(curl -4 -s ifconfig.me 2>/dev/null || hostname -I | awk '{print $1}')"
@@ -254,6 +405,7 @@ print_summary() {
   echo " Commit:    $commit"
   echo " API:       http://${ip}:${PORT}"
   echo " Vercel:    TELL_CAPTURE_API_URL=http://${ip}:${PORT}"
+  echo " Frontend:  ${VERCEL_PROD_URL} (script state: $(vercel_deployed_commit))"
   echo " Health:    curl http://127.0.0.1:${PORT}/api/health/capture"
   echo ""
 
@@ -304,6 +456,8 @@ main() {
   verify_env_keys
   verify_firewall_hint
   open_firewall
+  deploy_vercel_if_needed
+  verify_vercel_public_flow
   print_summary
 }
 
