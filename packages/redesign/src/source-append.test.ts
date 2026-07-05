@@ -22,6 +22,8 @@ const reconciliation = {
   axes: [],
   elementsRestyled: 2,
   scoredAgainst: "baseline",
+  cssSource: "recipes",
+  directionNotes: [],
 } satisfies Reconciliation;
 
 describe("buildAppendedOverridePatch", () => {
