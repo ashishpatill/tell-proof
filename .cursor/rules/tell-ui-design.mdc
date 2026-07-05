@@ -1,6 +1,6 @@
 ---
 description: Tell UI — apps/web design system contract
-globs: apps/web/**/*
+globs: "apps/web/**/*"
 alwaysApply: false
 ---
 
@@ -11,8 +11,11 @@ Follow `docs/01_DESIGN_SYSTEM.md`. Dogfood: Tell must not trigger its own tells.
 - Fonts: Instrument Serif + Source Sans 3 + IBM Plex Mono — **never Inter-only**
 - No violet gradient hero, no shadow on every card
 - Use semantic Tailwind tokens: `bg-surface`, `text-secondary`, `text-accent`
-- Full state matrix on interactive components
+- Raw hex belongs in `globals.css` tokens only, not TSX classNames
+- Full state matrix on interactive components: hover, focus-visible, active, disabled, loading/error where applicable
+- Preserve the signature `BeforeAfterSeam`; keyboard and reduced-motion behavior are part of the feature
 - Copy from USER_STORY.md copy bank — critic voice, no emoji chrome
 - Hero = Tell Report + reveal seam, not KPI dashboard
+- Current UI is mostly `apps/web/src/app/page.tsx`; extract components only when it reduces real complexity
 
 Use `@ui-builder` (Composer) for components; `@ux-copywriter` (GPT 5.5) for copy polish.
