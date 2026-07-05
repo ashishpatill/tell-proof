@@ -1,13 +1,16 @@
 ---
 description: Deterministic core — packages/schema and packages/core
-globs: packages/schema/**/*,packages/core/**/*
+globs: "packages/schema/**/*,packages/core/**/*"
 alwaysApply: false
 ---
 
 # Core engine rules
 
-- **No LLM imports** in packages/core
-- Detectors are pure: `(fingerprint, capture) => Finding[]`
-- Emit deterministic `facts` + `evidence` — taste layer judges, core detects
-- Golden tests against `fixtures/reports/capture.json`
-- Use `@tell/core-engineer` subagent (Opus 4.8) for new detectors
+- `packages/schema` is the contract source. Edit schemas first, export inferred TS types, and parse at boundaries.
+- `packages/core` has no LLM/API/model calls. Playwright is only for capture; tests use committed JSON.
+- `diagnose.ts` may import `@tell/redesign` only for deterministic measured reconciliation data.
+- Detectors are pure: `(fingerprint, capture) => Finding[]`.
+- Emit deterministic `facts` and `evidence`; the taste layer judges final verdicts.
+- Keep all 14 detectors in `packages/core/src/detectors` unless a real split is needed.
+- Detector changes require golden coverage against `fixtures/reports/capture.json`.
+- Use `@tell/core-engineer` subagent for new schemas, capture, fingerprint, or detectors.
