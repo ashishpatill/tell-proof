@@ -9,8 +9,11 @@ export const maxDuration = 90;
 
 const tracer = trace.getTracer("tell.diagnose");
 
-function captureErrorMessage(url: string, error: unknown) {
+function captureErrorMessage(url: string, error: unknown, backend: "remote" | "local") {
   const detail = error instanceof Error ? error.message : String(error);
+  if (backend === "local" && process.env.VERCEL) {
+    return `Live capture for ${url} needs a Playwright capture backend. Set TELL_CAPTURE_API_URL on Vercel and redeploy.`;
+  }
   if (/ERR_CONNECTION_REFUSED|ECONNREFUSED/i.test(detail)) {
     return `Tell could not reach ${url}. The dev server is not responding yet.`;
   }
@@ -32,6 +35,10 @@ export async function POST(request: Request) {
     });
 
     try {
+      if (backend === "local" && process.env.VERCEL) {
+        throw new Error("TELL_CAPTURE_API_URL is not configured for this Vercel deployment");
+      }
+
       const report = backend === "remote"
         ? await runDiagnoseRemote(url)
         : await runDiagnose(url);
@@ -62,10 +69,10 @@ export async function POST(request: Request) {
 
       console.error("[/api/diagnose]", error);
       const detail = error instanceof Error ? error.message : String(error);
-      const message = captureErrorMessage(url, error);
+      const message = captureErrorMessage(url, error, backend);
       return NextResponse.json({
         report: demoReport,
-        meta: { live: false, requestedUrl: url, capturedUrl: demoReport.capture.url, error: message, detail },
+        meta: { live: false, requestedUrl: url, capturedUrl: demoReport.capture.url, error: message, detail, backend },
       });
     }
   });
