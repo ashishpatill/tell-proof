@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { trace, SpanStatusCode, type Span } from "@opentelemetry/api";
-import { runDiagnose } from "@/lib/run-diagnose";
 import { hasRemoteCaptureBackend, runDiagnoseRemote } from "@/lib/run-diagnose-remote";
 import { demoReport } from "@/lib/demo-report";
 
@@ -41,7 +40,7 @@ export async function POST(request: Request) {
 
       const report = backend === "remote"
         ? await runDiagnoseRemote(url)
-        : await runDiagnose(url);
+        : await import("@/lib/run-diagnose").then(({ runDiagnose }) => runDiagnose(url));
 
       span.setAttributes({
         "tell.live": true,
