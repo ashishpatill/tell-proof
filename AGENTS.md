@@ -73,6 +73,41 @@ pnpm -F @tell/web typecheck
 6. Draft fix → copy patch → Apply in Cursor
 7. Dogfood: zero tells on Tell itself
 
+## Project skills
+
+Feature workflows live in `.cursor/skills/`:
+
+- `tell-schema-contracts` — zod contracts first
+- `tell-detector-authoring` — detectors in `packages/core`
+- `tell-capture-fingerprint` — Playwright capture + fingerprint
+- `tell-taste-verdicts` — taste + voice direction
+- `tell-redesign-diff` — reconciliation + diffs
+- `tell-mcp-tools` — MCP integration
+- `tell-report-ui` — web app + API routes
+- `tell-github-setup` — clone/install/run localhost
+- `tell-demo-fixture` — fixtures + offline demo
+- `tell-dogfood-audit` — zero-tells self audit
+- `tell-deploy` — Vercel/Docker public URL
+- `tell-demo-script` — judge demo + compliance
+
+## Subagents
+
+Role agents live in `.cursor/agents/`:
+
+- `orchestrator` — milestones and parallel Tasks
+- `core-engineer` — schema + capture + detectors
+- `taste-engineer` — verdicts + direction parsing
+- `redesign-engineer` — reconciliation + diffs
+- `mcp-engineer` — MCP server + Cursor tools
+- `ui-builder` — Tell Report UI
+- `ux-copywriter` — Priya-facing copy
+- `fixture-smith` — bland demo app
+- `deploy-engineer` — public demo URL
+- `demo-director` — rehearsal + compliance
+- `dogfood-auditor` — M10 self audit
+
+See `ORCHESTRATION.md` for model routing and when to invoke each.
+
 ## Docs authority
 
 - Visuals: `docs/01_DESIGN_SYSTEM.md`
