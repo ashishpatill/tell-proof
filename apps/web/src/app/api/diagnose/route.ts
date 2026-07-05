@@ -4,7 +4,7 @@ import { runDiagnose } from "@/lib/run-diagnose";
 import { hasRemoteCaptureBackend, runDiagnoseRemote } from "@/lib/run-diagnose-remote";
 import { demoReport } from "@/lib/demo-report";
 
-/** Proxy to Render capture backend can take ~90s (Playwright cold start). */
+/** A remote capture backend can take ~90s (Playwright cold start). */
 export const maxDuration = 90;
 
 const tracer = trace.getTracer("tell.diagnose");
@@ -23,7 +23,7 @@ function captureErrorMessage(url: string, error: unknown) {
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
   const url = typeof body.url === "string" && body.url.trim() ? body.url.trim() : demoReport.capture.url;
-  const backend = hasRemoteCaptureBackend() ? "render" : "local";
+  const backend = hasRemoteCaptureBackend() ? "remote" : "local";
 
   return tracer.startActiveSpan("tell.diagnose", async (span: Span) => {
     span.setAttributes({
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     });
 
     try {
-      const report = backend === "render"
+      const report = backend === "remote"
         ? await runDiagnoseRemote(url)
         : await runDiagnose(url);
 
@@ -61,10 +61,11 @@ export async function POST(request: Request) {
       span.end();
 
       console.error("[/api/diagnose]", error);
+      const detail = error instanceof Error ? error.message : String(error);
       const message = captureErrorMessage(url, error);
       return NextResponse.json({
         report: demoReport,
-        meta: { live: false, requestedUrl: url, capturedUrl: demoReport.capture.url, error: message },
+        meta: { live: false, requestedUrl: url, capturedUrl: demoReport.capture.url, error: message, detail },
       });
     }
   });

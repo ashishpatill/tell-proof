@@ -36,8 +36,10 @@ COPY fixtures ./fixtures
 
 # Chromium for capture pipeline (playwright is a dep of @tell/core, not the workspace root)
 RUN pnpm --filter @tell/core exec playwright install --with-deps chromium
+ENV PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
 
-RUN pnpm -F @tell/web build
+# Build workspace packages (@tell/core dist/) then the Next.js app
+RUN pnpm -F @tell/web... build
 
 ENV NODE_ENV=production
 ENV PORT=3000
