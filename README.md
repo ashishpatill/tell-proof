@@ -2,11 +2,11 @@
 
 # Tell Proof
 
-### Your coding agent should not grade its own homework.
+### Independent visual proof for AI-built interfaces.
 
-**Tell Proof is an independent visual-check layer for coding agents. It reads a rendered route and relevant source context, runs a candidate repair in a disposable checkout, recaptures the live app, and shows what measurably changed.**
+**Tell Proof captures the UI that users actually see, names the visual tells that make it feel generic or inconsistent, drafts a source-grounded repair, and verifies the result in a disposable checkout before anything touches your app.**
 
-[Quick start](#quick-start) · [Features](#features) · [How it works](#how-it-works) · [Deploy](#deploy) · [Use it in Cursor](#use-it-in-cursor) · [Project structure](#project-structure)
+[Demo](#demo) · [Why Tell](#why-tell) · [Features](#features) · [Quick Start](#quick-start) · [Cursor MCP](#cursor-mcp) · [Architecture](#architecture) · [Deploy](#deploy)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](./LICENSE)
 [![Built for Cursor](https://img.shields.io/badge/built%20for-Cursor-black.svg)](https://cursor.com)
@@ -16,255 +16,216 @@
 
 <br/>
 
-![Tell capturing a page, naming its tells, and revealing a redesign](./docs/media/tell-demo.gif)
-
-The shipped README demo asset lives in `docs/media/tell-demo.gif`. Raw Playwright recordings can be regenerated under `output/playwright/`, which stays ignored as local build output.
+![Tell Proof capturing SuperlearnAI, explaining visual tells, art-directing a redesign, and preparing a verified patch](./docs/media/tell-superlearnai-demo.gif)
 
 </div>
 
 ---
 
-## The problem
+## Demo
 
-You can ship a whole product in a weekend now. That's the good news.
+- **Live app:** [tell-five.vercel.app](https://tell-five.vercel.app)
+- **Default scan target:** [superlearnai.com](https://superlearnai.com)
+- **Offline fallback:** `fixtures/reports/tell-report.json`, so the product still opens with a complete report when live capture is unavailable.
+- **Showcase GIF:** `docs/media/tell-superlearnai-demo.gif`, generated from the current UI flow.
 
-The bad news is that most of what gets shipped looks *identical*. Inter everywhere. One purple gradient in the hero. A soft shadow on every card. Rounded corners at exactly 8 pixels. It isn't ugly — it's **forgettable**. And as you and your AI agent keep iterating, the surface quietly drifts: six almost-identical grays, focus rings that only half the app bothers with, an empty state nobody designed.
-
-You can *feel* that something is off, but you can't name it. "Add more whitespace" isn't a direction. Hiring a designer for a day is $800 and a two-week wait. Your demo is tomorrow.
-
-**Tell fixes the part that's actually hard: knowing what's wrong, and showing you a better direction you can ship yourself.**
+Tell can scan a public URL directly, or locally clone a GitHub repository, install dependencies, boot the app on a free port, and capture localhost automatically.
 
 ---
 
-## What Tell does
+## Why Tell
 
-Tell looks at your product the way a reviewer does — it opens the page in a real browser, reads what actually renders, maps the evidence to source, and closes the verification loop:
+AI agents can generate working interfaces quickly. The harder question is whether the result has taste: a distinctive hierarchy, consistent tokens, reachable states, readable contrast, and a visual language that does not collapse into the same gradient-card-template everyone else ships.
 
-1. **Names the tells.** It points at the specific patterns that read as generic, with evidence you can see on the screenshot.
-2. **Catches the drift.** It flags where your design has quietly become inconsistent across the surface.
-3. **Ranks relevant real source.** When Tell boots a repository, redesign planning receives source files matched by rendered tokens and selectors instead of guessing from a screenshot.
-4. **Runs the repair in isolation.** The candidate patch is checked and applied only inside Tell's disposable clone.
-5. **Checks the rendered outcome.** Tell hot-reloads, captures the same route again, and reports measured genericness, focus coverage, and structural integrity.
+Tell Proof is the independent reviewer for that moment. It does not ask the authoring agent to grade its own output. It opens the page in a real browser, measures the rendered surface, identifies specific genericness and drift patterns, and turns the critique into a reviewable direction.
 
-The authoring agent proposes the change. Tell supplies a separate, single-route visual check. It is evidence for review—not a substitute for functional, responsive, accessibility, or security testing.
+The authoring agent proposes. Tell measures, critiques, repairs, and verifies.
 
 ---
 
 ## Features
 
-| | Feature | What it does |
-|---|---|---|
-| 🔍 | **Rendered capture** | Opens your URL in a headless browser and records a full screenshot plus a computed-style fingerprint — fonts, colors, shadows, radii, spacing, contrast, and interactive states. |
-| 🎯 | **8 genericness detectors** | Deterministic checks for the classic AI tells: `SystemFontTell`, `GradientCrutchTell`, `ShadowEverywhereTell`, `RadiusMonotoneTell`, `AcidAccentTell`, `EmojiChromeTell`, `CenteredEverythingTell`, `GrayMushTell`. |
-| 📉 | **6 consistency-drift detectors** | Catches the slow decay: `TokenBypass`, `NearDuplicateValues`, `FocusRingInconsistency`, `TypeScaleDrift`, `SpacingChaos`, `StateGap`. |
-| 🧠 | **Taste engine** | Classifies every finding as *generic*, *drift*, or *intentional* with a plain-English rationale and a confidence score. A reflection pass rejects any reasoning that contradicts the measured facts. |
-| 🎙️ | **Voice art-direction** | Say "warmer, more editorial, less shadow" and Tell breaks the instruction into action items, maps it to a direction preset, and refines with Gemini when available. Text presets keep the demo safe when mic access fails. |
-| 🪄 | **Redesign as a diff** | Turns a chosen direction into a reviewable unified diff; only the disposable proof checkout is changed automatically. |
-| 🧬 | **Source-grounded repair** | Loads the cloned project's real TSX/JSX/CSS source and gives the redesign agent enough context to change hierarchy, layout, copy, responsive behavior, and interaction—not only palette tokens. |
-| 🛡️ | **Visual worktree proof** | Checks and applies the patch inside the disposable checkout, waits for HMR, then recaptures the running product as a separate browser artifact. |
-| ✅ | **Independent visual check** | Compares one route's real before/after genericness, focus coverage, headings, buttons, and sampled structure; capture failures roll the temporary patch back automatically. |
-| ↔️ | **Before/after seam** | A draggable diagonal reveal between your captured page and a live reconciliation — same content, restyled from detected tokens with contrast ratios called out. |
-| 🐙 | **GitHub repo setup** | Paste `github.com/owner/repo` and Tell clones it, reads the README, installs deps, boots the dev server on a reachable free port, and captures localhost automatically. |
-| 📄 | **Multi-page scanning** | Discovers routes from the captured snapshot; scan each page to catch drift that only shows on some routes. |
-| 🔌 | **Cursor MCP server** | Run the whole pipeline from Cursor chat with `tell_capture`, `tell_diagnose`, `tell_redesign`, and `tell_apply`. |
+| Capability | What ships today |
+|---|---|
+| **Rendered capture** | Playwright opens the route and records screenshot evidence, DOM summary, computed styles, CSS variables, contrast samples, and interactive-state probes. |
+| **14 deterministic detectors** | 8 genericness tells and 6 consistency-drift detectors catch system fonts, gradient crutches, shadow overuse, radius monotony, gray mush, token bypasses, spacing chaos, state gaps, focus inconsistency, and more. |
+| **Taste engine** | Findings become plain-English verdicts: `generic`, `drift`, `intentional`, or `uncertain`, with confidence and rationale. Gemini can enrich judgment; deterministic fallback keeps the flow usable without keys. |
+| **Voice and text art-direction** | Say or type directions like "warmer, more editorial, less shadow". Tell maps intent to a preset and concrete action items before model refinement. |
+| **Before/after reveal** | The captured page is compared against a deterministic reconciliation that preserves content while improving hierarchy, contrast, depth, radius, and focus treatment. |
+| **Source-grounded redesign diffs** | When a repo is available, Tell ranks real TSX/JSX/CSS files by rendered evidence and drafts a unified diff instead of guessing from a screenshot. |
+| **Visual worktree proof** | Candidate patches run inside a disposable checkout. Tell applies, waits for HMR, recaptures, compares score/focus/structure, and auto-reverts failed attempts. |
+| **GitHub setup runner** | Paste `github.com/owner/repo`; local Tell clones it, reads `README` and `package.json`, installs dependencies, starts the dev server, and captures the reachable URL. |
+| **Multi-page scanning** | Routes discovered from the snapshot can be scanned individually, exposing drift that only appears on pricing, docs, onboarding, or secondary pages. |
+| **Cursor MCP** | `tell_capture`, `tell_diagnose`, `tell_redesign`, and `tell_apply` expose the same engine inside Cursor Agent chat. |
+
+Tell is not a replacement for functional, responsive, accessibility, or security testing. It is a focused visual evidence layer for one rendered route at a time.
 
 ---
 
-## How it works
-
-Tell is one pipeline, shared by both the web app and the Cursor MCP server. Everything up to the taste step is **deterministic** — no model, no network — so results are reproducible run to run. The model is only used for judgment and for drafting diffs.
+## How It Works
 
 ```mermaid
 flowchart LR
-    url["Your URL or a\nlocal route"] --> capture["Capture\nrendered UI"]
-    capture --> fingerprint["Build a\ndesign fingerprint"]
-    fingerprint --> tells["Detect\ngenericness tells"]
-    fingerprint --> drift["Detect\nconsistency drift"]
-    tells --> taste["Taste engine\n(generic / drift / intentional)"]
-    drift --> taste
-    voice["Voice / text\nart-direction"] --> taste
-    taste --> report["Tell Report +\nbefore/after seam"]
-    report --> contrast["Contrast floor +\nreachable-state feedback"]
-    taste --> diff["Redesign diff"]
-    diff --> cursor["Apply in Cursor\nvia MCP"]
+    url["Public URL or local app"] --> capture["Browser capture"]
+    capture --> fingerprint["Design fingerprint"]
+    fingerprint --> detectors["Genericness + drift detectors"]
+    detectors --> taste["Taste verdicts"]
+    taste --> report["Tell Report"]
+    report --> direction["Voice/text art-direction"]
+    direction --> diff["Source-grounded diff"]
+    diff --> proof["Disposable proof checkout"]
+    proof --> recapture["Recapture + measured comparison"]
+    recapture --> cursor["Review and apply in Cursor"]
 ```
 
-**Why deterministic-first matters:** the parts that must be trustworthy — reading the page and measuring it — never hallucinate. The model only weighs in where judgment is genuinely needed, and even then its rationale is checked against the hard facts before you see it.
+**Deterministic-first:** capture, fingerprinting, detector output, baseline reconciliation, and score comparison do not depend on a model. Models are only used where judgment or drafting benefits from language.
+
+**Human-reviewed by design:** Tell can prepare a patch and prove it in isolation, but the final change still lands through the developer's normal review workflow.
 
 ---
 
-## Quick start
+## Quick Start
 
-You'll need **Node 20+** and **pnpm 9+**.
+You need **Node 20+** and **pnpm 9+**.
 
 ```bash
 git clone <your-repo-url> tell
 cd tell
 pnpm install
+pnpm dev
 ```
 
-Then start the Tell app:
+Open [http://localhost:3000](http://localhost:3000). The app starts with SuperlearnAI as the capture target and falls back to the committed report if live capture cannot run.
+
+To use the seeded sample app in a second terminal:
 
 ```bash
-pnpm dev           # the Tell app → http://localhost:3000
+pnpm dev:fixture   # http://localhost:3001
 ```
 
-**The one-click way — point Tell at a GitHub repo.** Paste a repo URL (e.g. `github.com/owner/app`) into the bar and hit **Set up &amp; run**. Tell clones it, reads the README + `package.json` to figure out how to start it, installs, boots the dev server on a free port, verifies the URL responds, and captures localhost automatically. The UI blocks duplicate clicks, hides stale captures while work is running, and surfaces success or failure in plain language. If the run steps aren't clear, Tell shows what it found from the README and asks you to start it and paste the URL — no guessing.
-
-**The direct way — capture any URL.** Paste a live URL (your deployed app, or a local `http://localhost:3000`) and hit **Capture**.
-
-Either way: read the report, walk every page from the **Pages** strip, drag the before/after seam, art-direct a new direction, draft the diff, and copy it back into Cursor.
-
-<details>
-<summary><strong>Prefer the seeded sample app?</strong></summary>
-
-Run the deliberately bland fixture in a second terminal and capture it:
+Useful checks:
 
 ```bash
-pnpm dev:fixture   # a deliberately bland sample app → http://localhost:3001
+pnpm test
+pnpm typecheck
+pnpm capture:fixture
+pnpm diagnose:fixture
 ```
 
-</details>
-
-> **No time to wait on live capture?** Tell ships with a committed report at `fixtures/reports/tell-report.json` and loads it automatically as an offline fallback, so the demo always works.
-
-<details>
-<summary><strong>Environment variables (optional)</strong></summary>
-
-Copy `.env.example` to `.env` and fill in what you have. Tell runs fully without keys — the taste and redesign steps simply fall back to their deterministic behavior.
+Optional environment variables live in `.env.example`:
 
 ```bash
-GEMINI_API_KEY=            # powers richer taste/voice direction parsing
-CURSOR_API_KEY=            # enables Cursor-SDK-backed redesign drafts
-CURSOR_MODEL=composer-2.5  # optional; defaults to composer-2.5
+GEMINI_API_KEY=            # richer taste and voice parsing
+CURSOR_API_KEY=            # Cursor-SDK-backed redesign drafts
+CURSOR_MODEL=composer-2.5
 CURSOR_AGENT_TIMEOUT_MS=75000
-ANTHROPIC_API_KEY=         # reserved for richer source-aware diffs (optional)
+TELL_CAPTURE_API_URL=      # remote Playwright backend for hosted UI
 ```
 
-</details>
+---
 
-<details>
-<summary><strong>Handy scripts</strong></summary>
+## Cursor MCP
 
-```bash
-pnpm test              # run the golden detector tests
-pnpm typecheck         # strict type-check across every package
-pnpm capture:fixture   # capture the sample app to a fresh report
-pnpm diagnose:fixture  # diagnose the sample app from a capture
+Tell registers as a local MCP server via `.cursor/mcp.json`. Open this repo in Cursor and ask Agent chat to run the tools directly.
+
+```text
+Run tell_diagnose on http://localhost:3001 and draft an editorial redesign.
 ```
 
-</details>
+| Tool | Purpose |
+|---|---|
+| `tell_capture` | Capture screenshot and computed-style evidence for a URL. |
+| `tell_diagnose` | Return the full Tell report, findings, verdicts, and score. |
+| `tell_redesign` | Draft a redesign proposal for a finding or whole report. |
+| `tell_apply` | Return patch text and instructions; it never writes files for you. |
+
+---
+
+## Architecture
+
+Tell is a pnpm monorepo with one shared engine behind both the web app and MCP server.
+
+```text
+tell/
+├── apps/web/           # Next.js product UI and API routes
+├── packages/schema/    # Zod contracts shared across every boundary
+├── packages/core/      # Capture, fingerprint, detectors, diagnosis
+├── packages/taste/     # Verdicts, direction presets, voice/text parsing
+├── packages/redesign/  # Reconciliation, source patches, proof measures
+├── packages/mcp/       # Cursor MCP stdio server
+├── fixtures/           # Generic input app and committed report artifacts
+└── docs/               # Product, deployment, and design notes
+```
+
+Key API routes:
+
+| Route | Responsibility |
+|---|---|
+| `POST /api/diagnose` | Capture and diagnose a URL, using a remote capture backend when configured. |
+| `POST /api/redesign` | Produce a source-aware redesign proposal with deterministic fallback. |
+| `POST /api/voice` | Convert transcript/text into direction presets and action items. |
+| `POST /api/setup/start` | Local-only GitHub clone/install/run/capture workflow. |
+| `POST /api/proof/apply` | Apply a candidate patch in the disposable checkout and verify it. |
+| `POST /api/proof/revert` | Revert the proof checkout. |
+| `GET /api/health/capture` | Check Playwright capture readiness. |
 
 ---
 
 ## Deploy
 
-**Best hackathon setup:** **Vercel** (judge URL) + **Vultr VPS** or **Render** (Playwright capture). Set `TELL_CAPTURE_API_URL` on Vercel.
+The most reliable production shape is a hosted UI plus a separate Playwright capture backend.
 
 | Layer | Platform | Role |
 |---|---|---|
-| UI | Vercel | [tell-five.vercel.app](https://tell-five.vercel.app) |
-| Capture | **Vultr** (recommended if you have credits) or Render | Live URL diagnosis |
-| MCP | Local Cursor | `tell_diagnose` in Agent chat |
+| UI | Vercel | Fast Next.js app, report, reveal, voice direction, redesign draft |
+| Capture | Vultr, Render, or Docker host | Playwright + Chromium for live URL diagnosis |
+| MCP | Local Cursor | Stdio tools for editor-native diagnosis and patch handoff |
 
-- **Vultr ($200 credits):** [docs/DEPLOY-VULTR.md](./docs/DEPLOY-VULTR.md)
-- **Render / general:** [docs/DEPLOY.md](./docs/DEPLOY.md)
+Set `TELL_CAPTURE_API_URL` on the Vercel app to point at the capture backend. GitHub clone-and-run is local-only and should stay disabled on public hosts with `TELL_DISABLE_REPO_SETUP=1`.
 
-Configs: `Dockerfile`, `scripts/vultr/setup.sh`, `scripts/vultr/cloud-init.yaml`, `docker-compose.vultr.yml`
+Deployment guides:
 
----
-
-## Use it in Cursor
-
-Tell registers itself as an MCP server, so you can drive the whole pipeline from Cursor's Agent chat.
-
-1. Open this repo in Cursor — the `tell` server is already registered in `.cursor/mcp.json`.
-2. In Agent chat, ask for a diagnosis in plain English:
-
-   > "Run `tell_diagnose` on `http://localhost:3001` and draft an editorial redesign."
-
-3. Review the findings and the proposed diff, then apply it — Tell hands you the patch, but you decide what lands.
-
-**Available tools**
-
-| Tool | What it returns |
-|---|---|
-| `tell_capture` | The rendered screenshot + computed-style evidence for a URL. |
-| `tell_diagnose` | The full report: findings, taste verdicts, and the Tell score. |
-| `tell_redesign` | A redesign proposal (patch text) for one finding or the whole report. |
-| `tell_apply` | The unified diff plus instructions — it never writes files for you. |
+- [Hybrid and single-platform deploy](./docs/DEPLOY.md)
+- [Vultr capture backend](./docs/DEPLOY-VULTR.md)
 
 ---
 
-## Project structure
+## Product Status
 
-Tell is a pnpm monorepo. Each package has one job.
+Shipped:
 
-```
-tell/
-├── packages/
-│   ├── schema/      # zod contracts shared by everything
-│   ├── core/        # capture + fingerprint + detectors (pure, no model)
-│   ├── taste/       # taste engine + voice/text art-direction
-│   ├── redesign/    # turns a direction into a diff
-│   └── mcp/          # the Cursor-facing MCP server
-├── apps/
-│   └── web/         # the Tell app: report, before/after seam, voice director
-├── fixtures/
-│   ├── generic-app/ # a deliberately bland app used as demo input
-│   └── reports/     # a committed report artifact for offline demos
-└── docs/            # design system and reference notes
-```
+- Deterministic capture, fingerprinting, and 14 detectors
+- Taste verdicts with safe fallback
+- Tell Report with before/after reveal
+- Voice/text art-direction
+- Cursor MCP tools
+- Public URL capture with offline report fallback
+- Local GitHub repo setup runner
+- Source-grounded redesign proposals
+- Contrast-grounded reconciliation
+- Multi-page route discovery and per-page scans
+- Disposable visual proof loop for candidate patches
 
----
+Next:
 
-## Tech stack
-
-| Layer | Choice |
-|---|---|
-| Language | TypeScript (strict) |
-| Monorepo | pnpm workspaces |
-| Capture | Playwright / Chrome DevTools Protocol |
-| Web app | Next.js 14 + Tailwind CSS |
-| Taste reasoning | Google Gemini with deterministic fallback |
-| Redesign diffs | Deterministic reconciliation CSS; Anthropic-ready interface |
-| Editor integration | Model Context Protocol (stdio) |
-| Validation | zod |
-| Tests | Vitest (golden detector tests) |
-
----
-
-## Roadmap
-
-- [x] Deterministic capture → fingerprint → 14 detectors
-- [x] Taste engine with reflection + safe fallback
-- [x] Tell Report with draggable before/after seam
-- [x] Voice art-direction with text-preset fallback
-- [x] Cursor MCP server (`capture` / `diagnose` / `redesign` / `apply`)
-- [x] Live URL capture (any reachable HTTP URL, with offline artifact fallback)
-- [x] GitHub repo setup — clone, install, run, and capture localhost
-- [x] Token-grounded live reconciliation in the before/after seam
-- [x] Contrast-grounded reconciliation with readable text/control pairings
-- [x] Multi-page route discovery and per-page scanning
-- [ ] Per-state evidence thumbnails (hover, focus, error) in the report
-- [ ] A shareable, hosted report link
+- Per-state evidence thumbnails for hover, focus, and error states
+- Shareable hosted report links
+- Broader detector golden corpus across more product categories
 
 ---
 
 ## Contributing
 
-Contributions are welcome. The short version:
+Contributions are welcome. The highest-leverage additions are new detectors, better evidence views, and stronger source mapping.
 
-1. Fork the repo and create a branch: `git checkout -b feature/your-idea`
-2. Make your change and keep it green: `pnpm typecheck && pnpm test`
-3. Open a pull request describing the *why*, not just the *what*.
+```bash
+pnpm typecheck && pnpm test
+```
 
-New detectors are the highest-leverage contribution — they live in `packages/core/src/detectors` and each ships with a golden test.
+The sample app under `fixtures/generic-app/` is intentionally bland input data, not the product itself. See [CONTRIBUTIONS.md](./CONTRIBUTIONS.md) for the attribution breakdown.
 
 ---
 
 ## License
 
 Released under the [MIT License](./LICENSE).
-
-The sample app under `fixtures/generic-app/` is a deliberately bland demo target used only as input for Tell — it is not part of the product. See [CONTRIBUTIONS.md](./CONTRIBUTIONS.md) for the full breakdown of what's original work versus demo input.
