@@ -1,0 +1,15 @@
+---
+description: Redesign and reconciliation rules
+globs: "packages/redesign/**/*,apps/web/src/lib/cursor-redesign.ts"
+alwaysApply: false
+---
+
+# Redesign rules
+
+- `packages/redesign` is deterministic: no LLM, network, browser, or Cursor SDK calls.
+- Reconciliation must improve measured facts, especially readable foreground/background contrast.
+- Only force foreground colors inside surfaces Tell also controls.
+- `OfflineRedesignGenerator` should emit the same contrast-grounded CSS used by the live seam.
+- Direction presets are `editorial`, `precision`, `warm-minimal`, and `bold-contrast`.
+- `buildOverridesPatch` emits reviewable `tell-overrides.css` diffs; never writes files itself.
+- Cursor-SDK-backed patch drafting stays in `apps/web/src/lib/cursor-redesign.ts` and must fall back to deterministic output.
