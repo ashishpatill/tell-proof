@@ -20,3 +20,5 @@ output/
 # Internal planning notes (kept local, not shipped)
 docs/03_CLAUDE_DESIGN_BRIEF.md
 docs/04_CLAUDE_PROJECT.md
+.vercel
+.env*
