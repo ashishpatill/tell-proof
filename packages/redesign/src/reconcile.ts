@@ -101,6 +101,8 @@ export function reconcile(
     axes,
     elementsRestyled: plan.ops.length,
     scoredAgainst: dna ? "brand-dna" : "baseline",
+    cssSource: "recipes",
+    directionNotes: plan.directionNotes,
   } satisfies Reconciliation;
 }
 
