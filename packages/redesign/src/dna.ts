@@ -108,7 +108,7 @@ export function learnBrandDNA(
     displayFont,
     bodyFont,
     monoFont,
-    accent: accent?.hex ?? fingerprint.colors[0] ?? "#6366F1",
+    accent: accent?.hex ?? fingerprint.colors[0]?.normalizedHex ?? "#6366F1",
     radius: dominantRadius(styles),
     spacingBase: spacingBaseOf(styles),
     typeScaleRatio: ratio,
