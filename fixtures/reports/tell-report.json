@@ -2031,7 +2031,7 @@
   },
   "fingerprint": {
     "url": "http://localhost:3001",
-    "generatedAt": "2026-07-07T13:38:21.182Z",
+    "generatedAt": "2026-07-07T13:45:06.932Z",
     "fontFamilies": [
       {
         "family": "Inter",
@@ -2651,53 +2651,6 @@
         }
       ],
       "severity": "medium"
-    },
-    {
-      "id": "drift-design-system",
-      "family": "drift",
-      "detector": "DesignSystemDrift",
-      "verdictHint": "drift",
-      "facts": {
-        "declaredFonts": [
-          "Instrument Serif",
-          "Source Sans 3",
-          "IBM Plex Mono"
-        ],
-        "declaredColors": [
-          "#D4714A",
-          "#181614",
-          "#221F1C",
-          "#F3EDE4"
-        ],
-        "undeclaredFonts": [
-          "Inter",
-          "Arial"
-        ],
-        "offPaletteColors": [
-          "#F4F4F5",
-          "#000000",
-          "#111827",
-          "#F5F5F5",
-          "#F4F4F4",
-          "#FFFFFF",
-          "#8B5CF6",
-          "#F3F4F6"
-        ],
-        "source": "DESIGN.md"
-      },
-      "evidence": [
-        {
-          "kind": "computed",
-          "label": "Undeclared fonts",
-          "value": "Inter, Arial"
-        },
-        {
-          "kind": "computed",
-          "label": "Off-palette colors",
-          "value": "#F4F4F5, #000000, #111827, #F5F5F5, #F4F4F4, #FFFFFF, #8B5CF6, #F3F4F6"
-        }
-      ],
-      "severity": "medium"
     }
   ],
   "verdicts": [
@@ -2784,18 +2737,12 @@
       "verdict": "drift",
       "confidence": 0.72,
       "rationale": "TokenBypass found inconsistent rendered values. Pick one semantic treatment before the surface keeps splitting."
-    },
-    {
-      "findingId": "drift-design-system",
-      "verdict": "drift",
-      "confidence": 0.72,
-      "rationale": "DesignSystemDrift found inconsistent rendered values. Pick one semantic treatment before the surface keeps splitting."
     }
   ],
   "score": {
-    "total": 15,
+    "total": 14,
     "generic": 8,
-    "drift": 7,
+    "drift": 6,
     "intentional": 0,
     "uncertain": 0
   },
