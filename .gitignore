@@ -21,4 +21,4 @@ output/
 docs/03_CLAUDE_DESIGN_BRIEF.md
 docs/04_CLAUDE_PROJECT.md
 .vercel
-.env*
+data/shared-reports/
