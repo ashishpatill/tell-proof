@@ -1,5 +1,8 @@
 import { CapturePayload, DesignFingerprint, Finding } from "@tell/schema";
 import { hexToRgb, saturation } from "../fingerprint/build-fingerprint";
+import { detectDesignSystemDrift, parseDesignDoc, type DesignDocSpec } from "./design-system-drift";
+
+export { parseDesignDoc, type DesignDocSpec } from "./design-system-drift";
 
 const evidence = (label: string, value: string, selector?: string) => [{ kind: "computed" as const, label, value, selector }];
 
@@ -14,7 +17,11 @@ function pxNumbers(paddingValues: string[]): number[] {
   return paddingValues.flatMap((p) => (p.match(/-?\d+(?:\.\d+)?/g) ?? []).map(Number));
 }
 
-export function detectFindings(fingerprint: DesignFingerprint, capture: CapturePayload): Finding[] {
+export function detectFindings(
+  fingerprint: DesignFingerprint,
+  capture: CapturePayload,
+  opts?: { designDoc?: string | DesignDocSpec },
+): Finding[] {
   const findings: Finding[] = [];
   const totalFonts = fingerprint.fontFamilies.reduce((sum, f) => sum + f.count, 0) || 1;
   const primaryFont = fingerprint.fontFamilies[0];
@@ -196,6 +203,10 @@ export function detectFindings(fingerprint: DesignFingerprint, capture: CaptureP
       evidence: evidence("Off-grid spacing literals", offGrid.map((n) => `${n}px`).join(", ")),
     }));
   }
+
+  const designSpec = typeof opts?.designDoc === "string" ? parseDesignDoc(opts.designDoc) : opts?.designDoc;
+  const designFinding = detectDesignSystemDrift(fingerprint, designSpec);
+  if (designFinding) findings.push(designFinding);
 
   return findings;
 }
