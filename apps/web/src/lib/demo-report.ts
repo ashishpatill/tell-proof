@@ -1060,6 +1060,7 @@ export const demoReport: TellReport = {
         "ariaDisabled": false
       }
     ],
+    "stateShots": [],
     "domSummary": {
       "headingCount": 7,
       "buttonCount": 3,
