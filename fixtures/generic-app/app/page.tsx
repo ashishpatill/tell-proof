@@ -33,6 +33,19 @@ export default function GenericApp() {
           </article>
         ))}
       </section>
+      <section className="mini-stats" aria-label="Extra chrome">
+        {["Latency", "Uptime", "Teams", "Regions", "Exports", "Alerts"].map((label) => (
+          <div className="mini-stat" key={label}>
+            <p className="muted-a" style={{ fontSize: 17 }}>{label}</p>
+            <p className="muted-b" style={{ fontSize: 21 }}>99.9%</p>
+          </div>
+        ))}
+      </section>
+      <section className="tag-row" aria-label="Tag chrome">
+        {["Realtime", "Secure", "Fast", "Global", "Trusted", "Simple", "Modern", "Flexible", "Reliable", "Smart", "Scalable", "Open", "Synced", "Guided", "Pro", "Live", "Beta", "Core", "Edge", "Plus"].map((tag) => (
+          <span className="tag" key={tag}>{tag}</span>
+        ))}
+      </section>
       <footer style={{ padding: 47 }}>Made with AI. Looks familiar.</footer>
     </main>
   );
