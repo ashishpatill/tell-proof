@@ -63,6 +63,8 @@ function scorePreset(input: string): Record<DirectionPresetId, number> {
     precision: 0,
     "warm-minimal": 0,
     "bold-contrast": 0,
+    luxury: 0,
+    brutalist: 0,
   };
 
   if (/precision|instrument|mono|measured|data|sharp|grotesk|technical|clinical/.test(normalized)) {
@@ -73,6 +75,12 @@ function scorePreset(input: string): Record<DirectionPresetId, number> {
   }
   if (/bold|contrast|dramatic|memorable|heavy|punchy|loud|high contrast/.test(normalized)) {
     scores["bold-contrast"] += 2;
+  }
+  if (/luxury|premium|refined|elegant|classic|sophisticated|hospitality/.test(normalized)) {
+    scores.luxury += 2;
+  }
+  if (/brutalist|raw|utility|structural|industrial|mono|uppercase|ink border/.test(normalized)) {
+    scores.brutalist += 2;
   }
   if (/editorial|serif|warm|paper|human|magazine|story/.test(normalized)) {
     scores.editorial += 2;
@@ -109,7 +117,7 @@ export function parseDirectionPlan(input: string): DirectionPlan {
 const VOICE_SYSTEM_PROMPT = [
   "You parse voice art-direction instructions for Tell, a UI taste engine.",
   "Break compound instructions into separate actionable items.",
-  "Pick the closest preset: editorial | precision | warm-minimal | bold-contrast.",
+  "Pick the closest preset: editorial | precision | warm-minimal | bold-contrast | luxury | brutalist.",
   "Respond ONLY with JSON:",
   '{"presetId":"...","summary":"one line","actionItems":[{"label":"...","category":"typography|color|spacing|depth|tone|other"}],',
   '"tokenOverrides":{"--font-display":"...","--accent":"#RRGGBB","--radius-card":"...","--shadow-card":"..."}}',
@@ -159,7 +167,7 @@ export async function parseDirectionWithGemini(
     };
 
     const presetId = (
-      ["editorial", "precision", "warm-minimal", "bold-contrast"] as const
+      ["editorial", "precision", "warm-minimal", "bold-contrast", "luxury", "brutalist"] as const
     ).includes(parsed.presetId as DirectionPresetId)
       ? (parsed.presetId as DirectionPresetId)
       : fallback.presetId;

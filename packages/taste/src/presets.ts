@@ -49,4 +49,28 @@ export const DIRECTION_PRESETS = {
     },
     summary: "Stronger hierarchy and sharper editorial contrast.",
   },
+  luxury: {
+    id: "classic-luxury",
+    label: "Classic luxury",
+    keywords: ["luxury", "premium", "refined", "elegant"],
+    tokenOverrides: {
+      "--font-display": "Playfair Display",
+      "--accent": "#6B2C3E",
+      "--radius-card": "3px",
+      "--shadow-card": "none",
+    },
+    summary: "Refined ivory surfaces, letterspaced labels, hairline rules.",
+  },
+  brutalist: {
+    id: "brutalist-utility",
+    label: "Brutalist utility",
+    keywords: ["brutalist", "raw", "utility", "structural", "mono"],
+    tokenOverrides: {
+      "--font-display": "Archivo",
+      "--accent": "#D94F30",
+      "--radius-card": "0px",
+      "--shadow-card": "none",
+    },
+    summary: "Ink borders, uppercase type, visible structure.",
+  },
 } satisfies Record<string, ArtDirection>;
