@@ -47,6 +47,8 @@ const PRESET_CHIPS: { key: string; label: string }[] = [
   { key: "precision", label: "Precision instrument" },
   { key: "warm-minimal", label: "Warm minimal" },
   { key: "bold-contrast", label: "Bold contrast" },
+  { key: "luxury", label: "Classic luxury" },
+  { key: "brutalist", label: "Brutalist utility" },
 ];
 
 type CaptureState = "idle" | "capturing" | "done";

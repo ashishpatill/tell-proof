@@ -17,6 +17,11 @@ describe("parseDirectionPlan", () => {
     expect(inferPresetId("quiet minimal surfaces with less shadow")).toBe("warm-minimal");
   });
 
+  it("maps luxury and brutalist language to their presets", () => {
+    expect(inferPresetId("classic luxury hospitality feel")).toBe("luxury");
+    expect(inferPresetId("raw brutalist utility with ink borders")).toBe("brutalist");
+  });
+
   it("assigns categories to action items", () => {
     const items = dissectInstructions("serif headlines, warmer accent, flat cards");
     expect(items.find((item) => item.category === "typography")).toBeTruthy();
