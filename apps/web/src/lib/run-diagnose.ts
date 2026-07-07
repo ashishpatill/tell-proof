@@ -1,10 +1,11 @@
-import { captureUrl, diagnoseCapture } from "@tell/core";
+import { captureUrl, diagnoseCapture, loadDesignDoc, shouldApplyDesignDoc } from "@tell/core";
 import { TellReport } from "@tell/schema";
 
 /** Run capture + diagnose in-process (reliable in Docker / Vercel). */
 export async function runDiagnose(url: string): Promise<TellReport> {
   try {
-    const report = diagnoseCapture(await captureUrl(url));
+    const designDoc = shouldApplyDesignDoc(url) ? await loadDesignDoc() : undefined;
+    const report = diagnoseCapture(await captureUrl(url), undefined, designDoc);
     return TellReport.parse(report);
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
