@@ -254,11 +254,39 @@ export async function captureUrl(url: string): Promise<CapturePayload> {
       [SAMPLE_SELECTORS, MAX_INLINE_CSS, MAX_SNAPSHOT] as const,
     );
 
+    const stateShots: { selector: string; state: "default" | "hover" | "focus"; imageBase64: string }[] = [];
+    for (const probe of payload.probes.slice(0, 4)) {
+      try {
+        const loc = page.locator(probe.selector).first();
+        if ((await loc.count()) === 0) continue;
+        stateShots.push({
+          selector: probe.selector,
+          state: "default",
+          imageBase64: (await loc.screenshot({ type: "png", timeout: 4000 })).toString("base64"),
+        });
+        await loc.hover({ timeout: 2000 }).catch(() => {});
+        stateShots.push({
+          selector: probe.selector,
+          state: "hover",
+          imageBase64: (await loc.screenshot({ type: "png", timeout: 4000 })).toString("base64"),
+        });
+        await loc.focus({ timeout: 2000 }).catch(() => {});
+        stateShots.push({
+          selector: probe.selector,
+          state: "focus",
+          imageBase64: (await loc.screenshot({ type: "png", timeout: 4000 })).toString("base64"),
+        });
+      } catch {
+        /* element not stable enough for a state clip */
+      }
+    }
+
     return CapturePayload.parse({
       url,
       capturedAt: new Date().toISOString(),
       viewport: { width: 1440, height: 1100 },
       screenshotBase64,
+      stateShots,
       ...payload,
     });
   } finally {
