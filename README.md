@@ -169,6 +169,7 @@ Key API routes:
 | `POST /api/voice` | Convert transcript/text into direction presets and action items. |
 | `POST /api/setup/start` | Local-only GitHub clone/install/run/capture workflow. |
 | `POST /api/proof/apply` | Apply a candidate patch in the disposable checkout and verify it. |
+| `POST /api/proof/verify` | Hosted proof sandbox — compare two reports on Vercel, or apply+recapture on the capture backend. |
 | `POST /api/proof/revert` | Revert the proof checkout. |
 | `POST /api/reports/share` | Persist a Tell report and return a shareable `/report/[id]` link. |
 | `GET /api/reports/[id]` | Load a previously shared report JSON. |
@@ -215,9 +216,17 @@ Shipped:
 
 Next:
 
-- Broader detector golden corpus across more product categories
-- Multi-viewport capture matrix (tablet + mobile)
-- Hosted proof sandboxes for Vercel deployments
+- Open taxonomy / benchmark asset for genericness methodology
+- Additional committed captures in `fixtures/corpus/` (editorial, fintech, etc.)
+- Cursor automation hook to run proof-verify on every UI PR
+
+Shipped in Phase 3:
+
+- Multi-viewport capture matrix (desktop + tablet + mobile) with viewport strip in the report
+- Hosted proof verify API (`POST /api/proof/verify`) — compare mode on Vercel, patch mode on capture backend
+- Detector golden corpus manifest (`fixtures/corpus/manifest.json`) with regression test
+- Cursor rule for auto proof-verify (`.cursor/rules/tell-proof-verify.mdc`)
+- Cursor Cloud environment setup docs in `AGENTS.md`
 
 Shipped in Phase 2:
 
