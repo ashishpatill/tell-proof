@@ -38,11 +38,27 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           URL="${REPO_PREVIEW_URL}"
+          SOURCE="var"
+          # Body fallback: only scrape app hosts — ignore cursor.com / github.com noise.
           if [ -z "$URL" ]; then
-            URL="$(printf '%s' "$PR_BODY" | grep -Eo 'https://[a-zA-Z0-9./?=_%:-]+' | head -1 || true)"
+            SOURCE="body"
+            URL="$(printf '%s' "$PR_BODY" | grep -Eo 'https://[a-zA-Z0-9.-]+\.vercel\.app(/[a-zA-Z0-9./?=_%:-]*)?' | head -1 || true)"
           fi
           if [ -z "$URL" ]; then
-            echo "No preview URL configured. Set repo variable TELL_PREVIEW_URL or include a URL in the PR body."
+            SOURCE="body"
+            URL="$(printf '%s' "$PR_BODY" | grep -Eo 'https://[a-zA-Z0-9.-]+\.onrender\.com(/[a-zA-Z0-9./?=_%:-]*)?' | head -1 || true)"
+          fi
+          if [ -z "$URL" ]; then
+            echo "No preview URL configured. Set repo variable TELL_PREVIEW_URL or include a *.vercel.app URL in the PR body."
+            exit 0
+          fi
+          if ! printf '%s' "$URL" | grep -Eq '^https?://'; then
+            echo "Ignoring non-http(s) URL: $URL"
+            exit 0
+          fi
+          # Body-scraped URLs must stay on known app hosts (allow path/query/hash).
+          if [ "$SOURCE" = "body" ] && ! printf '%s' "$URL" | grep -Eq '^https://[a-zA-Z0-9.-]+\.(vercel\.app|onrender\.com)([/?#]|$)'; then
+            echo "Ignoring non-preview URL from PR body: $URL"
             exit 0
           fi
           echo "url=$URL" >> "$GITHUB_OUTPUT"
