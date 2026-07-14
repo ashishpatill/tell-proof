@@ -28,6 +28,12 @@ URL="$(tail -n 1 /tmp/tell-vercel-deploy.log)"
 PROD_URL="$(grep -Eo 'https://[a-zA-Z0-9.-]+\.vercel\.app' /tmp/tell-vercel-deploy.log | tail -n 1 || true)"
 FINAL_URL="${PROD_URL:-$URL}"
 
+if [[ -z "$FINAL_URL" || "$FINAL_URL" != https://* ]]; then
+  echo "Deploy finished but no https://*.vercel.app URL was parsed."
+  echo "Full log: /tmp/tell-vercel-deploy.log"
+  exit 1
+fi
+
 echo ""
 echo "Production URL: $FINAL_URL"
 echo ""
