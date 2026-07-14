@@ -294,10 +294,19 @@ export default function HomePage() {
         body: JSON.stringify({ report }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Could not create share link.");
+      if (!res.ok) {
+        const detail = [data.error, data.hint, data.detail].filter(Boolean).join(" — ");
+        throw new Error(detail || "Could not create share link.");
+      }
       setShareUrl(data.url);
       await navigator.clipboard.writeText(data.url);
-      showNotice({ tone: "success", title: "Share link copied", message: data.url });
+      const backendLabel =
+        data.backend === "neon" ? "Neon" : data.backend === "blob" ? "Blob" : "this instance";
+      showNotice({
+        tone: "success",
+        title: `Share link copied · ${backendLabel}`,
+        message: data.expiresNote ? `${data.url}\n${data.expiresNote}` : data.url,
+      });
     } catch (error) {
       showNotice({
         tone: "error",
