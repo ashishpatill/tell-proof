@@ -170,7 +170,7 @@ Key API routes:
 | `POST /api/setup/start` | Local-only GitHub clone/install/run/capture workflow. |
 | `POST /api/proof/apply` | Apply a candidate patch in the disposable checkout and verify it. |
 | `POST /api/proof/revert` | Revert the proof checkout. |
-| `POST /api/reports/share` | Persist a Tell report and return a shareable `/report/[id]` link. |
+| `POST /api/reports/share` | Persist a Tell report (Neon → Blob → disk) and return a shareable `/report/[id]` link. |
 | `GET /api/reports/[id]` | Load a previously shared report JSON. |
 | `GET /api/health/capture` | Check Playwright capture readiness. |
 
@@ -188,7 +188,7 @@ The most reliable production shape is a hosted UI plus a separate Playwright cap
 
 Set `TELL_CAPTURE_API_URL` on the Vercel app to point at the capture backend. GitHub clone-and-run is local-only and should stay disabled on public hosts with `TELL_DISABLE_REPO_SETUP=1`.
 
-For durable share links on Vercel, link a Blob store to the project (see [DEPLOY.md](./docs/DEPLOY.md)). For PR preview diagnosis CI, set the GitHub repo variable `TELL_PREVIEW_URL` to your stable Vercel URL.
+For durable share links on Vercel, set `DATABASE_URL` from a Neon project (preferred) or link a Blob store (see [DEPLOY.md](./docs/DEPLOY.md)). For PR preview diagnosis CI, set the GitHub repo variable `TELL_PREVIEW_URL` to your stable Vercel URL.
 
 Deployment guides:
 
@@ -215,13 +215,15 @@ Shipped:
 
 Next:
 
-- Broader detector golden corpus across more product categories
-- Multi-viewport capture matrix (tablet + mobile)
-- Hosted proof sandboxes for Vercel deployments
+- Broader detector golden corpus across more product categories (`fixtures/corpus/`)
+- Multi-viewport capture matrix (tablet + mobile) — open Phase 3 PR
+- Hosted proof sandboxes for Vercel deployments — open Phase 3 PR
+- Open taxonomy / benchmark asset (Phase 4)
+- Cursor automation hook to run proof-verify on every UI PR (Phase 4)
 
 Shipped in Phase 2:
 
-- Shareable report links (`/api/reports/share`, `/report/[id]`)
+- Shareable report links (`/api/reports/share`, `/report/[id]`) with Neon Postgres preferred, Blob fallback
 - State probe thumbnails on capture (default / hover / focus clips)
 - DESIGN.md drift detector (`DesignSystemDrift`) with automatic load in diagnose pipeline
 - Tell Proof verify Cursor skill (`.cursor/skills/tell-proof-verify`)
