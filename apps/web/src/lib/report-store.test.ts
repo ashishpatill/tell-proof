@@ -54,10 +54,26 @@ describe("report-store share backend", () => {
     expect(shareBackendNote("disk")).toMatch(/DATABASE_URL/);
   });
 
+  it("load order prefers Neon then still checks Blob", async () => {
+    process.env.DATABASE_URL = "postgresql://user:pass@ep-example.neon.tech/neondb";
+    process.env.BLOB_READ_WRITE_TOKEN = "blob-token";
+    const { loadBackendOrder } = await import("./report-store");
+    expect(loadBackendOrder()).toEqual(["neon", "blob", "disk"]);
+  });
+
   it("rejects malformed share ids before touching storage", async () => {
     const { loadSharedReport } = await import("./report-store");
     expect(await loadSharedReport("../etc/passwd")).toBeNull();
     expect(await loadSharedReport("not-hex")).toBeNull();
     expect(await loadSharedReport("abcd")).toBeNull();
+  });
+
+  it("sanitizes postgres URLs out of store errors", async () => {
+    const { sanitizeStoreError } = await import("./report-store");
+    const cleaned = sanitizeStoreError(
+      new Error("connect failed postgresql://user:secret@ep-x.neon.tech/neondb?sslmode=require boom"),
+    );
+    expect(cleaned).not.toMatch(/secret/);
+    expect(cleaned).toMatch(/postgresql:\/\/\*\*\*/);
   });
 });
