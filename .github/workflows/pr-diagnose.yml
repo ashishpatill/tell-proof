@@ -38,11 +38,19 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           URL="${REPO_PREVIEW_URL}"
+          # Only accept app hosts from the PR body — ignore cursor.com / github.com noise.
           if [ -z "$URL" ]; then
-            URL="$(printf '%s' "$PR_BODY" | grep -Eo 'https://[a-zA-Z0-9./?=_%:-]+' | head -1 || true)"
+            URL="$(printf '%s' "$PR_BODY" | grep -Eo 'https://[a-zA-Z0-9.-]+\.vercel\.app(/[a-zA-Z0-9./?=_%:-]*)?' | head -1 || true)"
           fi
           if [ -z "$URL" ]; then
-            echo "No preview URL configured. Set repo variable TELL_PREVIEW_URL or include a URL in the PR body."
+            URL="$(printf '%s' "$PR_BODY" | grep -Eo 'https://[a-zA-Z0-9.-]+\.onrender\.com(/[a-zA-Z0-9./?=_%:-]*)?' | head -1 || true)"
+          fi
+          if [ -n "$URL" ] && ! printf '%s' "$URL" | grep -Eq '^(https://[a-zA-Z0-9.-]+\.(vercel\.app|onrender\.com)|https?://localhost(:[0-9]+)?)(/|$)'; then
+            echo "Ignoring non-preview URL: $URL"
+            URL=""
+          fi
+          if [ -z "$URL" ]; then
+            echo "No preview URL configured. Set repo variable TELL_PREVIEW_URL or include a *.vercel.app URL in the PR body."
             exit 0
           fi
           echo "url=$URL" >> "$GITHUB_OUTPUT"
