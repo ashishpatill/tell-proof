@@ -155,15 +155,25 @@ In **Project → Settings → Environment Variables**, add:
 GEMINI_API_KEY=your-key
 CURSOR_API_KEY=your-key          # optional
 TELL_DISABLE_REPO_SETUP=1        # already in vercel.json; safe to set again
+DATABASE_URL=postgresql://…@….neon.tech/neondb?sslmode=require
 ```
 
 `TELL_DISABLE_REPO_SETUP=1` blocks the GitHub clone-and-run route on the public internet.
 
+**Neon (durable share links):** Vercel → **Storage → Create Database → Neon**, or create at [console.neon.tech](https://console.neon.tech) and paste `DATABASE_URL`. Tell auto-creates the `shared_reports` table on first share.
+
 ### Step 3 — Deploy
 
-Click **Deploy**. First build takes ~2–4 minutes (pnpm monorepo).
+**Dashboard:** Click **Deploy**. First build takes ~2–4 minutes (pnpm monorepo).
 
-You get: `https://tell-xxxx.vercel.app` (or your custom domain).
+**CLI** (from repo root, requires a token from [vercel.com/account/tokens](https://vercel.com/account/tokens)):
+
+```bash
+export VERCEL_TOKEN=…
+pnpm deploy:vercel
+```
+
+You get: `https://tell-xxxx.vercel.app` (or your custom domain). Then set GitHub Actions variable `TELL_PREVIEW_URL` to that URL.
 
 ### Step 4 — Demo script for viewers
 
@@ -255,12 +265,26 @@ Free tier may spin down after idle — first request after sleep is slow (~30–
 | `CURSOR_API_KEY` | — | Cursor SDK redesign drafts |
 | `TELL_FIXTURE_URL` | `http://localhost:3001` | Local fixture only |
 | `TELL_REPORT_ARTIFACT` | `fixtures/reports/tell-report.json` | Offline demo fallback |
-| `BLOB_READ_WRITE_TOKEN` | — | Vercel Blob token for durable `/api/reports/share` links |
+| `DATABASE_URL` | — | Neon (or Postgres) connection string for durable `/api/reports/share` |
+| `BLOB_READ_WRITE_TOKEN` | — | Optional Vercel Blob fallback for share links |
 | `TELL_PREVIEW_URL` | — | GitHub repo variable for PR preview diagnosis CI |
 
-### Share links on Vercel
+### Share links on Vercel (Neon preferred)
 
-Shared reports (`POST /api/reports/share`) use local disk in dev. On Vercel, link a **Blob store** to the project — Vercel injects `BLOB_READ_WRITE_TOKEN` automatically. Without it, share links are ephemeral (lost on cold start).
+Shared reports (`POST /api/reports/share`) pick a backend in this order:
+
+1. **Neon / Postgres** when `DATABASE_URL` (or `POSTGRES_URL` / `NEON_DATABASE_URL`) is set — preferred; survives cold starts.
+2. **Vercel Blob** when `BLOB_READ_WRITE_TOKEN` is set.
+3. **Local disk** in dev only — ephemeral on serverless.
+
+#### Neon setup (recommended)
+
+1. Create a Neon project at [console.neon.tech](https://console.neon.tech) (or **Vercel → Storage → Create Database → Neon**).
+2. Copy the connection string into Vercel **Project → Settings → Environment Variables** as `DATABASE_URL` (Production + Preview).
+3. Redeploy. Tell auto-creates `shared_reports` on first share (`scripts/sql/shared-reports.sql` is the schema reference).
+4. Optional: also link a Blob store as a secondary fallback.
+
+Without Neon or Blob, share links are ephemeral (lost on cold start).
 
 ### PR preview diagnosis CI
 
@@ -268,10 +292,12 @@ In GitHub **Settings → Secrets and variables → Actions → Variables**, set:
 
 | Variable | Example | Purpose |
 |---|---|---|
-| `TELL_PREVIEW_URL` | `https://tell-five.vercel.app` | Stable URL for `.github/workflows/pr-diagnose.yml` |
+| `TELL_PREVIEW_URL` | `https://your-app.vercel.app` | Stable URL for `.github/workflows/pr-diagnose.yml` |
 | `TELL_FAIL_GENERIC_ABOVE` | `6` | Optional — fail CI when generic tell count exceeds threshold |
 
 The workflow falls back to the first URL in the PR body when `TELL_PREVIEW_URL` is unset.
+
+After a fresh Vercel deploy, update `TELL_PREVIEW_URL` to the new production hostname — older hosts like `tell-five.vercel.app` may 404 if the deployment was removed.
 
 ---
 

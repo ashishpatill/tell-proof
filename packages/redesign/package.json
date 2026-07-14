@@ -8,11 +8,15 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./llm": {
       "types": "./dist/llm-restyle.d.ts",
-      "import": "./dist/llm-restyle.js"
+      "import": "./dist/llm-restyle.js",
+      "require": "./dist/llm-restyle.js",
+      "default": "./dist/llm-restyle.js"
     }
   },
   "scripts": {

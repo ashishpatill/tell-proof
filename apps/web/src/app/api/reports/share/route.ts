@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { TellReport } from "@tell/schema";
-import { saveSharedReport } from "@/lib/report-store";
+import {
+  resolveShareBackend,
+  sanitizeStoreError,
+  saveSharedReport,
+  shareBackendNote,
+} from "@/lib/report-store";
 
 export const runtime = "nodejs";
 
@@ -21,13 +26,30 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Report payload is missing or invalid." }, { status: 400 });
   }
-  const id = await saveSharedReport(parsed.data);
-  const origin = new URL(request.url).origin;
-  return NextResponse.json({
-    id,
-    url: `${origin}/report/${id}`,
-    expiresNote: process.env.BLOB_READ_WRITE_TOKEN
-      ? "Stored in Vercel Blob — persists across serverless instances."
-      : "Hosted on this instance until cleared. Set BLOB_READ_WRITE_TOKEN on Vercel for durable share links.",
-  });
+  const backend = resolveShareBackend();
+  try {
+    const id = await saveSharedReport(parsed.data);
+    const origin = new URL(request.url).origin;
+    return NextResponse.json({
+      id,
+      url: `${origin}/report/${id}`,
+      backend,
+      expiresNote: shareBackendNote(backend),
+    });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: "Could not persist shared report.",
+        detail: sanitizeStoreError(err),
+        backend,
+        hint:
+          backend === "neon"
+            ? "Check DATABASE_URL connectivity and that the Neon project is awake."
+            : backend === "blob"
+              ? "Check BLOB_READ_WRITE_TOKEN and Blob store permissions."
+              : "Local disk write failed — check process permissions.",
+      },
+      { status: 500 },
+    );
+  }
 }
