@@ -24,7 +24,7 @@ function useNeonStore(): boolean {
 }
 
 function useBlobStore(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim());
 }
 
 export function resolveShareBackend(): ShareBackend {
@@ -42,6 +42,19 @@ export function shareBackendNote(backend: ShareBackend = resolveShareBackend()):
     default:
       return "Hosted on this instance until cleared. Set DATABASE_URL (Neon) or BLOB_READ_WRITE_TOKEN for durable share links.";
   }
+}
+
+/** Preferred write backend first, then any other configured stores (disk always last). */
+export function loadBackendOrder(): ShareBackend[] {
+  const preferred = resolveShareBackend();
+  const order: ShareBackend[] = [preferred];
+  for (const backend of ["neon", "blob", "disk"] as const) {
+    if (order.includes(backend)) continue;
+    if (backend === "neon" && !useNeonStore()) continue;
+    if (backend === "blob" && !useBlobStore()) continue;
+    order.push(backend);
+  }
+  return order;
 }
 
 let neonReady: Promise<void> | null = null;
@@ -103,6 +116,18 @@ async function loadFromNeon(id: string): Promise<TellReport | null> {
   return TellReport.parse(raw);
 }
 
+async function loadFromBlob(id: string): Promise<TellReport | null> {
+  const meta = await head(`${BLOB_PREFIX}/${id}.json`);
+  const res = await fetch(meta.url);
+  if (!res.ok) return null;
+  return TellReport.parse(await res.json());
+}
+
+async function loadFromDisk(id: string): Promise<TellReport | null> {
+  const raw = await readFile(path.join(STORE_DIR, `${id}.json`), "utf8");
+  return TellReport.parse(JSON.parse(raw));
+}
+
 export async function saveSharedReport(report: TellReport): Promise<string> {
   const id = randomBytes(8).toString("hex");
   const payload = JSON.stringify(report);
@@ -130,31 +155,33 @@ export async function saveSharedReport(report: TellReport): Promise<string> {
 export async function loadSharedReport(id: string): Promise<TellReport | null> {
   if (!/^[a-f0-9]{16}$/.test(id)) return null;
 
-  const backend = resolveShareBackend();
-
-  if (backend === "neon") {
+  // Prefer the write backend, then fall back so Blob-era links still resolve after Neon is enabled.
+  for (const backend of loadBackendOrder()) {
     try {
-      return await loadFromNeon(id);
+      if (backend === "neon") {
+        const report = await loadFromNeon(id);
+        if (report) return report;
+        continue;
+      }
+      if (backend === "blob") {
+        const report = await loadFromBlob(id);
+        if (report) return report;
+        continue;
+      }
+      const report = await loadFromDisk(id);
+      if (report) return report;
     } catch {
-      return null;
+      // Missing object / unreachable store — try the next backend.
     }
   }
+  return null;
+}
 
-  if (backend === "blob") {
-    try {
-      const meta = await head(`${BLOB_PREFIX}/${id}.json`);
-      const res = await fetch(meta.url);
-      if (!res.ok) return null;
-      return TellReport.parse(await res.json());
-    } catch {
-      return null;
-    }
-  }
-
-  try {
-    const raw = await readFile(path.join(STORE_DIR, `${id}.json`), "utf8");
-    return TellReport.parse(JSON.parse(raw));
-  } catch {
-    return null;
-  }
+/** Strip connection strings and truncate before returning errors to clients. */
+export function sanitizeStoreError(err: unknown): string {
+  const raw = err instanceof Error ? err.message : String(err);
+  return raw
+    .replace(/postgres(?:ql)?:\/\/[^\s]+/gi, "postgresql://***")
+    .replace(/BLOB_READ_WRITE_TOKEN[=:]\S+/gi, "BLOB_READ_WRITE_TOKEN=***")
+    .slice(0, 240);
 }
