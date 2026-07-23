@@ -217,3 +217,58 @@ Interactive or static figures must inherit the page system. Treat them as **inst
 
 ---
 
+## 5. Fidelity ladder (choose the simplest tech that stays accurate)
+
+Escalate only when the lower rung cannot express the teaching point.
+
+| Level | Medium | Use for | Cost / risk |
+|---|---|---|---|
+| L0 | Static SVG (hand-authored or exported) | Structure, anatomy, labeled systems | Lowest; preferred default |
+| L1 | SVG + light DOM/React interactivity | Toggles, highlight parts, stepped disclosure | Low |
+| L2 | Canvas 2D | Many particles/segments, realtime 2-D simulation | Medium; watch DPR + hit-testing |
+| L3 | WebGL (raw or thin wrapper) | True 3-D, lighting, continuous spatial scrubbing | High; justify per figure |
+| L4 | Hybrid | SVG labels over Canvas/WebGL scene | Medium-high; keep label DOM accessible |
+
+**Rules of thumb**
+
+- Prefer L0/L1 for Tell-proposed educational redesigns in the near term.
+- Never introduce L3 for decoration.
+- If accuracy requires math, implement the math explicitly; do not fake motion that implies false physics.
+- Keep sources readable in development builds when shipping reference demos (learning value > obfuscation).
+- When a concept recurs across articles (palettes, meshes, kernels, quantization), prefer a **reusable instrument** (§6A) over a one-off drawing.
+
+---
+
+## 6. Recommended engineering stack (Tell monorepo)
+
+Aligned with existing Tell stack; no new framework unless a milestone explicitly requires it.
+
+| Concern | Choice | Notes |
+|---|---|---|
+| App / content shell | Next.js App Router (existing `apps/web`) or MDX islands later | SSG/ISR friendly for long-form |
+| Styling | Tailwind + CSS variables / redesign tokens | Explainer tokens already in `directions.ts` |
+| Diagram components | React + SVG first | Colocate under e.g. `packages/viz` or `apps/web/src/viz` when implementation starts |
+| Interactive 3-D instruments | Canvas 2D or WebGL (thin); orthographic by default for teaching | See §6A instruments; pause when offscreen |
+| Vector authoring | Hand craft in a vector design canvas + optional editor plugins | Plugins generate repetitive/math-precise geometry; humans still compose |
+| Plugin → web path | Export optimized SVG (or SVG + small React wrapper) | Keep layers separable for later motion |
+| Motion | CSS + minimal JS; honor reduced motion; optional path animation on separated SVG nodes | No mandatory heavy animation library |
+| Content mixing | MDX (future) for prose + diagram components | Not required for first detector/redesign milestones |
+| Asset pipeline | Optimized SVG, hashed static assets; swatch matrices as data → SVG | Budget per article: see §10 |
+| Deploy | Existing Vercel/Docker paths | Offline fixture fallback still mandatory for demos |
+
+**Illustration production pipeline (vector-first)**
+
+```
+domain research
+  → static sketch (clearest still)
+  → decide: one-off SVG  OR  reusable instrument (§6A)
+  → if instrument: implement math + controls in code; optional editor plugin for mesh/grid generation
+  → export / embed as SVG or React island
+  → bind viz tokens
+  → place at narrative moment + caption (and optional “why this tool” aside — §6B)
+```
+
+**Explicit non-goals for v1 implementation:** adopting a large charting framework as the default visual language; shipping a plugin marketplace; depending on proprietary design-tool plugins at **runtime** in production pages (build-time authoring plugins are fine; the shipped page should not require them).
+
+---
+
