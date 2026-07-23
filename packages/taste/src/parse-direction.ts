@@ -21,7 +21,7 @@ const CATEGORY_PATTERNS: Record<DirectionActionItem["category"], RegExp> = {
   color: /\b(warm|cool|color|accent|palette|hue|saturation|brand|terra|paper|neutral)\b/i,
   depth: /\b(shadow|depth|elevation|flat|layer|card|lift)\b/i,
   spacing: /\b(spacing|padding|margin|density|airy|tight|compact|room|breath)\b/i,
-  tone: /\b(editorial|minimal|precise|instrument|contrast|quiet|human|memorable|considered)\b/i,
+  tone: /\b(editorial|minimal|precise|instrument|contrast|quiet|human|memorable|considered|explainer|essay|textbook|curious|educational)\b/i,
   other: /.*/,
 };
 
@@ -65,6 +65,7 @@ function scorePreset(input: string): Record<DirectionPresetId, number> {
     "bold-contrast": 0,
     luxury: 0,
     brutalist: 0,
+    explainer: 0,
   };
 
   if (/precision|instrument|mono|measured|data|sharp|grotesk|technical|clinical/.test(normalized)) {
@@ -81,6 +82,13 @@ function scorePreset(input: string): Record<DirectionPresetId, number> {
   }
   if (/brutalist|raw|utility|structural|industrial|mono|uppercase|ink border/.test(normalized)) {
     scores.brutalist += 2;
+  }
+  if (
+    /explainer|essay|textbook|educational|blog|diagram|illustration|longform|how it works|visual textbook|interactive essay/.test(
+      normalized,
+    )
+  ) {
+    scores.explainer += 3;
   }
   if (/editorial|serif|warm|paper|human|magazine|story/.test(normalized)) {
     scores.editorial += 2;
@@ -117,7 +125,7 @@ export function parseDirectionPlan(input: string): DirectionPlan {
 const VOICE_SYSTEM_PROMPT = [
   "You parse voice art-direction instructions for Tell, a UI taste engine.",
   "Break compound instructions into separate actionable items.",
-  "Pick the closest preset: editorial | precision | warm-minimal | bold-contrast | luxury | brutalist.",
+  "Pick the closest preset: editorial | precision | warm-minimal | bold-contrast | luxury | brutalist | explainer.",
   "Respond ONLY with JSON:",
   '{"presetId":"...","summary":"one line","actionItems":[{"label":"...","category":"typography|color|spacing|depth|tone|other"}],',
   '"tokenOverrides":{"--font-display":"...","--accent":"#RRGGBB","--radius-card":"...","--shadow-card":"..."}}',
@@ -167,7 +175,7 @@ export async function parseDirectionWithGemini(
     };
 
     const presetId = (
-      ["editorial", "precision", "warm-minimal", "bold-contrast", "luxury", "brutalist"] as const
+      ["editorial", "precision", "warm-minimal", "bold-contrast", "luxury", "brutalist", "explainer"] as const
     ).includes(parsed.presetId as DirectionPresetId)
       ? (parsed.presetId as DirectionPresetId)
       : fallback.presetId;
