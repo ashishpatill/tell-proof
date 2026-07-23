@@ -252,3 +252,89 @@ Adding a **new style** always follows §5 — never “drop in another accent he
 
 ---
 
+## 5. How to add a new design style / option (mandatory process)
+
+This is the operational checklist for agents and humans when extending Tell’s style system
+(`packages/taste` presets + `packages/redesign` directions + UI chips).
+
+### 5.1 Gate: meaning first
+
+Before tokens:
+
+1. Name the **product situations** this style serves (e.g. educational long-form, fintech dense, hospitality).
+2. Write the **feeling** in ≤12 words.
+3. Write what it must **not** look like (generic AI cluster avoidance — see design system anti-defaults).
+4. Confirm it is not a clone of an existing preset (pairwise distinctness required).
+
+### 5.2 Interrogation artifact
+
+Produce a `StyleBrief`:
+
+```text
+id:
+label:
+situations: []
+feeling:
+anti_patterns: []
+type_roles: { display, body, mono }
+palette_rules: { paper, ink, accent_discipline }
+layout_rules: { contentMax, chrome, rhythm }
+component_language: { hero, button, card, link, section }
+motion_rules:
+accessibility_notes:
+method_fit: [skill|compose|board]
+```
+
+No external product names in the brief.
+
+### 5.3 Inspiration → principles (not clones)
+
+1. Collect private references if needed for research.
+2. Extract **principles** only into the repo (column width, stroke discipline, diagram pauses, etc.).
+3. Forbidden: author names, site hostnames, brand names, “inspired by X” in code or docs.
+
+### 5.4 Structure map for the style
+
+Define how the style treats:
+
+- Reading/marketing column
+- Hero / chapter openers
+- Cards (or refusal of cards)
+- Figures / media
+- Density and whitespace
+- Dark/light paper stance
+
+### 5.5 Implement component language, not a recolor
+
+Per redesign v2 rules: every direction needs a **full recipe** (texture, hero treatment,
+button/link/card/section language, numerals, etc.) — not only accent + font.
+
+Order of implementation:
+
+1. `@tell/schema` only if new fields are required (prefer not).
+2. `packages/redesign/src/directions.ts` — full `Direction` + aliases.
+3. `packages/taste/src/presets.ts` — keywords + tokenOverrides + summary.
+4. `parse-direction.ts` — scoring + Gemini allow-list (no third-party keywords).
+5. `llm-restyle.ts` KNOWN_DIRECTIONS entry.
+6. UI `PRESET_CHIPS` label.
+7. Distinctness + contrast tests green.
+8. Docs: methodology table row if type pairing is curated; skills/agents preset lists.
+9. Optional: educational/viz hooks if the style is illustration-first (`docs/07_*`).
+
+### 5.6 Build-by-piece validation
+
+Before claiming the style ships:
+
+1. Apply tokens-only to the golden fixture — score must improve or hold honestly.
+2. Spot-check hero, buttons, cards, links as separate scopes.
+3. Verify pairwise CSS overlap vs other directions stays under the distinctness bar.
+4. Dogfood: Tell’s own UI does **not** adopt a new style that triggers tells.
+
+### 5.7 Copy and voice
+
+- Critic voice summaries (USER_STORY bank).
+- Method recommendation line (“Use Build by piece when …”).
+- Never promise originality from the preset alone.
+
+---
+
