@@ -76,14 +76,16 @@ export function defaultScenarioPlan(routes: string[]): CaptureScenario[] {
 export function liveScenarioPlan(routes: string[] = ["/", "/pricing", "/account"]): CaptureScenario[] {
   const uniqueRoutes = [...new Set(routes.map((r) => (r.startsWith("/") ? r : `/${r}`)))];
   const primary = uniqueRoutes[0] ?? "/";
-  const secondary = uniqueRoutes.find((r) => r !== primary) ?? primary;
+  const secondary = uniqueRoutes.find((r) => r !== primary);
   const cells: CaptureScenario[] = [
     buildScenario({ route: primary, viewport: "desktop", theme: "light", interaction: "default" }),
     buildScenario({ route: primary, viewport: "mobile", theme: "light", interaction: "default" }),
     buildScenario({ route: primary, viewport: "desktop", theme: "dark", interaction: "default" }),
     buildScenario({ route: primary, viewport: "desktop", theme: "light", interaction: "hover" }),
-    buildScenario({ route: secondary, viewport: "desktop", theme: "light", interaction: "default" }),
   ];
+  if (secondary) {
+    cells.push(buildScenario({ route: secondary, viewport: "desktop", theme: "light", interaction: "default" }));
+  }
   if (uniqueRoutes.includes("/account")) {
     cells.push(
       buildScenario({
@@ -95,7 +97,13 @@ export function liveScenarioPlan(routes: string[] = ["/", "/pricing", "/account"
       }),
     );
   }
-  return cells;
+  // Guard against accidental id collisions if callers pass overlapping routes.
+  const seen = new Set<string>();
+  return cells.filter((cell) => {
+    if (seen.has(cell.id)) return false;
+    seen.add(cell.id);
+    return true;
+  });
 }
 
 function joinUrl(baseUrl: string, route: string): string {

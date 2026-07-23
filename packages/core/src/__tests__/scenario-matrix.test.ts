@@ -42,6 +42,18 @@ describe("liveScenarioPlan", () => {
     const plan = liveScenarioPlan(["/", "/pricing"]);
     expect(plan.some((s) => s.authRole === "authenticated")).toBe(false);
   });
+
+  it("does not duplicate cells for a single-route plan", () => {
+    const plan = liveScenarioPlan(["/"]);
+    const ids = plan.map((s) => s.id);
+    expect(ids).toEqual([
+      "root__desktop__light__default__anonymous",
+      "root__mobile__light__default__anonymous",
+      "root__desktop__dark__default__anonymous",
+      "root__desktop__light__hover__anonymous",
+    ]);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
 });
 
 describe("buildScenario auth dimension", () => {
