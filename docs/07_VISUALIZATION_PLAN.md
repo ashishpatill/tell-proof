@@ -272,3 +272,117 @@ domain research
 
 ---
 
+## 6A. Reusable visualization instruments (tool-building over one-offs)
+
+High-end visual-textbook craft often invests in **small instruments** that encode a concept once, then reuse them across figures and articles. Building the tool is part of the pedagogy: readers see not only the result, but why a dedicated instrument beats a stack of disconnected drawings.
+
+### 6A.1 Process stance
+
+| Prefer | Avoid |
+|---|---|
+| A parameterized tool with 1–3 meaningful controls | Redrawing the same system from scratch per section |
+| Orthographic, readable geometry over cinematic perspective | Decorative 3-D that obscures the teaching claim |
+| Separable vector layers (structure / highlight / labels) | Flattened bitmaps that cannot be restyled to page tokens |
+| Explaining *why the instrument exists* near first use | Silent widgets with no pedagogical framing |
+| Deterministic math (quantization, kernels, grids) | Fake “AI palette” vibes without an algorithm |
+
+**Build-vs-draw decision:** If you would redraw a variant more than twice, stop and build an instrument.
+
+### 6A.2 Instrument catalog (planned reference set)
+
+These are **internal** demo/fixture capabilities for Visual textbook surfaces—not a public product suite. Names below are descriptive only.
+
+#### I1 — Median-cut / color-space quantizer (interactive 3-D)
+
+| Field | Spec |
+|---|---|
+| Teaching claim | Readers see how an image’s colors occupy a space and how a limited palette is carved from that cloud |
+| Input | A demo raster (e.g. a single photographic subject with rich hue variation) |
+| View | Interactive 3-D color-space point cloud (rotate / orbit); orthographic optional toggle |
+| Algorithm | Median-cut (or clearly labeled sibling) quantization into *N* palette slots |
+| Controls (≤3) | Palette size *N*; projection mode (RGB / other labeled space); maybe “show cut planes” |
+| Output | Quantized swatches + optional recolored preview; cuts visible in the cloud |
+| Fidelity | L3 or L2+L4 hybrid (WebGL/Canvas cloud + SVG/DOM swatches and labels) |
+| a11y | Non-visual summary of palette hex/roles; reduced-motion → static cloud + swatches |
+| Token binding | Swatch strokes/labels use `--viz-*`; page stays monochrome so the cloud carries color |
+
+#### I2 — Orthographic 3-D wireframe / mesh generator
+
+| Field | Spec |
+|---|---|
+| Teaching claim | Spatial structure (grids, lattices, device frames, waveform cages) can be constructed precisely and reused as vectors |
+| Behavior | Generate rotatable **orthographic** wireframe grids/meshes; lock angle presets (iso-ish teaching angles) |
+| Authoring path | Optional **editor plugin** generates meshes and imports them as editable vectors into the design canvas |
+| Web path | Export SVG paths with stable layer IDs; React wrapper may re-enable scrub of yaw/pitch within a safe range |
+| Controls | Density (divisions); yaw/pitch within orthographic presets; show/hide axes |
+| Why orthographic | Preserves parallel lines and measurable relationships; perspective often lies for teaching |
+| Fidelity | L0/L1 for shipped articles; plugin is build-time |
+
+#### I3 — Color palette grids (swatch matrices)
+
+| Field | Spec |
+|---|---|
+| Teaching claim | Palettes are systems—arranged, compared, and constrained—not a pile of pretty chips |
+| Variants | Large swatch matrices; grayscale ramps; multi-hue grids; stepped vs continuous |
+| Generation | Data-driven SVG/React from token lists or algorithmically sampled hues |
+| Layout | Strict grid rhythm aligned to page spacing scale; hairline gutters; mono labels for hex/roles |
+| Interaction (optional) | Hover/focus to pin a swatch; toggle grayscale; highlight WCAG pairs against paper/ink |
+| Anti-pattern | Rainbow marketing legends; unordered free-float chips; low-contrast labels on mid swatches |
+
+#### I4 — Voxel / height-map and convolution visualizers
+
+| Field | Spec |
+|---|---|
+| Teaching claim A | Discrete spatial samples (voxels / height fields) make structure inspectable |
+| Teaching claim B | Convolution kernels transform neighborhoods; seeing the kernel and the field together teaches the operator |
+| Views | Height-map or voxel-style 3-D representation; paired 2-D kernel matrix with highlighted cell |
+| Controls | Kernel preset (blur / sharpen / edge — labeled); one scrubbable kernel weight; exaggeration of height |
+| Fidelity | L2/L3 for the field; L1 SVG/DOM for the kernel matrix (accessible table) |
+| Accuracy | State simplifications (“toy kernel”, “height exaggerated 4×”) in captions |
+
+### 6A.3 Shared instrument requirements
+
+Every instrument in the catalog must:
+
+1. Ship a **home still** that teaches without interaction.
+2. Expose ≤3 parameters (§3.4).
+3. Inherit viz tokens (§8) and Visual textbook chrome rules.
+4. Provide a one-paragraph **“why this instrument”** aside for first introduction (§6B).
+5. Pass §10 performance and §12 quality bars.
+6. Remain usable if WebGL fails (static SVG/Canvas fallback or swatch-only mode).
+
+### 6A.4 Editor-plugin lane (build-time only)
+
+Some geometry is faster to author as a **design-canvas plugin** (grids, orthographic meshes, repetitive waveform cages) and then export:
+
+| Stage | Rule |
+|---|---|
+| Author | Plugin generates precise, repetitive, or math-driven vectors |
+| Human | Composes labels, crops, narrative framing; never ships raw plugin defaults unedited |
+| Export | Optimized SVG; preserve separability of elements for motion |
+| Runtime | Page does not load the plugin; only exported assets + optional light React scrubbers |
+| AI assist | Models may help *write plugin code*; they must not invent the final illustration without human craft |
+
+---
+
+## 6B. Narrative interleaving — explain the instrument, not only the topic
+
+Visual-textbook articles should occasionally interleave **short “why we built this tool” segments** with the primary domain explanation.
+
+| Pattern | Purpose |
+|---|---|
+| Topic figure | Teaches the subject (color quantization, filters, layout systems, …) |
+| Tool aside | Teaches why a reusable instrument beat one-off drawings for this idea |
+| Return to topic | Applies the instrument to the next claim |
+
+**Copy rules (critic / educator voice)**
+
+- Keep asides short (≈1 short section or a caption block + still).
+- Focus on the decision (“median-cut needed a rotatable cloud; redrawing cuts by hand hid the algorithm”).
+- Do not turn the article into a tooling diary; cap at roughly one tool-aside per major instrument introduction.
+- No vendor, author, or site names—describe the capability.
+
+**Tell product angle:** detectors may later flag “illustration starvation”; redesign notes may suggest “introduce a reusable figure instrument for recurring diagram families.” Execution remains human-applied.
+
+---
+
