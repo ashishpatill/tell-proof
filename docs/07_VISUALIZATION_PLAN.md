@@ -613,3 +613,92 @@ A figure is done only when all are true:
 
 ---
 
+## 16. Milestone checklist (implementation order)
+
+### M-V1 — Plan freeze
+
+- [x] This document landed
+- [x] Docs authority + `PLAN.md` inventory link
+- [x] Scrub repo of third-party style-name keywords in code
+- [x] Cross-link design methods plan (`docs/08_AI_DESIGN_METHODS.md`) for how Visual textbook is steered (compose-first)
+
+### M-V2 — Educational corpus + detectors
+
+- [ ] Fixture article page with planted educational tells
+- [ ] Detector signals from §9.2 W1
+- [ ] Manifest + golden tests
+
+### M-V3 — Explainer redesign deepening
+
+- [ ] Recipe/layout notes for figures and captions
+- [ ] Reconciliation demos on educational fixture
+- [ ] Copy bank lines for Priya on educational captures
+
+### M-V4 — Reference figure kit
+
+- [ ] `Figure` shell + tokens
+- [ ] `PaletteGrid` (I3) in fixtures
+- [ ] One interactive L1 diagram in fixtures
+- [ ] a11y + performance budgets measured
+
+### M-V5 — Optional MDX article demo
+
+- [ ] Long-form page using kit
+- [ ] One §6B tool-aside segment in the demo article
+- [ ] Demo beat: capture → diagnose → Visual textbook → seam → draft fix
+
+### M-V6 — Advanced instruments (stretch)
+
+- [ ] I1 median-cut color-space fixture (with WebGL fallback)
+- [ ] I2 orthographic wireframe export path (build-time script or plugin → SVG)
+- [ ] I4 voxel/convolution pair fixture
+- [ ] Document instrument DoD checklist satisfied for each
+
+---
+
+## 17. Agent routing
+
+| Work | Agent / skill |
+|---|---|
+| Detectors + fixtures | `@core-engineer`, `@fixture-smith`, `tell-detector-authoring`, `tell-demo-fixture` |
+| Explainer recipe / reconcile | `@redesign-engineer`, `tell-redesign-diff` |
+| Voice / preset copy | `@taste-engineer`, `@ux-copywriter` |
+| Figure UI primitives | `@ui-builder` |
+| Color/mesh/kernel instruments | `@ui-builder` + `@core-engineer` (math purity); keep LLM out of core math |
+| Demo narrative beat | `@demo-director` |
+
+Model routing follows `ORCHESTRATION.md`. Prefer deterministic work in core/redesign; reserve models for copy and optional taste refinement.
+
+---
+
+## 18. Open questions
+
+1. Should Visual textbook offer an explicit **dark paper** recipe variant for diagram-heavy articles, or stay light-cool only until contrast tooling is dark-aware end-to-end?
+2. Do educational tells belong as new detector IDs or as specialized evidence under existing layout/depth detectors?
+3. Is the diagram kit a package (`packages/viz`) or fixture-only until a second consumer appears?
+4. How far should `/api/redesign` go in emitting **caption/figure CSS** versus only page tokens?
+5. Which instrument ships first after `PaletteGrid` — I1 (color-space) or I2 (wireframe) — given demo narrative needs?
+6. Should editor plugins live in a private authoring repo, or as `packages/viz/plugins` never loaded by `apps/web`?
+
+Resolve these before M-V3 / M-V6 implementation forks.
+
+---
+
+## 19. Success metrics
+
+| Metric | Target |
+|---|---|
+| Educational fixture tells named | ≥ 3 distinct educational tells with stable goldens |
+| Explainer apply on fixture | Genericness score improves; reading column ≤ ~720px in after CSS |
+| Reference interactive figure | Passes §12 checklist |
+| Instrument reuse rule | Recurring diagram families use §6A instruments, not one-off redraws |
+| Repo hygiene | Zero third-party author/site names in style keywords or docs for this workstream |
+| Demo reliability | Offline report path unaffected; WebGL instruments degrade to stills |
+
+---
+
+## 20. One-page summary
+
+**Visual textbook surfaces teach with figures.** Quiet book column, monochrome page, sparse accent, diagrams at the moment of need, interaction only when it changes understanding, same tokens as the prose.
+
+Prefer **reusable instruments** (color-space quantization, orthographic wireframes, palette grids, voxel/convolution views) over one-off drawings when concepts recur—and occasionally explain *why the instrument exists*. Author precise vectors in a design canvas (plugins at build time); ship SVG/React islands at runtime. Detectors and redesign depth first; figure kit next; advanced instruments when fixtures need them. Never auto-apply. Never name external style referents in the repo.
