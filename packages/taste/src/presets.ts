@@ -73,4 +73,27 @@ export const DIRECTION_PRESETS = {
     },
     summary: "Ink borders, uppercase type, visible structure.",
   },
+  explainer: {
+    id: "visual-textbook",
+    label: "Visual textbook",
+    keywords: [
+      "explainer",
+      "essay",
+      "textbook",
+      "educational",
+      "blog",
+      "diagram",
+      "illustration",
+      "longform",
+      "curious",
+      "monochrome",
+    ],
+    tokenOverrides: {
+      "--font-display": "Source Serif 4",
+      "--accent": "#3D6B8A",
+      "--radius-card": "2px",
+      "--shadow-card": "none",
+    },
+    summary: "Book-like reading column, monochrome restraint, illustration-first rhythm.",
+  },
 } satisfies Record<string, ArtDirection>;
