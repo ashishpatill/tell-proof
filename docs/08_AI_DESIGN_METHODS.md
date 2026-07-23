@@ -547,3 +547,10 @@ Resolve before M-D3 forks.
 
 ---
 
+## 16. One-page summary
+
+AI executes; humans supply taste. Tell exposes three methods — **Packaged judgment**,
+**Build by piece**, and **Reference board** — sitting beside art-direction styles.
+Default to piece-by-piece when stakes are high. Add new styles only through meaning →
+principles → full recipe → scoped validation. Never confuse a better prompt with better
+taste. Never auto-apply. Never put third-party names in the repo as style shortcuts.
