@@ -35,6 +35,7 @@ import { useLlmRestyle } from "@/lib/use-llm-restyle";
 import { useVoice } from "@/lib/use-voice";
 import { SETUP_ACTIVE_STATES, type SetupJob } from "@/lib/setup-types";
 import { discoverRoutes, routeFromInput, type DiscoveredRoute } from "@/lib/discover-routes";
+import { matrixTarget } from "@/lib/matrix-target";
 
 const badgeStyles: Record<Verdict, string> = {
   generic: "border-accent/40 bg-accent/10 text-accent",
@@ -633,13 +634,14 @@ export default function HomePage() {
     setMatrixError("");
     setMatrixProof(null);
     try {
-      const routePaths = pages.length
+      const discovered = pages.length
         ? [...new Set(pages.map((p) => p.path.split("?")[0] || "/"))].slice(0, 4)
         : ["/", "/pricing", "/account"];
+      const { baseUrl, routes } = matrixTarget(url, discovered);
       const res = await fetch("/api/proof/matrix", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ url: new URL(url).origin, routes: routePaths, compare: true }),
+        body: JSON.stringify({ url: baseUrl, routes, compare: true }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
