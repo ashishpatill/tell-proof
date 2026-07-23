@@ -423,3 +423,127 @@ Taste engine remains fact-bound: skills/presets must not invent findings.
 
 ---
 
+## 9. Milestones
+
+### M-D0 — Plan freeze
+
+- [x] This document landed
+- [x] Link from `PLAN.md` inventory + docs authority
+- [x] Attribution rule echoed in taste/redesign skills (no third-party style names)
+
+### M-D1 — Copy + method selector (UI-only)
+
+- [ ] Method radiogroup on Voice director (stateful; may still map all methods to current full-page reconcile)
+- [ ] Helper copy from §3
+- [ ] Persist method in client state / share payload if share links exist
+
+### M-D2 — Schema + steer request
+
+- [ ] `DesignMethodId`, `DirectionBrief`, `ReferenceFragment` in `@tell/schema`
+- [ ] `/api/voice` and `/api/redesign` accept method + brief + optional board
+- [ ] Deterministic fallbacks without keys
+
+### M-D3 — Compose scopes
+
+- [ ] Redesign `scope` parameter honored in reconcile / restyle / patch builders
+- [ ] UI checklist drives sequential scopes
+- [ ] Tests: scoped CSS touches expected families only
+
+### M-D4 — Reference board path
+
+- [ ] Fragment upload/tag UI
+- [ ] Board → keyword/token bias (deterministic)
+- [ ] Optional model refine; never required for demo
+
+### M-D5 — Skill packs beyond single presets
+
+- [ ] Surface-type packs (marketing / app / docs / educational) as versioned JSON
+- [ ] Pack = preset + detector emphasis + scope order defaults
+- [ ] Still principle-only naming
+
+### M-D6 — Style addition playbook automation
+
+- [ ] Checklist script or agent skill `tell-add-style` following §5
+- [ ] Distinctness test gate in CI for new `DIRECTIONS` keys
+
+---
+
+## 10. Quality bar
+
+A method or style change is done only when:
+
+- [ ] Human meaning/brief is representable without model keys
+- [ ] Method choice is visible and honest about quality ceiling
+- [ ] Compose path can run scoped (no forced whole-page generation)
+- [ ] Board path forbids silent cloning (requires synthesis instruction + fragment whys)
+- [ ] New styles pass pairwise distinctness + contrast guards
+- [ ] No third-party names in keywords, docs, commits, or UI
+- [ ] Never auto-apply
+- [ ] Offline demo path remains intact
+
+---
+
+## 11. Anti-patterns
+
+1. One-shot “build my whole site” as the default CTA
+2. Preset-only workflow marketed as originality
+3. Reference boards without “why it works” notes
+4. Copying a single reference’s layout wholesale into patches
+5. Adding styles as accent recolors without recipes
+6. Skill packs that reintroduce violet gradients / Inter-only / shadow grids
+7. Naming external galleries, authors, or tools in-repo as stand-ins for principles
+8. Letting AI invent brand meaning during interrogation
+9. Skipping empty/loading/error states in compose maps
+10. Auto-applying scoped patches because they “look small”
+
+---
+
+## 12. Testing strategy
+
+| Layer | Assert |
+|---|---|
+| Unit | Method id parsing; brief zod; scope allow-lists |
+| Taste | Preset inference unchanged for style keywords; no third-party keyword leaks |
+| Redesign | Scoped emit; distinctness with new styles |
+| UI | Method radiogroup keyboard; helper copy visible |
+| Demo | Packaged path works offline; compose with tokens-only scope works offline |
+
+---
+
+## 13. Agent routing
+
+| Work | Agent / skill |
+|---|---|
+| Schema + brief types | `@core-engineer` / schema contracts skill |
+| Presets + parsing | `@taste-engineer`, `tell-taste-verdicts` |
+| Recipes + scopes | `@redesign-engineer`, `tell-redesign-diff` |
+| Method UI | `@ui-builder`, `tell-report-ui` |
+| Copy bank | `@ux-copywriter` |
+| New style additions | Follow §5; taste + redesign together after schema freeze |
+| Educational styles | Also `docs/07_VISUALIZATION_PLAN.md` |
+
+---
+
+## 14. Open questions
+
+1. Should method selection change detector severity weighting, or only redesign behavior?
+2. Is BrandDNA already sufficient for v1 Board, or do we need explicit fragment tags now?
+3. Minimum compose scopes for demo cut line: tokens + hero only, or full checklist?
+4. Do skill packs live in `packages/taste` or a new `packages/skills` (name collision risk with Cursor skills — prefer `packages/taste/packs`)?
+
+Resolve before M-D3 forks.
+
+---
+
+## 15. Success metrics
+
+| Metric | Target |
+|---|---|
+| Users can pick a method in UI | M-D1 |
+| Compose scoped patch path | M-D3 green tests |
+| New style playbook followed | Zero “accent-only” direction PRs merge |
+| Repo hygiene | Zero third-party author/site names in style/method docs |
+| Demo | Packaged judgment path ≤ 3 prompts to a reviewable after-state |
+
+---
+
