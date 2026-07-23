@@ -16,6 +16,11 @@ on:
       - "packages/taste/**"
       - "fixtures/reports/**"
       - "fixtures/corpus/**"
+      - "fixtures/generic-app/**"
+      - "scripts/capture-scenario-matrix.ts"
+      - "scripts/mint-fixture-auth.ts"
+      - "scripts/pr-proof-*.ts"
+      - "package.json"
       - ".cursor/rules/tell-proof-verify.mdc"
       - ".cursor/skills/tell-proof-verify/**"
 
