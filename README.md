@@ -22,17 +22,6 @@
 
 ---
 
-## Demo
-
-- **Live app:** [tell-five.vercel.app](https://tell-five.vercel.app)
-- **Default scan target:** [superlearnai.com](https://superlearnai.com)
-- **Offline fallback:** `fixtures/reports/tell-report.json`, so the product still opens with a complete report when live capture is unavailable.
-- **Showcase GIF:** `docs/media/tell-superlearnai-demo.gif`, generated from the current UI flow.
-
-Tell can scan a public URL directly, or locally clone a GitHub repository, install dependencies, boot the app on a free port, and capture localhost automatically.
-
----
-
 ## Why Tell
 
 AI agents can generate working interfaces quickly. The harder question is whether the result has taste: a distinctive hierarchy, consistent tokens, reachable states, readable contrast, and a visual language that does not collapse into the same gradient-card-template everyone else ships.
