@@ -117,6 +117,7 @@ See `ORCHESTRATION.md` for model routing and when to invoke each.
 - Vision/scope: `docs/04_CLAUDE_PROJECT.md`
 - Educational / interactive visualization plan: `docs/07_VISUALIZATION_PLAN.md` (principles only — no third-party author or site names)
 - AI design methods + how to add styles: `docs/08_AI_DESIGN_METHODS.md` (principle-only)
+- Premium content-custom skill graph: `docs/09_PREMIUM_DESIGN_SKILLS.md`, `agent-skills/web-design/premium-content-custom-web/`, `/studio`
 
 ## Cursor Cloud specific instructions
 
