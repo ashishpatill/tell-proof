@@ -1,0 +1,60 @@
+import type { DesignBrief, FeatureSpec, SiteKind } from "./types";
+
+export type FeatureAnalysis = {
+  prioritized: FeatureSpec[];
+  siteKind: SiteKind;
+  recommendedSections: string[];
+  goals: string[];
+};
+
+/** Infer site kind from brief + feature language unless locked. */
+export function inferSiteKind(brief: DesignBrief): SiteKind {
+  if (brief.lockSiteKind) return brief.siteKind;
+
+  const blob = [
+    brief.tagline,
+    brief.audience,
+    brief.siteKind,
+    ...brief.features.map((f) => `${f.name} ${f.description}`),
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  if (/\b(dashboard|analytics|workspace|inbox|settings|admin|console)\b/.test(blob)) {
+    return "dashboard-webapp";
+  }
+  if (/\b(chapter|docs|tutorial|explainer|textbook|education|diagram)\b/.test(blob)) {
+    return "docs-educational";
+  }
+  if (/\b(enterprise|corporate|brand|story|about us|investors)\b/.test(blob)) {
+    return "corporate-story";
+  }
+  if (brief.siteKind !== "saas-marketing") return brief.siteKind;
+  return "saas-marketing";
+}
+
+export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
+  const siteKind = inferSiteKind(brief);
+  const prioritized = [...brief.features].sort((a, b) => {
+    const rank = { p0: 0, p1: 1, p2: 2 } as const;
+    return rank[a.priority] - rank[b.priority];
+  });
+
+  const recommendedSections =
+    siteKind === "dashboard-webapp"
+      ? ["nav", "dashboard-shell", "cta", "footer"]
+      : siteKind === "docs-educational"
+        ? ["nav", "hero", "figure", "story", "features", "cta", "footer"]
+        : siteKind === "corporate-story"
+          ? ["nav", "hero", "story", "proof", "features", "cta", "footer"]
+          : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
+
+  const goals = [
+    `Serve ${brief.audience}`,
+    `Optimize for ${brief.businessGoal}`,
+    "Customize layout and copy to declared features",
+    "Keep motion restrained and purposeful",
+  ];
+
+  return { prioritized, siteKind, recommendedSections, goals };
+}
