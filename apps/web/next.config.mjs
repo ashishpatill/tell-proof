@@ -10,7 +10,7 @@ loadEnvConfig(tellRoot);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["@tell/schema", "@tell/taste", "@tell/redesign", "@tell/core"],
+  transpilePackages: ["@tell/schema", "@tell/taste", "@tell/redesign", "@tell/core", "@tell/design-skills"],
   experimental: {
     // Playwright must stay external so Next does not try to bundle browser binaries.
     serverComponentsExternalPackages: ["playwright", "playwright-core"],

@@ -32,6 +32,9 @@ importers:
       '@tell/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@tell/design-skills':
+        specifier: workspace:*
+        version: link:../../packages/design-skills
       '@tell/redesign':
         specifier: workspace:*
         version: link:../../packages/redesign
@@ -149,6 +152,22 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.20.0)
 
+  packages/design-skills:
+    dependencies:
+      '@tell/schema':
+        specifier: workspace:*
+        version: link:../schema
+      zod:
+        specifier: ^3.24.1
+        version: 3.25.76
+    devDependencies:
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(jiti@1.21.7)(postcss@8.5.16)(tsx@4.23.0)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
   packages/mcp:
     dependencies:
       '@modelcontextprotocol/sdk':
@@ -157,6 +176,9 @@ importers:
       '@tell/core':
         specifier: workspace:*
         version: link:../core
+      '@tell/design-skills':
+        specifier: workspace:*
+        version: link:../design-skills
       '@tell/redesign':
         specifier: workspace:*
         version: link:../redesign
