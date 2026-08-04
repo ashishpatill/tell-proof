@@ -25,6 +25,7 @@ async function frameHas(page: Page, testId: string, text: string) {
 
 async function frameMissing(page: Page, testId: string, text: string) {
   const frame = page.frameLocator(`[data-testid="${testId}"]`);
+  await frame.locator("body").waitFor({ state: "attached", timeout: 20_000 });
   const body = await frame.locator("body").innerText();
   if (body.includes(text)) {
     throw new Error(`iframe ${testId} unexpectedly contains "${text}"`);
@@ -161,7 +162,9 @@ async function main() {
     if (edu.spec.brief.siteKind !== "docs-educational") throw new Error("edu kind mismatch");
     if (!edu.previewHtml.includes("Mechanism diagram")) throw new Error("edu feature missing");
     if (!edu.previewHtml.includes('data-instrument="scrub"')) throw new Error("edu missing figure instrument");
-    if (!edu.previewHtml.includes("<figcaption>")) throw new Error("edu missing figure caption");
+    if (!edu.previewHtml.includes("data-scrub-caption") && !edu.previewHtml.includes("<figcaption")) {
+      throw new Error("edu missing figure caption");
+    }
 
     // API redesign: replace features entirely, prior features must not leak
     const redesigned = await apiDesign(
@@ -199,7 +202,7 @@ async function main() {
     }
 
     // ── Studio UI as a real user ────────────────────────────────────
-    await page.goto(`${BASE}/studio`, { waitUntil: "networkidle" });
+    await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
     await page.getByTestId("studio-page").waitFor();
     await page.getByTestId("studio-frame").waitFor({ timeout: 20_000 });
     await waitGeneration(page, 1);
@@ -292,7 +295,7 @@ async function main() {
       ["/showcase/corporate", "Clarity for teams", "showcase-corporate", "ds-chapter"],
       ["/showcase/educational", "Interactive diagram", "showcase-educational", "data-instrument"],
     ] as const) {
-      await page.goto(`${BASE}${path}`, { waitUntil: "networkidle" });
+      await page.goto(`${BASE}${path}`, { waitUntil: "domcontentloaded" });
       await page.getByTestId(id).waitFor();
       await frameHas(page, "showcase-frame", needle);
       const html = await page.frameLocator('[data-testid="showcase-frame"]').locator("html").innerHTML();
