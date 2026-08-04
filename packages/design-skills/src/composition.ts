@@ -48,11 +48,17 @@ export interface CompositionInput {
  * Column ratios per lean. Equal columns everywhere is the single clearest template signature, so
  * every split layout in the system carries an intentional imbalance.
  */
+/*
+ * The `wide` ratio feeds layouts whose narrow track holds a section introduction, so it cannot be
+ * arbitrarily extreme. At `2fr 10fr` inside a 940px container that track is 170px, which sets a
+ * heading one word per line and runs its lede at sixteen characters. Asymmetry is still the point;
+ * it just has to leave a readable column behind.
+ */
 const SPLIT: Record<AestheticLean, { hero: string; feature: string; wide: string }> = {
-  "minimal-clean": { hero: "6fr 4fr", feature: "5fr 7fr", wide: "3fr 9fr" },
-  "conversion-sharp": { hero: "7fr 5fr", feature: "6fr 6fr", wide: "8fr 4fr" },
+  "minimal-clean": { hero: "6fr 4fr", feature: "5fr 7fr", wide: "4fr 8fr" },
+  "conversion-sharp": { hero: "7fr 5fr", feature: "6fr 6fr", wide: "7fr 5fr" },
   "system-crafted": { hero: "8fr 4fr", feature: "7fr 5fr", wide: "5fr 7fr" },
-  "refined-story": { hero: "9fr 3fr", feature: "4fr 8fr", wide: "2fr 10fr" },
+  "refined-story": { hero: "9fr 3fr", feature: "4fr 8fr", wide: "4fr 8fr" },
 };
 
 function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {

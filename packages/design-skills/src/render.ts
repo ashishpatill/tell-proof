@@ -40,7 +40,14 @@ function actions(section: SectionSpec, variant: "hero" | "band" = "hero"): strin
   </div>`;
 }
 
-/** Structural stand-in for the product surface, drawn entirely from tokens. */
+/**
+ * Structural stand-in for the product surface, drawn entirely from tokens.
+ *
+ * Rows carry a label and whatever short metadata the section supplied. Only the first row gets a
+ * meter: a stack of four full-width accent bars is a bar chart of nothing, and it was the loudest
+ * placeholder signal in the generated pages. One measured row reads as an interface; four read as
+ * a wireframe someone forgot to replace.
+ */
 function productPanel(section: SectionSpec, title: string): string {
   const rows = section.aside.length ? section.aside : section.blocks;
   if (!rows.length) return "";
@@ -48,11 +55,13 @@ function productPanel(section: SectionSpec, title: string): string {
     <div class="ds-panel-bar"><i class="ds-panel-dot"></i><i class="ds-panel-dot"></i><i class="ds-panel-dot"></i><span class="ds-panel-title">${esc(title)}</span></div>
     <div class="ds-panel-body">
       ${rows
-        .slice(0, 4)
+        .slice(0, 5)
         .map((row, i) => {
-          const width = row.meta ?? `${Math.max(28, 92 - i * 18)}%`;
-          return `<div class="ds-panel-row"><span>${esc(row.title)}</span><b>${esc(width)}</b></div>
-        <div class="ds-meter"><i style="width:${esc(width)}"></i></div>`;
+          const meta = row.meta ?? "";
+          const meter = i === 0 ? `<div class="ds-meter"><i style="width:72%"></i></div>` : "";
+          return `<div class="ds-panel-row"><span>${esc(row.title)}</span>${
+            meta ? `<b>${esc(meta)}</b>` : ""
+          }</div>${meter}`;
         })
         .join("")}
     </div>
@@ -88,10 +97,14 @@ function renderNav(section: SectionSpec): string {
 }
 
 function renderHero(section: SectionSpec, spec: DesignSpec): string {
+  /*
+   * A tracked list of the core capability names, on a hairline. Previously a definition list whose
+   * values were `body.slice(0, 42)` — which put a sentence cut mid-word inside a monospace box at
+   * the top of every page the engine produced. Nothing here needs a description; the fold names
+   * the parts, and the catalogue explains them.
+   */
   const meta = section.blocks.length
-    ? `<dl class="ds-hero-meta">${section.blocks
-        .map((b) => `<div><dt>${esc(b.title)}</dt><dd>${esc((b.body || "").slice(0, 42) || "included")}</dd></div>`)
-        .join("")}</dl>`
+    ? `<ul class="ds-hero-facts">${section.blocks.map((b) => `<li>${esc(b.title)}</li>`).join("")}</ul>`
     : "";
 
   const copy = `<div class="ds-hero-copy">
@@ -110,7 +123,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec): string {
 
   if (section.layout === "hero-editorial") {
     return `<section id="top" class="ds-section ds-hero" data-surface="${section.surface}" data-section="${esc(section.id)}">
-      <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(section.columns ?? "8fr 4fr")}">
+      <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "8fr 4fr"))}">
         ${copy}
         <aside class="ds-hero-aside">
           <p class="ds-eyebrow">In this page</p>
@@ -123,7 +136,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec): string {
   }
 
   return `<section id="top" class="ds-section ds-hero" data-surface="${section.surface}" data-section="${esc(section.id)}">
-    <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(section.columns ?? "7fr 5fr")}">
+    <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
       ${copy}
       ${productPanel(section, spec.brief.productName.toLowerCase())}
     </div>
@@ -147,6 +160,28 @@ function renderMetricBand(section: SectionSpec): string {
       </div>
     </div>
   </section>`;
+}
+
+/**
+ * Turn a ratio into a grid template no column can starve inside.
+ *
+ * Asymmetric splits are a measured craft signal, and the engine leans into them hard — the most
+ * editorial lean asks for `2fr 10fr`. Inside a 1040px container that is a 170px column, and a
+ * section heading placed there sets one word per line with a lede beside it running at sixteen
+ * characters. The ratio is still right; it just has to yield before it becomes unreadable.
+ *
+ * `minmax(floor, Nfr)` keeps the intended proportion whenever there is room for it and stops at a
+ * readable measure when there is not. The second track gets `minmax(0, Nfr)` so long content
+ * cannot push the grid wider than its container.
+ */
+function splitTemplate(cols: string, floor = "16rem"): string {
+  const parts = cols.trim().split(/\s+/);
+  if (parts.length !== 2) return cols;
+  const [a, b] = parts as [string, string];
+  // Fixed tracks (a sidebar in px or rem) already state their own width.
+  if (!a.endsWith("fr")) return `${a} minmax(0, ${b})`;
+  if (!b.endsWith("fr")) return `minmax(0, ${a}) ${b}`;
+  return `minmax(${floor}, ${a}) minmax(0, ${b})`;
 }
 
 /** Wide frame only where a layout genuinely needs the extra column. */
@@ -187,23 +222,37 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec): string {
         .join("")}</ol>`;
     }
     if (section.layout === "feature-alternating") {
+      /*
+       * One panel, next to the lead capability only.
+       *
+       * Every row used to get its own copy, built from `blocks.slice(i, i + 3)`, so a five-row
+       * section rendered the same chrome five times with one fewer row in each — visibly a stub
+       * decaying down the page. Alternating rows already carry their rhythm through the column
+       * flip; the interface needs to be shown once.
+       */
       return `<div class="ds-alt">${section.blocks
-        .map(
-          (b, i) => `<div class="ds-alt-row ds-split" style="grid-template-columns:${esc(
-            i % 2 === 0 ? section.columns ?? "6fr 6fr" : (section.columns ?? "6fr 6fr").split(" ").reverse().join(" "),
+        .map((b, i) => {
+          const flipped = i % 2 === 1;
+          const cols = section.columns ?? "6fr 6fr";
+          const figure =
+            i === 0
+              ? `<div class="ds-alt-figure">${productPanel(section, b.title.toLowerCase())}</div>`
+              : `<div class="ds-alt-side">${
+                  b.points.length
+                    ? `<ul class="ds-card-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>`
+                    : `<p class="ds-alt-tier">${esc(b.kicker ?? "")}</p>`
+                }</div>`;
+          return `<div class="ds-alt-row ds-split" style="grid-template-columns:${esc(
+            splitTemplate(flipped ? cols.split(" ").reverse().join(" ") : cols),
           )}">
             <div class="ds-alt-copy">
-              ${b.kicker ? `<p class="ds-eyebrow">${esc(b.kicker)}</p>` : ""}
+              ${b.kicker && i === 0 ? `<p class="ds-eyebrow">${esc(b.kicker)}</p>` : ""}
               <h3>${esc(b.title)}</h3>
-              <p class="ds-body">${esc(b.body)}</p>
-              ${b.points.length ? `<ul class="ds-card-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
+              ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
             </div>
-            <div class="ds-alt-figure">${productPanel(
-              { ...section, aside: section.blocks.slice(i, i + 3) } as SectionSpec,
-              b.title.toLowerCase(),
-            )}</div>
-          </div>`,
-        )
+            ${figure}
+          </div>`;
+        })
         .join("")}</div>`;
     }
     // feature-rows
@@ -248,7 +297,7 @@ function renderFigure(section: SectionSpec): string {
   const path = points.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
 
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(section.columns ?? "5fr 7fr")}">
+    <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
       <div>${sectionHead(section)}
         <ol class="ds-figure-steps">${steps
           .map((s, i) => `<li data-step="${i}" class="${i === mid ? "is-active" : ""}">${esc(s.title)} — ${esc(s.body)}</li>`)
@@ -279,8 +328,10 @@ function renderFigure(section: SectionSpec): string {
 }
 
 function renderChapters(section: SectionSpec): string {
+  // The wide frame here is not decoration: the narrow track carries the section introduction, and
+  // inside the standard container it cannot hold a readable measure at these ratios.
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap ds-split" style="grid-template-columns:${esc(section.columns ?? "4fr 8fr")}">
+    <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "4fr 8fr", "22rem"))}">
       <div>${sectionHead(section)}</div>
       <ol class="ds-chapters">
         ${section.blocks
@@ -331,12 +382,15 @@ function renderPlans(section: SectionSpec): string {
 
 function renderMatrix(section: SectionSpec): string {
   const lanes = ["Core", "Standard", "Full"];
+  // Tier rather than prose in the trailing column. The matrix stopped carrying descriptions when
+  // the editorial layer moved them to the catalogue, which left this table with an empty column
+  // down its right edge.
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap">
       ${sectionHead(section)}
       <table class="ds-matrix">
         <caption>${esc(section.body)}</caption>
-        <thead><tr><th scope="col">Capability</th>${lanes.map((l) => `<th scope="col">${esc(l)}</th>`).join("")}<th scope="col">Notes</th></tr></thead>
+        <thead><tr><th scope="col">Capability</th><th scope="col">Tier</th>${lanes.map((l) => `<th scope="col">${esc(l)}</th>`).join("")}</tr></thead>
         <tbody>
           ${section.blocks
             .map((b, i) => {
@@ -344,7 +398,9 @@ function renderMatrix(section: SectionSpec): string {
               const inStandard = i < Math.ceil((section.blocks.length * 2) / 3);
               const mark = (on: boolean) =>
                 on ? `<td class="ds-yes">included</td>` : `<td class="ds-no">—</td>`;
-              return `<tr><th scope="row">${esc(b.title)}</th>${mark(inCore)}${mark(inStandard)}${mark(true)}<td>${esc(b.body)}</td></tr>`;
+              return `<tr><th scope="row">${esc(b.title)}</th><td class="ds-matrix-tier">${esc(
+                b.meta ?? "",
+              )}</td>${mark(inCore)}${mark(inStandard)}${mark(true)}</tr>`;
             })
             .join("")}
         </tbody>
@@ -355,7 +411,7 @@ function renderMatrix(section: SectionSpec): string {
 
 function renderFaq(section: SectionSpec): string {
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap ds-split" style="grid-template-columns:${esc(section.columns ?? "5fr 7fr")}">
+    <div class="ds-wrap ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr", "18rem"))}">
       <div>${sectionHead(section)}</div>
       <div class="ds-faq">
         ${section.blocks
@@ -382,14 +438,24 @@ function renderCtaBand(section: SectionSpec): string {
   </section>`;
 }
 
+/**
+ * The closing band.
+ *
+ * Reference pages end heavy. A four or five column footer carrying the whole site is the densest
+ * screen most of them have, and it is half of why their vertical rhythm swings the way it does —
+ * a full-screen statement two scrolls earlier only reads as quiet because this exists to be loud.
+ * The stub version here was three columns of three links, which made the last screen of every
+ * generated page weigh about the same as the middle of it.
+ */
 function renderFooter(section: SectionSpec): string {
   const year = 2026;
   return `<footer class="ds-footer" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide">
       <div class="ds-footer-grid">
-        <div class="ds-footer-col">
+        <div class="ds-footer-col ds-footer-brand">
           <p class="ds-wordmark">${esc(section.brandLabel ?? section.title)}</p>
           <p class="ds-caption">${esc(section.body)}</p>
+          ${section.ctaLabel ? `<a class="ds-btn ds-btn-secondary" href="#cta">${esc(section.ctaLabel)}</a>` : ""}
         </div>
         ${section.blocks
           .map(
@@ -402,7 +468,10 @@ function renderFooter(section: SectionSpec): string {
       </div>
       <div class="ds-footer-base">
         <span>© ${year} ${esc(section.brandLabel ?? section.title)}</span>
-        <span>Designed against measured craft corridors, not a template</span>
+        <span>All capabilities listed on this page are available today</span>
+        <span>Accessibility</span>
+        <span>Privacy</span>
+        <span>Terms</span>
       </div>
     </div>
   </footer>`;
@@ -419,7 +488,7 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec): string {
           <span class="ds-app-crumbs">workspace / ${esc(section.title.toLowerCase())}</span>
           <span class="ds-pill ds-pill-signal" style="margin-left:auto">live</span>
         </div>
-        <div class="ds-app-grid" style="grid-template-columns:${esc(section.columns ?? "260px 1fr")}">
+        <div class="ds-app-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "260px 1fr"))}">
           <aside class="ds-app-side" aria-label="Workspace navigation">
             <p class="ds-eyebrow">Views</p>
             <ul class="ds-app-nav">

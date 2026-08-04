@@ -52,8 +52,9 @@ function leadingFor(px: number): number {
   // is too tight for anything read as a sentence — the measured corridor for text at this size
   // starts at 1.3.
   if (px >= 22) return 1.36;
-  if (px >= 17) return 1.5;
-  if (px >= 14) return 1.58;
+  // 1.58 sat outside the measured corridor for text a reader is asked to read at length. Small
+  // type does want looser leading than large type, but not looser than the corpus ever sets it.
+  if (px >= 14) return 1.48;
   return 1.45;
 }
 

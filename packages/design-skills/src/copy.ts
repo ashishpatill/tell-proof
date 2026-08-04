@@ -8,6 +8,7 @@
  * The rule that keeps this honest: if a sentence would read the same for a different product,
  * it does not ship.
  */
+import { payoffLine, type FeatureCopy } from "./editorial";
 import type { DesignBrief, FeatureSpec } from "./types";
 
 const STOP = new Set([
@@ -15,12 +16,19 @@ const STOP = new Set([
   "in", "on", "at", "by", "is", "are", "be", "it", "as", "so", "you", "we", "they", "their", "our",
 ]);
 
-/** First clause of a description — descriptions are often two sentences of very different value. */
+/**
+ * First clause of a description, without its terminal punctuation.
+ *
+ * The trailing period used to survive, and every caller that embedded the result mid-sentence
+ * produced ".," in the rendered page — the single most obvious "nobody read this" artefact the
+ * engine was shipping.
+ */
 export function firstClause(text: string): string {
   const trimmed = text.trim();
   if (!trimmed) return "";
   const stop = trimmed.search(/[.;]\s/);
-  return (stop > 20 ? trimmed.slice(0, stop) : trimmed).trim();
+  const clause = stop > 20 ? trimmed.slice(0, stop) : trimmed;
+  return clause.trim().replace(/\s*[.;,]+$/, "").trim();
 }
 
 export function sentence(text: string): string {
@@ -56,20 +64,22 @@ export function headline(brief: DesignBrief, features: FeatureSpec[]): string {
 }
 
 /**
- * Hero support line. Names the two capabilities that carry the argument and the audience they
- * serve, in the product's own words.
+ * Hero support line, composed from the payoffs the editorial layer reserved for the fold.
+ *
+ * The previous construction was `"{Product} gives {audience} {clause}, and {clause}"`, which
+ * produced sentences no one could have read aloud: the audience is a noun phrase, the clauses are
+ * independent statements, and the join left a stranded period before the comma. The fix is not a
+ * better template — it is to stop welding a clause onto a sentence stem that does not want one.
+ * The audience already sits directly above this line as the eyebrow, so the lede states what
+ * changes and nothing else.
  */
-export function heroLede(brief: DesignBrief, features: FeatureSpec[]): string {
-  const [a, b] = features;
-  if (a && b) {
-    return sentence(
-      `${brief.productName} gives ${brief.audience} ${lower(firstClause(a.description) || a.name)}, and ${lower(
-        firstClause(b.description) || b.name,
-      )}`,
-    );
-  }
-  if (a) return sentence(`${brief.productName} gives ${brief.audience} ${lower(firstClause(a.description) || a.name)}`);
-  return sentence(`Built for ${brief.audience}`);
+export function heroLede(brief: DesignBrief, lines: string[]): string {
+  const usable = lines.map((l) => l.trim()).filter(Boolean);
+  if (!usable.length) return sentence(`Built for ${brief.audience}`);
+  const [first, ...rest] = usable;
+  const head = `${first![0]?.toUpperCase() ?? ""}${first!.slice(1)}`;
+  if (!rest.length) return sentence(head);
+  return sentence(`${head}, and ${rest.map((r) => lower(r)).join(", and ")}`);
 }
 
 const GOAL_CTA: Record<DesignBrief["businessGoal"], { primary: string; secondary: string; note: string }> = {
@@ -126,53 +136,66 @@ export function featuresLede(brief: DesignBrief, features: FeatureSpec[]): strin
 }
 
 /**
- * Outcome lines. These are deliberately framed as consequences of a named capability rather than
- * as invented statistics — a fabricated "37% lift" is worse than no number at all.
+ * Outcome lines, built only from payoffs the brief actually stated and the fold did not already
+ * spend. A fabricated "37% lift" is worse than no number at all, and a payoff reprinted from the
+ * hero is worse than an empty band.
  */
-export function outcomes(brief: DesignBrief, features: FeatureSpec[]): Array<{ value: string; label: string; note: string }> {
-  const picks = features.slice(0, 3);
+export function outcomes(picks: FeatureCopy[]): Array<{ value: string; label: string; note: string }> {
   const verbs = ["Fewer handoffs", "Less rework", "Faster answers"];
-  return picks.map((f, i) => ({
-    value: f.name,
+  return picks.map((c, i) => ({
+    value: c.name,
     label: verbs[i] ?? "Clearer decisions",
-    note: sentence(firstClause(f.description) || `A declared capability of ${brief.productName}`),
+    note: payoffLine(c),
   }));
 }
 
-/** Chapters: the argument in order, one per capability, phrased as a step in a sequence. */
-export function chapters(brief: DesignBrief, features: FeatureSpec[]): Array<{ title: string; body: string; meta: string }> {
-  return features.slice(0, 5).map((f, i) => ({
-    title: f.name,
-    body: sentence(f.description || `${f.name} is part of how ${brief.productName} serves ${brief.audience}`),
+/**
+ * The quiet form of the outcome band, used when the brief stated no payoffs to spend here: the
+ * coverage index. Names and tiers across the whole product rather than the two flagged core ones,
+ * because a full-width band holding two items reads as a band that failed to load.
+ */
+export function outcomeNames(picks: FeatureCopy[]): Array<{ value: string; label: string; note: string }> {
+  return picks.slice(0, 4).map((c) => ({ value: c.name, label: c.tier, note: "" }));
+}
+
+/**
+ * Chapters: the argument in order, one step per capability.
+ *
+ * This section used to reprint every description in full, immediately after the catalogue had
+ * printed them all. It now carries only the payoffs no earlier section spent; where the brief left
+ * nothing to say, the step is a name and a number. A sequence that is mostly names is a legitimate
+ * beat — it is the quiet screen between two dense ones, and reference pages use it constantly.
+ */
+export function chapters(features: FeatureCopy[]): Array<{ title: string; body: string; meta: string }> {
+  return features.slice(0, 5).map((c, i) => ({
+    title: c.name,
+    body: c.consequenceHome === "story" ? payoffLine(c) : "",
     meta: `Step ${String(i + 1).padStart(2, "0")}`,
   }));
 }
 
-/** Questions a buyer actually asks, derived from the shape of the brief. */
+/**
+ * Questions a buyer actually asks.
+ *
+ * Deliberately about scope, sequencing and boundaries rather than about what each capability does.
+ * The catalogue already answers that, and a FAQ that re-explains the feature list is the clearest
+ * sign a page was assembled from a template: it is the fourth place the same sentence appears.
+ */
 export function questions(brief: DesignBrief, features: FeatureSpec[]): Array<{ title: string; body: string }> {
-  const lead = features[0];
   const last = features[features.length - 1];
   const out: Array<{ title: string; body: string }> = [];
 
-  if (lead) {
-    out.push({
-      title: `What does ${lead.name.toLowerCase()} actually change day to day?`,
-      body: sentence(
-        `${firstClause(lead.description) || lead.name} — which means ${brief.audience} stop doing that work by hand`,
-      ),
-    });
-  }
   out.push({
     title: `Who is ${brief.productName} for?`,
     body: sentence(
       `${brief.audience[0]?.toUpperCase()}${brief.audience.slice(1)}. The ${features.length} capabilities on this page are the whole product; there is no hidden tier`,
     ),
   });
-  if (last && last !== lead) {
+  if (last) {
     out.push({
       title: `Is ${last.name.toLowerCase()} available from day one?`,
       body: sentence(
-        `Yes. ${firstClause(last.description) || last.name} ships with everything else, not as a later phase`,
+        `Yes. All ${features.length} capabilities ship together — nothing on this page is staged behind a later phase`,
       ),
     });
   }
@@ -182,6 +205,12 @@ export function questions(brief: DesignBrief, features: FeatureSpec[]): Array<{ 
       brief.businessGoal === "activation"
         ? "Minutes: the first working view is generated from your own data"
         : "One session: we run it on your data rather than on a prepared sandbox",
+    ),
+  });
+  out.push({
+    title: "What is deliberately not here?",
+    body: sentence(
+      `Anything ${brief.productName} does not do yet. This page lists capabilities, not intentions`,
     ),
   });
   return out;
@@ -219,17 +248,30 @@ export function plans(brief: DesignBrief, features: FeatureSpec[]): Array<{ titl
   ];
 }
 
-/** A quote drawn from the product's own promise — attributed to the role, never to a fake person. */
+/**
+ * The statement band.
+ *
+ * A pull-quote is normally a customer saying something, and this engine cannot invent a customer.
+ * It used to fall back to quoting the product's own lead capability back at the reader, which made
+ * the band a fifth reprint of a sentence they had already read twice.
+ *
+ * What it says instead is true by construction and is the strongest thing a page of this kind can
+ * claim: nothing here is aspirational. Restraint is the positioning.
+ */
 export function pullQuote(brief: DesignBrief, features: FeatureSpec[]): { quote: string; attribution: string } {
-  const lead = features[0];
-  const quote = lead
-    ? `${firstClause(lead.description) || lead.name}. That is the whole pitch, and it is the part ${brief.audience} check first.`
-    : `${brief.productName} exists to make one job smaller for ${brief.audience}.`;
-  return { quote, attribution: `The problem ${brief.productName} was built for` };
+  return {
+    quote: `Everything on this page is something ${brief.productName} does today. ${features.length} capabilities, and no roadmap standing in for one.`,
+    attribution: "How to read this page",
+  };
 }
 
-/** Navigation derived from the sections that will actually exist. */
-export function navFor(sections: string[]): Array<{ label: string; href: string }> {
+/**
+ * Navigation derived from the sections that will actually exist.
+ *
+ * Deduplicated by label: a page with two capability sections used to render "Capabilities" twice
+ * in the primary nav, side by side, pointing at the same anchor.
+ */
+export function navFor(sections: Array<{ kind: string; id: string }>): Array<{ label: string; href: string }> {
   const labels: Record<string, string> = {
     features: "Capabilities",
     figure: "How it works",
@@ -240,8 +282,14 @@ export function navFor(sections: string[]): Array<{ label: string; href: string 
     proof: "Why it holds",
     app: "Workspace",
   };
-  return sections
-    .filter((s) => labels[s])
-    .slice(0, 5)
-    .map((s) => ({ label: labels[s]!, href: `#${s}` }));
+  const seen = new Set<string>();
+  const out: Array<{ label: string; href: string }> = [];
+  for (const s of sections) {
+    const label = labels[s.kind];
+    if (!label || seen.has(label)) continue;
+    seen.add(label);
+    out.push({ label, href: `#${s.id}` });
+    if (out.length === 5) break;
+  }
+  return out;
 }

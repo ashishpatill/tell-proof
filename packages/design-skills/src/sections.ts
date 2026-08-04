@@ -11,16 +11,18 @@ import {
   eyebrows,
   featuresLede,
   featuresTitle,
-  firstClause,
   headline,
   heroLede,
+  lower,
   navFor,
+  outcomeNames,
   outcomes,
   plans,
   pullQuote,
   questions,
   sentence,
 } from "./copy";
+import { catalogueBody, editorialize, type FeatureCopy } from "./editorial";
 import { AESTHETIC_PROFILES } from "./tokens";
 import { Block, SectionSpec, type DesignBrief, type FeatureSpec, type SkillNodeId, type TasteControls } from "./types";
 import type { FeatureAnalysis } from "./analyze";
@@ -60,14 +62,18 @@ function inspiration(lean: TasteControls["aestheticLean"], skill: SkillNodeId, l
   return [`${profile.label} — ${profile.sectionBias}`, `Layout: ${layout}`, `Skill node: ${skill}`];
 }
 
-function featureBlocks(features: FeatureSpec[], brief: DesignBrief): Block[] {
-  return features.map((f, i) =>
+/**
+ * The capability catalogue — the one section allowed to carry a full description, because it is
+ * the section a reader scans to answer "does it do X".
+ */
+function featureBlocks(copies: FeatureCopy[]): Block[] {
+  return copies.map((c, i) =>
     block({
-      title: f.name,
-      body: sentence(f.description || `${f.name} is one of the ${brief.features.length} capabilities ${brief.productName} ships.`),
-      kicker: f.priority === "p0" ? "Core" : f.priority === "p1" ? "Included" : "At scale",
+      title: c.name,
+      body: catalogueBody(c),
+      kicker: c.tier,
       meta: String(i + 1).padStart(2, "0"),
-      emphasis: i === 0 ? "lead" : f.priority === "p2" ? "quiet" : "normal",
+      emphasis: i === 0 ? "lead" : c.priority === "p2" ? "quiet" : "normal",
     }),
   );
 }
@@ -90,8 +96,9 @@ export function buildSections(
 
   const eyebrow = eyebrows(brief);
   const cta = ctaFor(brief.businessGoal);
-  const navItems = navFor(plan.map((p) => p.kind));
-  const allBlocks = featureBlocks(features, brief);
+  const navItems = navFor(plan.map((p) => ({ kind: p.kind, id: p.id })));
+  const editorial = editorialize(features);
+  const allBlocks = featureBlocks(editorial.features);
 
   const sections: SectionSpec[] = [];
   let featureCursor = 0;
@@ -121,38 +128,50 @@ export function buildSections(
         break;
 
       case "hero": {
-        const hero = features.slice(0, 3);
+        /*
+         * The fold names the core capabilities and says nothing else about them. It used to carry a
+         * definition list whose values were descriptions hard-truncated at 42 characters, so every
+         * generated page opened with three monospace boxes containing sentences cut mid-word.
+         */
+        const core = editorial.features.filter((c) => c.priority === "p0").slice(0, 4);
+        const named = (core.length ? core : editorial.features.slice(0, 3)).map((c) =>
+          block({ title: c.name, emphasis: "normal" }),
+        );
         sections.push(
           SectionSpec.parse({
             ...base,
             eyebrow: brief.audience,
             title: headline(brief, features),
-            body: heroLede(brief, features),
+            body: heroLede(brief, editorial.heroLines),
             brandLabel: brief.productName,
             ctaLabel: cta.primary,
             secondaryLabel: cta.secondary,
             ctaNote: cta.note,
-            blocks: hero.map((f) =>
-              block({ title: f.name, body: firstClause(f.description) || f.name, emphasis: "normal" }),
-            ),
-            aside: features.slice(0, 4).map((f, i) =>
-              block({ title: f.name, meta: `${Math.max(24, 96 - i * 17)}%`, emphasis: i === 0 ? "lead" : "normal" }),
-            ),
+            blocks: named,
+            aside: editorial.features
+              .slice(0, 4)
+              .map((c, i) => block({ title: c.name, meta: c.tier, emphasis: i === 0 ? "lead" : "normal" })),
           }),
         );
         break;
       }
 
-      case "metrics":
+      case "metrics": {
+        const stated = editorial.outcomesAreStated;
         sections.push(
           SectionSpec.parse({
             ...base,
             eyebrow: eyebrow.metrics,
-            title: sentence(`What ${brief.audience} stop doing once ${brief.productName} is in place`),
-            metrics: outcomes(brief, features),
+            title: stated
+              ? sentence(`What ${brief.audience} stop doing once ${brief.productName} is in place`)
+              : sentence(`What ${brief.productName} covers`),
+            metrics: stated
+              ? outcomes(editorial.outcomeFeatures)
+              : outcomeNames(editorial.features),
           }),
         );
         break;
+      }
 
       case "features": {
         const slice =
@@ -179,18 +198,19 @@ export function buildSections(
       }
 
       case "figure": {
-        const focal = features[0];
+        const focal = editorial.features[0];
         sections.push(
           SectionSpec.parse({
             ...base,
             eyebrow: eyebrow.figure,
             title: sentence(`${focal?.name ?? brief.productName}, step by step`),
             body: sentence(
-              focal?.description ||
-                `The mechanism behind ${brief.productName}, drawn rather than described`,
+              `The path work takes through ${brief.productName}, drawn rather than described`,
             ),
-            blocks: features.slice(0, 4).map((f, i) =>
-              block({ title: f.name, body: firstClause(f.description) || f.name, meta: `0${i + 1}` }),
+            // Step labels only. A diagram whose legend restates every description is a paragraph
+            // with a picture behind it.
+            blocks: editorial.features.slice(0, 4).map((c, i) =>
+              block({ title: c.name, meta: `0${i + 1}` }),
             ),
             figureCaption: sentence(
               `Drag to step through how ${brief.productName} moves work from ${
@@ -208,10 +228,8 @@ export function buildSections(
             ...base,
             eyebrow: eyebrow.story,
             title: sentence(`The order things happen in`),
-            body: sentence(
-              `${brief.productName} is a sequence, not a pile of features. This is the order ${brief.audience} experience it`,
-            ),
-            blocks: chapters(brief, features).map((c) => block({ title: c.title, body: c.body, meta: c.meta })),
+            body: sentence(`The sequence ${brief.audience} actually meet, in order`),
+            blocks: chapters(editorial.features).map((c) => block({ title: c.title, body: c.body, meta: c.meta })),
           }),
         );
         break;
@@ -225,9 +243,6 @@ export function buildSections(
             title: sentence(`Why it holds up under review`),
             quote: q.quote,
             quoteAttribution: q.attribution,
-            blocks: features.slice(0, 3).map((f) =>
-              block({ title: f.name, body: firstClause(f.description) || f.name, emphasis: "quiet" }),
-            ),
           }),
         );
         break;
@@ -266,13 +281,8 @@ export function buildSections(
             eyebrow: eyebrow.compare,
             title: sentence(`What is included, capability by capability`),
             body: sentence(`The same list as above, arranged the way a procurement review asks for it`),
-            blocks: features.map((f) =>
-              block({
-                title: f.name,
-                body: firstClause(f.description) || f.name,
-                meta: f.priority === "p0" ? "Core" : f.priority === "p1" ? "Included" : "At scale",
-              }),
-            ),
+            // Names and tiers. A matrix that repeats the prose beside every row is not a matrix.
+            blocks: editorial.features.map((c) => block({ title: c.name, meta: c.tier })),
           }),
         );
         break;
@@ -298,7 +308,11 @@ export function buildSections(
                 ? `See it against your own material`
                 : `Put ${brief.productName} in front of your ${brief.audience.split(" ").slice(-1)[0] ?? "team"}`,
             ),
-            body: sentence(cta.note),
+            // Not `cta.note` — the fold already said that, and a closing band that repeats the
+            // reassurance from the top of the page reads as a page with one idea.
+            body: sentence(
+              `${features.length} capabilities, one conversation. The next step is ${lower(cta.primary)}`,
+            ),
             ctaLabel: cta.primary,
             secondaryLabel: cta.secondary,
           }),
@@ -312,10 +326,18 @@ export function buildSections(
             title: brief.productName,
             brandLabel: brief.productName,
             body: sentence(`${brief.productName} for ${brief.audience}`),
+            ctaLabel: cta.secondary,
             blocks: [
-              block({ title: "Product", points: features.slice(0, 4).map((f) => f.name) }),
-              block({ title: "Company", points: ["About", "Careers", "Contact"] }),
-              block({ title: "Trust", points: ["Security", "Availability", "Data handling"] }),
+              block({ title: "Capabilities", points: editorial.features.map((c) => c.name) }),
+              block({
+                title: "Evaluate",
+                points: ["How it works", "What is included", "Questions", "Security review", "Talk to us"],
+              }),
+              block({ title: "Company", points: ["About", "Customers", "Careers", "Press", "Contact"] }),
+              block({
+                title: "Trust",
+                points: ["Security", "Availability", "Data handling", "Subprocessors", "Status"],
+              }),
             ],
           }),
         );
@@ -326,21 +348,20 @@ export function buildSections(
           SectionSpec.parse({
             ...base,
             eyebrow: brief.productName,
-            title: features[0]?.name ?? "Workspace",
-            body: sentence(
-              features[0]?.description || `The working surface ${brief.audience} keep open all day`,
-            ),
+            title: editorial.features[0]?.name ?? "Workspace",
+            body: sentence(`The working surface ${brief.audience} keep open all day`),
             brandLabel: brief.productName,
-            aside: features.map((f) => block({ title: f.name })),
-            blocks: features.slice(0, 6).map((f, i) =>
+            aside: editorial.features.map((c) => block({ title: c.name })),
+            blocks: editorial.features.slice(0, 6).map((c, i) =>
               block({
-                title: f.name,
-                body: firstClause(f.description) || f.name,
+                title: c.name,
                 meta: `${(i + 3) * 7}`,
                 kicker: i === 0 ? "Now" : i < 3 ? "Today" : "Queued",
               }),
             ),
-            metrics: outcomes(brief, features),
+            metrics: editorial.outcomesAreStated
+              ? outcomes(editorial.outcomeFeatures)
+              : outcomeNames(editorial.features),
             ctaLabel: cta.primary,
           }),
         );

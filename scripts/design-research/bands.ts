@@ -11,7 +11,7 @@
 import { createServer } from "node:http";
 import { chromium } from "playwright";
 import { designFromFeatures } from "../../packages/design-skills/src/index";
-import { CRITIQUE_BRIEFS } from "./critique";
+import { CRITIQUE_BRIEFS } from "./briefs";
 import { PROBE } from "./forensics";
 
 async function main(): Promise<void> {
