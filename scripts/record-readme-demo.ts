@@ -6,10 +6,10 @@
 import { chromium, type Page } from "playwright";
 import { mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
-const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+/** Always resolve from this file so cwd (e.g. package exec) cannot misplace media. */
+const REPO_ROOT = path.resolve(__dirname, "..");
 const BASE = process.env.TELL_E2E_BASE ?? "http://127.0.0.1:3000";
 const FIXTURE = process.env.TELL_FIXTURE_URL ?? "http://127.0.0.1:3001";
 const OUT_DIR = path.join(REPO_ROOT, "docs/media");
