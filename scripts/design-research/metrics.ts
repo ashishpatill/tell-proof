@@ -67,12 +67,21 @@ export function flatten(record: ForensicsRecord, viewport = "desktop"): FlatMetr
     const last = sizes[sizes.length - 1]!;
     out["typography.rangeRatio"] = Number((last / first).toFixed(3));
   }
-  const bands = (view.initial as { bands?: Array<{ chars: number }> }).bands;
+  const bands = (view.initial as { bands?: Array<{ chars: number; inkRatio?: number }> }).bands;
   if (bands && bands.length) {
-    const chars = bands.map((b) => b.chars);
-    const mean = chars.reduce((a, b) => a + b, 0) / chars.length;
-    const variance = chars.reduce((a, b) => a + (b - mean) ** 2, 0) / chars.length;
-    out["bands.charVariationCoef"] = mean > 0 ? Number((Math.sqrt(variance) / mean).toFixed(3)) : 0;
+    const cv = (values: number[]): number | null => {
+      const mean = values.reduce((a, b) => a + b, 0) / values.length;
+      if (mean <= 0) return null;
+      const variance = values.reduce((a, b) => a + (b - mean) ** 2, 0) / values.length;
+      return Number((Math.sqrt(variance) / mean).toFixed(3));
+    };
+    const charCv = cv(bands.map((b) => b.chars));
+    if (charCv !== null) out["bands.charVariationCoef"] = charCv;
+    const inks = bands.map((b) => b.inkRatio).filter((v): v is number => typeof v === "number");
+    if (inks.length === bands.length) {
+      const inkCv = cv(inks);
+      if (inkCv !== null) out["bands.inkVariationCoef"] = inkCv;
+    }
     out["bands.count"] = bands.length;
   }
   return out;
@@ -181,6 +190,7 @@ export const CRAFT_DIMENSIONS: CraftDimension[] = [
   { id: "layout-asymmetry", label: "Asymmetric grids", path: "layout.asymmetryRatio", band: [0.08, 0.7], tolerance: 0.2, mode: "atLeast", why: "Equal-width card rows everywhere is the template signature." },
   { id: "scroll-length", label: "Document height (vh)", path: "layout.documentHeightVh", band: [5, 15], tolerance: 4, mode: "corridor", why: "Enough argument to earn the sale, not an endless scroll." },
   { id: "band-variation", label: "Section weight variation", path: "bands.charVariationCoef", band: [0.4, 1.5], tolerance: 0.3, mode: "corridor", why: "Sections should differ in density; uniform bands read as generated." },
+  { id: "band-ink-variation", label: "Section coverage variation", path: "bands.inkVariationCoef", band: [0.2, 1.2], tolerance: 0.25, mode: "corridor", why: "How much of each screen is painted should change as you scroll — a quiet band next to a dense one." },
   { id: "radius-system", label: "Radius steps", path: "shape.distinctRadii", band: [3, 10], tolerance: 3, mode: "atLeast", why: "A radius scale, not one rounded value on everything." },
   { id: "shadow-restraint", label: "Shadow coverage", path: "shape.shadowRatio", band: [0, 0.04], tolerance: 0.04, mode: "atMost", why: "Shadow-on-everything is the clearest generic tell." },
   { id: "hairlines", label: "Hairline borders", path: "shape.hairlineRatio", band: [0.8, 1], tolerance: 0.25, mode: "atLeast", why: "Structure carried by 1px rules rather than heavy chrome." },

@@ -272,7 +272,9 @@ export const PROBE = `(() => {
       bgArea.set(key, (bgArea.get(key) || 0) + i.area);
     }
     if ((i.cs.backgroundImage || "").includes("gradient")) gradientCount += 1;
-    if (i.text.length > 0) {
+    // Text that occupies no area is not text a reader is asked to read, and letting it into the
+    // contrast sample lets clipped and off-screen nodes define a page's measured legibility.
+    if (i.text.length > 0 && i.area > 0) {
       const fg = parseColor(i.cs.color);
       if (fg) {
         const key = \`rgb(\${fg.r},\${fg.g},\${fg.b})\`;
@@ -393,23 +395,43 @@ export const PROBE = `(() => {
     firstTextTopVh: heroText.length ? round(Math.min(...heroText.map((i) => i.r.top)) / vh, 3) : null,
   };
 
-  /* ---------------- vertical bands (rhythm of the scroll) ---------------- */
+  /* ---------------- vertical bands (rhythm of the scroll) ----------------
+   *
+   * Band weight has to describe what a reader sees, not what the DOM contains. Two corrections
+   * matter here, both found by reading raw records where a single band reported half a million
+   * characters:
+   *  - only painted elements count (a clipped or zero-area node is not part of the composition)
+   *  - a single element contributes at most a paragraph, so one node holding a serialised payload
+   *    cannot outweigh an entire page of real copy
+   * inkRatio is the geometry-only companion: the share of the band actually covered by painted
+   * boxes, which describes rhythm without depending on how text is chunked into elements.
+   */
+  const CHAR_CAP = 600;
   const totalH = document.documentElement.scrollHeight;
   const bandCount = Math.min(10, Math.max(2, Math.round(totalH / vh)));
   const bands = [];
   for (let b = 0; b < bandCount; b += 1) {
     const top = (b * totalH) / bandCount;
     const bottom = ((b + 1) * totalH) / bandCount;
+    const bandH = bottom - top;
     const inBand = info.filter((i) => {
+      if (i.area <= 0 || i.r.width <= 0) return false;
       const absTop = i.r.top + window.scrollY;
       return absTop >= top && absTop < bottom;
     });
     const bgs = inBand.map((i) => parseColor(i.cs.backgroundColor)).filter((c) => c && c.a > 0.5);
     const bgKey = bgs.length ? toHsl(bgs[Math.floor(bgs.length / 2)]) : null;
+    const inked = inBand.reduce((n, i) => {
+      const bg = parseColor(i.cs.backgroundColor);
+      const painted = (bg && bg.a > 0.05) || i.text.length > 0;
+      if (!painted) return n;
+      return n + Math.min(i.area, vw * bandH);
+    }, 0);
     bands.push({
       index: b,
       elements: inBand.length,
-      chars: inBand.reduce((n, i) => n + i.text.length, 0),
+      chars: inBand.reduce((n, i) => n + Math.min(i.text.length, CHAR_CAP), 0),
+      inkRatio: bandH > 0 ? round(Math.min(4, inked / (vw * bandH)), 3) : 0,
       maxFontPx: inBand.length ? round(Math.max(...inBand.map((i) => num(i.cs.fontSize))), 1) : 0,
       medianBgLightness: bgKey ? bgKey.l : null,
     });
