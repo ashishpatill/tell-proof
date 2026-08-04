@@ -5,121 +5,145 @@
 > References are anonymised by design: only a `ref` id and a category bucket are retained.
 > Do not add names, hosts, or URLs to this file — the corpus list is deliberately local-only.
 
-**Corpus:** 50 usable references across 26 categories (4 measured but excluded — consent walls, bot walls, and client shells that never hydrated headless).
+**Corpus:** 82 usable references across 32 categories (10 measured but excluded — consent walls, bot walls, and client shells that never hydrated headless).
 
 | Category | References |
 |---|---|
 | `ai-community` | 1 |
 | `ai-frontier` | 1 |
-| `ai-infra` | 2 |
-| `art-directed-studio` | 3 |
+| `ai-infra` | 3 |
+| `art-directed-studio` | 6 |
 | `award-index` | 1 |
-| `brand-agency` | 1 |
-| `brand-product-agency` | 1 |
+| `brand-agency` | 3 |
+| `brand-product-agency` | 2 |
 | `capital-brand` | 1 |
 | `commerce-platform` | 1 |
-| `consumer-craft` | 3 |
+| `consumer-craft` | 4 |
+| `design-system-docs` | 6 |
 | `design-tool` | 3 |
 | `dev-infra` | 8 |
-| `dev-tool` | 1 |
-| `docs-product` | 2 |
+| `dev-tool` | 4 |
+| `docs-product` | 3 |
 | `editorial-brand` | 1 |
+| `editorial-longform` | 2 |
+| `enterprise-agency` | 1 |
 | `enterprise-corporate` | 1 |
+| `enterprise-data` | 2 |
 | `enterprise-observability` | 1 |
 | `enterprise-trust` | 1 |
 | `fintech-infra` | 1 |
-| `fintech-product` | 2 |
+| `fintech-product` | 5 |
 | `hr-fintech` | 2 |
 | `opinionated-smb` | 1 |
-| `personal-craft` | 3 |
-| `premium-b2b-saas` | 6 |
+| `personal-craft` | 4 |
+| `premium-b2b-saas` | 7 |
+| `research-editorial` | 1 |
 | `solo-studio-portfolio` | 1 |
 | `subscription-studio` | 1 |
+| `type-foundry` | 3 |
 
 ## Measured distributions (desktop, 1440×900)
 
 | Measure | p10 | median | p90 | range | n |
 |---|---|---|---|---|---|
-| Smallest→largest type ratio | 3.273 | 6.667 | 12.9 | 1.143–51.4 | 50 |
-| Distinct type sizes | 5 | 12.0 | 15.0 | 2–19.0 | 50 |
-| Type families in play | 1 | 3 | 7 | 1–9 | 50 |
-| Distinct weights | 2 | 3 | 5 | 1–8 | 50 |
-| Display ÷ body size | 1.07 | 4.11 | 6.4 | 0.7–18.8 | 47 |
-| Uses fluid type (share) | 0 | 0 | 1 | 0–1 | 50 |
-| Uppercase micro-labels | 0 | 6 | 61.0 | 0–207 | 50 |
-| Hero display size (px @1440) | 17.6 | 64.0 | 115 | 15.0–720 | 50 |
-| Hero display as % of viewport width | 1.22 | 4.44 | 8 | 1.04–50.0 | 50 |
-| Hero display line height | 0.8 | 1 | 1.15 | 0–1.5 | 50 |
-| Hero display measure (ch) | 8.8 | 21.7 | 38.6 | 1.2–148 | 50 |
-| Hero headline length (chars) | 6 | 24.0 | 52.0 | 1–93.0 | 50 |
-| Above-fold characters | 209 | 462 | 1263 | 140–2992 | 50 |
-| Above-fold CTA buttons | 0 | 1 | 9 | 0–29.0 | 50 |
-| Nav bar height (px) | 58.0 | 72.0 | 120 | 50.0–884 | 25 |
-| Body size (px) | 12.0 | 16.0 | 22.0 | 10.0–75.0 | 47 |
-| Body line height | 1.1 | 1.5 | 1.625 | 0–1.75 | 47 |
-| Body measure (ch) | 34.1 | 64.0 | 109 | 14.2–216 | 47 |
-| Display tracking (em) | -0.048 | -0.014 | 0 | -0.06–0.018 | 50 |
-| Distinct surface colours | 2 | 7 | 16.0 | 0–22.0 | 50 |
-| Distinct ink tones | 2 | 6 | 16.0 | 0–24.0 | 50 |
-| Distinct hues | 0 | 3 | 9 | 0–15.0 | 50 |
-| Peak saturation (%) | 0 | 100 | 100 | 0–100 | 50 |
-| Neutral saturation (%) | 0 | 0 | 6.1 | 0–10.2 | 49 |
-| Median text contrast | 4.09 | 15.3 | 21.0 | 1–21.0 | 49 |
-| Dark page (share) | 0 | 0 | 1 | 0–1 | 50 |
-| Gradient elements | 0 | 4 | 62.0 | 0–240 | 50 |
-| Section padding (px) | 36.0 | 91.0 | 128 | 16.0–160 | 29 |
-| Container width (px) | 350 | 640 | 1300 | 330–1390 | 50 |
-| Container ÷ viewport | 0.243 | 0.444 | 0.903 | 0.229–0.965 | 50 |
-| Spacing on 4px grid (share) | 0.275 | 0.851 | 1 | 0.06–1 | 49 |
-| Spacing on 8px grid (share) | 0.088 | 0.552 | 0.856 | 0–1 | 49 |
-| Distinct spacing values | 3 | 11.0 | 18.0 | 0–23.0 | 50 |
-| Section-level regions | 1 | 8 | 17.0 | 0–27.0 | 50 |
-| Grid containers | 0 | 13.0 | 72.0 | 0–334 | 50 |
-| Asymmetric grid share | 0 | 0.083 | 0.438 | 0–1 | 42 |
-| Page height (viewports) | 5.73 | 9.67 | 14.5 | 1.58–19.6 | 47 |
-| Above-fold painted ratio | 0.168 | 1 | 1 | 0.127–1 | 50 |
-| Sticky/fixed elements | 1 | 3 | 7 | 0–70.0 | 50 |
-| Section density variation | 0.389 | 0.646 | 1.384 | 0.044–2.71 | 50 |
-| Distinct radii | 2 | 7 | 13.0 | 1–20.0 | 50 |
-| Median radius (px) | 4 | 8 | 100 | 1–400 | 50 |
-| Largest non-pill radius (px) | 12.0 | 50.0 | 100 | 4–340 | 49 |
-| Pill-shaped elements | 0 | 13.0 | 122 | 0–304 | 50 |
-| Elements with shadow (share) | 0 | 0.003 | 0.044 | 0–0.117 | 50 |
-| Median shadow alpha | 0 | 0.07 | 1 | 0–1 | 41 |
-| Borders ≤1px (share) | 0.657 | 1 | 1 | 0.061–1 | 42 |
-| Elements with transitions (share) | 0.012 | 0.082 | 0.224 | 0–0.291 | 50 |
-| Median transition (ms) | 150 | 200 | 300 | 100–600 | 48 |
-| p90 transition (ms) | 180 | 300 | 500 | 150–800 | 48 |
-| Keyframe-animated elements | 0 | 4 | 18.0 | 0–178 | 50 |
-| Infinite animations | 0 | 1 | 7 | 0–178 | 50 |
-| reduced-motion rules | 0 | 1 | 8 | 0–26.0 | 50 |
-| Declared CSS custom properties | 32.0 | 191 | 525 | 3–1008 | 50 |
-| Colour tokens | 0 | 46.0 | 208 | 0–445 | 50 |
-| Spacing tokens | 0 | 11.0 | 66.0 | 0–270 | 50 |
-| Images | 0 | 44.0 | 107 | 0–184 | 50 |
-| Inline SVG nodes | 4 | 61.0 | 178 | 0–495 | 50 |
-| Image area ÷ page area | 0 | 0.248 | 1.274 | 0–3.313 | 50 |
-| Nav links | 0 | 10.0 | 145 | 0–472 | 50 |
-| Headings | 6 | 27.0 | 57.0 | 0–79.0 | 50 |
-| DOM nodes | 451 | 2146 | 5322 | 136–12254 | 50 |
-| Page text (chars) | 1476 | 5094 | 12509 | 339–17412 | 50 |
-| :focus-visible rules | 0 | 3 | 25.0 | 0–268 | 50 |
-| First contentful paint (ms) | 236 | 356 | 752 | 172–1924 | 49 |
-| Requests | 67.0 | 162 | 280 | 36.0–427 | 50 |
-| Font files | 2 | 5 | 12.0 | 1–22.0 | 50 |
+| Smallest→largest type ratio | 2.987 | 6.4 | 12.1 | 1.143–51.4 | 82 |
+| Distinct type sizes | 4 | 11.0 | 15.0 | 2–21.0 | 82 |
+| Type families in play | 1 | 2 | 5 | 1–21.0 | 82 |
+| Distinct weights | 2 | 4 | 5 | 1–8 | 82 |
+| Display ÷ body size | 1.27 | 3.44 | 6.67 | 0.7–18.8 | 78 |
+| Uses fluid type (share) | 0 | 0 | 1 | 0–1 | 82 |
+| Uppercase micro-labels | 0 | 3 | 57.0 | 0–207 | 82 |
+| Hero display size (px @1440) | 22.0 | 64.0 | 115 | 15.0–720 | 82 |
+| Hero display as % of viewport width | 1.53 | 4.44 | 8 | 1.04–50.0 | 82 |
+| Hero display line height | 0.89 | 1 | 1.2 | 0–1.5 | 82 |
+| Hero display measure (ch) | 8.8 | 22.9 | 38.9 | 1.2–148 | 82 |
+| Hero headline length (chars) | 6 | 23.0 | 56.0 | 1–249 | 82 |
+| Above-fold characters | 207 | 497 | 1360 | 44.0–3095 | 82 |
+| Above-fold CTA buttons | 0 | 3 | 8 | 0–29.0 | 82 |
+| Nav bar height (px) | 50.0 | 72.0 | 126 | 0–884 | 42 |
+| Body size (px) | 12.0 | 16.0 | 20.3 | 10.0–75.0 | 78 |
+| Body line height | 1.188 | 1.5 | 1.6 | 0–1.91 | 78 |
+| Body measure (ch) | 34.1 | 64.8 | 109 | 14.2–224 | 78 |
+| Display tracking (em) | -0.04 | -0.01 | 0 | -0.06–0.018 | 82 |
+| Distinct surface colours | 2 | 7 | 14.0 | 0–26.0 | 82 |
+| Distinct ink tones | 2 | 6 | 15.0 | 0–28.0 | 82 |
+| Distinct hues | 0 | 3 | 8 | 0–15.0 | 82 |
+| Peak saturation (%) | 0 | 100 | 100 | 0–100 | 82 |
+| Neutral saturation (%) | 0 | 0 | 5.9 | 0–10.2 | 81 |
+| Median text contrast | 5.66 | 15.3 | 21.0 | 1–21.0 | 81 |
+| Dark page (share) | 0 | 0 | 1 | 0–1 | 82 |
+| Gradient elements | 0 | 1 | 50.0 | 0–240 | 82 |
+| Section padding (px) | 24.0 | 80.0 | 152 | 16.0–450 | 50 |
+| Container width (px) | 360 | 640 | 1300 | 330–1410 | 82 |
+| Container ÷ viewport | 0.25 | 0.444 | 0.903 | 0.229–0.979 | 82 |
+| Spacing on 4px grid (share) | 0.129 | 0.889 | 1 | 0–1 | 80 |
+| Spacing on 8px grid (share) | 0.027 | 0.527 | 0.927 | 0–1 | 80 |
+| Distinct spacing values | 2 | 11.0 | 16.0 | 0–24.0 | 82 |
+| Section-level regions | 1 | 6 | 16.0 | 0–28.0 | 82 |
+| Grid containers | 0 | 11.0 | 60.0 | 0–334 | 82 |
+| Asymmetric grid share | 0 | 0.077 | 0.438 | 0–1 | 66 |
+| Page height (viewports) | 4.37 | 9.12 | 15.5 | 1.31–36.4 | 75 |
+| Above-fold painted ratio | 0.197 | 1 | 1 | 0.127–1 | 82 |
+| Sticky/fixed elements | 1 | 3 | 7 | 0–70.0 | 82 |
+| Section density variation | 0.28 | 0.599 | 1.146 | 0.028–2.748 | 82 |
+| Section coverage variation | 0.286 | 0.69 | 1.348 | 0.022–2.953 | 82 |
+| Content width tiers | 4 | 6 | 8 | 1–10.0 | 82 |
+| Alignment axes | 2 | 4 | 7 | 0–11.0 | 82 |
+| Edge gutter (px) | 20.0 | 72.0 | 176 | 0–440 | 81 |
+| Share on the top 3 axes | 0.193 | 0.395 | 0.709 | 0.09–1 | 82 |
+| Full-bleed band share | 0 | 0.5 | 2 | 0–11.0 | 76 |
+| Tonal range down the scroll | 0 | 0 | 96.9 | 0–100 | 82 |
+| Inverted band share | 0 | 0 | 0.889 | 0–1 | 82 |
+| Distinct section shapes | 1 | 3 | 5 | 0–7 | 82 |
+| Longest repeated shape run | 0.185 | 0.333 | 0.8 | 0.071–1 | 76 |
+| Figures (drawn matter) | 5 | 40.0 | 113 | 0–542 | 82 |
+| Drawn matter ÷ page area | 0.135 | 0.404 | 1 | 0–1 | 82 |
+| Drawn matter above the fold | 0.03 | 0.591 | 1 | 0–1 | 82 |
+| Layered / overlapping elements | 1 | 18.0 | 62.0 | 0–157 | 82 |
+| Accent coverage | 0 | 0.018 | 0.638 | 0–1 | 82 |
+| Rules per screen | 0.14 | 1.61 | 6.72 | 0–34.4 | 82 |
+| Ordinal marks | 0 | 0 | 16.0 | 0–139 | 82 |
+| Mixed-voice display lines | 0 | 1 | 7 | 0–61.0 | 82 |
+| Distinct radii | 2 | 6 | 13.0 | 0–20.0 | 82 |
+| Median radius (px) | 3 | 8 | 100 | 0–400 | 82 |
+| Largest non-pill radius (px) | 5 | 50.0 | 100 | 0–340 | 81 |
+| Pill-shaped elements | 0 | 5 | 73.0 | 0–304 | 82 |
+| Elements with shadow (share) | 0 | 0.003 | 0.026 | 0–0.117 | 82 |
+| Median shadow alpha | 0 | 0.1 | 0.4 | 0–1 | 64 |
+| Borders ≤1px (share) | 0.593 | 1 | 1 | 0–1 | 73 |
+| Elements with transitions (share) | 0.009 | 0.082 | 0.21 | 0–0.517 | 82 |
+| Median transition (ms) | 150 | 200 | 350 | 100–1000 | 78 |
+| p90 transition (ms) | 150 | 300 | 600 | 100–1200 | 78 |
+| Keyframe-animated elements | 0 | 2 | 17.0 | 0–178 | 82 |
+| Infinite animations | 0 | 0 | 7 | 0–178 | 82 |
+| reduced-motion rules | 0 | 1 | 12.0 | 0–51.0 | 82 |
+| Declared CSS custom properties | 22.0 | 170 | 495 | 0–1983 | 82 |
+| Colour tokens | 0 | 38.0 | 196 | 0–1543 | 82 |
+| Spacing tokens | 0 | 11.0 | 66.0 | 0–270 | 82 |
+| Images | 3 | 42.0 | 107 | 0–628 | 82 |
+| Inline SVG nodes | 2 | 52.0 | 163 | 0–495 | 82 |
+| Image area ÷ page area | 0 | 0.242 | 0.989 | 0–3.313 | 82 |
+| Nav links | 0 | 10.0 | 96.0 | 0–472 | 82 |
+| Headings | 6 | 25.0 | 58.0 | 0–115 | 82 |
+| DOM nodes | 329 | 1648 | 4513 | 86.0–12261 | 82 |
+| Page text (chars) | 1476 | 4240 | 13002 | 339–35210 | 82 |
+| :focus-visible rules | 0 | 3 | 46.0 | 0–311 | 82 |
+| First contentful paint (ms) | 212 | 348 | 1040 | 120–4376 | 81 |
+| Requests | 58.0 | 156 | 251 | 34.0–427 | 82 |
+| Font files | 2 | 5 | 11.0 | 1–22.0 | 82 |
 
 ## Mobile deltas (390×844)
 
 | Measure | p10 | median | p90 | range | n |
 |---|---|---|---|---|---|
-| Hero display size (px @1440) | 26.0 | 36.0 | 61.0 | 14.0–720 | 50 |
-| Hero display as % of viewport width | 6.67 | 9.23 | 15.6 | 3.59–185 | 50 |
-| Body size (px) | 12.0 | 16.0 | 20.0 | 10.0–75.0 | 49 |
-| Body measure (ch) | 24.3 | 41.0 | 60.0 | 4.8–215 | 49 |
-| Section padding (px) | 15.0 | 48.0 | 80.0 | 2–120 | 33 |
-| Container ÷ viewport | 0.846 | 0.897 | 0.923 | 0.821–0.949 | 50 |
-| Page height (viewports) | 5.65 | 12.5 | 19.0 | 1.87–24.3 | 47 |
-| Above-fold characters | 148 | 358 | 822 | 138–2947 | 50 |
+| Hero display size (px @1440) | 20.0 | 36.0 | 60.0 | 14.0–720 | 82 |
+| Hero display as % of viewport width | 5.13 | 9.23 | 15.4 | 3.59–185 | 82 |
+| Body size (px) | 12.0 | 16.0 | 20.0 | 10.0–75.0 | 79 |
+| Body measure (ch) | 27.8 | 41.9 | 57.0 | 4.8–215 | 79 |
+| Section padding (px) | 16.0 | 48.0 | 80.0 | 2–422 | 53 |
+| Container ÷ viewport | 0.872 | 0.897 | 0.923 | 0.821–0.949 | 81 |
+| Page height (viewports) | 4.31 | 11.7 | 19.0 | 1.87–60.8 | 76 |
+| Above-fold characters | 140 | 378 | 1014 | 38.0–2947 | 82 |
 
 ## Calibrated craft bands
 
@@ -129,37 +153,48 @@ readable as templated or unconsidered.
 
 | Dimension | Band (p10–p90) | Why it matters |
 |---|---|---|
-| Type scale range | 4.333 – 8 | Premium pages travel a long way between the smallest label and the display voice. |
-| Distinct type sizes | 9 – 14.0 | Too few steps reads as a template; too many reads as unmanaged. |
-| Display size vs viewport | 3.19 – 6.11 | The headline must own the fold without shouting. |
-| Display line height | 0.96 – 1.1 | Tight leading is the single clearest signal of typographic intent. |
-| Display measure (ch) | 11.7 – 28.1 | Headlines break on purpose; long single lines read as unconsidered. |
-| Body measure (ch) | 43.3 – 78.0 | Readable prose stays inside a controlled measure. |
+| Type scale range | 3.833 – 8.8 | Premium pages travel a long way between the smallest label and the display voice. |
+| Distinct type sizes | 6 – 14.0 | Too few steps reads as a template; too many reads as unmanaged. |
+| Display size vs viewport | 3.16 – 6.11 | The headline must own the fold without shouting. |
+| Display line height | 0.975 – 1.15 | Tight leading is the single clearest signal of typographic intent. |
+| Display measure (ch) | 12.8 – 32.9 | Headlines break on purpose; long single lines read as unconsidered. |
+| Body measure (ch) | 44.4 – 82.5 | Readable prose stays inside a controlled measure. |
 | Body line height | 1.3 – 1.5 | Comfortable leading for sustained reading. |
 | Weights in play | 3 – 8 | A weight system, not a single default. |
-| Surface layers | 4 – 22.0 | Depth comes from layered surfaces, not from shadows. |
-| Text tones | 3 – 24.0 | Primary / secondary / tertiary ink instead of one grey. |
+| Surface layers | 4 – 26.0 | Depth comes from layered surfaces, not from shadows. |
+| Text tones | 4 – 28.0 | Primary / secondary / tertiary ink instead of one grey. |
 | Hue discipline | 0 – 5 | Restrained hue count keeps a page expensive-looking. |
-| Neutral temperature | 0 – 4.3 | Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue. |
-| Median text contrast | 10.3 – 21.0 | Readable by default, not just at the largest sizes. |
-| Section padding | 48.0 – 120 | Vertical breathing room separates chapters of the argument. |
+| Neutral temperature | 0 – 2.5 | Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue. |
+| Median text contrast | 8.74 – 21.0 | Readable by default, not just at the largest sizes. |
+| Section padding | 36.0 – 120 | Vertical breathing room separates chapters of the argument. |
 | Spacing grid conformity | 0.611 – 1 | Spacing that lands on a scale rather than on arbitrary numbers. |
-| Container ratio | 0.271 – 0.854 | Content is framed, not stretched edge to edge. |
+| Container ratio | 0.285 – 0.854 | Content is framed, not stretched edge to edge. |
 | Asymmetric grids | 0 – 1 | Equal-width card rows everywhere is the template signature. |
-| Document height (vh) | 6.65 – 12.9 | Enough argument to earn the sale, not an endless scroll. |
-| Section weight variation | 0.513 – 0.92 | Sections should differ in density; uniform bands read as generated. |
-| Section coverage variation | 0.555 – 0.96 | How much of each screen is painted should change as you scroll — a quiet band next to a dense one. |
-| Radius steps | 5 – 20.0 | A radius scale, not one rounded value on everything. |
-| Shadow coverage | 0 – 0.018 | Shadow-on-everything is the clearest generic tell. |
-| Hairline borders | 0.953 – 1 | Structure carried by 1px rules rather than heavy chrome. |
-| Transition coverage | 0.02 – 0.176 | Motion on the things you touch, not on everything. |
+| Document height (vh) | 5.99 – 12.6 | Enough argument to earn the sale, not an endless scroll. |
+| Section weight variation | 0.422 – 0.896 | Sections should differ in density; uniform bands read as generated. |
+| Section coverage variation | 0.447 – 0.96 | How much of each screen is painted should change as you scroll — a quiet band next to a dense one. |
+| Radius steps | 4 – 20.0 | A radius scale, not one rounded value on everything. |
+| Shadow coverage | 0 – 0.014 | Shadow-on-everything is the clearest generic tell. |
+| Hairline borders | 0.947 – 1 | Structure carried by 1px rules rather than heavy chrome. |
+| Transition coverage | 0.021 – 0.154 | Motion on the things you touch, not on everything. |
 | Median transition (ms) | 150 – 300 | Fast enough to feel responsive, slow enough to read as intentional. |
-| Declared tokens | 100 – 1008 | A real design system is declared, not hard-coded. |
-| Nav links | 0 – 56.0 | A navigable spine, not a sitemap in the header. |
-| Above-fold CTAs | 0 – 6 | One primary decision, at most one alternative. |
-| Above-fold characters | 233 – 1124 | Enough to orient a buyer, little enough to be read. |
-| Headings on page | 16.0 – 79.0 | A real argument has named parts; two headings means a stub. |
+| Declared tokens | 87.0 – 1983 | A real design system is declared, not hard-coded. |
+| Nav links | 1 – 55.0 | A navigable spine, not a sitemap in the header. |
+| Above-fold CTAs | 0 – 7 | One primary decision, at most one alternative. |
+| Above-fold characters | 242 – 1139 | Enough to orient a buyer, little enough to be read. |
+| Headings on page | 14.0 – 115 | A real argument has named parts; two headings means a stub. |
 | Uppercase micro-labels | 0 – 28.0 | Small tracked labels are how sections announce themselves without shouting. |
+| Content width tiers | 5 – 10.0 | One container width for every section is the clearest structural tell there is. |
+| Alignment axes | 3 – 6 | A grid a reader can feel needs more than one left edge and fewer than a dozen. |
+| Full-bleed bands | 0.1 – 1.375 | Something has to reach the edge of the screen, or the page is a document in a frame. |
+| Tonal range down the scroll | 0 – 100 | Premium pages change tone as you scroll; one paper stock end to end reads as a template. |
+| Section shape variety | 2 – 7 | Split, grid, list, table, media — a page that makes one shape is a page nobody composed. |
+| Repeated shape run | 0 – 0.5 | Three card grids in a row is the single most recognisable generated-page signature. |
+| Drawn matter (share of page) | 0.196 – 0.778 | Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at. |
+| Drawn matter above the fold | 0.337 – 1 | The fold has to show the thing, not only describe it. |
+| Layered elements | 11.0 – 157 | Overlap across a boundary is depth that costs nothing in performance. |
+| Accent coverage | 0.001 – 0.469 | Colour has to appear somewhere beyond a button, without becoming the page. |
+| Rules per screen | 0.42 – 4.33 | Hairline rules are how editorial pages carry structure without boxes. |
 
 ## Category signatures
 
@@ -167,28 +202,34 @@ readable as templated or unconsidered.
 |---|---|---|---|---|---|---|---|---|
 | `ai-community` | 3.33 | 3 | 0 | — | 8 | 0.047 | 0.025 | 6.65 |
 | `ai-frontier` | 4.23 | 4 | 0 | — | 8 | 0 | 0.291 | 3.57 |
-| `ai-infra` | 4.44 | 5 | 1 | 52.0 | 25.0 | 0 | 0.059 | 9.75 |
-| `art-directed-studio` | 12.5 | 4 | 0 | 50.0 | 50.0 | 0 | 0.176 | 11.9 |
-| `award-index` | 1.04 | 4 | 0 | — | 4 | 0 | 0.089 | 5.91 |
-| `brand-agency` | 1.11 | 2 | 0 | — | 24.0 | 0 | 0.224 | 7.36 |
-| `brand-product-agency` | 5 | 16.0 | 0 | 100 | 4 | 0.003 | 0.001 | 13.7 |
+| `ai-infra` | 4.44 | 5 | 1 | 52.0 | 25.0 | 0.001 | 0.059 | 9.75 |
+| `art-directed-studio` | 8 | 4 | 0 | 71.0 | 3 | 0 | 0.047 | 7.37 |
+| `award-index` | 1.04 | 4 | 0 | — | 4 | 0 | 0.09 | 5.91 |
+| `brand-agency` | 1.53 | 4 | 0 | 24.0 | 24.0 | 0 | 0.097 | 11.1 |
+| `brand-product-agency` | 3.82 | 4 | 0 | 100 | 4 | 0.003 | 0.001 | 9.21 |
 | `capital-brand` | 3.61 | 9 | 0 | 16.0 | 100 | 0.003 | 0.082 | 6.99 |
 | `commerce-platform` | 6.67 | 11.0 | 1 | 80.0 | 12.0 | 0.016 | 0.09 | 12.6 |
-| `consumer-craft` | 4.44 | 5 | 0 | — | 11.0 | 0.019 | 0.038 | 6.98 |
+| `consumer-craft` | 3.16 | 5 | 0 | — | 11.0 | 0.019 | 0.031 | 6.98 |
+| `design-system-docs` | 4.03 | 4 | 0 | 16.0 | 8 | 0.004 | 0.12 | 2.63 |
 | `design-tool` | 3.89 | 10.0 | 1 | 80.0 | 8 | 0.005 | 0.057 | 12.1 |
-| `dev-infra` | 4.44 | 9 | 0 | 96.0 | 8 | 0.006 | 0.053 | 9.67 |
-| `dev-tool` | 1.81 | 15.0 | 0 | 67.0 | 8 | 0.007 | 0.045 | 9.14 |
-| `docs-product` | 5 | 2 | 0 | 36.0 | 16.0 | 0.067 | 0.11 | 5.73 |
-| `editorial-brand` | 1.22 | 22.0 | 1 | 24.0 | 3 | 0 | 0.103 | 7.4 |
+| `dev-infra` | 4.44 | 9 | 0 | 96.0 | 8 | 0.006 | 0.055 | 9.67 |
+| `dev-tool` | 3.33 | 10.0 | 0 | 67.0 | 3 | 0.012 | 0.042 | 8.57 |
+| `docs-product` | 5 | 9 | 0 | 36.0 | 16.0 | 0.067 | 0.11 | 8.6 |
+| `editorial-brand` | 1.22 | 22.0 | 1 | 24.0 | 3 | 0 | 0.102 | 7.4 |
+| `editorial-longform` | 2.92 | 12.0 | 0 | 33.0 | 5 | 0.001 | 0.131 | 8.1 |
+| `enterprise-agency` | 1.39 | 4 | 1 | 248 | 2 | 0.005 | 0.06 | 36.4 |
 | `enterprise-corporate` | 5.56 | 10.0 | 0 | 90.0 | 4 | 0.003 | 0.28 | 7.39 |
+| `enterprise-data` | 4.17 | 10.0 | 1 | 96.0 | 4 | 0.003 | 0.026 | 6.98 |
 | `enterprise-observability` | 4.72 | 6 | 0 | 50.0 | 4 | 0.001 | 0.013 | 5.97 |
-| `enterprise-trust` | 5 | 10.0 | 0 | 160 | 8 | 0.001 | 0.088 | 11.3 |
+| `enterprise-trust` | 5 | 10.0 | 0 | 160 | 8 | 0.001 | 0.089 | 11.3 |
 | `fintech-infra` | 3.33 | 13.0 | 1 | — | 4 | 0.002 | 0.28 | 16.3 |
-| `fintech-product` | 3.43 | 5 | 1 | 48.0 | 4 | 0.001 | 0.019 | 9.8 |
-| `hr-fintech` | 3.33 | 11.0 | 0 | 96.0 | 8 | 0 | 0.012 | 8.55 |
+| `fintech-product` | 5 | 6 | 1 | 56.0 | 16.0 | 0.001 | 0.059 | 11.8 |
+| `hr-fintech` | 3.33 | 11.0 | 0 | 96.0 | 8 | 0 | 0.013 | 8.55 |
 | `opinionated-smb` | 2.91 | 0 | 0 | 91.0 | 6 | 0.023 | 0.232 | 5.12 |
-| `personal-craft` | 1.18 | 2 | 0 | 128 | 6 | 0 | 0.141 | 2.66 |
-| `premium-b2b-saas` | 5 | 8 | 0 | 120 | 6 | 0.014 | 0.064 | 13.2 |
+| `personal-craft` | 1.18 | 1 | 0 | 128 | 1 | 0 | 0.141 | 2.66 |
+| `premium-b2b-saas` | 5.28 | 8 | 0 | 112 | 8 | 0.018 | 0.097 | 16.6 |
+| `research-editorial` | 3.47 | 11.0 | 0 | 40.0 | 24.0 | 0.002 | 0.002 | 4.77 |
 | `solo-studio-portfolio` | 31.8 | 3 | 1 | — | 400 | 0.081 | 0 | 6.18 |
 | `subscription-studio` | 5.69 | 7 | 0 | — | 100 | 0.018 | 0.02 | 8.25 |
+| `type-foundry` | 3.32 | 8 | 1 | 40.0 | 5 | 0 | 0.026 | 6.36 |
 

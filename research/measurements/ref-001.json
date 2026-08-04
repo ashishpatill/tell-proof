@@ -3,14 +3,14 @@
   "category": "solo-studio-portfolio",
   "role": "independent designer portfolio",
   "urlHash": "2a94c2f3b61b",
-  "measuredAt": "2026-08-04T22:30:24.834Z",
+  "measuredAt": "2026-08-04T23:32:02.414Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2437,
+      "loadMs": 2305,
       "paint": {
-        "fcpMs": 240,
-        "domInteractiveMs": 229,
+        "fcpMs": 200,
+        "domInteractiveMs": 99,
         "transferBytes": 30962
       },
       "network": {
@@ -290,6 +290,29 @@
             "medianBgLightness": 6.7
           }
         ],
+        "composition": {
+          "alignmentAxes": 8,
+          "spineConformity": 0.489,
+          "edgeGutterPx": 36,
+          "widthTiers": 2,
+          "bleedBands": 2,
+          "bleedRatio": 2,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 1,
+          "maxShapeRun": 1,
+          "shapeRunRatio": 1,
+          "layeredElements": 125,
+          "accentAreaRatio": 0.0247,
+          "ruleElements": 1,
+          "ruleDensity": 0.16,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 112,
+          "figureAreaRatio": 0.5431,
+          "foldFigureRatio": 0.6887
+        },
         "shape": {
           "radii": [
             {
@@ -394,10 +417,10 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2305,
+      "loadMs": 2297,
       "paint": {
-        "fcpMs": 132,
-        "domInteractiveMs": 101,
+        "fcpMs": 96,
+        "domInteractiveMs": 92,
         "transferBytes": 30962
       },
       "network": {
@@ -412,13 +435,13 @@
             "requests": 72,
             "bytes": 136995
           },
-          "font": {
-            "requests": 5,
-            "bytes": 202888
-          },
           "script": {
             "requests": 16,
             "bytes": 9785
+          },
+          "font": {
+            "requests": 5,
+            "bytes": 202888
           },
           "fetch": {
             "requests": 3,
@@ -709,6 +732,29 @@
             "medianBgLightness": 6.7
           }
         ],
+        "composition": {
+          "alignmentAxes": 3,
+          "spineConformity": 0.977,
+          "edgeGutterPx": 20,
+          "widthTiers": 3,
+          "bleedBands": 1,
+          "bleedRatio": 0.5,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 2,
+          "maxShapeRun": 1,
+          "shapeRunRatio": 0.5,
+          "layeredElements": 123,
+          "accentAreaRatio": 0.0033,
+          "ruleElements": 1,
+          "ruleDensity": 0.05,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 111,
+          "figureAreaRatio": 0.6053,
+          "foldFigureRatio": 0.6186
+        },
         "shape": {
           "radii": [
             {

@@ -3,19 +3,19 @@
   "category": "premium-b2b-saas",
   "role": "presentation product",
   "urlHash": "d8b211954adc",
-  "measuredAt": "2026-08-04T22:34:27.094Z",
+  "measuredAt": "2026-08-04T23:37:49.435Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2855,
+      "loadMs": 2927,
       "paint": {
-        "fcpMs": 264,
-        "domInteractiveMs": 358,
+        "fcpMs": 336,
+        "domInteractiveMs": 411,
         "transferBytes": 91295
       },
       "network": {
         "requests": 148,
-        "bytes": 1345988,
+        "bytes": 1347480,
         "byType": {
           "document": {
             "requests": 2,
@@ -31,19 +31,19 @@
           },
           "script": {
             "requests": 34,
-            "bytes": 1052912
+            "bytes": 1054404
           },
           "fetch": {
             "requests": 10,
             "bytes": 825
           },
-          "ping": {
-            "requests": 3,
-            "bytes": 0
-          },
           "xhr": {
             "requests": 3,
             "bytes": 3
+          },
+          "ping": {
+            "requests": 3,
+            "bytes": 0
           }
         },
         "fontFiles": 7,
@@ -297,7 +297,7 @@
           "asymmetricGrids": 0,
           "asymmetryRatio": null,
           "fullBleed": 49,
-          "aboveFoldElements": 177,
+          "aboveFoldElements": 178,
           "aboveFoldTextChars": 269,
           "aboveFoldInkRatio": 1,
           "stickyElements": 3,
@@ -321,7 +321,7 @@
         "bands": [
           {
             "index": 0,
-            "elements": 192,
+            "elements": 193,
             "chars": 314,
             "inkRatio": 2.156,
             "maxFontPx": 180,
@@ -400,6 +400,29 @@
             "medianBgLightness": 5.9
           }
         ],
+        "composition": {
+          "alignmentAxes": 2,
+          "spineConformity": 0.192,
+          "edgeGutterPx": 108,
+          "widthTiers": 7,
+          "bleedBands": 8,
+          "bleedRatio": 0.615,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 4,
+          "maxShapeRun": 3,
+          "shapeRunRatio": 0.231,
+          "layeredElements": 73,
+          "accentAreaRatio": 0.6378,
+          "ruleElements": 5,
+          "ruleDensity": 0.3,
+          "ordinalMarks": 18,
+          "mixedDisplayBlocks": 4,
+          "figures": 90,
+          "figureAreaRatio": 1,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -481,7 +504,7 @@
           "images": 93,
           "svgInline": 11,
           "videos": 0,
-          "imageAreaRatio": 1.6347,
+          "imageAreaRatio": 1.6348,
           "altCoverage": 0.978,
           "lazyCoverage": 0.441,
           "modernFormats": 0
@@ -553,7 +576,7 @@
           "images": 95,
           "svgInline": 11,
           "videos": 0,
-          "imageAreaRatio": 1.6412,
+          "imageAreaRatio": 1.6413,
           "altCoverage": 0.979,
           "lazyCoverage": 0.453,
           "modernFormats": 0
@@ -562,15 +585,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2657,
+      "loadMs": 2704,
       "paint": {
-        "fcpMs": 272,
-        "domInteractiveMs": 356,
+        "fcpMs": 236,
+        "domInteractiveMs": 316,
         "transferBytes": 91295
       },
       "network": {
         "requests": 148,
-        "bytes": 1685389,
+        "bytes": 1685312,
         "byType": {
           "document": {
             "requests": 2,
@@ -586,7 +609,7 @@
           },
           "script": {
             "requests": 34,
-            "bytes": 1052984
+            "bytes": 1052907
           },
           "fetch": {
             "requests": 10,
@@ -596,13 +619,13 @@
             "requests": 1,
             "bytes": 366709
           },
-          "ping": {
-            "requests": 3,
-            "bytes": 0
-          },
           "xhr": {
             "requests": 3,
             "bytes": 3
+          },
+          "ping": {
+            "requests": 3,
+            "bytes": 0
           }
         },
         "fontFiles": 6,
@@ -853,7 +876,7 @@
           "asymmetricGrids": 0,
           "asymmetryRatio": 0,
           "fullBleed": 76,
-          "aboveFoldElements": 133,
+          "aboveFoldElements": 134,
           "aboveFoldTextChars": 226,
           "aboveFoldInkRatio": 1,
           "stickyElements": 3,
@@ -877,7 +900,7 @@
         "bands": [
           {
             "index": 0,
-            "elements": 175,
+            "elements": 176,
             "chars": 368,
             "inkRatio": 2.179,
             "maxFontPx": 82,
@@ -956,6 +979,29 @@
             "medianBgLightness": 94.3
           }
         ],
+        "composition": {
+          "alignmentAxes": 3,
+          "spineConformity": 0.5,
+          "edgeGutterPx": 16,
+          "widthTiers": 6,
+          "bleedBands": 10,
+          "bleedRatio": 0.769,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 3,
+          "maxShapeRun": 3,
+          "shapeRunRatio": 0.231,
+          "layeredElements": 96,
+          "accentAreaRatio": 0.6523,
+          "ruleElements": 6,
+          "ruleDensity": 0.32,
+          "ordinalMarks": 18,
+          "mixedDisplayBlocks": 4,
+          "figures": 103,
+          "figureAreaRatio": 1,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {

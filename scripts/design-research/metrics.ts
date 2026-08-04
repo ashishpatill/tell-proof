@@ -202,6 +202,20 @@ export const CRAFT_DIMENSIONS: CraftDimension[] = [
   { id: "fold-density", label: "Above-fold characters", path: "hero.totalChars", band: [180, 1300], tolerance: 400, mode: "corridor", why: "Enough to orient a buyer, little enough to be read." },
   { id: "heading-depth", label: "Headings on page", path: "semantics.headingCount", band: [8, 50], tolerance: 8, mode: "atLeast", why: "A real argument has named parts; two headings means a stub." },
   { id: "micro-labels", label: "Uppercase micro-labels", path: "typography.uppercaseLabels", band: [2, 40], tolerance: 8, mode: "corridor", why: "Small tracked labels are how sections announce themselves without shouting." },
+
+  /* Composition — the shapes a page makes, rather than the quantities it uses.
+   * Everything above can be satisfied by a page that still reads as assembled. These cannot. */
+  { id: "width-tiers", label: "Content width tiers", path: "composition.widthTiers", band: [3, 8], tolerance: 2, mode: "atLeast", why: "One container width for every section is the clearest structural tell there is." },
+  { id: "alignment-axes", label: "Alignment axes", path: "composition.alignmentAxes", band: [2, 7], tolerance: 2, mode: "corridor", why: "A grid a reader can feel needs more than one left edge and fewer than a dozen." },
+  { id: "bleed", label: "Full-bleed bands", path: "composition.bleedRatio", band: [0.1, 0.7], tolerance: 0.2, mode: "corridor", why: "Something has to reach the edge of the screen, or the page is a document in a frame." },
+  { id: "tonal-range", label: "Tonal range down the scroll", path: "composition.toneSpread", band: [8, 90], tolerance: 15, mode: "atLeast", why: "Premium pages change tone as you scroll; one paper stock end to end reads as a template." },
+  { id: "shape-variety", label: "Section shape variety", path: "composition.shapeVariety", band: [3, 7], tolerance: 1.5, mode: "atLeast", why: "Split, grid, list, table, media — a page that makes one shape is a page nobody composed." },
+  { id: "shape-repetition", label: "Repeated shape run", path: "composition.shapeRunRatio", band: [0, 0.4], tolerance: 0.2, mode: "atMost", why: "Three card grids in a row is the single most recognisable generated-page signature." },
+  { id: "figure-weight", label: "Drawn matter (share of page)", path: "composition.figureAreaRatio", band: [0.05, 0.4], tolerance: 0.08, mode: "corridor", why: "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at." },
+  { id: "fold-figure", label: "Drawn matter above the fold", path: "composition.foldFigureRatio", band: [0.08, 0.9], tolerance: 0.15, mode: "atLeast", why: "The fold has to show the thing, not only describe it." },
+  { id: "layering", label: "Layered elements", path: "composition.layeredElements", band: [1, 40], tolerance: 4, mode: "atLeast", why: "Overlap across a boundary is depth that costs nothing in performance." },
+  { id: "accent-coverage", label: "Accent coverage", path: "composition.accentAreaRatio", band: [0.002, 0.25], tolerance: 0.05, mode: "corridor", why: "Colour has to appear somewhere beyond a button, without becoming the page." },
+  { id: "rule-structure", label: "Rules per screen", path: "composition.ruleDensity", band: [0.5, 12], tolerance: 3, mode: "corridor", why: "Hairline rules are how editorial pages carry structure without boxes." },
 ];
 
 /** Score a page's flat metrics against the craft dimensions. 0..1 per dimension. */

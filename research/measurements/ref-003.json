@@ -3,19 +3,19 @@
   "category": "brand-product-agency",
   "role": "premium brand + product studio",
   "urlHash": "96955a122915",
-  "measuredAt": "2026-08-04T22:30:39.144Z",
+  "measuredAt": "2026-08-04T23:32:16.626Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 4630,
+      "loadMs": 4597,
       "paint": {
-        "fcpMs": 188,
-        "domInteractiveMs": 267,
+        "fcpMs": 124,
+        "domInteractiveMs": 205,
         "transferBytes": 94930
       },
       "network": {
-        "requests": 162,
-        "bytes": 113450508,
+        "requests": 161,
+        "bytes": 109843923,
         "byType": {
           "document": {
             "requests": 3,
@@ -31,11 +31,11 @@
           },
           "script": {
             "requests": 51,
-            "bytes": 455975
+            "bytes": 455967
           },
           "media": {
-            "requests": 4,
-            "bytes": 112391676
+            "requests": 3,
+            "bytes": 108785099
           },
           "fetch": {
             "requests": 9,
@@ -58,7 +58,7 @@
           "families": [
             {
               "family": "Inter Display",
-              "area": 1264268
+              "area": 1264127
             },
             {
               "family": "Saans SemiBold",
@@ -243,7 +243,7 @@
             },
             {
               "color": "rgb(0,0,0)",
-              "chars": 488
+              "chars": 486
             },
             {
               "color": "rgb(5,28,46)",
@@ -341,7 +341,7 @@
           {
             "index": 0,
             "elements": 310,
-            "chars": 462,
+            "chars": 461,
             "inkRatio": 3.228,
             "maxFontPx": 72,
             "medianBgLightness": 100
@@ -413,12 +413,35 @@
           {
             "index": 9,
             "elements": 301,
-            "chars": 672,
+            "chars": 671,
             "inkRatio": 1.708,
             "maxFontPx": 35.2,
             "medianBgLightness": 10
           }
         ],
+        "composition": {
+          "alignmentAxes": 3,
+          "spineConformity": 0.235,
+          "edgeGutterPx": 120,
+          "widthTiers": 6,
+          "bleedBands": 12,
+          "bleedRatio": 3,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 1,
+          "maxShapeRun": 4,
+          "shapeRunRatio": 1,
+          "layeredElements": 18,
+          "accentAreaRatio": 0.0022,
+          "ruleElements": 23,
+          "ruleDensity": 1.68,
+          "ordinalMarks": 7,
+          "mixedDisplayBlocks": 1,
+          "figures": 115,
+          "figureAreaRatio": 0.4159,
+          "foldFigureRatio": 0.9281
+        },
         "shape": {
           "radii": [
             {
@@ -509,7 +532,7 @@
           "formFields": 2,
           "focusVisibleRules": 0,
           "domNodes": 1954,
-          "textChars": 12509
+          "textChars": 12507
         }
       },
       "afterScroll": {
@@ -557,15 +580,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10425,
+      "loadMs": 10413,
       "paint": {
         "fcpMs": 132,
-        "domInteractiveMs": 222,
+        "domInteractiveMs": 208,
         "transferBytes": 94930
       },
       "network": {
         "requests": 229,
-        "bytes": 109947572,
+        "bytes": 110008482,
         "byType": {
           "document": {
             "requests": 4,
@@ -573,7 +596,7 @@
           },
           "image": {
             "requests": 68,
-            "bytes": 214
+            "bytes": 257
           },
           "font": {
             "requests": 16,
@@ -581,27 +604,27 @@
           },
           "script": {
             "requests": 111,
-            "bytes": 457729
-          },
-          "fetch": {
-            "requests": 15,
-            "bytes": 5536
+            "bytes": 518596
           },
           "media": {
             "requests": 3,
             "bytes": 108785099
           },
+          "fetch": {
+            "requests": 15,
+            "bytes": 5536
+          },
           "stylesheet": {
             "requests": 4,
+            "bytes": 0
+          },
+          "ping": {
+            "requests": 1,
             "bytes": 0
           },
           "xhr": {
             "requests": 7,
             "bytes": 13
-          },
-          "ping": {
-            "requests": 1,
-            "bytes": 0
           }
         },
         "fontFiles": 16,
@@ -789,7 +812,7 @@
             },
             {
               "color": "rgb(0,0,0)",
-              "area": 11139
+              "area": 11147
             }
           ],
           "textColors": [
@@ -983,6 +1006,29 @@
             "medianBgLightness": 10
           }
         ],
+        "composition": {
+          "alignmentAxes": 3,
+          "spineConformity": 0.436,
+          "edgeGutterPx": 12,
+          "widthTiers": 5,
+          "bleedBands": 23,
+          "bleedRatio": 5.75,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 2,
+          "maxShapeRun": 3,
+          "shapeRunRatio": 0.75,
+          "layeredElements": 29,
+          "accentAreaRatio": 0.0055,
+          "ruleElements": 41,
+          "ruleDensity": 2.75,
+          "ordinalMarks": 2,
+          "mixedDisplayBlocks": 1,
+          "figures": 95,
+          "figureAreaRatio": 0.3146,
+          "foldFigureRatio": 0.3194
+        },
         "shape": {
           "radii": [
             {

@@ -383,5 +383,271 @@
     "role": "design award index",
     "urlHash": "110ecd988d76",
     "ok": true
+  },
+  {
+    "ref": "ref-056",
+    "category": "type-foundry",
+    "role": "typeface foundry with editorial specimen pages",
+    "urlHash": "bb22d8774731",
+    "ok": true
+  },
+  {
+    "ref": "ref-057",
+    "category": "type-foundry",
+    "role": "typeface foundry catalogue",
+    "urlHash": "1a5f935f5db3",
+    "ok": true
+  },
+  {
+    "ref": "ref-058",
+    "category": "type-foundry",
+    "role": "typeface foundry storefront",
+    "urlHash": "035e12601b7c",
+    "ok": true
+  },
+  {
+    "ref": "ref-059",
+    "category": "type-foundry",
+    "role": "typeface foundry specimen",
+    "urlHash": "8d9127772281",
+    "ok": true
+  },
+  {
+    "ref": "ref-060",
+    "category": "brand-agency",
+    "role": "multi-partner brand design practice",
+    "urlHash": "0c7f801d3f93",
+    "ok": true
+  },
+  {
+    "ref": "ref-061",
+    "category": "brand-product-agency",
+    "role": "product and brand agency",
+    "urlHash": "99501b30e9e2",
+    "ok": true
+  },
+  {
+    "ref": "ref-062",
+    "category": "brand-agency",
+    "role": "brand and campaign agency",
+    "urlHash": "aaed013961f4",
+    "ok": true
+  },
+  {
+    "ref": "ref-063",
+    "category": "art-directed-studio",
+    "role": "interactive art direction studio",
+    "urlHash": "4516d9fdc1cc",
+    "ok": true
+  },
+  {
+    "ref": "ref-064",
+    "category": "art-directed-studio",
+    "role": "digital brand studio",
+    "urlHash": "fefe51973de4",
+    "ok": true
+  },
+  {
+    "ref": "ref-065",
+    "category": "art-directed-studio",
+    "role": "experience design studio",
+    "urlHash": "eae095367aed",
+    "ok": true
+  },
+  {
+    "ref": "ref-066",
+    "category": "enterprise-agency",
+    "role": "large experience agency",
+    "urlHash": "f24333d6427b",
+    "ok": true
+  },
+  {
+    "ref": "ref-067",
+    "category": "editorial-longform",
+    "role": "independent editorial publication",
+    "urlHash": "6e503fb7b6ec",
+    "ok": true
+  },
+  {
+    "ref": "ref-068",
+    "category": "editorial-longform",
+    "role": "subscription essay publication",
+    "urlHash": "6e09a0edb432",
+    "ok": true
+  },
+  {
+    "ref": "ref-069",
+    "category": "research-editorial",
+    "role": "UX research publication",
+    "urlHash": "eab1480bacdc",
+    "ok": true
+  },
+  {
+    "ref": "ref-070",
+    "category": "design-system-docs",
+    "role": "public design system documentation",
+    "urlHash": "1dd3b6fd5932",
+    "ok": true
+  },
+  {
+    "ref": "ref-071",
+    "category": "design-system-docs",
+    "role": "public design system documentation",
+    "urlHash": "b85caab91258",
+    "ok": true
+  },
+  {
+    "ref": "ref-072",
+    "category": "design-system-docs",
+    "role": "enterprise design system documentation",
+    "urlHash": "b990fd16531e",
+    "ok": true
+  },
+  {
+    "ref": "ref-073",
+    "category": "design-system-docs",
+    "role": "enterprise design system documentation",
+    "urlHash": "70803a415e0d",
+    "ok": true
+  },
+  {
+    "ref": "ref-074",
+    "category": "design-system-docs",
+    "role": "platform design system documentation",
+    "urlHash": "56f060d26c0d",
+    "ok": true
+  },
+  {
+    "ref": "ref-075",
+    "category": "design-system-docs",
+    "role": "enterprise design system documentation",
+    "urlHash": "992e177f0b54",
+    "ok": true
+  },
+  {
+    "ref": "ref-076",
+    "category": "consumer-craft",
+    "role": "voice-led consumer brand",
+    "urlHash": "310750a6b429",
+    "ok": true
+  },
+  {
+    "ref": "ref-077",
+    "category": "commerce-platform",
+    "role": "direct-to-consumer commerce",
+    "urlHash": "411395979756",
+    "ok": true
+  },
+  {
+    "ref": "ref-078",
+    "category": "dev-tool",
+    "role": "developer tool product site",
+    "urlHash": "ffaeaf3880e4",
+    "ok": true
+  },
+  {
+    "ref": "ref-079",
+    "category": "dev-tool",
+    "role": "developer tool product site",
+    "urlHash": "8d73894f4f6f",
+    "ok": true
+  },
+  {
+    "ref": "ref-080",
+    "category": "dev-infra",
+    "role": "database infrastructure product",
+    "urlHash": "48154e455e67",
+    "ok": true
+  },
+  {
+    "ref": "ref-081",
+    "category": "dev-tool",
+    "role": "developer platform",
+    "urlHash": "913d78c4daa9",
+    "ok": true
+  },
+  {
+    "ref": "ref-082",
+    "category": "ai-infra",
+    "role": "data platform for AI",
+    "urlHash": "9b1b34f5e5d2",
+    "ok": true
+  },
+  {
+    "ref": "ref-083",
+    "category": "enterprise-data",
+    "role": "enterprise data platform",
+    "urlHash": "42aaa147ffc4",
+    "ok": true
+  },
+  {
+    "ref": "ref-084",
+    "category": "enterprise-data",
+    "role": "enterprise data platform",
+    "urlHash": "5404d1fc1349",
+    "ok": true
+  },
+  {
+    "ref": "ref-085",
+    "category": "personal-craft",
+    "role": "engineer-writer personal site",
+    "urlHash": "3db07e09d17b",
+    "ok": true
+  },
+  {
+    "ref": "ref-086",
+    "category": "personal-craft",
+    "role": "photographer portfolio",
+    "urlHash": "cae9e8f2b8c3",
+    "ok": true
+  },
+  {
+    "ref": "ref-087",
+    "category": "personal-craft",
+    "role": "product designer portfolio",
+    "urlHash": "be4956870ce8",
+    "ok": true
+  },
+  {
+    "ref": "ref-088",
+    "category": "art-directed-studio",
+    "role": "interactive developer portfolio",
+    "urlHash": "7aba482edf37",
+    "ok": true
+  },
+  {
+    "ref": "ref-089",
+    "category": "premium-b2b-saas",
+    "role": "event brand page",
+    "urlHash": "8ed599fa6e7c",
+    "ok": true
+  },
+  {
+    "ref": "ref-090",
+    "category": "fintech-product",
+    "role": "consumer fintech product",
+    "urlHash": "d3fcacd5c5f3",
+    "ok": true
+  },
+  {
+    "ref": "ref-091",
+    "category": "fintech-product",
+    "role": "consumer bank product",
+    "urlHash": "32f28d5dbb1b",
+    "ok": true
+  },
+  {
+    "ref": "ref-092",
+    "category": "fintech-product",
+    "role": "consumer wealth product",
+    "urlHash": "2c564e42a0c8",
+    "ok": true
+  },
+  {
+    "ref": "ref-093",
+    "category": "docs-product",
+    "role": "documentation product",
+    "urlHash": "3791a4a3ea86",
+    "ok": true
   }
 ]

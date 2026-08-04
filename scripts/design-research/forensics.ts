@@ -438,6 +438,215 @@ export const PROBE = `(() => {
   }
   out.bands = bands;
 
+  /* ---------------- composition: what shape the page makes ----------------
+   *
+   * Everything above measures quantity — how big, how dark, how far apart. A template can sit
+   * inside every one of those corridors and still read as assembled, because none of them can see
+   * structure. This block measures structure: how many alignment axes and content widths a page
+   * commits to, whether anything reaches the viewport edge, how tone moves down the scroll, and
+   * whether consecutive sections make the same shape twice.
+   */
+  const pageH = Math.max(totalH, vh);
+  const blocks = info.filter((i) => i.r.width > 100 && i.r.height > 20 && i.area > 4000);
+
+  // Only content that stops short of the full width is governed by a grid; a full-bleed wrapper
+  // carries no alignment information.
+  const contentBlocks = blocks.filter((i) => i.r.width < vw * 0.97 && i.r.left >= -2);
+  const blockTotal = contentBlocks.length || 1;
+  const edgeTally = tally(contentBlocks.map((i) => Math.round(i.r.left / 4) * 4));
+  const majorAxes = edgeTally.filter((e) => e.count / blockTotal >= 0.04);
+  const spineConformity = edgeTally.slice(0, 3).reduce((n, e) => n + e.count, 0) / blockTotal;
+  const gutterPx = majorAxes.length ? Math.min.apply(null, majorAxes.map((e) => e.value)) : null;
+
+  // Column widths in play. One width for everything is the clearest structural tell there is:
+  // a designed page has a wide tier, a prose tier, and usually something narrower still.
+  const contentWidthTally = tally(contentBlocks.map((i) => Math.round(i.r.width / 40) * 40));
+  const widthTiers = contentWidthTally.filter((e) => e.count / blockTotal >= 0.05).length;
+
+  const bleedBands = info.filter((i) => {
+    if (i.r.width < vw - 4 || i.r.height < 80) return false;
+    const bg = parseColor(i.cs.backgroundColor);
+    const img = i.cs.backgroundImage && i.cs.backgroundImage !== "none";
+    return (bg && bg.a > 0.05) || !!img;
+  });
+
+  // Tone down the scroll, read from whichever painted surface actually covers each band.
+  function bandTone(top, bottom) {
+    let best = null;
+    for (const i of info) {
+      const bg = parseColor(i.cs.backgroundColor);
+      if (!bg || bg.a < 0.5) continue;
+      const absTop = i.r.top + window.scrollY;
+      const overlap = Math.min(absTop + i.r.height, bottom) - Math.max(absTop, top);
+      if (overlap <= 0) continue;
+      const cover = overlap * Math.min(i.r.width, vw);
+      if (!best || cover > best.cover) best = { cover: cover, l: toHsl(bg).l };
+    }
+    const span = Math.max(1, (bottom - top) * vw);
+    return best && best.cover > span * 0.3 ? best.l : pageBgHsl.l;
+  }
+  const tones = [];
+  for (let b = 0; b < bandCount; b += 1) {
+    tones.push(round(bandTone((b * totalH) / bandCount, ((b + 1) * totalH) / bandCount), 1));
+  }
+  const toneSpread = tones.length ? round(Math.max.apply(null, tones) - Math.min.apply(null, tones), 1) : 0;
+  const invertedBands = tones.filter((l) => (pageBgHsl.l >= 50 ? l < 30 : l > 70)).length;
+
+  /** Classify the shape a section makes, by descending to the first level that branches. */
+  function archetypeOf(entry) {
+    const sw = entry.r.width;
+    const sh = entry.r.height;
+    if (sw <= 0 || sh <= 0) return "empty";
+    let mediaArea = 0;
+    try {
+      for (const m of Array.from(entry.el.querySelectorAll("img,video,canvas,picture"))) {
+        const r = m.getBoundingClientRect();
+        mediaArea += Math.max(0, r.width) * Math.max(0, r.height);
+      }
+    } catch {}
+    if (mediaArea / (sw * sh) > 0.3) return "media";
+    try { if (entry.el.querySelector("table")) return "table"; } catch {}
+    let level = [];
+    try { level = Array.from(entry.el.children); } catch { return "single"; }
+    for (let d = 0; d < 5 && level.length; d += 1) {
+      const subs = [];
+      for (const c of level) {
+        let r;
+        try { r = c.getBoundingClientRect(); } catch { continue; }
+        if (r.width > 60 && r.height > 40) subs.push(r);
+      }
+      if (subs.length >= 2) {
+        const cols = new Set(subs.map((r) => Math.round(r.left / 24))).size;
+        const rows = new Set(subs.map((r) => Math.round(r.top / 24))).size;
+        if (cols >= 3) return "grid";
+        if (cols === 2) return subs.length > 4 ? "grid" : "split";
+        if (rows >= 3) return "list";
+        return "single";
+      }
+      const next = [];
+      for (const c of level) {
+        try { next.push.apply(next, Array.from(c.children)); } catch {}
+      }
+      level = next;
+    }
+    return "single";
+  }
+
+  const ordered = sectionish
+    .slice()
+    .sort((a, b) => a.r.top + window.scrollY - (b.r.top + window.scrollY));
+  const shapes = ordered.map(archetypeOf);
+  let maxShapeRun = 0;
+  let currentRun = 0;
+  for (let i = 0; i < shapes.length; i += 1) {
+    currentRun = i > 0 && shapes[i] === shapes[i - 1] ? currentRun + 1 : 1;
+    if (currentRun > maxShapeRun) maxShapeRun = currentRun;
+  }
+
+  const layered = info.filter((i) => {
+    if (i.area < 8000) return false;
+    if (num(i.cs.marginTop) < -8 || num(i.cs.marginBottom) < -8) return true;
+    if (i.cs.position === "absolute" && i.area > 30000) return true;
+    return false;
+  }).length;
+
+  let accentArea = 0;
+  for (const i of info) {
+    const bg = parseColor(i.cs.backgroundColor);
+    if (!bg || bg.a < 0.4 || i.area < 200) continue;
+    const h = toHsl(bg);
+    if (h.s > 15 && h.l > 6 && h.l < 94) accentArea += Math.min(i.area, vw * pageH);
+  }
+
+  const ruleEls = info.filter((i) => {
+    if (i.tag === "hr") return true;
+    if (i.r.height <= 3 && i.r.width > vw * 0.12) return true;
+    const bt = num(i.cs.borderTopWidth);
+    const bb = num(i.cs.borderBottomWidth);
+    const bl = num(i.cs.borderLeftWidth);
+    const br = num(i.cs.borderRightWidth);
+    return (bt > 0 || bb > 0) && bl === 0 && br === 0 && i.r.width > vw * 0.2;
+  }).length;
+
+  const ordinalMarks = textNodes.filter((i) => {
+    const t = i.text.trim();
+    return t.length <= 4 && /^\\(?(0\\d|[1-9]\\d?)\\)?[.)]?$/.test(t);
+  }).length;
+
+  // A display line that changes voice partway through — a second weight, an italic, a tonal shift.
+  // Doing this at all requires someone to have decided which words carry the emphasis.
+  let mixedDisplay = 0;
+  for (const i of info) {
+    const size = num(i.cs.fontSize);
+    if (size < 26) continue;
+    let kids = [];
+    try { kids = Array.from(i.el.children); } catch { continue; }
+    let mixed = false;
+    for (const k of kids) {
+      if (!k.textContent || !k.textContent.trim()) continue;
+      let ks;
+      try { ks = getComputedStyle(k); } catch { continue; }
+      if (
+        ks.fontStyle !== i.cs.fontStyle ||
+        ks.fontWeight !== i.cs.fontWeight ||
+        Math.abs(num(ks.fontSize) - size) > 2 ||
+        (ks.fontFamily || "").split(",")[0] !== (i.cs.fontFamily || "").split(",")[0] ||
+        ks.color !== i.cs.color
+      ) mixed = true;
+    }
+    if (mixed) mixedDisplay += 1;
+  }
+
+  // Drawn matter of any kind — photography, diagrams, charts, product surfaces. Counted by
+  // outermost node so a diagram built from nested SVG is one figure, not forty.
+  let figureArea = 0;
+  let figureCount = 0;
+  let foldFigureArea = 0;
+  try {
+    const nodes = Array.from(document.querySelectorAll("img,video,canvas,picture,svg"));
+    const set = new Set(nodes);
+    for (const m of nodes) {
+      let ancestor = m.parentElement;
+      let nested = false;
+      while (ancestor) {
+        if (set.has(ancestor)) { nested = true; break; }
+        ancestor = ancestor.parentElement;
+      }
+      if (nested) continue;
+      const r = m.getBoundingClientRect();
+      if (r.width < 24 || r.height < 24) continue;
+      figureArea += r.width * r.height;
+      figureCount += 1;
+      const top = r.top + window.scrollY;
+      const overlap = Math.min(top + r.height, vh) - Math.max(top, 0);
+      if (overlap > 0) foldFigureArea += overlap * Math.min(r.width, vw);
+    }
+  } catch {}
+
+  out.composition = {
+    alignmentAxes: majorAxes.length,
+    spineConformity: round(spineConformity, 3),
+    edgeGutterPx: gutterPx,
+    widthTiers,
+    bleedBands: bleedBands.length,
+    bleedRatio: sectionish.length ? round(bleedBands.length / sectionish.length, 3) : null,
+    toneSpread,
+    invertedBands,
+    invertedShare: tones.length ? round(invertedBands / tones.length, 3) : 0,
+    shapeVariety: new Set(shapes).size,
+    maxShapeRun,
+    shapeRunRatio: shapes.length ? round(maxShapeRun / shapes.length, 3) : null,
+    layeredElements: layered,
+    accentAreaRatio: round(Math.min(1, accentArea / (vw * pageH)), 4),
+    ruleElements: ruleEls,
+    ruleDensity: round(ruleEls / Math.max(1, totalH / vh), 2),
+    ordinalMarks,
+    mixedDisplayBlocks: mixedDisplay,
+    figures: figureCount,
+    figureAreaRatio: round(Math.min(1, figureArea / (vw * pageH)), 4),
+    foldFigureRatio: round(Math.min(1, foldFigureArea / (vw * vh)), 4),
+  };
+
   /* ---------------- shape & depth ---------------- */
   const radii = info.map((i) => round(num(i.cs.borderTopLeftRadius), 0)).filter((v) => v > 0);
   const shadows = info.map((i) => i.cs.boxShadow).filter((v) => v && v !== "none");

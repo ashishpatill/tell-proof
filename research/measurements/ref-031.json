@@ -3,26 +3,26 @@
   "category": "editorial-brand",
   "role": "publishing arm of an infra company",
   "urlHash": "a06c1adbc58f",
-  "measuredAt": "2026-08-04T22:37:30.767Z",
+  "measuredAt": "2026-08-04T23:40:53.636Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 4357,
+      "loadMs": 2502,
       "paint": {
-        "fcpMs": 344,
-        "domInteractiveMs": 175,
-        "transferBytes": 297480
+        "fcpMs": 324,
+        "domInteractiveMs": 167,
+        "transferBytes": 297478
       },
       "network": {
-        "requests": 200,
-        "bytes": 6439854,
+        "requests": 201,
+        "bytes": 6438990,
         "byType": {
           "document": {
             "requests": 3,
             "bytes": 579
           },
           "image": {
-            "requests": 80,
+            "requests": 81,
             "bytes": 4491761
           },
           "stylesheet": {
@@ -31,7 +31,7 @@
           },
           "script": {
             "requests": 67,
-            "bytes": 309692
+            "bytes": 308828
           },
           "font": {
             "requests": 9,
@@ -282,7 +282,7 @@
           "asymmetricGrids": 1,
           "asymmetryRatio": 0.034,
           "fullBleed": 10,
-          "aboveFoldElements": 90,
+          "aboveFoldElements": 88,
           "aboveFoldTextChars": 140,
           "aboveFoldInkRatio": 0.828,
           "stickyElements": 5,
@@ -306,7 +306,7 @@
         "bands": [
           {
             "index": 0,
-            "elements": 90,
+            "elements": 88,
             "chars": 169,
             "inkRatio": 0.786,
             "maxFontPx": 17.6,
@@ -361,6 +361,29 @@
             "medianBgLightness": 13.3
           }
         ],
+        "composition": {
+          "alignmentAxes": 8,
+          "spineConformity": 0.75,
+          "edgeGutterPx": 68,
+          "widthTiers": 8,
+          "bleedBands": 22,
+          "bleedRatio": 7.333,
+          "toneSpread": 89,
+          "invertedBands": 1,
+          "invertedShare": 0.143,
+          "shapeVariety": 2,
+          "maxShapeRun": 2,
+          "shapeRunRatio": 0.667,
+          "layeredElements": 0,
+          "accentAreaRatio": 0.3676,
+          "ruleElements": 1,
+          "ruleDensity": 0.14,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 12,
+          "figures": 2,
+          "figureAreaRatio": 0.1352,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -397,14 +420,14 @@
           "borderedElements": 134
         },
         "motion": {
-          "transitionElements": 533,
-          "transitionRatio": 0.103,
+          "transitionElements": 531,
+          "transitionRatio": 0.102,
           "medianDurationMs": 300,
           "p90DurationMs": 400,
           "topEasings": [
             {
               "value": "ease",
-              "count": 428
+              "count": 426
             },
             {
               "value": "ease-out",
@@ -512,11 +535,11 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2555,
+      "loadMs": 2514,
       "paint": {
-        "fcpMs": 252,
-        "domInteractiveMs": 175,
-        "transferBytes": 297476
+        "fcpMs": 288,
+        "domInteractiveMs": 190,
+        "transferBytes": 297471
       },
       "network": {
         "requests": 200,
@@ -879,6 +902,29 @@
             "medianBgLightness": 13.3
           }
         ],
+        "composition": {
+          "alignmentAxes": 3,
+          "spineConformity": 0.821,
+          "edgeGutterPx": 40,
+          "widthTiers": 3,
+          "bleedBands": 22,
+          "bleedRatio": 7.333,
+          "toneSpread": 89,
+          "invertedBands": 3,
+          "invertedShare": 0.3,
+          "shapeVariety": 2,
+          "maxShapeRun": 2,
+          "shapeRunRatio": 0.667,
+          "layeredElements": 0,
+          "accentAreaRatio": 0.4588,
+          "ruleElements": 1,
+          "ruleDensity": 0.1,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 2,
+          "figureAreaRatio": 0.1021,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {

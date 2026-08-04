@@ -3,23 +3,23 @@
   "category": "fintech-product",
   "role": "corporate cards",
   "urlHash": "00130686bd80",
-  "measuredAt": "2026-08-04T22:34:03.650Z",
+  "measuredAt": "2026-08-04T23:37:25.971Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10716,
+      "loadMs": 10637,
       "paint": {
-        "fcpMs": 280,
-        "domInteractiveMs": 214,
-        "transferBytes": 65389
+        "fcpMs": 216,
+        "domInteractiveMs": 145,
+        "transferBytes": 65390
       },
       "network": {
         "requests": 267,
-        "bytes": 3753126,
+        "bytes": 3752787,
         "byType": {
           "document": {
             "requests": 25,
-            "bytes": 2565
+            "bytes": 2157
           },
           "font": {
             "requests": 8,
@@ -27,7 +27,7 @@
           },
           "image": {
             "requests": 62,
-            "bytes": 1666277
+            "bytes": 1666320
           },
           "stylesheet": {
             "requests": 2,
@@ -35,23 +35,23 @@
           },
           "script": {
             "requests": 104,
-            "bytes": 1733534
+            "bytes": 1733561
           },
           "fetch": {
-            "requests": 45,
-            "bytes": 122460
+            "requests": 46,
+            "bytes": 122512
           },
           "other": {
             "requests": 3,
             "bytes": 556
           },
+          "xhr": {
+            "requests": 13,
+            "bytes": 761
+          },
           "ping": {
             "requests": 4,
             "bytes": 0
-          },
-          "xhr": {
-            "requests": 14,
-            "bytes": 814
           }
         },
         "fontFiles": 8,
@@ -426,6 +426,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 3,
+          "spineConformity": 0.379,
+          "edgeGutterPx": 72,
+          "widthTiers": 7,
+          "bleedBands": 21,
+          "bleedRatio": 0.778,
+          "toneSpread": 96.9,
+          "invertedBands": 7,
+          "invertedShare": 0.7,
+          "shapeVariety": 5,
+          "maxShapeRun": 5,
+          "shapeRunRatio": 0.185,
+          "layeredElements": 12,
+          "accentAreaRatio": 0.0014,
+          "ruleElements": 23,
+          "ruleDensity": 2.35,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 41,
+          "figureAreaRatio": 0.3456,
+          "foldFigureRatio": 0.8778
+        },
         "shape": {
           "radii": [
             {
@@ -605,47 +628,47 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10648,
+      "loadMs": 10672,
       "paint": {
-        "fcpMs": 476,
-        "domInteractiveMs": 179,
-        "transferBytes": 65389
+        "fcpMs": 232,
+        "domInteractiveMs": 172,
+        "transferBytes": 65390
       },
       "network": {
-        "requests": 253,
-        "bytes": 2607272,
+        "requests": 254,
+        "bytes": 2607732,
         "byType": {
           "document": {
             "requests": 25,
-            "bytes": 2160
+            "bytes": 2590
+          },
+          "stylesheet": {
+            "requests": 2,
+            "bytes": 0
           },
           "font": {
             "requests": 8,
             "bytes": 226920
           },
           "image": {
-            "requests": 49,
-            "bytes": 520880
-          },
-          "stylesheet": {
-            "requests": 2,
-            "bytes": 0
+            "requests": 50,
+            "bytes": 520923
           },
           "script": {
             "requests": 104,
-            "bytes": 1733535
+            "bytes": 1733521
           },
           "fetch": {
-            "requests": 47,
-            "bytes": 122566
+            "requests": 46,
+            "bytes": 122514
           },
           "other": {
             "requests": 3,
             "bytes": 556
           },
           "xhr": {
-            "requests": 11,
-            "bytes": 655
+            "requests": 12,
+            "bytes": 708
           },
           "ping": {
             "requests": 4,
@@ -1014,6 +1037,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 3,
+          "spineConformity": 0.827,
+          "edgeGutterPx": 24,
+          "widthTiers": 4,
+          "bleedBands": 23,
+          "bleedRatio": 0.821,
+          "toneSpread": 100,
+          "invertedBands": 7,
+          "invertedShare": 0.7,
+          "shapeVariety": 3,
+          "maxShapeRun": 7,
+          "shapeRunRatio": 0.25,
+          "layeredElements": 10,
+          "accentAreaRatio": 0.0036,
+          "ruleElements": 46,
+          "ruleDensity": 3.38,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 29,
+          "figureAreaRatio": 0.3904,
+          "foldFigureRatio": 0.3061
+        },
         "shape": {
           "radii": [
             {
@@ -1173,12 +1219,12 @@
           "documentHeightVh": 15.11
         },
         "media": {
-          "images": 64,
+          "images": 63,
           "svgInline": 36,
           "videos": 0,
-          "imageAreaRatio": 0.4626,
-          "altCoverage": 0.938,
-          "lazyCoverage": 0.844,
+          "imageAreaRatio": 0.4628,
+          "altCoverage": 0.937,
+          "lazyCoverage": 0.841,
           "modernFormats": 0
         }
       }

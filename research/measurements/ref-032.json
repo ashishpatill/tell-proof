@@ -3,14 +3,14 @@
   "category": "opinionated-smb",
   "role": "long-running product company",
   "urlHash": "23c7898f8bd4",
-  "measuredAt": "2026-08-04T22:37:42.269Z",
+  "measuredAt": "2026-08-04T23:41:04.535Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2788,
+      "loadMs": 2878,
       "paint": {
-        "fcpMs": 224,
-        "domInteractiveMs": 212,
+        "fcpMs": 316,
+        "domInteractiveMs": 247,
         "transferBytes": 18598
       },
       "network": {
@@ -293,6 +293,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 6,
+          "spineConformity": 0.453,
+          "edgeGutterPx": 92,
+          "widthTiers": 6,
+          "bleedBands": 0,
+          "bleedRatio": 0,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 2,
+          "maxShapeRun": 2,
+          "shapeRunRatio": 0.667,
+          "layeredElements": 46,
+          "accentAreaRatio": 0,
+          "ruleElements": 0,
+          "ruleDensity": 0,
+          "ordinalMarks": 6,
+          "mixedDisplayBlocks": 0,
+          "figures": 19,
+          "figureAreaRatio": 0.8836,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -444,10 +467,10 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2930,
+      "loadMs": 2890,
       "paint": {
-        "fcpMs": 260,
-        "domInteractiveMs": 242,
+        "fcpMs": 244,
+        "domInteractiveMs": 186,
         "transferBytes": 18598
       },
       "network": {
@@ -732,6 +755,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 2,
+          "spineConformity": 0.849,
+          "edgeGutterPx": 24,
+          "widthTiers": 5,
+          "bleedBands": 0,
+          "bleedRatio": 0,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 3,
+          "maxShapeRun": 5,
+          "shapeRunRatio": 0.385,
+          "layeredElements": 19,
+          "accentAreaRatio": 0,
+          "ruleElements": 0,
+          "ruleDensity": 0,
+          "ordinalMarks": 6,
+          "mixedDisplayBlocks": 0,
+          "figures": 19,
+          "figureAreaRatio": 0.6289,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {

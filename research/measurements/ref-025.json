@@ -3,19 +3,19 @@
   "category": "ai-frontier",
   "role": "frontier model lab",
   "urlHash": "04d39e8bd5d5",
-  "measuredAt": "2026-08-04T22:35:50.945Z",
+  "measuredAt": "2026-08-04T23:39:13.691Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10314,
+      "loadMs": 10278,
       "paint": {
         "fcpMs": null,
-        "domInteractiveMs": 106,
-        "transferBytes": 5782
+        "domInteractiveMs": 69,
+        "transferBytes": 5850
       },
       "network": {
         "requests": 16,
-        "bytes": 5232,
+        "bytes": 8725,
         "byType": {
           "document": {
             "requests": 3,
@@ -35,7 +35,7 @@
           },
           "image": {
             "requests": 1,
-            "bytes": 3776
+            "bytes": 7269
           }
         },
         "fontFiles": 0,
@@ -164,6 +164,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 1,
+          "spineConformity": 1,
+          "edgeGutterPx": 572,
+          "widthTiers": 1,
+          "bleedBands": 0,
+          "bleedRatio": null,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 0,
+          "maxShapeRun": 0,
+          "shapeRunRatio": null,
+          "layeredElements": 0,
+          "accentAreaRatio": 0,
+          "ruleElements": 2,
+          "ruleDensity": 2,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 1,
+          "figureAreaRatio": 0.0018,
+          "foldFigureRatio": 0.0018
+        },
         "shape": {
           "radii": [
             {
@@ -264,15 +287,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10289,
+      "loadMs": 10280,
       "paint": {
         "fcpMs": null,
-        "domInteractiveMs": 84,
-        "transferBytes": 5829
+        "domInteractiveMs": 73,
+        "transferBytes": 5885
       },
       "network": {
         "requests": 16,
-        "bytes": 1896,
+        "bytes": 10368,
         "byType": {
           "document": {
             "requests": 3,
@@ -292,7 +315,7 @@
           },
           "image": {
             "requests": 1,
-            "bytes": 440
+            "bytes": 8912
           }
         },
         "fontFiles": 0,
@@ -421,6 +444,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 2,
+          "spineConformity": 1,
+          "edgeGutterPx": 8,
+          "widthTiers": 2,
+          "bleedBands": 0,
+          "bleedRatio": null,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 0,
+          "maxShapeRun": 0,
+          "shapeRunRatio": null,
+          "layeredElements": 0,
+          "accentAreaRatio": 0,
+          "ruleElements": 2,
+          "ruleDensity": 2,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 1,
+          "figureAreaRatio": 0.0051,
+          "foldFigureRatio": 0.0051
+        },
         "shape": {
           "radii": [
             {

@@ -33,19 +33,21 @@ interface Calibrated extends CraftDimension {
   calibrated?: boolean;
 }
 
+/**
+ * Prefer corpus-calibrated corridors, but never drop a dimension just because the aggregate
+ * predates it. A newly added dimension scores against its hand-set fallback until the next
+ * corpus run calibrates it, which is what makes it visible in the ranking straight away.
+ */
 function loadBands(): CraftDimension[] {
   const aggPath = resolve(root, "research/aggregate.json");
   if (!existsSync(aggPath)) return CRAFT_DIMENSIONS;
   const agg = JSON.parse(readFileSync(aggPath, "utf8")) as { calibrated?: Calibrated[] };
   if (!agg.calibrated?.length) return CRAFT_DIMENSIONS;
-  return agg.calibrated.map((c) => ({
-    id: c.id,
-    label: c.label,
-    path: c.path,
-    band: c.band,
-    tolerance: c.tolerance,
-    why: c.why,
-  }));
+  const byId = new Map(agg.calibrated.map((c) => [c.id, c]));
+  return CRAFT_DIMENSIONS.map((d) => {
+    const c = byId.get(d.id);
+    return c ? { ...d, band: c.band, tolerance: c.tolerance } : d;
+  });
 }
 
 async function main(): Promise<void> {

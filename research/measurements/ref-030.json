@@ -3,15 +3,15 @@
   "category": "capital-brand",
   "role": "venture firm",
   "urlHash": "28eae9d80dc6",
-  "measuredAt": "2026-08-04T22:37:06.929Z",
+  "measuredAt": "2026-08-04T23:40:29.751Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10873,
+      "loadMs": 10901,
       "paint": {
-        "fcpMs": 488,
-        "domInteractiveMs": 477,
-        "transferBytes": 41552
+        "fcpMs": 688,
+        "domInteractiveMs": 677,
+        "transferBytes": 41546
       },
       "network": {
         "requests": 21,
@@ -33,13 +33,13 @@
             "requests": 1,
             "bytes": 29485891
           },
-          "font": {
-            "requests": 3,
-            "bytes": 80728
-          },
           "image": {
             "requests": 1,
             "bytes": 119970
+          },
+          "font": {
+            "requests": 3,
+            "bytes": 80728
           }
         },
         "fontFiles": 3,
@@ -218,6 +218,29 @@
             "medianBgLightness": 30.2
           }
         ],
+        "composition": {
+          "alignmentAxes": 4,
+          "spineConformity": 0.9,
+          "edgeGutterPx": 16,
+          "widthTiers": 6,
+          "bleedBands": 0,
+          "bleedRatio": 0,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 3,
+          "maxShapeRun": 1,
+          "shapeRunRatio": 0.333,
+          "layeredElements": 3,
+          "accentAreaRatio": 0,
+          "ruleElements": 1,
+          "ruleDensity": 1,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 5,
+          "figureAreaRatio": 1,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -352,15 +375,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10983,
+      "loadMs": 10982,
       "paint": {
-        "fcpMs": 720,
-        "domInteractiveMs": 717,
-        "transferBytes": 41628
+        "fcpMs": 432,
+        "domInteractiveMs": 422,
+        "transferBytes": 41597
       },
       "network": {
         "requests": 21,
-        "bytes": 29640771,
+        "bytes": 29641277,
         "byType": {
           "document": {
             "requests": 1,
@@ -368,7 +391,7 @@
           },
           "stylesheet": {
             "requests": 4,
-            "bytes": 683
+            "bytes": 1189
           },
           "script": {
             "requests": 11,
@@ -557,6 +580,29 @@
             "medianBgLightness": 30.2
           }
         ],
+        "composition": {
+          "alignmentAxes": 2,
+          "spineConformity": 1,
+          "edgeGutterPx": 0,
+          "widthTiers": 3,
+          "bleedBands": 0,
+          "bleedRatio": 0,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 2,
+          "maxShapeRun": 1,
+          "shapeRunRatio": 0.333,
+          "layeredElements": 1,
+          "accentAreaRatio": 0,
+          "ruleElements": 1,
+          "ruleDensity": 0.7,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 5,
+          "figureAreaRatio": 1,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {

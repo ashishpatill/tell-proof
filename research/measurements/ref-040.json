@@ -3,19 +3,19 @@
   "category": "hr-fintech",
   "role": "global payroll",
   "urlHash": "c73aa4d8e3f4",
-  "measuredAt": "2026-08-04T22:39:00.741Z",
+  "measuredAt": "2026-08-04T23:42:32.012Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 3685,
+      "loadMs": 3811,
       "paint": {
-        "fcpMs": 308,
-        "domInteractiveMs": 203,
-        "transferBytes": 86978
+        "fcpMs": 260,
+        "domInteractiveMs": 174,
+        "transferBytes": 87363
       },
       "network": {
-        "requests": 214,
-        "bytes": 198136538,
+        "requests": 213,
+        "bytes": 198760269,
         "byType": {
           "document": {
             "requests": 4,
@@ -26,8 +26,8 @@
             "bytes": 473869
           },
           "script": {
-            "requests": 106,
-            "bytes": 9773823
+            "requests": 104,
+            "bytes": 9906004
           },
           "stylesheet": {
             "requests": 7,
@@ -37,21 +37,17 @@
             "requests": 12,
             "bytes": 605348
           },
-          "fetch": {
-            "requests": 3,
-            "bytes": 2
-          },
-          "other": {
-            "requests": 1,
-            "bytes": 0
-          },
           "xhr": {
             "requests": 10,
             "bytes": 598
           },
+          "fetch": {
+            "requests": 5,
+            "bytes": 32
+          },
           "media": {
             "requests": 8,
-            "bytes": 187282114
+            "bytes": 187773634
           }
         },
         "fontFiles": 12,
@@ -429,6 +425,29 @@
             "medianBgLightness": 10.6
           }
         ],
+        "composition": {
+          "alignmentAxes": 2,
+          "spineConformity": 0.213,
+          "edgeGutterPx": 64,
+          "widthTiers": 7,
+          "bleedBands": 11,
+          "bleedRatio": 1.375,
+          "toneSpread": 87.2,
+          "invertedBands": 1,
+          "invertedShare": 0.111,
+          "shapeVariety": 3,
+          "maxShapeRun": 3,
+          "shapeRunRatio": 0.375,
+          "layeredElements": 8,
+          "accentAreaRatio": 0.1031,
+          "ruleElements": 13,
+          "ruleDensity": 1.52,
+          "ordinalMarks": 139,
+          "mixedDisplayBlocks": 1,
+          "figures": 542,
+          "figureAreaRatio": 0.4531,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -608,15 +627,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 3069,
+      "loadMs": 3756,
       "paint": {
-        "fcpMs": 216,
-        "domInteractiveMs": 130,
-        "transferBytes": 88143
+        "fcpMs": 168,
+        "domInteractiveMs": 105,
+        "transferBytes": 87248
       },
       "network": {
-        "requests": 202,
-        "bytes": 145031571,
+        "requests": 204,
+        "bytes": 144544729,
         "byType": {
           "document": {
             "requests": 4,
@@ -624,23 +643,23 @@
           },
           "image": {
             "requests": 56,
-            "bytes": 266029
+            "bytes": 235603
           },
           "stylesheet": {
             "requests": 7,
             "bytes": 0
           },
-          "script": {
-            "requests": 104,
-            "bytes": 9772624
-          },
           "font": {
             "requests": 12,
             "bytes": 605348
           },
+          "script": {
+            "requests": 104,
+            "bytes": 9906002
+          },
           "fetch": {
-            "requests": 3,
-            "bytes": 2
+            "requests": 5,
+            "bytes": 32
           },
           "xhr": {
             "requests": 10,
@@ -648,11 +667,11 @@
           },
           "media": {
             "requests": 6,
-            "bytes": 134386186
+            "bytes": 133796362
           }
         },
         "fontFiles": 12,
-        "thirdPartyHosts": 26
+        "thirdPartyHosts": 27
       },
       "initial": {
         "typography": {
@@ -663,7 +682,7 @@
             },
             {
               "family": "BagossCondensedFont",
-              "area": 153284
+              "area": 151985
             },
             {
               "family": "BagossStandardVF",
@@ -724,7 +743,7 @@
             },
             {
               "px": 38,
-              "area": 28591
+              "area": 27292
             }
           ],
           "stepRatios": [
@@ -755,7 +774,7 @@
             "weight": "500",
             "lineHeight": 1.05,
             "letterSpacingEm": -0.005,
-            "chars": 44,
+            "chars": 16,
             "measureCh": 17.6,
             "transform": "none"
           },
@@ -830,7 +849,7 @@
             },
             {
               "color": "rgb(255,255,255)",
-              "chars": 346
+              "chars": 318
             },
             {
               "color": "rgb(217,208,202)",
@@ -841,14 +860,14 @@
               "chars": 50
             },
             {
-              "color": "rgb(20,20,20)",
-              "chars": 20
+              "color": "rgb(169,141,246)",
+              "chars": 26
             }
           ],
           "distinctBackgrounds": 9,
-          "distinctTextColors": 7,
+          "distinctTextColors": 8,
           "distinctHues": 5,
-          "chromaticCount": 8,
+          "chromaticCount": 9,
           "maxSaturation": 100,
           "medianNeutralHue": 0,
           "medianNeutralSat": 0,
@@ -859,7 +878,7 @@
           },
           "isDark": false,
           "gradientCount": 5,
-          "minTextContrast": 11.34,
+          "minTextContrast": 6.21,
           "medianTextContrast": 15.78
         },
         "space": {
@@ -911,8 +930,8 @@
           "asymmetricGrids": 1,
           "asymmetryRatio": 0.167,
           "fullBleed": 20,
-          "aboveFoldElements": 186,
-          "aboveFoldTextChars": 715,
+          "aboveFoldElements": 187,
+          "aboveFoldTextChars": 713,
           "aboveFoldInkRatio": 1,
           "stickyElements": 8,
           "documentHeightVh": 12.41
@@ -920,12 +939,12 @@
         "hero": {
           "displayPx": 38,
           "displayVwRatio": 9.74,
-          "displayChars": 44,
+          "displayChars": 16,
           "displayMeasureCh": 17.6,
           "displayWeight": "500",
           "displayLineHeight": 1.05,
-          "textBlocks": 24,
-          "totalChars": 715,
+          "textBlocks": 25,
+          "totalChars": 713,
           "ctaButtons": 6,
           "ctaHeights": [
             32,
@@ -941,8 +960,8 @@
         "bands": [
           {
             "index": 0,
-            "elements": 288,
-            "chars": 715,
+            "elements": 289,
+            "chars": 713,
             "inkRatio": 4,
             "maxFontPx": 38,
             "medianBgLightness": 10.6
@@ -1020,6 +1039,29 @@
             "medianBgLightness": 100
           }
         ],
+        "composition": {
+          "alignmentAxes": 3,
+          "spineConformity": 0.366,
+          "edgeGutterPx": 16,
+          "widthTiers": 5,
+          "bleedBands": 11,
+          "bleedRatio": 1.375,
+          "toneSpread": 87.2,
+          "invertedBands": 2,
+          "invertedShare": 0.2,
+          "shapeVariety": 3,
+          "maxShapeRun": 2,
+          "shapeRunRatio": 0.25,
+          "layeredElements": 0,
+          "accentAreaRatio": 0.0744,
+          "ruleElements": 16,
+          "ruleDensity": 1.29,
+          "ordinalMarks": 139,
+          "mixedDisplayBlocks": 1,
+          "figures": 531,
+          "figureAreaRatio": 0.2432,
+          "foldFigureRatio": 0.0612
+        },
         "shape": {
           "radii": [
             {
@@ -1101,10 +1143,10 @@
           "images": 142,
           "svgInline": 495,
           "videos": 0,
-          "imageAreaRatio": 0.1793,
+          "imageAreaRatio": 0.1811,
           "altCoverage": 1,
           "lazyCoverage": 0.634,
-          "modernFormats": 0.134
+          "modernFormats": 0.141
         },
         "semantics": {
           "landmarks": {
@@ -1121,8 +1163,8 @@
           "ctaCount": 3,
           "formFields": 10,
           "focusVisibleRules": 0,
-          "domNodes": 12255,
-          "textChars": 5678
+          "domNodes": 12261,
+          "textChars": 5677
         }
       },
       "afterScroll": {
@@ -1182,10 +1224,10 @@
           "images": 142,
           "svgInline": 495,
           "videos": 2,
-          "imageAreaRatio": 0.1787,
+          "imageAreaRatio": 0.1805,
           "altCoverage": 1,
           "lazyCoverage": 0.634,
-          "modernFormats": 0.134
+          "modernFormats": 0.141
         }
       }
     }

@@ -3,14 +3,14 @@
   "category": "personal-craft",
   "role": "engineer-designer personal site",
   "urlHash": "a5377a572994",
-  "measuredAt": "2026-08-04T22:41:24.827Z",
+  "measuredAt": "2026-08-04T23:44:57.296Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2503,
+      "loadMs": 2660,
       "paint": {
-        "fcpMs": 256,
-        "domInteractiveMs": 161,
+        "fcpMs": 364,
+        "domInteractiveMs": 194,
         "transferBytes": 10008
       },
       "network": {
@@ -29,10 +29,6 @@
             "requests": 17,
             "bytes": 106
           },
-          "font": {
-            "requests": 1,
-            "bytes": 51980
-          },
           "fetch": {
             "requests": 7,
             "bytes": 0
@@ -40,6 +36,10 @@
           "other": {
             "requests": 8,
             "bytes": 0
+          },
+          "font": {
+            "requests": 1,
+            "bytes": 51980
           }
         },
         "fontFiles": 1,
@@ -268,6 +268,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 11,
+          "spineConformity": 0.309,
+          "edgeGutterPx": 192,
+          "widthTiers": 7,
+          "bleedBands": 0,
+          "bleedRatio": 0,
+          "toneSpread": 7.1,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 1,
+          "maxShapeRun": 1,
+          "shapeRunRatio": 1,
+          "layeredElements": 8,
+          "accentAreaRatio": 0.1988,
+          "ruleElements": 0,
+          "ruleDensity": 0,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 1,
+          "figures": 2,
+          "figureAreaRatio": 0.0167,
+          "foldFigureRatio": 0.1132
+        },
         "shape": {
           "radii": [
             {
@@ -382,10 +405,10 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2421,
+      "loadMs": 2685,
       "paint": {
-        "fcpMs": 188,
-        "domInteractiveMs": 101,
+        "fcpMs": 140,
+        "domInteractiveMs": 84,
         "transferBytes": 10008
       },
       "network": {
@@ -617,6 +640,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 10,
+          "spineConformity": 0.366,
+          "edgeGutterPx": 16,
+          "widthTiers": 4,
+          "bleedBands": 0,
+          "bleedRatio": 0,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 1,
+          "maxShapeRun": 1,
+          "shapeRunRatio": 1,
+          "layeredElements": 8,
+          "accentAreaRatio": 0.1503,
+          "ruleElements": 0,
+          "ruleDensity": 0,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 1,
+          "figures": 2,
+          "figureAreaRatio": 0.0126,
+          "foldFigureRatio": 0.0515
+        },
         "shape": {
           "radii": [
             {

@@ -3,19 +3,19 @@
   "category": "premium-b2b-saas",
   "role": "modern CRM",
   "urlHash": "e62e8206f90d",
-  "measuredAt": "2026-08-04T22:32:31.487Z",
+  "measuredAt": "2026-08-04T23:34:08.632Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10557,
+      "loadMs": 10541,
       "paint": {
-        "fcpMs": 488,
-        "domInteractiveMs": 343,
-        "transferBytes": 117951
+        "fcpMs": 472,
+        "domInteractiveMs": 334,
+        "transferBytes": 118084
       },
       "network": {
         "requests": 235,
-        "bytes": 3271820,
+        "bytes": 3271876,
         "byType": {
           "document": {
             "requests": 2,
@@ -23,7 +23,7 @@
           },
           "script": {
             "requests": 81,
-            "bytes": 2316804
+            "bytes": 2316860
           },
           "stylesheet": {
             "requests": 10,
@@ -441,6 +441,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 4,
+          "spineConformity": 0.223,
+          "edgeGutterPx": 24,
+          "widthTiers": 5,
+          "bleedBands": 5,
+          "bleedRatio": 0.238,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 6,
+          "maxShapeRun": 3,
+          "shapeRunRatio": 0.143,
+          "layeredElements": 86,
+          "accentAreaRatio": 0.0011,
+          "ruleElements": 85,
+          "ruleDensity": 4.33,
+          "ordinalMarks": 29,
+          "mixedDisplayBlocks": 10,
+          "figures": 63,
+          "figureAreaRatio": 0.4501,
+          "foldFigureRatio": 0.0034
+        },
         "shape": {
           "radii": [
             {
@@ -609,7 +632,7 @@
           "asymmetricGrids": 3,
           "asymmetryRatio": 0.094,
           "fullBleed": 56,
-          "aboveFoldElements": 146,
+          "aboveFoldElements": 144,
           "aboveFoldTextChars": 620,
           "aboveFoldInkRatio": 0.507,
           "stickyElements": 10,
@@ -628,27 +651,27 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10552,
+      "loadMs": 10516,
       "paint": {
-        "fcpMs": 452,
-        "domInteractiveMs": 343,
-        "transferBytes": 117781
+        "fcpMs": 400,
+        "domInteractiveMs": 190,
+        "transferBytes": 117670
       },
       "network": {
-        "requests": 220,
-        "bytes": 3314025,
+        "requests": 221,
+        "bytes": 3314030,
         "byType": {
           "document": {
             "requests": 2,
             "bytes": 0
           },
+          "script": {
+            "requests": 81,
+            "bytes": 2381311
+          },
           "stylesheet": {
             "requests": 10,
             "bytes": 42354
-          },
-          "script": {
-            "requests": 80,
-            "bytes": 2381307
           },
           "font": {
             "requests": 12,
@@ -660,7 +683,7 @@
           },
           "fetch": {
             "requests": 31,
-            "bytes": 29
+            "bytes": 30
           },
           "ping": {
             "requests": 5,
@@ -1042,6 +1065,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 7,
+          "spineConformity": 0.353,
+          "edgeGutterPx": 16,
+          "widthTiers": 7,
+          "bleedBands": 8,
+          "bleedRatio": 0.381,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 6,
+          "maxShapeRun": 3,
+          "shapeRunRatio": 0.143,
+          "layeredElements": 63,
+          "accentAreaRatio": 0.0003,
+          "ruleElements": 91,
+          "ruleDensity": 4.72,
+          "ordinalMarks": 29,
+          "mixedDisplayBlocks": 10,
+          "figures": 63,
+          "figureAreaRatio": 0.2813,
+          "foldFigureRatio": 0.0112
+        },
         "shape": {
           "radii": [
             {

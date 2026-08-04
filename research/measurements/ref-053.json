@@ -3,55 +3,55 @@
   "category": "commerce-platform",
   "role": "commerce platform",
   "urlHash": "d83d5c546dae",
-  "measuredAt": "2026-08-04T22:41:45.023Z",
+  "measuredAt": "2026-08-04T23:45:18.144Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 4457,
+      "loadMs": 2473,
       "paint": {
-        "fcpMs": 256,
-        "domInteractiveMs": 242,
-        "transferBytes": 69101
+        "fcpMs": 220,
+        "domInteractiveMs": 141,
+        "transferBytes": 68915
       },
       "network": {
-        "requests": 196,
-        "bytes": 12295076,
+        "requests": 200,
+        "bytes": 11317430,
         "byType": {
           "document": {
             "requests": 2,
             "bytes": 0
           },
           "image": {
-            "requests": 83,
-            "bytes": 1499156
+            "requests": 86,
+            "bytes": 1498766
           },
           "stylesheet": {
             "requests": 3,
             "bytes": 53086
           },
+          "script": {
+            "requests": 52,
+            "bytes": 738578
+          },
           "font": {
             "requests": 4,
             "bytes": 165948
           },
-          "script": {
-            "requests": 53,
-            "bytes": 762805
-          },
           "fetch": {
-            "requests": 37,
-            "bytes": 2384657
+            "requests": 41,
+            "bytes": 2468587
           },
           "ping": {
-            "requests": 3,
+            "requests": 2,
             "bytes": 0
           },
           "media": {
-            "requests": 11,
-            "bytes": 7429424
+            "requests": 10,
+            "bytes": 6392465
           }
         },
         "fontFiles": 4,
-        "thirdPartyHosts": 17
+        "thirdPartyHosts": 13
       },
       "initial": {
         "typography": {
@@ -448,6 +448,29 @@
             "medianBgLightness": 0
           }
         ],
+        "composition": {
+          "alignmentAxes": 4,
+          "spineConformity": 0.419,
+          "edgeGutterPx": 92,
+          "widthTiers": 7,
+          "bleedBands": 23,
+          "bleedRatio": 1.353,
+          "toneSpread": 4.3,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 5,
+          "maxShapeRun": 4,
+          "shapeRunRatio": 0.235,
+          "layeredElements": 47,
+          "accentAreaRatio": 0.4687,
+          "ruleElements": 22,
+          "ruleDensity": 1.75,
+          "ordinalMarks": 4,
+          "mixedDisplayBlocks": 1,
+          "figures": 58,
+          "figureAreaRatio": 0.574,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -549,20 +572,20 @@
           "ctaCount": 5,
           "formFields": 3,
           "focusVisibleRules": 0,
-          "domNodes": 2276,
+          "domNodes": 2275,
           "textChars": 5094
         }
       },
       "afterScroll": {
         "motion": {
-          "transitionElements": 142,
-          "transitionRatio": 0.09,
-          "medianDurationMs": 200,
+          "transitionElements": 145,
+          "transitionRatio": 0.092,
+          "medianDurationMs": 300,
           "p90DurationMs": 500,
           "topEasings": [
             {
               "value": "cubic-bezier(0.4, 0, 0.2, 1)",
-              "count": 105
+              "count": 107
             },
             {
               "value": "ease-in-out",
@@ -615,8 +638,8 @@
           ],
           "asymmetricGrids": 3,
           "asymmetryRatio": 0.25,
-          "fullBleed": 43,
-          "aboveFoldElements": 128,
+          "fullBleed": 44,
+          "aboveFoldElements": 133,
           "aboveFoldTextChars": 601,
           "aboveFoldInkRatio": 1,
           "stickyElements": 3,
@@ -635,35 +658,35 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 3055,
+      "loadMs": 3185,
       "paint": {
-        "fcpMs": 224,
-        "domInteractiveMs": 224,
-        "transferBytes": 69101
+        "fcpMs": 200,
+        "domInteractiveMs": 210,
+        "transferBytes": 69148
       },
       "network": {
-        "requests": 208,
-        "bytes": 8736260,
+        "requests": 206,
+        "bytes": 8735830,
         "byType": {
           "document": {
             "requests": 2,
             "bytes": 0
           },
           "image": {
-            "requests": 93,
-            "bytes": 1146708
+            "requests": 91,
+            "bytes": 1146276
           },
           "stylesheet": {
             "requests": 3,
             "bytes": 53086
           },
-          "script": {
-            "requests": 53,
-            "bytes": 762805
-          },
           "font": {
             "requests": 4,
             "bytes": 165948
+          },
+          "script": {
+            "requests": 53,
+            "bytes": 762807
           },
           "fetch": {
             "requests": 41,
@@ -1051,6 +1074,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 3,
+          "spineConformity": 0.758,
+          "edgeGutterPx": 16,
+          "widthTiers": 5,
+          "bleedBands": 26,
+          "bleedRatio": 1.529,
+          "toneSpread": 6.7,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 3,
+          "maxShapeRun": 7,
+          "shapeRunRatio": 0.412,
+          "layeredElements": 31,
+          "accentAreaRatio": 0.483,
+          "ruleElements": 28,
+          "ruleDensity": 1.96,
+          "ordinalMarks": 4,
+          "mixedDisplayBlocks": 1,
+          "figures": 49,
+          "figureAreaRatio": 0.5546,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -1203,8 +1249,8 @@
           "asymmetricGrids": 3,
           "asymmetryRatio": 0.429,
           "fullBleed": 53,
-          "aboveFoldElements": 214,
-          "aboveFoldTextChars": 802,
+          "aboveFoldElements": 212,
+          "aboveFoldTextChars": 762,
           "aboveFoldInkRatio": 1,
           "stickyElements": 1,
           "documentHeightVh": 14.56

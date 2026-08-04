@@ -3,15 +3,15 @@
   "category": "ai-community",
   "role": "model hub",
   "urlHash": "453cb49f45b2",
-  "measuredAt": "2026-08-04T22:39:47.131Z",
+  "measuredAt": "2026-08-04T23:43:19.168Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2578,
+      "loadMs": 2530,
       "paint": {
-        "fcpMs": 228,
-        "domInteractiveMs": 280,
-        "transferBytes": 24087
+        "fcpMs": 224,
+        "domInteractiveMs": 253,
+        "transferBytes": 29016
       },
       "network": {
         "requests": 103,
@@ -29,13 +29,13 @@
             "requests": 26,
             "bytes": 276238
           },
-          "font": {
-            "requests": 4,
-            "bytes": 54520
-          },
           "script": {
             "requests": 62,
             "bytes": 11709
+          },
+          "font": {
+            "requests": 4,
+            "bytes": 54520
           },
           "fetch": {
             "requests": 3,
@@ -54,7 +54,7 @@
           "families": [
             {
               "family": "Source Sans Pro",
-              "area": 494322
+              "area": 494499
             },
             {
               "family": "IBM Plex Mono",
@@ -85,7 +85,7 @@
             },
             {
               "px": 14,
-              "area": 74794
+              "area": 74970
             },
             {
               "px": 18,
@@ -282,8 +282,8 @@
           {
             "index": 1,
             "elements": 256,
-            "chars": 1247,
-            "inkRatio": 0.248,
+            "chars": 1249,
+            "inkRatio": 0.249,
             "maxFontPx": 30,
             "medianBgLightness": null
           },
@@ -328,6 +328,29 @@
             "medianBgLightness": 100
           }
         ],
+        "composition": {
+          "alignmentAxes": 5,
+          "spineConformity": 0.189,
+          "edgeGutterPx": 96,
+          "widthTiers": 6,
+          "bleedBands": 0,
+          "bleedRatio": 0,
+          "toneSpread": 92.9,
+          "invertedBands": 1,
+          "invertedShare": 0.143,
+          "shapeVariety": 3,
+          "maxShapeRun": 1,
+          "shapeRunRatio": 0.333,
+          "layeredElements": 13,
+          "accentAreaRatio": 0.0898,
+          "ruleElements": 17,
+          "ruleDensity": 2.56,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 27,
+          "figureAreaRatio": 0.2219,
+          "foldFigureRatio": 0.3724
+        },
         "shape": {
           "radii": [
             {
@@ -418,7 +441,7 @@
           "formFields": 1,
           "focusVisibleRules": 0,
           "domNodes": 1016,
-          "textChars": 4482
+          "textChars": 4484
         }
       },
       "afterScroll": {
@@ -479,11 +502,11 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2549,
+      "loadMs": 2524,
       "paint": {
-        "fcpMs": 204,
-        "domInteractiveMs": 180,
-        "transferBytes": 24087
+        "fcpMs": 196,
+        "domInteractiveMs": 254,
+        "transferBytes": 29016
       },
       "network": {
         "requests": 103,
@@ -501,13 +524,13 @@
             "requests": 26,
             "bytes": 276238
           },
-          "script": {
-            "requests": 62,
-            "bytes": 11709
-          },
           "font": {
             "requests": 4,
             "bytes": 54520
+          },
+          "script": {
+            "requests": 62,
+            "bytes": 11709
           },
           "fetch": {
             "requests": 3,
@@ -526,7 +549,7 @@
           "families": [
             {
               "family": "Source Sans Pro",
-              "area": 451478
+              "area": 451654
             },
             {
               "family": "IBM Plex Mono",
@@ -557,7 +580,7 @@
             },
             {
               "px": 14,
-              "area": 129125
+              "area": 129301
             },
             {
               "px": 18,
@@ -751,16 +774,16 @@
           {
             "index": 1,
             "elements": 158,
-            "chars": 770,
-            "inkRatio": 0.387,
+            "chars": 768,
+            "inkRatio": 0.388,
             "maxFontPx": 18,
             "medianBgLightness": null
           },
           {
             "index": 2,
             "elements": 91,
-            "chars": 471,
-            "inkRatio": 0.753,
+            "chars": 475,
+            "inkRatio": 0.755,
             "maxFontPx": 30,
             "medianBgLightness": 100
           },
@@ -821,6 +844,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 5,
+          "spineConformity": 0.655,
+          "edgeGutterPx": 16,
+          "widthTiers": 5,
+          "bleedBands": 2,
+          "bleedRatio": 0.049,
+          "toneSpread": 92.9,
+          "invertedBands": 1,
+          "invertedShare": 0.1,
+          "shapeVariety": 2,
+          "maxShapeRun": 38,
+          "shapeRunRatio": 0.927,
+          "layeredElements": 10,
+          "accentAreaRatio": 0.0678,
+          "ruleElements": 8,
+          "ruleDensity": 0.74,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 24,
+          "figureAreaRatio": 0.2125,
+          "foldFigureRatio": 0.2582
+        },
         "shape": {
           "radii": [
             {
@@ -911,7 +957,7 @@
           "formFields": 1,
           "focusVisibleRules": 0,
           "domNodes": 1016,
-          "textChars": 3772
+          "textChars": 3774
         }
       },
       "afterScroll": {

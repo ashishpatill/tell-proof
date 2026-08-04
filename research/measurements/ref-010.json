@@ -3,19 +3,19 @@
   "category": "premium-b2b-saas",
   "role": "internal tooling platform",
   "urlHash": "b7c8559e4eb6",
-  "measuredAt": "2026-08-04T22:31:45.254Z",
+  "measuredAt": "2026-08-04T23:33:22.289Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10424,
+      "loadMs": 10413,
       "paint": {
-        "fcpMs": 276,
-        "domInteractiveMs": 219,
-        "transferBytes": 42374
+        "fcpMs": 244,
+        "domInteractiveMs": 202,
+        "transferBytes": 42387
       },
       "network": {
-        "requests": 254,
-        "bytes": 6696092,
+        "requests": 251,
+        "bytes": 6607384,
         "byType": {
           "document": {
             "requests": 1,
@@ -29,13 +29,13 @@
             "requests": 4,
             "bytes": 0
           },
-          "script": {
-            "requests": 82,
-            "bytes": 795751
-          },
           "image": {
-            "requests": 139,
-            "bytes": 939116
+            "requests": 137,
+            "bytes": 939186
+          },
+          "script": {
+            "requests": 81,
+            "bytes": 706973
           },
           "fetch": {
             "requests": 15,
@@ -62,15 +62,15 @@
           "families": [
             {
               "family": "saansFont",
-              "area": 790283
+              "area": 792011
+            },
+            {
+              "family": "ui-sans-serif",
+              "area": 66701
             },
             {
               "family": "pxGroteskFont",
               "area": 66681
-            },
-            {
-              "family": "ui-sans-serif",
-              "area": 64973
             }
           ],
           "familyCount": 3,
@@ -95,7 +95,7 @@
             },
             {
               "px": 16,
-              "area": 190426
+              "area": 193882
             },
             {
               "px": 48,
@@ -216,11 +216,11 @@
             },
             {
               "color": "rgb(21,21,21)",
-              "chars": 434
+              "chars": 449
             },
             {
               "color": "rgb(0,0,0)",
-              "chars": 205
+              "chars": 220
             },
             {
               "color": "rgb(182,184,175)",
@@ -313,7 +313,7 @@
           "asymmetryRatio": 0,
           "fullBleed": 3,
           "aboveFoldElements": 531,
-          "aboveFoldTextChars": 1221,
+          "aboveFoldTextChars": 1251,
           "aboveFoldInkRatio": 1,
           "stickyElements": 5,
           "documentHeightVh": 13.16
@@ -326,7 +326,7 @@
           "displayWeight": "300",
           "displayLineHeight": 1.05,
           "textBlocks": 79,
-          "totalChars": 1221,
+          "totalChars": 1251,
           "ctaButtons": 0,
           "ctaHeights": [],
           "hasHeroMedia": true,
@@ -337,7 +337,7 @@
           {
             "index": 0,
             "elements": 562,
-            "chars": 1244,
+            "chars": 1274,
             "inkRatio": 2.049,
             "maxFontPx": 72,
             "medianBgLightness": 52.2
@@ -415,6 +415,29 @@
             "medianBgLightness": 89.8
           }
         ],
+        "composition": {
+          "alignmentAxes": 7,
+          "spineConformity": 0.232,
+          "edgeGutterPx": 28,
+          "widthTiers": 5,
+          "bleedBands": 0,
+          "bleedRatio": 0,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 3,
+          "maxShapeRun": 4,
+          "shapeRunRatio": 0.4,
+          "layeredElements": 34,
+          "accentAreaRatio": 0.0149,
+          "ruleElements": 14,
+          "ruleDensity": 1.06,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 185,
+          "figureAreaRatio": 0.5034,
+          "foldFigureRatio": 0.8938
+        },
         "shape": {
           "radii": [
             {
@@ -516,8 +539,8 @@
           "ctaCount": 9,
           "formFields": 0,
           "focusVisibleRules": 68,
-          "domNodes": 2139,
-          "textChars": 3197
+          "domNodes": 2137,
+          "textChars": 3227
         }
       },
       "afterScroll": {
@@ -602,62 +625,62 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2826,
+      "loadMs": 2691,
       "paint": {
-        "fcpMs": 328,
-        "domInteractiveMs": 313,
-        "transferBytes": 42374
+        "fcpMs": 388,
+        "domInteractiveMs": 314,
+        "transferBytes": 42393
       },
       "network": {
-        "requests": 220,
-        "bytes": 1203682,
+        "requests": 223,
+        "bytes": 1203880,
         "byType": {
           "document": {
             "requests": 1,
             "bytes": 0
-          },
-          "font": {
-            "requests": 3,
-            "bytes": 165474
           },
           "stylesheet": {
             "requests": 4,
             "bytes": 0
           },
           "image": {
-            "requests": 112,
-            "bytes": 241634
+            "requests": 114,
+            "bytes": 241704
+          },
+          "font": {
+            "requests": 3,
+            "bytes": 165474
           },
           "script": {
             "requests": 80,
-            "bytes": 793867
+            "bytes": 793995
           },
           "fetch": {
             "requests": 14,
             "bytes": 2623
           },
-          "xhr": {
-            "requests": 4,
-            "bytes": 84
-          },
           "ping": {
             "requests": 2,
             "bytes": 0
+          },
+          "xhr": {
+            "requests": 5,
+            "bytes": 84
           }
         },
         "fontFiles": 3,
-        "thirdPartyHosts": 59
+        "thirdPartyHosts": 60
       },
       "initial": {
         "typography": {
           "families": [
             {
               "family": "saansFont",
-              "area": 476190
+              "area": 477918
             },
             {
               "family": "ui-sans-serif",
-              "area": 64973
+              "area": 66701
             },
             {
               "family": "pxGroteskFont",
@@ -682,7 +705,7 @@
           "topSizesByArea": [
             {
               "px": 16,
-              "area": 190426
+              "area": 193882
             },
             {
               "px": 20,
@@ -803,11 +826,11 @@
             },
             {
               "color": "rgb(21,21,21)",
-              "chars": 368
+              "chars": 383
             },
             {
               "color": "rgb(0,0,0)",
-              "chars": 205
+              "chars": 220
             },
             {
               "color": "rgb(182,184,175)",
@@ -896,7 +919,7 @@
           "asymmetryRatio": 0,
           "fullBleed": 3,
           "aboveFoldElements": 280,
-          "aboveFoldTextChars": 429,
+          "aboveFoldTextChars": 459,
           "aboveFoldInkRatio": 1,
           "stickyElements": 4,
           "documentHeightVh": 13.17
@@ -909,7 +932,7 @@
           "displayWeight": "300",
           "displayLineHeight": 1.05,
           "textBlocks": 22,
-          "totalChars": 429,
+          "totalChars": 459,
           "ctaButtons": 0,
           "ctaHeights": [],
           "hasHeroMedia": false,
@@ -920,7 +943,7 @@
           {
             "index": 0,
             "elements": 347,
-            "chars": 484,
+            "chars": 514,
             "inkRatio": 1.48,
             "maxFontPx": 40,
             "medianBgLightness": 96.5
@@ -998,6 +1021,29 @@
             "medianBgLightness": 14.1
           }
         ],
+        "composition": {
+          "alignmentAxes": 4,
+          "spineConformity": 0.523,
+          "edgeGutterPx": 0,
+          "widthTiers": 4,
+          "bleedBands": 0,
+          "bleedRatio": 0,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 3,
+          "maxShapeRun": 2,
+          "shapeRunRatio": 0.2,
+          "layeredElements": 11,
+          "accentAreaRatio": 0.0325,
+          "ruleElements": 12,
+          "ruleDensity": 0.91,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 159,
+          "figureAreaRatio": 0.3618,
+          "foldFigureRatio": 0.1676
+        },
         "shape": {
           "radii": [
             {
@@ -1099,8 +1145,8 @@
           "ctaCount": 10,
           "formFields": 0,
           "focusVisibleRules": 68,
-          "domNodes": 2112,
-          "textChars": 2306
+          "domNodes": 2110,
+          "textChars": 2336
         }
       },
       "afterScroll": {

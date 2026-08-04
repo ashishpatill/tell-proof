@@ -3,19 +3,19 @@
   "category": "docs-product",
   "role": "framework documentation",
   "urlHash": "eb7997fa534a",
-  "measuredAt": "2026-08-04T22:40:01.119Z",
+  "measuredAt": "2026-08-04T23:43:33.371Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2798,
+      "loadMs": 2467,
       "paint": {
-        "fcpMs": 548,
-        "domInteractiveMs": 533,
-        "transferBytes": 33662
+        "fcpMs": 280,
+        "domInteractiveMs": 264,
+        "transferBytes": 33668
       },
       "network": {
-        "requests": 95,
-        "bytes": 428695,
+        "requests": 94,
+        "bytes": 427827,
         "byType": {
           "document": {
             "requests": 1,
@@ -38,8 +38,8 @@
             "bytes": 1337
           },
           "fetch": {
-            "requests": 16,
-            "bytes": 7432
+            "requests": 15,
+            "bytes": 6564
           },
           "ping": {
             "requests": 2,
@@ -376,6 +376,29 @@
             "medianBgLightness": 91.8
           }
         ],
+        "composition": {
+          "alignmentAxes": 6,
+          "spineConformity": 0.242,
+          "edgeGutterPx": 120,
+          "widthTiers": 8,
+          "bleedBands": 2,
+          "bleedRatio": 0.25,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 4,
+          "maxShapeRun": 2,
+          "shapeRunRatio": 0.25,
+          "layeredElements": 8,
+          "accentAreaRatio": 0,
+          "ruleElements": 40,
+          "ruleDensity": 6.99,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 30,
+          "figureAreaRatio": 0.1996,
+          "foldFigureRatio": 0.009
+        },
         "shape": {
           "radii": [
             {
@@ -535,27 +558,27 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2447,
+      "loadMs": 2556,
       "paint": {
-        "fcpMs": 252,
-        "domInteractiveMs": 244,
-        "transferBytes": 33662
+        "fcpMs": 412,
+        "domInteractiveMs": 353,
+        "transferBytes": 33668
       },
       "network": {
-        "requests": 88,
+        "requests": 89,
         "bytes": 314263,
         "byType": {
           "document": {
             "requests": 1,
             "bytes": 0
           },
-          "font": {
-            "requests": 2,
-            "bytes": 92848
-          },
           "stylesheet": {
             "requests": 6,
             "bytes": 332
+          },
+          "font": {
+            "requests": 2,
+            "bytes": 92848
           },
           "image": {
             "requests": 29,
@@ -566,7 +589,7 @@
             "bytes": 1337
           },
           "fetch": {
-            "requests": 13,
+            "requests": 14,
             "bytes": 6609
           },
           "ping": {
@@ -893,6 +916,29 @@
             "medianBgLightness": 100
           }
         ],
+        "composition": {
+          "alignmentAxes": 5,
+          "spineConformity": 0.566,
+          "edgeGutterPx": 16,
+          "widthTiers": 5,
+          "bleedBands": 2,
+          "bleedRatio": 0.25,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 4,
+          "maxShapeRun": 1,
+          "shapeRunRatio": 0.125,
+          "layeredElements": 12,
+          "accentAreaRatio": 0,
+          "ruleElements": 43,
+          "ruleDensity": 7.61,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 26,
+          "figureAreaRatio": 0.4214,
+          "foldFigureRatio": 0.0066
+        },
         "shape": {
           "radii": [
             {

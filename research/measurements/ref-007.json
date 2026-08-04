@@ -3,27 +3,31 @@
   "category": "fintech-infra",
   "role": "payments infrastructure",
   "urlHash": "e559114825bc",
-  "measuredAt": "2026-08-04T22:31:18.958Z",
+  "measuredAt": "2026-08-04T23:32:58.015Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2814,
+      "loadMs": 2551,
       "paint": {
-        "fcpMs": 240,
-        "domInteractiveMs": 146,
-        "transferBytes": 177825
+        "fcpMs": 196,
+        "domInteractiveMs": 102,
+        "transferBytes": 177816
       },
       "network": {
         "requests": 221,
-        "bytes": 3621927,
+        "bytes": 2352906,
         "byType": {
           "document": {
             "requests": 3,
-            "bytes": 340
+            "bytes": 579
+          },
+          "image": {
+            "requests": 56,
+            "bytes": 1306715
           },
           "stylesheet": {
             "requests": 9,
-            "bytes": 63251
+            "bytes": 318
           },
           "font": {
             "requests": 2,
@@ -31,11 +35,7 @@
           },
           "script": {
             "requests": 121,
-            "bytes": 2208807
-          },
-          "image": {
-            "requests": 56,
-            "bytes": 1278108
+            "bytes": 973864
           },
           "fetch": {
             "requests": 26,
@@ -47,7 +47,7 @@
           },
           "xhr": {
             "requests": 3,
-            "bytes": 515
+            "bytes": 524
           }
         },
         "fontFiles": 2,
@@ -174,7 +174,11 @@
           "backgrounds": [
             {
               "color": "rgb(255,255,255)",
-              "area": 18947023
+              "area": 17539445
+            },
+            {
+              "color": "rgb(13,23,56)",
+              "area": 4779135
             },
             {
               "color": "rgb(229,237,245)",
@@ -183,10 +187,6 @@
             {
               "color": "rgb(248,250,253)",
               "area": 3407312
-            },
-            {
-              "color": "rgb(13,23,56)",
-              "area": 3371558
             },
             {
               "color": "rgb(242,247,254)",
@@ -212,7 +212,7 @@
             },
             {
               "color": "rgb(6,27,49)",
-              "chars": 2748
+              "chars": 2673
             },
             {
               "color": "rgb(100,116,141)",
@@ -223,12 +223,12 @@
               "chars": 580
             },
             {
-              "color": "rgb(131,155,200)",
-              "chars": 481
+              "color": "rgb(255,255,255)",
+              "chars": 536
             },
             {
-              "color": "rgb(255,255,255)",
-              "chars": 461
+              "color": "rgb(131,155,200)",
+              "chars": 481
             }
           ],
           "distinctBackgrounds": 13,
@@ -412,6 +412,29 @@
             "medianBgLightness": 61
           }
         ],
+        "composition": {
+          "alignmentAxes": 2,
+          "spineConformity": 0.309,
+          "edgeGutterPx": 88,
+          "widthTiers": 5,
+          "bleedBands": 10,
+          "bleedRatio": 0.5,
+          "toneSpread": 86.5,
+          "invertedBands": 7,
+          "invertedShare": 0.7,
+          "shapeVariety": 3,
+          "maxShapeRun": 4,
+          "shapeRunRatio": 0.2,
+          "layeredElements": 98,
+          "accentAreaRatio": 0.4042,
+          "ruleElements": 28,
+          "ruleDensity": 1.72,
+          "ordinalMarks": 16,
+          "mixedDisplayBlocks": 11,
+          "figures": 84,
+          "figureAreaRatio": 0.3371,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -599,47 +622,47 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2910,
+      "loadMs": 2545,
       "paint": {
-        "fcpMs": 340,
-        "domInteractiveMs": 215,
-        "transferBytes": 177820
+        "fcpMs": 252,
+        "domInteractiveMs": 115,
+        "transferBytes": 177817
       },
       "network": {
         "requests": 209,
-        "bytes": 2597545,
+        "bytes": 1307125,
         "byType": {
           "document": {
             "requests": 3,
-            "bytes": 340
-          },
-          "stylesheet": {
-            "requests": 7,
-            "bytes": 61713
+            "bytes": 579
           },
           "image": {
             "requests": 50,
             "bytes": 448160
           },
+          "stylesheet": {
+            "requests": 7,
+            "bytes": 318
+          },
+          "script": {
+            "requests": 118,
+            "bytes": 786681
+          },
           "font": {
             "requests": 2,
             "bytes": 70732
           },
-          "script": {
-            "requests": 118,
-            "bytes": 2015944
-          },
           "fetch": {
             "requests": 25,
-            "bytes": 141
-          },
-          "ping": {
-            "requests": 1,
-            "bytes": 0
+            "bytes": 140
           },
           "xhr": {
             "requests": 3,
             "bytes": 515
+          },
+          "ping": {
+            "requests": 1,
+            "bytes": 0
           }
         },
         "fontFiles": 2,
@@ -996,6 +1019,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 1,
+          "spineConformity": 0.514,
+          "edgeGutterPx": 16,
+          "widthTiers": 4,
+          "bleedBands": 18,
+          "bleedRatio": 0.9,
+          "toneSpread": 86.5,
+          "invertedBands": 8,
+          "invertedShare": 0.8,
+          "shapeVariety": 3,
+          "maxShapeRun": 7,
+          "shapeRunRatio": 0.35,
+          "layeredElements": 90,
+          "accentAreaRatio": 0.6037,
+          "ruleElements": 42,
+          "ruleDensity": 1.73,
+          "ordinalMarks": 17,
+          "mixedDisplayBlocks": 5,
+          "figures": 79,
+          "figureAreaRatio": 0.3212,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {

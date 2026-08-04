@@ -3,19 +3,19 @@
   "category": "consumer-craft",
   "role": "email client",
   "urlHash": "11261f2e1907",
-  "measuredAt": "2026-08-04T22:34:34.636Z",
+  "measuredAt": "2026-08-04T23:37:57.188Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10693,
+      "loadMs": 10596,
       "paint": {
-        "fcpMs": 432,
-        "domInteractiveMs": 332,
-        "transferBytes": 164199
+        "fcpMs": 328,
+        "domInteractiveMs": 301,
+        "transferBytes": 164630
       },
       "network": {
-        "requests": 190,
-        "bytes": 16180870,
+        "requests": 185,
+        "bytes": 16184906,
         "byType": {
           "document": {
             "requests": 10,
@@ -23,15 +23,15 @@
           },
           "script": {
             "requests": 55,
-            "bytes": 1133266
+            "bytes": 1132427
           },
           "stylesheet": {
             "requests": 9,
             "bytes": 868
           },
           "image": {
-            "requests": 53,
-            "bytes": 6393377
+            "requests": 52,
+            "bytes": 6398254
           },
           "font": {
             "requests": 5,
@@ -39,19 +39,19 @@
           },
           "fetch": {
             "requests": 20,
-            "bytes": 1925
+            "bytes": 1924
           },
           "media": {
             "requests": 6,
             "bytes": 8199483
           },
           "ping": {
-            "requests": 23,
+            "requests": 19,
             "bytes": 0
           },
           "xhr": {
             "requests": 9,
-            "bytes": 2547
+            "bytes": 2546
           }
         },
         "fontFiles": 5,
@@ -271,7 +271,7 @@
           ],
           "asymmetricGrids": 2,
           "asymmetryRatio": 0.4,
-          "fullBleed": 19,
+          "fullBleed": 18,
           "aboveFoldElements": 189,
           "aboveFoldTextChars": 1302,
           "aboveFoldInkRatio": 1,
@@ -353,6 +353,29 @@
             "medianBgLightness": 18.6
           }
         ],
+        "composition": {
+          "alignmentAxes": 8,
+          "spineConformity": 0.365,
+          "edgeGutterPx": 32,
+          "widthTiers": 4,
+          "bleedBands": 5,
+          "bleedRatio": 0.5,
+          "toneSpread": 84.5,
+          "invertedBands": 2,
+          "invertedShare": 0.286,
+          "shapeVariety": 3,
+          "maxShapeRun": 4,
+          "shapeRunRatio": 0.4,
+          "layeredElements": 2,
+          "accentAreaRatio": 1,
+          "ruleElements": 5,
+          "ruleDensity": 0.72,
+          "ordinalMarks": 4,
+          "mixedDisplayBlocks": 0,
+          "figures": 19,
+          "figureAreaRatio": 0.6791,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -414,7 +437,7 @@
           "images": 13,
           "svgInline": 61,
           "videos": 5,
-          "imageAreaRatio": 0.1879,
+          "imageAreaRatio": 0.1891,
           "altCoverage": 1,
           "lazyCoverage": 0.615,
           "modernFormats": 0.231
@@ -454,7 +477,7 @@
               "count": 14
             }
           ],
-          "animatedElements": 17,
+          "animatedElements": 18,
           "infiniteAnimations": 1,
           "reducedMotionRules": 0,
           "hasVideo": 5,
@@ -484,7 +507,7 @@
           ],
           "asymmetricGrids": 2,
           "asymmetryRatio": 0.4,
-          "fullBleed": 19,
+          "fullBleed": 18,
           "aboveFoldElements": 118,
           "aboveFoldTextChars": 777,
           "aboveFoldInkRatio": 1,
@@ -495,7 +518,7 @@
           "images": 13,
           "svgInline": 65,
           "videos": 5,
-          "imageAreaRatio": 0.1879,
+          "imageAreaRatio": 0.1891,
           "altCoverage": 1,
           "lazyCoverage": 0.615,
           "modernFormats": 0.231
@@ -504,15 +527,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10891,
+      "loadMs": 10597,
       "paint": {
-        "fcpMs": 364,
-        "domInteractiveMs": 342,
-        "transferBytes": 164425
+        "fcpMs": 336,
+        "domInteractiveMs": 304,
+        "transferBytes": 165311
       },
       "network": {
-        "requests": 182,
-        "bytes": 10374379,
+        "requests": 176,
+        "bytes": 7621183,
         "byType": {
           "document": {
             "requests": 10,
@@ -523,32 +546,32 @@
             "bytes": 868
           },
           "image": {
-            "requests": 48,
-            "bytes": 3227604
-          },
-          "script": {
-            "requests": 55,
-            "bytes": 1133288
+            "requests": 47,
+            "bytes": 3223827
           },
           "font": {
             "requests": 5,
             "bytes": 448768
           },
+          "script": {
+            "requests": 55,
+            "bytes": 1132413
+          },
           "fetch": {
             "requests": 20,
-            "bytes": 1899
+            "bytes": 1940
           },
           "media": {
-            "requests": 3,
-            "bytes": 5558767
+            "requests": 2,
+            "bytes": 2810186
           },
           "ping": {
-            "requests": 23,
+            "requests": 19,
             "bytes": 0
           },
           "xhr": {
             "requests": 9,
-            "bytes": 2549
+            "bytes": 2545
           }
         },
         "fontFiles": 5,
@@ -749,7 +772,7 @@
           "aboveFoldTextChars": 239,
           "aboveFoldInkRatio": 1,
           "stickyElements": 4,
-          "documentHeightVh": 9.8
+          "documentHeightVh": 9.81
         },
         "hero": {
           "displayPx": 32,
@@ -787,7 +810,7 @@
             "index": 2,
             "elements": 16,
             "chars": 140,
-            "inkRatio": 1.155,
+            "inkRatio": 1.154,
             "maxFontPx": 32,
             "medianBgLightness": 95.9
           },
@@ -795,7 +818,7 @@
             "index": 3,
             "elements": 15,
             "chars": 236,
-            "inkRatio": 0.207,
+            "inkRatio": 0.206,
             "maxFontPx": 18,
             "medianBgLightness": null
           },
@@ -803,7 +826,7 @@
             "index": 4,
             "elements": 24,
             "chars": 312,
-            "inkRatio": 1.357,
+            "inkRatio": 1.356,
             "maxFontPx": 32,
             "medianBgLightness": 95.9
           },
@@ -811,7 +834,7 @@
             "index": 5,
             "elements": 18,
             "chars": 282,
-            "inkRatio": 1.27,
+            "inkRatio": 1.269,
             "maxFontPx": 32,
             "medianBgLightness": 95.9
           },
@@ -819,7 +842,7 @@
             "index": 6,
             "elements": 13,
             "chars": 329,
-            "inkRatio": 1.117,
+            "inkRatio": 1.116,
             "maxFontPx": 32,
             "medianBgLightness": 15.5
           },
@@ -848,6 +871,29 @@
             "medianBgLightness": null
           }
         ],
+        "composition": {
+          "alignmentAxes": 3,
+          "spineConformity": 0.912,
+          "edgeGutterPx": 16,
+          "widthTiers": 4,
+          "bleedBands": 5,
+          "bleedRatio": 0.5,
+          "toneSpread": 84.5,
+          "invertedBands": 3,
+          "invertedShare": 0.3,
+          "shapeVariety": 3,
+          "maxShapeRun": 4,
+          "shapeRunRatio": 0.4,
+          "layeredElements": 2,
+          "accentAreaRatio": 1,
+          "ruleElements": 7,
+          "ruleDensity": 0.71,
+          "ordinalMarks": 4,
+          "mixedDisplayBlocks": 0,
+          "figures": 18,
+          "figureAreaRatio": 0.4381,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -905,7 +951,7 @@
           "images": 17,
           "svgInline": 61,
           "videos": 1,
-          "imageAreaRatio": 0.2652,
+          "imageAreaRatio": 0.2672,
           "altCoverage": 1,
           "lazyCoverage": 0.647,
           "modernFormats": 0.176
@@ -974,7 +1020,7 @@
           "images": 17,
           "svgInline": 61,
           "videos": 1,
-          "imageAreaRatio": 0.2667,
+          "imageAreaRatio": 0.2687,
           "altCoverage": 1,
           "lazyCoverage": 0.647,
           "modernFormats": 0.176

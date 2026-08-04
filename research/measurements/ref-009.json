@@ -3,19 +3,19 @@
   "category": "fintech-product",
   "role": "business banking",
   "urlHash": "61c89e9f9be6",
-  "measuredAt": "2026-08-04T22:31:33.612Z",
+  "measuredAt": "2026-08-04T23:33:11.995Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 5968,
+      "loadMs": 3549,
       "paint": {
-        "fcpMs": 648,
-        "domInteractiveMs": 719,
+        "fcpMs": 272,
+        "domInteractiveMs": 222,
         "transferBytes": 97946
       },
       "network": {
-        "requests": 169,
-        "bytes": 13602068,
+        "requests": 168,
+        "bytes": 14635578,
         "byType": {
           "document": {
             "requests": 2,
@@ -26,7 +26,7 @@
             "bytes": 463
           },
           "image": {
-            "requests": 26,
+            "requests": 27,
             "bytes": 1090781
           },
           "font": {
@@ -35,15 +35,15 @@
           },
           "script": {
             "requests": 88,
-            "bytes": 1166260
+            "bytes": 1166130
           },
           "media": {
-            "requests": 11,
-            "bytes": 11105640
+            "requests": 10,
+            "bytes": 12139614
           },
           "fetch": {
-            "requests": 21,
-            "bytes": 2064
+            "requests": 20,
+            "bytes": 1730
           },
           "ping": {
             "requests": 3,
@@ -55,7 +55,7 @@
           }
         },
         "fontFiles": 6,
-        "thirdPartyHosts": 36
+        "thirdPartyHosts": 35
       },
       "initial": {
         "typography": {
@@ -396,6 +396,29 @@
             "medianBgLightness": 11
           }
         ],
+        "composition": {
+          "alignmentAxes": 5,
+          "spineConformity": 0.351,
+          "edgeGutterPx": 120,
+          "widthTiers": 8,
+          "bleedBands": 8,
+          "bleedRatio": 0.5,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 4,
+          "maxShapeRun": 3,
+          "shapeRunRatio": 0.188,
+          "layeredElements": 16,
+          "accentAreaRatio": 1,
+          "ruleElements": 43,
+          "ruleDensity": 2.96,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 1,
+          "figures": 48,
+          "figureAreaRatio": 0.5587,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -466,13 +489,13 @@
           "hasWebGL": true
         },
         "media": {
-          "images": 38,
+          "images": 39,
           "svgInline": 94,
           "videos": 6,
           "imageAreaRatio": 0.413,
           "altCoverage": 1,
-          "lazyCoverage": 0.632,
-          "modernFormats": 0.579
+          "lazyCoverage": 0.615,
+          "modernFormats": 0.564
         },
         "semantics": {
           "landmarks": {
@@ -489,7 +512,7 @@
           "ctaCount": 6,
           "formFields": 3,
           "focusVisibleRules": 5,
-          "domNodes": 2217,
+          "domNodes": 2225,
           "textChars": 10506
         }
       },
@@ -563,27 +586,27 @@
           "documentHeightVh": 13.95
         },
         "media": {
-          "images": 38,
+          "images": 39,
           "svgInline": 100,
           "videos": 9,
           "imageAreaRatio": 0.3585,
           "altCoverage": 1,
-          "lazyCoverage": 0.632,
-          "modernFormats": 0.579
+          "lazyCoverage": 0.615,
+          "modernFormats": 0.564
         }
       }
     },
     {
       "viewport": "mobile",
-      "loadMs": 3574,
+      "loadMs": 4559,
       "paint": {
-        "fcpMs": 256,
-        "domInteractiveMs": 250,
+        "fcpMs": 332,
+        "domInteractiveMs": 326,
         "transferBytes": 97946
       },
       "network": {
-        "requests": 162,
-        "bytes": 8695958,
+        "requests": 165,
+        "bytes": 8647178,
         "byType": {
           "document": {
             "requests": 2,
@@ -603,15 +626,15 @@
           },
           "script": {
             "requests": 88,
-            "bytes": 1166160
+            "bytes": 1071350
           },
           "media": {
-            "requests": 6,
-            "bytes": 7012476
+            "requests": 9,
+            "bytes": 7058512
           },
           "fetch": {
             "requests": 19,
-            "bytes": 1745
+            "bytes": 1739
           },
           "ping": {
             "requests": 3,
@@ -951,6 +974,29 @@
             "medianBgLightness": 11
           }
         ],
+        "composition": {
+          "alignmentAxes": 4,
+          "spineConformity": 0.78,
+          "edgeGutterPx": 0,
+          "widthTiers": 4,
+          "bleedBands": 10,
+          "bleedRatio": 0.625,
+          "toneSpread": 0,
+          "invertedBands": 0,
+          "invertedShare": 0,
+          "shapeVariety": 3,
+          "maxShapeRun": 3,
+          "shapeRunRatio": 0.188,
+          "layeredElements": 13,
+          "accentAreaRatio": 1,
+          "ruleElements": 51,
+          "ruleDensity": 2.64,
+          "ordinalMarks": 0,
+          "mixedDisplayBlocks": 0,
+          "figures": 53,
+          "figureAreaRatio": 0.6101,
+          "foldFigureRatio": 1
+        },
         "shape": {
           "radii": [
             {
@@ -1044,7 +1090,7 @@
           "ctaCount": 6,
           "formFields": 3,
           "focusVisibleRules": 5,
-          "domNodes": 2231,
+          "domNodes": 2225,
           "textChars": 10516
         }
       },
@@ -1109,7 +1155,7 @@
           "images": 39,
           "svgInline": 100,
           "videos": 9,
-          "imageAreaRatio": 0.4353,
+          "imageAreaRatio": 0.4346,
           "altCoverage": 1,
           "lazyCoverage": 0.615,
           "modernFormats": 0.564
