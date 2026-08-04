@@ -10,7 +10,7 @@ Entry skill for multi-million-dollar-quality marketing sites, corporate stories,
 ## Non-negotiables
 
 1. Content and declared features drive every layout decision
-2. Motion is none or subtle micro only (never continuous spectacle)
+2. Motion stays restrained: `none`, `subtle-micro`, or `light-scroll-reveals` only — never continuous spectacle
 3. Fully customized to the product — no generic template filler
 4. Strong hierarchy, whitespace, conversion clarity, performance, accessibility
 5. Always end with **Taste Controls** the developer can adjust
