@@ -1,7 +1,13 @@
 export * from "./types";
 export * from "./analyze";
 export * from "./route";
+export * from "./color";
+export * from "./palette";
+export * from "./scale";
+export * from "./composition";
+export * from "./copy";
 export * from "./tokens";
+export * from "./css";
 export * from "./sections";
 export * from "./render";
 export { designFromFeatures, resolveTaste, SHOWCASE_BRIEFS } from "./orchestrate";

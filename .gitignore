@@ -21,6 +21,11 @@ tell-proof-compare.json
 tell-proof-matrix.json
 tell-preview-report.json
 
+# Design research corpus: holds third-party URLs, never committed.
+# Only anonymised measurements (research/measurements/*.json) are shipped.
+research/corpus.local.json
+research/raw/
+
 # Internal planning notes (kept local, not shipped)
 docs/03_CLAUDE_DESIGN_BRIEF.md
 docs/04_CLAUDE_PROJECT.md

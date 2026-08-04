@@ -24,7 +24,10 @@
     "sync:demo-report": "pnpm -F @tell/core exec tsx ../../scripts/sync-demo-report.ts",
     "deploy:vercel": "bash scripts/deploy-vercel.sh",
     "e2e:studio": "pnpm -F @tell/core exec tsx ../../scripts/e2e-studio-playwright.ts",
-    "record:readme-demo": "pnpm exec tsx scripts/record-readme-demo.ts"
+    "record:readme-demo": "pnpm exec tsx scripts/record-readme-demo.ts",
+    "research:forensics": "pnpm -F @tell/core exec tsx ../../scripts/design-research/forensics.ts",
+    "research:aggregate": "pnpm -F @tell/core exec tsx ../../scripts/design-research/aggregate.ts",
+    "research:critique": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/critique.ts"
   },
   "devDependencies": {
     "vitest": "^2.1.9"

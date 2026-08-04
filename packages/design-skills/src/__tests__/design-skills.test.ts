@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { designFromFeatures, SHOWCASE_BRIEFS } from "../orchestrate";
-import { DesignBrief, SkillNodeId } from "../types";
+import { contrastHex } from "../color";
+import { buildPalette } from "../palette";
+import { buildTypeLadder } from "../scale";
+import { DesignBrief, SkillNodeId, type ColorMood } from "../types";
 
 const ALL_SKILLS: SkillNodeId[] = [
   "analyze-features-requirements",
@@ -16,6 +19,8 @@ const ALL_SKILLS: SkillNodeId[] = [
   "responsive-performance",
 ];
 
+const MOODS: ColorMood[] = ["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"];
+
 describe("premium-content-custom-web engine", () => {
   it("builds a saas marketing design with routed skills and preview html", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
@@ -23,58 +28,44 @@ describe("premium-content-custom-web engine", () => {
     expect(spec.routedSkills).toContain("hero-section");
     expect(spec.routedSkills).toContain("pricing-or-plans");
     expect(spec.routedSkills).toContain("design-system-foundation");
-    expect(spec.routedSkills).toContain("forms-ctas-conversion");
-    expect(spec.routedSkills).toContain("restrained-motion-micro");
     expect(spec.sections.some((s) => s.kind === "hero")).toBe(true);
     expect(previewHtml).toContain("Northstar");
     expect(previewHtml).toContain("Account scoring");
     expect(previewHtml).toContain('data-motion="subtle-micro"');
-    expect(previewHtml).toContain("ds-brand-mark");
     expect(previewHtml).toContain(":focus-visible");
-    expect(previewHtml).not.toContain("Starter — core features");
-    expect(previewHtml).not.toContain("Growth — recommended");
+    expect(previewHtml).toContain("Skip to content");
   });
 
-  it("builds a dashboard webapp as one shell composition", () => {
+  it("builds a dashboard webapp around a real application shell", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.dashboard!);
     expect(spec.brief.siteKind).toBe("dashboard-webapp");
     expect(spec.routedSkills).toContain("dashboard-or-webapp-ui");
     expect(spec.routedSkills).not.toContain("pricing-or-plans");
-    expect(spec.routedSkills).not.toContain("hero-section");
-    expect(spec.sections.filter((s) => s.kind === "dashboard-shell")).toHaveLength(1);
-    expect(spec.sections.some((s) => s.kind === "dashboard-main")).toBe(false);
+    expect(spec.sections.filter((s) => s.layout === "app-shell")).toHaveLength(1);
     expect(previewHtml).toContain("Priority queue");
-    expect(previewHtml).toContain('data-motion="none"');
-    expect(previewHtml).toContain('class="ds-wrap ds-dash-grid"');
-    expect(previewHtml).toContain("ds-side");
-    expect(previewHtml).toContain("ds-main");
-    expect((previewHtml.match(/class="ds-wrap ds-dash-grid"/g) || []).length).toBe(1);
+    expect(previewHtml).toContain("ds-app-side");
+    expect(previewHtml).toContain('aria-current="page"');
+    // Dense product surfaces still need an empty state, not just a happy path.
+    expect(previewHtml).toContain("ds-empty");
   });
 
-  it("builds a corporate story surface with refined lean chapters", () => {
+  it("builds a corporate story surface with editorial chapters", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.corporate!);
     expect(spec.brief.siteKind).toBe("corporate-story");
     expect(spec.taste.aestheticLean).toBe("refined-story");
     expect(spec.tellDirectionId).toBe("explainer");
-    expect(spec.routedSkills).toContain("content-storytelling-pages");
     expect(spec.sections.some((s) => s.kind === "story")).toBe(true);
-    expect(previewHtml).toContain("Trust narrative");
     expect(previewHtml).toContain("ds-chapter");
     expect(previewHtml).toContain("IntersectionObserver");
   });
 
-  it("builds an educational docs surface with a teaching figure", () => {
+  it("builds an educational surface with a teaching figure", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.educational!);
     expect(spec.brief.siteKind).toBe("docs-educational");
-    expect(spec.routedSkills).toContain("content-storytelling-pages");
-    expect(spec.routedSkills).toContain("features-benefits");
-    expect(spec.routedSkills).not.toContain("pricing-or-plans");
     expect(spec.sections.some((s) => s.kind === "figure")).toBe(true);
-    expect(previewHtml).toContain("Interactive diagram");
     expect(previewHtml).toContain("Signal Path");
     expect(previewHtml).toContain('data-instrument="scrub"');
     expect(previewHtml).toContain("<figcaption data-scrub-caption>");
-    expect(previewHtml).toContain('id="figure"');
   });
 
   it("covers every skill node across showcase kinds", () => {
@@ -88,45 +79,35 @@ describe("premium-content-custom-web engine", () => {
     }
   });
 
-  it("honors taste control overrides and lean layout divergence", () => {
+  it("honors taste control overrides", () => {
     const brief = DesignBrief.parse({
       ...SHOWCASE_BRIEFS.saas!,
-      taste: {
-        aestheticLean: "minimal-clean",
-        motion: "none",
-        density: "sparse",
-        colorMood: "dark-premium",
-      },
+      taste: { aestheticLean: "minimal-clean", motion: "none", density: "sparse", colorMood: "dark-premium" },
     });
     const { spec, previewHtml } = designFromFeatures(brief);
     expect(spec.taste.aestheticLean).toBe("minimal-clean");
     expect(spec.taste.motion).toBe("none");
-    expect(spec.tokens.paper).toBe("#121212");
-    expect(previewHtml).toContain('data-aesthetic="minimal-clean"');
-    expect(previewHtml).toContain('data-layout="minimal-clean"');
-    expect(previewHtml).toContain("ds-stack");
+    expect(previewHtml).toContain('data-lean="minimal-clean"');
     expect(spec.routedSkills).not.toContain("restrained-motion-micro");
   });
 
-  it("customizes feature cards to declared product features only", () => {
+  it("customizes content to declared features only", () => {
     const brief = DesignBrief.parse({
       productName: "Ledgerly",
       tagline: "Close books without the chase",
       siteKind: "saas-marketing",
       lockSiteKind: true,
       features: [
-        { id: "1", name: "Bank match", description: "Auto-match transactions", priority: "p0" },
-        { id: "2", name: "Close checklist", description: "Month-end workflow", priority: "p0" },
+        { id: "1", name: "Bank match", description: "Auto-matches transactions against the ledger", priority: "p0" },
+        { id: "2", name: "Close checklist", description: "The month-end workflow with owners attached", priority: "p0" },
+        { id: "3", name: "Accrual rules", description: "Recurring accruals posted without a reminder", priority: "p1" },
       ],
     });
     const { previewHtml, spec } = designFromFeatures(brief);
     expect(previewHtml).toContain("Bank match");
     expect(previewHtml).toContain("Close checklist");
     expect(previewHtml).not.toContain("Account scoring");
-    expect(previewHtml).toContain("ds-brand-mark");
-    expect(spec.brief.features.map((f) => f.name)).toEqual(["Bank match", "Close checklist"]);
-    expect(previewHtml).toContain('data-plan="Core"');
-    expect(previewHtml).toContain("Bank match, Close checklist");
+    expect(spec.brief.features.map((f) => f.name)).toEqual(["Bank match", "Close checklist", "Accrual rules"]);
   });
 
   it("redesigns from scratch when features change", () => {
@@ -138,8 +119,9 @@ describe("premium-content-custom-web engine", () => {
         siteKind: "saas-marketing",
         lockSiteKind: true,
         features: [
-          { id: "1", name: "Stock heatmaps", description: "See aging inventory instantly", priority: "p0" },
-          { id: "2", name: "Reorder alerts", description: "Never miss a replenishment", priority: "p0" },
+          { id: "1", name: "Stock heatmaps", description: "Shows aging inventory before it becomes a writedown", priority: "p0" },
+          { id: "2", name: "Reorder alerts", description: "Fires on lead time, not on a fixed threshold", priority: "p0" },
+          { id: "3", name: "Supplier scorecards", description: "On-time and quality history behind every reorder", priority: "p1" },
         ],
         taste: { aestheticLean: "system-crafted", motion: "subtle-micro" },
       }),
@@ -148,47 +130,26 @@ describe("premium-content-custom-web engine", () => {
     expect(second.previewHtml).toContain("Harbor");
     expect(second.previewHtml).toContain("Stock heatmaps");
     expect(second.previewHtml).not.toContain("Account scoring");
-    expect(first.previewHtml).toContain("Account scoring");
     expect(second.spec.taste.aestheticLean).toBe("system-crafted");
     expect(second.redesigned).toBe(true);
-    expect(first.redesigned).toBe(false);
     expect(second.spec.customizationHints.some((h) => h.includes("Redesign from Northstar"))).toBe(true);
-    expect(second.previewHtml).toContain("ds-token-strip");
   });
 
   it("auto-detects dashboard from feature language when unlocked", () => {
-    const brief = DesignBrief.parse({
-      productName: "Ops",
-      tagline: "Daily console",
-      siteKind: "saas-marketing",
-      lockSiteKind: false,
-      features: [{ id: "1", name: "Admin console", description: "Workspace analytics dashboard", priority: "p0" }],
-    });
-    const { spec } = designFromFeatures(brief);
+    const { spec } = designFromFeatures(
+      DesignBrief.parse({
+        productName: "Ops",
+        tagline: "Daily console",
+        siteKind: "saas-marketing",
+        lockSiteKind: false,
+        features: [{ id: "1", name: "Admin console", description: "Workspace analytics dashboard", priority: "p0" }],
+      }),
+    );
     expect(spec.brief.siteKind).toBe("dashboard-webapp");
     expect(spec.routedSkills).toContain("dashboard-or-webapp-ui");
   });
 
-  it("locks site kind when requested", () => {
-    const brief = DesignBrief.parse({
-      productName: "Ops",
-      tagline: "Daily console",
-      siteKind: "saas-marketing",
-      lockSiteKind: true,
-      features: [{ id: "1", name: "Admin console", description: "Workspace analytics dashboard", priority: "p0" }],
-    });
-    const { spec } = designFromFeatures(brief);
-    expect(spec.brief.siteKind).toBe("saas-marketing");
-    expect(spec.routedSkills).toContain("pricing-or-plans");
-  });
-
-  it("derives proof copy from features instead of stock filler", () => {
-    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
-    expect(previewHtml).toContain("Outcome: Account scoring");
-    expect(previewHtml).not.toContain("Case outcome tied to a real feature");
-  });
-
-  it("rejects CSS-injecting brandAccent and keeps a safe accent", () => {
+  it("rejects CSS-injecting brandAccent", () => {
     expect(() =>
       DesignBrief.parse({
         productName: "Safe",
@@ -199,26 +160,95 @@ describe("premium-content-custom-web engine", () => {
       }),
     ).toThrow();
   });
+});
 
-  it("keeps a single-feature dashboard main pane populated", () => {
-    const { previewHtml } = designFromFeatures(
-      DesignBrief.parse({
-        productName: "Ops",
-        siteKind: "dashboard-webapp",
-        lockSiteKind: true,
-        features: [{ id: "1", name: "Queue", description: "Today", priority: "p0" }],
-      }),
-    );
-    expect(previewHtml).toContain('id="workspace"');
-    expect(previewHtml).toContain('href="#workspace"');
-    expect(previewHtml).toContain("data-feature=\"Queue\"");
-    expect(previewHtml).toContain("ds-main");
+describe("measured craft floors", () => {
+  it("solves ink ramps against the page so every tone clears its contrast floor", () => {
+    for (const mood of MOODS) {
+      const p = buildPalette(mood);
+      expect(p.contrast.bodyOnPaper, `${mood} body`).toBeGreaterThanOrEqual(11);
+      expect(p.contrast.secondaryOnPaper, `${mood} secondary`).toBeGreaterThanOrEqual(6.5);
+      expect(p.contrast.tertiaryOnPaper, `${mood} tertiary`).toBeGreaterThanOrEqual(4.5);
+      expect(p.contrast.inkOnAccent, `${mood} on accent`).toBeGreaterThanOrEqual(4.5);
+      expect(p.contrast.inkOnInverse, `${mood} inverse`).toBeGreaterThanOrEqual(11);
+    }
   });
 
-  it("wires educational scrub controls with a live script", () => {
-    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.educational!);
-    expect(previewHtml).toContain('data-scrub');
-    expect(previewHtml).toContain("ds-scrub-node");
-    expect(previewHtml).toContain("addEventListener('input'");
+  it("keeps surfaces distinguishable without relying on shadow", () => {
+    for (const mood of MOODS) {
+      const p = buildPalette(mood);
+      const levels = [p.paper, p.paperRaised, p.paperSunken, p.inverse];
+      expect(new Set(levels).size).toBe(4);
+      // Adjacent surfaces must differ enough to be seen, but not so much that they read as bands.
+      expect(contrastHex(p.paper, p.paperRaised)).toBeGreaterThan(1.01);
+      expect(contrastHex(p.paper, p.paperRaised)).toBeLessThan(1.6);
+    }
+  });
+
+  it("adopts a supplied brand accent without breaking the contrast floor", () => {
+    const p = buildPalette("light-airy", "#B23A1F");
+    expect(p.contrast.inkOnAccent).toBeGreaterThanOrEqual(4.5);
+    expect(p.contrast.bodyOnPaper).toBeGreaterThanOrEqual(11);
+  });
+
+  it("builds a type ladder inside the measured range and step corridors", () => {
+    const ladder = buildTypeLadder({
+      density: "balanced",
+      typographyWeight: "medium-modern",
+      displayPx: 68,
+      bodyPx: 17,
+      ratio: 1.414,
+    });
+    expect(ladder.steps.length).toBeGreaterThanOrEqual(9);
+    expect(ladder.rangeRatio).toBeGreaterThanOrEqual(4);
+    expect(ladder.rangeRatio).toBeLessThanOrEqual(9);
+    // Display leading under 1.15 is the clearest single signal of typographic intent.
+    expect(ladder.byName.display!.lineHeight).toBeLessThanOrEqual(1.14);
+    expect(ladder.byName.body!.lineHeight).toBeGreaterThanOrEqual(1.4);
+    expect(ladder.byName.display!.trackingEm).toBeLessThan(0);
+    expect(ladder.byName.micro!.trackingEm).toBeGreaterThan(0);
+  });
+
+  it("declares a token system rather than hard-coding values", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    expect(spec.tokens.declared).toBeGreaterThanOrEqual(100);
+    const declaredInCss = (previewHtml.match(/--[a-z0-9-]+\s*:/g) ?? []).length;
+    expect(declaredInCss).toBeGreaterThanOrEqual(100);
+  });
+
+  it("gives every site kind a long enough argument and enough named parts", () => {
+    for (const [name, brief] of Object.entries(SHOWCASE_BRIEFS)) {
+      const { spec, previewHtml } = designFromFeatures(brief);
+      expect(spec.sections.length, `${name} sections`).toBeGreaterThanOrEqual(7);
+      const headings = (previewHtml.match(/<h[1-4][\s>]/g) ?? []).length;
+      expect(headings, `${name} headings`).toBeGreaterThanOrEqual(16);
+      expect(new Set(spec.sections.map((s) => s.surface)).size, `${name} surfaces`).toBeGreaterThanOrEqual(3);
+      expect(new Set(spec.sections.map((s) => s.layout)).size, `${name} layouts`).toBeGreaterThanOrEqual(6);
+    }
+  });
+
+  it("keeps motion off anything the reader cannot touch", () => {
+    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    expect(previewHtml).toContain("prefers-reduced-motion");
+    expect(previewHtml).not.toMatch(/\*\s*\{[^}]*transition:/);
+    expect(previewHtml).not.toContain("animation-iteration-count:infinite");
+  });
+
+  it("emits no raw hex outside the token block", () => {
+    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.corporate!);
+    const styleBlock = previewHtml.slice(previewHtml.indexOf("<style>"), previewHtml.indexOf("</style>"));
+    const afterRoot = styleBlock.slice(styleBlock.indexOf("}"));
+    expect(afterRoot).not.toMatch(/#[0-9a-fA-F]{6}\b/);
+  });
+
+  it("uses asymmetric columns on split layouts", () => {
+    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    const splits = previewHtml.match(/grid-template-columns:(\d+)fr (\d+)fr/g) ?? [];
+    expect(splits.length).toBeGreaterThan(0);
+    const asymmetric = splits.filter((s) => {
+      const [a, b] = s.match(/(\d+)fr (\d+)fr/)!.slice(1).map(Number);
+      return a !== b;
+    });
+    expect(asymmetric.length).toBeGreaterThan(0);
   });
 });

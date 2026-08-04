@@ -1,0 +1,17 @@
+{
+  "ref": "ref-028",
+  "category": "enterprise-corporate",
+  "role": "global consultancy",
+  "urlHash": "14a922610f3a",
+  "measuredAt": "2026-08-04T22:03:09.772Z",
+  "views": [
+    {
+      "viewport": "desktop",
+      "error": "Error: page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.mckinsey.com/\nCall log:\n  - navigating to \"https://www.mckinsey.com/\", waiting until \"domcontentloaded\"\n"
+    },
+    {
+      "viewport": "mobile",
+      "error": "Error: page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.mckinsey.com/\nCall log:\n  - navigating to \"https://www.mckinsey.com/\", waiting until \"domcontentloaded\"\n"
+    }
+  ]
+}
