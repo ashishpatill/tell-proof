@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T21:55:09.750Z",
+  "generatedAt": "2026-08-04T22:09:13.064Z",
   "references": 54,
   "usable": 50,
   "excluded": [
@@ -61,10 +61,10 @@
       "n": 50,
       "min": 0.044,
       "p10": 0.351,
-      "median": 0.704,
+      "median": 0.728,
       "p90": 1.492,
       "max": 2.71,
-      "mean": 0.875
+      "mean": 0.876
     },
     "bands.count": {
       "n": 50,
@@ -91,7 +91,7 @@
       "median": 5,
       "p90": 17,
       "max": 32,
-      "mean": 7.54
+      "mean": 7.52
     },
     "color.distinctBackgrounds": {
       "n": 50,
@@ -118,7 +118,7 @@
       "median": 7,
       "p90": 16,
       "max": 24,
-      "mean": 8.32
+      "mean": 8.3
     },
     "color.gradientCount": {
       "n": 50,
@@ -127,7 +127,7 @@
       "median": 4,
       "p90": 62,
       "max": 240,
-      "mean": 24
+      "mean": 23.74
     },
     "color.isDark": {
       "n": 50,
@@ -240,11 +240,11 @@
     "hero.displayChars": {
       "n": 50,
       "min": 1,
-      "p10": 5,
-      "median": 27,
+      "p10": 6,
+      "median": 24,
       "p90": 52,
       "max": 93,
-      "mean": 29.72
+      "mean": 29.04
     },
     "hero.displayLineHeight": {
       "n": 50,
@@ -257,12 +257,12 @@
     },
     "hero.displayMeasureCh": {
       "n": 50,
-      "min": 0,
-      "p10": 2.5,
-      "median": 21.3,
+      "min": 1.2,
+      "p10": 8.8,
+      "median": 21.7,
       "p90": 38.6,
       "max": 148.3,
-      "mean": 23.3
+      "mean": 24.35
     },
     "hero.displayPx": {
       "n": 50,
@@ -298,7 +298,7 @@
       "median": 1,
       "p90": 1,
       "max": 1,
-      "mean": 0.78
+      "mean": 0.76
     },
     "hero.navHeight": {
       "n": 25,
@@ -316,25 +316,25 @@
       "median": 25,
       "p90": 80,
       "max": 215,
-      "mean": 38.16
+      "mean": 37.78
     },
     "hero.totalChars": {
       "n": 50,
       "min": 140,
       "p10": 209,
-      "median": 476,
-      "p90": 1313,
+      "median": 462,
+      "p90": 1263,
       "max": 2992,
-      "mean": 659.4
+      "mean": 643.96
     },
     "layout.aboveFoldElements": {
       "n": 50,
       "min": 23,
       "p10": 63,
       "median": 167,
-      "p90": 465,
-      "max": 603,
-      "mean": 207.94
+      "p90": 531,
+      "max": 885,
+      "mean": 231.56
     },
     "layout.aboveFoldInkRatio": {
       "n": 50,
@@ -349,10 +349,10 @@
       "n": 50,
       "min": 140,
       "p10": 209,
-      "median": 476,
-      "p90": 1313,
+      "median": 462,
+      "p90": 1263,
       "max": 2992,
-      "mean": 659.4
+      "mean": 643.96
     },
     "layout.asymmetricGrids": {
       "n": 50,
@@ -361,16 +361,16 @@
       "median": 1,
       "p90": 12,
       "max": 33,
-      "mean": 3.04
+      "mean": 3.02
     },
     "layout.asymmetryRatio": {
       "n": 42,
       "min": 0,
       "p10": 0,
       "median": 0.083,
-      "p90": 0.469,
+      "p90": 0.438,
       "max": 1,
-      "mean": 0.21
+      "mean": 0.209
     },
     "layout.columnCounts.count": {
       "n": 50,
@@ -388,16 +388,16 @@
       "median": 9.67,
       "p90": 14.53,
       "max": 19.63,
-      "mean": 9.786
+      "mean": 9.817
     },
     "layout.fullBleed": {
       "n": 50,
       "min": 0,
       "p10": 4,
-      "median": 15,
+      "median": 16,
       "p90": 45,
       "max": 73,
-      "mean": 20.58
+      "mean": 20.74
     },
     "layout.gridContainers": {
       "n": 50,
@@ -429,7 +429,7 @@
     "media.altCoverage": {
       "n": 45,
       "min": 0.714,
-      "p10": 0.958,
+      "p10": 0.957,
       "median": 1,
       "p90": 1,
       "max": 1,
@@ -448,10 +448,10 @@
       "n": 50,
       "min": 0,
       "p10": 0,
-      "median": 46,
+      "median": 44,
       "p90": 107,
       "max": 184,
-      "mean": 54.44
+      "mean": 54.4
     },
     "media.lazyCoverage": {
       "n": 45,
@@ -460,7 +460,7 @@
       "median": 0.615,
       "p90": 0.935,
       "max": 1,
-      "mean": 0.553
+      "mean": 0.552
     },
     "media.modernFormats": {
       "n": 50,
@@ -478,7 +478,7 @@
       "median": 61,
       "p90": 178,
       "max": 495,
-      "mean": 88.08
+      "mean": 88.76
     },
     "media.videos": {
       "n": 50,
@@ -496,7 +496,7 @@
       "median": 4,
       "p90": 18,
       "max": 178,
-      "mean": 9.98
+      "mean": 9.96
     },
     "motion.hasCanvas": {
       "n": 50,
@@ -532,7 +532,7 @@
       "median": 1,
       "p90": 7,
       "max": 178,
-      "mean": 6.66
+      "mean": 6.64
     },
     "motion.medianDurationMs": {
       "n": 48,
@@ -574,28 +574,28 @@
       "n": 50,
       "min": 0,
       "p10": 11,
-      "median": 93,
+      "median": 105,
       "p90": 384,
       "max": 1121,
-      "mean": 168.42
+      "mean": 169.14
     },
     "motion.transitionRatio": {
       "n": 50,
       "min": 0,
-      "p10": 0.013,
-      "median": 0.084,
+      "p10": 0.012,
+      "median": 0.082,
       "p90": 0.224,
       "max": 0.291,
-      "mean": 0.097
+      "mean": 0.096
     },
     "net.byType.document.bytes": {
       "n": 50,
       "min": 0,
       "p10": 0,
       "median": 0,
-      "p90": 12247,
+      "p90": 10294,
       "max": 185412,
-      "mean": 10156.48
+      "mean": 10058.68
     },
     "net.byType.document.requests": {
       "n": 50,
@@ -604,25 +604,25 @@
       "median": 2,
       "p90": 7,
       "max": 25,
-      "mean": 3.14
+      "mean": 3.18
     },
     "net.byType.fetch.bytes": {
       "n": 50,
       "min": 0,
       "p10": 0,
-      "median": 496,
+      "median": 477,
       "p90": 136370,
-      "max": 2283397,
-      "mean": 156317.42
+      "max": 2275144,
+      "mean": 156307.8
     },
     "net.byType.fetch.requests": {
       "n": 50,
       "min": 1,
       "p10": 3,
-      "median": 13,
-      "p90": 38,
-      "max": 64,
-      "mean": 18.2
+      "median": 14,
+      "p90": 36,
+      "max": 92,
+      "mean": 18.62
     },
     "net.byType.font.bytes": {
       "n": 50,
@@ -646,100 +646,100 @@
       "n": 47,
       "min": 45,
       "p10": 110106,
-      "median": 1104220,
+      "median": 1165247,
       "p90": 5853385,
       "max": 33808930,
-      "mean": 2650523.979
+      "mean": 2658571.064
     },
     "net.byType.image.requests": {
       "n": 47,
-      "min": 9,
+      "min": 10,
       "p10": 20,
-      "median": 51,
-      "p90": 84,
+      "median": 54,
+      "p90": 86,
       "max": 242,
-      "mean": 55.894
+      "mean": 56.766
     },
     "net.byType.media.bytes": {
       "n": 23,
-      "min": 123936,
+      "min": 61968,
       "p10": 463460,
       "median": 5073673,
-      "p90": 26803132,
-      "max": 352225740,
-      "mean": 34936581.957
+      "p90": 22905221,
+      "max": 391158805,
+      "mean": 37577160.348
     },
     "net.byType.media.requests": {
       "n": 23,
       "min": 1,
       "p10": 1,
       "median": 4,
-      "p90": 8,
-      "max": 14,
-      "mean": 4.739
+      "p90": 9,
+      "max": 16,
+      "mean": 4.826
     },
     "net.byType.other.bytes": {
-      "n": 19,
+      "n": 18,
       "min": 0,
       "p10": 0,
       "median": 556,
       "p90": 339842,
       "max": 360043,
-      "mean": 60476.263
+      "mean": 63836.056
     },
     "net.byType.other.requests": {
-      "n": 19,
+      "n": 18,
       "min": 1,
       "p10": 1,
       "median": 3,
       "p90": 10,
       "max": 20,
-      "mean": 5
+      "mean": 5.222
     },
     "net.byType.ping.bytes": {
-      "n": 24,
+      "n": 25,
       "min": 0,
       "p10": 0,
       "median": 0,
-      "p90": 0,
+      "p90": 42,
       "max": 639,
-      "mean": 31.208
+      "mean": 31.64
     },
     "net.byType.ping.requests": {
-      "n": 24,
+      "n": 25,
       "min": 1,
       "p10": 1,
-      "median": 2,
+      "median": 3,
       "p90": 8,
-      "max": 19,
-      "mean": 4.042
+      "max": 29,
+      "mean": 4.52
     },
     "net.byType.script.bytes": {
       "n": 50,
       "min": 0,
       "p10": 106,
-      "median": 475123,
-      "p90": 1733596,
-      "max": 9887456,
-      "mean": 944393.5
+      "median": 455804,
+      "p90": 1579462,
+      "max": 9906001,
+      "mean": 918762.26
     },
     "net.byType.script.requests": {
       "n": 50,
       "min": 7,
       "p10": 17,
-      "median": 61,
-      "p90": 104,
+      "median": 60,
+      "p90": 107,
       "max": 324,
-      "mean": 67.68
+      "mean": 68.04
     },
     "net.byType.stylesheet.bytes": {
       "n": 45,
       "min": 0,
       "p10": 0,
-      "median": 610,
-      "p90": 53076,
+      "median": 463,
+      "p90": 48883,
       "max": 311081,
-      "mean": 24241.644
+      "mean": 22411.244
     },
     "net.byType.stylesheet.requests": {
       "n": 45,
@@ -754,28 +754,28 @@
       "n": 34,
       "min": 0,
       "p10": 0,
-      "median": 96,
+      "median": 156,
       "p90": 56422,
       "max": 13652351,
-      "mean": 696029.853
+      "mean": 696078
     },
     "net.byType.xhr.requests": {
       "n": 34,
       "min": 1,
       "p10": 1,
-      "median": 5,
-      "p90": 13,
+      "median": 6,
+      "p90": 17,
       "max": 39,
-      "mean": 7.824
+      "mean": 8.471
     },
     "net.bytes": {
       "n": 50,
       "min": 52086,
       "p10": 393092,
-      "median": 3898494,
+      "median": 4018221,
       "p90": 17441899,
-      "max": 388107860,
-      "mean": 20522596.2
+      "max": 427040921,
+      "mean": 21717474.08
     },
     "net.fontFiles": {
       "n": 50,
@@ -790,46 +790,46 @@
       "n": 50,
       "min": 36,
       "p10": 67,
-      "median": 167,
-      "p90": 265,
+      "median": 162,
+      "p90": 280,
       "max": 427,
-      "mean": 168.26
+      "mean": 170.68
     },
     "net.thirdPartyHosts": {
       "n": 50,
       "min": 0,
-      "p10": 0,
+      "p10": 1,
       "median": 9,
-      "p90": 48,
-      "max": 81,
-      "mean": 18.7
+      "p90": 49,
+      "max": 80,
+      "mean": 19.64
     },
     "perf.domInteractiveMs": {
       "n": 50,
-      "min": 68,
-      "p10": 147,
-      "median": 305,
-      "p90": 697,
-      "max": 1254,
-      "mean": 389.68
+      "min": 66,
+      "p10": 139,
+      "median": 296,
+      "p90": 688,
+      "max": 1920,
+      "mean": 405.84
     },
     "perf.fcpMs": {
-      "n": 50,
-      "min": 180,
-      "p10": 208,
-      "median": 364,
-      "p90": 788,
-      "max": 11572,
-      "mean": 667.84
+      "n": 49,
+      "min": 172,
+      "p10": 216,
+      "median": 352,
+      "p90": 732,
+      "max": 1924,
+      "mean": 471.51
     },
     "perf.loadMs": {
       "n": 50,
-      "min": 2340,
-      "p10": 2442,
-      "median": 2991,
-      "p90": 10777,
-      "max": 11486,
-      "mean": 5280.46
+      "min": 2367,
+      "p10": 2453,
+      "median": 3379,
+      "p90": 10854,
+      "max": 11227,
+      "mean": 5586.94
     },
     "perf.transferBytes": {
       "n": 50,
@@ -838,7 +838,7 @@
       "median": 65389,
       "p90": 184816,
       "max": 2336152,
-      "mean": 149934.58
+      "mean": 150023.58
     },
     "semantics.ctaCount": {
       "n": 50,
@@ -851,12 +851,12 @@
     },
     "semantics.domNodes": {
       "n": 50,
-      "min": 138,
+      "min": 136,
       "p10": 451,
-      "median": 2138,
+      "median": 2146,
       "p90": 5322,
-      "max": 12259,
-      "mean": 2686.2
+      "max": 12254,
+      "mean": 2771.08
     },
     "semantics.focusVisibleRules": {
       "n": 50,
@@ -892,7 +892,7 @@
       "median": 27,
       "p90": 57,
       "max": 79,
-      "mean": 27.82
+      "mean": 27.8
     },
     "semantics.headingJumps": {
       "n": 50,
@@ -901,7 +901,7 @@
       "median": 0,
       "p90": 3,
       "max": 12,
-      "mean": 1.04
+      "mean": 1.02
     },
     "semantics.interactiveElements": {
       "n": 50,
@@ -910,7 +910,7 @@
       "median": 99,
       "p90": 164,
       "max": 553,
-      "mean": 106.58
+      "mean": 106.68
     },
     "semantics.landmarks.footer": {
       "n": 50,
@@ -963,8 +963,8 @@
       "p10": 1476,
       "median": 5094,
       "p90": 12509,
-      "max": 20243,
-      "mean": 6421.9
+      "max": 17403,
+      "mean": 6321.64
     },
     "shape.borderedElements": {
       "n": 50,
@@ -982,7 +982,7 @@
       "median": 7,
       "p90": 13,
       "max": 20,
-      "mean": 7.7
+      "mean": 7.68
     },
     "shape.distinctShadows": {
       "n": 50,
@@ -997,7 +997,7 @@
       "n": 42,
       "min": 0.061,
       "p10": 0.657,
-      "median": 0.996,
+      "median": 1,
       "p90": 1,
       "max": 1,
       "mean": 0.904
@@ -1009,7 +1009,7 @@
       "median": 50,
       "p90": 100,
       "max": 340,
-      "mean": 70.347
+      "mean": 69.898
     },
     "shape.medianRadius": {
       "n": 50,
@@ -1063,7 +1063,7 @@
       "median": 6,
       "p90": 85,
       "max": 323,
-      "mean": 31.3
+      "mean": 31.28
     },
     "shape.shadowRatio": {
       "n": 50,
@@ -1081,7 +1081,7 @@
       "median": 640,
       "p90": 1300,
       "max": 1390,
-      "mean": 772.8
+      "mean": 775.4
     },
     "space.containerRatio": {
       "n": 50,
@@ -1090,7 +1090,7 @@
       "median": 0.444,
       "p90": 0.903,
       "max": 0.965,
-      "mean": 0.537
+      "mean": 0.538
     },
     "space.distinctSpacingValues": {
       "n": 50,
@@ -1106,7 +1106,7 @@
       "min": 0,
       "p10": 0.088,
       "median": 0.552,
-      "p90": 0.844,
+      "p90": 0.856,
       "max": 1,
       "mean": 0.519
     },
@@ -1180,7 +1180,7 @@
       "median": 191,
       "p90": 525,
       "max": 1008,
-      "mean": 258.6
+      "mean": 258.62
     },
     "tokens.layer": {
       "n": 50,
@@ -1241,54 +1241,54 @@
       "min": -0.02,
       "p10": -0.0188,
       "median": 0,
-      "p90": 0.01,
+      "p90": 0.02,
       "max": 0.1,
-      "mean": 0.001
+      "mean": 0.002
     },
     "typography.body.lineHeight": {
       "n": 47,
       "min": 0,
-      "p10": 1,
-      "median": 1.429,
+      "p10": 1.1,
+      "median": 1.5,
       "p90": 1.625,
       "max": 1.75,
-      "mean": 1.345
+      "mean": 1.384
     },
     "typography.body.measureCh": {
       "n": 47,
-      "min": 0,
-      "p10": 0,
-      "median": 54.6,
-      "p90": 80.5,
+      "min": 14.2,
+      "p10": 34.1,
+      "median": 64,
+      "p90": 108.8,
       "max": 216,
-      "mean": 59.906
+      "mean": 70.211
     },
     "typography.body.px": {
       "n": 47,
       "min": 10,
       "p10": 12,
       "median": 16,
-      "p90": 20,
+      "p90": 22,
       "max": 75,
-      "mean": 17.404
+      "mean": 17.938
     },
     "typography.displayToBodyRatio": {
       "n": 47,
-      "min": 1,
-      "p10": 1.75,
-      "median": 4.27,
-      "p90": 6.15,
-      "max": 15,
-      "mean": 4.301
+      "min": 0.7,
+      "p10": 1.07,
+      "median": 4.11,
+      "p90": 6.4,
+      "max": 18.75,
+      "mean": 4.421
     },
     "typography.distinctSizes": {
       "n": 50,
       "min": 2,
       "p10": 5,
-      "median": 11,
+      "median": 12,
       "p90": 15,
       "max": 19,
-      "mean": 11.2
+      "mean": 11.32
     },
     "typography.distinctWeights.count": {
       "n": 50,
@@ -1338,83 +1338,83 @@
     "typography.h1.chars": {
       "n": 50,
       "min": 8,
-      "p10": 10,
+      "p10": 11,
       "median": 27,
-      "p90": 50,
+      "p90": 52,
       "max": 93,
-      "mean": 30.42
+      "mean": 30.7
     },
     "typography.h1.letterSpacingEm": {
       "n": 50,
       "min": -0.06,
       "p10": -0.0479,
-      "median": -0.02,
+      "median": -0.0139,
       "p90": 0,
-      "max": 0,
-      "mean": -0.018
+      "max": 0.0182,
+      "mean": -0.017
     },
     "typography.h1.lineHeight": {
       "n": 50,
       "min": 0,
-      "p10": 0.928,
+      "p10": 0.95,
       "median": 1,
       "p90": 1.2,
       "max": 1.5,
-      "mean": 1.022
+      "mean": 1.03
     },
     "typography.h1.measureCh": {
       "n": 50,
-      "min": 0,
-      "p10": 0,
-      "median": 21.3,
-      "p90": 32.9,
-      "max": 54.4,
-      "mean": 20.176
+      "min": 6.3,
+      "p10": 11,
+      "median": 22.9,
+      "p90": 38.7,
+      "max": 148.3,
+      "mean": 25.948
     },
     "typography.h1.px": {
       "n": 50,
       "min": 15,
-      "p10": 36,
+      "p10": 19,
       "median": 64,
       "p90": 96,
       "max": 720,
-      "mean": 79.08
+      "mean": 81.852
     },
     "typography.h1.pxPerVw": {
       "n": 50,
       "min": 1.042,
-      "p10": 2.5,
+      "p10": 1.319,
       "median": 4.444,
       "p90": 6.667,
       "max": 50,
-      "mean": 5.492
+      "mean": 5.684
     },
     "typography.rangeRatio": {
       "n": 50,
       "min": 1.143,
-      "p10": 3.223,
+      "p10": 3.273,
       "median": 6.667,
-      "p90": 12.101,
+      "p90": 12.857,
       "max": 51.429,
-      "mean": 8.148
+      "mean": 8.517
     },
     "typography.sizes.count": {
       "n": 50,
       "min": 2,
       "p10": 5,
-      "median": 11,
+      "median": 12,
       "p90": 15,
       "max": 19,
-      "mean": 11.2
+      "mean": 11.32
     },
     "typography.stepRatios.count": {
       "n": 50,
       "min": 1,
       "p10": 4,
-      "median": 10,
+      "median": 11,
       "p90": 14,
       "max": 18,
-      "mean": 10.2
+      "mean": 10.32
     },
     "typography.topSizesByArea.count": {
       "n": 50,
@@ -1432,7 +1432,7 @@
       "median": 6,
       "p90": 61,
       "max": 207,
-      "mean": 22.66
+      "mean": 22.68
     },
     "typography.variationSettings.count": {
       "n": 50,
@@ -1449,10 +1449,10 @@
       "n": 50,
       "min": 0.044,
       "p10": 0.391,
-      "median": 0.827,
+      "median": 0.831,
       "p90": 1.756,
       "max": 2.99,
-      "mean": 1.025
+      "mean": 1.027
     },
     "bands.count": {
       "n": 50,
@@ -1515,7 +1515,7 @@
       "median": 5,
       "p90": 67,
       "max": 241,
-      "mean": 23.74
+      "mean": 23.76
     },
     "color.isDark": {
       "n": 50,
@@ -1632,43 +1632,43 @@
       "median": 24,
       "p90": 50,
       "max": 93,
-      "mean": 28.18
+      "mean": 27.8
     },
     "hero.displayLineHeight": {
       "n": 50,
       "min": 0,
-      "p10": 0.918,
-      "median": 1.05,
+      "p10": 0.95,
+      "median": 1.067,
       "p90": 1.2,
-      "max": 1.5,
-      "mean": 1.024
+      "max": 2,
+      "mean": 1.049
     },
     "hero.displayMeasureCh": {
       "n": 50,
-      "min": 0,
-      "p10": 1.4,
+      "min": 0.8,
+      "p10": 5.8,
       "median": 17,
       "p90": 21.9,
       "max": 33.1,
-      "mean": 14.942
+      "mean": 15.768
     },
     "hero.displayPx": {
       "n": 50,
-      "min": 15,
-      "p10": 28,
-      "median": 38,
+      "min": 14,
+      "p10": 26,
+      "median": 36,
       "p90": 61,
       "max": 720,
-      "mean": 62.248
+      "mean": 61.734
     },
     "hero.displayVwRatio": {
       "n": 50,
-      "min": 3.85,
-      "p10": 7.18,
-      "median": 9.74,
+      "min": 3.59,
+      "p10": 6.67,
+      "median": 9.23,
       "p90": 15.64,
       "max": 184.62,
-      "mean": 15.961
+      "mean": 15.829
     },
     "hero.firstTextTopVh": {
       "n": 50,
@@ -1713,7 +1713,7 @@
       "median": 358,
       "p90": 822,
       "max": 2947,
-      "mean": 471.38
+      "mean": 471.98
     },
     "layout.aboveFoldElements": {
       "n": 50,
@@ -1722,7 +1722,7 @@
       "median": 105,
       "p90": 337,
       "max": 699,
-      "mean": 157.1
+      "mean": 157.14
     },
     "layout.aboveFoldInkRatio": {
       "n": 50,
@@ -1740,7 +1740,7 @@
       "median": 358,
       "p90": 822,
       "max": 2947,
-      "mean": 471.38
+      "mean": 471.98
     },
     "layout.asymmetricGrids": {
       "n": 50,
@@ -1758,7 +1758,7 @@
       "median": 0,
       "p90": 0.5,
       "max": 1,
-      "mean": 0.174
+      "mean": 0.173
     },
     "layout.columnCounts.count": {
       "n": 50,
@@ -1776,7 +1776,7 @@
       "median": 12.54,
       "p90": 19.04,
       "max": 24.27,
-      "mean": 12.388
+      "mean": 12.386
     },
     "layout.fullBleed": {
       "n": 50,
@@ -1785,7 +1785,7 @@
       "median": 31,
       "p90": 71,
       "max": 176,
-      "mean": 37.62
+      "mean": 37.64
     },
     "layout.gridContainers": {
       "n": 50,
@@ -1794,7 +1794,7 @@
       "median": 11,
       "p90": 71,
       "max": 231,
-      "mean": 27.46
+      "mean": 27.48
     },
     "layout.sections": {
       "n": 50,
@@ -1803,7 +1803,7 @@
       "median": 10,
       "p90": 21,
       "max": 41,
-      "mean": 10.68
+      "mean": 10.7
     },
     "layout.stickyElements": {
       "n": 50,
@@ -1817,11 +1817,11 @@
     "media.altCoverage": {
       "n": 45,
       "min": 0.714,
-      "p10": 0.958,
+      "p10": 0.957,
       "median": 1,
       "p90": 1,
       "max": 1,
-      "mean": 0.984
+      "mean": 0.983
     },
     "media.imageAreaRatio": {
       "n": 50,
@@ -1839,7 +1839,7 @@
       "median": 44,
       "p90": 107,
       "max": 184,
-      "mean": 53.46
+      "mean": 53.76
     },
     "media.lazyCoverage": {
       "n": 45,
@@ -1848,7 +1848,7 @@
       "median": 0.615,
       "p90": 0.935,
       "max": 1,
-      "mean": 0.551
+      "mean": 0.55
     },
     "media.modernFormats": {
       "n": 50,
@@ -1864,9 +1864,9 @@
       "min": 0,
       "p10": 4,
       "median": 63,
-      "p90": 163,
+      "p90": 178,
       "max": 495,
-      "mean": 85.52
+      "mean": 86.58
     },
     "media.videos": {
       "n": 50,
@@ -1882,9 +1882,9 @@
       "min": 0,
       "p10": 0,
       "median": 3,
-      "p90": 14,
+      "p90": 15,
       "max": 179,
-      "mean": 9.1
+      "mean": 9.5
     },
     "motion.hasCanvas": {
       "n": 50,
@@ -1920,7 +1920,7 @@
       "median": 1,
       "p90": 7,
       "max": 179,
-      "mean": 6.64
+      "mean": 6.66
     },
     "motion.medianDurationMs": {
       "n": 47,
@@ -1938,7 +1938,7 @@
       "median": 300,
       "p90": 500,
       "max": 800,
-      "mean": 325.957
+      "mean": 334.468
     },
     "motion.reducedMotionRules": {
       "n": 50,
@@ -1965,7 +1965,7 @@
       "median": 94,
       "p90": 386,
       "max": 1128,
-      "mean": 161.9
+      "mean": 164.34
     },
     "motion.transitionRatio": {
       "n": 50,
@@ -1981,27 +1981,27 @@
       "min": 0,
       "p10": 0,
       "median": 0,
-      "p90": 12217,
+      "p90": 12250,
       "max": 185412,
-      "mean": 10240.46
+      "mean": 10274.38
     },
     "net.byType.document.requests": {
       "n": 50,
       "min": 1,
       "p10": 1,
       "median": 2,
-      "p90": 8,
-      "max": 25,
-      "mean": 3.46
+      "p90": 7,
+      "max": 24,
+      "mean": 3.48
     },
     "net.byType.fetch.bytes": {
       "n": 50,
       "min": 0,
       "p10": 0,
-      "median": 689,
+      "median": 512,
       "p90": 266212,
       "max": 1950252,
-      "mean": 152425.32
+      "mean": 152427.58
     },
     "net.byType.fetch.requests": {
       "n": 50,
@@ -2009,8 +2009,8 @@
       "p10": 3,
       "median": 13,
       "p90": 40,
-      "max": 61,
-      "mean": 17.52
+      "max": 69,
+      "mean": 17.68
     },
     "net.byType.font.bytes": {
       "n": 50,
@@ -2019,16 +2019,16 @@
       "median": 225168,
       "p90": 637343,
       "max": 1199736,
-      "mean": 321075.7
+      "mean": 325169.14
     },
     "net.byType.font.requests": {
       "n": 50,
       "min": 1,
       "p10": 2,
       "median": 5,
-      "p90": 11,
+      "p90": 12,
       "max": 22,
-      "mean": 6.12
+      "mean": 6.16
     },
     "net.byType.image.bytes": {
       "n": 47,
@@ -2037,52 +2037,52 @@
       "median": 528145,
       "p90": 4491761,
       "max": 33808930,
-      "mean": 2188663.426
+      "mean": 2187437.553
     },
     "net.byType.image.requests": {
       "n": 47,
       "min": 9,
       "p10": 16,
-      "median": 46,
+      "median": 47,
       "p90": 87,
       "max": 236,
-      "mean": 50.723
+      "mean": 51.404
     },
     "net.byType.media.bytes": {
-      "n": 21,
+      "n": 22,
       "min": 61968,
-      "p10": 366709,
-      "median": 4636310,
-      "p90": 108785099,
-      "max": 383109496,
-      "mean": 35323975.762
+      "p10": 290122,
+      "median": 4141602,
+      "p90": 22937989,
+      "max": 352389580,
+      "mean": 32173970.318
     },
     "net.byType.media.requests": {
-      "n": 21,
+      "n": 22,
       "min": 1,
       "p10": 1,
       "median": 3,
-      "p90": 10,
-      "max": 15,
-      "mean": 4.429
+      "p90": 8,
+      "max": 14,
+      "mean": 4.045
     },
     "net.byType.other.bytes": {
-      "n": 17,
+      "n": 18,
       "min": 0,
       "p10": 0,
-      "median": 329,
+      "median": 62,
       "p90": 339842,
       "max": 360043,
-      "mean": 66159.647
+      "mean": 62484.111
     },
     "net.byType.other.requests": {
-      "n": 17,
+      "n": 18,
       "min": 1,
       "p10": 1,
       "median": 3,
       "p90": 10,
       "max": 20,
-      "mean": 4.765
+      "mean": 4.611
     },
     "net.byType.ping.bytes": {
       "n": 26,
@@ -2099,17 +2099,17 @@
       "p10": 1,
       "median": 2,
       "p90": 8,
-      "max": 19,
-      "mean": 4
+      "max": 23,
+      "mean": 4.154
     },
     "net.byType.script.bytes": {
       "n": 50,
       "min": 0,
       "p10": 106,
-      "median": 679309,
-      "p90": 1829753,
-      "max": 9887444,
-      "mean": 976708.08
+      "median": 518479,
+      "p90": 1733560,
+      "max": 9773888,
+      "mean": 941957.06
     },
     "net.byType.script.requests": {
       "n": 50,
@@ -2118,16 +2118,16 @@
       "median": 62,
       "p90": 111,
       "max": 324,
-      "mean": 68.48
+      "mean": 68.74
     },
     "net.byType.stylesheet.bytes": {
       "n": 46,
       "min": 0,
       "p10": 0,
-      "median": 597,
-      "p90": 53076,
+      "median": 463,
+      "p90": 48883,
       "max": 311081,
-      "mean": 23675.37
+      "mean": 22227.391
     },
     "net.byType.stylesheet.requests": {
       "n": 46,
@@ -2136,97 +2136,97 @@
       "median": 6,
       "p90": 22,
       "max": 67,
-      "mean": 9.609
+      "mean": 9.652
     },
     "net.byType.xhr.bytes": {
       "n": 34,
       "min": 0,
       "p10": 0,
-      "median": 213,
+      "median": 244,
       "p90": 56422,
       "max": 4819379,
-      "mean": 371143.294
+      "mean": 371169.265
     },
     "net.byType.xhr.requests": {
       "n": 34,
       "min": 1,
       "p10": 1,
-      "median": 5,
+      "median": 6,
       "p90": 14,
       "max": 39,
-      "mean": 7.971
+      "mean": 8.529
     },
     "net.bytes": {
       "n": 50,
       "min": 52086,
       "p10": 347704,
-      "median": 3314054,
-      "p90": 16511961,
-      "max": 419127701,
-      "mean": 18650542.98
+      "median": 3314081,
+      "p90": 13604590,
+      "max": 388414024,
+      "mean": 17937931.9
     },
     "net.fontFiles": {
       "n": 50,
       "min": 1,
       "p10": 2,
       "median": 5,
-      "p90": 11,
+      "p90": 12,
       "max": 22,
-      "mean": 6.12
+      "mean": 6.16
     },
     "net.requests": {
       "n": 50,
       "min": 23,
       "p10": 62,
-      "median": 168,
-      "p90": 254,
+      "median": 167,
+      "p90": 251,
       "max": 415,
-      "mean": 163.08
+      "mean": 164.66
     },
     "net.thirdPartyHosts": {
       "n": 50,
       "min": 0,
       "p10": 1,
       "median": 10,
-      "p90": 48,
-      "max": 80,
-      "mean": 19.62
+      "p90": 49,
+      "max": 81,
+      "mean": 20.38
     },
     "perf.domInteractiveMs": {
       "n": 50,
-      "min": 61,
-      "p10": 106,
-      "median": 242,
-      "p90": 650,
-      "max": 1316,
-      "mean": 336.9
+      "min": 47,
+      "p10": 119,
+      "median": 255,
+      "p90": 641,
+      "max": 1243,
+      "mean": 339.4
     },
     "perf.fcpMs": {
-      "n": 49,
-      "min": 124,
-      "p10": 160,
-      "median": 268,
-      "p90": 884,
-      "max": 1740,
-      "mean": 423.755
+      "n": 50,
+      "min": 116,
+      "p10": 172,
+      "median": 300,
+      "p90": 648,
+      "max": 2052,
+      "mean": 415.76
     },
     "perf.loadMs": {
       "n": 50,
-      "min": 2329,
-      "p10": 2379,
-      "median": 2748,
-      "p90": 10615,
-      "max": 11039,
-      "mean": 4758.42
+      "min": 2328,
+      "p10": 2392,
+      "median": 2860,
+      "p90": 10618,
+      "max": 11160,
+      "mean": 4839.92
     },
     "perf.transferBytes": {
       "n": 50,
       "min": 3014,
       "p10": 13173,
-      "median": 65389,
+      "median": 69055,
       "p90": 184816,
       "max": 2336152,
-      "mean": 149934.28
+      "mean": 150294.24
     },
     "semantics.ctaCount": {
       "n": 50,
@@ -2235,16 +2235,16 @@
       "median": 6,
       "p90": 13,
       "max": 19,
-      "mean": 6.7
+      "mean": 6.68
     },
     "semantics.domNodes": {
       "n": 50,
       "min": 138,
       "p10": 430,
-      "median": 2112,
+      "median": 2111,
       "p90": 5322,
       "max": 12254,
-      "mean": 2709.86
+      "mean": 2731.72
     },
     "semantics.focusVisibleRules": {
       "n": 50,
@@ -2262,7 +2262,7 @@
       "median": 1,
       "p90": 7,
       "max": 30,
-      "mean": 3
+      "mean": 3.02
     },
     "semantics.h1Count": {
       "n": 50,
@@ -2278,9 +2278,9 @@
       "min": 0,
       "p10": 6,
       "median": 25,
-      "p90": 57,
+      "p90": 58,
       "max": 79,
-      "mean": 27.48
+      "mean": 27.5
     },
     "semantics.headingJumps": {
       "n": 50,
@@ -2298,7 +2298,7 @@
       "median": 81,
       "p90": 137,
       "max": 237,
-      "mean": 85.58
+      "mean": 86.36
     },
     "semantics.landmarks.footer": {
       "n": 50,
@@ -2343,7 +2343,7 @@
       "median": 9,
       "p90": 145,
       "max": 472,
-      "mean": 44.04
+      "mean": 44.08
     },
     "semantics.textChars": {
       "n": 50,
@@ -2352,16 +2352,16 @@
       "median": 3772,
       "p90": 10516,
       "max": 19991,
-      "mean": 5544.86
+      "mean": 5545.76
     },
     "shape.borderedElements": {
       "n": 50,
       "min": 0,
       "p10": 0,
       "median": 23,
-      "p90": 109,
+      "p90": 108,
       "max": 2221,
-      "mean": 85.26
+      "mean": 85.24
     },
     "shape.distinctRadii": {
       "n": 50,
@@ -2370,7 +2370,7 @@
       "median": 6,
       "p90": 13,
       "max": 17,
-      "mean": 7.14
+      "mean": 7.12
     },
     "shape.distinctShadows": {
       "n": 50,
@@ -2388,7 +2388,7 @@
       "median": 1,
       "p90": 1,
       "max": 1,
-      "mean": 0.887
+      "mean": 0.888
     },
     "shape.maxRadius": {
       "n": 49,
@@ -2397,7 +2397,7 @@
       "median": 50,
       "p90": 100,
       "max": 390,
-      "mean": 69.898
+      "mean": 69.449
     },
     "shape.medianRadius": {
       "n": 50,
@@ -2406,7 +2406,7 @@
       "median": 8,
       "p90": 390,
       "max": 400,
-      "mean": 59.22
+      "mean": 59.1
     },
     "shape.medianShadowAlpha": {
       "n": 39,
@@ -2459,7 +2459,7 @@
       "p10": 0,
       "median": 0.003,
       "p90": 0.042,
-      "max": 0.138,
+      "max": 0.137,
       "mean": 0.015
     },
     "space.containerMax": {
@@ -2568,7 +2568,7 @@
       "median": 191,
       "p90": 525,
       "max": 1008,
-      "mean": 258.62
+      "mean": 258.64
     },
     "tokens.layer": {
       "n": 50,
@@ -2626,48 +2626,48 @@
     },
     "typography.body.letterSpacingEm": {
       "n": 49,
-      "min": -0.0206,
+      "min": -0.0275,
       "p10": -0.02,
       "median": 0,
-      "p90": 0.01,
+      "p90": 0.025,
       "max": 0.1,
-      "mean": 0.001
+      "mean": 0.002
     },
     "typography.body.lineHeight": {
       "n": 49,
       "min": 0,
-      "p10": 1,
+      "p10": 1.2,
       "median": 1.429,
       "p90": 1.625,
       "max": 1.75,
-      "mean": 1.35
+      "mean": 1.385
     },
     "typography.body.measureCh": {
       "n": 49,
-      "min": 0,
-      "p10": 0,
-      "median": 39.3,
+      "min": 4.8,
+      "p10": 24.3,
+      "median": 41,
       "p90": 60,
       "max": 215,
-      "mean": 36.969
+      "mean": 45.622
     },
     "typography.body.px": {
       "n": 49,
       "min": 10,
       "p10": 12,
-      "median": 15,
-      "p90": 18,
+      "median": 16,
+      "p90": 20,
       "max": 75,
-      "mean": 16.49
+      "mean": 17.053
     },
     "typography.displayToBodyRatio": {
       "n": 49,
-      "min": 1,
-      "p10": 1.75,
-      "median": 2.51,
-      "p90": 4.57,
+      "min": 0.84,
+      "p10": 1.13,
+      "median": 2.5,
+      "p90": 4.29,
       "max": 18.75,
-      "mean": 3.216
+      "mean": 3.088
     },
     "typography.distinctSizes": {
       "n": 50,
@@ -2727,10 +2727,10 @@
       "n": 50,
       "min": 8,
       "p10": 10,
-      "median": 27,
+      "median": 24,
       "p90": 47,
       "max": 93,
-      "mean": 28.86
+      "mean": 28.34
     },
     "typography.h1.letterSpacingEm": {
       "n": 50,
@@ -2738,7 +2738,7 @@
       "p10": -0.05,
       "median": -0.01,
       "p90": 0,
-      "max": 0,
+      "max": 0.0182,
       "mean": -0.017
     },
     "typography.h1.lineHeight": {
@@ -2748,34 +2748,34 @@
       "median": 1.1,
       "p90": 1.2,
       "max": 1.5,
-      "mean": 1.061
+      "mean": 1.048
     },
     "typography.h1.measureCh": {
       "n": 50,
-      "min": 0,
-      "p10": 0,
-      "median": 16.1,
-      "p90": 21.4,
-      "max": 24.4,
-      "mean": 14.248
+      "min": 2.2,
+      "p10": 9.2,
+      "median": 17.1,
+      "p90": 21.9,
+      "max": 33.1,
+      "mean": 16.502
     },
     "typography.h1.px": {
       "n": 50,
       "min": 15,
       "p10": 28,
       "median": 36,
-      "p90": 64,
+      "p90": 61,
       "max": 720,
-      "mean": 58.972
+      "mean": 58.084
     },
     "typography.h1.pxPerVw": {
       "n": 50,
       "min": 3.846,
       "p10": 7.179,
       "median": 9.231,
-      "p90": 16.41,
+      "p90": 15.641,
       "max": 184.615,
-      "mean": 15.12
+      "mean": 14.893
     },
     "typography.rangeRatio": {
       "n": 50,
@@ -3535,39 +3535,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 319,
-        "p10": 319,
-        "median": 319,
-        "p90": 319,
-        "max": 319,
-        "mean": 319
+        "min": 315,
+        "p10": 315,
+        "median": 315,
+        "p90": 315,
+        "max": 315,
+        "mean": 315
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 240,
-        "p10": 240,
-        "median": 240,
-        "p90": 240,
-        "max": 240,
-        "mean": 240
+        "min": 244,
+        "p10": 244,
+        "median": 244,
+        "p90": 244,
+        "max": 244,
+        "mean": 244
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2598,
-        "p10": 2598,
-        "median": 2598,
-        "p90": 2598,
-        "max": 2598,
-        "mean": 2598
+        "min": 2596,
+        "p10": 2596,
+        "median": 2596,
+        "p90": 2596,
+        "max": 2596,
+        "mean": 2596
       },
       "perf.transferBytes": {
         "n": 1,
-        "min": 24085,
-        "p10": 24085,
-        "median": 24085,
-        "p90": 24085,
-        "max": 24085,
-        "mean": 24085
+        "min": 24106,
+        "p10": 24106,
+        "median": 24106,
+        "p90": 24106,
+        "max": 24106,
+        "mean": 24106
       },
       "semantics.ctaCount": {
         "n": 1,
@@ -4340,12 +4340,12 @@
       },
       "hero.displayChars": {
         "n": 1,
-        "min": 38,
-        "p10": 38,
-        "median": 38,
-        "p90": 38,
-        "max": 38,
-        "mean": 38
+        "min": 8,
+        "p10": 8,
+        "median": 8,
+        "p90": 8,
+        "max": 8,
+        "mean": 8
       },
       "hero.displayLineHeight": {
         "n": 1,
@@ -4358,12 +4358,12 @@
       },
       "hero.displayMeasureCh": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 8.8,
+        "p10": 8.8,
+        "median": 8.8,
+        "p90": 8.8,
+        "max": 8.8,
+        "mean": 8.8
       },
       "hero.displayPx": {
         "n": 1,
@@ -4843,30 +4843,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 265,
-        "p10": 265,
-        "median": 265,
-        "p90": 265,
-        "max": 265,
-        "mean": 265
+        "min": 223,
+        "p10": 223,
+        "median": 223,
+        "p90": 223,
+        "max": 223,
+        "mean": 223
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 208,
-        "p10": 208,
-        "median": 208,
-        "p90": 208,
-        "max": 208,
-        "mean": 208
+        "min": 184,
+        "p10": 184,
+        "median": 184,
+        "p90": 184,
+        "max": 184,
+        "mean": 184
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2515,
-        "p10": 2515,
-        "median": 2515,
-        "p90": 2515,
-        "max": 2515,
-        "mean": 2515
+        "min": 2453,
+        "p10": 2453,
+        "median": 2453,
+        "p90": 2453,
+        "max": 2453,
+        "mean": 2453
       },
       "perf.transferBytes": {
         "n": 1,
@@ -5252,39 +5252,39 @@
       },
       "typography.body.lineHeight": {
         "n": 1,
-        "min": 1.429,
-        "p10": 1.429,
-        "median": 1.429,
-        "p90": 1.429,
-        "max": 1.429,
-        "mean": 1.429
+        "min": 1.4,
+        "p10": 1.4,
+        "median": 1.4,
+        "p90": 1.4,
+        "max": 1.4,
+        "mean": 1.4
       },
       "typography.body.measureCh": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 38.3,
+        "p10": 38.3,
+        "median": 38.3,
+        "p90": 38.3,
+        "max": 38.3,
+        "mean": 38.3
       },
       "typography.body.px": {
         "n": 1,
-        "min": 14,
-        "p10": 14,
-        "median": 14,
-        "p90": 14,
-        "max": 14,
-        "mean": 14
+        "min": 18,
+        "p10": 18,
+        "median": 18,
+        "p90": 18,
+        "max": 18,
+        "mean": 18
       },
       "typography.displayToBodyRatio": {
         "n": 1,
-        "min": 4.35,
-        "p10": 4.35,
-        "median": 4.35,
-        "p90": 4.35,
-        "max": 4.35,
-        "mean": 4.35
+        "min": 3.38,
+        "p10": 3.38,
+        "median": 3.38,
+        "p90": 3.38,
+        "max": 3.38,
+        "mean": 3.38
       },
       "typography.distinctSizes": {
         "n": 1,
@@ -5342,12 +5342,12 @@
       },
       "typography.h1.chars": {
         "n": 1,
-        "min": 38,
-        "p10": 38,
-        "median": 38,
-        "p90": 38,
-        "max": 38,
-        "mean": 38
+        "min": 8,
+        "p10": 8,
+        "median": 8,
+        "p90": 8,
+        "max": 8,
+        "mean": 8
       },
       "typography.h1.letterSpacingEm": {
         "n": 1,
@@ -5369,12 +5369,12 @@
       },
       "typography.h1.measureCh": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 8.8,
+        "p10": 8.8,
+        "median": 8.8,
+        "p90": 8.8,
+        "max": 8.8,
+        "mean": 8.8
       },
       "typography.h1.px": {
         "n": 1,
@@ -5452,12 +5452,12 @@
     "ai-infra": {
       "bands.charVariationCoef": {
         "n": 2,
-        "min": 0.633,
-        "p10": 0.633,
-        "median": 0.633,
-        "p90": 0.633,
+        "min": 0.635,
+        "p10": 0.635,
+        "median": 0.635,
+        "p90": 0.635,
         "max": 0.791,
-        "mean": 0.712
+        "mean": 0.713
       },
       "bands.count": {
         "n": 2,
@@ -5519,8 +5519,8 @@
         "p10": 14,
         "median": 14,
         "p90": 14,
-        "max": 62,
-        "mean": 38
+        "max": 50,
+        "mean": 32
       },
       "color.isDark": {
         "n": 2,
@@ -5700,8 +5700,8 @@
         "p10": 15,
         "median": 15,
         "p90": 15,
-        "max": 28,
-        "mean": 21.5
+        "max": 37,
+        "mean": 26
       },
       "hero.totalChars": {
         "n": 2,
@@ -5709,17 +5709,17 @@
         "p10": 366,
         "median": 366,
         "p90": 366,
-        "max": 450,
-        "mean": 408
+        "max": 459,
+        "mean": 412.5
       },
       "layout.aboveFoldElements": {
         "n": 2,
-        "min": 309,
-        "p10": 309,
-        "median": 309,
-        "p90": 309,
-        "max": 603,
-        "mean": 456
+        "min": 603,
+        "p10": 603,
+        "median": 603,
+        "p90": 603,
+        "max": 851,
+        "mean": 727
       },
       "layout.aboveFoldInkRatio": {
         "n": 2,
@@ -5736,8 +5736,8 @@
         "p10": 366,
         "median": 366,
         "p90": 366,
-        "max": 450,
-        "mean": 408
+        "max": 459,
+        "mean": 412.5
       },
       "layout.asymmetricGrids": {
         "n": 2,
@@ -5781,8 +5781,8 @@
         "p10": 19,
         "median": 19,
         "p90": 19,
-        "max": 29,
-        "mean": 24
+        "max": 33,
+        "mean": 26
       },
       "layout.gridContainers": {
         "n": 2,
@@ -5826,8 +5826,8 @@
         "p10": 0.0019,
         "median": 0.0019,
         "p90": 0.0019,
-        "max": 0.022,
-        "mean": 0.012
+        "max": 0.0155,
+        "mean": 0.009
       },
       "media.images": {
         "n": 2,
@@ -5835,8 +5835,8 @@
         "p10": 5,
         "median": 5,
         "p90": 5,
-        "max": 56,
-        "mean": 30.5
+        "max": 41,
+        "mean": 23
       },
       "media.lazyCoverage": {
         "n": 2,
@@ -5844,8 +5844,8 @@
         "p10": 0,
         "median": 0,
         "p90": 0,
-        "max": 0.25,
-        "mean": 0.125
+        "max": 0.341,
+        "mean": 0.171
       },
       "media.modernFormats": {
         "n": 2,
@@ -5853,17 +5853,17 @@
         "p10": 0,
         "median": 0,
         "p90": 0,
-        "max": 0.018,
-        "mean": 0.009
+        "max": 0,
+        "mean": 0
       },
       "media.svgInline": {
         "n": 2,
-        "min": 54,
-        "p10": 54,
-        "median": 54,
-        "p90": 54,
+        "min": 55,
+        "p10": 55,
+        "median": 55,
+        "p90": 55,
         "max": 106,
-        "mean": 80
+        "mean": 80.5
       },
       "media.videos": {
         "n": 2,
@@ -5970,8 +5970,8 @@
         "p10": 0.059,
         "median": 0.059,
         "p90": 0.059,
-        "max": 0.086,
-        "mean": 0.072
+        "max": 0.06,
+        "mean": 0.059
       },
       "net.byType.document.bytes": {
         "n": 2,
@@ -6006,8 +6006,8 @@
         "p10": 9,
         "median": 9,
         "p90": 9,
-        "max": 28,
-        "mean": 18.5
+        "max": 20,
+        "mean": 14.5
       },
       "net.byType.font.bytes": {
         "n": 2,
@@ -6047,21 +6047,21 @@
       },
       "net.byType.media.bytes": {
         "n": 1,
-        "min": 9297116,
-        "p10": 9297116,
-        "median": 9297116,
-        "p90": 9297116,
-        "max": 9297116,
-        "mean": 9297116
+        "min": 10583801,
+        "p10": 10583801,
+        "median": 10583801,
+        "p90": 10583801,
+        "max": 10583801,
+        "mean": 10583801
       },
       "net.byType.media.requests": {
         "n": 1,
-        "min": 8,
-        "p10": 8,
-        "median": 8,
-        "p90": 8,
-        "max": 8,
-        "mean": 8
+        "min": 9,
+        "p10": 9,
+        "median": 9,
+        "p90": 9,
+        "max": 9,
+        "mean": 9
       },
       "net.byType.other.bytes": {
         "n": 1,
@@ -6089,17 +6089,17 @@
         "p10": 0,
         "median": 0,
         "p90": 0,
-        "max": 283312,
-        "mean": 141656
+        "max": 123262,
+        "mean": 61631
       },
       "net.byType.script.requests": {
         "n": 2,
-        "min": 65,
-        "p10": 65,
-        "median": 65,
-        "p90": 65,
+        "min": 61,
+        "p10": 61,
+        "median": 61,
+        "p90": 61,
         "max": 149,
-        "mean": 107
+        "mean": 105
       },
       "net.byType.stylesheet.bytes": {
         "n": 2,
@@ -6139,12 +6139,12 @@
       },
       "net.bytes": {
         "n": 2,
-        "min": 691903,
-        "p10": 691903,
-        "median": 691903,
-        "p90": 691903,
-        "max": 13635340,
-        "mean": 7163621.5
+        "min": 531853,
+        "p10": 531853,
+        "median": 531853,
+        "p90": 531853,
+        "max": 14922025,
+        "mean": 7726939
       },
       "net.fontFiles": {
         "n": 2,
@@ -6157,57 +6157,57 @@
       },
       "net.requests": {
         "n": 2,
-        "min": 140,
-        "p10": 140,
-        "median": 140,
-        "p90": 140,
-        "max": 214,
-        "mean": 177
+        "min": 128,
+        "p10": 128,
+        "median": 128,
+        "p90": 128,
+        "max": 215,
+        "mean": 171.5
       },
       "net.thirdPartyHosts": {
         "n": 2,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
+        "min": 1,
+        "p10": 1,
+        "median": 1,
+        "p90": 1,
         "max": 4,
-        "mean": 2
+        "mean": 2.5
       },
       "perf.domInteractiveMs": {
         "n": 2,
-        "min": 365,
-        "p10": 365,
-        "median": 365,
-        "p90": 365,
-        "max": 709,
-        "mean": 537
+        "min": 688,
+        "p10": 688,
+        "median": 688,
+        "p90": 688,
+        "max": 1920,
+        "mean": 1304
       },
       "perf.fcpMs": {
-        "n": 2,
-        "min": 700,
-        "p10": 700,
-        "median": 700,
-        "p90": 700,
-        "max": 11572,
-        "mean": 6136
+        "n": 1,
+        "min": 1924,
+        "p10": 1924,
+        "median": 1924,
+        "p90": 1924,
+        "max": 1924,
+        "mean": 1924
       },
       "perf.loadMs": {
         "n": 2,
-        "min": 5111,
-        "p10": 5111,
-        "median": 5111,
-        "p90": 5111,
-        "max": 10583,
-        "mean": 7847
+        "min": 6394,
+        "p10": 6394,
+        "median": 6394,
+        "p90": 6394,
+        "max": 10901,
+        "mean": 8647.5
       },
       "perf.transferBytes": {
         "n": 2,
-        "min": 45649,
-        "p10": 45649,
-        "median": 45649,
-        "p90": 45649,
-        "max": 148299,
-        "mean": 96974
+        "min": 45608,
+        "p10": 45608,
+        "median": 45608,
+        "p90": 45608,
+        "max": 148232,
+        "mean": 96920
       },
       "semantics.ctaCount": {
         "n": 2,
@@ -6220,12 +6220,12 @@
       },
       "semantics.domNodes": {
         "n": 2,
-        "min": 1921,
-        "p10": 1921,
-        "median": 1921,
-        "p90": 1921,
-        "max": 2146,
-        "mean": 2033.5
+        "min": 2146,
+        "p10": 2146,
+        "median": 2146,
+        "p90": 2146,
+        "max": 2584,
+        "mean": 2365
       },
       "semantics.focusVisibleRules": {
         "n": 2,
@@ -6332,8 +6332,8 @@
         "p10": 5749,
         "median": 5749,
         "p90": 5749,
-        "max": 6350,
-        "mean": 6049.5
+        "max": 6401,
+        "mean": 6075
       },
       "shape.borderedElements": {
         "n": 2,
@@ -6436,10 +6436,10 @@
       },
       "shape.shadowRatio": {
         "n": 2,
-        "min": 0.001,
-        "p10": 0.001,
-        "median": 0.001,
-        "p90": 0.001,
+        "min": 0,
+        "p10": 0,
+        "median": 0,
+        "p90": 0,
         "max": 0.001,
         "mean": 0.001
       },
@@ -6647,17 +6647,17 @@
         "p10": 3.2,
         "median": 3.2,
         "p90": 3.2,
-        "max": 5.5,
-        "mean": 4.35
+        "max": 18.75,
+        "mean": 10.975
       },
       "typography.distinctSizes": {
         "n": 2,
-        "min": 10,
-        "p10": 10,
-        "median": 10,
-        "p90": 10,
+        "min": 14,
+        "p10": 14,
+        "median": 14,
+        "p90": 14,
         "max": 14,
-        "mean": 12
+        "mean": 14
       },
       "typography.distinctWeights.count": {
         "n": 2,
@@ -6706,39 +6706,39 @@
       },
       "typography.h1.chars": {
         "n": 2,
-        "min": 20,
-        "p10": 20,
-        "median": 20,
-        "p90": 20,
-        "max": 23,
-        "mean": 21.5
+        "min": 14,
+        "p10": 14,
+        "median": 14,
+        "p90": 14,
+        "max": 20,
+        "mean": 17
       },
       "typography.h1.letterSpacingEm": {
         "n": 2,
-        "min": -0.02,
-        "p10": -0.02,
-        "median": -0.02,
-        "p90": -0.02,
+        "min": 0,
+        "p10": 0,
+        "median": 0,
+        "p90": 0,
         "max": 0,
-        "mean": -0.01
+        "mean": 0
       },
       "typography.h1.lineHeight": {
         "n": 2,
-        "min": 0.909,
-        "p10": 0.909,
-        "median": 0.909,
-        "p90": 0.909,
-        "max": 1,
-        "mean": 0.955
+        "min": 1,
+        "p10": 1,
+        "median": 1,
+        "p90": 1,
+        "max": 1.5,
+        "mean": 1.25
       },
       "typography.h1.measureCh": {
         "n": 2,
-        "min": 14.1,
-        "p10": 14.1,
-        "median": 14.1,
-        "p90": 14.1,
+        "min": 16.8,
+        "p10": 16.8,
+        "median": 16.8,
+        "p90": 16.8,
         "max": 19.2,
-        "mean": 16.65
+        "mean": 18
       },
       "typography.h1.px": {
         "n": 2,
@@ -6746,8 +6746,8 @@
         "p10": 64,
         "median": 64,
         "p90": 64,
-        "max": 88,
-        "mean": 76
+        "max": 300,
+        "mean": 182
       },
       "typography.h1.pxPerVw": {
         "n": 2,
@@ -6755,8 +6755,8 @@
         "p10": 4.444,
         "median": 4.444,
         "p90": 4.444,
-        "max": 6.111,
-        "mean": 5.277
+        "max": 20.833,
+        "mean": 12.638
       },
       "typography.rangeRatio": {
         "n": 2,
@@ -6764,26 +6764,26 @@
         "p10": 5.333,
         "median": 5.333,
         "p90": 5.333,
-        "max": 7.333,
-        "mean": 6.333
+        "max": 25,
+        "mean": 15.166
       },
       "typography.sizes.count": {
         "n": 2,
-        "min": 10,
-        "p10": 10,
-        "median": 10,
-        "p90": 10,
+        "min": 14,
+        "p10": 14,
+        "median": 14,
+        "p90": 14,
         "max": 14,
-        "mean": 12
+        "mean": 14
       },
       "typography.stepRatios.count": {
         "n": 2,
-        "min": 9,
-        "p10": 9,
-        "median": 9,
-        "p90": 9,
+        "min": 13,
+        "p10": 13,
+        "median": 13,
+        "p90": 13,
         "max": 13,
-        "mean": 11
+        "mean": 13
       },
       "typography.topSizesByArea.count": {
         "n": 2,
@@ -6820,8 +6820,8 @@
         "p10": 0.52,
         "median": 0.598,
         "p90": 0.598,
-        "max": 0.648,
-        "mean": 0.589
+        "max": 0.64,
+        "mean": 0.586
       },
       "bands.count": {
         "n": 3,
@@ -7068,48 +7068,48 @@
       },
       "hero.textBlocks": {
         "n": 3,
-        "min": 33,
-        "p10": 33,
+        "min": 34,
+        "p10": 34,
         "median": 44,
         "p90": 44,
         "max": 133,
-        "mean": 70
+        "mean": 70.333
       },
       "hero.totalChars": {
         "n": 3,
-        "min": 192,
-        "p10": 192,
+        "min": 193,
+        "p10": 193,
         "median": 224,
         "p90": 224,
         "max": 1360,
-        "mean": 592
+        "mean": 592.333
       },
       "layout.aboveFoldElements": {
         "n": 3,
         "min": 113,
         "p10": 113,
-        "median": 123,
-        "p90": 123,
+        "median": 124,
+        "p90": 124,
         "max": 229,
-        "mean": 155
+        "mean": 155.333
       },
       "layout.aboveFoldInkRatio": {
         "n": 3,
-        "min": 0.168,
-        "p10": 0.168,
+        "min": 0.173,
+        "p10": 0.173,
         "median": 1,
         "p90": 1,
         "max": 1,
-        "mean": 0.723
+        "mean": 0.724
       },
       "layout.aboveFoldTextChars": {
         "n": 3,
-        "min": 192,
-        "p10": 192,
+        "min": 193,
+        "p10": 193,
         "median": 224,
         "p90": 224,
         "max": 1360,
-        "mean": 592
+        "mean": 592.333
       },
       "layout.asymmetricGrids": {
         "n": 3,
@@ -7198,7 +7198,7 @@
         "p10": 0,
         "median": 0.5033,
         "p90": 0.5033,
-        "max": 2.176,
+        "max": 2.1771,
         "mean": 0.893
       },
       "media.images": {
@@ -7351,8 +7351,8 @@
         "p10": 0,
         "median": 0,
         "p90": 0,
-        "max": 12247,
-        "mean": 4082.333
+        "max": 5141,
+        "mean": 1713.667
       },
       "net.byType.document.requests": {
         "n": 3,
@@ -7376,10 +7376,10 @@
         "n": 3,
         "min": 1,
         "p10": 1,
-        "median": 4,
-        "p90": 4,
+        "median": 3,
+        "p90": 3,
         "max": 26,
-        "mean": 10.333
+        "mean": 10
       },
       "net.byType.font.bytes": {
         "n": 3,
@@ -7405,8 +7405,8 @@
         "p10": 278182,
         "median": 3085250,
         "p90": 3085250,
-        "max": 6141789,
-        "mean": 3168407
+        "max": 6140321,
+        "mean": 3167917.667
       },
       "net.byType.image.requests": {
         "n": 3,
@@ -7419,12 +7419,12 @@
       },
       "net.byType.media.bytes": {
         "n": 2,
-        "min": 22937989,
-        "p10": 22937989,
-        "median": 22937989,
-        "p90": 22937989,
-        "max": 26803132,
-        "mean": 24870560.5
+        "min": 14613904,
+        "p10": 14613904,
+        "median": 14613904,
+        "p90": 14613904,
+        "max": 22905221,
+        "mean": 18759562.5
       },
       "net.byType.media.requests": {
         "n": 2,
@@ -7432,8 +7432,8 @@
         "p10": 3,
         "median": 3,
         "p90": 3,
-        "max": 7,
-        "mean": 5
+        "max": 4,
+        "mean": 3.5
       },
       "net.byType.other.bytes": {
         "n": 1,
@@ -7457,12 +7457,12 @@
       "net.byType.ping.requests": null,
       "net.byType.script.bytes": {
         "n": 3,
-        "min": 298970,
-        "p10": 298970,
-        "median": 308267,
-        "p90": 308267,
-        "max": 475123,
-        "mean": 360786.667
+        "min": 298979,
+        "p10": 298979,
+        "median": 308230,
+        "p90": 308230,
+        "max": 475196,
+        "mean": 360801.667
       },
       "net.byType.script.requests": {
         "n": 3,
@@ -7479,8 +7479,8 @@
         "p10": 0,
         "median": 0,
         "p90": 0,
-        "max": 14186,
-        "mean": 4728.667
+        "max": 0,
+        "mean": 0
       },
       "net.byType.stylesheet.requests": {
         "n": 3,
@@ -7511,12 +7511,12 @@
       },
       "net.bytes": {
         "n": 3,
-        "min": 3461467,
-        "p10": 3461467,
-        "median": 23599050,
-        "p90": 23599050,
-        "max": 37629588,
-        "mean": 21563368.333
+        "min": 3461476,
+        "p10": 3461476,
+        "median": 23566245,
+        "p90": 23566245,
+        "max": 25417673,
+        "mean": 17481798
       },
       "net.fontFiles": {
         "n": 3,
@@ -7533,8 +7533,8 @@
         "p10": 62,
         "median": 93,
         "p90": 93,
-        "max": 115,
-        "mean": 90
+        "max": 111,
+        "mean": 88.667
       },
       "net.thirdPartyHosts": {
         "n": 3,
@@ -7547,39 +7547,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 3,
-        "min": 227,
-        "p10": 227,
-        "median": 269,
-        "p90": 269,
-        "max": 596,
-        "mean": 364
+        "min": 311,
+        "p10": 311,
+        "median": 539,
+        "p90": 539,
+        "max": 566,
+        "mean": 472
       },
       "perf.fcpMs": {
         "n": 3,
-        "min": 292,
-        "p10": 292,
-        "median": 392,
-        "p90": 392,
-        "max": 1892,
-        "mean": 858.667
+        "min": 420,
+        "p10": 420,
+        "median": 684,
+        "p90": 684,
+        "max": 1832,
+        "mean": 978.667
       },
       "perf.loadMs": {
         "n": 3,
-        "min": 2902,
-        "p10": 2902,
-        "median": 10658,
-        "p90": 10658,
-        "max": 10803,
-        "mean": 8121
+        "min": 2851,
+        "p10": 2851,
+        "median": 10751,
+        "p90": 10751,
+        "max": 10871,
+        "mean": 8157.667
       },
       "perf.transferBytes": {
         "n": 3,
-        "min": 7406,
-        "p10": 7406,
+        "min": 7458,
+        "p10": 7458,
         "median": 21072,
         "p90": 21072,
-        "max": 25080,
-        "mean": 17852.667
+        "max": 25100,
+        "mean": 17876.667
       },
       "semantics.ctaCount": {
         "n": 3,
@@ -8078,12 +8078,12 @@
       },
       "typography.h1.chars": {
         "n": 3,
-        "min": 8,
-        "p10": 8,
+        "min": 10,
+        "p10": 10,
         "median": 12,
         "p90": 12,
         "max": 12,
-        "mean": 10.667
+        "mean": 11.333
       },
       "typography.h1.letterSpacingEm": {
         "n": 3,
@@ -8105,12 +8105,12 @@
       },
       "typography.h1.measureCh": {
         "n": 3,
-        "min": 0,
-        "p10": 0,
+        "min": 8.8,
+        "p10": 8.8,
         "median": 11,
         "p90": 11,
         "max": 13.3,
-        "mean": 8.1
+        "mean": 11.033
       },
       "typography.h1.px": {
         "n": 3,
@@ -8368,12 +8368,12 @@
       },
       "hero.displayChars": {
         "n": 1,
-        "min": 5,
-        "p10": 5,
-        "median": 5,
-        "p90": 5,
-        "max": 5,
-        "mean": 5
+        "min": 12,
+        "p10": 12,
+        "median": 12,
+        "p90": 12,
+        "max": 12,
+        "mean": 12
       },
       "hero.displayLineHeight": {
         "n": 1,
@@ -8386,12 +8386,12 @@
       },
       "hero.displayMeasureCh": {
         "n": 1,
-        "min": 5.3,
-        "p10": 5.3,
-        "median": 5.3,
-        "p90": 5.3,
-        "max": 5.3,
-        "mean": 5.3
+        "min": 11.2,
+        "p10": 11.2,
+        "median": 11.2,
+        "p90": 11.2,
+        "max": 11.2,
+        "mean": 11.2
       },
       "hero.displayPx": {
         "n": 1,
@@ -8765,21 +8765,21 @@
       },
       "net.byType.image.bytes": {
         "n": 1,
-        "min": 718618,
-        "p10": 718618,
-        "median": 718618,
-        "p90": 718618,
-        "max": 718618,
-        "mean": 718618
+        "min": 1165247,
+        "p10": 1165247,
+        "median": 1165247,
+        "p90": 1165247,
+        "max": 1165247,
+        "mean": 1165247
       },
       "net.byType.image.requests": {
         "n": 1,
-        "min": 51,
-        "p10": 51,
-        "median": 51,
-        "p90": 51,
-        "max": 51,
-        "mean": 51
+        "min": 55,
+        "p10": 55,
+        "median": 55,
+        "p90": 55,
+        "max": 55,
+        "mean": 55
       },
       "net.byType.media.bytes": {
         "n": 1,
@@ -8837,12 +8837,12 @@
       },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 1359681,
-        "p10": 1359681,
-        "median": 1359681,
-        "p90": 1359681,
-        "max": 1359681,
-        "mean": 1359681
+        "min": 1479390,
+        "p10": 1479390,
+        "median": 1479390,
+        "p90": 1479390,
+        "max": 1479390,
+        "mean": 1479390
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -8891,12 +8891,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 3559523,
-        "p10": 3559523,
-        "median": 3559523,
-        "p90": 3559523,
-        "max": 3559523,
-        "mean": 3559523
+        "min": 4125861,
+        "p10": 4125861,
+        "median": 4125861,
+        "p90": 4125861,
+        "max": 4125861,
+        "mean": 4125861
       },
       "net.fontFiles": {
         "n": 1,
@@ -8909,12 +8909,12 @@
       },
       "net.requests": {
         "n": 1,
-        "min": 94,
-        "p10": 94,
-        "median": 94,
-        "p90": 94,
-        "max": 94,
-        "mean": 94
+        "min": 98,
+        "p10": 98,
+        "median": 98,
+        "p90": 98,
+        "max": 98,
+        "mean": 98
       },
       "net.thirdPartyHosts": {
         "n": 1,
@@ -8927,39 +8927,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 1229,
-        "p10": 1229,
-        "median": 1229,
-        "p90": 1229,
-        "max": 1229,
-        "mean": 1229
+        "min": 1316,
+        "p10": 1316,
+        "median": 1316,
+        "p90": 1316,
+        "max": 1316,
+        "mean": 1316
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 1328,
-        "p10": 1328,
-        "median": 1328,
-        "p90": 1328,
-        "max": 1328,
-        "mean": 1328
+        "min": 1316,
+        "p10": 1316,
+        "median": 1316,
+        "p90": 1316,
+        "max": 1316,
+        "mean": 1316
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 5056,
-        "p10": 5056,
-        "median": 5056,
-        "p90": 5056,
-        "max": 5056,
-        "mean": 5056
+        "min": 5068,
+        "p10": 5068,
+        "median": 5068,
+        "p90": 5068,
+        "max": 5068,
+        "mean": 5068
       },
       "perf.transferBytes": {
         "n": 1,
-        "min": 59272,
-        "p10": 59272,
-        "median": 59272,
-        "p90": 59272,
-        "max": 59272,
-        "mean": 59272
+        "min": 59270,
+        "p10": 59270,
+        "median": 59270,
+        "p90": 59270,
+        "max": 59270,
+        "mean": 59270
       },
       "semantics.ctaCount": {
         "n": 1,
@@ -10267,30 +10267,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 1254,
-        "p10": 1254,
-        "median": 1254,
-        "p90": 1254,
-        "max": 1254,
-        "mean": 1254
+        "min": 990,
+        "p10": 990,
+        "median": 990,
+        "p90": 990,
+        "max": 990,
+        "mean": 990
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 1032,
-        "p10": 1032,
-        "median": 1032,
-        "p90": 1032,
-        "max": 1032,
-        "mean": 1032
+        "min": 1004,
+        "p10": 1004,
+        "median": 1004,
+        "p90": 1004,
+        "max": 1004,
+        "mean": 1004
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 11486,
-        "p10": 11486,
-        "median": 11486,
-        "p90": 11486,
-        "max": 11486,
-        "mean": 11486
+        "min": 11227,
+        "p10": 11227,
+        "median": 11227,
+        "p90": 11227,
+        "max": 11227,
+        "mean": 11227
       },
       "perf.transferBytes": {
         "n": 1,
@@ -10667,48 +10667,48 @@
       },
       "typography.body.letterSpacingEm": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 0.02,
+        "p10": 0.02,
+        "median": 0.02,
+        "p90": 0.02,
+        "max": 0.02,
+        "mean": 0.02
       },
       "typography.body.lineHeight": {
         "n": 1,
-        "min": 1,
-        "p10": 1,
-        "median": 1,
-        "p90": 1,
-        "max": 1,
-        "mean": 1
+        "min": 1.556,
+        "p10": 1.556,
+        "median": 1.556,
+        "p90": 1.556,
+        "max": 1.556,
+        "mean": 1.556
       },
       "typography.body.measureCh": {
         "n": 1,
-        "min": 0.1,
-        "p10": 0.1,
-        "median": 0.1,
-        "p90": 0.1,
-        "max": 0.1,
-        "mean": 0.1
+        "min": 49.2,
+        "p10": 49.2,
+        "median": 49.2,
+        "p90": 49.2,
+        "max": 49.2,
+        "mean": 49.2
       },
       "typography.body.px": {
         "n": 1,
-        "min": 16,
-        "p10": 16,
-        "median": 16,
-        "p90": 16,
-        "max": 16,
-        "mean": 16
+        "min": 18,
+        "p10": 18,
+        "median": 18,
+        "p90": 18,
+        "max": 18,
+        "mean": 18
       },
       "typography.displayToBodyRatio": {
         "n": 1,
-        "min": 3.25,
-        "p10": 3.25,
-        "median": 3.25,
-        "p90": 3.25,
-        "max": 3.25,
-        "mean": 3.25
+        "min": 1.06,
+        "p10": 1.06,
+        "median": 1.06,
+        "p90": 1.06,
+        "max": 1.06,
+        "mean": 1.06
       },
       "typography.distinctSizes": {
         "n": 1,
@@ -10766,57 +10766,57 @@
       },
       "typography.h1.chars": {
         "n": 1,
-        "min": 8,
-        "p10": 8,
-        "median": 8,
-        "p90": 8,
-        "max": 8,
-        "mean": 8
+        "min": 16,
+        "p10": 16,
+        "median": 16,
+        "p90": 16,
+        "max": 16,
+        "mean": 16
       },
       "typography.h1.letterSpacingEm": {
         "n": 1,
-        "min": -0.025,
-        "p10": -0.025,
-        "median": -0.025,
-        "p90": -0.025,
-        "max": -0.025,
-        "mean": -0.025
+        "min": 0.005,
+        "p10": 0.005,
+        "median": 0.005,
+        "p90": 0.005,
+        "max": 0.005,
+        "mean": 0.005
       },
       "typography.h1.lineHeight": {
         "n": 1,
-        "min": 1.077,
-        "p10": 1.077,
-        "median": 1.077,
-        "p90": 1.077,
-        "max": 1.077,
-        "mean": 1.077
+        "min": 1.263,
+        "p10": 1.263,
+        "median": 1.263,
+        "p90": 1.263,
+        "max": 1.263,
+        "mean": 1.263
       },
       "typography.h1.measureCh": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 32.2,
+        "p10": 32.2,
+        "median": 32.2,
+        "p90": 32.2,
+        "max": 32.2,
+        "mean": 32.2
       },
       "typography.h1.px": {
         "n": 1,
-        "min": 52,
-        "p10": 52,
-        "median": 52,
-        "p90": 52,
-        "max": 52,
-        "mean": 52
+        "min": 19,
+        "p10": 19,
+        "median": 19,
+        "p90": 19,
+        "max": 19,
+        "mean": 19
       },
       "typography.h1.pxPerVw": {
         "n": 1,
-        "min": 3.611,
-        "p10": 3.611,
-        "median": 3.611,
-        "p90": 3.611,
-        "max": 3.611,
-        "mean": 3.611
+        "min": 1.319,
+        "p10": 1.319,
+        "median": 1.319,
+        "p90": 1.319,
+        "max": 1.319,
+        "mean": 1.319
       },
       "typography.rangeRatio": {
         "n": 1,
@@ -11463,21 +11463,21 @@
       },
       "net.byType.media.bytes": {
         "n": 1,
-        "min": 108785099,
-        "p10": 108785099,
-        "median": 108785099,
-        "p90": 108785099,
-        "max": 108785099,
-        "mean": 108785099
+        "min": 112391676,
+        "p10": 112391676,
+        "median": 112391676,
+        "p90": 112391676,
+        "max": 112391676,
+        "mean": 112391676
       },
       "net.byType.media.requests": {
         "n": 1,
-        "min": 3,
-        "p10": 3,
-        "median": 3,
-        "p90": 3,
-        "max": 3,
-        "mean": 3
+        "min": 4,
+        "p10": 4,
+        "median": 4,
+        "p90": 4,
+        "max": 4,
+        "mean": 4
       },
       "net.byType.other.bytes": null,
       "net.byType.other.requests": null,
@@ -11539,12 +11539,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 109843760,
-        "p10": 109843760,
-        "median": 109843760,
-        "p90": 109843760,
-        "max": 109843760,
-        "mean": 109843760
+        "min": 113450337,
+        "p10": 113450337,
+        "median": 113450337,
+        "p90": 113450337,
+        "max": 113450337,
+        "mean": 113450337
       },
       "net.fontFiles": {
         "n": 1,
@@ -11557,12 +11557,12 @@
       },
       "net.requests": {
         "n": 1,
-        "min": 161,
-        "p10": 161,
-        "median": 161,
-        "p90": 161,
-        "max": 161,
-        "mean": 161
+        "min": 162,
+        "p10": 162,
+        "median": 162,
+        "p90": 162,
+        "max": 162,
+        "mean": 162
       },
       "net.thirdPartyHosts": {
         "n": 1,
@@ -11575,30 +11575,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 274,
-        "p10": 274,
-        "median": 274,
-        "p90": 274,
-        "max": 274,
-        "mean": 274
+        "min": 265,
+        "p10": 265,
+        "median": 265,
+        "p90": 265,
+        "max": 265,
+        "mean": 265
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 184,
-        "p10": 184,
-        "median": 184,
-        "p90": 184,
-        "max": 184,
-        "mean": 184
+        "min": 188,
+        "p10": 188,
+        "median": 188,
+        "p90": 188,
+        "max": 188,
+        "mean": 188
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 4620,
-        "p10": 4620,
-        "median": 4620,
-        "p90": 4620,
-        "max": 4620,
-        "mean": 4620
+        "min": 4694,
+        "p10": 4694,
+        "median": 4694,
+        "p90": 4694,
+        "max": 4694,
+        "mean": 4694
       },
       "perf.transferBytes": {
         "n": 1,
@@ -12939,12 +12939,12 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 367,
-        "p10": 367,
-        "median": 367,
-        "p90": 367,
-        "max": 367,
-        "mean": 367
+        "min": 366,
+        "p10": 366,
+        "median": 366,
+        "p90": 366,
+        "max": 366,
+        "mean": 366
       },
       "perf.fcpMs": {
         "n": 1,
@@ -12957,12 +12957,12 @@
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2574,
-        "p10": 2574,
-        "median": 2574,
-        "p90": 2574,
-        "max": 2574,
-        "mean": 2574
+        "min": 2571,
+        "p10": 2571,
+        "median": 2571,
+        "p90": 2571,
+        "max": 2571,
+        "mean": 2571
       },
       "perf.transferBytes": {
         "n": 1,
@@ -13720,12 +13720,12 @@
       },
       "hero.displayChars": {
         "n": 1,
-        "min": 23,
-        "p10": 23,
-        "median": 23,
-        "p90": 23,
-        "max": 23,
-        "mean": 23
+        "min": 11,
+        "p10": 11,
+        "median": 11,
+        "p90": 11,
+        "max": 11,
+        "mean": 11
       },
       "hero.displayLineHeight": {
         "n": 1,
@@ -13738,12 +13738,12 @@
       },
       "hero.displayMeasureCh": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 26.3,
+        "p10": 26.3,
+        "median": 26.3,
+        "p90": 26.3,
+        "max": 26.3,
+        "mean": 26.3
       },
       "hero.displayPx": {
         "n": 1,
@@ -14089,21 +14089,21 @@
       },
       "net.byType.fetch.bytes": {
         "n": 1,
-        "min": 2283397,
-        "p10": 2283397,
-        "median": 2283397,
-        "p90": 2283397,
-        "max": 2283397,
-        "mean": 2283397
+        "min": 2275144,
+        "p10": 2275144,
+        "median": 2275144,
+        "p90": 2275144,
+        "max": 2275144,
+        "mean": 2275144
       },
       "net.byType.fetch.requests": {
         "n": 1,
-        "min": 36,
-        "p10": 36,
-        "median": 36,
-        "p90": 36,
-        "max": 36,
-        "mean": 36
+        "min": 35,
+        "p10": 35,
+        "median": 35,
+        "p90": 35,
+        "max": 35,
+        "mean": 35
       },
       "net.byType.font.bytes": {
         "n": 1,
@@ -14134,12 +14134,12 @@
       },
       "net.byType.image.requests": {
         "n": 1,
-        "min": 83,
-        "p10": 83,
-        "median": 83,
-        "p90": 83,
-        "max": 83,
-        "mean": 83
+        "min": 86,
+        "p10": 86,
+        "median": 86,
+        "p90": 86,
+        "max": 86,
+        "mean": 86
       },
       "net.byType.media.bytes": {
         "n": 1,
@@ -14181,21 +14181,21 @@
       },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 762538,
-        "p10": 762538,
-        "median": 762538,
-        "p90": 762538,
-        "max": 762538,
-        "mean": 762538
+        "min": 756269,
+        "p10": 756269,
+        "median": 756269,
+        "p90": 756269,
+        "max": 756269,
+        "mean": 756269
       },
       "net.byType.script.requests": {
         "n": 1,
-        "min": 53,
-        "p10": 53,
-        "median": 53,
-        "p90": 53,
-        "max": 53,
-        "mean": 53
+        "min": 52,
+        "p10": 52,
+        "median": 52,
+        "p90": 52,
+        "max": 52,
+        "mean": 52
       },
       "net.byType.stylesheet.bytes": {
         "n": 1,
@@ -14219,12 +14219,12 @@
       "net.byType.xhr.requests": null,
       "net.bytes": {
         "n": 1,
-        "min": 11156580,
-        "p10": 11156580,
-        "median": 11156580,
-        "p90": 11156580,
-        "max": 11156580,
-        "mean": 11156580
+        "min": 11142058,
+        "p10": 11142058,
+        "median": 11142058,
+        "p90": 11142058,
+        "max": 11142058,
+        "mean": 11142058
       },
       "net.fontFiles": {
         "n": 1,
@@ -14237,12 +14237,12 @@
       },
       "net.requests": {
         "n": 1,
-        "min": 194,
-        "p10": 194,
-        "median": 194,
-        "p90": 194,
-        "max": 194,
-        "mean": 194
+        "min": 195,
+        "p10": 195,
+        "median": 195,
+        "p90": 195,
+        "max": 195,
+        "mean": 195
       },
       "net.thirdPartyHosts": {
         "n": 1,
@@ -14255,39 +14255,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 148,
-        "p10": 148,
-        "median": 148,
-        "p90": 148,
-        "max": 148,
-        "mean": 148
+        "min": 139,
+        "p10": 139,
+        "median": 139,
+        "p90": 139,
+        "max": 139,
+        "mean": 139
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 236,
-        "p10": 236,
-        "median": 236,
-        "p90": 236,
-        "max": 236,
-        "mean": 236
+        "min": 248,
+        "p10": 248,
+        "median": 248,
+        "p90": 248,
+        "max": 248,
+        "mean": 248
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2569,
-        "p10": 2569,
-        "median": 2569,
-        "p90": 2569,
-        "max": 2569,
-        "mean": 2569
+        "min": 2664,
+        "p10": 2664,
+        "median": 2664,
+        "p90": 2664,
+        "max": 2664,
+        "mean": 2664
       },
       "perf.transferBytes": {
         "n": 1,
-        "min": 68993,
-        "p10": 68993,
-        "median": 68993,
-        "p90": 68993,
-        "max": 68993,
-        "mean": 68993
+        "min": 69039,
+        "p10": 69039,
+        "median": 69039,
+        "p90": 69039,
+        "max": 69039,
+        "mean": 69039
       },
       "semantics.ctaCount": {
         "n": 1,
@@ -14786,12 +14786,12 @@
       },
       "typography.h1.chars": {
         "n": 1,
-        "min": 23,
-        "p10": 23,
-        "median": 23,
-        "p90": 23,
-        "max": 23,
-        "mean": 23
+        "min": 11,
+        "p10": 11,
+        "median": 11,
+        "p90": 11,
+        "max": 11,
+        "mean": 11
       },
       "typography.h1.letterSpacingEm": {
         "n": 1,
@@ -14813,12 +14813,12 @@
       },
       "typography.h1.measureCh": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 26.3,
+        "p10": 26.3,
+        "median": 26.3,
+        "p90": 26.3,
+        "max": 26.3,
+        "mean": 26.3
       },
       "typography.h1.px": {
         "n": 1,
@@ -15266,8 +15266,8 @@
       },
       "media.imageAreaRatio": {
         "n": 3,
-        "min": 0.1891,
-        "p10": 0.1891,
+        "min": 0.1879,
+        "p10": 0.1879,
         "median": 0.2418,
         "p90": 0.2418,
         "max": 0.5228,
@@ -15441,8 +15441,8 @@
         "p10": 0,
         "median": 141,
         "p90": 141,
-        "max": 1932,
-        "mean": 691
+        "max": 1931,
+        "mean": 690.667
       },
       "net.byType.fetch.requests": {
         "n": 3,
@@ -15477,17 +15477,17 @@
         "p10": 1830139,
         "median": 4735603,
         "p90": 4735603,
-        "max": 6398254,
-        "mean": 4321332
+        "max": 6393377,
+        "mean": 4319706.333
       },
       "net.byType.image.requests": {
         "n": 3,
         "min": 14,
         "p10": 14,
-        "median": 52,
-        "p90": 52,
+        "median": 53,
+        "p90": 53,
         "max": 79,
-        "mean": 48.333
+        "mean": 48.667
       },
       "net.byType.media.bytes": {
         "n": 2,
@@ -15536,12 +15536,12 @@
       },
       "net.byType.ping.requests": {
         "n": 1,
-        "min": 19,
-        "p10": 19,
-        "median": 19,
-        "p90": 19,
-        "max": 19,
-        "mean": 19
+        "min": 29,
+        "p10": 29,
+        "median": 29,
+        "p90": 29,
+        "max": 29,
+        "mean": 29
       },
       "net.byType.script.bytes": {
         "n": 3,
@@ -15549,8 +15549,8 @@
         "p10": 1259,
         "median": 72391,
         "p90": 72391,
-        "max": 1068881,
-        "mean": 380843.667
+        "max": 1133017,
+        "mean": 402222.333
       },
       "net.byType.script.requests": {
         "n": 3,
@@ -15581,12 +15581,12 @@
       },
       "net.byType.xhr.bytes": {
         "n": 1,
-        "min": 2543,
-        "p10": 2543,
-        "median": 2543,
-        "p90": 2543,
-        "max": 2543,
-        "mean": 2543
+        "min": 2547,
+        "p10": 2547,
+        "median": 2547,
+        "p90": 2547,
+        "max": 2547,
+        "mean": 2547
       },
       "net.byType.xhr.requests": {
         "n": 1,
@@ -15603,8 +15603,8 @@
         "p10": 2069616,
         "median": 11083266,
         "p90": 11083266,
-        "max": 16121365,
-        "mean": 9758082.333
+        "max": 16180627,
+        "mean": 9777836.333
       },
       "net.fontFiles": {
         "n": 3,
@@ -15619,10 +15619,10 @@
         "n": 3,
         "min": 71,
         "p10": 71,
-        "median": 185,
-        "p90": 185,
+        "median": 196,
+        "p90": 196,
         "max": 197,
-        "mean": 151
+        "mean": 154.667
       },
       "net.thirdPartyHosts": {
         "n": 3,
@@ -15635,39 +15635,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 3,
-        "min": 179,
-        "p10": 179,
-        "median": 239,
-        "p90": 239,
-        "max": 440,
-        "mean": 286
+        "min": 204,
+        "p10": 204,
+        "median": 276,
+        "p90": 276,
+        "max": 348,
+        "mean": 276
       },
       "perf.fcpMs": {
         "n": 3,
-        "min": 328,
-        "p10": 328,
-        "median": 468,
-        "p90": 468,
-        "max": 516,
-        "mean": 437.333
+        "min": 344,
+        "p10": 344,
+        "median": 408,
+        "p90": 408,
+        "max": 484,
+        "mean": 412
       },
       "perf.loadMs": {
         "n": 3,
-        "min": 2445,
-        "p10": 2445,
-        "median": 2457,
-        "p90": 2457,
-        "max": 10777,
-        "mean": 5226.333
+        "min": 2482,
+        "p10": 2482,
+        "median": 6234,
+        "p90": 6234,
+        "max": 10905,
+        "mean": 6540.333
       },
       "perf.transferBytes": {
         "n": 3,
         "min": 48288,
         "p10": 48288,
-        "median": 158909,
-        "p90": 158909,
-        "max": 164532,
-        "mean": 123909.667
+        "median": 158732,
+        "p90": 158732,
+        "max": 164593,
+        "mean": 123871
       },
       "semantics.ctaCount": {
         "n": 3,
@@ -16793,10 +16793,10 @@
         "n": 3,
         "min": 5623,
         "p10": 5623,
-        "median": 9730,
-        "p90": 9730,
+        "median": 10294,
+        "p90": 10294,
         "max": 185412,
-        "mean": 66921.667
+        "mean": 67109.667
       },
       "net.byType.document.requests": {
         "n": 3,
@@ -16804,17 +16804,17 @@
         "p10": 2,
         "median": 2,
         "p90": 2,
-        "max": 17,
-        "mean": 7
+        "max": 18,
+        "mean": 7.333
       },
       "net.byType.fetch.bytes": {
         "n": 3,
         "min": 358,
         "p10": 358,
-        "median": 693,
-        "p90": 693,
-        "max": 34053,
-        "mean": 11701.333
+        "median": 651,
+        "p90": 651,
+        "max": 35301,
+        "mean": 12103.333
       },
       "net.byType.fetch.requests": {
         "n": 3,
@@ -16822,8 +16822,8 @@
         "p10": 13,
         "median": 20,
         "p90": 20,
-        "max": 56,
-        "mean": 29.667
+        "max": 62,
+        "mean": 31.667
       },
       "net.byType.font.bytes": {
         "n": 3,
@@ -16847,10 +16847,10 @@
         "n": 3,
         "min": 45,
         "p10": 45,
-        "median": 967384,
-        "p90": 967384,
+        "median": 967426,
+        "p90": 967426,
         "max": 2858997,
-        "mean": 1275475.333
+        "mean": 1275489.333
       },
       "net.byType.image.requests": {
         "n": 3,
@@ -16858,17 +16858,17 @@
         "p10": 82,
         "median": 83,
         "p90": 83,
-        "max": 84,
-        "mean": 83
+        "max": 86,
+        "mean": 83.667
       },
       "net.byType.media.bytes": {
         "n": 2,
-        "min": 2175510,
-        "p10": 2175510,
-        "median": 2175510,
-        "p90": 2175510,
+        "min": 2208278,
+        "p10": 2208278,
+        "median": 2208278,
+        "p90": 2208278,
         "max": 3995758,
-        "mean": 3085634
+        "mean": 3102018
       },
       "net.byType.media.requests": {
         "n": 2,
@@ -16917,21 +16917,21 @@
       },
       "net.byType.script.bytes": {
         "n": 3,
-        "min": 383270,
-        "p10": 383270,
-        "median": 1187775,
-        "p90": 1187775,
-        "max": 5461459,
-        "mean": 2344168
+        "min": 383278,
+        "p10": 383278,
+        "median": 1187754,
+        "p90": 1187754,
+        "max": 5531591,
+        "mean": 2367541
       },
       "net.byType.script.requests": {
         "n": 3,
         "min": 71,
         "p10": 71,
-        "median": 98,
-        "p90": 98,
+        "median": 107,
+        "p90": 107,
         "max": 121,
-        "mean": 96.667
+        "mean": 99.667
       },
       "net.byType.stylesheet.bytes": {
         "n": 3,
@@ -16957,8 +16957,8 @@
         "p10": 304,
         "median": 423,
         "p90": 423,
-        "max": 5963777,
-        "mean": 1988168
+        "max": 5963833,
+        "mean": 1988186.667
       },
       "net.byType.xhr.requests": {
         "n": 3,
@@ -16971,12 +16971,12 @@
       },
       "net.bytes": {
         "n": 3,
-        "min": 5095630,
-        "p10": 5095630,
-        "median": 6526222,
-        "p90": 6526222,
-        "max": 13092952,
-        "mean": 8238268
+        "min": 5095638,
+        "p10": 5095638,
+        "median": 6558927,
+        "p90": 6558927,
+        "max": 13164994,
+        "mean": 8273186.333
       },
       "net.fontFiles": {
         "n": 3,
@@ -16993,8 +16993,8 @@
         "p10": 204,
         "median": 242,
         "p90": 242,
-        "max": 302,
-        "mean": 249.333
+        "max": 320,
+        "mean": 255.333
       },
       "net.thirdPartyHosts": {
         "n": 3,
@@ -17007,30 +17007,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 3,
-        "min": 251,
-        "p10": 251,
-        "median": 299,
-        "p90": 299,
-        "max": 697,
-        "mean": 415.667
+        "min": 272,
+        "p10": 272,
+        "median": 331,
+        "p90": 331,
+        "max": 671,
+        "mean": 424.667
       },
       "perf.fcpMs": {
         "n": 3,
-        "min": 180,
-        "p10": 180,
-        "median": 208,
-        "p90": 208,
-        "max": 788,
-        "mean": 392
+        "min": 216,
+        "p10": 216,
+        "median": 276,
+        "p90": 276,
+        "max": 732,
+        "mean": 408
       },
       "perf.loadMs": {
         "n": 3,
-        "min": 3321,
-        "p10": 3321,
-        "median": 10454,
-        "p90": 10454,
-        "max": 11156,
-        "mean": 8310.333
+        "min": 3170,
+        "p10": 3170,
+        "median": 10474,
+        "p90": 10474,
+        "max": 11138,
+        "mean": 8260.667
       },
       "perf.transferBytes": {
         "n": 3,
@@ -17052,12 +17052,12 @@
       },
       "semantics.domNodes": {
         "n": 3,
-        "min": 1423,
-        "p10": 1423,
+        "min": 1424,
+        "p10": 1424,
         "median": 3243,
         "p90": 3243,
         "max": 4513,
-        "mean": 3059.667
+        "mean": 3060
       },
       "semantics.focusVisibleRules": {
         "n": 3,
@@ -17648,12 +17648,12 @@
     "dev-infra": {
       "bands.charVariationCoef": {
         "n": 8,
-        "min": 0.401,
-        "p10": 0.401,
-        "median": 0.703,
+        "min": 0.389,
+        "p10": 0.389,
+        "median": 0.752,
         "p90": 1.492,
-        "max": 1.547,
-        "mean": 0.863
+        "max": 1.548,
+        "mean": 0.882
       },
       "bands.count": {
         "n": 8,
@@ -17678,9 +17678,9 @@
         "min": 1,
         "p10": 1,
         "median": 11,
-        "p90": 20,
+        "p90": 19,
         "max": 21,
-        "mean": 11.375
+        "mean": 11.25
       },
       "color.distinctBackgrounds": {
         "n": 8,
@@ -17704,10 +17704,10 @@
         "n": 8,
         "min": 6,
         "p10": 6,
-        "median": 12,
+        "median": 11,
         "p90": 19,
         "max": 19,
-        "mean": 13.5
+        "mean": 13.375
       },
       "color.gradientCount": {
         "n": 8,
@@ -17716,7 +17716,7 @@
         "median": 7,
         "p90": 92,
         "max": 240,
-        "mean": 49.25
+        "mean": 49.125
       },
       "color.isDark": {
         "n": 8,
@@ -17905,25 +17905,25 @@
         "median": 34,
         "p90": 80,
         "max": 83,
-        "mean": 44.625
+        "mean": 41
       },
       "hero.totalChars": {
         "n": 8,
         "min": 175,
         "p10": 175,
-        "median": 647,
+        "median": 462,
         "p90": 1465,
         "max": 1683,
-        "mean": 852.75
+        "mean": 767.375
       },
       "layout.aboveFoldElements": {
         "n": 8,
         "min": 61,
         "p10": 61,
         "median": 194,
-        "p90": 470,
+        "p90": 459,
         "max": 576,
-        "mean": 259.125
+        "mean": 252
       },
       "layout.aboveFoldInkRatio": {
         "n": 8,
@@ -17938,10 +17938,10 @@
         "n": 8,
         "min": 175,
         "p10": 175,
-        "median": 647,
+        "median": 462,
         "p90": 1465,
         "max": 1683,
-        "mean": 852.75
+        "mean": 767.375
       },
       "layout.asymmetricGrids": {
         "n": 8,
@@ -18065,9 +18065,9 @@
         "min": 45,
         "p10": 45,
         "median": 103,
-        "p90": 133,
+        "p90": 131,
         "max": 223,
-        "mean": 107.25
+        "mean": 107
       },
       "media.videos": {
         "n": 8,
@@ -18083,9 +18083,9 @@
         "min": 1,
         "p10": 1,
         "median": 4,
-        "p90": 13,
+        "p90": 12,
         "max": 15,
-        "mean": 7.5
+        "mean": 7.375
       },
       "motion.hasCanvas": {
         "n": 8,
@@ -18118,10 +18118,10 @@
         "n": 8,
         "min": 1,
         "p10": 1,
-        "median": 4,
+        "median": 3,
         "p90": 7,
         "max": 14,
-        "mean": 4.875
+        "mean": 4.75
       },
       "motion.medianDurationMs": {
         "n": 8,
@@ -18161,12 +18161,12 @@
       },
       "motion.transitionElements": {
         "n": 8,
-        "min": 21,
-        "p10": 21,
+        "min": 19,
+        "p10": 19,
         "median": 112,
         "p90": 184,
         "max": 300,
-        "mean": 129.375
+        "mean": 129.125
       },
       "motion.transitionRatio": {
         "n": 8,
@@ -18202,16 +18202,16 @@
         "median": 12,
         "p90": 27024,
         "max": 1333957,
-        "mean": 170213.625
+        "mean": 170187.125
       },
       "net.byType.fetch.requests": {
         "n": 8,
         "min": 3,
         "p10": 3,
-        "median": 12,
+        "median": 14,
         "p90": 31,
         "max": 33,
-        "mean": 17.125
+        "mean": 16.625
       },
       "net.byType.font.bytes": {
         "n": 8,
@@ -18236,27 +18236,27 @@
         "min": 2228,
         "p10": 2228,
         "median": 676509,
-        "p90": 1560767,
-        "max": 6187219,
-        "mean": 1369301.75
+        "p90": 1375471,
+        "max": 6187378,
+        "mean": 1346161.375
       },
       "net.byType.image.requests": {
         "n": 8,
-        "min": 9,
-        "p10": 9,
+        "min": 10,
+        "p10": 10,
         "median": 44,
-        "p90": 66,
+        "p90": 65,
         "max": 242,
-        "mean": 64.25
+        "mean": 64.375
       },
       "net.byType.media.bytes": {
         "n": 3,
-        "min": 2241573,
-        "p10": 2241573,
+        "min": 2264805,
+        "p10": 2264805,
         "median": 3017760,
         "p90": 3017760,
         "max": 4141602,
-        "mean": 3133645
+        "mean": 3141389
       },
       "net.byType.media.requests": {
         "n": 3,
@@ -18264,8 +18264,8 @@
         "p10": 1,
         "median": 6,
         "p90": 6,
-        "max": 6,
-        "mean": 4.333
+        "max": 7,
+        "mean": 4.667
       },
       "net.byType.other.bytes": {
         "n": 3,
@@ -18308,9 +18308,9 @@
         "min": 0,
         "p10": 0,
         "median": 3507,
-        "p90": 813232,
-        "max": 2408983,
-        "mean": 488911.875
+        "p90": 813243,
+        "max": 2408973,
+        "mean": 488912
       },
       "net.byType.script.requests": {
         "n": 8,
@@ -18319,7 +18319,7 @@
         "median": 60,
         "p90": 100,
         "max": 215,
-        "mean": 77.5
+        "mean": 77.625
       },
       "net.byType.stylesheet.bytes": {
         "n": 7,
@@ -18343,28 +18343,28 @@
         "n": 6,
         "min": 0,
         "p10": 0,
-        "median": 0,
-        "p90": 96,
+        "median": 73,
+        "p90": 477,
         "max": 1882,
-        "mean": 341.833
+        "mean": 421.333
       },
       "net.byType.xhr.requests": {
         "n": 6,
         "min": 1,
         "p10": 1,
         "median": 1,
-        "p90": 2,
+        "p90": 11,
         "max": 35,
-        "mean": 7
+        "mean": 8.5
       },
       "net.bytes": {
         "n": 8,
         "min": 393092,
         "p10": 393092,
-        "median": 2480276,
+        "median": 2294980,
         "p90": 5543620,
-        "max": 9068686,
-        "mean": 3587279.75
+        "max": 9091388,
+        "mean": 3567076.625
       },
       "net.fontFiles": {
         "n": 8,
@@ -18380,54 +18380,54 @@
         "min": 67,
         "p10": 67,
         "median": 156,
-        "p90": 294,
+        "p90": 312,
         "max": 322,
-        "mean": 182.5
+        "mean": 183.5
       },
       "net.thirdPartyHosts": {
         "n": 8,
         "min": 2,
         "p10": 2,
         "median": 5,
-        "p90": 13,
+        "p90": 14,
         "max": 25,
         "mean": 9
       },
       "perf.domInteractiveMs": {
         "n": 8,
-        "min": 177,
-        "p10": 177,
-        "median": 386,
-        "p90": 455,
-        "max": 535,
-        "mean": 359.5
+        "min": 254,
+        "p10": 254,
+        "median": 296,
+        "p90": 622,
+        "max": 830,
+        "mean": 428.625
       },
       "perf.fcpMs": {
         "n": 8,
-        "min": 328,
-        "p10": 328,
-        "median": 368,
-        "p90": 420,
-        "max": 696,
-        "mean": 415.5
+        "min": 236,
+        "p10": 236,
+        "median": 388,
+        "p90": 568,
+        "max": 660,
+        "mean": 424.5
       },
       "perf.loadMs": {
         "n": 8,
-        "min": 2442,
-        "p10": 2442,
-        "median": 2932,
-        "p90": 4434,
-        "max": 6396,
-        "mean": 3480.75
+        "min": 2500,
+        "p10": 2500,
+        "median": 3069,
+        "p90": 5540,
+        "max": 10499,
+        "mean": 4313.625
       },
       "perf.transferBytes": {
         "n": 8,
         "min": 51661,
         "p10": 51661,
         "median": 62475,
-        "p90": 181908,
+        "p90": 181911,
         "max": 296071,
-        "mean": 113127.875
+        "mean": 113127.125
       },
       "semantics.ctaCount": {
         "n": 8,
@@ -18440,12 +18440,12 @@
       },
       "semantics.domNodes": {
         "n": 8,
-        "min": 1110,
-        "p10": 1110,
-        "median": 2966,
+        "min": 1111,
+        "p10": 1111,
+        "median": 2955,
         "p90": 7543,
-        "max": 9511,
-        "mean": 4422.875
+        "max": 9290,
+        "mean": 4396.25
       },
       "semantics.focusVisibleRules": {
         "n": 8,
@@ -18481,7 +18481,7 @@
         "median": 27,
         "p90": 35,
         "max": 37,
-        "mean": 23.625
+        "mean": 23.5
       },
       "semantics.headingJumps": {
         "n": 8,
@@ -18490,7 +18490,7 @@
         "median": 0,
         "p90": 1,
         "max": 2,
-        "mean": 0.5
+        "mean": 0.375
       },
       "semantics.interactiveElements": {
         "n": 8,
@@ -18499,7 +18499,7 @@
         "median": 101,
         "p90": 129,
         "max": 168,
-        "mean": 108.5
+        "mean": 108.375
       },
       "semantics.landmarks.footer": {
         "n": 8,
@@ -18551,16 +18551,16 @@
         "min": 842,
         "p10": 842,
         "median": 7963,
-        "p90": 17409,
-        "max": 20243,
-        "mean": 10706.625
+        "p90": 16619,
+        "max": 17403,
+        "mean": 10056
       },
       "shape.borderedElements": {
         "n": 8,
         "min": 0,
         "p10": 0,
         "median": 66,
-        "p90": 235,
+        "p90": 234,
         "max": 241,
         "mean": 99.375
       },
@@ -18571,7 +18571,7 @@
         "median": 8,
         "p90": 10,
         "max": 14,
-        "mean": 7.625
+        "mean": 7.5
       },
       "shape.distinctShadows": {
         "n": 8,
@@ -18589,7 +18589,7 @@
         "median": 0.955,
         "p90": 1,
         "max": 1,
-        "mean": 0.819
+        "mean": 0.82
       },
       "shape.maxRadius": {
         "n": 8,
@@ -18598,7 +18598,7 @@
         "median": 24,
         "p90": 50,
         "max": 100,
-        "mean": 39.25
+        "mean": 36.5
       },
       "shape.medianRadius": {
         "n": 8,
@@ -18649,10 +18649,10 @@
         "n": 8,
         "min": 5,
         "p10": 5,
-        "median": 7,
+        "median": 6,
         "p90": 88,
         "max": 290,
-        "mean": 54.125
+        "mean": 54
       },
       "shape.shadowRatio": {
         "n": 8,
@@ -18692,12 +18692,12 @@
       },
       "space.eightPointConformity": {
         "n": 8,
-        "min": 0.102,
-        "p10": 0.102,
+        "min": 0.104,
+        "p10": 0.104,
         "median": 0.616,
         "p90": 0.69,
         "max": 0.746,
-        "mean": 0.517
+        "mean": 0.518
       },
       "space.fourPointConformity": {
         "n": 8,
@@ -18706,7 +18706,7 @@
         "median": 0.889,
         "p90": 0.923,
         "max": 1,
-        "mean": 0.78
+        "mean": 0.781
       },
       "space.gaps.count": {
         "n": 8,
@@ -18845,39 +18845,39 @@
       },
       "typography.body.measureCh": {
         "n": 8,
-        "min": 0.1,
-        "p10": 0.1,
-        "median": 34.1,
-        "p90": 73.8,
-        "max": 78.9,
-        "mean": 43.412
+        "min": 31.7,
+        "p10": 31.7,
+        "median": 41.1,
+        "p90": 78.9,
+        "max": 108.8,
+        "mean": 57
       },
       "typography.body.px": {
         "n": 8,
         "min": 10,
         "p10": 10,
         "median": 14,
-        "p90": 16,
+        "p90": 18,
         "max": 20,
-        "mean": 14.75
+        "mean": 15
       },
       "typography.displayToBodyRatio": {
         "n": 8,
-        "min": 2.25,
-        "p10": 2.25,
+        "min": 2,
+        "p10": 2,
         "median": 4.4,
         "p90": 6.4,
         "max": 6.86,
-        "mean": 4.52
+        "mean": 4.489
       },
       "typography.distinctSizes": {
         "n": 8,
         "min": 8,
         "p10": 8,
         "median": 11,
-        "p90": 13,
+        "p90": 14,
         "max": 15,
-        "mean": 11.125
+        "mean": 11.375
       },
       "typography.distinctWeights.count": {
         "n": 8,
@@ -18980,30 +18980,30 @@
       },
       "typography.rangeRatio": {
         "n": 8,
-        "min": 3,
-        "p10": 3,
+        "min": 3.273,
+        "p10": 3.273,
         "median": 5.818,
         "p90": 8,
         "max": 8.8,
-        "mean": 6.184
+        "mean": 6.279
       },
       "typography.sizes.count": {
         "n": 8,
         "min": 8,
         "p10": 8,
         "median": 11,
-        "p90": 13,
+        "p90": 14,
         "max": 15,
-        "mean": 11.125
+        "mean": 11.375
       },
       "typography.stepRatios.count": {
         "n": 8,
         "min": 7,
         "p10": 7,
         "median": 10,
-        "p90": 12,
+        "p90": 13,
         "max": 14,
-        "mean": 10.125
+        "mean": 10.375
       },
       "typography.topSizesByArea.count": {
         "n": 8,
@@ -19021,7 +19021,7 @@
         "median": 3,
         "p90": 14,
         "max": 202,
-        "mean": 28.875
+        "mean": 29
       },
       "typography.variationSettings.count": {
         "n": 8,
@@ -19036,12 +19036,12 @@
     "dev-tool": {
       "bands.charVariationCoef": {
         "n": 1,
-        "min": 0.694,
-        "p10": 0.694,
-        "median": 0.694,
-        "p90": 0.694,
-        "max": 0.694,
-        "mean": 0.694
+        "min": 0.695,
+        "p10": 0.695,
+        "median": 0.695,
+        "p90": 0.695,
+        "max": 0.695,
+        "mean": 0.695
       },
       "bands.count": {
         "n": 1,
@@ -19630,30 +19630,30 @@
       },
       "net.byType.image.requests": {
         "n": 1,
-        "min": 26,
-        "p10": 26,
-        "median": 26,
-        "p90": 26,
-        "max": 26,
-        "mean": 26
+        "min": 27,
+        "p10": 27,
+        "median": 27,
+        "p90": 27,
+        "max": 27,
+        "mean": 27
       },
       "net.byType.media.bytes": {
         "n": 1,
-        "min": 123936,
-        "p10": 123936,
-        "median": 123936,
-        "p90": 123936,
-        "max": 123936,
-        "mean": 123936
+        "min": 61968,
+        "p10": 61968,
+        "median": 61968,
+        "p90": 61968,
+        "max": 61968,
+        "mean": 61968
       },
       "net.byType.media.requests": {
         "n": 1,
-        "min": 2,
-        "p10": 2,
-        "median": 2,
-        "p90": 2,
-        "max": 2,
-        "mean": 2
+        "min": 1,
+        "p10": 1,
+        "median": 1,
+        "p90": 1,
+        "max": 1,
+        "mean": 1
       },
       "net.byType.other.bytes": null,
       "net.byType.other.requests": null,
@@ -19677,12 +19677,12 @@
       },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 1074039,
-        "p10": 1074039,
-        "median": 1074039,
-        "p90": 1074039,
-        "max": 1074039,
-        "mean": 1074039
+        "min": 1074098,
+        "p10": 1074098,
+        "median": 1074098,
+        "p90": 1074098,
+        "max": 1074098,
+        "mean": 1074098
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -19715,12 +19715,12 @@
       "net.byType.xhr.requests": null,
       "net.bytes": {
         "n": 1,
-        "min": 3898494,
-        "p10": 3898494,
-        "median": 3898494,
-        "p90": 3898494,
-        "max": 3898494,
-        "mean": 3898494
+        "min": 3836585,
+        "p10": 3836585,
+        "median": 3836585,
+        "p90": 3836585,
+        "max": 3836585,
+        "mean": 3836585
       },
       "net.fontFiles": {
         "n": 1,
@@ -19751,39 +19751,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 305,
-        "p10": 305,
-        "median": 305,
-        "p90": 305,
-        "max": 305,
-        "mean": 305
+        "min": 237,
+        "p10": 237,
+        "median": 237,
+        "p90": 237,
+        "max": 237,
+        "mean": 237
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 336,
-        "p10": 336,
-        "median": 336,
-        "p90": 336,
-        "max": 336,
-        "mean": 336
+        "min": 400,
+        "p10": 400,
+        "median": 400,
+        "p90": 400,
+        "max": 400,
+        "mean": 400
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 10513,
-        "p10": 10513,
-        "median": 10513,
-        "p90": 10513,
-        "max": 10513,
-        "mean": 10513
+        "min": 10441,
+        "p10": 10441,
+        "median": 10441,
+        "p90": 10441,
+        "max": 10441,
+        "mean": 10441
       },
       "perf.transferBytes": {
         "n": 1,
-        "min": 62836,
-        "p10": 62836,
-        "median": 62836,
-        "p90": 62836,
-        "max": 62836,
-        "mean": 62836
+        "min": 62832,
+        "p10": 62832,
+        "median": 62832,
+        "p90": 62832,
+        "max": 62832,
+        "mean": 62832
       },
       "semantics.ctaCount": {
         "n": 1,
@@ -19904,12 +19904,12 @@
       },
       "semantics.textChars": {
         "n": 1,
-        "min": 11179,
-        "p10": 11179,
-        "median": 11179,
-        "p90": 11179,
-        "max": 11179,
-        "mean": 11179
+        "min": 11158,
+        "p10": 11158,
+        "median": 11158,
+        "p90": 11158,
+        "max": 11158,
+        "mean": 11158
       },
       "shape.borderedElements": {
         "n": 1,
@@ -20219,12 +20219,12 @@
       },
       "typography.displayToBodyRatio": {
         "n": 1,
-        "min": 3,
-        "p10": 3,
-        "median": 3,
-        "p90": 3,
-        "max": 3,
-        "mean": 3
+        "min": 2.17,
+        "p10": 2.17,
+        "median": 2.17,
+        "p90": 2.17,
+        "max": 2.17,
+        "mean": 2.17
       },
       "typography.distinctSizes": {
         "n": 1,
@@ -20282,57 +20282,57 @@
       },
       "typography.h1.chars": {
         "n": 1,
-        "min": 10,
-        "p10": 10,
-        "median": 10,
-        "p90": 10,
-        "max": 10,
-        "mean": 10
+        "min": 60,
+        "p10": 60,
+        "median": 60,
+        "p90": 60,
+        "max": 60,
+        "mean": 60
       },
       "typography.h1.letterSpacingEm": {
         "n": 1,
-        "min": -0.02,
-        "p10": -0.02,
-        "median": -0.02,
-        "p90": -0.02,
-        "max": -0.02,
-        "mean": -0.02
+        "min": -0.0125,
+        "p10": -0.0125,
+        "median": -0.0125,
+        "p90": -0.0125,
+        "max": -0.0125,
+        "mean": -0.013
       },
       "typography.h1.lineHeight": {
         "n": 1,
-        "min": 1.2,
-        "p10": 1.2,
-        "median": 1.2,
-        "p90": 1.2,
-        "max": 1.2,
-        "mean": 1.2
+        "min": 1.25,
+        "p10": 1.25,
+        "median": 1.25,
+        "p90": 1.25,
+        "max": 1.25,
+        "mean": 1.25
       },
       "typography.h1.measureCh": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 50,
+        "p10": 50,
+        "median": 50,
+        "p90": 50,
+        "max": 50,
+        "mean": 50
       },
       "typography.h1.px": {
         "n": 1,
-        "min": 36,
-        "p10": 36,
-        "median": 36,
-        "p90": 36,
-        "max": 36,
-        "mean": 36
+        "min": 26,
+        "p10": 26,
+        "median": 26,
+        "p90": 26,
+        "max": 26,
+        "mean": 26
       },
       "typography.h1.pxPerVw": {
         "n": 1,
-        "min": 2.5,
-        "p10": 2.5,
-        "median": 2.5,
-        "p90": 2.5,
-        "max": 2.5,
-        "mean": 2.5
+        "min": 1.806,
+        "p10": 1.806,
+        "median": 1.806,
+        "p90": 1.806,
+        "max": 1.806,
+        "mean": 1.806
       },
       "typography.rangeRatio": {
         "n": 1,
@@ -20945,17 +20945,17 @@
         "p10": 0,
         "median": 0,
         "p90": 0,
-        "max": 6564,
-        "mean": 3282
+        "max": 7432,
+        "mean": 3716
       },
       "net.byType.fetch.requests": {
         "n": 2,
-        "min": 15,
-        "p10": 15,
-        "median": 15,
-        "p90": 15,
+        "min": 16,
+        "p10": 16,
+        "median": 16,
+        "p90": 16,
         "max": 32,
-        "mean": 23.5
+        "mean": 24
       },
       "net.byType.font.bytes": {
         "n": 2,
@@ -21055,12 +21055,12 @@
       "net.byType.xhr.requests": null,
       "net.bytes": {
         "n": 2,
-        "min": 427827,
-        "p10": 427827,
-        "median": 427827,
-        "p90": 427827,
+        "min": 428695,
+        "p10": 428695,
+        "median": 428695,
+        "p90": 428695,
         "max": 7222111,
-        "mean": 3824969
+        "mean": 3825403
       },
       "net.fontFiles": {
         "n": 2,
@@ -21073,12 +21073,12 @@
       },
       "net.requests": {
         "n": 2,
-        "min": 94,
-        "p10": 94,
-        "median": 94,
-        "p90": 94,
+        "min": 95,
+        "p10": 95,
+        "median": 95,
+        "p90": 95,
         "max": 107,
-        "mean": 100.5
+        "mean": 101
       },
       "net.thirdPartyHosts": {
         "n": 2,
@@ -21091,39 +21091,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 2,
-        "min": 137,
-        "p10": 137,
-        "median": 137,
-        "p90": 137,
-        "max": 238,
-        "mean": 187.5
+        "min": 163,
+        "p10": 163,
+        "median": 163,
+        "p90": 163,
+        "max": 298,
+        "mean": 230.5
       },
       "perf.fcpMs": {
         "n": 2,
-        "min": 252,
-        "p10": 252,
-        "median": 252,
-        "p90": 252,
-        "max": 268,
-        "mean": 260
+        "min": 300,
+        "p10": 300,
+        "median": 300,
+        "p90": 300,
+        "max": 312,
+        "mean": 306
       },
       "perf.loadMs": {
         "n": 2,
-        "min": 2340,
-        "p10": 2340,
-        "median": 2340,
-        "p90": 2340,
-        "max": 2442,
-        "mean": 2391
+        "min": 2367,
+        "p10": 2367,
+        "median": 2367,
+        "p90": 2367,
+        "max": 2502,
+        "mean": 2434.5
       },
       "perf.transferBytes": {
         "n": 2,
-        "min": 33668,
-        "p10": 33668,
-        "median": 33668,
-        "p90": 33668,
-        "max": 127520,
-        "mean": 80594
+        "min": 33662,
+        "p10": 33662,
+        "median": 33662,
+        "p90": 33662,
+        "max": 128820,
+        "mean": 81241
       },
       "semantics.ctaCount": {
         "n": 2,
@@ -21140,8 +21140,8 @@
         "p10": 2274,
         "median": 2274,
         "p90": 2274,
-        "max": 2558,
-        "mean": 2416
+        "max": 2557,
+        "mean": 2415.5
       },
       "semantics.focusVisibleRules": {
         "n": 2,
@@ -22255,12 +22255,12 @@
       },
       "net.byType.document.bytes": {
         "n": 1,
-        "min": 340,
-        "p10": 340,
-        "median": 340,
-        "p90": 340,
-        "max": 340,
-        "mean": 340
+        "min": 579,
+        "p10": 579,
+        "median": 579,
+        "p90": 579,
+        "max": 579,
+        "mean": 579
       },
       "net.byType.document.requests": {
         "n": 1,
@@ -22333,12 +22333,12 @@
       "net.byType.ping.requests": null,
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 679320,
-        "p10": 679320,
-        "median": 679320,
-        "p90": 679320,
-        "max": 679320,
-        "mean": 679320
+        "min": 308818,
+        "p10": 308818,
+        "median": 308818,
+        "p90": 308818,
+        "max": 308818,
+        "mean": 308818
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -22351,12 +22351,12 @@
       },
       "net.byType.stylesheet.bytes": {
         "n": 1,
-        "min": 17025,
-        "p10": 17025,
-        "median": 17025,
-        "p90": 17025,
-        "max": 17025,
-        "mean": 17025
+        "min": 11728,
+        "p10": 11728,
+        "median": 11728,
+        "p90": 11728,
+        "max": 11728,
+        "mean": 11728
       },
       "net.byType.stylesheet.requests": {
         "n": 1,
@@ -22371,12 +22371,12 @@
       "net.byType.xhr.requests": null,
       "net.bytes": {
         "n": 1,
-        "min": 6814540,
-        "p10": 6814540,
-        "median": 6814540,
-        "p90": 6814540,
-        "max": 6814540,
-        "mean": 6814540
+        "min": 6438980,
+        "p10": 6438980,
+        "median": 6438980,
+        "p90": 6438980,
+        "max": 6438980,
+        "mean": 6438980
       },
       "net.fontFiles": {
         "n": 1,
@@ -22407,30 +22407,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 562,
-        "p10": 562,
-        "median": 562,
-        "p90": 562,
-        "max": 562,
-        "mean": 562
+        "min": 203,
+        "p10": 203,
+        "median": 203,
+        "p90": 203,
+        "max": 203,
+        "mean": 203
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 592,
-        "p10": 592,
-        "median": 592,
-        "p90": 592,
-        "max": 592,
-        "mean": 592
+        "min": 348,
+        "p10": 348,
+        "median": 348,
+        "p90": 348,
+        "max": 348,
+        "mean": 348
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2793,
-        "p10": 2793,
-        "median": 2793,
-        "p90": 2793,
-        "max": 2793,
-        "mean": 2793
+        "min": 2559,
+        "p10": 2559,
+        "median": 2559,
+        "p90": 2559,
+        "max": 2559,
+        "mean": 2559
       },
       "perf.transferBytes": {
         "n": 1,
@@ -22841,30 +22841,30 @@
       },
       "typography.body.measureCh": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 62.2,
+        "p10": 62.2,
+        "median": 62.2,
+        "p90": 62.2,
+        "max": 62.2,
+        "mean": 62.2
       },
       "typography.body.px": {
         "n": 1,
-        "min": 17,
-        "p10": 17,
-        "median": 17,
-        "p90": 17,
-        "max": 17,
-        "mean": 17
+        "min": 25,
+        "p10": 25,
+        "median": 25,
+        "p90": 25,
+        "max": 25,
+        "mean": 25
       },
       "typography.displayToBodyRatio": {
         "n": 1,
-        "min": 2.82,
-        "p10": 2.82,
-        "median": 2.82,
-        "p90": 2.82,
-        "max": 2.82,
-        "mean": 2.82
+        "min": 0.7,
+        "p10": 0.7,
+        "median": 0.7,
+        "p90": 0.7,
+        "max": 0.7,
+        "mean": 0.7
       },
       "typography.distinctSizes": {
         "n": 1,
@@ -22922,57 +22922,57 @@
       },
       "typography.h1.chars": {
         "n": 1,
-        "min": 8,
-        "p10": 8,
-        "median": 8,
-        "p90": 8,
-        "max": 8,
-        "mean": 8
+        "min": 12,
+        "p10": 12,
+        "median": 12,
+        "p90": 12,
+        "max": 12,
+        "mean": 12
       },
       "typography.h1.letterSpacingEm": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 0.0182,
+        "p10": 0.0182,
+        "median": 0.0182,
+        "p90": 0.0182,
+        "max": 0.0182,
+        "mean": 0.018
       },
       "typography.h1.lineHeight": {
         "n": 1,
-        "min": 1.417,
-        "p10": 1.417,
-        "median": 1.417,
-        "p90": 1.417,
-        "max": 1.417,
-        "mean": 1.417
+        "min": 1,
+        "p10": 1,
+        "median": 1,
+        "p90": 1,
+        "max": 1,
+        "mean": 1
       },
       "typography.h1.measureCh": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 148.3,
+        "p10": 148.3,
+        "median": 148.3,
+        "p90": 148.3,
+        "max": 148.3,
+        "mean": 148.3
       },
       "typography.h1.px": {
         "n": 1,
-        "min": 48,
-        "p10": 48,
-        "median": 48,
-        "p90": 48,
-        "max": 48,
-        "mean": 48
+        "min": 17.6,
+        "p10": 17.6,
+        "median": 17.6,
+        "p90": 17.6,
+        "max": 17.6,
+        "mean": 17.6
       },
       "typography.h1.pxPerVw": {
         "n": 1,
-        "min": 3.333,
-        "p10": 3.333,
-        "median": 3.333,
-        "p90": 3.333,
-        "max": 3.333,
-        "mean": 3.333
+        "min": 1.222,
+        "p10": 1.222,
+        "median": 1.222,
+        "p90": 1.222,
+        "max": 1.222,
+        "mean": 1.222
       },
       "typography.rangeRatio": {
         "n": 1,
@@ -23627,21 +23627,21 @@
       },
       "net.byType.media.bytes": {
         "n": 1,
-        "min": 352225740,
-        "p10": 352225740,
-        "median": 352225740,
-        "p90": 352225740,
-        "max": 352225740,
-        "mean": 352225740
+        "min": 391158805,
+        "p10": 391158805,
+        "median": 391158805,
+        "p90": 391158805,
+        "max": 391158805,
+        "mean": 391158805
       },
       "net.byType.media.requests": {
         "n": 1,
-        "min": 14,
-        "p10": 14,
-        "median": 14,
-        "p90": 14,
-        "max": 14,
-        "mean": 14
+        "min": 16,
+        "p10": 16,
+        "median": 16,
+        "p90": 16,
+        "max": 16,
+        "mean": 16
       },
       "net.byType.other.bytes": {
         "n": 1,
@@ -23665,12 +23665,12 @@
       "net.byType.ping.requests": null,
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 1577490,
-        "p10": 1577490,
-        "median": 1577490,
-        "p90": 1577490,
-        "max": 1577490,
-        "mean": 1577490
+        "min": 1577486,
+        "p10": 1577486,
+        "median": 1577486,
+        "p90": 1577486,
+        "max": 1577486,
+        "mean": 1577486
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -23719,12 +23719,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 388107860,
-        "p10": 388107860,
-        "median": 388107860,
-        "p90": 388107860,
-        "max": 388107860,
-        "mean": 388107860
+        "min": 427040921,
+        "p10": 427040921,
+        "median": 427040921,
+        "p90": 427040921,
+        "max": 427040921,
+        "mean": 427040921
       },
       "net.fontFiles": {
         "n": 1,
@@ -23737,12 +23737,12 @@
       },
       "net.requests": {
         "n": 1,
-        "min": 89,
-        "p10": 89,
-        "median": 89,
-        "p90": 89,
-        "max": 89,
-        "mean": 89
+        "min": 91,
+        "p10": 91,
+        "median": 91,
+        "p90": 91,
+        "max": 91,
+        "mean": 91
       },
       "net.thirdPartyHosts": {
         "n": 1,
@@ -23755,12 +23755,12 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 68,
-        "p10": 68,
-        "median": 68,
-        "p90": 68,
-        "max": 68,
-        "mean": 68
+        "min": 66,
+        "p10": 66,
+        "median": 66,
+        "p90": 66,
+        "max": 66,
+        "mean": 66
       },
       "perf.fcpMs": {
         "n": 1,
@@ -23773,12 +23773,12 @@
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 10343,
-        "p10": 10343,
-        "median": 10343,
-        "p90": 10343,
-        "max": 10343,
-        "mean": 10343
+        "min": 10344,
+        "p10": 10344,
+        "median": 10344,
+        "p90": 10344,
+        "max": 10344,
+        "mean": 10344
       },
       "perf.transferBytes": {
         "n": 1,
@@ -24196,39 +24196,39 @@
       },
       "typography.body.lineHeight": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 1.5,
+        "p10": 1.5,
+        "median": 1.5,
+        "p90": 1.5,
+        "max": 1.5,
+        "mean": 1.5
       },
       "typography.body.measureCh": {
         "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 57.2,
+        "p10": 57.2,
+        "median": 57.2,
+        "p90": 57.2,
+        "max": 57.2,
+        "mean": 57.2
       },
       "typography.body.px": {
         "n": 1,
-        "min": 13,
-        "p10": 13,
-        "median": 13,
-        "p90": 13,
-        "max": 13,
-        "mean": 13
+        "min": 13.1,
+        "p10": 13.1,
+        "median": 13.1,
+        "p90": 13.1,
+        "max": 13.1,
+        "mean": 13.1
       },
       "typography.displayToBodyRatio": {
         "n": 1,
-        "min": 6.15,
-        "p10": 6.15,
-        "median": 6.15,
-        "p90": 6.15,
-        "max": 6.15,
-        "mean": 6.15
+        "min": 6.1,
+        "p10": 6.1,
+        "median": 6.1,
+        "p90": 6.1,
+        "max": 6.1,
+        "mean": 6.1
       },
       "typography.distinctSizes": {
         "n": 1,
@@ -24928,30 +24928,30 @@
       },
       "net.byType.document.requests": {
         "n": 1,
-        "min": 8,
-        "p10": 8,
-        "median": 8,
-        "p90": 8,
-        "max": 8,
-        "mean": 8
+        "min": 7,
+        "p10": 7,
+        "median": 7,
+        "p90": 7,
+        "max": 7,
+        "mean": 7
       },
       "net.byType.fetch.bytes": {
         "n": 1,
-        "min": 1512,
-        "p10": 1512,
-        "median": 1512,
-        "p90": 1512,
-        "max": 1512,
-        "mean": 1512
+        "min": 1407,
+        "p10": 1407,
+        "median": 1407,
+        "p90": 1407,
+        "max": 1407,
+        "mean": 1407
       },
       "net.byType.fetch.requests": {
         "n": 1,
-        "min": 38,
-        "p10": 38,
-        "median": 38,
-        "p90": 38,
-        "max": 38,
-        "mean": 38
+        "min": 36,
+        "p10": 36,
+        "median": 36,
+        "p90": 36,
+        "max": 36,
+        "mean": 36
       },
       "net.byType.font.bytes": {
         "n": 1,
@@ -24973,30 +24973,30 @@
       },
       "net.byType.image.bytes": {
         "n": 1,
-        "min": 2454334,
-        "p10": 2454334,
-        "median": 2454334,
-        "p90": 2454334,
-        "max": 2454334,
-        "mean": 2454334
+        "min": 2453079,
+        "p10": 2453079,
+        "median": 2453079,
+        "p90": 2453079,
+        "max": 2453079,
+        "mean": 2453079
       },
       "net.byType.image.requests": {
         "n": 1,
-        "min": 112,
-        "p10": 112,
-        "median": 112,
-        "p90": 112,
-        "max": 112,
-        "mean": 112
+        "min": 111,
+        "p10": 111,
+        "median": 111,
+        "p90": 111,
+        "max": 111,
+        "mean": 111
       },
       "net.byType.media.bytes": {
         "n": 1,
-        "min": 5085548,
-        "p10": 5085548,
-        "median": 5085548,
-        "p90": 5085548,
-        "max": 5085548,
-        "mean": 5085548
+        "min": 5249388,
+        "p10": 5249388,
+        "median": 5249388,
+        "p90": 5249388,
+        "max": 5249388,
+        "mean": 5249388
       },
       "net.byType.media.requests": {
         "n": 1,
@@ -25020,30 +25020,30 @@
       },
       "net.byType.ping.requests": {
         "n": 1,
-        "min": 5,
-        "p10": 5,
-        "median": 5,
-        "p90": 5,
-        "max": 5,
-        "mean": 5
+        "min": 6,
+        "p10": 6,
+        "median": 6,
+        "p90": 6,
+        "max": 6,
+        "mean": 6
       },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 1267163,
-        "p10": 1267163,
-        "median": 1267163,
-        "p90": 1267163,
-        "max": 1267163,
-        "mean": 1267163
+        "min": 1235519,
+        "p10": 1235519,
+        "median": 1235519,
+        "p90": 1235519,
+        "max": 1235519,
+        "mean": 1235519
       },
       "net.byType.script.requests": {
         "n": 1,
-        "min": 61,
-        "p10": 61,
-        "median": 61,
-        "p90": 61,
-        "max": 61,
-        "mean": 61
+        "min": 59,
+        "p10": 59,
+        "median": 59,
+        "p90": 59,
+        "max": 59,
+        "mean": 59
       },
       "net.byType.stylesheet.bytes": {
         "n": 1,
@@ -25074,21 +25074,21 @@
       },
       "net.byType.xhr.requests": {
         "n": 1,
-        "min": 8,
-        "p10": 8,
-        "median": 8,
-        "p90": 8,
-        "max": 8,
-        "mean": 8
+        "min": 9,
+        "p10": 9,
+        "median": 9,
+        "p90": 9,
+        "max": 9,
+        "mean": 9
       },
       "net.bytes": {
         "n": 1,
-        "min": 9406503,
-        "p10": 9406503,
-        "median": 9406503,
-        "p90": 9406503,
-        "max": 9406503,
-        "mean": 9406503
+        "min": 9537339,
+        "p10": 9537339,
+        "median": 9537339,
+        "p90": 9537339,
+        "max": 9537339,
+        "mean": 9537339
       },
       "net.fontFiles": {
         "n": 1,
@@ -25101,57 +25101,57 @@
       },
       "net.requests": {
         "n": 1,
-        "min": 250,
-        "p10": 250,
-        "median": 250,
-        "p90": 250,
-        "max": 250,
-        "mean": 250
+        "min": 246,
+        "p10": 246,
+        "median": 246,
+        "p90": 246,
+        "max": 246,
+        "mean": 246
       },
       "net.thirdPartyHosts": {
         "n": 1,
-        "min": 81,
-        "p10": 81,
-        "median": 81,
-        "p90": 81,
-        "max": 81,
-        "mean": 81
+        "min": 80,
+        "p10": 80,
+        "median": 80,
+        "p90": 80,
+        "max": 80,
+        "mean": 80
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 538,
-        "p10": 538,
-        "median": 538,
-        "p90": 538,
-        "max": 538,
-        "mean": 538
+        "min": 635,
+        "p10": 635,
+        "median": 635,
+        "p90": 635,
+        "max": 635,
+        "mean": 635
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 352,
-        "p10": 352,
-        "median": 352,
-        "p90": 352,
-        "max": 352,
-        "mean": 352
+        "min": 376,
+        "p10": 376,
+        "median": 376,
+        "p90": 376,
+        "max": 376,
+        "mean": 376
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 10865,
-        "p10": 10865,
-        "median": 10865,
-        "p90": 10865,
-        "max": 10865,
-        "mean": 10865
+        "min": 10854,
+        "p10": 10854,
+        "median": 10854,
+        "p90": 10854,
+        "max": 10854,
+        "mean": 10854
       },
       "perf.transferBytes": {
         "n": 1,
-        "min": 62971,
-        "p10": 62971,
-        "median": 62971,
-        "p90": 62971,
-        "max": 62971,
-        "mean": 62971
+        "min": 63039,
+        "p10": 63039,
+        "median": 63039,
+        "p90": 63039,
+        "max": 63039,
+        "mean": 63039
       },
       "semantics.ctaCount": {
         "n": 1,
@@ -25272,12 +25272,12 @@
       },
       "semantics.textChars": {
         "n": 1,
-        "min": 3649,
-        "p10": 3649,
-        "median": 3649,
-        "p90": 3649,
-        "max": 3649,
-        "mean": 3649
+        "min": 3647,
+        "p10": 3647,
+        "median": 3647,
+        "p90": 3647,
+        "max": 3647,
+        "mean": 3647
       },
       "shape.borderedElements": {
         "n": 1,
@@ -26283,12 +26283,12 @@
       },
       "net.byType.document.bytes": {
         "n": 1,
-        "min": 6539,
-        "p10": 6539,
-        "median": 6539,
-        "p90": 6539,
-        "max": 6539,
-        "mean": 6539
+        "min": 6535,
+        "p10": 6535,
+        "median": 6535,
+        "p90": 6535,
+        "max": 6535,
+        "mean": 6535
       },
       "net.byType.document.requests": {
         "n": 1,
@@ -26310,12 +26310,12 @@
       },
       "net.byType.fetch.requests": {
         "n": 1,
-        "min": 34,
-        "p10": 34,
-        "median": 34,
-        "p90": 34,
-        "max": 34,
-        "mean": 34
+        "min": 36,
+        "p10": 36,
+        "median": 36,
+        "p90": 36,
+        "max": 36,
+        "mean": 36
       },
       "net.byType.font.bytes": {
         "n": 1,
@@ -26337,12 +26337,12 @@
       },
       "net.byType.image.bytes": {
         "n": 1,
-        "min": 715291,
-        "p10": 715291,
-        "median": 715291,
-        "p90": 715291,
-        "max": 715291,
-        "mean": 715291
+        "min": 713381,
+        "p10": 713381,
+        "median": 713381,
+        "p90": 713381,
+        "max": 713381,
+        "mean": 713381
       },
       "net.byType.image.requests": {
         "n": 1,
@@ -26371,24 +26371,8 @@
         "max": 1,
         "mean": 1
       },
-      "net.byType.other.bytes": {
-        "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
-      },
-      "net.byType.other.requests": {
-        "n": 1,
-        "min": 1,
-        "p10": 1,
-        "median": 1,
-        "p90": 1,
-        "max": 1,
-        "mean": 1
-      },
+      "net.byType.other.bytes": null,
+      "net.byType.other.requests": null,
       "net.byType.ping.bytes": {
         "n": 1,
         "min": 0,
@@ -26400,39 +26384,39 @@
       },
       "net.byType.ping.requests": {
         "n": 1,
-        "min": 10,
-        "p10": 10,
-        "median": 10,
-        "p90": 10,
-        "max": 10,
-        "mean": 10
+        "min": 11,
+        "p10": 11,
+        "median": 11,
+        "p90": 11,
+        "max": 11,
+        "mean": 11
       },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 1575190,
-        "p10": 1575190,
-        "median": 1575190,
-        "p90": 1575190,
-        "max": 1575190,
-        "mean": 1575190
+        "min": 1579462,
+        "p10": 1579462,
+        "median": 1579462,
+        "p90": 1579462,
+        "max": 1579462,
+        "mean": 1579462
       },
       "net.byType.script.requests": {
         "n": 1,
-        "min": 92,
-        "p10": 92,
-        "median": 92,
-        "p90": 92,
-        "max": 92,
-        "mean": 92
+        "min": 104,
+        "p10": 104,
+        "median": 104,
+        "p90": 104,
+        "max": 104,
+        "mean": 104
       },
       "net.byType.stylesheet.bytes": {
         "n": 1,
-        "min": 65,
-        "p10": 65,
-        "median": 65,
-        "p90": 65,
-        "max": 65,
-        "mean": 65
+        "min": 89,
+        "p10": 89,
+        "median": 89,
+        "p90": 89,
+        "max": 89,
+        "mean": 89
       },
       "net.byType.stylesheet.requests": {
         "n": 1,
@@ -26445,12 +26429,12 @@
       },
       "net.byType.xhr.bytes": {
         "n": 1,
-        "min": 928,
-        "p10": 928,
-        "median": 928,
-        "p90": 928,
-        "max": 928,
-        "mean": 928
+        "min": 927,
+        "p10": 927,
+        "median": 927,
+        "p90": 927,
+        "max": 927,
+        "mean": 927
       },
       "net.byType.xhr.requests": {
         "n": 1,
@@ -26463,12 +26447,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 3599780,
-        "p10": 3599780,
-        "median": 3599780,
-        "p90": 3599780,
-        "max": 3599780,
-        "mean": 3599780
+        "min": 3602161,
+        "p10": 3602161,
+        "median": 3602161,
+        "p90": 3602161,
+        "max": 3602161,
+        "mean": 3602161
       },
       "net.fontFiles": {
         "n": 1,
@@ -26481,12 +26465,12 @@
       },
       "net.requests": {
         "n": 1,
-        "min": 280,
-        "p10": 280,
-        "median": 280,
-        "p90": 280,
-        "max": 280,
-        "mean": 280
+        "min": 294,
+        "p10": 294,
+        "median": 294,
+        "p90": 294,
+        "max": 294,
+        "mean": 294
       },
       "net.thirdPartyHosts": {
         "n": 1,
@@ -26499,30 +26483,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 1176,
-        "p10": 1176,
-        "median": 1176,
-        "p90": 1176,
-        "max": 1176,
-        "mean": 1176
+        "min": 558,
+        "p10": 558,
+        "median": 558,
+        "p90": 558,
+        "max": 558,
+        "mean": 558
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 764,
-        "p10": 764,
-        "median": 764,
-        "p90": 764,
-        "max": 764,
-        "mean": 764
+        "min": 724,
+        "p10": 724,
+        "median": 724,
+        "p90": 724,
+        "max": 724,
+        "mean": 724
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 11436,
-        "p10": 11436,
-        "median": 11436,
-        "p90": 11436,
-        "max": 11436,
-        "mean": 11436
+        "min": 10816,
+        "p10": 10816,
+        "median": 10816,
+        "p90": 10816,
+        "max": 10816,
+        "mean": 10816
       },
       "perf.transferBytes": {
         "n": 1,
@@ -27401,12 +27385,12 @@
       },
       "hero.totalChars": {
         "n": 1,
-        "min": 717,
-        "p10": 717,
-        "median": 717,
-        "p90": 717,
-        "max": 717,
-        "mean": 717
+        "min": 716,
+        "p10": 716,
+        "median": 716,
+        "p90": 716,
+        "max": 716,
+        "mean": 716
       },
       "layout.aboveFoldElements": {
         "n": 1,
@@ -27428,12 +27412,12 @@
       },
       "layout.aboveFoldTextChars": {
         "n": 1,
-        "min": 717,
-        "p10": 717,
-        "median": 717,
-        "p90": 717,
-        "max": 717,
-        "mean": 717
+        "min": 716,
+        "p10": 716,
+        "median": 716,
+        "p90": 716,
+        "max": 716,
+        "mean": 716
       },
       "layout.asymmetricGrids": {
         "n": 1,
@@ -27671,12 +27655,12 @@
       },
       "net.byType.document.bytes": {
         "n": 1,
-        "min": 340,
-        "p10": 340,
-        "median": 340,
-        "p90": 340,
-        "max": 340,
-        "mean": 340
+        "min": 579,
+        "p10": 579,
+        "median": 579,
+        "p90": 579,
+        "max": 579,
+        "mean": 579
       },
       "net.byType.document.requests": {
         "n": 1,
@@ -27725,21 +27709,21 @@
       },
       "net.byType.image.bytes": {
         "n": 1,
-        "min": 1297075,
-        "p10": 1297075,
-        "median": 1297075,
-        "p90": 1297075,
-        "max": 1297075,
-        "mean": 1297075
+        "min": 1308042,
+        "p10": 1308042,
+        "median": 1308042,
+        "p90": 1308042,
+        "max": 1308042,
+        "mean": 1308042
       },
       "net.byType.image.requests": {
         "n": 1,
-        "min": 56,
-        "p10": 56,
-        "median": 56,
-        "p90": 56,
-        "max": 56,
-        "mean": 56
+        "min": 66,
+        "p10": 66,
+        "median": 66,
+        "p90": 66,
+        "max": 66,
+        "mean": 66
       },
       "net.byType.media.bytes": null,
       "net.byType.media.requests": null,
@@ -27765,12 +27749,12 @@
       },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 2208743,
-        "p10": 2208743,
-        "median": 2208743,
-        "p90": 2208743,
-        "max": 2208743,
-        "mean": 2208743
+        "min": 971348,
+        "p10": 971348,
+        "median": 971348,
+        "p90": 971348,
+        "max": 971348,
+        "mean": 971348
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -27783,12 +27767,12 @@
       },
       "net.byType.stylesheet.bytes": {
         "n": 1,
-        "min": 63251,
-        "p10": 63251,
-        "median": 63251,
-        "p90": 63251,
-        "max": 63251,
-        "mean": 63251
+        "min": 318,
+        "p10": 318,
+        "median": 318,
+        "p90": 318,
+        "max": 318,
+        "mean": 318
       },
       "net.byType.stylesheet.requests": {
         "n": 1,
@@ -27801,12 +27785,12 @@
       },
       "net.byType.xhr.bytes": {
         "n": 1,
-        "min": 524,
-        "p10": 524,
-        "median": 524,
-        "p90": 524,
-        "max": 524,
-        "mean": 524
+        "min": 515,
+        "p10": 515,
+        "median": 515,
+        "p90": 515,
+        "max": 515,
+        "mean": 515
       },
       "net.byType.xhr.requests": {
         "n": 1,
@@ -27819,12 +27803,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 3640839,
-        "p10": 3640839,
-        "median": 3640839,
-        "p90": 3640839,
-        "max": 3640839,
-        "mean": 3640839
+        "min": 2351708,
+        "p10": 2351708,
+        "median": 2351708,
+        "p90": 2351708,
+        "max": 2351708,
+        "mean": 2351708
       },
       "net.fontFiles": {
         "n": 1,
@@ -27837,12 +27821,12 @@
       },
       "net.requests": {
         "n": 1,
-        "min": 221,
-        "p10": 221,
-        "median": 221,
-        "p90": 221,
-        "max": 221,
-        "mean": 221
+        "min": 231,
+        "p10": 231,
+        "median": 231,
+        "p90": 231,
+        "max": 231,
+        "mean": 231
       },
       "net.thirdPartyHosts": {
         "n": 1,
@@ -27855,39 +27839,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 124,
-        "p10": 124,
-        "median": 124,
-        "p90": 124,
-        "max": 124,
-        "mean": 124
+        "min": 111,
+        "p10": 111,
+        "median": 111,
+        "p90": 111,
+        "max": 111,
+        "mean": 111
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 228,
-        "p10": 228,
-        "median": 228,
-        "p90": 228,
-        "max": 228,
-        "mean": 228
+        "min": 216,
+        "p10": 216,
+        "median": 216,
+        "p90": 216,
+        "max": 216,
+        "mean": 216
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2545,
-        "p10": 2545,
-        "median": 2545,
-        "p90": 2545,
-        "max": 2545,
-        "mean": 2545
+        "min": 2570,
+        "p10": 2570,
+        "median": 2570,
+        "p90": 2570,
+        "max": 2570,
+        "mean": 2570
       },
       "perf.transferBytes": {
         "n": 1,
-        "min": 177839,
-        "p10": 177839,
-        "median": 177839,
-        "p90": 177839,
-        "max": 177839,
-        "mean": 177839
+        "min": 177713,
+        "p10": 177713,
+        "median": 177713,
+        "p90": 177713,
+        "max": 177713,
+        "mean": 177713
       },
       "semantics.ctaCount": {
         "n": 1,
@@ -28008,12 +27992,12 @@
       },
       "semantics.textChars": {
         "n": 1,
-        "min": 11913,
-        "p10": 11913,
-        "median": 11913,
-        "p90": 11913,
-        "max": 11913,
-        "mean": 11913
+        "min": 11912,
+        "p10": 11912,
+        "median": 11912,
+        "p90": 11912,
+        "max": 11912,
+        "mean": 11912
       },
       "shape.borderedElements": {
         "n": 1,
@@ -29015,8 +28999,8 @@
         "p10": 162,
         "median": 162,
         "p90": 162,
-        "max": 2169,
-        "mean": 1165.5
+        "max": 2551,
+        "mean": 1356.5
       },
       "net.byType.document.requests": {
         "n": 2,
@@ -29029,12 +29013,12 @@
       },
       "net.byType.fetch.bytes": {
         "n": 2,
-        "min": 1785,
-        "p10": 1785,
-        "median": 1785,
-        "p90": 1785,
-        "max": 122514,
-        "mean": 62149.5
+        "min": 2028,
+        "p10": 2028,
+        "median": 2028,
+        "p90": 2028,
+        "max": 122513,
+        "mean": 62270.5
       },
       "net.byType.fetch.requests": {
         "n": 2,
@@ -29069,8 +29053,8 @@
         "p10": 1090781,
         "median": 1090781,
         "p90": 1090781,
-        "max": 1666234,
-        "mean": 1378507.5
+        "max": 1666277,
+        "mean": 1378529
       },
       "net.byType.image.requests": {
         "n": 2,
@@ -29078,17 +29062,17 @@
         "p10": 27,
         "median": 27,
         "p90": 27,
-        "max": 60,
-        "mean": 43.5
+        "max": 61,
+        "mean": 44
       },
       "net.byType.media.bytes": {
         "n": 1,
-        "min": 10076564,
-        "p10": 10076564,
-        "median": 10076564,
-        "p90": 10076564,
-        "max": 10076564,
-        "mean": 10076564
+        "min": 10109332,
+        "p10": 10109332,
+        "median": 10109332,
+        "p90": 10109332,
+        "max": 10109332,
+        "mean": 10109332
       },
       "net.byType.media.requests": {
         "n": 1,
@@ -29137,21 +29121,21 @@
       },
       "net.byType.script.bytes": {
         "n": 2,
-        "min": 1166110,
-        "p10": 1166110,
-        "median": 1166110,
-        "p90": 1166110,
-        "max": 1733596,
-        "mean": 1449853
+        "min": 1231080,
+        "p10": 1231080,
+        "median": 1231080,
+        "p90": 1231080,
+        "max": 1733516,
+        "mean": 1482298
       },
       "net.byType.script.requests": {
         "n": 2,
-        "min": 88,
-        "p10": 88,
-        "median": 88,
-        "p90": 88,
+        "min": 89,
+        "p10": 89,
+        "median": 89,
+        "p90": 89,
         "max": 104,
-        "mean": 96
+        "mean": 96.5
       },
       "net.byType.stylesheet.bytes": {
         "n": 2,
@@ -29191,12 +29175,12 @@
       },
       "net.bytes": {
         "n": 2,
-        "min": 3752750,
-        "p10": 3752750,
-        "median": 3752750,
-        "p90": 3752750,
-        "max": 12572563,
-        "mean": 8162656.5
+        "min": 3753094,
+        "p10": 3753094,
+        "median": 3753094,
+        "p90": 3753094,
+        "max": 12670544,
+        "mean": 8211819
       },
       "net.fontFiles": {
         "n": 2,
@@ -29209,48 +29193,48 @@
       },
       "net.requests": {
         "n": 2,
-        "min": 167,
-        "p10": 167,
-        "median": 167,
-        "p90": 167,
-        "max": 265,
-        "mean": 216
+        "min": 168,
+        "p10": 168,
+        "median": 168,
+        "p90": 168,
+        "max": 266,
+        "mean": 217
       },
       "net.thirdPartyHosts": {
         "n": 2,
-        "min": 35,
-        "p10": 35,
-        "median": 35,
-        "p90": 35,
+        "min": 36,
+        "p10": 36,
+        "median": 36,
+        "p90": 36,
         "max": 51,
-        "mean": 43
+        "mean": 43.5
       },
       "perf.domInteractiveMs": {
         "n": 2,
-        "min": 201,
-        "p10": 201,
-        "median": 201,
-        "p90": 201,
-        "max": 276,
-        "mean": 238.5
+        "min": 186,
+        "p10": 186,
+        "median": 186,
+        "p90": 186,
+        "max": 244,
+        "mean": 215
       },
       "perf.fcpMs": {
         "n": 2,
-        "min": 328,
-        "p10": 328,
-        "median": 328,
-        "p90": 328,
-        "max": 344,
-        "mean": 336
+        "min": 288,
+        "p10": 288,
+        "median": 288,
+        "p90": 288,
+        "max": 312,
+        "mean": 300
       },
       "perf.loadMs": {
         "n": 2,
-        "min": 3819,
-        "p10": 3819,
-        "median": 3819,
-        "p90": 3819,
-        "max": 10719,
-        "mean": 7269
+        "min": 3672,
+        "p10": 3672,
+        "median": 3672,
+        "p90": 3672,
+        "max": 10694,
+        "mean": 7183
       },
       "perf.transferBytes": {
         "n": 2,
@@ -29258,8 +29242,8 @@
         "p10": 65389,
         "median": 65389,
         "p90": 65389,
-        "max": 95084,
-        "mean": 80236.5
+        "max": 97946,
+        "mean": 81667.5
       },
       "semantics.ctaCount": {
         "n": 2,
@@ -29276,8 +29260,8 @@
         "p10": 1959,
         "median": 1959,
         "p90": 1959,
-        "max": 2255,
-        "mean": 2107
+        "max": 2225,
+        "mean": 2092
       },
       "semantics.focusVisibleRules": {
         "n": 2,
@@ -29868,12 +29852,12 @@
     "hr-fintech": {
       "bands.charVariationCoef": {
         "n": 2,
-        "min": 0.623,
-        "p10": 0.623,
-        "median": 0.623,
-        "p90": 0.623,
+        "min": 0.586,
+        "p10": 0.586,
+        "median": 0.586,
+        "p90": 0.586,
         "max": 2.71,
-        "mean": 1.667
+        "mean": 1.648
       },
       "bands.count": {
         "n": 2,
@@ -30048,12 +30032,12 @@
       },
       "hero.displayChars": {
         "n": 2,
-        "min": 43,
-        "p10": 43,
-        "median": 43,
-        "p90": 43,
+        "min": 44,
+        "p10": 44,
+        "median": 44,
+        "p90": 44,
         "max": 44,
-        "mean": 43.5
+        "mean": 44
       },
       "hero.displayLineHeight": {
         "n": 2,
@@ -30066,12 +30050,12 @@
       },
       "hero.displayMeasureCh": {
         "n": 2,
-        "min": 14.3,
-        "p10": 14.3,
-        "median": 14.3,
-        "p90": 14.3,
-        "max": 19.2,
-        "mean": 16.75
+        "min": 19.2,
+        "p10": 19.2,
+        "median": 19.2,
+        "p90": 19.2,
+        "max": 25.8,
+        "mean": 22.5
       },
       "hero.displayPx": {
         "n": 2,
@@ -30102,12 +30086,12 @@
       },
       "hero.hasHeroMedia": {
         "n": 2,
-        "min": 1,
-        "p10": 1,
-        "median": 1,
-        "p90": 1,
+        "min": 0,
+        "p10": 0,
+        "median": 0,
+        "p90": 0,
         "max": 1,
-        "mean": 1
+        "mean": 0.5
       },
       "hero.navHeight": {
         "n": 1,
@@ -30129,12 +30113,12 @@
       },
       "hero.totalChars": {
         "n": 2,
-        "min": 511,
-        "p10": 511,
-        "median": 511,
-        "p90": 511,
+        "min": 515,
+        "p10": 515,
+        "median": 515,
+        "p90": 515,
         "max": 789,
-        "mean": 650
+        "mean": 652
       },
       "layout.aboveFoldElements": {
         "n": 2,
@@ -30142,8 +30126,8 @@
         "p10": 168,
         "median": 168,
         "p90": 168,
-        "max": 189,
-        "mean": 178.5
+        "max": 885,
+        "mean": 526.5
       },
       "layout.aboveFoldInkRatio": {
         "n": 2,
@@ -30156,12 +30140,12 @@
       },
       "layout.aboveFoldTextChars": {
         "n": 2,
-        "min": 511,
-        "p10": 511,
-        "median": 511,
-        "p90": 511,
+        "min": 515,
+        "p10": 515,
+        "median": 515,
+        "p90": 515,
         "max": 789,
-        "mean": 650
+        "mean": 652
       },
       "layout.asymmetricGrids": {
         "n": 2,
@@ -30169,8 +30153,8 @@
         "p10": 3,
         "median": 3,
         "p90": 3,
-        "max": 15,
-        "mean": 9
+        "max": 14,
+        "mean": 8.5
       },
       "layout.asymmetryRatio": {
         "n": 2,
@@ -30178,8 +30162,8 @@
         "p10": 0.429,
         "median": 0.429,
         "p90": 0.429,
-        "max": 0.469,
-        "mean": 0.449
+        "max": 0.438,
+        "mean": 0.433
       },
       "layout.columnCounts.count": {
         "n": 2,
@@ -30196,17 +30180,17 @@
         "p10": 8.55,
         "median": 8.55,
         "p90": 8.55,
-        "max": 10.5,
-        "mean": 9.525
+        "max": 11.95,
+        "mean": 10.25
       },
       "layout.fullBleed": {
         "n": 2,
-        "min": 15,
-        "p10": 15,
-        "median": 15,
-        "p90": 15,
-        "max": 16,
-        "mean": 15.5
+        "min": 16,
+        "p10": 16,
+        "median": 16,
+        "p90": 16,
+        "max": 19,
+        "mean": 17.5
       },
       "layout.gridContainers": {
         "n": 2,
@@ -30237,30 +30221,30 @@
       },
       "media.altCoverage": {
         "n": 2,
-        "min": 0.979,
-        "p10": 0.979,
-        "median": 0.979,
-        "p90": 0.979,
+        "min": 0.951,
+        "p10": 0.951,
+        "median": 0.951,
+        "p90": 0.951,
         "max": 1,
-        "mean": 0.99
+        "mean": 0.976
       },
       "media.imageAreaRatio": {
         "n": 2,
-        "min": 0.2201,
-        "p10": 0.2201,
-        "median": 0.2201,
-        "p90": 0.2201,
+        "min": 0.2138,
+        "p10": 0.2138,
+        "median": 0.2138,
+        "p90": 0.2138,
         "max": 0.427,
-        "mean": 0.324
+        "mean": 0.32
       },
       "media.images": {
         "n": 2,
-        "min": 48,
-        "p10": 48,
-        "median": 48,
-        "p90": 48,
+        "min": 61,
+        "p10": 61,
+        "median": 61,
+        "p90": 61,
         "max": 142,
-        "mean": 95
+        "mean": 101.5
       },
       "media.lazyCoverage": {
         "n": 2,
@@ -30268,26 +30252,26 @@
         "p10": 0.634,
         "median": 0.634,
         "p90": 0.634,
-        "max": 0.938,
-        "mean": 0.786
+        "max": 0.787,
+        "mean": 0.711
       },
       "media.modernFormats": {
         "n": 2,
-        "min": 0.021,
-        "p10": 0.021,
-        "median": 0.021,
-        "p90": 0.021,
+        "min": 0,
+        "p10": 0,
+        "median": 0,
+        "p90": 0,
         "max": 0.141,
-        "mean": 0.081
+        "mean": 0.07
       },
       "media.svgInline": {
         "n": 2,
-        "min": 128,
-        "p10": 128,
-        "median": 128,
-        "p90": 128,
+        "min": 163,
+        "p10": 163,
+        "median": 163,
+        "p90": 163,
         "max": 495,
-        "mean": 311.5
+        "mean": 329
       },
       "media.videos": {
         "n": 2,
@@ -30381,19 +30365,19 @@
       },
       "motion.transitionElements": {
         "n": 2,
-        "min": 89,
-        "p10": 89,
-        "median": 89,
-        "p90": 89,
+        "min": 127,
+        "p10": 127,
+        "median": 127,
+        "p90": 127,
         "max": 1121,
-        "mean": 605
+        "mean": 624
       },
       "motion.transitionRatio": {
         "n": 2,
-        "min": 0.013,
-        "p10": 0.013,
-        "median": 0.013,
-        "p90": 0.013,
+        "min": 0.012,
+        "p10": 0.012,
+        "median": 0.012,
+        "p90": 0.012,
         "max": 0.094,
         "mean": 0.053
       },
@@ -30403,17 +30387,17 @@
         "p10": 784,
         "median": 784,
         "p90": 784,
-        "max": 1125,
-        "mean": 954.5
+        "max": 1921,
+        "mean": 1352.5
       },
       "net.byType.document.requests": {
         "n": 2,
-        "min": 2,
-        "p10": 2,
-        "median": 2,
-        "p90": 2,
+        "min": 4,
+        "p10": 4,
+        "median": 4,
+        "p90": 4,
         "max": 4,
-        "mean": 3
+        "mean": 4
       },
       "net.byType.fetch.bytes": {
         "n": 2,
@@ -30421,8 +30405,8 @@
         "p10": 2,
         "median": 2,
         "p90": 2,
-        "max": 5645,
-        "mean": 2823.5
+        "max": 11416,
+        "mean": 5709
       },
       "net.byType.fetch.requests": {
         "n": 2,
@@ -30430,8 +30414,8 @@
         "p10": 3,
         "median": 3,
         "p90": 3,
-        "max": 64,
-        "mean": 33.5
+        "max": 92,
+        "mean": 47.5
       },
       "net.byType.font.bytes": {
         "n": 2,
@@ -30453,39 +30437,39 @@
       },
       "net.byType.image.bytes": {
         "n": 2,
-        "min": 448292,
-        "p10": 448292,
-        "median": 448292,
-        "p90": 448292,
-        "max": 562485,
-        "mean": 505388.5
+        "min": 430711,
+        "p10": 430711,
+        "median": 430711,
+        "p90": 430711,
+        "max": 448292,
+        "mean": 439501.5
       },
       "net.byType.image.requests": {
         "n": 2,
-        "min": 41,
-        "p10": 41,
-        "median": 41,
-        "p90": 41,
+        "min": 54,
+        "p10": 54,
+        "median": 54,
+        "p90": 54,
         "max": 63,
-        "mean": 52
+        "mean": 58.5
       },
       "net.byType.media.bytes": {
         "n": 1,
-        "min": 216974110,
-        "p10": 216974110,
-        "median": 216974110,
-        "p90": 216974110,
-        "max": 216974110,
-        "mean": 216974110
+        "min": 245683066,
+        "p10": 245683066,
+        "median": 245683066,
+        "p90": 245683066,
+        "max": 245683066,
+        "mean": 245683066
       },
       "net.byType.media.requests": {
         "n": 1,
-        "min": 9,
-        "p10": 9,
-        "median": 9,
-        "p90": 9,
-        "max": 9,
-        "mean": 9
+        "min": 10,
+        "p10": 10,
+        "median": 10,
+        "p90": 10,
+        "max": 10,
+        "mean": 10
       },
       "net.byType.other.bytes": {
         "n": 1,
@@ -30516,21 +30500,21 @@
       },
       "net.byType.ping.requests": {
         "n": 1,
-        "min": 3,
-        "p10": 3,
-        "median": 3,
-        "p90": 3,
-        "max": 3,
-        "mean": 3
+        "min": 5,
+        "p10": 5,
+        "median": 5,
+        "p90": 5,
+        "max": 5,
+        "mean": 5
       },
       "net.byType.script.bytes": {
         "n": 2,
-        "min": 1365203,
-        "p10": 1365203,
-        "median": 1365203,
-        "p90": 1365203,
-        "max": 9887456,
-        "mean": 5626329.5
+        "min": 1388717,
+        "p10": 1388717,
+        "median": 1388717,
+        "p90": 1388717,
+        "max": 9906001,
+        "mean": 5647359
       },
       "net.byType.script.requests": {
         "n": 2,
@@ -30547,8 +30531,8 @@
         "p10": 0,
         "median": 0,
         "p90": 0,
-        "max": 65,
-        "mean": 32.5
+        "max": 89,
+        "mean": 44.5
       },
       "net.byType.stylesheet.requests": {
         "n": 2,
@@ -30565,26 +30549,26 @@
         "p10": 598,
         "median": 598,
         "p90": 598,
-        "max": 2545,
-        "mean": 1571.5
+        "max": 3655,
+        "mean": 2126.5
       },
       "net.byType.xhr.requests": {
         "n": 2,
-        "min": 7,
-        "p10": 7,
-        "median": 7,
-        "p90": 7,
-        "max": 10,
-        "mean": 8.5
+        "min": 10,
+        "p10": 10,
+        "median": 10,
+        "p90": 10,
+        "max": 17,
+        "mean": 13.5
       },
       "net.bytes": {
         "n": 2,
-        "min": 2199047,
-        "p10": 2199047,
-        "median": 2199047,
-        "p90": 2199047,
-        "max": 227916590,
-        "mean": 115057818.5
+        "min": 2098488,
+        "p10": 2098488,
+        "median": 2098488,
+        "p90": 2098488,
+        "max": 256644091,
+        "mean": 129371289.5
       },
       "net.fontFiles": {
         "n": 2,
@@ -30597,57 +30581,57 @@
       },
       "net.requests": {
         "n": 2,
-        "min": 212,
-        "p10": 212,
-        "median": 212,
-        "p90": 212,
-        "max": 225,
-        "mean": 218.5
+        "min": 213,
+        "p10": 213,
+        "median": 213,
+        "p90": 213,
+        "max": 280,
+        "mean": 246.5
       },
       "net.thirdPartyHosts": {
         "n": 2,
-        "min": 20,
-        "p10": 20,
-        "median": 20,
-        "p90": 20,
-        "max": 26,
-        "mean": 23
+        "min": 26,
+        "p10": 26,
+        "median": 26,
+        "p90": 26,
+        "max": 65,
+        "mean": 45.5
       },
       "perf.domInteractiveMs": {
         "n": 2,
-        "min": 197,
-        "p10": 197,
-        "median": 197,
-        "p90": 197,
-        "max": 449,
-        "mean": 323
+        "min": 193,
+        "p10": 193,
+        "median": 193,
+        "p90": 193,
+        "max": 431,
+        "mean": 312
       },
       "perf.fcpMs": {
         "n": 2,
-        "min": 276,
-        "p10": 276,
-        "median": 276,
-        "p90": 276,
+        "min": 320,
+        "p10": 320,
+        "median": 320,
+        "p90": 320,
         "max": 372,
-        "mean": 324
+        "mean": 346
       },
       "perf.loadMs": {
         "n": 2,
-        "min": 2733,
-        "p10": 2733,
-        "median": 2733,
-        "p90": 2733,
-        "max": 3380,
-        "mean": 3056.5
+        "min": 3379,
+        "p10": 3379,
+        "median": 3379,
+        "p90": 3379,
+        "max": 5944,
+        "mean": 4661.5
       },
       "perf.transferBytes": {
         "n": 2,
-        "min": 88068,
-        "p10": 88068,
-        "median": 88068,
-        "p90": 88068,
+        "min": 88295,
+        "p10": 88295,
+        "median": 88295,
+        "p90": 88295,
         "max": 2336152,
-        "mean": 1212110
+        "mean": 1212223.5
       },
       "semantics.ctaCount": {
         "n": 2,
@@ -30660,12 +30644,12 @@
       },
       "semantics.domNodes": {
         "n": 2,
-        "min": 7728,
-        "p10": 7728,
-        "median": 7728,
-        "p90": 7728,
-        "max": 12259,
-        "mean": 9993.5
+        "min": 11562,
+        "p10": 11562,
+        "median": 11562,
+        "p90": 11562,
+        "max": 12254,
+        "mean": 11908
       },
       "semantics.focusVisibleRules": {
         "n": 2,
@@ -30718,8 +30702,8 @@
         "p10": 127,
         "median": 127,
         "p90": 127,
-        "max": 147,
-        "mean": 137
+        "max": 153,
+        "mean": 140
       },
       "semantics.landmarks.footer": {
         "n": 2,
@@ -30772,8 +30756,8 @@
         "p10": 5882,
         "median": 5882,
         "p90": 5882,
-        "max": 7902,
-        "mean": 6892
+        "max": 8170,
+        "mean": 7026
       },
       "shape.borderedElements": {
         "n": 2,
@@ -30876,30 +30860,30 @@
       },
       "shape.shadowRatio": {
         "n": 2,
-        "min": 0.001,
-        "p10": 0.001,
-        "median": 0.001,
-        "p90": 0.001,
+        "min": 0,
+        "p10": 0,
+        "median": 0,
+        "p90": 0,
         "max": 0.001,
         "mean": 0.001
       },
       "space.containerMax": {
         "n": 2,
-        "min": 360,
-        "p10": 360,
-        "median": 360,
-        "p90": 360,
+        "min": 490,
+        "p10": 490,
+        "median": 490,
+        "p90": 490,
         "max": 800,
-        "mean": 580
+        "mean": 645
       },
       "space.containerRatio": {
         "n": 2,
-        "min": 0.25,
-        "p10": 0.25,
-        "median": 0.25,
-        "p90": 0.25,
+        "min": 0.34,
+        "p10": 0.34,
+        "median": 0.34,
+        "p90": 0.34,
         "max": 0.556,
-        "mean": 0.403
+        "mean": 0.448
       },
       "space.distinctSpacingValues": {
         "n": 2,
@@ -30916,17 +30900,17 @@
         "p10": 0.374,
         "median": 0.374,
         "p90": 0.374,
-        "max": 0.84,
-        "mean": 0.607
+        "max": 0.868,
+        "mean": 0.621
       },
       "space.fourPointConformity": {
         "n": 2,
-        "min": 0.977,
-        "p10": 0.977,
-        "median": 0.977,
-        "p90": 0.977,
+        "min": 0.981,
+        "p10": 0.981,
+        "median": 0.981,
+        "p90": 0.981,
         "max": 0.981,
-        "mean": 0.979
+        "mean": 0.981
       },
       "space.gaps.count": {
         "n": 2,
@@ -30984,12 +30968,12 @@
       },
       "tokens.declared": {
         "n": 2,
-        "min": 63,
-        "p10": 63,
-        "median": 63,
-        "p90": 63,
+        "min": 64,
+        "p10": 64,
+        "median": 64,
+        "p90": 64,
         "max": 412,
-        "mean": 237.5
+        "mean": 238
       },
       "tokens.layer": {
         "n": 2,
@@ -31047,30 +31031,30 @@
       },
       "typography.body.letterSpacingEm": {
         "n": 2,
-        "min": 0.0071,
-        "p10": 0.0071,
-        "median": 0.0071,
-        "p90": 0.0071,
-        "max": 0.0167,
-        "mean": 0.012
+        "min": 0.0104,
+        "p10": 0.0104,
+        "median": 0.0104,
+        "p90": 0.0104,
+        "max": 0.0357,
+        "mean": 0.023
       },
       "typography.body.lineHeight": {
         "n": 2,
-        "min": 1.467,
-        "p10": 1.467,
-        "median": 1.467,
-        "p90": 1.467,
+        "min": 1.25,
+        "p10": 1.25,
+        "median": 1.25,
+        "p90": 1.25,
         "max": 1.7,
-        "mean": 1.583
+        "mean": 1.475
       },
       "typography.body.measureCh": {
         "n": 2,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
+        "min": 47.5,
+        "p10": 47.5,
+        "median": 47.5,
+        "p90": 47.5,
+        "max": 121.3,
+        "mean": 84.4
       },
       "typography.body.px": {
         "n": 2,
@@ -31078,17 +31062,17 @@
         "p10": 14,
         "median": 14,
         "p90": 14,
-        "max": 15,
-        "mean": 14.5
+        "max": 24,
+        "mean": 19
       },
       "typography.displayToBodyRatio": {
         "n": 2,
-        "min": 3.2,
-        "p10": 3.2,
-        "median": 3.2,
-        "p90": 3.2,
+        "min": 2,
+        "p10": 2,
+        "median": 2,
+        "p90": 2,
         "max": 4.29,
-        "mean": 3.745
+        "mean": 3.145
       },
       "typography.distinctSizes": {
         "n": 2,
@@ -31146,12 +31130,12 @@
       },
       "typography.h1.chars": {
         "n": 2,
-        "min": 43,
-        "p10": 43,
-        "median": 43,
-        "p90": 43,
+        "min": 44,
+        "p10": 44,
+        "median": 44,
+        "p90": 44,
         "max": 44,
-        "mean": 43.5
+        "mean": 44
       },
       "typography.h1.letterSpacingEm": {
         "n": 2,
@@ -31173,12 +31157,12 @@
       },
       "typography.h1.measureCh": {
         "n": 2,
-        "min": 14.3,
-        "p10": 14.3,
-        "median": 14.3,
-        "p90": 14.3,
-        "max": 19.2,
-        "mean": 16.75
+        "min": 19.2,
+        "p10": 19.2,
+        "median": 19.2,
+        "p90": 19.2,
+        "max": 25.8,
+        "mean": 22.5
       },
       "typography.h1.px": {
         "n": 2,
@@ -31923,30 +31907,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 216,
-        "p10": 216,
-        "median": 216,
-        "p90": 216,
-        "max": 216,
-        "mean": 216
+        "min": 228,
+        "p10": 228,
+        "median": 228,
+        "p90": 228,
+        "max": 228,
+        "mean": 228
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 240,
-        "p10": 240,
-        "median": 240,
-        "p90": 240,
-        "max": 240,
-        "mean": 240
+        "min": 244,
+        "p10": 244,
+        "median": 244,
+        "p90": 244,
+        "max": 244,
+        "mean": 244
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2934,
-        "p10": 2934,
-        "median": 2934,
-        "p90": 2934,
-        "max": 2934,
-        "mean": 2934
+        "min": 2911,
+        "p10": 2911,
+        "median": 2911,
+        "p90": 2911,
+        "max": 2911,
+        "mean": 2911
       },
       "perf.transferBytes": {
         "n": 1,
@@ -33215,30 +33199,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 3,
-        "min": 132,
-        "p10": 132,
-        "median": 147,
-        "p90": 147,
-        "max": 307,
-        "mean": 195.333
+        "min": 94,
+        "p10": 94,
+        "median": 104,
+        "p90": 104,
+        "max": 231,
+        "mean": 143
       },
       "perf.fcpMs": {
         "n": 3,
-        "min": 220,
-        "p10": 220,
-        "median": 296,
-        "p90": 296,
-        "max": 364,
-        "mean": 293.333
+        "min": 172,
+        "p10": 172,
+        "median": 284,
+        "p90": 284,
+        "max": 340,
+        "mean": 265.333
       },
       "perf.loadMs": {
         "n": 3,
-        "min": 2439,
-        "p10": 2439,
-        "median": 2512,
-        "p90": 2512,
-        "max": 2524,
-        "mean": 2491.667
+        "min": 2398,
+        "p10": 2398,
+        "median": 2438,
+        "p90": 2438,
+        "max": 2458,
+        "mean": 2431.333
       },
       "perf.transferBytes": {
         "n": 3,
@@ -33260,12 +33244,12 @@
       },
       "semantics.domNodes": {
         "n": 3,
-        "min": 138,
-        "p10": 138,
+        "min": 136,
+        "p10": 136,
         "median": 158,
         "p90": 158,
         "max": 184,
-        "mean": 160
+        "mean": 159.333
       },
       "semantics.focusVisibleRules": {
         "n": 3,
@@ -33859,9 +33843,9 @@
         "min": 0.638,
         "p10": 0.638,
         "median": 0.79,
-        "p90": 0.956,
+        "p90": 0.925,
         "max": 0.98,
-        "mean": 0.814
+        "mean": 0.809
       },
       "bands.count": {
         "n": 6,
@@ -34121,17 +34105,17 @@
         "p10": 233,
         "median": 527,
         "p90": 1124,
-        "max": 1323,
-        "mean": 728.667
+        "max": 1221,
+        "mean": 711.667
       },
       "layout.aboveFoldElements": {
         "n": 6,
         "min": 130,
         "p10": 130,
-        "median": 178,
+        "median": 177,
         "p90": 365,
         "max": 531,
-        "mean": 276.167
+        "mean": 276
       },
       "layout.aboveFoldInkRatio": {
         "n": 6,
@@ -34148,8 +34132,8 @@
         "p10": 233,
         "median": 527,
         "p90": 1124,
-        "max": 1323,
-        "mean": 728.667
+        "max": 1221,
+        "mean": 711.667
       },
       "layout.asymmetricGrids": {
         "n": 6,
@@ -34238,8 +34222,8 @@
         "p10": 0.0622,
         "median": 0.2476,
         "p90": 0.7893,
-        "max": 1.6348,
-        "mean": 0.537
+        "max": 1.6347,
+        "mean": 0.538
       },
       "media.images": {
         "n": 6,
@@ -34410,7 +34394,7 @@
         "median": 513,
         "p90": 2644,
         "max": 3383,
-        "mean": 1232
+        "mean": 1232.5
       },
       "net.byType.fetch.requests": {
         "n": 6,
@@ -34444,27 +34428,27 @@
         "min": 128,
         "p10": 128,
         "median": 837323,
-        "p90": 1174478,
-        "max": 1255929,
-        "mean": 737542.833
+        "p90": 1255929,
+        "max": 1421530,
+        "mean": 778699.333
       },
       "net.byType.image.requests": {
         "n": 6,
         "min": 20,
         "p10": 20,
         "median": 68,
-        "p90": 90,
-        "max": 132,
-        "mean": 71.667
+        "p90": 89,
+        "max": 135,
+        "mean": 72.833
       },
       "net.byType.media.bytes": {
         "n": 3,
         "min": 552000,
         "p10": 552000,
-        "median": 4106323,
-        "p90": 4106323,
+        "median": 4335699,
+        "p90": 4335699,
         "max": 4792981,
-        "mean": 3150434.667
+        "mean": 3226893.333
       },
       "net.byType.media.requests": {
         "n": 3,
@@ -34499,26 +34483,26 @@
         "p10": 0,
         "median": 0,
         "p90": 0,
-        "max": 0,
-        "mean": 0
+        "max": 42,
+        "mean": 10.5
       },
       "net.byType.ping.requests": {
         "n": 4,
         "min": 2,
         "p10": 2,
-        "median": 2,
+        "median": 3,
         "p90": 3,
         "max": 5,
-        "mean": 3
+        "mean": 3.25
       },
       "net.byType.script.bytes": {
         "n": 6,
         "min": 40,
         "p10": 40,
-        "median": 899651,
-        "p90": 1052943,
-        "max": 2381321,
-        "mean": 999749
+        "median": 958759,
+        "p90": 1186757,
+        "max": 2316791,
+        "mean": 1026250.5
       },
       "net.byType.script.requests": {
         "n": 6,
@@ -34527,7 +34511,7 @@
         "median": 81,
         "p90": 91,
         "max": 324,
-        "mean": 109.5
+        "mean": 109.833
       },
       "net.byType.stylesheet.bytes": {
         "n": 4,
@@ -34561,18 +34545,18 @@
         "min": 2,
         "p10": 2,
         "median": 3,
-        "p90": 5,
-        "max": 8,
-        "mean": 4.5
+        "p90": 6,
+        "max": 9,
+        "mean": 5
       },
       "net.bytes": {
         "n": 6,
-        "min": 1346019,
-        "p10": 1346019,
-        "median": 2321141,
-        "p90": 6048183,
-        "max": 6607251,
-        "mean": 3649678.833
+        "min": 1281380,
+        "p10": 1281380,
+        "median": 2773302,
+        "p90": 6278618,
+        "max": 6607193,
+        "mean": 3755573.667
       },
       "net.fontFiles": {
         "n": 6,
@@ -34585,12 +34569,12 @@
       },
       "net.requests": {
         "n": 6,
-        "min": 130,
-        "p10": 130,
-        "median": 234,
+        "min": 137,
+        "p10": 137,
+        "median": 235,
         "p90": 251,
         "max": 427,
-        "mean": 239.167
+        "mean": 241.167
       },
       "net.thirdPartyHosts": {
         "n": 6,
@@ -34598,44 +34582,44 @@
         "p10": 5,
         "median": 29,
         "p90": 40,
-        "max": 59,
-        "mean": 28.667
+        "max": 60,
+        "mean": 28.833
       },
       "perf.domInteractiveMs": {
         "n": 6,
-        "min": 260,
-        "p10": 260,
-        "median": 346,
-        "p90": 471,
-        "max": 577,
-        "mean": 390.333
+        "min": 205,
+        "p10": 205,
+        "median": 341,
+        "p90": 375,
+        "max": 545,
+        "mean": 344.5
       },
       "perf.fcpMs": {
         "n": 6,
-        "min": 256,
-        "p10": 256,
-        "median": 396,
-        "p90": 552,
-        "max": 556,
-        "mean": 440
+        "min": 296,
+        "p10": 296,
+        "median": 376,
+        "p90": 492,
+        "max": 528,
+        "mean": 416
       },
       "perf.loadMs": {
         "n": 6,
-        "min": 2794,
-        "p10": 2794,
-        "median": 2964,
-        "p90": 7393,
-        "max": 10577,
-        "mean": 5617.333
+        "min": 2548,
+        "p10": 2548,
+        "median": 2844,
+        "p90": 10458,
+        "max": 10542,
+        "mean": 5925.167
       },
       "perf.transferBytes": {
         "n": 6,
         "min": 42374,
         "p10": 42374,
-        "median": 109469,
-        "p90": 174728,
-        "max": 204976,
-        "mean": 123434.5
+        "median": 109186,
+        "p90": 174815,
+        "max": 205293,
+        "mean": 123471.5
       },
       "semantics.ctaCount": {
         "n": 6,
@@ -34650,10 +34634,10 @@
         "n": 6,
         "min": 1365,
         "p10": 1365,
-        "median": 1648,
+        "median": 1645,
         "p90": 4433,
         "max": 4578,
-        "mean": 2595.833
+        "mean": 2595.333
       },
       "semantics.focusVisibleRules": {
         "n": 6,
@@ -34759,9 +34743,9 @@
         "min": 3010,
         "p10": 3010,
         "median": 7279,
-        "p90": 7869,
+        "p90": 7868,
         "max": 11042,
-        "mean": 6713.833
+        "mean": 6696.667
       },
       "shape.borderedElements": {
         "n": 6,
@@ -35895,30 +35879,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 181,
-        "p10": 181,
-        "median": 181,
-        "p90": 181,
-        "max": 181,
-        "mean": 181
+        "min": 209,
+        "p10": 209,
+        "median": 209,
+        "p90": 209,
+        "max": 209,
+        "mean": 209
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 200,
-        "p10": 200,
-        "median": 200,
-        "p90": 200,
-        "max": 200,
-        "mean": 200
+        "min": 216,
+        "p10": 216,
+        "median": 216,
+        "p90": 216,
+        "max": 216,
+        "mean": 216
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2389,
-        "p10": 2389,
-        "median": 2389,
-        "p90": 2389,
-        "max": 2389,
-        "mean": 2389
+        "min": 2415,
+        "p10": 2415,
+        "median": 2415,
+        "p90": 2415,
+        "max": 2415,
+        "mean": 2415
       },
       "perf.transferBytes": {
         "n": 1,
@@ -36882,11 +36866,11 @@
       },
       "media.imageAreaRatio": {
         "n": 1,
-        "min": 0.1524,
-        "p10": 0.1524,
-        "median": 0.1524,
-        "p90": 0.1524,
-        "max": 0.1524,
+        "min": 0.1517,
+        "p10": 0.1517,
+        "median": 0.1517,
+        "p90": 0.1517,
+        "max": 0.1517,
         "mean": 0.152
       },
       "media.images": {
@@ -37098,27 +37082,43 @@
       },
       "net.byType.image.requests": {
         "n": 1,
-        "min": 59,
-        "p10": 59,
-        "median": 59,
-        "p90": 59,
-        "max": 59,
-        "mean": 59
+        "min": 58,
+        "p10": 58,
+        "median": 58,
+        "p90": 58,
+        "max": 58,
+        "mean": 58
       },
       "net.byType.media.bytes": null,
       "net.byType.media.requests": null,
       "net.byType.other.bytes": null,
       "net.byType.other.requests": null,
-      "net.byType.ping.bytes": null,
-      "net.byType.ping.requests": null,
+      "net.byType.ping.bytes": {
+        "n": 1,
+        "min": 0,
+        "p10": 0,
+        "median": 0,
+        "p90": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "net.byType.ping.requests": {
+        "n": 1,
+        "min": 1,
+        "p10": 1,
+        "median": 1,
+        "p90": 1,
+        "max": 1,
+        "mean": 1
+      },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 918189,
-        "p10": 918189,
-        "median": 918189,
-        "p90": 918189,
-        "max": 918189,
-        "mean": 918189
+        "min": 918192,
+        "p10": 918192,
+        "median": 918192,
+        "p90": 918192,
+        "max": 918192,
+        "mean": 918192
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -37167,12 +37167,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 12993816,
-        "p10": 12993816,
-        "median": 12993816,
-        "p90": 12993816,
-        "max": 12993816,
-        "mean": 12993816
+        "min": 12993819,
+        "p10": 12993819,
+        "median": 12993819,
+        "p90": 12993819,
+        "max": 12993819,
+        "mean": 12993819
       },
       "net.fontFiles": {
         "n": 1,
@@ -37203,30 +37203,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 885,
-        "p10": 885,
-        "median": 885,
-        "p90": 885,
-        "max": 885,
-        "mean": 885
+        "min": 865,
+        "p10": 865,
+        "median": 865,
+        "p90": 865,
+        "max": 865,
+        "mean": 865
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 820,
-        "p10": 820,
-        "median": 820,
-        "p90": 820,
-        "max": 820,
-        "mean": 820
+        "min": 872,
+        "p10": 872,
+        "median": 872,
+        "p90": 872,
+        "max": 872,
+        "mean": 872
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 3662,
-        "p10": 3662,
-        "median": 3662,
-        "p90": 3662,
-        "max": 3662,
-        "mean": 3662
+        "min": 3081,
+        "p10": 3081,
+        "median": 3081,
+        "p90": 3081,
+        "max": 3081,
+        "mean": 3081
       },
       "perf.transferBytes": {
         "n": 1,
@@ -37888,10 +37888,10 @@
       "label": "Display measure (ch)",
       "path": "hero.displayMeasureCh",
       "band": [
-        11.6,
+        11.7,
         28.1
       ],
-      "tolerance": 8.25,
+      "tolerance": 8.2,
       "mode": "corridor",
       "why": "Headlines break on purpose; long single lines read as unconsidered.",
       "calibrated": true,
@@ -37902,10 +37902,10 @@
       "label": "Body measure (ch)",
       "path": "typography.body.measureCh",
       "band": [
-        32.7,
-        73.8
+        43.3,
+        78
       ],
-      "tolerance": 20.55,
+      "tolerance": 17.35,
       "mode": "corridor",
       "why": "Readable prose stays inside a controlled measure.",
       "calibrated": true,
@@ -37916,10 +37916,10 @@
       "label": "Body line height",
       "path": "typography.body.lineHeight",
       "band": [
-        1.253,
+        1.3,
         1.5
       ],
-      "tolerance": 0.124,
+      "tolerance": 0.112,
       "mode": "corridor",
       "why": "Comfortable leading for sustained reading.",
       "calibrated": true,
@@ -38042,10 +38042,10 @@
       "label": "Container ratio",
       "path": "space.containerRatio",
       "band": [
-        0.264,
+        0.271,
         0.854
       ],
-      "tolerance": 0.295,
+      "tolerance": 0.291,
       "mode": "corridor",
       "why": "Content is framed, not stretched edge to edge.",
       "calibrated": true,

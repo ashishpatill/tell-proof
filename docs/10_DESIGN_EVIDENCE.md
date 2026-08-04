@@ -40,25 +40,25 @@
 
 | Measure | p10 | median | p90 | range | n |
 |---|---|---|---|---|---|
-| Smallest→largest type ratio | 3.223 | 6.667 | 12.1 | 1.143–51.4 | 50 |
-| Distinct type sizes | 5 | 11.0 | 15.0 | 2–19.0 | 50 |
+| Smallest→largest type ratio | 3.273 | 6.667 | 12.9 | 1.143–51.4 | 50 |
+| Distinct type sizes | 5 | 12.0 | 15.0 | 2–19.0 | 50 |
 | Type families in play | 1 | 3 | 7 | 1–9 | 50 |
 | Distinct weights | 2 | 3 | 5 | 1–8 | 50 |
-| Display ÷ body size | 1.75 | 4.27 | 6.15 | 1–15.0 | 47 |
+| Display ÷ body size | 1.07 | 4.11 | 6.4 | 0.7–18.8 | 47 |
 | Uses fluid type (share) | 0 | 0 | 1 | 0–1 | 50 |
 | Uppercase micro-labels | 0 | 6 | 61.0 | 0–207 | 50 |
 | Hero display size (px @1440) | 17.6 | 64.0 | 115 | 15.0–720 | 50 |
 | Hero display as % of viewport width | 1.22 | 4.44 | 8 | 1.04–50.0 | 50 |
 | Hero display line height | 0.8 | 1 | 1.15 | 0–1.5 | 50 |
-| Hero display measure (ch) | 2.5 | 21.3 | 38.6 | 0–148 | 50 |
-| Hero headline length (chars) | 5 | 27.0 | 52.0 | 1–93.0 | 50 |
-| Above-fold characters | 209 | 476 | 1313 | 140–2992 | 50 |
+| Hero display measure (ch) | 8.8 | 21.7 | 38.6 | 1.2–148 | 50 |
+| Hero headline length (chars) | 6 | 24.0 | 52.0 | 1–93.0 | 50 |
+| Above-fold characters | 209 | 462 | 1263 | 140–2992 | 50 |
 | Above-fold CTA buttons | 0 | 1 | 9 | 0–29.0 | 50 |
 | Nav bar height (px) | 58.0 | 72.0 | 120 | 50.0–884 | 25 |
-| Body size (px) | 12.0 | 16.0 | 20.0 | 10.0–75.0 | 47 |
-| Body line height | 1 | 1.429 | 1.625 | 0–1.75 | 47 |
-| Body measure (ch) | 0 | 54.6 | 80.5 | 0–216 | 47 |
-| Display tracking (em) | -0.048 | -0.02 | 0 | -0.06–0 | 50 |
+| Body size (px) | 12.0 | 16.0 | 22.0 | 10.0–75.0 | 47 |
+| Body line height | 1.1 | 1.5 | 1.625 | 0–1.75 | 47 |
+| Body measure (ch) | 34.1 | 64.0 | 109 | 14.2–216 | 47 |
+| Display tracking (em) | -0.048 | -0.014 | 0 | -0.06–0.018 | 50 |
 | Distinct surface colours | 2 | 7 | 16.0 | 0–22.0 | 50 |
 | Distinct ink tones | 2 | 7 | 16.0 | 0–24.0 | 50 |
 | Distinct hues | 0 | 3 | 9 | 0–15.0 | 50 |
@@ -71,23 +71,23 @@
 | Container width (px) | 350 | 640 | 1300 | 330–1390 | 50 |
 | Container ÷ viewport | 0.243 | 0.444 | 0.903 | 0.229–0.965 | 50 |
 | Spacing on 4px grid (share) | 0.275 | 0.851 | 1 | 0.06–1 | 49 |
-| Spacing on 8px grid (share) | 0.088 | 0.552 | 0.844 | 0–1 | 49 |
+| Spacing on 8px grid (share) | 0.088 | 0.552 | 0.856 | 0–1 | 49 |
 | Distinct spacing values | 3 | 11.0 | 18.0 | 0–23.0 | 50 |
 | Section-level regions | 1 | 8 | 17.0 | 0–27.0 | 50 |
 | Grid containers | 0 | 13.0 | 72.0 | 0–334 | 50 |
-| Asymmetric grid share | 0 | 0.083 | 0.469 | 0–1 | 42 |
+| Asymmetric grid share | 0 | 0.083 | 0.438 | 0–1 | 42 |
 | Page height (viewports) | 5.73 | 9.67 | 14.5 | 1.58–19.6 | 47 |
 | Above-fold painted ratio | 0.168 | 1 | 1 | 0.127–1 | 50 |
 | Sticky/fixed elements | 1 | 3 | 7 | 0–70.0 | 50 |
-| Section density variation | 0.351 | 0.704 | 1.492 | 0.044–2.71 | 50 |
+| Section density variation | 0.351 | 0.728 | 1.492 | 0.044–2.71 | 50 |
 | Distinct radii | 2 | 7 | 13.0 | 1–20.0 | 50 |
 | Median radius (px) | 4 | 8 | 100 | 1–400 | 50 |
 | Largest non-pill radius (px) | 12.0 | 50.0 | 100 | 4–340 | 49 |
 | Pill-shaped elements | 0 | 13.0 | 122 | 0–304 | 50 |
 | Elements with shadow (share) | 0 | 0.003 | 0.044 | 0–0.117 | 50 |
 | Median shadow alpha | 0 | 0.07 | 1 | 0–1 | 41 |
-| Borders ≤1px (share) | 0.657 | 0.996 | 1 | 0.061–1 | 42 |
-| Elements with transitions (share) | 0.013 | 0.084 | 0.224 | 0–0.291 | 50 |
+| Borders ≤1px (share) | 0.657 | 1 | 1 | 0.061–1 | 42 |
+| Elements with transitions (share) | 0.012 | 0.082 | 0.224 | 0–0.291 | 50 |
 | Median transition (ms) | 150 | 200 | 300 | 100–600 | 48 |
 | p90 transition (ms) | 150 | 300 | 500 | 150–800 | 48 |
 | Keyframe-animated elements | 0 | 4 | 18.0 | 0–178 | 50 |
@@ -96,26 +96,26 @@
 | Declared CSS custom properties | 32.0 | 191 | 525 | 3–1008 | 50 |
 | Colour tokens | 0 | 46.0 | 208 | 0–445 | 50 |
 | Spacing tokens | 0 | 11.0 | 66.0 | 0–270 | 50 |
-| Images | 0 | 46.0 | 107 | 0–184 | 50 |
+| Images | 0 | 44.0 | 107 | 0–184 | 50 |
 | Inline SVG nodes | 4 | 61.0 | 178 | 0–495 | 50 |
 | Image area ÷ page area | 0 | 0.248 | 1.274 | 0–3.313 | 50 |
 | Nav links | 0 | 10.0 | 145 | 0–472 | 50 |
 | Headings | 6 | 27.0 | 57.0 | 0–79.0 | 50 |
-| DOM nodes | 451 | 2138 | 5322 | 138–12259 | 50 |
-| Page text (chars) | 1476 | 5094 | 12509 | 339–20243 | 50 |
+| DOM nodes | 451 | 2146 | 5322 | 136–12254 | 50 |
+| Page text (chars) | 1476 | 5094 | 12509 | 339–17403 | 50 |
 | :focus-visible rules | 0 | 3 | 25.0 | 0–268 | 50 |
-| First contentful paint (ms) | 208 | 364 | 788 | 180–11572 | 50 |
-| Requests | 67.0 | 167 | 265 | 36.0–427 | 50 |
+| First contentful paint (ms) | 216 | 352 | 732 | 172–1924 | 49 |
+| Requests | 67.0 | 162 | 280 | 36.0–427 | 50 |
 | Font files | 2 | 5 | 12.0 | 1–22.0 | 50 |
 
 ## Mobile deltas (390×844)
 
 | Measure | p10 | median | p90 | range | n |
 |---|---|---|---|---|---|
-| Hero display size (px @1440) | 28.0 | 38.0 | 61.0 | 15.0–720 | 50 |
-| Hero display as % of viewport width | 7.18 | 9.74 | 15.6 | 3.85–185 | 50 |
-| Body size (px) | 12.0 | 15.0 | 18.0 | 10.0–75.0 | 49 |
-| Body measure (ch) | 0 | 39.3 | 60.0 | 0–215 | 49 |
+| Hero display size (px @1440) | 26.0 | 36.0 | 61.0 | 14.0–720 | 50 |
+| Hero display as % of viewport width | 6.67 | 9.23 | 15.6 | 3.59–185 | 50 |
+| Body size (px) | 12.0 | 16.0 | 20.0 | 10.0–75.0 | 49 |
+| Body measure (ch) | 24.3 | 41.0 | 60.0 | 4.8–215 | 49 |
 | Section padding (px) | 15.0 | 48.0 | 80.0 | 2–120 | 33 |
 | Container ÷ viewport | 0.846 | 0.897 | 0.923 | 0.821–0.949 | 50 |
 | Page height (viewports) | 5.65 | 12.5 | 19.0 | 1.87–24.3 | 47 |
@@ -133,9 +133,9 @@ readable as templated or unconsidered.
 | Distinct type sizes | 9 – 14.0 | Too few steps reads as a template; too many reads as unmanaged. |
 | Display size vs viewport | 3.19 – 6.11 | The headline must own the fold without shouting. |
 | Display line height | 0.96 – 1.1 | Tight leading is the single clearest signal of typographic intent. |
-| Display measure (ch) | 11.6 – 28.1 | Headlines break on purpose; long single lines read as unconsidered. |
-| Body measure (ch) | 32.7 – 73.8 | Readable prose stays inside a controlled measure. |
-| Body line height | 1.253 – 1.5 | Comfortable leading for sustained reading. |
+| Display measure (ch) | 11.7 – 28.1 | Headlines break on purpose; long single lines read as unconsidered. |
+| Body measure (ch) | 43.3 – 78.0 | Readable prose stays inside a controlled measure. |
+| Body line height | 1.3 – 1.5 | Comfortable leading for sustained reading. |
 | Weights in play | 3 – 8 | A weight system, not a single default. |
 | Surface layers | 4 – 22.0 | Depth comes from layered surfaces, not from shadows. |
 | Text tones | 4 – 24.0 | Primary / secondary / tertiary ink instead of one grey. |
@@ -144,7 +144,7 @@ readable as templated or unconsidered.
 | Median text contrast | 11.1 – 21.0 | Readable by default, not just at the largest sizes. |
 | Section padding | 48.0 – 120 | Vertical breathing room separates chapters of the argument. |
 | Spacing grid conformity | 0.611 – 1 | Spacing that lands on a scale rather than on arbitrary numbers. |
-| Container ratio | 0.264 – 0.854 | Content is framed, not stretched edge to edge. |
+| Container ratio | 0.271 – 0.854 | Content is framed, not stretched edge to edge. |
 | Asymmetric grids | 0 – 1 | Equal-width card rows everywhere is the template signature. |
 | Document height (vh) | 6.65 – 12.9 | Enough argument to earn the sale, not an endless scroll. |
 | Section weight variation | 0.539 – 1.142 | Sections should differ in density; uniform bands read as generated. |
@@ -166,7 +166,7 @@ readable as templated or unconsidered.
 |---|---|---|---|---|---|---|---|---|
 | `ai-community` | 3.33 | 3 | 0 | — | 8 | 0.047 | 0.025 | 6.65 |
 | `ai-frontier` | 4.23 | 4 | 0 | — | 8 | 0 | 0.291 | 3.57 |
-| `ai-infra` | 4.44 | 5 | 1 | 52.0 | 25.0 | 0.001 | 0.059 | 9.75 |
+| `ai-infra` | 4.44 | 5 | 1 | 52.0 | 25.0 | 0 | 0.059 | 9.75 |
 | `art-directed-studio` | 12.5 | 4 | 0 | 50.0 | 50.0 | 0 | 0.176 | 11.9 |
 | `award-index` | 1.04 | 4 | 0 | — | 4 | 0 | 0.089 | 5.91 |
 | `brand-agency` | 1.11 | 2 | 0 | — | 24.0 | 0 | 0.224 | 7.36 |
@@ -184,7 +184,7 @@ readable as templated or unconsidered.
 | `enterprise-trust` | 5 | 10.0 | 0 | 160 | 8 | 0.001 | 0.088 | 11.3 |
 | `fintech-infra` | 3.33 | 13.0 | 1 | — | 4 | 0.002 | 0.28 | 16.3 |
 | `fintech-product` | 3.43 | 5 | 1 | 48.0 | 4 | 0.001 | 0.019 | 9.8 |
-| `hr-fintech` | 3.33 | 11.0 | 0 | 96.0 | 8 | 0.001 | 0.013 | 8.55 |
+| `hr-fintech` | 3.33 | 11.0 | 0 | 96.0 | 8 | 0 | 0.012 | 8.55 |
 | `opinionated-smb` | 2.91 | 0 | 0 | 91.0 | 6 | 0.023 | 0.232 | 5.12 |
 | `personal-craft` | 1.18 | 2 | 0 | 128 | 6 | 0 | 0.141 | 2.66 |
 | `premium-b2b-saas` | 5 | 8 | 0 | 120 | 6 | 0.014 | 0.064 | 13.2 |
