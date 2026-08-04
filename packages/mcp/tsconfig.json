@@ -4,6 +4,7 @@
     "outDir": "dist",
     "paths": {
       "@tell/core": ["../core/src"],
+      "@tell/design-skills": ["../design-skills/src"],
       "@tell/redesign": ["../redesign/src"],
       "@tell/schema": ["../schema/src"],
       "@tell/taste": ["../taste/src"]

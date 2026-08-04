@@ -8,13 +8,15 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --config ../../vitest.config.ts src/__tests__"
+    "test": "cd ../.. && vitest run packages/design-skills/src/__tests__"
   },
   "dependencies": {
     "@tell/schema": "workspace:*",
