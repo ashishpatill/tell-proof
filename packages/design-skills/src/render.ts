@@ -63,12 +63,12 @@ function cardMarkup(b: Block, i: number, opts: { lead?: boolean; wide?: boolean 
   const cls = ["ds-card"];
   if (opts.lead && i === 0) cls.push("ds-card-lead", "ds-lead-card");
   else if (opts.wide && i === 1) cls.push("ds-card-wide");
-  return `<article class="${cls.join(" ")}" data-feature="${esc(b.title)}">
+  return `<li class="${cls.join(" ")}" data-feature="${esc(b.title)}">
     ${b.kicker ? `<p class="ds-eyebrow">${esc(b.kicker)}</p>` : ""}
     <h3>${esc(b.title)}</h3>
     ${b.body ? `<p>${esc(b.body)}</p>` : ""}
     ${b.points.length ? `<ul class="ds-card-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
-  </article>`;
+  </li>`;
 }
 
 /* ------------------------------------------------------------------ */
@@ -149,23 +149,42 @@ function renderMetricBand(section: SectionSpec): string {
   </section>`;
 }
 
+/** Wide frame only where a layout genuinely needs the extra column. */
+function frame(section: SectionSpec): string {
+  switch (section.layout) {
+    case "nav":
+    case "hero-split":
+    case "hero-editorial":
+    case "metric-band":
+    case "feature-bento":
+    case "feature-alternating":
+    case "figure-explainer":
+    case "pricing-lanes":
+    case "app-shell":
+    case "footer-columns":
+      return "ds-wrap-wide";
+    default:
+      return "ds-wrap";
+  }
+}
+
 function renderFeatures(section: SectionSpec, spec: DesignSpec): string {
   const inner = (() => {
     if (section.layout === "feature-bento") {
-      return `<div class="ds-bento">${section.blocks
+      return `<ul class="ds-bento">${section.blocks
         .map((b, i) => cardMarkup(b, i, { lead: true, wide: true }))
-        .join("")}</div>`;
+        .join("")}</ul>`;
     }
     if (section.layout === "feature-index") {
-      return `<div class="ds-index">${section.blocks
+      return `<ol class="ds-index">${section.blocks
         .map(
-          (b, i) => `<article class="ds-index-row" data-feature="${esc(b.title)}">
+          (b, i) => `<li class="ds-index-row" data-feature="${esc(b.title)}">
             <span class="ds-index-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</span>
             <h3>${esc(b.title)}</h3>
             <p>${esc(b.body)}</p>
-          </article>`,
+          </li>`,
         )
-        .join("")}</div>`;
+        .join("")}</ol>`;
     }
     if (section.layout === "feature-alternating") {
       return `<div class="ds-alt">${section.blocks
@@ -188,15 +207,15 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec): string {
         .join("")}</div>`;
     }
     // feature-rows
-    return `<div class="ds-index">${section.blocks
+    return `<ol class="ds-index">${section.blocks
       .map(
-        (b, i) => `<article class="ds-index-row" data-feature="${esc(b.title)}">
+        (b, i) => `<li class="ds-index-row" data-feature="${esc(b.title)}">
           <span class="ds-index-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</span>
           <h3>${esc(b.title)}</h3>
           <p>${esc(b.body)}</p>
-        </article>`,
+        </li>`,
       )
-      .join("")}</div>`;
+      .join("")}</ol>`;
   })();
 
   const rail =
@@ -213,7 +232,7 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec): string {
       : "";
 
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap-wide">
+    <div class="${frame(section)}">
       ${sectionHead(section)}
       ${inner}
       ${rail}
@@ -261,25 +280,25 @@ function renderFigure(section: SectionSpec): string {
 
 function renderChapters(section: SectionSpec): string {
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(section.columns ?? "4fr 8fr")}">
+    <div class="ds-wrap ds-split" style="grid-template-columns:${esc(section.columns ?? "4fr 8fr")}">
       <div>${sectionHead(section)}</div>
-      <div class="ds-chapters">
+      <ol class="ds-chapters">
         ${section.blocks
           .map(
-            (b) => `<article class="ds-chapter">
+            (b) => `<li class="ds-chapter">
               <p class="ds-chapter-index">${esc(b.meta ?? "")}</p>
               <h3>${esc(b.title)}</h3>
               <p class="ds-body">${esc(b.body)}</p>
-            </article>`,
+            </li>`,
           )
           .join("")}
-      </div>
+      </ol>
     </div>
   </section>`;
 }
 
 function renderQuote(section: SectionSpec): string {
-  return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+  return `<section class="ds-section ds-statement" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap">
       ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
       <blockquote class="ds-quote">${esc(section.quote ?? section.title)}</blockquote>
@@ -292,20 +311,20 @@ function renderPlans(section: SectionSpec): string {
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${sectionHead(section)}
-      <div class="ds-plans">
+      <ul class="ds-plans">
         ${section.blocks
           .map(
-            (b) => `<article class="ds-plan${b.emphasis === "lead" ? " ds-plan-recommended" : ""}" data-plan="${esc(b.title)}">
+            (b) => `<li class="ds-plan${b.emphasis === "lead" ? " ds-plan-recommended" : ""}" data-plan="${esc(b.title)}">
               ${b.emphasis === "lead" ? `<p class="ds-plan-flag">Recommended</p>` : ""}
               <h3>${esc(b.title)}</h3>
               <p class="ds-plan-meta">${esc(b.meta ?? "")}</p>
               <p class="ds-small">${esc(b.body)}</p>
               <ul class="ds-card-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
               ${b.emphasis === "lead" && section.ctaLabel ? `<a class="ds-btn ds-btn-primary" href="#cta">${esc(section.ctaLabel)}</a>` : ""}
-            </article>`,
+            </li>`,
           )
           .join("")}
-      </div>
+      </ul>
     </div>
   </section>`;
 }
@@ -313,7 +332,7 @@ function renderPlans(section: SectionSpec): string {
 function renderMatrix(section: SectionSpec): string {
   const lanes = ["Core", "Standard", "Full"];
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap-wide">
+    <div class="ds-wrap">
       ${sectionHead(section)}
       <table class="ds-matrix">
         <caption>${esc(section.body)}</caption>
@@ -336,7 +355,7 @@ function renderMatrix(section: SectionSpec): string {
 
 function renderFaq(section: SectionSpec): string {
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(section.columns ?? "5fr 7fr")}">
+    <div class="ds-wrap ds-split" style="grid-template-columns:${esc(section.columns ?? "5fr 7fr")}">
       <div>${sectionHead(section)}</div>
       <div class="ds-faq">
         ${section.blocks
@@ -354,7 +373,7 @@ function renderFaq(section: SectionSpec): string {
 
 function renderCtaBand(section: SectionSpec): string {
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="cta">
-    <div class="ds-wrap-wide ds-cta">
+    <div class="ds-wrap ds-cta">
       ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
       <h2 class="ds-title">${esc(section.title)}</h2>
       <p class="ds-lede">${esc(section.body)}</p>
@@ -391,7 +410,7 @@ function renderFooter(section: SectionSpec): string {
 
 function renderAppShell(section: SectionSpec, spec: DesignSpec): string {
   const rows = section.blocks;
-  return `<section id="top" class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+  return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${sectionHead(section)}
       <div class="ds-app">

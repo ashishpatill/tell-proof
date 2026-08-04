@@ -51,7 +51,7 @@ export function designFromFeatures(
   const analysis = analyzeFeatures(brief);
   const effectiveBrief: DesignBrief = { ...brief, siteKind: analysis.siteKind };
   const routedSkills = routeSkills(analysis, taste);
-  const tokens = buildTokens(taste, analysis.siteKind, brief.brandAccent);
+  const tokens = buildTokens(taste, analysis.siteKind, brief.brandAccent, brief.productName);
   const sections = buildSections(effectiveBrief, analysis, taste);
   const profile = AESTHETIC_PROFILES[taste.aestheticLean];
 

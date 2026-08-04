@@ -80,10 +80,18 @@ export function planSections(input: CompositionInput): SectionPlan[] {
   plans.push({ id: "nav", kind: "nav", layout: "nav", surface: "paper" });
 
   if (siteKind === "dashboard-webapp") {
+    /*
+     * A product surface still opens with a claim. Leading straight into the application shell was
+     * the engine's worst-scoring composition: the fold filled with navigation affordances instead
+     * of a decision, the largest type on the page was a table header, and the whole document came
+     * in under five viewports. The interface is the proof, so it arrives second.
+     */
+    plans.push({ id: "hero", kind: "hero", layout: "hero-statement", surface: "paper", columns: split.hero });
+    plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "inverse" });
     plans.push({ id: "app", kind: "app", layout: "app-shell", surface: "paper", columns: "260px 1fr" });
-    plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "raised" });
-    plans.push({ id: "features", kind: "features", layout: "feature-index", surface: "paper" });
+    plans.push({ id: "features", kind: "features", layout: "feature-index", surface: "raised" });
     plans.push({ id: "figure", kind: "figure", layout: "figure-explainer", surface: "sunken", columns: split.feature });
+    plans.push({ id: "proof", kind: "proof", layout: "pullquote", surface: "paper" });
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr" });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "inverse" });
     plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
@@ -151,7 +159,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   let px = 68;
   if (siteKind === "corporate-story") px = 78;
   if (siteKind === "docs-educational") px = 60;
-  if (siteKind === "dashboard-webapp") px = 52;
+  if (siteKind === "dashboard-webapp") px = 62;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;

@@ -47,8 +47,11 @@ function fluid(minPx: number, maxPx: number, minVw = 400, maxVw = DESIGN_VW): st
 function leadingFor(px: number): number {
   if (px >= 56) return 0.98;
   if (px >= 40) return 1.05;
-  if (px >= 30) return 1.14;
-  if (px >= 22) return 1.28;
+  if (px >= 30) return 1.16;
+  // The 20–29px band is where ledes and sub-heads live. It had been set at display leading, which
+  // is too tight for anything read as a sentence — the measured corridor for text at this size
+  // starts at 1.3.
+  if (px >= 22) return 1.36;
   if (px >= 17) return 1.5;
   if (px >= 14) return 1.58;
   return 1.45;
@@ -147,9 +150,15 @@ export function buildSpaceLadder(density: Density): SpaceLadder {
   const names = ["3xs", "2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl"];
   const steps = multipliers.map((m, i) => ({ name: names[i]!, px: base * m }));
 
-  // Section rhythm: corpus median lands near 96–128px at desktop, and the sparse end runs higher.
+  /*
+   * Section rhythm. The measured corridor for section padding is 48–120px at desktop, which was a
+   * correction: the engine had been running to 168px at the sparse end, on the assumption that more
+   * air always reads as more expensive. It does not. Reference pages buy their sense of space with
+   * a narrower container and taller individual bands, not with runaway section padding — padding
+   * that large just pushes the argument below the fold.
+   */
   const [minY, maxY] =
-    density === "information-rich" ? [48, 96] : density === "sparse" ? [80, 168] : [64, 132];
+    density === "information-rich" ? [40, 88] : density === "sparse" ? [60, 108] : [56, 104];
 
   return {
     steps,
@@ -159,12 +168,18 @@ export function buildSpaceLadder(density: Density): SpaceLadder {
   };
 }
 
-/** Container widths per density — content is framed, never stretched edge to edge. */
+/**
+ * Container widths per density.
+ *
+ * Corpus corridor for the dominant content width is 0.26–0.85 of the viewport, median well under
+ * 0.8. Premium pages frame their content noticeably narrower than the full window; a 1240px
+ * container at 1440px reads as a page that ran out of ideas for the margins.
+ */
 export function containerFor(density: Density, wide = false): string {
-  if (wide) return density === "information-rich" ? "1360px" : "1240px";
-  if (density === "information-rich") return "1200px";
-  if (density === "sparse") return "980px";
-  return "1120px";
+  if (wide) return density === "information-rich" ? "1200px" : "1160px";
+  if (density === "information-rich") return "1120px";
+  if (density === "sparse") return "940px";
+  return "1040px";
 }
 
 /** Reading column for prose — 60–72ch is where sustained reading lives. */

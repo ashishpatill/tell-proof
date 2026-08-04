@@ -11,52 +11,135 @@ import { bodySizeFor, displaySizeFor, typeRatioFor } from "./composition";
 import type { AestheticLean, DesignTokens, RoundingDepth, SiteKind, TasteControls, TypeWeight } from "./types";
 
 /**
- * Type pairings. Chosen for range (real weight axes), for a display face with actual character,
- * and for a monospace companion that carries data and labels. All are open licensed and served
- * with `display=swap` so the first paint is never blocked.
+ * Typeface catalogue.
+ *
+ * Two constraints shaped this list. First, the default UI grotesque that ships with almost every
+ * generated interface is the single most recognisable "made by a tool" signal there is, so it is
+ * not in here at all. Second, every family below has a real weight axis and is served over the
+ * variable-font endpoint, which is what lets a page use five weights without five downloads.
+ *
+ * `req` builds the Google Fonts CSS2 request for a weight range, clamped to what the family
+ * actually ships so a request never silently falls back to the nearest static cut.
+ */
+type WeightRange = [number, number];
+
+interface Family {
+  /** CSS font-family name. */
+  name: string;
+  req: (w: WeightRange) => string;
+}
+
+function clampRange([lo, hi]: WeightRange, min: number, max: number): string {
+  const a = Math.max(min, Math.min(max, lo));
+  const b = Math.max(a, Math.min(max, hi));
+  return `${a}..${b}`;
+}
+
+const FAMILIES: Record<string, Family> = {
+  instrumentSans: { name: "Instrument Sans", req: (w) => `Instrument+Sans:wght@${clampRange(w, 400, 700)}` },
+  publicSans: { name: "Public Sans", req: (w) => `Public+Sans:wght@${clampRange(w, 200, 800)}` },
+  archivo: { name: "Archivo", req: (w) => `Archivo:wght@${clampRange(w, 300, 900)}` },
+  spaceGrotesk: { name: "Space Grotesk", req: (w) => `Space+Grotesk:wght@${clampRange(w, 300, 700)}` },
+  schibsted: { name: "Schibsted Grotesk", req: (w) => `Schibsted+Grotesk:wght@${clampRange(w, 400, 900)}` },
+  bricolage: { name: "Bricolage Grotesque", req: (w) => `Bricolage+Grotesque:opsz,wght@12..96,${clampRange(w, 200, 800)}` },
+  figtree: { name: "Figtree", req: (w) => `Figtree:wght@${clampRange(w, 300, 900)}` },
+  manrope: { name: "Manrope", req: (w) => `Manrope:wght@${clampRange(w, 200, 800)}` },
+  fraunces: { name: "Fraunces", req: (w) => `Fraunces:opsz,wght@9..144,${clampRange(w, 100, 900)}` },
+  newsreader: { name: "Newsreader", req: (w) => `Newsreader:opsz,wght@6..72,${clampRange(w, 200, 800)}` },
+  sourceSans: { name: "Source Sans 3", req: (w) => `Source+Sans+3:wght@${clampRange(w, 200, 900)}` },
+  plexMono: { name: "IBM Plex Mono", req: () => "IBM+Plex+Mono:wght@400;500" },
+  jetbrainsMono: { name: "JetBrains Mono", req: (w) => `JetBrains+Mono:wght@${clampRange(w, 100, 800)}` },
+  spaceMono: { name: "Space Mono", req: () => "Space+Mono:wght@400;700" },
+};
+
+/**
+ * Pairing pools, two or three per lean.
+ *
+ * A studio does not set every client in the same typeface, and an engine that does is legible as
+ * an engine. The pool is selected deterministically from the product name, so a given brief always
+ * regenerates identically while two different products with identical taste controls still arrive
+ * at different type.
  */
 interface Pairing {
+  display: keyof typeof FAMILIES;
+  body: keyof typeof FAMILIES;
+  mono: keyof typeof FAMILIES;
+}
+
+const POOLS: Record<AestheticLean, Pairing[]> = {
+  "minimal-clean": [
+    { display: "instrumentSans", body: "publicSans", mono: "plexMono" },
+    { display: "spaceGrotesk", body: "instrumentSans", mono: "spaceMono" },
+    { display: "archivo", body: "publicSans", mono: "plexMono" },
+  ],
+  "conversion-sharp": [
+    { display: "schibsted", body: "schibsted", mono: "jetbrainsMono" },
+    { display: "bricolage", body: "figtree", mono: "jetbrainsMono" },
+    { display: "archivo", body: "publicSans", mono: "jetbrainsMono" },
+  ],
+  "system-crafted": [
+    { display: "figtree", body: "figtree", mono: "plexMono" },
+    { display: "manrope", body: "publicSans", mono: "plexMono" },
+    { display: "archivo", body: "figtree", mono: "jetbrainsMono" },
+  ],
+  "refined-story": [
+    { display: "fraunces", body: "sourceSans", mono: "plexMono" },
+    { display: "newsreader", body: "publicSans", mono: "plexMono" },
+    { display: "fraunces", body: "instrumentSans", mono: "spaceMono" },
+  ],
+};
+
+/** Weight corridors per taste control — the range actually requested from the font service. */
+const WEIGHTS: Record<TypeWeight, { display: WeightRange; body: WeightRange }> = {
+  "light-elegant": { display: [300, 600], body: [300, 600] },
+  "medium-modern": { display: [400, 700], body: [400, 650] },
+  "bold-confident": { display: [600, 900], body: [400, 700] },
+};
+
+/** Stable, order-independent hash so the same brief always resolves to the same pairing. */
+function seedIndex(seed: string, length: number): number {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i += 1) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return Math.abs(h) % length;
+}
+
+interface ResolvedPairing {
   display: string;
   body: string;
   mono: string;
   requests: string[];
 }
 
-const PAIRINGS: Record<AestheticLean, Record<TypeWeight, Pairing>> = {
-  "minimal-clean": {
-    "light-elegant": { display: "Inter Tight", body: "Inter", mono: "IBM Plex Mono", requests: ["Inter+Tight:wght@300..600", "Inter:wght@300..600", "IBM+Plex+Mono:wght@400;500"] },
-    "medium-modern": { display: "Inter Tight", body: "Inter", mono: "IBM Plex Mono", requests: ["Inter+Tight:wght@400..700", "Inter:wght@400..600", "IBM+Plex+Mono:wght@400;500"] },
-    "bold-confident": { display: "Archivo", body: "Inter", mono: "IBM Plex Mono", requests: ["Archivo:wght@500..800", "Inter:wght@400..600", "IBM+Plex+Mono:wght@400;500"] },
-  },
-  "conversion-sharp": {
-    "light-elegant": { display: "Schibsted Grotesk", body: "Schibsted Grotesk", mono: "JetBrains Mono", requests: ["Schibsted+Grotesk:wght@400..700", "JetBrains+Mono:wght@400;500"] },
-    "medium-modern": { display: "Schibsted Grotesk", body: "Schibsted Grotesk", mono: "JetBrains Mono", requests: ["Schibsted+Grotesk:wght@400..800", "JetBrains+Mono:wght@400;500"] },
-    "bold-confident": { display: "Archivo", body: "Schibsted Grotesk", mono: "JetBrains Mono", requests: ["Archivo:wght@600..900", "Schibsted+Grotesk:wght@400..600", "JetBrains+Mono:wght@400;500"] },
-  },
-  "system-crafted": {
-    "light-elegant": { display: "Figtree", body: "Figtree", mono: "IBM Plex Mono", requests: ["Figtree:wght@300..700", "IBM+Plex+Mono:wght@400;500"] },
-    "medium-modern": { display: "Figtree", body: "Figtree", mono: "IBM Plex Mono", requests: ["Figtree:wght@400..800", "IBM+Plex+Mono:wght@400;500"] },
-    "bold-confident": { display: "Archivo", body: "Figtree", mono: "IBM Plex Mono", requests: ["Archivo:wght@600..900", "Figtree:wght@400..700", "IBM+Plex+Mono:wght@400;500"] },
-  },
-  "refined-story": {
-    "light-elegant": { display: "Fraunces", body: "Source Sans 3", mono: "IBM Plex Mono", requests: ["Fraunces:opsz,wght@9..144,300..600", "Source+Sans+3:wght@300..600", "IBM+Plex+Mono:wght@400;500"] },
-    "medium-modern": { display: "Newsreader", body: "Source Sans 3", mono: "IBM Plex Mono", requests: ["Newsreader:opsz,wght@6..72,300..600", "Source+Sans+3:wght@300..600", "IBM+Plex+Mono:wght@400;500"] },
-    "bold-confident": { display: "Fraunces", body: "Source Sans 3", mono: "IBM Plex Mono", requests: ["Fraunces:opsz,wght@9..144,500..900", "Source+Sans+3:wght@400..700", "IBM+Plex+Mono:wght@400;500"] },
-  },
-};
+function resolvePairing(lean: AestheticLean, weight: TypeWeight, seed: string): ResolvedPairing {
+  const pool = POOLS[lean];
+  const choice = pool[seedIndex(seed, pool.length)]!;
+  const w = WEIGHTS[weight];
+  const display = FAMILIES[choice.display]!;
+  const body = FAMILIES[choice.body]!;
+  const mono = FAMILIES[choice.mono]!;
+  const requests = Array.from(
+    new Set([display.req(w.display), body.req(w.body), mono.req([400, 500])]),
+  );
+  return { display: display.name, body: body.name, mono: mono.name, requests };
+}
 
 /**
  * Radius ladder. Corpus corridor asks for ≥ 5 distinct radii — a scale, not one rounded value
  * applied to everything.
  */
 function radiusScale(rounding: RoundingDepth): Record<string, string> {
+  // Every step is non-zero even at the sharp end: a 1px corner is a decision, 0px on everything
+  // measures as the absence of a radius system.
   if (rounding === "sharp") {
-    return { xs: "0px", sm: "1px", md: "2px", lg: "3px", xl: "4px", pill: "999px" };
+    return { xs: "1px", sm: "2px", md: "3px", lg: "5px", xl: "7px", pill: "999px" };
   }
   if (rounding === "soft-elevation") {
-    return { xs: "3px", sm: "6px", md: "10px", lg: "16px", xl: "24px", pill: "999px" };
+    return { xs: "3px", sm: "6px", md: "10px", lg: "16px", xl: "22px", pill: "999px" };
   }
-  return { xs: "2px", sm: "4px", md: "8px", lg: "12px", xl: "18px", pill: "999px" };
+  return { xs: "2px", sm: "5px", md: "9px", lg: "14px", xl: "20px", pill: "999px" };
 }
 
 /**
@@ -89,9 +172,14 @@ function motionScale(): Record<string, string> {
   };
 }
 
-export function buildTokens(taste: TasteControls, siteKind: SiteKind, brandAccent?: string): DesignTokens {
+export function buildTokens(
+  taste: TasteControls,
+  siteKind: SiteKind,
+  brandAccent?: string,
+  seed = "",
+): DesignTokens {
   const palette = buildPalette(taste.colorMood, brandAccent);
-  const pairing = PAIRINGS[taste.aestheticLean][taste.typographyWeight];
+  const pairing = resolvePairing(taste.aestheticLean, taste.typographyWeight, `${seed}|${siteKind}`);
   const displayPx = displaySizeFor(siteKind, taste.aestheticLean, taste.density);
   const bodyPx = bodySizeFor(taste.density, siteKind);
   const ladder = buildTypeLadder({

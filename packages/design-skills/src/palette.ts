@@ -24,6 +24,7 @@ export interface Palette {
   inverseInkMuted: string;
   /** Ink ramp. */
   ink: string;
+  inkBody: string;
   inkSecondary: string;
   inkTertiary: string;
   inkQuiet: string;
@@ -42,6 +43,7 @@ export interface Palette {
   isDark: boolean;
   /** Measured contrasts, reported so reconciliation can prove the floor was held. */
   contrast: {
+    headingOnPaper: number;
     bodyOnPaper: number;
     secondaryOnPaper: number;
     tertiaryOnPaper: number;
@@ -52,10 +54,13 @@ export interface Palette {
 }
 
 interface MoodSeed {
-  /** Hue for the neutral ramp — the faint temperature that separates designed greys from #808080. */
-  neutralHue: number;
-  /** Chroma of the neutral ramp; measured references sit under ~4.3% HSL saturation. */
-  neutralChroma: number;
+  /** Hue carried by the paper surfaces, when the mood asks for warmth at all. */
+  paperHue: number;
+  /**
+   * Chroma of the paper surfaces only. Kept under the measured ceiling so the tint reads as
+   * paper stock rather than as a colour cast.
+   */
+  paperChroma: number;
   accentHue: number;
   accentChroma: number;
   signalHue: number;
@@ -64,14 +69,30 @@ interface MoodSeed {
   paperL: number;
 }
 
+/**
+ * The single most surprising thing the corpus said, and the thing this engine had backwards.
+ *
+ * 37 of 53 usable references measure a neutral saturation of exactly 0. Their greys are literal
+ * `rgb(255,255,255)`, `rgb(17,17,17)`, `rgb(250,250,250)`, `rgb(119,119,119)`. The handful that
+ * carry any tint at all sit at 2.5–4.3, and in every one of those cases the warmth is in the
+ * *paper stock* (`rgb(255,251,244)`, `rgb(242,240,235)`) while the ink stays a pure grey.
+ *
+ * So the law is not "designed neutrals carry a whisper of the brand hue" — that is the tell, and
+ * an engine that smears the accent hue through every grey measures as a colour cast. The law is:
+ * ink is achromatic, structure is achromatic, and warmth — if the brand wants any — lives in the
+ * paper and the accent family, where it is a deliberate choice rather than a wash.
+ */
 const MOODS: Record<ColorMood, MoodSeed> = {
-  "neutral-professional": { neutralHue: 250, neutralChroma: 0.006, accentHue: 258, accentChroma: 0.15, signalHue: 155, dark: false, paperL: 0.985 },
-  "soft-brand-accent": { neutralHue: 62, neutralChroma: 0.008, accentHue: 28, accentChroma: 0.13, signalHue: 148, dark: false, paperL: 0.975 },
-  "dark-premium": { neutralHue: 258, neutralChroma: 0.008, accentHue: 232, accentChroma: 0.13, signalHue: 162, dark: true, paperL: 0.19 },
-  "light-airy": { neutralHue: 220, neutralChroma: 0.005, accentHue: 224, accentChroma: 0.16, signalHue: 168, dark: false, paperL: 0.99 },
+  "neutral-professional": { paperHue: 250, paperChroma: 0, accentHue: 258, accentChroma: 0.15, signalHue: 155, dark: false, paperL: 0.985 },
+  "soft-brand-accent": { paperHue: 74, paperChroma: 0.008, accentHue: 28, accentChroma: 0.13, signalHue: 148, dark: false, paperL: 0.975 },
+  "dark-premium": { paperHue: 258, paperChroma: 0.005, accentHue: 232, accentChroma: 0.13, signalHue: 162, dark: true, paperL: 0.19 },
+  "light-airy": { paperHue: 220, paperChroma: 0, accentHue: 224, accentChroma: 0.16, signalHue: 168, dark: false, paperL: 0.99 },
 };
 
-/** Pull a hue and chroma out of a supplied brand hex so the whole system re-tunes around it. */
+/**
+ * Pull a hue and chroma out of a supplied brand hex so the accent family re-tunes around it.
+ * The neutral ramp deliberately does not move: a brand colour is not a licence to tint the ink.
+ */
 function seedFromAccent(hex: string, base: MoodSeed): MoodSeed {
   const rgb = hexToRgb(hex);
   if (!rgb) return base;
@@ -80,43 +101,66 @@ function seedFromAccent(hex: string, base: MoodSeed): MoodSeed {
     ...base,
     accentHue: h,
     accentChroma: Math.max(0.06, Math.min(0.2, c)),
-    // Neutrals inherit a whisper of the brand hue: this is what makes a palette feel authored.
-    neutralHue: h,
-    neutralChroma: base.neutralChroma,
     signalHue: (h + 130) % 360,
   };
 }
 
+/** Snap a channel triple to a literal grey so the value measures as achromatic, not "almost". */
+function grey(l: number): string {
+  const v = Math.max(0, Math.min(255, Math.round(oklToSrgbGrey(l) * 255)));
+  const hex = v.toString(16).padStart(2, "0");
+  return `#${hex}${hex}${hex}`;
+}
+
+/** Inverse of the sRGB transfer function applied to an OKL lightness, for grey generation. */
+function oklToSrgbGrey(l: number): number {
+  const linear = l ** 3;
+  return linear <= 0.0031308 ? linear * 12.92 : 1.055 * linear ** (1 / 2.4) - 0.055;
+}
+
+/** Walk a literal grey until it clears a contrast floor against `against`. */
+function greyAtContrast(startL: number, against: string, min: number, dark: boolean): string {
+  let l = startL;
+  for (let i = 0; i < 60; i += 1) {
+    const hex = grey(l);
+    if (contrastHex(hex, against) >= min) return hex;
+    l += dark ? 0.012 : -0.012;
+    if (l <= 0 || l >= 1) break;
+  }
+  return grey(Math.max(0, Math.min(1, l)));
+}
+
 export function buildPalette(mood: ColorMood, brandAccent?: string): Palette {
   const seed = brandAccent ? seedFromAccent(brandAccent, MOODS[mood]) : MOODS[mood];
-  const { neutralHue: nh, neutralChroma: nc, accentHue: ah, accentChroma: ac, signalHue: sh, dark } = seed;
+  const { paperHue: ph, paperChroma: pc, accentHue: ah, accentChroma: ac, signalHue: sh, dark } = seed;
 
-  const paper = oklchToHex({ l: seed.paperL, c: nc, h: nh });
-  const paperRaised = dark
-    ? oklchToHex({ l: seed.paperL + 0.045, c: nc * 1.2, h: nh })
-    : oklchToHex({ l: seed.paperL - 0.028, c: nc * 1.4, h: nh });
+  // Paper stock may carry warmth. Everything structural below it does not.
+  const surface = (l: number, chromaScale = 1) =>
+    pc === 0 ? grey(l) : oklchToHex({ l, c: pc * chromaScale, h: ph });
+
+  const paper = surface(seed.paperL);
+  const paperRaised = dark ? surface(seed.paperL + 0.045, 0.8) : surface(seed.paperL - 0.028, 1.1);
   const paperSunken = dark
-    ? oklchToHex({ l: Math.max(0.08, seed.paperL - 0.055), c: nc, h: nh })
-    : oklchToHex({ l: seed.paperL - 0.055, c: nc * 1.6, h: nh });
+    ? surface(Math.max(0.08, seed.paperL - 0.055), 0.6)
+    : surface(seed.paperL - 0.058, 1.25);
 
-  const inverse = dark
-    ? oklchToHex({ l: 0.93, c: nc * 1.5, h: nh })
-    : oklchToHex({ l: 0.19, c: nc * 2.2, h: nh });
-  const inverseInk = dark ? oklchToHex({ l: 0.2, c: nc * 2, h: nh }) : oklchToHex({ l: 0.965, c: nc, h: nh });
-  const inverseInkMuted = dark ? oklchToHex({ l: 0.42, c: nc * 2, h: nh }) : oklchToHex({ l: 0.76, c: nc * 1.6, h: nh });
+  const inverse = dark ? grey(0.93) : grey(0.19);
+  const inverseInk = dark ? grey(0.2) : grey(0.975);
+  const inverseInkMuted = dark ? grey(0.42) : grey(0.8);
 
-  // Ink ramp: solve each tone against the page so the contrast floor is a fact, not a hope.
-  const inkBase = dark ? { l: 0.96, c: nc * 1.2, h: nh } : { l: 0.19, c: nc * 2.4, h: nh };
-  const ink = oklchToHex(ensureContrast(inkBase, paper, 13));
-  const inkSecondary = oklchToHex(
-    ensureContrast(dark ? { l: 0.78, c: nc * 2, h: nh } : { l: 0.42, c: nc * 3, h: nh }, paper, 7.2),
-  );
-  const inkTertiary = oklchToHex(
-    ensureContrast(dark ? { l: 0.63, c: nc * 2, h: nh } : { l: 0.55, c: nc * 3, h: nh }, paper, 4.8),
-  );
-  const inkQuiet = oklchToHex(
-    ensureContrast(dark ? { l: 0.52, c: nc * 2, h: nh } : { l: 0.64, c: nc * 3, h: nh }, paper, 3.4),
-  );
+  /*
+   * Ink ramp: literal greys, solved against the page so each contrast floor is a fact.
+   *
+   * The corpus median text contrast is 15:1. Reference pages do not set prose in mid grey — they
+   * set it near full contrast and build hierarchy out of size, weight, and space instead. The
+   * secondary and tertiary tones exist for labels and captions, not for paragraphs, so their
+   * floors are set high enough that using them on prose still passes.
+   */
+  const ink = greyAtContrast(dark ? 0.96 : 0.19, paper, 15, dark);
+  const inkBody = greyAtContrast(dark ? 0.9 : 0.25, paper, 12.5, dark);
+  const inkSecondary = greyAtContrast(dark ? 0.8 : 0.36, paper, 10, dark);
+  const inkTertiary = greyAtContrast(dark ? 0.68 : 0.47, paper, 7, dark);
+  const inkQuiet = greyAtContrast(dark ? 0.56 : 0.58, paper, 4.6, dark);
 
   const accent = oklchToHex(ensureContrast({ l: dark ? 0.72 : 0.52, c: ac, h: ah }, paper, 4.6));
   const accentHover = oklchToHex({ l: dark ? 0.79 : 0.44, c: ac, h: ah });
@@ -133,12 +177,8 @@ export function buildPalette(mood: ColorMood, brandAccent?: string): Palette {
     ? oklchToHex({ l: seed.paperL + 0.16, c: ac * 0.42, h: ah })
     : oklchToHex({ l: 0.87, c: ac * 0.34, h: ah });
 
-  const border = dark
-    ? oklchToHex({ l: seed.paperL + 0.1, c: nc * 1.6, h: nh })
-    : oklchToHex({ l: 0.895, c: nc * 3, h: nh });
-  const borderStrong = dark
-    ? oklchToHex({ l: seed.paperL + 0.2, c: nc * 1.6, h: nh })
-    : oklchToHex({ l: 0.79, c: nc * 3, h: nh });
+  const border = dark ? grey(seed.paperL + 0.1) : grey(0.895);
+  const borderStrong = dark ? grey(seed.paperL + 0.2) : grey(0.79);
 
   const signal = oklchToHex(ensureContrast({ l: dark ? 0.74 : 0.5, c: 0.11, h: sh }, paper, 4.5));
   const signalSurface = dark
@@ -153,6 +193,7 @@ export function buildPalette(mood: ColorMood, brandAccent?: string): Palette {
     inverseInk,
     inverseInkMuted,
     ink,
+    inkBody,
     inkSecondary,
     inkTertiary,
     inkQuiet,
@@ -167,7 +208,8 @@ export function buildPalette(mood: ColorMood, brandAccent?: string): Palette {
     signalSurface,
     isDark: dark,
     contrast: {
-      bodyOnPaper: contrastHex(ink, paper),
+      headingOnPaper: contrastHex(ink, paper),
+      bodyOnPaper: contrastHex(inkBody, paper),
       secondaryOnPaper: contrastHex(inkSecondary, paper),
       tertiaryOnPaper: contrastHex(inkTertiary, paper),
       accentOnPaper: contrastHex(accent, paper),
