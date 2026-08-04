@@ -6,6 +6,7 @@
  * the generated markup safe to hand to a developer as a starting point.
  */
 import { renderCss } from "./css";
+import { planFigures, type FigurePlan } from "./figures";
 import type { Block, DesignSpec, SectionSpec } from "./types";
 
 function esc(s: string): string {
@@ -17,9 +18,22 @@ function esc(s: string): string {
     .replace(/'/g, "&#39;");
 }
 
-function reveal(spec: DesignSpec, index: number): string {
-  if (spec.taste.motion !== "light-scroll-reveals") return "";
-  return ` ds-reveal" style="transition-delay:${Math.min(index, 5) * 60}ms`;
+/**
+ * Add the reveal class to a section without disturbing the classes it already has.
+ *
+ * The previous form spliced a closing quote and a `style` attribute into the middle of the class
+ * value, so `class="ds-section ds-statement"` came out as `class="ds-reveal"` with the real class
+ * list stranded inside the style attribute. Every section on a page that opted into scroll reveals
+ * lost its layout: no section padding, no minimum heights, and no positioning context — which is
+ * how a background field two screens down ended up painting on the fold.
+ */
+function revealAttrs(spec: DesignSpec, index: number, html: string): string {
+  if (spec.taste.motion !== "light-scroll-reveals") return html;
+  const delay = Math.min(index, 5) * 60;
+  return html.replace(
+    /^<(section|footer)\s+class="/,
+    (_m, tag: string) => `<${tag} style="transition-delay:${delay}ms" class="ds-reveal `,
+  );
 }
 
 /**
@@ -59,31 +73,34 @@ function actions(section: SectionSpec, variant: "hero" | "band" = "hero"): strin
 }
 
 /**
- * Structural stand-in for the product surface, drawn entirely from tokens.
+ * Which figure belongs to this page, decided once.
  *
- * Rows carry a label and whatever short metadata the section supplied. Only the first row gets a
- * meter: a stack of four full-width accent bars is a bar chart of nothing, and it was the loudest
- * placeholder signal in the generated pages. One measured row reads as an interface; four read as
- * a wireframe someone forgot to replace.
+ * The plan is content-derived — capabilities, sequence, and the stated outcome — so a page shows a
+ * diagram of the product it is describing rather than a diagram of a product. Each figure is used
+ * exactly once; a page that draws the same diagram twice has the same problem as a page that makes
+ * the same claim twice.
  */
-function productPanel(section: SectionSpec, title: string): string {
-  const rows = section.aside.length ? section.aside : section.blocks;
-  if (!rows.length) return "";
-  return `<div class="ds-panel" aria-hidden="true">
-    <div class="ds-panel-bar"><i class="ds-panel-dot"></i><i class="ds-panel-dot"></i><i class="ds-panel-dot"></i><span class="ds-panel-title">${esc(title)}</span></div>
-    <div class="ds-panel-body">
-      ${rows
-        .slice(0, 5)
-        .map((row, i) => {
-          const meta = row.meta ?? "";
-          const meter = i === 0 ? `<div class="ds-meter"><i style="width:72%"></i></div>` : "";
-          return `<div class="ds-panel-row"><span>${esc(row.title)}</span>${
-            meta ? `<b>${esc(meta)}</b>` : ""
-          }</div>${meter}`;
-        })
-        .join("")}
-    </div>
-  </div>`;
+function figuresFor(spec: DesignSpec): FigurePlan {
+  const bySection = (kind: SectionSpec["kind"]): SectionSpec | undefined =>
+    spec.sections.find((s) => s.kind === kind);
+  const features = bySection("features")?.blocks ?? [];
+  const steps = bySection("figure")?.blocks ?? bySection("story")?.blocks ?? [];
+  return planFigures({
+    productName: spec.brief.productName,
+    siteKind: spec.brief.siteKind,
+    features: features.length ? features : steps,
+    steps,
+    metrics: bySection("metrics")?.metrics ?? [],
+  });
+}
+
+/** A figure set against the page, with a caption that says what it is rather than repeating it. */
+function plate(svg: string, caption: string, extraClass = ""): string {
+  if (!svg) return "";
+  return `<figure class="ds-plate${extraClass ? ` ${extraClass}` : ""}">
+    ${svg}
+    ${caption ? `<figcaption>${esc(caption)}</figcaption>` : ""}
+  </figure>`;
 }
 
 function cardMarkup(b: Block, i: number, opts: { lead?: boolean; wide?: boolean } = {}): string {
@@ -117,7 +134,7 @@ function renderNav(section: SectionSpec): string {
   </header>`;
 }
 
-function renderHero(section: SectionSpec, spec: DesignSpec): string {
+function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan): string {
   /*
    * A tracked list of the core capability names, on a hairline. Previously a definition list whose
    * values were `body.slice(0, 42)` — which put a sentence cut mid-word inside a monospace box at
@@ -136,9 +153,20 @@ function renderHero(section: SectionSpec, spec: DesignSpec): string {
     ${meta}
   </div>`;
 
+  /*
+   * The fold figure hangs below the section boundary rather than sitting inside it.
+   *
+   * Reference pages overlap a plate across the seam between the opening band and the one after it,
+   * which is the cheapest depth there is — no shadow, no blur, no paint cost — and it is the reason
+   * their folds read as composed rather than stacked. `ds-plate-hang` pulls the figure down over
+   * the following surface; the next section reserves the room for it.
+   */
+  const caption = `${spec.brief.productName} — illustrative`;
+
   if (section.layout === "hero-statement") {
     return `<section id="top" class="ds-section ds-hero" data-surface="${section.surface}" data-section="${esc(section.id)}">
       <div class="ds-wrap">${copy}</div>
+      ${figures.hero ? `<div class="ds-wrap-wide">${plate(figures.hero, caption, "ds-plate-hang")}</div>` : ""}
     </section>`;
   }
 
@@ -153,13 +181,14 @@ function renderHero(section: SectionSpec, spec: DesignSpec): string {
             .join("")}</ol>
         </aside>
       </div>
+      ${figures.hero ? `<div class="ds-wrap-wide">${plate(figures.hero, caption, "ds-plate-hang")}</div>` : ""}
     </section>`;
   }
 
   return `<section id="top" class="ds-section ds-hero" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
       ${copy}
-      ${productPanel(section, spec.brief.productName.toLowerCase())}
+      ${plate(figures.hero, caption, "ds-plate-fold")}
     </div>
   </section>`;
 }
@@ -224,7 +253,7 @@ function frame(section: SectionSpec): string {
   }
 }
 
-function renderFeatures(section: SectionSpec, spec: DesignSpec): string {
+function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigurePlan): string {
   const inner = (() => {
     if (section.layout === "feature-bento") {
       return `<ul class="ds-bento">${section.blocks
@@ -270,7 +299,7 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec): string {
                 <h3>${esc(b.title)}</h3>
                 ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
               </div>
-              <div class="ds-alt-figure">${productPanel(section, b.title.toLowerCase())}</div>
+              <div class="ds-alt-figure">${plate(figures.body, b.title)}</div>
             </div>`;
           }
           return `<div class="ds-alt-row ds-alt-pair">
@@ -311,21 +340,56 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec): string {
           .join("")}</div>`
       : "";
 
+  // The alternating layout sets the figure beside its lead row. Every other feature layout is a
+  // list, and a list of capabilities with nothing drawn beside it is where these pages used to run
+  // for three full screens without giving the eye anything but type.
+  const standing =
+    section.layout !== "feature-alternating" && section.id === "features"
+      ? plate(figures.body, `How ${spec.brief.productName} is put together`, "ds-plate-wide")
+      : "";
+
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="${frame(section)}">
       ${sectionHead(section, 2, frame(section) === "ds-wrap-wide")}
+      ${standing}
       ${inner}
       ${rail}
     </div>
   </section>`;
 }
 
+/**
+ * The one instrument on the page a reader can move.
+ *
+ * The plot is drawn at the size it is read at rather than as a 360×160 thumbnail, with a labelled
+ * axis, hairline gridlines, and a stage marker per step. The slider still drives it, so the only
+ * motion on the page is motion a reader asked for.
+ */
 function renderFigure(section: SectionSpec): string {
   const steps = section.blocks.slice(0, 4);
   const mid = Math.max(0, Math.floor((steps.length - 1) / 2));
   const max = Math.max(steps.length - 1, 0);
-  const points = steps.map((_, i) => ({ x: 48 + i * (264 / Math.max(1, steps.length - 1)), y: 118 - i * (72 / Math.max(1, steps.length - 1)) }));
+  const W = 620;
+  const H = 340;
+  const left = 56;
+  const right = W - 24;
+  const top = 32;
+  const floor = H - 56;
+  const span = Math.max(1, steps.length - 1);
+  const points = steps.map((_, i) => ({
+    x: left + (i / span) * (right - left),
+    y: floor - (i / span) * (floor - top) * 0.86,
+  }));
   const path = points.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
+  const area = `${path} L${points[points.length - 1]?.x.toFixed(1) ?? left} ${floor} L${points[0]?.x.toFixed(1) ?? left} ${floor} Z`;
+
+  const grid = [0, 1, 2, 3]
+    .map((g) => {
+      const y = top + ((floor - top) / 3) * g;
+      return `<line x1="${left}" y1="${y.toFixed(1)}" x2="${right}" y2="${y.toFixed(1)}" stroke="var(--surface-border)" stroke-width="1"/>
+        <text class="ds-fig-mono" x="${left - 12}" y="${(y + 4).toFixed(1)}" font-size="10" fill="var(--surface-quiet)" text-anchor="end">${100 - g * 30}</text>`;
+    })
+    .join("");
 
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
@@ -336,14 +400,17 @@ function renderFigure(section: SectionSpec): string {
       </div>
       <figure class="ds-figure" data-instrument="scrub">
         <div class="ds-figure-stage">
-          <svg viewBox="0 0 360 160" role="img" aria-label="${esc(section.title)}">
-            <line x1="24" y1="140" x2="336" y2="140" stroke="var(--surface-border)" stroke-width="1"/>
-            <line x1="24" y1="20" x2="24" y2="140" stroke="var(--surface-border)" stroke-width="1"/>
-            <path d="${path}" fill="none" stroke="var(--c-accent)" stroke-width="2" stroke-linecap="round"/>
+          <svg class="ds-fig" data-figure="scrub" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(section.title)}">
+            ${grid}
+            <path d="${area}" fill="var(--c-accent-surface)"/>
+            <path d="${path}" fill="none" stroke="var(--c-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="${left}" y1="${top}" x2="${left}" y2="${floor}" stroke="var(--surface-border)" stroke-width="1"/>
             ${points
               .map(
                 (p, i) =>
-                  `<circle class="ds-scrub-node" data-step="${i}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${i === mid ? 7 : 4}" fill="var(--c-accent)" opacity="${i === mid ? 1 : 0.4}"/>`,
+                  `<line class="ds-scrub-stem" data-step="${i}" x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${p.x.toFixed(1)}" y2="${floor}" stroke="var(--surface-border)" stroke-width="1" opacity="${i === mid ? 1 : 0}"/>
+                   <circle class="ds-scrub-node" data-step="${i}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${i === mid ? 6 : 4}" fill="${i === mid ? "var(--surface-bg)" : "var(--c-accent)"}" stroke="var(--c-accent)" stroke-width="2" opacity="${i === mid ? 1 : 0.45}"/>
+                   <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(floor + 20).toFixed(1)}" font-size="10" fill="var(--surface-quiet)" text-anchor="middle">${String(i + 1).padStart(2, "0")}</text>`,
               )
               .join("")}
           </svg>
@@ -379,8 +446,14 @@ function renderChapters(section: SectionSpec): string {
   </section>`;
 }
 
-function renderQuote(section: SectionSpec): string {
+/**
+ * The quiet screen. It earns its height by being nearly empty, so the only thing added is a
+ * hairline field behind the statement — enough for the band to read as a surface rather than as a
+ * gap where a section failed to render.
+ */
+function renderQuote(section: SectionSpec, figures: FigurePlan): string {
   return `<section class="ds-section ds-statement" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    ${figures.field ? `<div class="ds-field">${figures.field}</div>` : ""}
     <div class="ds-wrap">
       ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
       <blockquote class="ds-quote">${esc(section.quote ?? section.title)}</blockquote>
@@ -508,7 +581,7 @@ function renderFooter(section: SectionSpec): string {
   </footer>`;
 }
 
-function renderAppShell(section: SectionSpec, spec: DesignSpec): string {
+function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigurePlan): string {
   const rows = section.blocks;
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide">
@@ -543,6 +616,7 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec): string {
                 .map((m) => `<div class="ds-stat"><b>${esc(m.value)}</b><span>${esc(m.label)}</span></div>`)
                 .join("")}
             </div>
+            ${figures.body ? `<div class="ds-app-plot">${figures.body}</div>` : ""}
             <table class="ds-table">
               <thead><tr><th scope="col">Item</th><th scope="col">State</th><th scope="col">Detail</th><th scope="col" class="ds-num">Age</th></tr></thead>
               <tbody>
@@ -570,10 +644,10 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec): string {
   </section>`;
 }
 
-function renderSection(section: SectionSpec, index: number, spec: DesignSpec): string {
+function renderSection(section: SectionSpec, index: number, spec: DesignSpec, figures: FigurePlan): string {
   const wrapped = (html: string): string => {
-    if (spec.taste.motion !== "light-scroll-reveals" || section.layout === "nav") return html;
-    return html.replace(/^<(section|footer)\s+class="/, (m, tag) => `<${tag} class="${reveal(spec, index).trim()} `);
+    if (section.layout === "nav") return html;
+    return revealAttrs(spec, index, html);
   };
 
   switch (section.layout) {
@@ -582,20 +656,20 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec): s
     case "hero-editorial":
     case "hero-split":
     case "hero-statement":
-      return wrapped(renderHero(section, spec));
+      return wrapped(renderHero(section, spec, figures));
     case "metric-band":
       return wrapped(renderMetricBand(section));
     case "feature-bento":
     case "feature-index":
     case "feature-rows":
     case "feature-alternating":
-      return wrapped(renderFeatures(section, spec));
+      return wrapped(renderFeatures(section, spec, figures));
     case "figure-explainer":
       return wrapped(renderFigure(section));
     case "story-chapters":
       return wrapped(renderChapters(section));
     case "pullquote":
-      return wrapped(renderQuote(section));
+      return wrapped(renderQuote(section, figures));
     case "pricing-lanes":
       return wrapped(renderPlans(section));
     case "compare-matrix":
@@ -607,7 +681,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec): s
     case "footer-columns":
       return renderFooter(section);
     case "app-shell":
-      return wrapped(renderAppShell(section, spec));
+      return wrapped(renderAppShell(section, spec, figures));
     default:
       return "";
   }
@@ -635,6 +709,7 @@ function scripts(spec: DesignSpec): string {
   var scrub=document.querySelector('[data-scrub]');
   if(!scrub) return;
   var nodes=[].slice.call(document.querySelectorAll('.ds-scrub-node'));
+  var stems=[].slice.call(document.querySelectorAll('.ds-scrub-stem'));
   var steps=[].slice.call(document.querySelectorAll('.ds-figure-steps [data-step]'));
   var caption=document.querySelector('[data-scrub-caption]');
   var base=caption?caption.textContent:'';
@@ -642,8 +717,12 @@ function scripts(spec: DesignSpec): string {
     var idx=Number(v)||0;
     nodes.forEach(function(n){
       var active=Number(n.getAttribute('data-step'))===idx;
-      n.setAttribute('r', active ? '7' : '4');
-      n.setAttribute('opacity', active ? '1' : '0.4');
+      n.setAttribute('r', active ? '6' : '4');
+      n.setAttribute('opacity', active ? '1' : '0.45');
+      n.setAttribute('fill', active ? 'var(--surface-bg)' : 'var(--c-accent)');
+    });
+    stems.forEach(function(s){
+      s.setAttribute('opacity', Number(s.getAttribute('data-step'))===idx ? '1' : '0');
     });
     steps.forEach(function(li){
       li.classList.toggle('is-active', Number(li.getAttribute('data-step'))===idx);
@@ -662,6 +741,7 @@ function scripts(spec: DesignSpec): string {
 /** Self-contained HTML document for iframe preview / static showcase. */
 export function renderPreviewHtml(spec: DesignSpec): string {
   const fonts = spec.tokens.fontRequests.map((f) => `family=${f}`).join("&");
+  const figures = figuresFor(spec);
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -681,17 +761,17 @@ export function renderPreviewHtml(spec: DesignSpec): string {
 <p class="ds-sr">${esc(spec.summary)}</p>
 ${spec.sections
   .filter((s) => s.layout === "nav")
-  .map((s, i) => renderSection(s, i, spec))
+  .map((s, i) => renderSection(s, i, spec, figures))
   .join("\n")}
 <main id="main">
 ${spec.sections
   .filter((s) => s.layout !== "nav" && s.layout !== "footer-columns")
-  .map((s, i) => renderSection(s, i, spec))
+  .map((s, i) => renderSection(s, i, spec, figures))
   .join("\n")}
 </main>
 ${spec.sections
   .filter((s) => s.layout === "footer-columns")
-  .map((s, i) => renderSection(s, i, spec))
+  .map((s, i) => renderSection(s, i, spec, figures))
   .join("\n")}
 ${scripts(spec)}
 </body>

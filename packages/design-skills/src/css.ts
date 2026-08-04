@@ -204,6 +204,10 @@ ${semanticVars()};
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0;
+  /* Bleeding elements reach past the container on purpose; clip the axis they travel on rather
+     than letting them add a horizontal scrollbar. Clip and not hidden, so the page can still be
+     scrolled to an anchor vertically. */
+  overflow-x:clip;
   background:var(--c-paper);
   color:var(--c-ink);
   font-family:var(--f-body);
@@ -274,6 +278,39 @@ ${surfaceRules()}
 .ds-hero-facts li{font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-hero-facts li + li{padding-left:var(--s-sm);border-left:1px solid var(--surface-border)}
 
+/* Figures — the drawn matter of the page.
+ *
+ * Every figure is inline SVG painted in surface tokens, so it re-themes with the band it sits in
+ * and costs one request rather than an image pipeline. Text inside a figure inherits the page
+ * faces; nothing here animates. */
+/* Never overflow:visible here. An SVG that paints outside its own box escapes the clip on the
+ * band it belongs to, and a background field two screens down lands as stray marks on the fold. */
+.ds-fig{display:block;width:100%;height:auto;font-family:var(--f-body);overflow:hidden}
+.ds-fig text{font-family:var(--f-body)}
+.ds-fig .ds-fig-mono{font-family:var(--f-mono)}
+.ds-plate{margin:0;display:grid;gap:var(--s-xs)}
+.ds-plate figcaption{font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
+.ds-plate-wide{margin-bottom:var(--s-xl)}
+/* The fold plate runs past the container to the screen edge.
+ *
+ * Inside its column the interface renders at roughly half the width its own drawing was laid out
+ * for, which puts its labels under seven pixels — legible in a viewBox, not on a screen. Letting it
+ * bleed right restores the drawing to full size, and it is the same move reference pages use to
+ * stop a fold from reading as two boxes side by side. */
+.ds-plate-fold{align-self:center}
+@media (min-width:64rem){
+  .ds-plate-fold{margin-right:calc(var(--gutter) - max(0px,(100vw - var(--w-wide)) / 2))}
+}
+/* The fold plate hangs across the seam into the next band. Overlap is the cheapest depth there
+ * is — no shadow, no blur, nothing to repaint on scroll — and it is what stops an opening screen
+ * from reading as two stacked rectangles. */
+.ds-plate-hang{margin-top:var(--s-xl);margin-bottom:calc(var(--s-2xl) * -1);position:relative;z-index:var(--z-raised)}
+.ds-hero:has(.ds-plate-hang) + .ds-section{padding-top:calc(var(--section-y) + var(--s-2xl))}
+/* A hairline field behind the quiet band, so a nearly empty screen still reads as a surface. */
+.ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;align-content:center;opacity:.55}
+.ds-field .ds-fig{height:100%}
+.ds-app-plot{padding:var(--s-sm);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:var(--surface-bg)}
+
 /* Product panel — a structural stand-in for the real interface, drawn from tokens only */
 .ds-panel{border:1px solid var(--surface-border);border-radius:var(--r-xl);background:var(--c-paper-raised);overflow:hidden}
 .ds-panel-bar{display:flex;align-items:center;gap:var(--s-2xs);padding:var(--s-xs) var(--s-sm);border-bottom:1px solid var(--surface-border);background:var(--c-paper-sunken)}
@@ -334,7 +371,8 @@ ${surfaceRules()}
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:24ch}
 
 /* Statement band — one idea, given a whole screen */
-.ds-statement{min-height:min(96vh,980px);display:grid;align-content:center;padding-block:var(--section-y)}
+.ds-statement{position:relative;min-height:min(96vh,980px);display:grid;align-content:center;padding-block:var(--section-y)}
+.ds-statement > .ds-wrap{position:relative}
 .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking);font-weight:var(--t-title-weight);max-width:20ch;text-wrap:balance}
 .ds-quote-attribution{margin-top:var(--s-lg);padding-top:var(--s-sm);border-top:1px solid var(--surface-border);font-size:var(--t-caption-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--surface-quiet);max-width:32ch}
 
