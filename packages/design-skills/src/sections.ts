@@ -7,13 +7,13 @@
 import { planSections, type SectionPlan } from "./composition";
 import {
   chapters,
+  count,
   ctaFor,
   eyebrows,
   featuresLede,
   featuresTitle,
   headline,
   heroLede,
-  lower,
   navFor,
   outcomeNames,
   outcomes,
@@ -257,7 +257,7 @@ export function buildSections(
             eyebrow: eyebrow.pricing,
             title: sentence(`Three ways to scope ${brief.productName}`),
             body: sentence(
-              `Lanes are drawn from the ${features.length} declared capabilities. Nothing is invented to fill a column`,
+              `Lanes are drawn from the ${count(features.length)} declared capabilities. Nothing is invented to fill a column`,
             ),
             ctaLabel: cta.primary,
             blocks: lanes.map((l) =>
@@ -311,7 +311,7 @@ export function buildSections(
             // Not `cta.note` — the fold already said that, and a closing band that repeats the
             // reassurance from the top of the page reads as a page with one idea.
             body: sentence(
-              `${features.length} capabilities, one conversation. The next step is ${lower(cta.primary)}`,
+              `${count(features.length)[0]!.toUpperCase()}${count(features.length).slice(1)} capabilities, one conversation`,
             ),
             ctaLabel: cta.primary,
             secondaryLabel: cta.secondary,

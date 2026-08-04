@@ -41,6 +41,22 @@ export function lower(text: string): string {
   return text.trim().replace(/^[A-Z](?![A-Z])/, (c) => c.toLowerCase());
 }
 
+const NUMBER_WORDS = [
+  "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+  "eleven", "twelve",
+];
+
+/**
+ * Small counts written out.
+ *
+ * "2 capabilities carry the argument" is how a template writes a sentence and how nobody speaks
+ * one. Numerals earn their place in tables and specifications; in prose under thirteen they read
+ * as a variable that was interpolated rather than a number that was meant.
+ */
+export function count(n: number): string {
+  return NUMBER_WORDS[n] ?? String(n);
+}
+
 /** Salient nouns across the brief — used to keep headlines rooted in the product's own language. */
 export function vocabulary(brief: DesignBrief): string[] {
   const words = [brief.tagline, brief.audience, ...brief.features.flatMap((f) => [f.name, f.description])]
@@ -127,9 +143,9 @@ export function featuresLede(brief: DesignBrief, features: FeatureSpec[]): strin
   const rest = features.length - p0;
   if (p0 && rest) {
     return sentence(
-      `${p0} ${p0 === 1 ? "capability carries" : "capabilities carry"} the argument for ${brief.audience}; the other ${rest} ${
-        rest === 1 ? "removes a reason" : "remove reasons"
-      } to say no`,
+      `${count(p0)[0]!.toUpperCase()}${count(p0).slice(1)} ${p0 === 1 ? "carries" : "carry"} the argument. The other ${count(
+        rest,
+      )} ${rest === 1 ? "removes a reason" : "remove reasons"} to say no`,
     );
   }
   return sentence(`Each block below is one declared capability, described the way ${brief.audience} would ask about it`);
@@ -260,7 +276,9 @@ export function plans(brief: DesignBrief, features: FeatureSpec[]): Array<{ titl
  */
 export function pullQuote(brief: DesignBrief, features: FeatureSpec[]): { quote: string; attribution: string } {
   return {
-    quote: `Everything on this page is something ${brief.productName} does today. ${features.length} capabilities, and no roadmap standing in for one.`,
+    quote: `Everything on this page is something ${brief.productName} does today. ${count(features.length)[0]!.toUpperCase()}${count(
+      features.length,
+    ).slice(1)} capabilities, and no roadmap standing in for one.`,
     attribution: "How to read this page",
   };
 }

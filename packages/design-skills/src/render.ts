@@ -22,12 +22,30 @@ function reveal(spec: DesignSpec, index: number): string {
   return ` ds-reveal" style="transition-delay:${Math.min(index, 5) * 60}ms`;
 }
 
-function sectionHead(section: SectionSpec, headingLevel: 2 | 3 = 2): string {
+/**
+ * Section heading.
+ *
+ * `spread` sets the title against its introduction across the full width instead of stacking both
+ * in the left third. In a wide frame the stacked form leaves the right half of every section head
+ * on the page empty, and a page whose every band is ragged left with a void beside it reads as one
+ * column that never decided to be one.
+ */
+function sectionHead(section: SectionSpec, headingLevel: 2 | 3 = 2, spread = false): string {
   const cls = headingLevel === 2 ? "ds-title" : "ds-heading";
+  const lede = section.body ? `<p class="ds-lede">${esc(section.body)}</p>` : "";
+  if (spread && section.body) {
+    return `<div class="ds-section-head ds-section-head-spread">
+      <div>
+        ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+        <h${headingLevel} class="${cls}">${esc(section.title)}</h${headingLevel}>
+      </div>
+      ${lede}
+    </div>`;
+  }
   return `<div class="ds-section-head">
     ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
     <h${headingLevel} class="${cls}">${esc(section.title)}</h${headingLevel}>
-    ${section.body ? `<p class="ds-lede">${esc(section.body)}</p>` : ""}
+    ${lede}
   </div>`;
 }
 
@@ -70,7 +88,10 @@ function productPanel(section: SectionSpec, title: string): string {
 
 function cardMarkup(b: Block, i: number, opts: { lead?: boolean; wide?: boolean } = {}): string {
   const cls = ["ds-card"];
-  if (opts.lead && i === 0) cls.push("ds-card-lead", "ds-lead-card");
+  // Emphasis, not position. The accent wash used to land on whichever capability happened to be
+  // first in a section, so a trailing "also included" grid opened with a tinted card promoting its
+  // least important item.
+  if (opts.lead && b.emphasis === "lead") cls.push("ds-card-lead", "ds-lead-card");
   else if (opts.wide && i === 1) cls.push("ds-card-wide");
   return `<li class="${cls.join(" ")}" data-feature="${esc(b.title)}">
     ${b.kicker ? `<p class="ds-eyebrow">${esc(b.kicker)}</p>` : ""}
@@ -230,27 +251,37 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec): string {
        * decaying down the page. Alternating rows already carry their rhythm through the column
        * flip; the interface needs to be shown once.
        */
+      /*
+       * The lead capability gets the interface beside it; the rest are set as a two column
+       * editorial row, name against prose.
+       *
+       * Both halves were wrong before. Repeating the panel per row rendered the same chrome five
+       * times with one fewer stub in each; replacing it with a right-aligned tier word left a
+       * single small label floating in the vertical middle of an otherwise empty half-screen,
+       * which reads as a layout that lost its content rather than one that chose to be quiet.
+       */
+      const cols = section.columns ?? "6fr 6fr";
       return `<div class="ds-alt">${section.blocks
         .map((b, i) => {
-          const flipped = i % 2 === 1;
-          const cols = section.columns ?? "6fr 6fr";
-          const figure =
-            i === 0
-              ? `<div class="ds-alt-figure">${productPanel(section, b.title.toLowerCase())}</div>`
-              : `<div class="ds-alt-side">${
-                  b.points.length
-                    ? `<ul class="ds-card-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>`
-                    : `<p class="ds-alt-tier">${esc(b.kicker ?? "")}</p>`
-                }</div>`;
-          return `<div class="ds-alt-row ds-split" style="grid-template-columns:${esc(
-            splitTemplate(flipped ? cols.split(" ").reverse().join(" ") : cols),
-          )}">
-            <div class="ds-alt-copy">
-              ${b.kicker && i === 0 ? `<p class="ds-eyebrow">${esc(b.kicker)}</p>` : ""}
+          if (i === 0) {
+            return `<div class="ds-alt-row ds-split" style="grid-template-columns:${esc(splitTemplate(cols))}">
+              <div class="ds-alt-copy">
+                ${b.kicker ? `<p class="ds-eyebrow">${esc(b.kicker)}</p>` : ""}
+                <h3>${esc(b.title)}</h3>
+                ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+              </div>
+              <div class="ds-alt-figure">${productPanel(section, b.title.toLowerCase())}</div>
+            </div>`;
+          }
+          return `<div class="ds-alt-row ds-alt-pair">
+            <div class="ds-alt-name">
               <h3>${esc(b.title)}</h3>
-              ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+              ${b.kicker ? `<p class="ds-alt-tier">${esc(b.kicker)}</p>` : ""}
             </div>
-            ${figure}
+            <div class="ds-alt-detail">
+              ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+              ${b.points.length ? `<ul class="ds-card-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
+            </div>
           </div>`;
         })
         .join("")}</div>`;
@@ -282,7 +313,7 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec): string {
 
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="${frame(section)}">
-      ${sectionHead(section)}
+      ${sectionHead(section, 2, frame(section) === "ds-wrap-wide")}
       ${inner}
       ${rail}
     </div>
@@ -389,7 +420,7 @@ function renderMatrix(section: SectionSpec): string {
     <div class="ds-wrap">
       ${sectionHead(section)}
       <table class="ds-matrix">
-        <caption>${esc(section.body)}</caption>
+        <caption class="ds-sr">${esc(section.title)}</caption>
         <thead><tr><th scope="col">Capability</th><th scope="col">Tier</th>${lanes.map((l) => `<th scope="col">${esc(l)}</th>`).join("")}</tr></thead>
         <tbody>
           ${section.blocks

@@ -244,6 +244,8 @@ ${surfaceRules()}
 .ds-section{padding-block:var(--section-y)}
 .ds-section-tight{padding-block:var(--section-y-tight)}
 .ds-section-head{display:grid;gap:var(--s-sm);margin-bottom:var(--s-xl)}
+.ds-section-head-spread{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s-lg) var(--s-2xl);align-items:end}
+.ds-section-head-spread .ds-lede{margin-top:0;max-width:38ch}
 .ds-section-head .ds-lede{margin-top:var(--s-2xs)}
 .ds-split{display:grid;gap:var(--s-xl) var(--s-2xl);align-items:start}
 
@@ -312,12 +314,17 @@ ${surfaceRules()}
 .ds-index-row p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-body);max-width:52ch}
 
 /* Alternating feature rows */
-.ds-alt{display:grid;gap:var(--s-3xl)}
+.ds-alt{display:grid;gap:var(--s-xl)}
+.ds-alt-row + .ds-alt-row{margin-top:var(--s-xs)}
+.ds-alt-pair + .ds-alt-pair{margin-top:0}
 .ds-alt-row{display:grid;gap:var(--s-lg) var(--s-2xl);align-items:center}
 .ds-alt-row:nth-child(even) .ds-alt-figure{order:-1}
 .ds-alt-copy{display:grid;gap:var(--s-xs);align-content:start}
 .ds-alt-copy h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:20ch}
-.ds-alt-side{display:grid;align-content:center;justify-items:end}
+.ds-alt-pair{display:grid;grid-template-columns:minmax(14rem,4fr) minmax(0,7fr);gap:var(--s-lg) var(--s-2xl);align-items:baseline;padding-top:var(--s-lg);border-top:1px solid var(--surface-border)}
+.ds-alt-name{display:grid;gap:var(--s-3xs);align-content:start}
+.ds-alt-name h3{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking)}
+.ds-alt-detail{display:grid;gap:var(--s-sm)}
 .ds-alt-tier{margin:0;font-size:var(--t-caption-size);color:var(--surface-quiet)}
 
 /* Chapters */
@@ -423,7 +430,7 @@ ${motionCss(spec.taste.motion)}
   .ds-footer-grid{grid-template-columns:1fr 1fr 1fr}
 }
 @media (max-width:820px){
-  .ds-split,.ds-alt-row{grid-template-columns:1fr!important}
+  .ds-split,.ds-alt-row,.ds-alt-pair,.ds-section-head-spread{grid-template-columns:1fr!important}
   .ds-alt-row:nth-child(even) .ds-alt-figure{order:0}
   .ds-bento{grid-template-columns:1fr}
   .ds-card,.ds-card-lead,.ds-card-wide{grid-column:span 1}

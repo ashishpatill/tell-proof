@@ -57,7 +57,7 @@ export const AUDIT_PROBE = `(() => {
     return cs.clipPath !== 'none' || cs.clip !== 'auto';
   };
 
-  for (const el of document.querySelectorAll('p, h1, h2, h3, h4, li, dd, dt, span, blockquote, td, th, figcaption')) {
+  for (const el of document.querySelectorAll('p, h1, h2, h3, h4, li, dd, dt, span, blockquote, td, th, figcaption, caption')) {
     const r = rect(el);
     if (r.width === 0 || r.height === 0) continue;
     if (isVisuallyHidden(el)) continue;

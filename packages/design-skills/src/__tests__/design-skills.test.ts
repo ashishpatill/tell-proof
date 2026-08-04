@@ -243,12 +243,19 @@ describe("measured craft floors", () => {
 
   it("uses asymmetric columns on split layouts", () => {
     const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
-    const splits = previewHtml.match(/grid-template-columns:(\d+)fr (\d+)fr/g) ?? [];
+    const splits = previewHtml.match(/style="grid-template-columns:[^";]+/g) ?? [];
     expect(splits.length).toBeGreaterThan(0);
     const asymmetric = splits.filter((s) => {
-      const [a, b] = s.match(/(\d+)fr (\d+)fr/)!.slice(1).map(Number);
-      return a !== b;
+      const fr = Array.from(s.matchAll(/(\d+(?:\.\d+)?)fr/g)).map((m) => Number(m[1]));
+      return fr.length === 2 && fr[0] !== fr[1];
     });
     expect(asymmetric.length).toBeGreaterThan(0);
+  });
+
+  it("gives every split column a floor so text cannot be squeezed to one word per line", () => {
+    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.corporate!);
+    const splits = previewHtml.match(/style="grid-template-columns:[^";]+/g) ?? [];
+    const bare = splits.filter((s) => /\d+fr\s+\d+fr/.test(s));
+    expect(bare).toEqual([]);
   });
 });
