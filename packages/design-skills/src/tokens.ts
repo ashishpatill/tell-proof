@@ -68,10 +68,12 @@ function contentMax(lean: AestheticLean, density: TasteControls["density"]): str
   return "1040px";
 }
 
+const HEX_ACCENT = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+
 /** Build CSS-facing tokens from taste controls (+ optional brand accent override). */
 export function buildTokens(taste: TasteControls, brandAccent?: string): DesignTokens {
   const palette = { ...COLOR[taste.colorMood] };
-  if (brandAccent) palette.accent = brandAccent;
+  if (brandAccent && HEX_ACCENT.test(brandAccent)) palette.accent = brandAccent;
   const type = fonts(taste.typographyWeight, taste.aestheticLean);
   const depth = radiusDepth(taste.roundingDepth);
   const sectionY =
