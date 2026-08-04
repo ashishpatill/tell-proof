@@ -1,18 +1,19 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type {
-  AestheticLean,
-  ColorMood,
-  Density,
-  DesignSpec,
-  MotionLevel,
-  RoundingDepth,
-  SiteKind,
-  TypeWeight,
+import {
+  DesignFromFeaturesResponse,
+  type AestheticLean,
+  type ColorMood,
+  type Density,
+  type DesignSpec,
+  type MotionLevel,
+  type RoundingDepth,
+  type SiteKind,
+  type TypeWeight,
 } from "@tell/design-skills";
 
-type DesignResponse = { spec: DesignSpec; previewHtml: string; redesigned?: boolean; error?: string };
+type DesignResponse = DesignFromFeaturesResponse & { error?: string };
 type GenerateMode = "create" | "redesign";
 type BusinessGoal = "leads" | "demos" | "trust" | "sales" | "activation";
 type ViewportWidth = "390" | "768" | "1280";
@@ -93,11 +94,13 @@ function parseFeatures(text: string) {
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line, index) => {
-      const [name, ...rest] = line.split("—").map((s) => s.trim());
+      const parts = line.split(/\s+[—–-]\s+/).map((s) => s.trim());
+      const name = parts[0] || `Feature ${index + 1}`;
+      const description = parts.slice(1).join(" — ");
       return {
         id: `feat-${index}`,
-        name: name || `Feature ${index + 1}`,
-        description: rest.join(" — "),
+        name,
+        description,
         priority: index < 2 ? ("p0" as const) : ("p1" as const),
       };
     });
@@ -126,6 +129,8 @@ export default function StudioPage() {
   const [viewport, setViewport] = useState<ViewportWidth>("1280");
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
   const lastSpecRef = useRef<DesignSpec | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  const requestIdRef = useRef(0);
 
   const brief = useMemo(
     () => ({
@@ -156,6 +161,10 @@ export default function StudioPage() {
   );
 
   const generateWith = useCallback(async (nextBrief: typeof brief, mode: GenerateMode = "create") => {
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+    const requestId = ++requestIdRef.current;
     setLoading(true);
     setError(null);
     try {
@@ -164,16 +173,20 @@ export default function StudioPage() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ brief: nextBrief, redesignFrom }),
+        signal: controller.signal,
       });
-      const data = (await res.json()) as DesignResponse;
-      if (!res.ok) throw new Error(data.error || "Design failed");
+      const raw = await res.json();
+      if (requestId !== requestIdRef.current) return;
+      if (!res.ok) throw new Error((raw as DesignResponse).error || "Design failed");
+      const data = DesignFromFeaturesResponse.parse(raw);
       lastSpecRef.current = data.spec;
       setResult(data);
       setGeneration((g) => g + 1);
     } catch (e) {
+      if (controller.signal.aborted || requestId !== requestIdRef.current) return;
       setError(e instanceof Error ? e.message : "Design failed");
     } finally {
-      setLoading(false);
+      if (requestId === requestIdRef.current) setLoading(false);
     }
   }, []);
 
@@ -183,31 +196,8 @@ export default function StudioPage() {
   }, [brief, generateWith]);
 
   useEffect(() => {
-    const controller = new AbortController();
-    (async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch("/api/design", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ brief }),
-          signal: controller.signal,
-        });
-        const data = (await res.json()) as DesignResponse;
-        if (controller.signal.aborted) return;
-        if (!res.ok) throw new Error(data.error || "Design failed");
-        lastSpecRef.current = data.spec;
-        setResult(data);
-        setGeneration(1);
-      } catch (e) {
-        if (controller.signal.aborted) return;
-        setError(e instanceof Error ? e.message : "Design failed");
-      } finally {
-        if (!controller.signal.aborted) setLoading(false);
-      }
-    })();
-    return () => controller.abort();
+    void generateWith(brief, "create");
+    return () => abortRef.current?.abort();
     // initial generate only
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -317,27 +307,27 @@ export default function StudioPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--surface,#f7f7f5)] text-[var(--ink,#141414)]" data-testid="studio-page">
-      <header className="border-b border-black/10 px-4 py-3 md:px-6">
+    <div className="min-h-screen bg-bg text-text" data-testid="studio-page">
+      <header className="border-b border-border px-4 py-3 md:px-6">
         <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.16em] text-black/50">Tell Studio</p>
-            <h1 className="text-xl font-semibold tracking-tight">Premium content-custom design</h1>
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary">Tell Studio</p>
+            <h1 className="font-display text-xl font-semibold tracking-tight">Premium content-custom design</h1>
           </div>
-          <div className="flex flex-wrap gap-2 text-sm">
-            <a className="underline underline-offset-2" href="/showcase/saas">
+          <div className="flex flex-wrap gap-2 text-sm text-secondary">
+            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/saas">
               SaaS showcase
             </a>
-            <a className="underline underline-offset-2" href="/showcase/dashboard">
+            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/dashboard">
               Dashboard
             </a>
-            <a className="underline underline-offset-2" href="/showcase/corporate">
+            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/corporate">
               Corporate
             </a>
-            <a className="underline underline-offset-2" href="/showcase/educational">
+            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/educational">
               Educational
             </a>
-            <a className="underline underline-offset-2" href="/">
+            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/">
               Tell Report
             </a>
           </div>
@@ -345,14 +335,15 @@ export default function StudioPage() {
       </header>
 
       <div className="mx-auto grid max-w-[1600px] gap-4 p-4 md:grid-cols-[380px_1fr] md:p-6">
-        <aside className="space-y-4 rounded-lg border border-black/10 bg-white p-4" data-testid="studio-controls">
+        <aside className="space-y-4 rounded-card border border-border bg-surface p-4" data-testid="studio-controls">
           <div className="flex flex-wrap gap-2" data-testid="preset-row">
             {(["saas", "dashboard", "corporate", "educational"] as const).map((key) => (
               <button
                 key={key}
                 type="button"
-                className="rounded border border-black/15 px-2 py-1 text-xs font-medium capitalize"
+                className="rounded border border-border px-2 py-1 text-xs font-medium capitalize transition hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50"
                 onClick={() => loadPreset(key)}
+                disabled={loading}
                 data-testid={`preset-${key}`}
               >
                 {key}
@@ -363,7 +354,7 @@ export default function StudioPage() {
           <label className="block text-sm">
             <span className="mb-1 block font-medium">Product name</span>
             <input
-              className="w-full rounded border border-black/15 px-3 py-2"
+              className="w-full rounded border border-border bg-bg px-3 py-2 text-text outline-none focus-visible:border-accent"
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
               data-testid="input-product"
@@ -372,7 +363,7 @@ export default function StudioPage() {
           <label className="block text-sm">
             <span className="mb-1 block font-medium">Tagline</span>
             <input
-              className="w-full rounded border border-black/15 px-3 py-2"
+              className="w-full rounded border border-border bg-bg px-3 py-2 text-text outline-none focus-visible:border-accent"
               value={tagline}
               onChange={(e) => setTagline(e.target.value)}
               data-testid="input-tagline"
@@ -381,7 +372,7 @@ export default function StudioPage() {
           <label className="block text-sm">
             <span className="mb-1 block font-medium">Audience</span>
             <input
-              className="w-full rounded border border-black/15 px-3 py-2"
+              className="w-full rounded border border-border bg-bg px-3 py-2 text-text outline-none focus-visible:border-accent"
               value={audience}
               onChange={(e) => setAudience(e.target.value)}
               data-testid="input-audience"
@@ -415,14 +406,14 @@ export default function StudioPage() {
           <label className="block text-sm">
             <span className="mb-1 block font-medium">Features (one per line: Name — description)</span>
             <textarea
-              className="min-h-[140px] w-full rounded border border-black/15 px-3 py-2 font-mono text-xs"
+              className="min-h-[140px] w-full rounded border border-border bg-bg px-3 py-2 font-mono text-xs text-text outline-none focus-visible:border-accent"
               value={featuresText}
               onChange={(e) => setFeaturesText(e.target.value)}
               data-testid="input-features"
             />
           </label>
 
-          <fieldset className="space-y-2 border-t border-black/10 pt-3">
+          <fieldset className="space-y-2 border-t border-border pt-3">
             <legend className="text-sm font-semibold">Taste Controls</legend>
             <Select label="Density" value={density} onChange={(v) => setDensity(v as Density)} options={["sparse", "balanced", "information-rich"]} testId="taste-density" />
             <Select label="Motion" value={motion} onChange={(v) => setMotion(v as MotionLevel)} options={["none", "subtle-micro", "light-scroll-reveals"]} testId="taste-motion" />
@@ -459,7 +450,7 @@ export default function StudioPage() {
           <label className="block text-sm">
             <span className="mb-1 block font-medium">Magic edit</span>
             <textarea
-              className="min-h-[72px] w-full rounded border border-black/15 px-3 py-2 text-sm"
+              className="min-h-[72px] w-full rounded border border-border bg-bg px-3 py-2 text-sm text-text outline-none focus-visible:border-accent"
               placeholder="e.g. redesign as dashboard, minimal-clean, no motion"
               value={magic}
               onChange={(e) => setMagic(e.target.value)}
@@ -470,21 +461,27 @@ export default function StudioPage() {
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
-              className="rounded bg-[var(--accent,#1F4B7A)] px-3 py-2 text-sm font-semibold text-[var(--accent-ink,#fff)] disabled:opacity-50"
+              className="rounded bg-accent px-3 py-2 text-sm font-semibold text-white transition hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50"
               onClick={() => void generate()}
               disabled={loading}
               data-testid="btn-generate"
             >
               {loading ? "Generating…" : generation === 0 ? "Generate from scratch" : "Redesign from features"}
             </button>
-            <button type="button" className="rounded border border-black/20 px-3 py-2 text-sm font-semibold" onClick={applyMagic} data-testid="btn-magic">
+            <button
+              type="button"
+              className="rounded border border-border px-3 py-2 text-sm font-semibold transition hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50"
+              onClick={applyMagic}
+              disabled={loading}
+              data-testid="btn-magic"
+            >
               Apply magic edit
             </button>
             <button
               type="button"
-              className="rounded border border-black/20 px-3 py-2 text-sm font-semibold disabled:opacity-50"
+              className="rounded border border-border px-3 py-2 text-sm font-semibold transition hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50"
               onClick={() => void copyHtml()}
-              disabled={!result?.previewHtml}
+              disabled={!result?.previewHtml || loading}
               data-testid="btn-copy-html"
             >
               {copyState === "copied" ? "Copied" : copyState === "failed" ? "Copy failed" : "Copy HTML"}
@@ -492,30 +489,30 @@ export default function StudioPage() {
           </div>
 
           {error ? (
-            <p className="text-sm text-red-700" data-testid="studio-error">
+            <p className="text-sm text-drift" data-testid="studio-error">
               {error}
             </p>
           ) : null}
 
           {result?.spec ? (
-            <div className="space-y-2 border-t border-black/10 pt-3 text-xs text-black/70" data-testid="studio-meta">
+            <div className="space-y-2 border-t border-border pt-3 text-xs text-secondary" data-testid="studio-meta">
               <p data-testid="meta-summary">
-                <strong>Summary:</strong> {result.spec.summary}
+                <strong className="text-text">Summary:</strong> {result.spec.summary}
               </p>
               <p data-testid="meta-sitekind">
-                <strong>Site kind:</strong> {result.spec.brief.siteKind}
+                <strong className="text-text">Site kind:</strong> {result.spec.brief.siteKind}
               </p>
               <p data-testid="meta-skills">
-                <strong>Routed skills:</strong> {result.spec.routedSkills.join(", ")}
+                <strong className="text-text">Routed skills:</strong> {result.spec.routedSkills.join(", ")}
               </p>
               <p data-testid="meta-sections">
-                <strong>Sections:</strong> {result.spec.sections.map((s) => s.kind).join(", ")}
+                <strong className="text-text">Sections:</strong> {result.spec.sections.map((s) => s.kind).join(", ")}
               </p>
               <p data-testid="meta-direction">
-                <strong>Tell direction:</strong> {result.spec.tellDirectionId}
+                <strong className="text-text">Tell direction:</strong> {result.spec.tellDirectionId}
               </p>
               <p data-testid="meta-generation">
-                <strong>Generation:</strong> {generation}
+                <strong className="text-text">Generation:</strong> {generation}
               </p>
               <ul className="list-disc pl-4" data-testid="meta-hints">
                 {result.spec.customizationHints.map((h) => (
@@ -526,9 +523,9 @@ export default function StudioPage() {
           ) : null}
         </aside>
 
-        <section className="overflow-hidden rounded-lg border border-black/10 bg-white" data-testid="studio-canvas">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-black/10 px-3 py-2" data-testid="viewport-bar">
-            <p className="text-xs font-medium uppercase tracking-[0.12em] text-black/50">Preview</p>
+        <section className="overflow-hidden rounded-card border border-border bg-surface" data-testid="studio-canvas">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-3 py-2" data-testid="viewport-bar">
+            <p className="text-xs font-medium uppercase tracking-[0.12em] text-secondary">Preview</p>
             <div className="flex gap-1">
               {(
                 [
@@ -540,7 +537,9 @@ export default function StudioPage() {
                 <button
                   key={w}
                   type="button"
-                  className={`rounded px-2 py-1 text-xs font-medium ${viewport === w ? "bg-black/90 text-white" : "border border-black/15"}`}
+                  className={`rounded px-2 py-1 text-xs font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+                    viewport === w ? "bg-accent text-white" : "border border-border text-secondary hover:border-accent hover:text-accent"
+                  }`}
                   onClick={() => setViewport(w)}
                   data-testid={`viewport-${w}`}
                 >
@@ -549,13 +548,13 @@ export default function StudioPage() {
               ))}
             </div>
           </div>
-          {loading ? <p className="p-4 text-sm text-black/50" data-testid="studio-loading">Generating…</p> : null}
+          {loading ? <p className="p-4 text-sm text-secondary" data-testid="studio-loading">Generating…</p> : null}
           {result?.previewHtml ? (
-            <div className="flex justify-center bg-[var(--surface,#f0efec)] p-3 md:p-4" data-testid="preview-stage">
+            <div className="flex justify-center bg-bg p-3 md:p-4" data-testid="preview-stage">
               <iframe
                 title="Design preview"
                 srcDoc={result.previewHtml}
-                className="h-[80vh] border border-black/10 bg-white shadow-sm md:h-[calc(100vh-10rem)]"
+                className="h-[80vh] border border-border bg-surface shadow-card md:h-[calc(100vh-10rem)]"
                 style={{ width: "100%", maxWidth: `${viewport}px` }}
                 data-testid="studio-frame"
                 data-generation={generation}
@@ -563,7 +562,7 @@ export default function StudioPage() {
               />
             </div>
           ) : (
-            <div className="flex h-[50vh] items-center justify-center text-sm text-black/50">Generate a design to preview</div>
+            <div className="flex h-[50vh] items-center justify-center text-sm text-secondary">Generate a design to preview</div>
           )}
         </section>
       </div>
@@ -586,9 +585,9 @@ function Select({
 }) {
   return (
     <label className="block text-sm">
-      <span className="mb-1 block text-black/70">{label}</span>
+      <span className="mb-1 block text-secondary">{label}</span>
       <select
-        className="w-full rounded border border-black/15 px-2 py-1.5"
+        className="w-full rounded border border-border bg-bg px-2 py-1.5 text-text outline-none focus-visible:border-accent"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         data-testid={testId}
