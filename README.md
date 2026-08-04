@@ -2,11 +2,11 @@
 
 # Tell Proof
 
-### Independent visual proof for AI-built interfaces.
+### The independent design layer for Cursor and agent harnesses.
 
-**Tell Proof captures the UI that users actually see, names the visual tells that make it feel generic or inconsistent, drafts a source-grounded repair, and verifies the result in a disposable checkout before anything touches your app.**
+**Agents write code. Tell proves the UI — then helps you ship design that looks intentional, not AI-default.**
 
-[Demo](#demo) · [Why Tell](#why-tell) · [Features](#features) · [Quick Start](#quick-start) · [Cursor MCP](#cursor-mcp) · [Architecture](#architecture) · [Deploy](#deploy)
+[Why Tell](#why-tell-revolutionizes-design-for-cursor) · [Demo](#demo) · [Features](#features) · [Quick Start](#quick-start) · [Cursor MCP](#cursor-mcp) · [Architecture](#architecture) · [Deploy](#deploy)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](./LICENSE)
 [![Built for Cursor](https://img.shields.io/badge/built%20for-Cursor-black.svg)](https://cursor.com)
@@ -16,19 +16,82 @@
 
 <br/>
 
-![Tell Proof capturing SuperlearnAI, explaining visual tells, art-directing a redesign, and preparing a verified patch](./docs/media/tell-superlearnai-demo.gif)
+![Tell Proof end-to-end: capture rendered UI, name genericness and drift, art-direct reconciliation, then generate premium layouts in Tell Studio](./docs/media/tell-proof-demo.gif)
+
+<p><a href="./docs/media/tell-proof-demo.mp4">Watch the MP4</a> · ~40s · Report loop + Studio create/redesign + showcases</p>
 
 </div>
 
 ---
 
-## Why Tell
+## Why Tell revolutionizes design for Cursor
 
-AI agents can generate working interfaces quickly. The harder question is whether the result has taste: a distinctive hierarchy, consistent tokens, reachable states, readable contrast, and a visual language that does not collapse into the same gradient-card-template everyone else ships.
+Coding agents inside Cursor (and other harnesses) are extraordinary at shipping working software. They are much weaker at **visual authorship**. Ask an agent to “make it prettier” and you usually get the same defaults again: system fonts, violet accents, shadow-on-every-card, emoji chrome, monotone radius, mushy gray hierarchy.
 
-Tell Proof is the independent reviewer for that moment. It does not ask the authoring agent to grade its own output. It opens the page in a real browser, measures the rendered surface, identifies specific genericness and drift patterns, and turns the critique into a reviewable direction.
+That is not a failure of effort. It is a structural gap:
 
-The authoring agent proposes. Tell measures, critiques, repairs, and verifies.
+| What the harness optimizes | What production UI actually needs |
+|---|---|
+| Compiling code that runs | A composition users trust in the first viewport |
+| Local file edits that “look better” | Measured contrast, token rhythm, and state coverage |
+| The same model judging its own output | An independent visual proof loop |
+| Prompt-only taste | Deterministic detectors + craft floors that cannot be waved away |
+
+**Tell is the missing design runtime for agent-built software.** It sits beside Cursor as an independent critic and craft engine:
+
+1. **Observe** — Playwright captures the rendered page users actually see.
+2. **Name** — Fourteen deterministic detectors call out genericness and drift with evidence.
+3. **Direct** — Voice/text art-direction becomes concrete action items and a reconciled after-state.
+4. **Repair** — Source-ranked diffs land as reviewable patches — never silent auto-apply.
+5. **Prove** — Disposable checkouts recapture before/after so the harness can trust the fix.
+6. **Author** — Tell Studio turns product features into premium, lean-distinct layouts via a skill graph — so Cursor is not inventing another generic SaaS template from scratch.
+
+The authoring agent proposes. Tell measures, critiques, redesigns, and verifies. Humans stay in control.
+
+### Design superiority that ships
+
+Tell does not chase “more AI.” It enforces a higher craft floor than prompt-only UI generation:
+
+- **Brand-first composition** — product identity leads the first viewport; the hero is not a dashboard of widgets.
+- **Atmosphere over flat canvas** — gradients, paper grain, and depth used with intent — not purple-on-white defaults.
+- **Token discipline** — type scale, spacing grid, radius, and depth become one system instead of eleven accidental sizes and fourteen random gaps.
+- **Contrast as a hard floor** — reconciliation reports WCAG-minded contrast so “prettier” never means unreadable.
+- **State coverage** — empty, loading, error, and focus-visible are first-class, not afterthoughts.
+- **Lean-distinct layouts** — SaaS, dashboard, corporate, and educational surfaces route through different skill paths so structure follows the product, not a universal card grid.
+- **Feature-derived content** — pricing, proof, and sections come from the brief you typed — not Starter/Growth filler.
+
+The result is UI that feels **authored for production**, not assembled from the model’s prior.
+
+### How harnesses (especially Cursor) get better
+
+| Harness pain | Tell response |
+|---|---|
+| Agent grades its own homework | Independent browser capture + scored findings |
+| “Make it nice” loops regenerate sameness | Named tells + direction presets with measurable deltas |
+| Patches look fine in chat, break in the browser | Disposable proof: apply → HMR → recapture → compare |
+| No designer on the team | Studio skill graph + MCP tools inside Agent chat |
+| Demo tomorrow, UI still generic | Capture → seam → voice → draft fix → apply in Cursor |
+
+In Cursor Agent chat you can run the same engine through MCP (`tell_diagnose`, `tell_redesign`, `tell_proof_verify`, `tell_design_from_features`, …). The harness keeps writing code; Tell keeps the visual bar honest.
+
+---
+
+## Demo
+
+The GIF above walks the full product loop:
+
+1. **Tell Report** — paste a live URL, capture the fixture app, read named findings on the real surface.
+2. **Reconciliation** — before/after reveal with contrast, type scale, spacing, depth, and accent discipline.
+3. **Art-direction** — editorial / precision / warm presets map to concrete action items.
+4. **Tell Studio** — generate SaaS, dashboard, corporate, and educational surfaces from features.
+5. **Magic redesign + viewports** — redesign from a text cue; flip mobile/desktop preview.
+6. **Showcases** — premium compositions that prove the craft floor without a prompt lottery.
+
+Regenerate media locally (web on `:3000`, fixture on `:3001`):
+
+```bash
+pnpm record:readme-demo
+```
 
 ---
 
@@ -41,14 +104,15 @@ The authoring agent proposes. Tell measures, critiques, repairs, and verifies.
 | **Taste engine** | Findings become plain-English verdicts: `generic`, `drift`, `intentional`, or `uncertain`, with confidence and rationale. Gemini can enrich judgment; deterministic fallback keeps the flow usable without keys. |
 | **Voice and text art-direction** | Say or type directions like "warmer, more editorial, less shadow". Tell maps intent to a preset and concrete action items before model refinement. |
 | **Before/after reveal** | The captured page is compared against a deterministic reconciliation that preserves content while improving hierarchy, contrast, depth, radius, and focus treatment. |
+| **Tell Studio + design skills** | Feature brief → site-kind routing → tokens → sections → `previewHtml`. Lean codes (`minimal-clean`, `conversion-sharp`, `system-crafted`, `refined-story`) keep layouts distinctive without designer folklore. |
 | **Source-grounded redesign diffs** | When a repo is available, Tell ranks real TSX/JSX/CSS files by rendered evidence and drafts a unified diff instead of guessing from a screenshot. |
 | **Visual worktree proof** | Candidate patches run inside a disposable checkout. Tell applies, waits for HMR, recaptures, compares score/focus/structure, and auto-reverts failed attempts. |
 | **GitHub setup runner** | Paste `github.com/owner/repo`; local Tell clones it, reads `README` and `package.json`, installs dependencies, starts the dev server, and captures the reachable URL. |
 | **Multi-page scanning** | Routes discovered from the snapshot can be scanned individually, exposing drift that only appears on pricing, docs, onboarding, or secondary pages. |
-| **Cursor MCP** | `tell_capture`, `tell_diagnose`, `tell_redesign`, `tell_apply`, `tell_proof_verify`, `tell_proof_revert`, and `tell_capture_matrix` expose the same engine inside Cursor Agent chat. |
+| **Cursor MCP** | `tell_capture`, `tell_diagnose`, `tell_redesign`, `tell_apply`, `tell_proof_verify`, `tell_proof_revert`, `tell_capture_matrix`, and `tell_design_from_features` expose the same engine inside Cursor Agent chat. |
 | **Scenario matrix** | Live Playwright capture across route × viewport × theme × interaction × auth (storageState), with CI smoke against the fixture and a Tell Report panel. |
 
-Tell is not a replacement for functional, responsive, accessibility, or security testing. It is a focused visual evidence layer for one rendered route at a time.
+Tell is not a replacement for functional, responsive, accessibility, or security testing. It is a focused visual evidence and craft layer — the piece most agent harnesses still skip.
 
 ---
 
@@ -66,9 +130,12 @@ flowchart LR
     diff --> proof["Disposable proof checkout"]
     proof --> recapture["Recapture + measured comparison"]
     recapture --> cursor["Review and apply in Cursor"]
+    features["Product features brief"] --> studio["Tell Studio skill graph"]
+    studio --> preview["Premium preview HTML"]
+    preview --> cursor
 ```
 
-**Deterministic-first:** capture, fingerprinting, detector output, baseline reconciliation, and score comparison do not depend on a model. Models are only used where judgment or drafting benefits from language.
+**Deterministic-first:** capture, fingerprinting, detector output, baseline reconciliation, Studio routing/tokens/sections, and score comparison do not depend on a model. Models are only used where judgment or drafting benefits from language.
 
 **Human-reviewed by design:** Tell can prepare a patch and prove it in isolation, but the final change still lands through the developer's normal review workflow.
 
@@ -85,7 +152,7 @@ pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The app starts with SuperlearnAI as the capture target and falls back to the committed report if live capture cannot run.
+Open [http://localhost:3000](http://localhost:3000) for Tell Report, or [http://localhost:3000/studio](http://localhost:3000/studio) for Tell Studio. The report starts with a demo capture target and falls back to the committed offline report if live capture cannot run.
 
 To use the seeded sample app in a second terminal:
 
@@ -100,9 +167,11 @@ pnpm test
 pnpm typecheck
 pnpm capture:fixture
 pnpm diagnose:fixture
+pnpm e2e:studio
 pnpm auth:fixture        # mint Playwright storageState for /account (fixture must be up)
 pnpm capture:matrix      # live scenario matrix (set TELL_MATRIX_URL)
 pnpm verify:directions   # screenshot all 6 reconcile directions (requires Playwright)
+pnpm record:readme-demo  # regenerate docs/media/tell-proof-demo.{gif,mp4}
 ```
 
 Optional environment variables live in `.env.example`:
@@ -123,6 +192,7 @@ Tell registers as a local MCP server via `.cursor/mcp.json`. Open this repo in C
 
 ```text
 Run tell_diagnose on http://localhost:3001 and draft an editorial redesign.
+Design a dashboard from these features with tell_design_from_features.
 ```
 
 | Tool | Purpose |
@@ -134,6 +204,7 @@ Run tell_diagnose on http://localhost:3001 and draft an editorial redesign.
 | `tell_proof_verify` | Apply a patch, recapture the URL, and return pass/review/fail with measured deltas. |
 | `tell_proof_revert` | Revert the last proof patch in the workspace. |
 | `tell_capture_matrix` | Live Playwright scenario matrix (route × viewport × theme × interaction × auth). |
+| `tell_design_from_features` | Generate a premium layout from a product brief (Studio skill graph). |
 
 ---
 
@@ -143,14 +214,15 @@ Tell is a pnpm monorepo with one shared engine behind both the web app and MCP s
 
 ```text
 tell/
-├── apps/web/           # Next.js product UI and API routes
-├── packages/schema/    # Zod contracts shared across every boundary
-├── packages/core/      # Capture, fingerprint, detectors, diagnosis
-├── packages/taste/     # Verdicts, direction presets, voice/text parsing
-├── packages/redesign/  # Reconciliation, source patches, proof measures
-├── packages/mcp/       # Cursor MCP stdio server
-├── fixtures/           # Generic input app and committed report artifacts
-└── docs/               # Product, deployment, and design notes
+├── apps/web/              # Next.js product UI and API routes
+├── packages/schema/       # Zod contracts shared across every boundary
+├── packages/core/         # Capture, fingerprint, detectors, diagnosis
+├── packages/taste/        # Verdicts, direction presets, voice/text parsing
+├── packages/redesign/     # Reconciliation, source patches, proof measures
+├── packages/design-skills/# Feature → route → tokens → sections → preview HTML
+├── packages/mcp/          # Cursor MCP stdio server
+├── fixtures/              # Generic input app and committed report artifacts
+└── docs/                  # Product, deployment, and design notes
 ```
 
 Key API routes:
@@ -160,6 +232,7 @@ Key API routes:
 | `POST /api/diagnose` | Capture and diagnose a URL, using a remote capture backend when configured. |
 | `POST /api/redesign` | Produce a source-aware redesign proposal with deterministic fallback. |
 | `POST /api/voice` | Convert transcript/text into direction presets and action items. |
+| `POST /api/design` | Tell Studio — generate or redesign from a feature brief. |
 | `POST /api/setup/start` | Local-only GitHub clone/install/run/capture workflow. |
 | `POST /api/proof/apply` | Apply a candidate patch in the disposable checkout and verify it. |
 | `POST /api/proof/verify` | Hosted proof sandbox — compare two reports on Vercel, or apply+recapture on the capture backend. |
@@ -177,7 +250,7 @@ The most reliable production shape is a hosted UI plus a separate Playwright cap
 
 | Layer | Platform | Role |
 |---|---|---|
-| UI | Vercel | Fast Next.js app, report, reveal, voice direction, redesign draft |
+| UI | Vercel | Fast Next.js app, report, reveal, voice direction, Studio, redesign draft |
 | Capture | Vultr, Render, or Docker host | Playwright + Chromium for live URL diagnosis |
 | MCP | Local Cursor | Stdio tools for editor-native diagnosis and patch handoff |
 
@@ -200,7 +273,9 @@ Shipped:
 - Taste verdicts with safe fallback
 - Tell Report with before/after reveal
 - Voice/text art-direction
-- Cursor MCP tools
+- Tell Studio + `@tell/design-skills` skill graph (create / redesign / magic edit)
+- Showcase surfaces for SaaS, dashboard, corporate, and educational
+- Cursor MCP tools including `tell_design_from_features`
 - Public URL capture with offline report fallback
 - Local GitHub repo setup runner
 - Source-grounded redesign proposals
@@ -211,6 +286,13 @@ Shipped:
 Next:
 
 - Optional stretch only — no open PLAN blockers. Hosted public demos still need `TELL_CAPTURE_API_URL` for Playwright-backed matrix/setup.
+
+Shipped in Phase 7:
+
+- Premium design-skills engine and Studio UI
+- Feature-derived sections, lean aesthetic codes, craft-floor layouts
+- MCP `tell_design_from_features` + `POST /api/design`
+- Studio Playwright e2e (`pnpm e2e:studio`)
 
 Shipped in Phase 6:
 
@@ -261,7 +343,7 @@ Shipped in Phase 1:
 
 ## Contributing
 
-Contributions are welcome. The highest-leverage additions are new detectors, better evidence views, and stronger source mapping.
+Contributions are welcome. The highest-leverage additions are new detectors, stronger Studio skills, better evidence views, and tighter source mapping for harness workflows.
 
 ```bash
 pnpm typecheck && pnpm test
