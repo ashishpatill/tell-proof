@@ -52,6 +52,7 @@ flowchart TB
 | `docs/01`, `03`, `05`, `06_TELL_PROOF`, `DEPLOY*` | Living specs / deploy | **Keep** (not plans) |
 | **`docs/07_VISUALIZATION_PLAN.md`** | Interactive / illustration-first educational viz plan | **Keep — separate plan** |
 | **`docs/08_AI_DESIGN_METHODS.md`** | Methods for designing with AI + how to add styles | **Keep — separate plan** |
+| **`docs/09_PREMIUM_DESIGN_SKILLS.md`** | Premium content-custom skill graph + studio | **Keep — separate plan** |
 | `DESIGN.md`, `PITCH.md` | Dogfood contract / pitch | **Keep** |
 
 ---
@@ -94,7 +95,67 @@ flowchart TB
 
 ---
 
-## Goal prompt (paste into Composer / Cloud Agent)
+## Phase 7 — Premium design craft (active)
+
+Ship stunning, feature-true sites from the skill graph — create from scratch and redesign —
+with lean-distinct layouts, restrained motion, and Studio craft tools.
+
+### Checklist (DoD)
+
+- [x] Hero is brand-first (product name hero-level) + one headline + one support + CTA; atmosphere beyond flat paper
+- [x] Lean layouts diverge in HTML (`minimal-clean` lists, `conversion-sharp` CTA rhythm, `refined-story` chapters, `system-crafted` token cohesion)
+- [x] Dashboard is one shell (aside + main), not two broken grids
+- [x] No invented pricing tiers / proof filler — derive from declared features or omit
+- [x] Educational surfaces include a deterministic figure (caption + simple instrument) when features teach a mechanism
+- [x] Focus-visible, mobile stack, real reduced-motion handling in preview HTML
+- [x] Studio: viewport preview widths, copy HTML, businessGoal control; e2e covers craft assertions
+- [x] `pnpm test` + `pnpm e2e:studio` + web typecheck green
+
+### Goal prompt (Phase 7 — paste into Composer / Cloud Agent)
+
+```
+@PLAN.md @docs/09_PREMIUM_DESIGN_SKILLS.md @docs/07_VISUALIZATION_PLAN.md @docs/08_AI_DESIGN_METHODS.md
+@packages/design-skills @apps/web/src/app/studio @agent-skills/web-design/premium-content-custom-web
+@USER_STORY.md @docs/01_DESIGN_SYSTEM.md
+
+GOAL: Phase 7 — Make @tell/design-skills + /studio produce stunning, feature-customized
+websites from scratch and on redesign. Every aesthetic lean must look distinct. Educational
+paths get a figure. Dashboard is one coherent shell. No template filler (fake Starter/Growth
+tiers). Studio feels like a craft tool. Playwright proves the loop like a real user.
+
+Non-negotiables:
+- Deterministic engine (packages/design-skills) — zero LLM
+- Never auto-apply; previews/patches only
+- Aesthetic lean codes only (no third-party person/brand names in runtime)
+- Content/features drive layout; Taste Controls remain adjustable
+- pnpm test + pnpm e2e:studio + pnpm -F @tell/web typecheck must stay green
+
+Done when PLAN.md Phase 7 checklist is all checked.
+```
+
+### Loop prompt (Phase 7 — iterate until green)
+
+```
+@PLAN.md @docs/09_PREMIUM_DESIGN_SKILLS.md
+
+LOOP:
+1. Read PLAN.md Phase 7 checklist — pick the first unchecked item.
+2. Implement the smallest craft change in packages/design-skills and/or /studio that satisfies it.
+3. Add/adjust unit assertions for HTML structure (lean divergence, dash shell, no filler, figure).
+4. Run: pnpm -F @tell/design-skills build && pnpm test && pnpm -F @tell/web typecheck
+5. With web on :3000, run: pnpm e2e:studio — fix failures before continuing.
+6. Check off the item in PLAN.md; update docs/09 if the quality bar changed.
+7. Commit; push cursor/premium-design-skills-8c9e.
+8. If any Phase 7 item remains, go to step 1.
+9. Stop only when all Phase 7 items are checked and e2e is green.
+
+Stretch (allowed): viewport toggle, copy HTML, section-scoped regenerate, stronger viz instrument.
+If blocked: note in Status log and continue with the next unchecked item.
+```
+
+---
+
+## Goal prompt — Phase 6 keep-green (archive)
 
 ```
 @PLAN.md @BUILD.md @USER_STORY.md @ORCHESTRATION.md @README.md @docs/06_TELL_PROOF.md
@@ -116,28 +177,12 @@ no "Next" blockers for matrix/auth.
 
 ---
 
-## Loop prompt (iterate until green)
-
-```
-@PLAN.md
-
-LOOP:
-1. Read PLAN.md Phase 6 checklist — pick the first unchecked item.
-2. Implement the smallest change that satisfies its DoD.
-3. Run: pnpm test && pnpm -F @tell/schema build && pnpm -F @tell/web typecheck
-4. Update PLAN.md checklist + README Product Status + docs/04 §12 tracker + docs/06_TELL_PROOF.md.
-5. Commit with a conventional message; push the feature branch.
-6. If any checklist item remains, go to step 1.
-7. Stop only when all Phase 6 items are checked and tests are green.
-
-If blocked: document the blocker in PLAN.md Status log and continue with the next unchecked item.
-```
-
----
-
 ## Status log
 
 ```
+[2026-08-03] Phase 7 closed — craft floor in render/sections, Studio viewport+copy HTML, educational scrub figure, e2e craft assertions green.
+[2026-08-03] Opened Phase 7 — premium design craft (hero/atmosphere, lean layouts, dash shell, no filler, edu figure, Studio craft, e2e).
+[2026-08-03] Shipped packages/design-skills + /studio + showcases + MCP tell_design_from_features (premium content-custom skill graph).
 [2026-07-23] Expanded docs/07_VISUALIZATION_PLAN.md — reusable instruments (median-cut color-space, orthographic wireframes, palette grids, voxel/convolution), vector pipeline, tool-aside narrative; principle-only.
 [2026-07-23] Added docs/08_AI_DESIGN_METHODS.md — three design methods (packaged judgment / build by piece / reference board) and mandatory playbook for adding styles; principle-only, no third-party names.
 [2026-07-23] Added docs/07_VISUALIZATION_PLAN.md — illustration-first educational viz plan (separate from Phase checklists); scrubbed third-party style-name keywords from explainer parsing.

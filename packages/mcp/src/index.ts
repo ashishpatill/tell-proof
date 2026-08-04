@@ -16,6 +16,7 @@ import {
 import { CapturePayload, TellReport } from "@tell/schema";
 import { OfflineRedesignGenerator, type SourceFile } from "@tell/redesign";
 import { classifyWithTaste, parseDirection } from "@tell/taste";
+import { DesignBrief, designFromFeatures } from "@tell/design-skills";
 import type { Finding, TasteVerdict } from "@tell/schema";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
@@ -184,6 +185,62 @@ server.tool(
         ? "Proof patch reverted. Recapture the URL if you need a fresh baseline."
         : "No proof patch marker found to revert.",
     });
+  },
+);
+
+server.tool(
+  "tell_design_from_features",
+  "Run the premium-content-custom-web skill graph: analyze features, route sub-skills, build tokens/sections, and return a DesignSpec plus preview HTML. Deterministic; no LLM. Use Taste Controls to customize.",
+  {
+    productName: z.string().min(1),
+    tagline: z.string().optional(),
+    audience: z.string().optional(),
+    businessGoal: z.enum(["leads", "demos", "trust", "sales", "activation"]).optional(),
+    siteKind: z.enum(["saas-marketing", "dashboard-webapp", "corporate-story", "docs-educational"]).optional(),
+    lockSiteKind: z.boolean().optional(),
+    features: z
+      .array(
+        z.object({
+          id: z.string().optional(),
+          name: z.string(),
+          description: z.string().optional(),
+          priority: z.enum(["p0", "p1", "p2"]).optional(),
+        }),
+      )
+      .min(1),
+    taste: z
+      .object({
+        density: z.enum(["sparse", "balanced", "information-rich"]).optional(),
+        motion: z.enum(["none", "subtle-micro", "light-scroll-reveals"]).optional(),
+        aestheticLean: z.enum(["minimal-clean", "conversion-sharp", "system-crafted", "refined-story"]).optional(),
+        colorMood: z.enum(["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"]).optional(),
+        typographyWeight: z.enum(["light-elegant", "medium-modern", "bold-confident"]).optional(),
+        roundingDepth: z.enum(["sharp", "soft", "soft-elevation"]).optional(),
+      })
+      .optional(),
+    includePreviewHtml: z.boolean().optional(),
+  },
+  async (input) => {
+    const brief = DesignBrief.parse({
+      productName: input.productName,
+      tagline: input.tagline ?? "",
+      audience: input.audience ?? "B2B buyers",
+      businessGoal: input.businessGoal ?? "demos",
+      siteKind: input.siteKind ?? "saas-marketing",
+      lockSiteKind: input.lockSiteKind ?? true,
+      features: input.features.map((f, i) => ({
+        id: f.id ?? `f-${i}`,
+        name: f.name,
+        description: f.description ?? "",
+        priority: f.priority ?? "p1",
+      })),
+      taste: input.taste,
+    });
+    const result = designFromFeatures(brief);
+    if (input.includePreviewHtml === false) {
+      return asJson({ spec: result.spec });
+    }
+    return asJson(result);
   },
 );
 
