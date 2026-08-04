@@ -3,55 +3,55 @@
   "category": "fintech-product",
   "role": "corporate cards",
   "urlHash": "00130686bd80",
-  "measuredAt": "2026-08-04T22:00:20.358Z",
+  "measuredAt": "2026-08-04T22:34:03.650Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10694,
+      "loadMs": 10716,
       "paint": {
-        "fcpMs": 312,
-        "domInteractiveMs": 186,
+        "fcpMs": 280,
+        "domInteractiveMs": 214,
         "transferBytes": 65389
       },
       "network": {
-        "requests": 266,
-        "bytes": 3753094,
+        "requests": 267,
+        "bytes": 3753126,
         "byType": {
           "document": {
             "requests": 25,
-            "bytes": 2551
+            "bytes": 2565
           },
           "font": {
             "requests": 8,
             "bytes": 226920
           },
-          "script": {
-            "requests": 104,
-            "bytes": 1733516
-          },
           "image": {
-            "requests": 61,
+            "requests": 62,
             "bytes": 1666277
           },
           "stylesheet": {
             "requests": 2,
             "bytes": 0
           },
+          "script": {
+            "requests": 104,
+            "bytes": 1733534
+          },
           "fetch": {
-            "requests": 46,
-            "bytes": 122513
+            "requests": 45,
+            "bytes": 122460
           },
           "other": {
             "requests": 3,
             "bytes": 556
           },
-          "xhr": {
-            "requests": 13,
-            "bytes": 761
-          },
           "ping": {
             "requests": 4,
             "bytes": 0
+          },
+          "xhr": {
+            "requests": 14,
+            "bytes": 814
           }
         },
         "fontFiles": 8,
@@ -202,23 +202,23 @@
             },
             {
               "color": "rgb(21,25,30)",
-              "chars": 2640
+              "chars": 2418
             },
             {
               "color": "rgb(96,100,108)",
-              "chars": 2261
-            },
-            {
-              "color": "rgb(252,252,253)",
-              "chars": 384
+              "chars": 2140
             },
             {
               "color": "rgb(139,141,152)",
               "chars": 369
             },
             {
+              "color": "rgb(252,252,253)",
+              "chars": 249
+            },
+            {
               "color": "rgb(255,61,0)",
-              "chars": 244
+              "chars": 225
             }
           ],
           "distinctBackgrounds": 5,
@@ -347,71 +347,81 @@
         "bands": [
           {
             "index": 0,
-            "elements": 313,
-            "chars": 800,
+            "elements": 85,
+            "chars": 281,
+            "inkRatio": 1.293,
             "maxFontPx": 72,
-            "medianBgLightness": 100
+            "medianBgLightness": 50
           },
           {
             "index": 1,
-            "elements": 170,
+            "elements": 157,
             "chars": 529,
+            "inkRatio": 1.538,
             "maxFontPx": 48,
             "medianBgLightness": 100
           },
           {
             "index": 2,
-            "elements": 91,
+            "elements": 83,
             "chars": 347,
+            "inkRatio": 1.026,
             "maxFontPx": 48,
             "medianBgLightness": 96.1
           },
           {
             "index": 3,
-            "elements": 66,
+            "elements": 62,
             "chars": 560,
+            "inkRatio": 1.734,
             "maxFontPx": 48,
             "medianBgLightness": 100
           },
           {
             "index": 4,
-            "elements": 69,
+            "elements": 64,
             "chars": 519,
+            "inkRatio": 1.606,
             "maxFontPx": 36,
             "medianBgLightness": 100
           },
           {
             "index": 5,
-            "elements": 100,
+            "elements": 81,
             "chars": 611,
+            "inkRatio": 1.06,
             "maxFontPx": 48,
             "medianBgLightness": 100
           },
           {
             "index": 6,
-            "elements": 70,
+            "elements": 64,
             "chars": 338,
+            "inkRatio": 1.561,
             "maxFontPx": 36,
             "medianBgLightness": 10
           },
           {
             "index": 7,
-            "elements": 121,
+            "elements": 109,
             "chars": 745,
+            "inkRatio": 1.172,
             "maxFontPx": 48,
             "medianBgLightness": 100
           },
           {
             "index": 8,
-            "elements": 139,
+            "elements": 112,
             "chars": 1500,
+            "inkRatio": 1.206,
             "maxFontPx": 16,
             "medianBgLightness": 96.1
           },
           {
             "index": 9,
-            "elements": 73,
-            "chars": 2926,
+            "elements": 71,
+            "chars": 2765,
+            "inkRatio": 0.346,
             "maxFontPx": 16,
             "medianBgLightness": null
           }
@@ -595,27 +605,27 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10613,
+      "loadMs": 10648,
       "paint": {
-        "fcpMs": 600,
-        "domInteractiveMs": 147,
+        "fcpMs": 476,
+        "domInteractiveMs": 179,
         "transferBytes": 65389
       },
       "network": {
-        "requests": 251,
-        "bytes": 2607633,
+        "requests": 253,
+        "bytes": 2607272,
         "byType": {
           "document": {
-            "requests": 24,
-            "bytes": 2538
+            "requests": 25,
+            "bytes": 2160
           },
           "font": {
             "requests": 8,
             "bytes": 226920
           },
           "image": {
-            "requests": 48,
-            "bytes": 520837
+            "requests": 49,
+            "bytes": 520880
           },
           "stylesheet": {
             "requests": 2,
@@ -623,19 +633,19 @@
           },
           "script": {
             "requests": 104,
-            "bytes": 1733560
+            "bytes": 1733535
           },
           "fetch": {
-            "requests": 46,
-            "bytes": 122514
+            "requests": 47,
+            "bytes": 122566
           },
           "other": {
             "requests": 3,
             "bytes": 556
           },
           "xhr": {
-            "requests": 12,
-            "bytes": 708
+            "requests": 11,
+            "bytes": 655
           },
           "ping": {
             "requests": 4,
@@ -786,27 +796,27 @@
             },
             {
               "color": "rgb(21,25,30)",
-              "chars": 2496
+              "chars": 2393
             },
             {
               "color": "rgb(96,100,108)",
-              "chars": 2214
-            },
-            {
-              "color": "rgb(252,252,253)",
-              "chars": 384
+              "chars": 2140
             },
             {
               "color": "rgb(139,141,152)",
               "chars": 369
             },
             {
+              "color": "rgb(252,252,253)",
+              "chars": 238
+            },
+            {
               "color": "rgb(255,61,0)",
-              "chars": 225
+              "chars": 207
             }
           ],
           "distinctBackgrounds": 6,
-          "distinctTextColors": 8,
+          "distinctTextColors": 7,
           "distinctHues": 3,
           "chromaticCount": 4,
           "maxSaturation": 100,
@@ -925,57 +935,65 @@
         "bands": [
           {
             "index": 0,
-            "elements": 297,
-            "chars": 734,
+            "elements": 95,
+            "chars": 366,
+            "inkRatio": 1.324,
             "maxFontPx": 36,
             "medianBgLightness": 50
           },
           {
             "index": 1,
-            "elements": 78,
+            "elements": 71,
             "chars": 237,
+            "inkRatio": 2.104,
             "maxFontPx": 24,
             "medianBgLightness": 100
           },
           {
             "index": 2,
-            "elements": 56,
+            "elements": 50,
             "chars": 277,
+            "inkRatio": 1.537,
             "maxFontPx": 30,
             "medianBgLightness": 96.1
           },
           {
             "index": 3,
-            "elements": 84,
+            "elements": 69,
             "chars": 331,
+            "inkRatio": 0.876,
             "maxFontPx": 30,
             "medianBgLightness": 100
           },
           {
             "index": 4,
-            "elements": 111,
+            "elements": 80,
             "chars": 966,
+            "inkRatio": 2.043,
             "maxFontPx": 24,
             "medianBgLightness": 100
           },
           {
             "index": 5,
-            "elements": 98,
+            "elements": 77,
             "chars": 544,
+            "inkRatio": 1.458,
             "maxFontPx": 30,
             "medianBgLightness": 100
           },
           {
             "index": 6,
-            "elements": 81,
+            "elements": 73,
             "chars": 405,
+            "inkRatio": 1.286,
             "maxFontPx": 24,
             "medianBgLightness": 67.3
           },
           {
             "index": 7,
-            "elements": 170,
+            "elements": 122,
             "chars": 1841,
+            "inkRatio": 2.04,
             "maxFontPx": 30,
             "medianBgLightness": 100
           },
@@ -983,13 +1001,15 @@
             "index": 8,
             "elements": 150,
             "chars": 404,
+            "inkRatio": 1.104,
             "maxFontPx": 16,
             "medianBgLightness": 96.1
           },
           {
             "index": 9,
-            "elements": 25,
-            "chars": 2926,
+            "elements": 24,
+            "chars": 2765,
+            "inkRatio": 0.737,
             "maxFontPx": 16,
             "medianBgLightness": null
           }
@@ -1153,12 +1173,12 @@
           "documentHeightVh": 15.11
         },
         "media": {
-          "images": 62,
+          "images": 64,
           "svgInline": 36,
           "videos": 0,
           "imageAreaRatio": 0.4626,
-          "altCoverage": 0.968,
-          "lazyCoverage": 0.871,
+          "altCoverage": 0.938,
+          "lazyCoverage": 0.844,
           "modernFormats": 0
         }
       }

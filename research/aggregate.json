@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T22:09:13.064Z",
+  "generatedAt": "2026-08-04T22:36:41.564Z",
   "references": 54,
   "usable": 50,
   "excluded": [
@@ -60,11 +60,11 @@
     "bands.charVariationCoef": {
       "n": 50,
       "min": 0.044,
-      "p10": 0.351,
-      "median": 0.728,
-      "p90": 1.492,
+      "p10": 0.389,
+      "median": 0.646,
+      "p90": 1.384,
       "max": 2.71,
-      "mean": 0.876
+      "mean": 0.826
     },
     "bands.count": {
       "n": 50,
@@ -74,6 +74,15 @@
       "p90": 10,
       "max": 10,
       "mean": 7.94
+    },
+    "bands.inkVariationCoef": {
+      "n": 24,
+      "min": 0.022,
+      "p10": 0.382,
+      "median": 0.667,
+      "p90": 1.13,
+      "max": 1.4,
+      "mean": 0.751
     },
     "color.backgrounds.count": {
       "n": 50,
@@ -91,7 +100,7 @@
       "median": 5,
       "p90": 17,
       "max": 32,
-      "mean": 7.52
+      "mean": 7.4
     },
     "color.distinctBackgrounds": {
       "n": 50,
@@ -115,10 +124,10 @@
       "n": 50,
       "min": 0,
       "p10": 2,
-      "median": 7,
+      "median": 6,
       "p90": 16,
       "max": 24,
-      "mean": 8.3
+      "mean": 8.08
     },
     "color.gradientCount": {
       "n": 50,
@@ -154,7 +163,7 @@
       "median": 0,
       "p90": 220,
       "max": 240,
-      "mean": 40.886
+      "mean": 41.108
     },
     "color.medianNeutralSat": {
       "n": 49,
@@ -169,10 +178,10 @@
       "n": 49,
       "min": 1,
       "p10": 4.09,
-      "median": 15.48,
+      "median": 15.25,
       "p90": 21,
       "max": 21,
-      "mean": 13.984
+      "mean": 13.597
     },
     "color.minTextContrast": {
       "n": 49,
@@ -181,7 +190,7 @@
       "median": 3.35,
       "p90": 11.37,
       "max": 20.14,
-      "mean": 4.648
+      "mean": 4.717
     },
     "color.pageBackground.h": {
       "n": 50,
@@ -217,7 +226,7 @@
       "median": 6,
       "p90": 6,
       "max": 6,
-      "mean": 4.8
+      "mean": 4.74
     },
     "hero.ctaButtons": {
       "n": 50,
@@ -325,7 +334,7 @@
       "median": 462,
       "p90": 1263,
       "max": 2992,
-      "mean": 643.96
+      "mean": 643.98
     },
     "layout.aboveFoldElements": {
       "n": 50,
@@ -334,7 +343,7 @@
       "median": 167,
       "p90": 531,
       "max": 885,
-      "mean": 231.56
+      "mean": 231.58
     },
     "layout.aboveFoldInkRatio": {
       "n": 50,
@@ -352,7 +361,7 @@
       "median": 462,
       "p90": 1263,
       "max": 2992,
-      "mean": 643.96
+      "mean": 643.98
     },
     "layout.asymmetricGrids": {
       "n": 50,
@@ -451,7 +460,7 @@
       "median": 44,
       "p90": 107,
       "max": 184,
-      "mean": 54.4
+      "mean": 54.42
     },
     "media.lazyCoverage": {
       "n": 45,
@@ -460,7 +469,7 @@
       "median": 0.615,
       "p90": 0.935,
       "max": 1,
-      "mean": 0.552
+      "mean": 0.553
     },
     "media.modernFormats": {
       "n": 50,
@@ -478,7 +487,7 @@
       "median": 61,
       "p90": 178,
       "max": 495,
-      "mean": 88.76
+      "mean": 88.9
     },
     "media.videos": {
       "n": 50,
@@ -546,11 +555,11 @@
     "motion.p90DurationMs": {
       "n": 48,
       "min": 150,
-      "p10": 150,
+      "p10": 180,
       "median": 300,
       "p90": 500,
       "max": 800,
-      "mean": 322
+      "mean": 330.333
     },
     "motion.reducedMotionRules": {
       "n": 50,
@@ -577,7 +586,7 @@
       "median": 105,
       "p90": 384,
       "max": 1121,
-      "mean": 169.14
+      "mean": 169.32
     },
     "motion.transitionRatio": {
       "n": 50,
@@ -593,9 +602,9 @@
       "min": 0,
       "p10": 0,
       "median": 0,
-      "p90": 10294,
+      "p90": 10290,
       "max": 185412,
-      "mean": 10058.68
+      "mean": 10054.1
     },
     "net.byType.document.requests": {
       "n": 50,
@@ -613,7 +622,7 @@
       "median": 477,
       "p90": 136370,
       "max": 2275144,
-      "mean": 156307.8
+      "mean": 156283.64
     },
     "net.byType.fetch.requests": {
       "n": 50,
@@ -622,7 +631,7 @@
       "median": 14,
       "p90": 36,
       "max": 92,
-      "mean": 18.62
+      "mean": 18.56
     },
     "net.byType.font.bytes": {
       "n": 50,
@@ -649,34 +658,34 @@
       "median": 1165247,
       "p90": 5853385,
       "max": 33808930,
-      "mean": 2658571.064
+      "mean": 2658268.617
     },
     "net.byType.image.requests": {
       "n": 47,
-      "min": 10,
+      "min": 9,
       "p10": 20,
       "median": 54,
       "p90": 86,
       "max": 242,
-      "mean": 56.766
+      "mean": 56.596
     },
     "net.byType.media.bytes": {
       "n": 23,
       "min": 61968,
       "p10": 463460,
-      "median": 5073673,
+      "median": 5249388,
       "p90": 22905221,
       "max": 391158805,
-      "mean": 37577160.348
+      "mean": 37804407.522
     },
     "net.byType.media.requests": {
       "n": 23,
       "min": 1,
       "p10": 1,
       "median": 4,
-      "p90": 9,
+      "p90": 10,
       "max": 16,
-      "mean": 4.826
+      "mean": 5.043
     },
     "net.byType.other.bytes": {
       "n": 18,
@@ -697,49 +706,49 @@
       "mean": 5.222
     },
     "net.byType.ping.bytes": {
-      "n": 25,
+      "n": 24,
       "min": 0,
       "p10": 0,
       "median": 0,
       "p90": 42,
       "max": 639,
-      "mean": 31.64
+      "mean": 32.958
     },
     "net.byType.ping.requests": {
-      "n": 25,
+      "n": 24,
       "min": 1,
       "p10": 1,
       "median": 3,
       "p90": 8,
-      "max": 29,
-      "mean": 4.52
+      "max": 23,
+      "mean": 4.458
     },
     "net.byType.script.bytes": {
       "n": 50,
       "min": 0,
       "p10": 106,
-      "median": 455804,
-      "p90": 1579462,
+      "median": 455975,
+      "p90": 1733534,
       "max": 9906001,
-      "mean": 918762.26
+      "mean": 945281.68
     },
     "net.byType.script.requests": {
       "n": 50,
       "min": 7,
       "p10": 17,
       "median": 60,
-      "p90": 107,
+      "p90": 104,
       "max": 324,
-      "mean": 68.04
+      "mean": 67.94
     },
     "net.byType.stylesheet.bytes": {
       "n": 45,
       "min": 0,
       "p10": 0,
-      "median": 463,
-      "p90": 48883,
+      "median": 597,
+      "p90": 53076,
       "max": 311081,
-      "mean": 22411.244
+      "mean": 23809.756
     },
     "net.byType.stylesheet.requests": {
       "n": 45,
@@ -757,7 +766,7 @@
       "median": 156,
       "p90": 56422,
       "max": 13652351,
-      "mean": 696078
+      "mean": 696077.882
     },
     "net.byType.xhr.requests": {
       "n": 34,
@@ -775,7 +784,7 @@
       "median": 4018221,
       "p90": 17441899,
       "max": 427040921,
-      "mean": 21717474.08
+      "mean": 21849472.74
     },
     "net.fontFiles": {
       "n": 50,
@@ -793,7 +802,7 @@
       "median": 162,
       "p90": 280,
       "max": 427,
-      "mean": 170.68
+      "mean": 170.34
     },
     "net.thirdPartyHosts": {
       "n": 50,
@@ -802,43 +811,43 @@
       "median": 9,
       "p90": 49,
       "max": 80,
-      "mean": 19.64
+      "mean": 19.66
     },
     "perf.domInteractiveMs": {
       "n": 50,
       "min": 66,
-      "p10": 139,
-      "median": 296,
-      "p90": 688,
+      "p10": 146,
+      "median": 311,
+      "p90": 691,
       "max": 1920,
-      "mean": 405.84
+      "mean": 420.46
     },
     "perf.fcpMs": {
       "n": 49,
       "min": 172,
-      "p10": 216,
-      "median": 352,
-      "p90": 732,
+      "p10": 236,
+      "median": 356,
+      "p90": 752,
       "max": 1924,
-      "mean": 471.51
+      "mean": 477.796
     },
     "perf.loadMs": {
       "n": 50,
       "min": 2367,
-      "p10": 2453,
-      "median": 3379,
+      "p10": 2440,
+      "median": 3149,
       "p90": 10854,
       "max": 11227,
-      "mean": 5586.94
+      "mean": 5582.52
     },
     "perf.transferBytes": {
       "n": 50,
       "min": 3014,
       "p10": 13173,
-      "median": 65389,
+      "median": 69039,
       "p90": 184816,
       "max": 2336152,
-      "mean": 150023.58
+      "mean": 150231.7
     },
     "semantics.ctaCount": {
       "n": 50,
@@ -856,7 +865,7 @@
       "median": 2146,
       "p90": 5322,
       "max": 12254,
-      "mean": 2771.08
+      "mean": 2774.2
     },
     "semantics.focusVisibleRules": {
       "n": 50,
@@ -963,8 +972,8 @@
       "p10": 1476,
       "median": 5094,
       "p90": 12509,
-      "max": 17403,
-      "mean": 6321.64
+      "max": 17412,
+      "mean": 6321.82
     },
     "shape.borderedElements": {
       "n": 50,
@@ -1448,11 +1457,11 @@
     "bands.charVariationCoef": {
       "n": 50,
       "min": 0.044,
-      "p10": 0.391,
-      "median": 0.831,
-      "p90": 1.756,
+      "p10": 0.368,
+      "median": 0.749,
+      "p90": 1.643,
       "max": 2.99,
-      "mean": 1.027
+      "mean": 0.878
     },
     "bands.count": {
       "n": 50,
@@ -1462,6 +1471,15 @@
       "p90": 10,
       "max": 10,
       "mean": 8.5
+    },
+    "bands.inkVariationCoef": {
+      "n": 24,
+      "min": 0.318,
+      "p10": 0.397,
+      "median": 0.653,
+      "p90": 0.993,
+      "max": 1.2,
+      "mean": 0.713
     },
     "color.backgrounds.count": {
       "n": 50,
@@ -1477,9 +1495,9 @@
       "min": 0,
       "p10": 0,
       "median": 4,
-      "p90": 16,
+      "p90": 15,
       "max": 32,
-      "mean": 6.8
+      "mean": 6.42
     },
     "color.distinctBackgrounds": {
       "n": 50,
@@ -1494,19 +1512,19 @@
       "n": 50,
       "min": 0,
       "p10": 0,
-      "median": 3,
+      "median": 2,
       "p90": 8,
       "max": 15,
-      "mean": 3.5
+      "mean": 3.32
     },
     "color.distinctTextColors": {
       "n": 50,
       "min": 0,
       "p10": 2,
-      "median": 7,
-      "p90": 15,
+      "median": 6,
+      "p90": 14,
       "max": 24,
-      "mean": 7.88
+      "mean": 7.3
     },
     "color.gradientCount": {
       "n": 50,
@@ -1515,7 +1533,7 @@
       "median": 5,
       "p90": 67,
       "max": 241,
-      "mean": 23.76
+      "mean": 23.74
     },
     "color.isDark": {
       "n": 50,
@@ -1533,7 +1551,7 @@
       "median": 100,
       "p90": 100,
       "max": 100,
-      "mean": 75.608
+      "mean": 75.222
     },
     "color.medianNeutralHue": {
       "n": 49,
@@ -1542,7 +1560,7 @@
       "median": 0,
       "p90": 220,
       "max": 240,
-      "mean": 43.218
+      "mean": 43.441
     },
     "color.medianNeutralSat": {
       "n": 49,
@@ -1557,10 +1575,10 @@
       "n": 49,
       "min": 1,
       "p10": 5.74,
-      "median": 15.66,
+      "median": 15.25,
       "p90": 21,
       "max": 21,
-      "mean": 14.199
+      "mean": 14.04
     },
     "color.minTextContrast": {
       "n": 49,
@@ -1569,7 +1587,7 @@
       "median": 3.35,
       "p90": 11.37,
       "max": 20.14,
-      "mean": 4.545
+      "mean": 4.626
     },
     "color.pageBackground.h": {
       "n": 50,
@@ -1605,7 +1623,7 @@
       "median": 6,
       "p90": 6,
       "max": 6,
-      "mean": 4.82
+      "mean": 4.68
     },
     "hero.ctaButtons": {
       "n": 50,
@@ -1650,7 +1668,7 @@
       "median": 17,
       "p90": 21.9,
       "max": 33.1,
-      "mean": 15.768
+      "mean": 15.738
     },
     "hero.displayPx": {
       "n": 50,
@@ -1675,7 +1693,7 @@
       "min": -0.049,
       "p10": 0,
       "median": 0.02,
-      "p90": 0.164,
+      "p90": 0.169,
       "max": 0.443,
       "mean": 0.061
     },
@@ -1713,7 +1731,7 @@
       "median": 358,
       "p90": 822,
       "max": 2947,
-      "mean": 471.98
+      "mean": 471.38
     },
     "layout.aboveFoldElements": {
       "n": 50,
@@ -1740,7 +1758,7 @@
       "median": 358,
       "p90": 822,
       "max": 2947,
-      "mean": 471.98
+      "mean": 471.38
     },
     "layout.asymmetricGrids": {
       "n": 50,
@@ -1758,7 +1776,7 @@
       "median": 0,
       "p90": 0.5,
       "max": 1,
-      "mean": 0.173
+      "mean": 0.174
     },
     "layout.columnCounts.count": {
       "n": 50,
@@ -1776,7 +1794,7 @@
       "median": 12.54,
       "p90": 19.04,
       "max": 24.27,
-      "mean": 12.386
+      "mean": 12.388
     },
     "layout.fullBleed": {
       "n": 50,
@@ -1785,7 +1803,7 @@
       "median": 31,
       "p90": 71,
       "max": 176,
-      "mean": 37.64
+      "mean": 37.48
     },
     "layout.gridContainers": {
       "n": 50,
@@ -1794,7 +1812,7 @@
       "median": 11,
       "p90": 71,
       "max": 231,
-      "mean": 27.48
+      "mean": 27.46
     },
     "layout.sections": {
       "n": 50,
@@ -1803,7 +1821,7 @@
       "median": 10,
       "p90": 21,
       "max": 41,
-      "mean": 10.7
+      "mean": 10.68
     },
     "layout.stickyElements": {
       "n": 50,
@@ -1839,16 +1857,16 @@
       "median": 44,
       "p90": 107,
       "max": 184,
-      "mean": 53.76
+      "mean": 53.68
     },
     "media.lazyCoverage": {
       "n": 45,
       "min": 0,
       "p10": 0,
       "median": 0.615,
-      "p90": 0.935,
+      "p90": 0.933,
       "max": 1,
-      "mean": 0.55
+      "mean": 0.549
     },
     "media.modernFormats": {
       "n": 50,
@@ -1866,7 +1884,7 @@
       "median": 63,
       "p90": 178,
       "max": 495,
-      "mean": 86.58
+      "mean": 86.28
     },
     "media.videos": {
       "n": 50,
@@ -1938,7 +1956,7 @@
       "median": 300,
       "p90": 500,
       "max": 800,
-      "mean": 334.468
+      "mean": 325.957
     },
     "motion.reducedMotionRules": {
       "n": 50,
@@ -1965,7 +1983,7 @@
       "median": 94,
       "p90": 386,
       "max": 1128,
-      "mean": 164.34
+      "mean": 163.96
     },
     "motion.transitionRatio": {
       "n": 50,
@@ -1983,7 +2001,7 @@
       "median": 0,
       "p90": 12250,
       "max": 185412,
-      "mean": 10274.38
+      "mean": 10262.14
     },
     "net.byType.document.requests": {
       "n": 50,
@@ -1991,17 +2009,17 @@
       "p10": 1,
       "median": 2,
       "p90": 7,
-      "max": 24,
-      "mean": 3.48
+      "max": 25,
+      "mean": 3.5
     },
     "net.byType.fetch.bytes": {
       "n": 50,
       "min": 0,
       "p10": 0,
-      "median": 512,
+      "median": 636,
       "p90": 266212,
       "max": 1950252,
-      "mean": 152427.58
+      "mean": 152435.9
     },
     "net.byType.fetch.requests": {
       "n": 50,
@@ -2010,7 +2028,7 @@
       "median": 13,
       "p90": 40,
       "max": 69,
-      "mean": 17.68
+      "mean": 17.96
     },
     "net.byType.font.bytes": {
       "n": 50,
@@ -2037,52 +2055,52 @@
       "median": 528145,
       "p90": 4491761,
       "max": 33808930,
-      "mean": 2187437.553
+      "mean": 2187482.383
     },
     "net.byType.image.requests": {
       "n": 47,
-      "min": 9,
+      "min": 10,
       "p10": 16,
       "median": 47,
       "p90": 87,
       "max": 236,
-      "mean": 51.404
+      "mean": 51.426
     },
     "net.byType.media.bytes": {
-      "n": 22,
+      "n": 21,
       "min": 61968,
-      "p10": 290122,
-      "median": 4141602,
-      "p90": 22937989,
+      "p10": 366709,
+      "median": 5073673,
+      "p90": 108785099,
       "max": 352389580,
-      "mean": 32173970.318
+      "mean": 33829375.143
     },
     "net.byType.media.requests": {
-      "n": 22,
+      "n": 21,
       "min": 1,
       "p10": 1,
       "median": 3,
       "p90": 8,
       "max": 14,
-      "mean": 4.045
+      "mean": 4.238
     },
     "net.byType.other.bytes": {
-      "n": 18,
+      "n": 17,
       "min": 0,
       "p10": 0,
-      "median": 62,
+      "median": 329,
       "p90": 339842,
       "max": 360043,
-      "mean": 62484.111
+      "mean": 66159.647
     },
     "net.byType.other.requests": {
-      "n": 18,
+      "n": 17,
       "min": 1,
       "p10": 1,
       "median": 3,
       "p90": 10,
       "max": 20,
-      "mean": 4.611
+      "mean": 4.706
     },
     "net.byType.ping.bytes": {
       "n": 26,
@@ -2098,18 +2116,18 @@
       "min": 1,
       "p10": 1,
       "median": 2,
-      "p90": 8,
+      "p90": 11,
       "max": 23,
-      "mean": 4.154
+      "mean": 4.346
     },
     "net.byType.script.bytes": {
       "n": 50,
       "min": 0,
       "p10": 106,
-      "median": 518479,
-      "p90": 1733560,
+      "median": 475340,
+      "p90": 1920168,
       "max": 9773888,
-      "mean": 941957.06
+      "mean": 965614.58
     },
     "net.byType.script.requests": {
       "n": 50,
@@ -2118,16 +2136,16 @@
       "median": 62,
       "p90": 111,
       "max": 324,
-      "mean": 68.74
+      "mean": 68.72
     },
     "net.byType.stylesheet.bytes": {
       "n": 46,
       "min": 0,
       "p10": 0,
-      "median": 463,
-      "p90": 48883,
+      "median": 597,
+      "p90": 53076,
       "max": 311081,
-      "mean": 22227.391
+      "mean": 23562.065
     },
     "net.byType.stylesheet.requests": {
       "n": 46,
@@ -2136,7 +2154,7 @@
       "median": 6,
       "p90": 22,
       "max": 67,
-      "mean": 9.652
+      "mean": 9.63
     },
     "net.byType.xhr.bytes": {
       "n": 34,
@@ -2144,8 +2162,8 @@
       "p10": 0,
       "median": 244,
       "p90": 56422,
-      "max": 4819379,
-      "mean": 371169.265
+      "max": 6422351,
+      "mean": 418313.735
     },
     "net.byType.xhr.requests": {
       "n": 34,
@@ -2154,16 +2172,16 @@
       "median": 6,
       "p90": 14,
       "max": 39,
-      "mean": 8.529
+      "mean": 8.588
     },
     "net.bytes": {
       "n": 50,
       "min": 52086,
       "p10": 347704,
-      "median": 3314081,
+      "median": 3314025,
       "p90": 13604590,
       "max": 388414024,
-      "mean": 17937931.9
+      "mean": 18046704.4
     },
     "net.fontFiles": {
       "n": 50,
@@ -2179,9 +2197,9 @@
       "min": 23,
       "p10": 62,
       "median": 167,
-      "p90": 251,
+      "p90": 253,
       "max": 415,
-      "mean": 164.66
+      "mean": 165.02
     },
     "net.thirdPartyHosts": {
       "n": 50,
@@ -2190,43 +2208,43 @@
       "median": 10,
       "p90": 49,
       "max": 81,
-      "mean": 20.38
+      "mean": 20.36
     },
     "perf.domInteractiveMs": {
       "n": 50,
       "min": 47,
-      "p10": 119,
-      "median": 255,
+      "p10": 108,
+      "median": 269,
       "p90": 641,
-      "max": 1243,
-      "mean": 339.4
+      "max": 2645,
+      "mean": 385.16
     },
     "perf.fcpMs": {
       "n": 50,
-      "min": 116,
-      "p10": 172,
-      "median": 300,
-      "p90": 648,
-      "max": 2052,
-      "mean": 415.76
+      "min": 120,
+      "p10": 188,
+      "median": 308,
+      "p90": 760,
+      "max": 2660,
+      "mean": 453.04
     },
     "perf.loadMs": {
       "n": 50,
-      "min": 2328,
+      "min": 2305,
       "p10": 2392,
-      "median": 2860,
-      "p90": 10618,
-      "max": 11160,
-      "mean": 4839.92
+      "median": 2910,
+      "p90": 10648,
+      "max": 11042,
+      "mean": 5224.86
     },
     "perf.transferBytes": {
       "n": 50,
       "min": 3014,
       "p10": 13173,
-      "median": 69055,
+      "median": 65389,
       "p90": 184816,
       "max": 2336152,
-      "mean": 150294.24
+      "mean": 150018.78
     },
     "semantics.ctaCount": {
       "n": 50,
@@ -2241,10 +2259,10 @@
       "n": 50,
       "min": 138,
       "p10": 430,
-      "median": 2111,
+      "median": 2112,
       "p90": 5322,
       "max": 12254,
-      "mean": 2731.72
+      "mean": 2731.28
     },
     "semantics.focusVisibleRules": {
       "n": 50,
@@ -2262,7 +2280,7 @@
       "median": 1,
       "p90": 7,
       "max": 30,
-      "mean": 3.02
+      "mean": 3
     },
     "semantics.h1Count": {
       "n": 50,
@@ -2278,9 +2296,9 @@
       "min": 0,
       "p10": 6,
       "median": 25,
-      "p90": 58,
+      "p90": 57,
       "max": 79,
-      "mean": 27.5
+      "mean": 27.48
     },
     "semantics.headingJumps": {
       "n": 50,
@@ -2343,7 +2361,7 @@
       "median": 9,
       "p90": 145,
       "max": 472,
-      "mean": 44.08
+      "mean": 44.04
     },
     "semantics.textChars": {
       "n": 50,
@@ -2352,7 +2370,7 @@
       "median": 3772,
       "p90": 10516,
       "max": 19991,
-      "mean": 5545.76
+      "mean": 5545.4
     },
     "shape.borderedElements": {
       "n": 50,
@@ -2406,7 +2424,7 @@
       "median": 8,
       "p90": 390,
       "max": 400,
-      "mean": 59.1
+      "mean": 59.18
     },
     "shape.medianShadowAlpha": {
       "n": 39,
@@ -2469,7 +2487,7 @@
       "median": 350,
       "p90": 360,
       "max": 370,
-      "mean": 348.6
+      "mean": 347.8
     },
     "space.containerRatio": {
       "n": 50,
@@ -2478,7 +2496,7 @@
       "median": 0.897,
       "p90": 0.923,
       "max": 0.949,
-      "mean": 0.894
+      "mean": 0.892
     },
     "space.distinctSpacingValues": {
       "n": 50,
@@ -2757,7 +2775,7 @@
       "median": 17.1,
       "p90": 21.9,
       "max": 33.1,
-      "mean": 16.502
+      "mean": 16.472
     },
     "typography.h1.px": {
       "n": 50,
@@ -2852,6 +2870,7 @@
         "max": 7,
         "mean": 7
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 1,
         "min": 3,
@@ -4160,12 +4179,12 @@
     "ai-frontier": {
       "bands.charVariationCoef": {
         "n": 1,
-        "min": 0.315,
-        "p10": 0.315,
-        "median": 0.315,
-        "p90": 0.315,
-        "max": 0.315,
-        "mean": 0.315
+        "min": 0.396,
+        "p10": 0.396,
+        "median": 0.396,
+        "p90": 0.396,
+        "max": 0.396,
+        "mean": 0.396
       },
       "bands.count": {
         "n": 1,
@@ -4175,6 +4194,15 @@
         "p90": 4,
         "max": 4,
         "mean": 4
+      },
+      "bands.inkVariationCoef": {
+        "n": 1,
+        "min": 0.887,
+        "p10": 0.887,
+        "median": 0.887,
+        "p90": 0.887,
+        "max": 0.887,
+        "mean": 0.887
       },
       "color.backgrounds.count": {
         "n": 1,
@@ -4187,12 +4215,12 @@
       },
       "color.chromaticCount": {
         "n": 1,
-        "min": 4,
-        "p10": 4,
-        "median": 4,
-        "p90": 4,
-        "max": 4,
-        "mean": 4
+        "min": 2,
+        "p10": 2,
+        "median": 2,
+        "p90": 2,
+        "max": 2,
+        "mean": 2
       },
       "color.distinctBackgrounds": {
         "n": 1,
@@ -4214,12 +4242,12 @@
       },
       "color.distinctTextColors": {
         "n": 1,
-        "min": 7,
-        "p10": 7,
-        "median": 7,
-        "p90": 7,
-        "max": 7,
-        "mean": 7
+        "min": 3,
+        "p10": 3,
+        "median": 3,
+        "p90": 3,
+        "max": 3,
+        "mean": 3
       },
       "color.gradientCount": {
         "n": 1,
@@ -4250,12 +4278,12 @@
       },
       "color.medianNeutralHue": {
         "n": 1,
-        "min": 49.1,
-        "p10": 49.1,
-        "median": 49.1,
-        "p90": 49.1,
-        "max": 49.1,
-        "mean": 49.1
+        "min": 60,
+        "p10": 60,
+        "median": 60,
+        "p90": 60,
+        "max": 60,
+        "mean": 60
       },
       "color.medianNeutralSat": {
         "n": 1,
@@ -4268,21 +4296,21 @@
       },
       "color.medianTextContrast": {
         "n": 1,
-        "min": 15.87,
-        "p10": 15.87,
-        "median": 15.87,
-        "p90": 15.87,
-        "max": 15.87,
-        "mean": 15.87
+        "min": 8.29,
+        "p10": 8.29,
+        "median": 8.29,
+        "p90": 8.29,
+        "max": 8.29,
+        "mean": 8.29
       },
       "color.minTextContrast": {
         "n": 1,
-        "min": 4.9,
-        "p10": 4.9,
-        "median": 4.9,
-        "p90": 4.9,
-        "max": 4.9,
-        "mean": 4.9
+        "min": 8.29,
+        "p10": 8.29,
+        "median": 8.29,
+        "p90": 8.29,
+        "max": 8.29,
+        "mean": 8.29
       },
       "color.pageBackground.h": {
         "n": 1,
@@ -4313,12 +4341,12 @@
       },
       "color.textColors.count": {
         "n": 1,
-        "min": 6,
-        "p10": 6,
-        "median": 6,
-        "p90": 6,
-        "max": 6,
-        "mean": 6
+        "min": 3,
+        "p10": 3,
+        "median": 3,
+        "p90": 3,
+        "max": 3,
+        "mean": 3
       },
       "hero.ctaButtons": {
         "n": 1,
@@ -4753,12 +4781,12 @@
       "net.byType.ping.requests": null,
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 327814,
-        "p10": 327814,
-        "median": 327814,
-        "p90": 327814,
-        "max": 327814,
-        "mean": 327814
+        "min": 327834,
+        "p10": 327834,
+        "median": 327834,
+        "p90": 327834,
+        "max": 327834,
+        "mean": 327834
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -4807,12 +4835,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 1493524,
-        "p10": 1493524,
-        "median": 1493524,
-        "p90": 1493524,
-        "max": 1493524,
-        "mean": 1493524
+        "min": 1493544,
+        "p10": 1493544,
+        "median": 1493544,
+        "p90": 1493544,
+        "max": 1493544,
+        "mean": 1493544
       },
       "net.fontFiles": {
         "n": 1,
@@ -4843,30 +4871,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 223,
-        "p10": 223,
-        "median": 223,
-        "p90": 223,
-        "max": 223,
-        "mean": 223
+        "min": 235,
+        "p10": 235,
+        "median": 235,
+        "p90": 235,
+        "max": 235,
+        "mean": 235
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 184,
-        "p10": 184,
-        "median": 184,
-        "p90": 184,
-        "max": 184,
-        "mean": 184
+        "min": 188,
+        "p10": 188,
+        "median": 188,
+        "p90": 188,
+        "max": 188,
+        "mean": 188
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2453,
-        "p10": 2453,
-        "median": 2453,
-        "p90": 2453,
-        "max": 2453,
-        "mean": 2453
+        "min": 2469,
+        "p10": 2469,
+        "median": 2469,
+        "p90": 2469,
+        "max": 2469,
+        "mean": 2469
       },
       "perf.transferBytes": {
         "n": 1,
@@ -5468,6 +5496,7 @@
         "max": 10,
         "mean": 10
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 2,
         "min": 5,
@@ -6816,12 +6845,12 @@
     "art-directed-studio": {
       "bands.charVariationCoef": {
         "n": 3,
-        "min": 0.52,
-        "p10": 0.52,
+        "min": 0.506,
+        "p10": 0.506,
         "median": 0.598,
         "p90": 0.598,
         "max": 0.64,
-        "mean": 0.586
+        "mean": 0.581
       },
       "bands.count": {
         "n": 3,
@@ -6831,6 +6860,15 @@
         "p90": 2,
         "max": 10,
         "mean": 4.667
+      },
+      "bands.inkVariationCoef": {
+        "n": 1,
+        "min": 0.022,
+        "p10": 0.022,
+        "median": 0.022,
+        "p90": 0.022,
+        "max": 0.022,
+        "mean": 0.022
       },
       "color.backgrounds.count": {
         "n": 3,
@@ -7198,7 +7236,7 @@
         "p10": 0,
         "median": 0.5033,
         "p90": 0.5033,
-        "max": 2.1771,
+        "max": 2.176,
         "mean": 0.893
       },
       "media.images": {
@@ -7457,12 +7495,12 @@
       "net.byType.ping.requests": null,
       "net.byType.script.bytes": {
         "n": 3,
-        "min": 298979,
-        "p10": 298979,
+        "min": 298984,
+        "p10": 298984,
         "median": 308230,
         "p90": 308230,
         "max": 475196,
-        "mean": 360801.667
+        "mean": 360803.333
       },
       "net.byType.script.requests": {
         "n": 3,
@@ -7511,12 +7549,12 @@
       },
       "net.bytes": {
         "n": 3,
-        "min": 3461476,
-        "p10": 3461476,
+        "min": 3461481,
+        "p10": 3461481,
         "median": 23566245,
         "p90": 23566245,
         "max": 25417673,
-        "mean": 17481798
+        "mean": 17481799.667
       },
       "net.fontFiles": {
         "n": 3,
@@ -7549,10 +7587,10 @@
         "n": 3,
         "min": 311,
         "p10": 311,
-        "median": 539,
-        "p90": 539,
+        "median": 492,
+        "p90": 492,
         "max": 566,
-        "mean": 472
+        "mean": 456.333
       },
       "perf.fcpMs": {
         "n": 3,
@@ -7560,17 +7598,17 @@
         "p10": 420,
         "median": 684,
         "p90": 684,
-        "max": 1832,
-        "mean": 978.667
+        "max": 1784,
+        "mean": 962.667
       },
       "perf.loadMs": {
         "n": 3,
-        "min": 2851,
-        "p10": 2851,
+        "min": 2799,
+        "p10": 2799,
         "median": 10751,
         "p90": 10751,
         "max": 10871,
-        "mean": 8157.667
+        "mean": 8140.333
       },
       "perf.transferBytes": {
         "n": 3,
@@ -7578,8 +7616,8 @@
         "p10": 7458,
         "median": 21072,
         "p90": 21072,
-        "max": 25100,
-        "mean": 17876.667
+        "max": 24998,
+        "mean": 17842.667
       },
       "semantics.ctaCount": {
         "n": 3,
@@ -8204,6 +8242,7 @@
         "max": 6,
         "mean": 6
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 1,
         "min": 4,
@@ -9552,6 +9591,7 @@
         "max": 7,
         "mean": 7
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 1,
         "min": 2,
@@ -10876,12 +10916,12 @@
     "brand-product-agency": {
       "bands.charVariationCoef": {
         "n": 1,
-        "min": 0.623,
-        "p10": 0.623,
-        "median": 0.623,
-        "p90": 0.623,
-        "max": 0.623,
-        "mean": 0.623
+        "min": 0.598,
+        "p10": 0.598,
+        "median": 0.598,
+        "p90": 0.598,
+        "max": 0.598,
+        "mean": 0.598
       },
       "bands.count": {
         "n": 1,
@@ -10891,6 +10931,15 @@
         "p90": 10,
         "max": 10,
         "mean": 10
+      },
+      "bands.inkVariationCoef": {
+        "n": 1,
+        "min": 0.704,
+        "p10": 0.704,
+        "median": 0.704,
+        "p90": 0.704,
+        "max": 0.704,
+        "mean": 0.704
       },
       "color.backgrounds.count": {
         "n": 1,
@@ -11501,12 +11550,12 @@
       },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 455804,
-        "p10": 455804,
-        "median": 455804,
-        "p90": 455804,
-        "max": 455804,
-        "mean": 455804
+        "min": 455975,
+        "p10": 455975,
+        "median": 455975,
+        "p90": 455975,
+        "max": 455975,
+        "mean": 455975
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -11539,12 +11588,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 113450337,
-        "p10": 113450337,
-        "median": 113450337,
-        "p90": 113450337,
-        "max": 113450337,
-        "mean": 113450337
+        "min": 113450508,
+        "p10": 113450508,
+        "median": 113450508,
+        "p90": 113450508,
+        "max": 113450508,
+        "mean": 113450508
       },
       "net.fontFiles": {
         "n": 1,
@@ -11575,12 +11624,12 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 265,
-        "p10": 265,
-        "median": 265,
-        "p90": 265,
-        "max": 265,
-        "mean": 265
+        "min": 267,
+        "p10": 267,
+        "median": 267,
+        "p90": 267,
+        "max": 267,
+        "mean": 267
       },
       "perf.fcpMs": {
         "n": 1,
@@ -11593,12 +11642,12 @@
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 4694,
-        "p10": 4694,
-        "median": 4694,
-        "p90": 4694,
-        "max": 4694,
-        "mean": 4694
+        "min": 4630,
+        "p10": 4630,
+        "median": 4630,
+        "p90": 4630,
+        "max": 4630,
+        "mean": 4630
       },
       "perf.transferBytes": {
         "n": 1,
@@ -12224,6 +12273,7 @@
         "max": 7,
         "mean": 7
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 1,
         "min": 8,
@@ -13556,6 +13606,7 @@
         "max": 10,
         "mean": 10
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 1,
         "min": 8,
@@ -14896,12 +14947,12 @@
     "consumer-craft": {
       "bands.charVariationCoef": {
         "n": 3,
-        "min": 0.566,
-        "p10": 0.566,
-        "median": 0.756,
-        "p90": 0.756,
-        "max": 0.861,
-        "mean": 0.728
+        "min": 0.578,
+        "p10": 0.578,
+        "median": 0.588,
+        "p90": 0.588,
+        "max": 0.896,
+        "mean": 0.687
       },
       "bands.count": {
         "n": 3,
@@ -14911,6 +14962,15 @@
         "p90": 7,
         "max": 10,
         "mean": 8
+      },
+      "bands.inkVariationCoef": {
+        "n": 3,
+        "min": 0.567,
+        "p10": 0.567,
+        "median": 1.13,
+        "p90": 1.13,
+        "max": 1.394,
+        "mean": 1.03
       },
       "color.backgrounds.count": {
         "n": 3,
@@ -15004,12 +15064,12 @@
       },
       "color.medianTextContrast": {
         "n": 3,
-        "min": 6.56,
-        "p10": 6.56,
-        "median": 13.52,
-        "p90": 13.52,
+        "min": 5.66,
+        "p10": 5.66,
+        "median": 6.56,
+        "p90": 6.56,
         "max": 20.04,
-        "mean": 13.373
+        "mean": 10.753
       },
       "color.minTextContrast": {
         "n": 3,
@@ -15441,8 +15501,8 @@
         "p10": 0,
         "median": 141,
         "p90": 141,
-        "max": 1931,
-        "mean": 690.667
+        "max": 1925,
+        "mean": 688.667
       },
       "net.byType.fetch.requests": {
         "n": 3,
@@ -15536,12 +15596,12 @@
       },
       "net.byType.ping.requests": {
         "n": 1,
-        "min": 29,
-        "p10": 29,
-        "median": 29,
-        "p90": 29,
-        "max": 29,
-        "mean": 29
+        "min": 23,
+        "p10": 23,
+        "median": 23,
+        "p90": 23,
+        "max": 23,
+        "mean": 23
       },
       "net.byType.script.bytes": {
         "n": 3,
@@ -15549,8 +15609,8 @@
         "p10": 1259,
         "median": 72391,
         "p90": 72391,
-        "max": 1133017,
-        "mean": 402222.333
+        "max": 1133266,
+        "mean": 402305.333
       },
       "net.byType.script.requests": {
         "n": 3,
@@ -15603,8 +15663,8 @@
         "p10": 2069616,
         "median": 11083266,
         "p90": 11083266,
-        "max": 16180627,
-        "mean": 9777836.333
+        "max": 16180870,
+        "mean": 9777917.333
       },
       "net.fontFiles": {
         "n": 3,
@@ -15619,10 +15679,10 @@
         "n": 3,
         "min": 71,
         "p10": 71,
-        "median": 196,
-        "p90": 196,
+        "median": 190,
+        "p90": 190,
         "max": 197,
-        "mean": 154.667
+        "mean": 152.667
       },
       "net.thirdPartyHosts": {
         "n": 3,
@@ -15635,39 +15695,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 3,
-        "min": 204,
-        "p10": 204,
-        "median": 276,
-        "p90": 276,
-        "max": 348,
-        "mean": 276
+        "min": 165,
+        "p10": 165,
+        "median": 322,
+        "p90": 322,
+        "max": 332,
+        "mean": 273
       },
       "perf.fcpMs": {
         "n": 3,
         "min": 344,
         "p10": 344,
-        "median": 408,
-        "p90": 408,
-        "max": 484,
-        "mean": 412
+        "median": 432,
+        "p90": 432,
+        "max": 436,
+        "mean": 404
       },
       "perf.loadMs": {
         "n": 3,
-        "min": 2482,
-        "p10": 2482,
-        "median": 6234,
-        "p90": 6234,
-        "max": 10905,
-        "mean": 6540.333
+        "min": 2440,
+        "p10": 2440,
+        "median": 4101,
+        "p90": 4101,
+        "max": 10693,
+        "mean": 5744.667
       },
       "perf.transferBytes": {
         "n": 3,
         "min": 48288,
         "p10": 48288,
-        "median": 158732,
-        "p90": 158732,
-        "max": 164593,
-        "mean": 123871
+        "median": 158885,
+        "p90": 158885,
+        "max": 164199,
+        "mean": 123790.667
       },
       "semantics.ctaCount": {
         "n": 3,
@@ -16262,10 +16322,10 @@
         "n": 3,
         "min": 0.577,
         "p10": 0.577,
-        "median": 0.968,
-        "p90": 0.968,
-        "max": 1.142,
-        "mean": 0.896
+        "median": 0.646,
+        "p90": 0.646,
+        "max": 0.809,
+        "mean": 0.677
       },
       "bands.count": {
         "n": 3,
@@ -16275,6 +16335,15 @@
         "p90": 10,
         "max": 10,
         "mean": 10
+      },
+      "bands.inkVariationCoef": {
+        "n": 3,
+        "min": 0.622,
+        "p10": 0.622,
+        "median": 0.656,
+        "p90": 0.656,
+        "max": 0.667,
+        "mean": 0.648
       },
       "color.backgrounds.count": {
         "n": 3,
@@ -16289,10 +16358,10 @@
         "n": 3,
         "min": 1,
         "p10": 1,
-        "median": 6,
-        "p90": 6,
+        "median": 4,
+        "p90": 4,
         "max": 10,
-        "mean": 5.667
+        "mean": 5
       },
       "color.distinctBackgrounds": {
         "n": 3,
@@ -16316,10 +16385,10 @@
         "n": 3,
         "min": 2,
         "p10": 2,
-        "median": 10,
-        "p90": 10,
+        "median": 6,
+        "p90": 6,
         "max": 15,
-        "mean": 9
+        "mean": 7.667
       },
       "color.gradientCount": {
         "n": 3,
@@ -16793,10 +16862,10 @@
         "n": 3,
         "min": 5623,
         "p10": 5623,
-        "median": 10294,
-        "p90": 10294,
+        "median": 10290,
+        "p90": 10290,
         "max": 185412,
-        "mean": 67109.667
+        "mean": 67108.333
       },
       "net.byType.document.requests": {
         "n": 3,
@@ -16811,10 +16880,10 @@
         "n": 3,
         "min": 358,
         "p10": 358,
-        "median": 651,
-        "p90": 651,
-        "max": 35301,
-        "mean": 12103.333
+        "median": 693,
+        "p90": 693,
+        "max": 34053,
+        "mean": 11701.333
       },
       "net.byType.fetch.requests": {
         "n": 3,
@@ -16822,8 +16891,8 @@
         "p10": 13,
         "median": 20,
         "p90": 20,
-        "max": 62,
-        "mean": 31.667
+        "max": 58,
+        "mean": 30.333
       },
       "net.byType.font.bytes": {
         "n": 3,
@@ -16847,10 +16916,10 @@
         "n": 3,
         "min": 45,
         "p10": 45,
-        "median": 967426,
-        "p90": 967426,
+        "median": 984651,
+        "p90": 984651,
         "max": 2858997,
-        "mean": 1275489.333
+        "mean": 1281231
       },
       "net.byType.image.requests": {
         "n": 3,
@@ -16863,21 +16932,21 @@
       },
       "net.byType.media.bytes": {
         "n": 2,
-        "min": 2208278,
-        "p10": 2208278,
-        "median": 2208278,
-        "p90": 2208278,
-        "max": 3995758,
-        "mean": 3102018
+        "min": 3261128,
+        "p10": 3261128,
+        "median": 3261128,
+        "p90": 3261128,
+        "max": 7599269,
+        "mean": 5430198.5
       },
       "net.byType.media.requests": {
         "n": 2,
-        "min": 2,
-        "p10": 2,
-        "median": 2,
-        "p90": 2,
-        "max": 3,
-        "mean": 2.5
+        "min": 3,
+        "p10": 3,
+        "median": 3,
+        "p90": 3,
+        "max": 4,
+        "mean": 3.5
       },
       "net.byType.other.bytes": {
         "n": 2,
@@ -16917,21 +16986,21 @@
       },
       "net.byType.script.bytes": {
         "n": 3,
-        "min": 383278,
-        "p10": 383278,
-        "median": 1187754,
-        "p90": 1187754,
-        "max": 5531591,
-        "mean": 2367541
+        "min": 383290,
+        "p10": 383290,
+        "median": 1187752,
+        "p90": 1187752,
+        "max": 5528842,
+        "mean": 2366628
       },
       "net.byType.script.requests": {
         "n": 3,
         "min": 71,
         "p10": 71,
-        "median": 107,
-        "p90": 107,
+        "median": 104,
+        "p90": 104,
         "max": 121,
-        "mean": 99.667
+        "mean": 98.667
       },
       "net.byType.stylesheet.bytes": {
         "n": 3,
@@ -16957,8 +17026,8 @@
         "p10": 304,
         "median": 423,
         "p90": 423,
-        "max": 5963833,
-        "mean": 1988186.667
+        "max": 5963777,
+        "mean": 1988168
       },
       "net.byType.xhr.requests": {
         "n": 3,
@@ -16966,17 +17035,17 @@
         "p10": 5,
         "median": 9,
         "p90": 9,
-        "max": 29,
-        "mean": 14.333
+        "max": 28,
+        "mean": 14
       },
       "net.bytes": {
         "n": 3,
-        "min": 5095638,
-        "p10": 5095638,
-        "median": 6558927,
-        "p90": 6558927,
-        "max": 13164994,
-        "mean": 8273186.333
+        "min": 7611817,
+        "p10": 7611817,
+        "median": 8699161,
+        "p90": 8699161,
+        "max": 13178162,
+        "mean": 9829713.333
       },
       "net.fontFiles": {
         "n": 3,
@@ -16989,12 +17058,12 @@
       },
       "net.requests": {
         "n": 3,
-        "min": 204,
-        "p10": 204,
-        "median": 242,
-        "p90": 242,
-        "max": 320,
-        "mean": 255.333
+        "min": 205,
+        "p10": 205,
+        "median": 243,
+        "p90": 243,
+        "max": 312,
+        "mean": 253.333
       },
       "net.thirdPartyHosts": {
         "n": 3,
@@ -17007,30 +17076,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 3,
-        "min": 272,
-        "p10": 272,
-        "median": 331,
-        "p90": 331,
-        "max": 671,
-        "mean": 424.667
+        "min": 249,
+        "p10": 249,
+        "median": 302,
+        "p90": 302,
+        "max": 691,
+        "mean": 414
       },
       "perf.fcpMs": {
         "n": 3,
-        "min": 216,
-        "p10": 216,
-        "median": 276,
-        "p90": 276,
-        "max": 732,
-        "mean": 408
+        "min": 208,
+        "p10": 208,
+        "median": 244,
+        "p90": 244,
+        "max": 752,
+        "mean": 401.333
       },
       "perf.loadMs": {
         "n": 3,
-        "min": 3170,
-        "p10": 3170,
-        "median": 10474,
-        "p90": 10474,
-        "max": 11138,
-        "mean": 8260.667
+        "min": 3149,
+        "p10": 3149,
+        "median": 10451,
+        "p90": 10451,
+        "max": 11167,
+        "mean": 8255.667
       },
       "perf.transferBytes": {
         "n": 3,
@@ -17650,10 +17719,10 @@
         "n": 8,
         "min": 0.389,
         "p10": 0.389,
-        "median": 0.752,
+        "median": 0.781,
         "p90": 1.492,
-        "max": 1.548,
-        "mean": 0.882
+        "max": 1.549,
+        "mean": 0.892
       },
       "bands.count": {
         "n": 8,
@@ -17663,6 +17732,15 @@
         "p90": 10,
         "max": 10,
         "mean": 8.125
+      },
+      "bands.inkVariationCoef": {
+        "n": 3,
+        "min": 0.61,
+        "p10": 0.61,
+        "median": 0.613,
+        "p90": 0.613,
+        "max": 0.96,
+        "mean": 0.728
       },
       "color.backgrounds.count": {
         "n": 8,
@@ -17923,7 +18001,7 @@
         "median": 194,
         "p90": 459,
         "max": 576,
-        "mean": 252
+        "mean": 252.125
       },
       "layout.aboveFoldInkRatio": {
         "n": 8,
@@ -18163,18 +18241,18 @@
         "n": 8,
         "min": 19,
         "p10": 19,
-        "median": 112,
+        "median": 113,
         "p90": 184,
         "max": 300,
-        "mean": 129.125
+        "mean": 129.25
       },
       "motion.transitionRatio": {
         "n": 8,
         "min": 0.002,
         "p10": 0.002,
-        "median": 0.056,
+        "median": 0.053,
         "p90": 0.093,
-        "max": 0.179,
+        "max": 0.181,
         "mean": 0.069
       },
       "net.byType.document.bytes": {
@@ -18202,16 +18280,16 @@
         "median": 12,
         "p90": 27024,
         "max": 1333957,
-        "mean": 170187.125
+        "mean": 170189.75
       },
       "net.byType.fetch.requests": {
         "n": 8,
         "min": 3,
         "p10": 3,
         "median": 14,
-        "p90": 31,
+        "p90": 32,
         "max": 33,
-        "mean": 16.625
+        "mean": 16.875
       },
       "net.byType.font.bytes": {
         "n": 8,
@@ -18242,12 +18320,12 @@
       },
       "net.byType.image.requests": {
         "n": 8,
-        "min": 10,
-        "p10": 10,
+        "min": 9,
+        "p10": 9,
         "median": 44,
         "p90": 65,
         "max": 242,
-        "mean": 64.375
+        "mean": 64.25
       },
       "net.byType.media.bytes": {
         "n": 3,
@@ -18308,9 +18386,9 @@
         "min": 0,
         "p10": 0,
         "median": 3507,
-        "p90": 813243,
+        "p90": 813252,
         "max": 2408973,
-        "mean": 488912
+        "mean": 488913.125
       },
       "net.byType.script.requests": {
         "n": 8,
@@ -18319,7 +18397,7 @@
         "median": 60,
         "p90": 100,
         "max": 215,
-        "mean": 77.625
+        "mean": 77.5
       },
       "net.byType.stylesheet.bytes": {
         "n": 7,
@@ -18364,7 +18442,7 @@
         "median": 2294980,
         "p90": 5543620,
         "max": 9091388,
-        "mean": 3567076.625
+        "mean": 3567080.375
       },
       "net.fontFiles": {
         "n": 8,
@@ -18395,30 +18473,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 8,
-        "min": 254,
-        "p10": 254,
-        "median": 296,
+        "min": 273,
+        "p10": 273,
+        "median": 309,
         "p90": 622,
-        "max": 830,
-        "mean": 428.625
+        "max": 663,
+        "mean": 440.875
       },
       "perf.fcpMs": {
         "n": 8,
         "min": 236,
         "p10": 236,
-        "median": 388,
+        "median": 404,
         "p90": 568,
-        "max": 660,
-        "mean": 424.5
+        "max": 608,
+        "mean": 437.5
       },
       "perf.loadMs": {
         "n": 8,
         "min": 2500,
         "p10": 2500,
-        "median": 3069,
-        "p90": 5540,
+        "median": 2878,
+        "p90": 5924,
         "max": 10499,
-        "mean": 4313.625
+        "mean": 4253.75
       },
       "perf.transferBytes": {
         "n": 8,
@@ -18427,7 +18505,7 @@
         "median": 62475,
         "p90": 181911,
         "max": 296071,
-        "mean": 113127.125
+        "mean": 113128.5
       },
       "semantics.ctaCount": {
         "n": 8,
@@ -18440,12 +18518,12 @@
       },
       "semantics.domNodes": {
         "n": 8,
-        "min": 1111,
-        "p10": 1111,
+        "min": 1110,
+        "p10": 1110,
         "median": 2955,
         "p90": 7543,
         "max": 9290,
-        "mean": 4396.25
+        "mean": 4408.375
       },
       "semantics.focusVisibleRules": {
         "n": 8,
@@ -18552,8 +18630,8 @@
         "p10": 842,
         "median": 7963,
         "p90": 16619,
-        "max": 17403,
-        "mean": 10056
+        "max": 17412,
+        "mean": 10056.5
       },
       "shape.borderedElements": {
         "n": 8,
@@ -18659,7 +18737,7 @@
         "min": 0.001,
         "p10": 0.001,
         "median": 0.006,
-        "p90": 0.036,
+        "p90": 0.034,
         "max": 0.044,
         "mean": 0.015
       },
@@ -19036,12 +19114,12 @@
     "dev-tool": {
       "bands.charVariationCoef": {
         "n": 1,
-        "min": 0.695,
-        "p10": 0.695,
-        "median": 0.695,
-        "p90": 0.695,
-        "max": 0.695,
-        "mean": 0.695
+        "min": 0.685,
+        "p10": 0.685,
+        "median": 0.685,
+        "p90": 0.685,
+        "max": 0.685,
+        "mean": 0.685
       },
       "bands.count": {
         "n": 1,
@@ -19051,6 +19129,15 @@
         "p90": 9,
         "max": 9,
         "mean": 9
+      },
+      "bands.inkVariationCoef": {
+        "n": 1,
+        "min": 0.382,
+        "p10": 0.382,
+        "median": 0.382,
+        "p90": 0.382,
+        "max": 0.382,
+        "mean": 0.382
       },
       "color.backgrounds.count": {
         "n": 1,
@@ -19414,30 +19501,30 @@
       },
       "media.imageAreaRatio": {
         "n": 1,
-        "min": 0.3328,
-        "p10": 0.3328,
-        "median": 0.3328,
-        "p90": 0.3328,
-        "max": 0.3328,
+        "min": 0.3331,
+        "p10": 0.3331,
+        "median": 0.3331,
+        "p90": 0.3331,
+        "max": 0.3331,
         "mean": 0.333
       },
       "media.images": {
         "n": 1,
-        "min": 28,
-        "p10": 28,
-        "median": 28,
-        "p90": 28,
-        "max": 28,
-        "mean": 28
+        "min": 30,
+        "p10": 30,
+        "median": 30,
+        "p90": 30,
+        "max": 30,
+        "mean": 30
       },
       "media.lazyCoverage": {
         "n": 1,
-        "min": 0.929,
-        "p10": 0.929,
-        "median": 0.929,
-        "p90": 0.929,
-        "max": 0.929,
-        "mean": 0.929
+        "min": 0.933,
+        "p10": 0.933,
+        "median": 0.933,
+        "p90": 0.933,
+        "max": 0.933,
+        "mean": 0.933
       },
       "media.modernFormats": {
         "n": 1,
@@ -19450,12 +19537,12 @@
       },
       "media.svgInline": {
         "n": 1,
-        "min": 52,
-        "p10": 52,
-        "median": 52,
-        "p90": 52,
-        "max": 52,
-        "mean": 52
+        "min": 59,
+        "p10": 59,
+        "median": 59,
+        "p90": 59,
+        "max": 59,
+        "mean": 59
       },
       "media.videos": {
         "n": 1,
@@ -19522,12 +19609,12 @@
       },
       "motion.p90DurationMs": {
         "n": 1,
-        "min": 150,
-        "p10": 150,
-        "median": 150,
-        "p90": 150,
-        "max": 150,
-        "mean": 150
+        "min": 550,
+        "p10": 550,
+        "median": 550,
+        "p90": 550,
+        "max": 550,
+        "mean": 550
       },
       "motion.reducedMotionRules": {
         "n": 1,
@@ -19549,21 +19636,21 @@
       },
       "motion.transitionElements": {
         "n": 1,
-        "min": 80,
-        "p10": 80,
-        "median": 80,
-        "p90": 80,
-        "max": 80,
-        "mean": 80
+        "min": 88,
+        "p10": 88,
+        "median": 88,
+        "p90": 88,
+        "max": 88,
+        "mean": 88
       },
       "motion.transitionRatio": {
         "n": 1,
-        "min": 0.042,
-        "p10": 0.042,
-        "median": 0.042,
-        "p90": 0.042,
-        "max": 0.042,
-        "mean": 0.042
+        "min": 0.045,
+        "p10": 0.045,
+        "median": 0.045,
+        "p90": 0.045,
+        "max": 0.045,
+        "mean": 0.045
       },
       "net.byType.document.bytes": {
         "n": 1,
@@ -19585,12 +19672,12 @@
       },
       "net.byType.fetch.bytes": {
         "n": 1,
-        "min": 1284,
-        "p10": 1284,
-        "median": 1284,
-        "p90": 1284,
-        "max": 1284,
-        "mean": 1284
+        "min": 1286,
+        "p10": 1286,
+        "median": 1286,
+        "p90": 1286,
+        "max": 1286,
+        "mean": 1286
       },
       "net.byType.fetch.requests": {
         "n": 1,
@@ -19677,12 +19764,12 @@
       },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 1074098,
-        "p10": 1074098,
-        "median": 1074098,
-        "p90": 1074098,
-        "max": 1074098,
-        "mean": 1074098
+        "min": 1075215,
+        "p10": 1075215,
+        "median": 1075215,
+        "p90": 1075215,
+        "max": 1075215,
+        "mean": 1075215
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -19715,12 +19802,12 @@
       "net.byType.xhr.requests": null,
       "net.bytes": {
         "n": 1,
-        "min": 3836585,
-        "p10": 3836585,
-        "median": 3836585,
-        "p90": 3836585,
-        "max": 3836585,
-        "mean": 3836585
+        "min": 3837704,
+        "p10": 3837704,
+        "median": 3837704,
+        "p90": 3837704,
+        "max": 3837704,
+        "mean": 3837704
       },
       "net.fontFiles": {
         "n": 1,
@@ -19742,48 +19829,48 @@
       },
       "net.thirdPartyHosts": {
         "n": 1,
-        "min": 19,
-        "p10": 19,
-        "median": 19,
-        "p90": 19,
-        "max": 19,
-        "mean": 19
+        "min": 20,
+        "p10": 20,
+        "median": 20,
+        "p90": 20,
+        "max": 20,
+        "mean": 20
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 237,
-        "p10": 237,
-        "median": 237,
-        "p90": 237,
-        "max": 237,
-        "mean": 237
+        "min": 187,
+        "p10": 187,
+        "median": 187,
+        "p90": 187,
+        "max": 187,
+        "mean": 187
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 400,
-        "p10": 400,
-        "median": 400,
-        "p90": 400,
-        "max": 400,
-        "mean": 400
+        "min": 328,
+        "p10": 328,
+        "median": 328,
+        "p90": 328,
+        "max": 328,
+        "mean": 328
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 10441,
-        "p10": 10441,
-        "median": 10441,
-        "p90": 10441,
-        "max": 10441,
-        "mean": 10441
+        "min": 10398,
+        "p10": 10398,
+        "median": 10398,
+        "p90": 10398,
+        "max": 10398,
+        "mean": 10398
       },
       "perf.transferBytes": {
         "n": 1,
-        "min": 62832,
-        "p10": 62832,
-        "median": 62832,
-        "p90": 62832,
-        "max": 62832,
-        "mean": 62832
+        "min": 73387,
+        "p10": 73387,
+        "median": 73387,
+        "p90": 73387,
+        "max": 73387,
+        "mean": 73387
       },
       "semantics.ctaCount": {
         "n": 1,
@@ -19796,12 +19883,12 @@
       },
       "semantics.domNodes": {
         "n": 1,
-        "min": 2241,
-        "p10": 2241,
-        "median": 2241,
-        "p90": 2241,
-        "max": 2241,
-        "mean": 2241
+        "min": 2307,
+        "p10": 2307,
+        "median": 2307,
+        "p90": 2307,
+        "max": 2307,
+        "mean": 2307
       },
       "semantics.focusVisibleRules": {
         "n": 1,
@@ -20408,6 +20495,7 @@
         "max": 10,
         "mean": 8
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 2,
         "min": 2,
@@ -21748,6 +21836,7 @@
         "max": 7,
         "mean": 7
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 1,
         "min": 8,
@@ -23048,6 +23137,7 @@
         "max": 7,
         "mean": 7
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 1,
         "min": 8,
@@ -24412,6 +24502,7 @@
         "max": 6,
         "mean": 6
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 1,
         "min": 6,
@@ -25760,12 +25851,12 @@
     "enterprise-trust": {
       "bands.charVariationCoef": {
         "n": 1,
-        "min": 1.986,
-        "p10": 1.986,
-        "median": 1.986,
-        "p90": 1.986,
-        "max": 1.986,
-        "mean": 1.986
+        "min": 0.641,
+        "p10": 0.641,
+        "median": 0.641,
+        "p90": 0.641,
+        "max": 0.641,
+        "mean": 0.641
       },
       "bands.count": {
         "n": 1,
@@ -25775,6 +25866,15 @@
         "p90": 10,
         "max": 10,
         "mean": 10
+      },
+      "bands.inkVariationCoef": {
+        "n": 1,
+        "min": 0.625,
+        "p10": 0.625,
+        "median": 0.625,
+        "p90": 0.625,
+        "max": 0.625,
+        "mean": 0.625
       },
       "color.backgrounds.count": {
         "n": 1,
@@ -25787,12 +25887,12 @@
       },
       "color.chromaticCount": {
         "n": 1,
-        "min": 17,
-        "p10": 17,
-        "median": 17,
-        "p90": 17,
-        "max": 17,
-        "mean": 17
+        "min": 15,
+        "p10": 15,
+        "median": 15,
+        "p90": 15,
+        "max": 15,
+        "mean": 15
       },
       "color.distinctBackgrounds": {
         "n": 1,
@@ -25814,12 +25914,12 @@
       },
       "color.distinctTextColors": {
         "n": 1,
-        "min": 13,
-        "p10": 13,
-        "median": 13,
-        "p90": 13,
-        "max": 13,
-        "mean": 13
+        "min": 10,
+        "p10": 10,
+        "median": 10,
+        "p90": 10,
+        "max": 10,
+        "mean": 10
       },
       "color.gradientCount": {
         "n": 1,
@@ -25868,12 +25968,12 @@
       },
       "color.medianTextContrast": {
         "n": 1,
-        "min": 17.61,
-        "p10": 17.61,
-        "median": 17.61,
-        "p90": 17.61,
-        "max": 17.61,
-        "mean": 17.61
+        "min": 17.86,
+        "p10": 17.86,
+        "median": 17.86,
+        "p90": 17.86,
+        "max": 17.86,
+        "mean": 17.86
       },
       "color.minTextContrast": {
         "n": 1,
@@ -26337,21 +26437,21 @@
       },
       "net.byType.image.bytes": {
         "n": 1,
-        "min": 713381,
-        "p10": 713381,
-        "median": 713381,
-        "p90": 713381,
-        "max": 713381,
-        "mean": 713381
+        "min": 711875,
+        "p10": 711875,
+        "median": 711875,
+        "p90": 711875,
+        "max": 711875,
+        "mean": 711875
       },
       "net.byType.image.requests": {
         "n": 1,
-        "min": 89,
-        "p10": 89,
-        "median": 89,
-        "p90": 89,
-        "max": 89,
-        "mean": 89
+        "min": 88,
+        "p10": 88,
+        "median": 88,
+        "p90": 88,
+        "max": 88,
+        "mean": 88
       },
       "net.byType.media.bytes": {
         "n": 1,
@@ -26384,30 +26484,30 @@
       },
       "net.byType.ping.requests": {
         "n": 1,
-        "min": 11,
-        "p10": 11,
-        "median": 11,
-        "p90": 11,
-        "max": 11,
-        "mean": 11
+        "min": 12,
+        "p10": 12,
+        "median": 12,
+        "p90": 12,
+        "max": 12,
+        "mean": 12
       },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 1579462,
-        "p10": 1579462,
-        "median": 1579462,
-        "p90": 1579462,
-        "max": 1579462,
-        "mean": 1579462
+        "min": 1579394,
+        "p10": 1579394,
+        "median": 1579394,
+        "p90": 1579394,
+        "max": 1579394,
+        "mean": 1579394
       },
       "net.byType.script.requests": {
         "n": 1,
-        "min": 104,
-        "p10": 104,
-        "median": 104,
-        "p90": 104,
-        "max": 104,
-        "mean": 104
+        "min": 103,
+        "p10": 103,
+        "median": 103,
+        "p90": 103,
+        "max": 103,
+        "mean": 103
       },
       "net.byType.stylesheet.bytes": {
         "n": 1,
@@ -26429,12 +26529,12 @@
       },
       "net.byType.xhr.bytes": {
         "n": 1,
-        "min": 927,
-        "p10": 927,
-        "median": 927,
-        "p90": 927,
-        "max": 927,
-        "mean": 927
+        "min": 926,
+        "p10": 926,
+        "median": 926,
+        "p90": 926,
+        "max": 926,
+        "mean": 926
       },
       "net.byType.xhr.requests": {
         "n": 1,
@@ -26447,12 +26547,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 3602161,
-        "p10": 3602161,
-        "median": 3602161,
-        "p90": 3602161,
-        "max": 3602161,
-        "mean": 3602161
+        "min": 3600586,
+        "p10": 3600586,
+        "median": 3600586,
+        "p90": 3600586,
+        "max": 3600586,
+        "mean": 3600586
       },
       "net.fontFiles": {
         "n": 1,
@@ -26465,12 +26565,12 @@
       },
       "net.requests": {
         "n": 1,
-        "min": 294,
-        "p10": 294,
-        "median": 294,
-        "p90": 294,
-        "max": 294,
-        "mean": 294
+        "min": 293,
+        "p10": 293,
+        "median": 293,
+        "p90": 293,
+        "max": 293,
+        "mean": 293
       },
       "net.thirdPartyHosts": {
         "n": 1,
@@ -26483,30 +26583,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 558,
-        "p10": 558,
-        "median": 558,
-        "p90": 558,
-        "max": 558,
-        "mean": 558
+        "min": 600,
+        "p10": 600,
+        "median": 600,
+        "p90": 600,
+        "max": 600,
+        "mean": 600
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 724,
-        "p10": 724,
-        "median": 724,
-        "p90": 724,
-        "max": 724,
-        "mean": 724
+        "min": 780,
+        "p10": 780,
+        "median": 780,
+        "p90": 780,
+        "max": 780,
+        "mean": 780
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 10816,
-        "p10": 10816,
-        "median": 10816,
-        "p90": 10816,
-        "max": 10816,
-        "mean": 10816
+        "min": 10869,
+        "p10": 10869,
+        "median": 10869,
+        "p90": 10869,
+        "max": 10869,
+        "mean": 10869
       },
       "perf.transferBytes": {
         "n": 1,
@@ -27124,12 +27224,12 @@
     "fintech-infra": {
       "bands.charVariationCoef": {
         "n": 1,
-        "min": 0.728,
-        "p10": 0.728,
-        "median": 0.728,
-        "p90": 0.728,
-        "max": 0.728,
-        "mean": 0.728
+        "min": 0.513,
+        "p10": 0.513,
+        "median": 0.513,
+        "p90": 0.513,
+        "max": 0.513,
+        "mean": 0.513
       },
       "bands.count": {
         "n": 1,
@@ -27139,6 +27239,15 @@
         "p90": 10,
         "max": 10,
         "mean": 10
+      },
+      "bands.inkVariationCoef": {
+        "n": 1,
+        "min": 0.555,
+        "p10": 0.555,
+        "median": 0.555,
+        "p90": 0.555,
+        "max": 0.555,
+        "mean": 0.555
       },
       "color.backgrounds.count": {
         "n": 1,
@@ -27385,12 +27494,12 @@
       },
       "hero.totalChars": {
         "n": 1,
-        "min": 716,
-        "p10": 716,
-        "median": 716,
-        "p90": 716,
-        "max": 716,
-        "mean": 716
+        "min": 717,
+        "p10": 717,
+        "median": 717,
+        "p90": 717,
+        "max": 717,
+        "mean": 717
       },
       "layout.aboveFoldElements": {
         "n": 1,
@@ -27412,12 +27521,12 @@
       },
       "layout.aboveFoldTextChars": {
         "n": 1,
-        "min": 716,
-        "p10": 716,
-        "median": 716,
-        "p90": 716,
-        "max": 716,
-        "mean": 716
+        "min": 717,
+        "p10": 717,
+        "median": 717,
+        "p90": 717,
+        "max": 717,
+        "mean": 717
       },
       "layout.asymmetricGrids": {
         "n": 1,
@@ -27655,12 +27764,12 @@
       },
       "net.byType.document.bytes": {
         "n": 1,
-        "min": 579,
-        "p10": 579,
-        "median": 579,
-        "p90": 579,
-        "max": 579,
-        "mean": 579
+        "min": 340,
+        "p10": 340,
+        "median": 340,
+        "p90": 340,
+        "max": 340,
+        "mean": 340
       },
       "net.byType.document.requests": {
         "n": 1,
@@ -27709,21 +27818,21 @@
       },
       "net.byType.image.bytes": {
         "n": 1,
-        "min": 1308042,
-        "p10": 1308042,
-        "median": 1308042,
-        "p90": 1308042,
-        "max": 1308042,
-        "mean": 1308042
+        "min": 1278108,
+        "p10": 1278108,
+        "median": 1278108,
+        "p90": 1278108,
+        "max": 1278108,
+        "mean": 1278108
       },
       "net.byType.image.requests": {
         "n": 1,
-        "min": 66,
-        "p10": 66,
-        "median": 66,
-        "p90": 66,
-        "max": 66,
-        "mean": 66
+        "min": 56,
+        "p10": 56,
+        "median": 56,
+        "p90": 56,
+        "max": 56,
+        "mean": 56
       },
       "net.byType.media.bytes": null,
       "net.byType.media.requests": null,
@@ -27749,12 +27858,12 @@
       },
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 971348,
-        "p10": 971348,
-        "median": 971348,
-        "p90": 971348,
-        "max": 971348,
-        "mean": 971348
+        "min": 2208807,
+        "p10": 2208807,
+        "median": 2208807,
+        "p90": 2208807,
+        "max": 2208807,
+        "mean": 2208807
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -27767,12 +27876,12 @@
       },
       "net.byType.stylesheet.bytes": {
         "n": 1,
-        "min": 318,
-        "p10": 318,
-        "median": 318,
-        "p90": 318,
-        "max": 318,
-        "mean": 318
+        "min": 63251,
+        "p10": 63251,
+        "median": 63251,
+        "p90": 63251,
+        "max": 63251,
+        "mean": 63251
       },
       "net.byType.stylesheet.requests": {
         "n": 1,
@@ -27803,12 +27912,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 2351708,
-        "p10": 2351708,
-        "median": 2351708,
-        "p90": 2351708,
-        "max": 2351708,
-        "mean": 2351708
+        "min": 3621927,
+        "p10": 3621927,
+        "median": 3621927,
+        "p90": 3621927,
+        "max": 3621927,
+        "mean": 3621927
       },
       "net.fontFiles": {
         "n": 1,
@@ -27821,12 +27930,12 @@
       },
       "net.requests": {
         "n": 1,
-        "min": 231,
-        "p10": 231,
-        "median": 231,
-        "p90": 231,
-        "max": 231,
-        "mean": 231
+        "min": 221,
+        "p10": 221,
+        "median": 221,
+        "p90": 221,
+        "max": 221,
+        "mean": 221
       },
       "net.thirdPartyHosts": {
         "n": 1,
@@ -27839,39 +27948,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 111,
-        "p10": 111,
-        "median": 111,
-        "p90": 111,
-        "max": 111,
-        "mean": 111
+        "min": 146,
+        "p10": 146,
+        "median": 146,
+        "p90": 146,
+        "max": 146,
+        "mean": 146
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 216,
-        "p10": 216,
-        "median": 216,
-        "p90": 216,
-        "max": 216,
-        "mean": 216
+        "min": 240,
+        "p10": 240,
+        "median": 240,
+        "p90": 240,
+        "max": 240,
+        "mean": 240
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2570,
-        "p10": 2570,
-        "median": 2570,
-        "p90": 2570,
-        "max": 2570,
-        "mean": 2570
+        "min": 2814,
+        "p10": 2814,
+        "median": 2814,
+        "p90": 2814,
+        "max": 2814,
+        "mean": 2814
       },
       "perf.transferBytes": {
         "n": 1,
-        "min": 177713,
-        "p10": 177713,
-        "median": 177713,
-        "p90": 177713,
-        "max": 177713,
-        "mean": 177713
+        "min": 177825,
+        "p10": 177825,
+        "median": 177825,
+        "p90": 177825,
+        "max": 177825,
+        "mean": 177825
       },
       "semantics.ctaCount": {
         "n": 1,
@@ -27992,12 +28101,12 @@
       },
       "semantics.textChars": {
         "n": 1,
-        "min": 11912,
-        "p10": 11912,
-        "median": 11912,
-        "p90": 11912,
-        "max": 11912,
-        "mean": 11912
+        "min": 11913,
+        "p10": 11913,
+        "median": 11913,
+        "p90": 11913,
+        "max": 11913,
+        "mean": 11913
       },
       "shape.borderedElements": {
         "n": 1,
@@ -28464,12 +28573,12 @@
     "fintech-product": {
       "bands.charVariationCoef": {
         "n": 2,
-        "min": 0.843,
-        "p10": 0.843,
-        "median": 0.843,
-        "p90": 0.843,
-        "max": 1.29,
-        "mean": 1.067
+        "min": 0.887,
+        "p10": 0.887,
+        "median": 0.887,
+        "p90": 0.887,
+        "max": 1.303,
+        "mean": 1.095
       },
       "bands.count": {
         "n": 2,
@@ -28479,6 +28588,15 @@
         "p90": 10,
         "max": 10,
         "mean": 10
+      },
+      "bands.inkVariationCoef": {
+        "n": 2,
+        "min": 0.304,
+        "p10": 0.304,
+        "median": 0.304,
+        "p90": 0.304,
+        "max": 1.312,
+        "mean": 0.808
       },
       "color.backgrounds.count": {
         "n": 2,
@@ -28851,21 +28969,21 @@
       },
       "media.images": {
         "n": 2,
-        "min": 39,
-        "p10": 39,
-        "median": 39,
-        "p90": 39,
+        "min": 38,
+        "p10": 38,
+        "median": 38,
+        "p90": 38,
         "max": 58,
-        "mean": 48.5
+        "mean": 48
       },
       "media.lazyCoverage": {
         "n": 2,
-        "min": 0.615,
-        "p10": 0.615,
-        "median": 0.615,
-        "p90": 0.615,
+        "min": 0.632,
+        "p10": 0.632,
+        "median": 0.632,
+        "p90": 0.632,
         "max": 0.862,
-        "mean": 0.738
+        "mean": 0.747
       },
       "media.modernFormats": {
         "n": 2,
@@ -28873,8 +28991,8 @@
         "p10": 0,
         "median": 0,
         "p90": 0,
-        "max": 0.564,
-        "mean": 0.282
+        "max": 0.579,
+        "mean": 0.289
       },
       "media.svgInline": {
         "n": 2,
@@ -28999,8 +29117,8 @@
         "p10": 162,
         "median": 162,
         "p90": 162,
-        "max": 2551,
-        "mean": 1356.5
+        "max": 2565,
+        "mean": 1363.5
       },
       "net.byType.document.requests": {
         "n": 2,
@@ -29013,12 +29131,12 @@
       },
       "net.byType.fetch.bytes": {
         "n": 2,
-        "min": 2028,
-        "p10": 2028,
-        "median": 2028,
-        "p90": 2028,
-        "max": 122513,
-        "mean": 62270.5
+        "min": 2064,
+        "p10": 2064,
+        "median": 2064,
+        "p90": 2064,
+        "max": 122460,
+        "mean": 62262
       },
       "net.byType.fetch.requests": {
         "n": 2,
@@ -29026,8 +29144,8 @@
         "p10": 21,
         "median": 21,
         "p90": 21,
-        "max": 46,
-        "mean": 33.5
+        "max": 45,
+        "mean": 33
       },
       "net.byType.font.bytes": {
         "n": 2,
@@ -29058,30 +29176,30 @@
       },
       "net.byType.image.requests": {
         "n": 2,
-        "min": 27,
-        "p10": 27,
-        "median": 27,
-        "p90": 27,
-        "max": 61,
+        "min": 26,
+        "p10": 26,
+        "median": 26,
+        "p90": 26,
+        "max": 62,
         "mean": 44
       },
       "net.byType.media.bytes": {
         "n": 1,
-        "min": 10109332,
-        "p10": 10109332,
-        "median": 10109332,
-        "p90": 10109332,
-        "max": 10109332,
-        "mean": 10109332
+        "min": 11105640,
+        "p10": 11105640,
+        "median": 11105640,
+        "p90": 11105640,
+        "max": 11105640,
+        "mean": 11105640
       },
       "net.byType.media.requests": {
         "n": 1,
-        "min": 8,
-        "p10": 8,
-        "median": 8,
-        "p90": 8,
-        "max": 8,
-        "mean": 8
+        "min": 11,
+        "p10": 11,
+        "median": 11,
+        "p90": 11,
+        "max": 11,
+        "mean": 11
       },
       "net.byType.other.bytes": {
         "n": 1,
@@ -29121,21 +29239,21 @@
       },
       "net.byType.script.bytes": {
         "n": 2,
-        "min": 1231080,
-        "p10": 1231080,
-        "median": 1231080,
-        "p90": 1231080,
-        "max": 1733516,
-        "mean": 1482298
+        "min": 1166260,
+        "p10": 1166260,
+        "median": 1166260,
+        "p90": 1166260,
+        "max": 1733534,
+        "mean": 1449897
       },
       "net.byType.script.requests": {
         "n": 2,
-        "min": 89,
-        "p10": 89,
-        "median": 89,
-        "p90": 89,
+        "min": 88,
+        "p10": 88,
+        "median": 88,
+        "p90": 88,
         "max": 104,
-        "mean": 96.5
+        "mean": 96
       },
       "net.byType.stylesheet.bytes": {
         "n": 2,
@@ -29161,8 +29279,8 @@
         "p10": 19,
         "median": 19,
         "p90": 19,
-        "max": 761,
-        "mean": 390
+        "max": 814,
+        "mean": 416.5
       },
       "net.byType.xhr.requests": {
         "n": 2,
@@ -29170,17 +29288,17 @@
         "p10": 7,
         "median": 7,
         "p90": 7,
-        "max": 13,
-        "mean": 10
+        "max": 14,
+        "mean": 10.5
       },
       "net.bytes": {
         "n": 2,
-        "min": 3753094,
-        "p10": 3753094,
-        "median": 3753094,
-        "p90": 3753094,
-        "max": 12670544,
-        "mean": 8211819
+        "min": 3753126,
+        "p10": 3753126,
+        "median": 3753126,
+        "p90": 3753126,
+        "max": 13602068,
+        "mean": 8677597
       },
       "net.fontFiles": {
         "n": 2,
@@ -29193,12 +29311,12 @@
       },
       "net.requests": {
         "n": 2,
-        "min": 168,
-        "p10": 168,
-        "median": 168,
-        "p90": 168,
-        "max": 266,
-        "mean": 217
+        "min": 169,
+        "p10": 169,
+        "median": 169,
+        "p90": 169,
+        "max": 267,
+        "mean": 218
       },
       "net.thirdPartyHosts": {
         "n": 2,
@@ -29211,30 +29329,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 2,
-        "min": 186,
-        "p10": 186,
-        "median": 186,
-        "p90": 186,
-        "max": 244,
-        "mean": 215
+        "min": 214,
+        "p10": 214,
+        "median": 214,
+        "p90": 214,
+        "max": 719,
+        "mean": 466.5
       },
       "perf.fcpMs": {
         "n": 2,
-        "min": 288,
-        "p10": 288,
-        "median": 288,
-        "p90": 288,
-        "max": 312,
-        "mean": 300
+        "min": 280,
+        "p10": 280,
+        "median": 280,
+        "p90": 280,
+        "max": 648,
+        "mean": 464
       },
       "perf.loadMs": {
         "n": 2,
-        "min": 3672,
-        "p10": 3672,
-        "median": 3672,
-        "p90": 3672,
-        "max": 10694,
-        "mean": 7183
+        "min": 5968,
+        "p10": 5968,
+        "median": 5968,
+        "p90": 5968,
+        "max": 10716,
+        "mean": 8342
       },
       "perf.transferBytes": {
         "n": 2,
@@ -29260,8 +29378,8 @@
         "p10": 1959,
         "median": 1959,
         "p90": 1959,
-        "max": 2225,
-        "mean": 2092
+        "max": 2217,
+        "mean": 2088
       },
       "semantics.focusVisibleRules": {
         "n": 2,
@@ -29868,6 +29986,7 @@
         "max": 10,
         "mean": 9.5
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 2,
         "min": 8,
@@ -31256,6 +31375,7 @@
         "max": 5,
         "mean": 5
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 1,
         "min": 0,
@@ -32556,6 +32676,7 @@
         "max": 7,
         "mean": 4
       },
+      "bands.inkVariationCoef": null,
       "color.backgrounds.count": {
         "n": 3,
         "min": 1,
@@ -33840,12 +33961,12 @@
     "premium-b2b-saas": {
       "bands.charVariationCoef": {
         "n": 6,
-        "min": 0.638,
-        "p10": 0.638,
-        "median": 0.79,
-        "p90": 0.925,
-        "max": 0.98,
-        "mean": 0.809
+        "min": 0.566,
+        "p10": 0.566,
+        "median": 0.656,
+        "p90": 0.896,
+        "max": 0.979,
+        "mean": 0.752
       },
       "bands.count": {
         "n": 6,
@@ -33855,6 +33976,15 @@
         "p90": 10,
         "max": 10,
         "mean": 9.667
+      },
+      "bands.inkVariationCoef": {
+        "n": 5,
+        "min": 0.47,
+        "p10": 0.47,
+        "median": 0.818,
+        "p90": 1.044,
+        "max": 1.4,
+        "mean": 0.88
       },
       "color.backgrounds.count": {
         "n": 6,
@@ -33948,12 +34078,12 @@
       },
       "color.medianTextContrast": {
         "n": 6,
-        "min": 9.78,
-        "p10": 9.78,
+        "min": 8.22,
+        "p10": 8.22,
         "median": 15.17,
         "p90": 18.88,
         "max": 21,
-        "mean": 15.95
+        "mean": 15.323
       },
       "color.minTextContrast": {
         "n": 6,
@@ -34391,10 +34521,10 @@
         "n": 6,
         "min": 0,
         "p10": 0,
-        "median": 513,
+        "median": 512,
         "p90": 2644,
         "max": 3383,
-        "mean": 1232.5
+        "mean": 1232.167
       },
       "net.byType.fetch.requests": {
         "n": 6,
@@ -34438,17 +34568,17 @@
         "p10": 20,
         "median": 68,
         "p90": 89,
-        "max": 135,
-        "mean": 72.833
+        "max": 139,
+        "mean": 73.5
       },
       "net.byType.media.bytes": {
         "n": 3,
         "min": 552000,
         "p10": 552000,
-        "median": 4335699,
-        "p90": 4335699,
+        "median": 3909715,
+        "p90": 3909715,
         "max": 4792981,
-        "mean": 3226893.333
+        "mean": 3084898.667
       },
       "net.byType.media.requests": {
         "n": 3,
@@ -34499,10 +34629,10 @@
         "n": 6,
         "min": 40,
         "p10": 40,
-        "median": 958759,
+        "median": 958839,
         "p90": 1186757,
-        "max": 2316791,
-        "mean": 1026250.5
+        "max": 2316804,
+        "mean": 1051850.5
       },
       "net.byType.script.requests": {
         "n": 6,
@@ -34511,7 +34641,7 @@
         "median": 81,
         "p90": 91,
         "max": 324,
-        "mean": 109.833
+        "mean": 110
       },
       "net.byType.stylesheet.bytes": {
         "n": 4,
@@ -34551,12 +34681,12 @@
       },
       "net.bytes": {
         "n": 6,
-        "min": 1281380,
-        "p10": 1281380,
+        "min": 1345988,
+        "p10": 1345988,
         "median": 2773302,
-        "p90": 6278618,
-        "max": 6607193,
-        "mean": 3755573.667
+        "p90": 5852713,
+        "max": 6696092,
+        "mean": 3710176
       },
       "net.fontFiles": {
         "n": 6,
@@ -34572,9 +34702,9 @@
         "min": 137,
         "p10": 137,
         "median": 235,
-        "p90": 251,
+        "p90": 254,
         "max": 427,
-        "mean": 241.167
+        "mean": 242
       },
       "net.thirdPartyHosts": {
         "n": 6,
@@ -34587,39 +34717,39 @@
       },
       "perf.domInteractiveMs": {
         "n": 6,
-        "min": 205,
-        "p10": 205,
-        "median": 341,
-        "p90": 375,
+        "min": 219,
+        "p10": 219,
+        "median": 358,
+        "p90": 495,
         "max": 545,
-        "mean": 344.5
+        "mean": 392.667
       },
       "perf.fcpMs": {
         "n": 6,
-        "min": 296,
-        "p10": 296,
+        "min": 264,
+        "p10": 264,
         "median": 376,
-        "p90": 492,
-        "max": 528,
-        "mean": 416
+        "p90": 572,
+        "max": 668,
+        "mean": 440.667
       },
       "perf.loadMs": {
         "n": 6,
-        "min": 2548,
-        "p10": 2548,
-        "median": 2844,
-        "p90": 10458,
-        "max": 10542,
-        "mean": 5925.167
+        "min": 2607,
+        "p10": 2607,
+        "median": 3017,
+        "p90": 10424,
+        "max": 10557,
+        "mean": 5975.833
       },
       "perf.transferBytes": {
         "n": 6,
         "min": 42374,
         "p10": 42374,
-        "median": 109186,
-        "p90": 174815,
+        "median": 109149,
+        "p90": 174838,
         "max": 205293,
-        "mean": 123471.5
+        "mean": 123483.333
       },
       "semantics.ctaCount": {
         "n": 6,
@@ -34637,7 +34767,7 @@
         "median": 1645,
         "p90": 4433,
         "max": 4578,
-        "mean": 2595.333
+        "mean": 2595.5
       },
       "semantics.focusVisibleRules": {
         "n": 6,
@@ -34743,9 +34873,9 @@
         "min": 3010,
         "p10": 3010,
         "median": 7279,
-        "p90": 7868,
+        "p90": 7872,
         "max": 11042,
-        "mean": 6696.667
+        "mean": 6697.333
       },
       "shape.borderedElements": {
         "n": 6,
@@ -35243,6 +35373,15 @@
         "p90": 6,
         "max": 6,
         "mean": 6
+      },
+      "bands.inkVariationCoef": {
+        "n": 1,
+        "min": 0.689,
+        "p10": 0.689,
+        "median": 0.689,
+        "p90": 0.689,
+        "max": 0.689,
+        "mean": 0.689
       },
       "color.backgrounds.count": {
         "n": 1,
@@ -35879,30 +36018,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 209,
-        "p10": 209,
-        "median": 209,
-        "p90": 209,
-        "max": 209,
-        "mean": 209
+        "min": 229,
+        "p10": 229,
+        "median": 229,
+        "p90": 229,
+        "max": 229,
+        "mean": 229
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 216,
-        "p10": 216,
-        "median": 216,
-        "p90": 216,
-        "max": 216,
-        "mean": 216
+        "min": 240,
+        "p10": 240,
+        "median": 240,
+        "p90": 240,
+        "max": 240,
+        "mean": 240
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 2415,
-        "p10": 2415,
-        "median": 2415,
-        "p90": 2415,
-        "max": 2415,
-        "mean": 2415
+        "min": 2437,
+        "p10": 2437,
+        "median": 2437,
+        "p90": 2437,
+        "max": 2437,
+        "mean": 2437
       },
       "perf.transferBytes": {
         "n": 1,
@@ -36496,12 +36635,12 @@
     "subscription-studio": {
       "bands.charVariationCoef": {
         "n": 1,
-        "min": 0.539,
-        "p10": 0.539,
-        "median": 0.539,
-        "p90": 0.539,
-        "max": 0.539,
-        "mean": 0.539
+        "min": 0.529,
+        "p10": 0.529,
+        "median": 0.529,
+        "p90": 0.529,
+        "max": 0.529,
+        "mean": 0.529
       },
       "bands.count": {
         "n": 1,
@@ -36511,6 +36650,15 @@
         "p90": 8,
         "max": 8,
         "mean": 8
+      },
+      "bands.inkVariationCoef": {
+        "n": 1,
+        "min": 0.935,
+        "p10": 0.935,
+        "median": 0.935,
+        "p90": 0.935,
+        "max": 0.935,
+        "mean": 0.935
       },
       "color.backgrounds.count": {
         "n": 1,
@@ -37093,32 +37241,16 @@
       "net.byType.media.requests": null,
       "net.byType.other.bytes": null,
       "net.byType.other.requests": null,
-      "net.byType.ping.bytes": {
-        "n": 1,
-        "min": 0,
-        "p10": 0,
-        "median": 0,
-        "p90": 0,
-        "max": 0,
-        "mean": 0
-      },
-      "net.byType.ping.requests": {
-        "n": 1,
-        "min": 1,
-        "p10": 1,
-        "median": 1,
-        "p90": 1,
-        "max": 1,
-        "mean": 1
-      },
+      "net.byType.ping.bytes": null,
+      "net.byType.ping.requests": null,
       "net.byType.script.bytes": {
         "n": 1,
-        "min": 918192,
-        "p10": 918192,
-        "median": 918192,
-        "p90": 918192,
-        "max": 918192,
-        "mean": 918192
+        "min": 919142,
+        "p10": 919142,
+        "median": 919142,
+        "p90": 919142,
+        "max": 919142,
+        "mean": 919142
       },
       "net.byType.script.requests": {
         "n": 1,
@@ -37167,12 +37299,12 @@
       },
       "net.bytes": {
         "n": 1,
-        "min": 12993819,
-        "p10": 12993819,
-        "median": 12993819,
-        "p90": 12993819,
-        "max": 12993819,
-        "mean": 12993819
+        "min": 12994769,
+        "p10": 12994769,
+        "median": 12994769,
+        "p90": 12994769,
+        "max": 12994769,
+        "mean": 12994769
       },
       "net.fontFiles": {
         "n": 1,
@@ -37185,12 +37317,12 @@
       },
       "net.requests": {
         "n": 1,
-        "min": 178,
-        "p10": 178,
-        "median": 178,
-        "p90": 178,
-        "max": 178,
-        "mean": 178
+        "min": 177,
+        "p10": 177,
+        "median": 177,
+        "p90": 177,
+        "max": 177,
+        "mean": 177
       },
       "net.thirdPartyHosts": {
         "n": 1,
@@ -37203,30 +37335,30 @@
       },
       "perf.domInteractiveMs": {
         "n": 1,
-        "min": 865,
-        "p10": 865,
-        "median": 865,
-        "p90": 865,
-        "max": 865,
-        "mean": 865
+        "min": 733,
+        "p10": 733,
+        "median": 733,
+        "p90": 733,
+        "max": 733,
+        "mean": 733
       },
       "perf.fcpMs": {
         "n": 1,
-        "min": 872,
-        "p10": 872,
-        "median": 872,
-        "p90": 872,
-        "max": 872,
-        "mean": 872
+        "min": 656,
+        "p10": 656,
+        "median": 656,
+        "p90": 656,
+        "max": 656,
+        "mean": 656
       },
       "perf.loadMs": {
         "n": 1,
-        "min": 3081,
-        "p10": 3081,
-        "median": 3081,
-        "p90": 3081,
-        "max": 3081,
-        "mean": 3081
+        "min": 2943,
+        "p10": 2943,
+        "median": 2943,
+        "p90": 2943,
+        "max": 2943,
+        "mean": 2943
       },
       "perf.transferBytes": {
         "n": 1,
@@ -37958,10 +38090,10 @@
       "label": "Text tones",
       "path": "color.distinctTextColors",
       "band": [
-        4,
+        3,
         24
       ],
-      "tolerance": 12,
+      "tolerance": 12.6,
       "mode": "atLeast",
       "why": "Primary / secondary / tertiary ink instead of one grey.",
       "calibrated": true,
@@ -38000,10 +38132,10 @@
       "label": "Median text contrast",
       "path": "color.medianTextContrast",
       "band": [
-        11.06,
+        10.31,
         21
       ],
-      "tolerance": 5.964,
+      "tolerance": 6.414,
       "mode": "atLeast",
       "why": "Readable by default, not just at the largest sizes.",
       "calibrated": true,
@@ -38084,14 +38216,28 @@
       "label": "Section weight variation",
       "path": "bands.charVariationCoef",
       "band": [
-        0.539,
-        1.142
+        0.513,
+        0.92
       ],
-      "tolerance": 0.301,
+      "tolerance": 0.204,
       "mode": "corridor",
       "why": "Sections should differ in density; uniform bands read as generated.",
       "calibrated": true,
       "corpusN": 50
+    },
+    {
+      "id": "band-ink-variation",
+      "label": "Section coverage variation",
+      "path": "bands.inkVariationCoef",
+      "band": [
+        0.555,
+        0.96
+      ],
+      "tolerance": 0.202,
+      "mode": "corridor",
+      "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one.",
+      "calibrated": true,
+      "corpusN": 24
     },
     {
       "id": "radius-system",

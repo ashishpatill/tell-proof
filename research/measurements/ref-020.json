@@ -3,23 +3,31 @@
   "category": "consumer-craft",
   "role": "email client",
   "urlHash": "11261f2e1907",
-  "measuredAt": "2026-08-04T22:00:51.238Z",
+  "measuredAt": "2026-08-04T22:34:34.636Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10905,
+      "loadMs": 10693,
       "paint": {
-        "fcpMs": 408,
-        "domInteractiveMs": 348,
-        "transferBytes": 164593
+        "fcpMs": 432,
+        "domInteractiveMs": 332,
+        "transferBytes": 164199
       },
       "network": {
-        "requests": 196,
-        "bytes": 16180627,
+        "requests": 190,
+        "bytes": 16180870,
         "byType": {
           "document": {
             "requests": 10,
             "bytes": 636
+          },
+          "script": {
+            "requests": 55,
+            "bytes": 1133266
+          },
+          "stylesheet": {
+            "requests": 9,
+            "bytes": 868
           },
           "image": {
             "requests": 53,
@@ -29,24 +37,16 @@
             "requests": 5,
             "bytes": 448768
           },
-          "script": {
-            "requests": 55,
-            "bytes": 1133017
-          },
-          "stylesheet": {
-            "requests": 9,
-            "bytes": 868
-          },
           "fetch": {
             "requests": 20,
-            "bytes": 1931
+            "bytes": 1925
           },
           "media": {
             "requests": 6,
             "bytes": 8199483
           },
           "ping": {
-            "requests": 29,
+            "requests": 23,
             "bytes": 0
           },
           "xhr": {
@@ -196,11 +196,11 @@
           "textColors": [
             {
               "color": "rgb(255,255,255)",
-              "chars": 1649
+              "chars": 1593
             },
             {
               "color": "rgb(41,40,39)",
-              "chars": 1511
+              "chars": 1200
             },
             {
               "color": "rgb(113,76,182)",
@@ -222,7 +222,7 @@
           "isDark": false,
           "gradientCount": 17,
           "minTextContrast": 1,
-          "medianTextContrast": 13.52
+          "medianTextContrast": 5.66
         },
         "space": {
           "sectionPaddingTop": [],
@@ -298,15 +298,17 @@
         "bands": [
           {
             "index": 0,
-            "elements": 2437,
-            "chars": 1689,
+            "elements": 186,
+            "chars": 1302,
+            "inkRatio": 1.351,
             "maxFontPx": 64,
-            "medianBgLightness": 50.6
+            "medianBgLightness": 95.9
           },
           {
             "index": 1,
             "elements": 83,
             "chars": 507,
+            "inkRatio": 3.326,
             "maxFontPx": 49,
             "medianBgLightness": 93.5
           },
@@ -314,6 +316,7 @@
             "index": 2,
             "elements": 26,
             "chars": 439,
+            "inkRatio": 1.147,
             "maxFontPx": 49,
             "medianBgLightness": 95.9
           },
@@ -321,6 +324,7 @@
             "index": 3,
             "elements": 33,
             "chars": 444,
+            "inkRatio": 1.158,
             "maxFontPx": 49,
             "medianBgLightness": 95.9
           },
@@ -328,13 +332,15 @@
             "index": 4,
             "elements": 27,
             "chars": 490,
+            "inkRatio": 1.151,
             "maxFontPx": 49,
             "medianBgLightness": 95.9
           },
           {
             "index": 5,
-            "elements": 25,
+            "elements": 19,
             "chars": 316,
+            "inkRatio": 0.816,
             "maxFontPx": 64,
             "medianBgLightness": 15.5
           },
@@ -342,6 +348,7 @@
             "index": 6,
             "elements": 97,
             "chars": 299,
+            "inkRatio": 0.921,
             "maxFontPx": 28,
             "medianBgLightness": 18.6
           }
@@ -447,7 +454,7 @@
               "count": 14
             }
           ],
-          "animatedElements": 18,
+          "animatedElements": 17,
           "infiniteAnimations": 1,
           "reducedMotionRules": 0,
           "hasVideo": 5,
@@ -478,7 +485,7 @@
           "asymmetricGrids": 2,
           "asymmetryRatio": 0.4,
           "fullBleed": 19,
-          "aboveFoldElements": 119,
+          "aboveFoldElements": 118,
           "aboveFoldTextChars": 777,
           "aboveFoldInkRatio": 1,
           "stickyElements": 4,
@@ -497,15 +504,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10746,
+      "loadMs": 10891,
       "paint": {
-        "fcpMs": 556,
-        "domInteractiveMs": 472,
-        "transferBytes": 164875
+        "fcpMs": 364,
+        "domInteractiveMs": 342,
+        "transferBytes": 164425
       },
       "network": {
-        "requests": 186,
-        "bytes": 7604403,
+        "requests": 182,
+        "bytes": 10374379,
         "byType": {
           "document": {
             "requests": 10,
@@ -516,12 +523,12 @@
             "bytes": 868
           },
           "image": {
-            "requests": 54,
-            "bytes": 3220660
+            "requests": 48,
+            "bytes": 3227604
           },
           "script": {
-            "requests": 54,
-            "bytes": 1118824
+            "requests": 55,
+            "bytes": 1133288
           },
           "font": {
             "requests": 5,
@@ -529,11 +536,11 @@
           },
           "fetch": {
             "requests": 20,
-            "bytes": 1914
+            "bytes": 1899
           },
           "media": {
-            "requests": 2,
-            "bytes": 2810186
+            "requests": 3,
+            "bytes": 5558767
           },
           "ping": {
             "requests": 23,
@@ -541,7 +548,7 @@
           },
           "xhr": {
             "requests": 9,
-            "bytes": 2547
+            "bytes": 2549
           }
         },
         "fontFiles": 5,
@@ -627,7 +634,7 @@
             "lineHeight": 0.96,
             "letterSpacingEm": 0,
             "chars": 32,
-            "measureCh": 21.9,
+            "measureCh": 20.4,
             "transform": "none"
           },
           "body": {
@@ -656,11 +663,11 @@
           "backgrounds": [
             {
               "color": "rgb(242,240,235)",
-              "area": 3736817
+              "area": 3630424
             },
             {
               "color": "rgb(247,245,242)",
-              "area": 1474797
+              "area": 1344499
             },
             {
               "color": "rgb(66,29,36)",
@@ -673,12 +680,12 @@
           ],
           "textColors": [
             {
-              "color": "rgb(255,255,255)",
-              "chars": 1649
+              "color": "rgb(41,40,39)",
+              "chars": 966
             },
             {
-              "color": "rgb(41,40,39)",
-              "chars": 1303
+              "color": "rgb(255,255,255)",
+              "chars": 217
             },
             {
               "color": "rgb(113,76,182)",
@@ -720,8 +727,8 @@
             40,
             80
           ],
-          "containerMax": 360,
-          "containerRatio": 0.923,
+          "containerMax": 320,
+          "containerRatio": 0.821,
           "eightPointConformity": 0.401,
           "fourPointConformity": 0.954,
           "distinctSpacingValues": 11
@@ -737,18 +744,18 @@
           ],
           "asymmetricGrids": 0,
           "asymmetryRatio": 0,
-          "fullBleed": 26,
+          "fullBleed": 17,
           "aboveFoldElements": 57,
           "aboveFoldTextChars": 239,
           "aboveFoldInkRatio": 1,
           "stickyElements": 4,
-          "documentHeightVh": 9.77
+          "documentHeightVh": 9.8
         },
         "hero": {
           "displayPx": 32,
           "displayVwRatio": 8.21,
           "displayChars": 32,
-          "displayMeasureCh": 21.9,
+          "displayMeasureCh": 20.4,
           "displayWeight": "540",
           "displayLineHeight": 0.96,
           "textBlocks": 7,
@@ -762,15 +769,17 @@
         "bands": [
           {
             "index": 0,
-            "elements": 2478,
-            "chars": 2067,
+            "elements": 52,
+            "chars": 239,
+            "inkRatio": 2.236,
             "maxFontPx": 32,
-            "medianBgLightness": 50.6
+            "medianBgLightness": 93.5
           },
           {
             "index": 1,
             "elements": 34,
             "chars": 243,
+            "inkRatio": 2.502,
             "maxFontPx": 32,
             "medianBgLightness": 93.5
           },
@@ -778,6 +787,7 @@
             "index": 2,
             "elements": 16,
             "chars": 140,
+            "inkRatio": 1.155,
             "maxFontPx": 32,
             "medianBgLightness": 95.9
           },
@@ -785,6 +795,7 @@
             "index": 3,
             "elements": 15,
             "chars": 236,
+            "inkRatio": 0.207,
             "maxFontPx": 18,
             "medianBgLightness": null
           },
@@ -792,6 +803,7 @@
             "index": 4,
             "elements": 24,
             "chars": 312,
+            "inkRatio": 1.357,
             "maxFontPx": 32,
             "medianBgLightness": 95.9
           },
@@ -799,6 +811,7 @@
             "index": 5,
             "elements": 18,
             "chars": 282,
+            "inkRatio": 1.27,
             "maxFontPx": 32,
             "medianBgLightness": 95.9
           },
@@ -806,13 +819,15 @@
             "index": 6,
             "elements": 13,
             "chars": 329,
+            "inkRatio": 1.117,
             "maxFontPx": 32,
             "medianBgLightness": 15.5
           },
           {
             "index": 7,
-            "elements": 18,
+            "elements": 12,
             "chars": 68,
+            "inkRatio": 0.091,
             "maxFontPx": 36,
             "medianBgLightness": null
           },
@@ -820,13 +835,15 @@
             "index": 8,
             "elements": 37,
             "chars": 148,
+            "inkRatio": 1.409,
             "maxFontPx": 18.7,
             "medianBgLightness": 18.6
           },
           {
             "index": 9,
-            "elements": 61,
+            "elements": 60,
             "chars": 151,
+            "inkRatio": 0.434,
             "maxFontPx": 18.7,
             "medianBgLightness": null
           }
@@ -888,7 +905,7 @@
           "images": 17,
           "svgInline": 61,
           "videos": 1,
-          "imageAreaRatio": 0.3007,
+          "imageAreaRatio": 0.2652,
           "altCoverage": 1,
           "lazyCoverage": 0.647,
           "modernFormats": 0.176
@@ -946,18 +963,18 @@
           ],
           "asymmetricGrids": 0,
           "asymmetryRatio": 0,
-          "fullBleed": 26,
+          "fullBleed": 17,
           "aboveFoldElements": 48,
           "aboveFoldTextChars": 449,
           "aboveFoldInkRatio": 1,
           "stickyElements": 4,
-          "documentHeightVh": 9.79
+          "documentHeightVh": 9.83
         },
         "media": {
           "images": 17,
           "svgInline": 61,
           "videos": 1,
-          "imageAreaRatio": 0.3025,
+          "imageAreaRatio": 0.2667,
           "altCoverage": 1,
           "lazyCoverage": 0.647,
           "modernFormats": 0.176

@@ -60,11 +60,11 @@
 | Body measure (ch) | 34.1 | 64.0 | 109 | 14.2–216 | 47 |
 | Display tracking (em) | -0.048 | -0.014 | 0 | -0.06–0.018 | 50 |
 | Distinct surface colours | 2 | 7 | 16.0 | 0–22.0 | 50 |
-| Distinct ink tones | 2 | 7 | 16.0 | 0–24.0 | 50 |
+| Distinct ink tones | 2 | 6 | 16.0 | 0–24.0 | 50 |
 | Distinct hues | 0 | 3 | 9 | 0–15.0 | 50 |
 | Peak saturation (%) | 0 | 100 | 100 | 0–100 | 50 |
 | Neutral saturation (%) | 0 | 0 | 6.1 | 0–10.2 | 49 |
-| Median text contrast | 4.09 | 15.5 | 21.0 | 1–21.0 | 49 |
+| Median text contrast | 4.09 | 15.3 | 21.0 | 1–21.0 | 49 |
 | Dark page (share) | 0 | 0 | 1 | 0–1 | 50 |
 | Gradient elements | 0 | 4 | 62.0 | 0–240 | 50 |
 | Section padding (px) | 36.0 | 91.0 | 128 | 16.0–160 | 29 |
@@ -79,7 +79,7 @@
 | Page height (viewports) | 5.73 | 9.67 | 14.5 | 1.58–19.6 | 47 |
 | Above-fold painted ratio | 0.168 | 1 | 1 | 0.127–1 | 50 |
 | Sticky/fixed elements | 1 | 3 | 7 | 0–70.0 | 50 |
-| Section density variation | 0.351 | 0.728 | 1.492 | 0.044–2.71 | 50 |
+| Section density variation | 0.389 | 0.646 | 1.384 | 0.044–2.71 | 50 |
 | Distinct radii | 2 | 7 | 13.0 | 1–20.0 | 50 |
 | Median radius (px) | 4 | 8 | 100 | 1–400 | 50 |
 | Largest non-pill radius (px) | 12.0 | 50.0 | 100 | 4–340 | 49 |
@@ -89,7 +89,7 @@
 | Borders ≤1px (share) | 0.657 | 1 | 1 | 0.061–1 | 42 |
 | Elements with transitions (share) | 0.012 | 0.082 | 0.224 | 0–0.291 | 50 |
 | Median transition (ms) | 150 | 200 | 300 | 100–600 | 48 |
-| p90 transition (ms) | 150 | 300 | 500 | 150–800 | 48 |
+| p90 transition (ms) | 180 | 300 | 500 | 150–800 | 48 |
 | Keyframe-animated elements | 0 | 4 | 18.0 | 0–178 | 50 |
 | Infinite animations | 0 | 1 | 7 | 0–178 | 50 |
 | reduced-motion rules | 0 | 1 | 8 | 0–26.0 | 50 |
@@ -102,9 +102,9 @@
 | Nav links | 0 | 10.0 | 145 | 0–472 | 50 |
 | Headings | 6 | 27.0 | 57.0 | 0–79.0 | 50 |
 | DOM nodes | 451 | 2146 | 5322 | 136–12254 | 50 |
-| Page text (chars) | 1476 | 5094 | 12509 | 339–17403 | 50 |
+| Page text (chars) | 1476 | 5094 | 12509 | 339–17412 | 50 |
 | :focus-visible rules | 0 | 3 | 25.0 | 0–268 | 50 |
-| First contentful paint (ms) | 216 | 352 | 732 | 172–1924 | 49 |
+| First contentful paint (ms) | 236 | 356 | 752 | 172–1924 | 49 |
 | Requests | 67.0 | 162 | 280 | 36.0–427 | 50 |
 | Font files | 2 | 5 | 12.0 | 1–22.0 | 50 |
 
@@ -138,16 +138,17 @@ readable as templated or unconsidered.
 | Body line height | 1.3 – 1.5 | Comfortable leading for sustained reading. |
 | Weights in play | 3 – 8 | A weight system, not a single default. |
 | Surface layers | 4 – 22.0 | Depth comes from layered surfaces, not from shadows. |
-| Text tones | 4 – 24.0 | Primary / secondary / tertiary ink instead of one grey. |
+| Text tones | 3 – 24.0 | Primary / secondary / tertiary ink instead of one grey. |
 | Hue discipline | 0 – 5 | Restrained hue count keeps a page expensive-looking. |
 | Neutral temperature | 0 – 4.3 | Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue. |
-| Median text contrast | 11.1 – 21.0 | Readable by default, not just at the largest sizes. |
+| Median text contrast | 10.3 – 21.0 | Readable by default, not just at the largest sizes. |
 | Section padding | 48.0 – 120 | Vertical breathing room separates chapters of the argument. |
 | Spacing grid conformity | 0.611 – 1 | Spacing that lands on a scale rather than on arbitrary numbers. |
 | Container ratio | 0.271 – 0.854 | Content is framed, not stretched edge to edge. |
 | Asymmetric grids | 0 – 1 | Equal-width card rows everywhere is the template signature. |
 | Document height (vh) | 6.65 – 12.9 | Enough argument to earn the sale, not an endless scroll. |
-| Section weight variation | 0.539 – 1.142 | Sections should differ in density; uniform bands read as generated. |
+| Section weight variation | 0.513 – 0.92 | Sections should differ in density; uniform bands read as generated. |
+| Section coverage variation | 0.555 – 0.96 | How much of each screen is painted should change as you scroll — a quiet band next to a dense one. |
 | Radius steps | 5 – 20.0 | A radius scale, not one rounded value on everything. |
 | Shadow coverage | 0 – 0.018 | Shadow-on-everything is the clearest generic tell. |
 | Hairline borders | 0.953 – 1 | Structure carried by 1px rules rather than heavy chrome. |
@@ -175,8 +176,8 @@ readable as templated or unconsidered.
 | `commerce-platform` | 6.67 | 11.0 | 1 | 80.0 | 12.0 | 0.016 | 0.09 | 12.6 |
 | `consumer-craft` | 4.44 | 5 | 0 | — | 11.0 | 0.019 | 0.038 | 6.98 |
 | `design-tool` | 3.89 | 10.0 | 1 | 80.0 | 8 | 0.005 | 0.057 | 12.1 |
-| `dev-infra` | 4.44 | 9 | 0 | 96.0 | 8 | 0.006 | 0.056 | 9.67 |
-| `dev-tool` | 1.81 | 15.0 | 0 | 67.0 | 8 | 0.007 | 0.042 | 9.14 |
+| `dev-infra` | 4.44 | 9 | 0 | 96.0 | 8 | 0.006 | 0.053 | 9.67 |
+| `dev-tool` | 1.81 | 15.0 | 0 | 67.0 | 8 | 0.007 | 0.045 | 9.14 |
 | `docs-product` | 5 | 2 | 0 | 36.0 | 16.0 | 0.067 | 0.11 | 5.73 |
 | `editorial-brand` | 1.22 | 22.0 | 1 | 24.0 | 3 | 0 | 0.103 | 7.4 |
 | `enterprise-corporate` | 5.56 | 10.0 | 0 | 90.0 | 4 | 0.003 | 0.28 | 7.39 |

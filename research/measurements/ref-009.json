@@ -3,19 +3,19 @@
   "category": "fintech-product",
   "role": "business banking",
   "urlHash": "61c89e9f9be6",
-  "measuredAt": "2026-08-04T21:57:56.578Z",
+  "measuredAt": "2026-08-04T22:31:33.612Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 3672,
+      "loadMs": 5968,
       "paint": {
-        "fcpMs": 288,
-        "domInteractiveMs": 244,
+        "fcpMs": 648,
+        "domInteractiveMs": 719,
         "transferBytes": 97946
       },
       "network": {
-        "requests": 168,
-        "bytes": 12670544,
+        "requests": 169,
+        "bytes": 13602068,
         "byType": {
           "document": {
             "requests": 2,
@@ -26,7 +26,7 @@
             "bytes": 463
           },
           "image": {
-            "requests": 27,
+            "requests": 26,
             "bytes": 1090781
           },
           "font": {
@@ -34,16 +34,16 @@
             "bytes": 236679
           },
           "script": {
-            "requests": 89,
-            "bytes": 1231080
+            "requests": 88,
+            "bytes": 1166260
           },
           "media": {
-            "requests": 8,
-            "bytes": 10109332
+            "requests": 11,
+            "bytes": 11105640
           },
           "fetch": {
             "requests": 21,
-            "bytes": 2028
+            "bytes": 2064
           },
           "ping": {
             "requests": 3,
@@ -202,7 +202,7 @@
           "textColors": [
             {
               "color": "rgb(237,237,243)",
-              "chars": 7424
+              "chars": 6979
             },
             {
               "color": "rgb(195,195,204)",
@@ -214,11 +214,11 @@
             },
             {
               "color": "rgb(255,255,255)",
-              "chars": 72
+              "chars": 36
             },
             {
               "color": "rgb(0,0,0)",
-              "chars": 25
+              "chars": 16
             }
           ],
           "distinctBackgrounds": 6,
@@ -317,71 +317,81 @@
         "bands": [
           {
             "index": 0,
-            "elements": 379,
-            "chars": 972,
+            "elements": 105,
+            "chars": 482,
+            "inkRatio": 2.11,
             "maxFontPx": 49.3,
-            "medianBgLightness": 18
+            "medianBgLightness": 62.2
           },
           {
             "index": 1,
             "elements": 2,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 16,
             "medianBgLightness": null
           },
           {
             "index": 2,
-            "elements": 291,
+            "elements": 288,
             "chars": 68,
+            "inkRatio": 0.055,
             "maxFontPx": 42,
             "medianBgLightness": 14.1
           },
           {
             "index": 3,
-            "elements": 70,
+            "elements": 68,
             "chars": 496,
+            "inkRatio": 0.093,
             "maxFontPx": 32,
             "medianBgLightness": 94.1
           },
           {
             "index": 4,
-            "elements": 99,
+            "elements": 91,
             "chars": 930,
+            "inkRatio": 0.137,
             "maxFontPx": 28,
             "medianBgLightness": 90.2
           },
           {
             "index": 5,
-            "elements": 105,
+            "elements": 96,
             "chars": 767,
+            "inkRatio": 0.096,
             "maxFontPx": 32,
             "medianBgLightness": 90.2
           },
           {
             "index": 6,
-            "elements": 89,
+            "elements": 85,
             "chars": 419,
+            "inkRatio": 0.129,
             "maxFontPx": 65.3,
             "medianBgLightness": null
           },
           {
             "index": 7,
-            "elements": 91,
+            "elements": 85,
             "chars": 615,
+            "inkRatio": 0.357,
             "maxFontPx": 42,
             "medianBgLightness": 14.1
           },
           {
             "index": 8,
-            "elements": 168,
+            "elements": 166,
             "chars": 1028,
+            "inkRatio": 0.98,
             "maxFontPx": 28,
             "medianBgLightness": 14.1
           },
           {
             "index": 9,
-            "elements": 69,
-            "chars": 4766,
+            "elements": 66,
+            "chars": 4390,
+            "inkRatio": 2.073,
             "maxFontPx": 16,
             "medianBgLightness": 11
           }
@@ -456,13 +466,13 @@
           "hasWebGL": true
         },
         "media": {
-          "images": 39,
+          "images": 38,
           "svgInline": 94,
           "videos": 6,
           "imageAreaRatio": 0.413,
           "altCoverage": 1,
-          "lazyCoverage": 0.615,
-          "modernFormats": 0.564
+          "lazyCoverage": 0.632,
+          "modernFormats": 0.579
         },
         "semantics": {
           "landmarks": {
@@ -479,7 +489,7 @@
           "ctaCount": 6,
           "formFields": 3,
           "focusVisibleRules": 5,
-          "domNodes": 2225,
+          "domNodes": 2217,
           "textChars": 10506
         }
       },
@@ -553,27 +563,27 @@
           "documentHeightVh": 13.95
         },
         "media": {
-          "images": 39,
+          "images": 38,
           "svgInline": 100,
           "videos": 9,
           "imageAreaRatio": 0.3585,
           "altCoverage": 1,
-          "lazyCoverage": 0.615,
-          "modernFormats": 0.564
+          "lazyCoverage": 0.632,
+          "modernFormats": 0.579
         }
       }
     },
     {
       "viewport": "mobile",
-      "loadMs": 3599,
+      "loadMs": 3574,
       "paint": {
-        "fcpMs": 284,
-        "domInteractiveMs": 275,
+        "fcpMs": 256,
+        "domInteractiveMs": 250,
         "transferBytes": 97946
       },
       "network": {
-        "requests": 163,
-        "bytes": 8696204,
+        "requests": 162,
+        "bytes": 8695958,
         "byType": {
           "document": {
             "requests": 2,
@@ -583,25 +593,25 @@
             "requests": 5,
             "bytes": 463
           },
-          "image": {
-            "requests": 26,
-            "bytes": 278254
-          },
           "font": {
             "requests": 6,
             "bytes": 236679
           },
+          "image": {
+            "requests": 26,
+            "bytes": 278254
+          },
           "script": {
             "requests": 88,
-            "bytes": 1166110
+            "bytes": 1166160
           },
           "media": {
             "requests": 6,
             "bytes": 7012476
           },
           "fetch": {
-            "requests": 20,
-            "bytes": 2041
+            "requests": 19,
+            "bytes": 1745
           },
           "ping": {
             "requests": 3,
@@ -613,7 +623,7 @@
           }
         },
         "fontFiles": 6,
-        "thirdPartyHosts": 36
+        "thirdPartyHosts": 35
       },
       "initial": {
         "typography": {
@@ -760,7 +770,7 @@
           "textColors": [
             {
               "color": "rgb(237,237,243)",
-              "chars": 7424
+              "chars": 6979
             },
             {
               "color": "rgb(195,195,204)",
@@ -772,7 +782,7 @@
             },
             {
               "color": "rgb(255,255,255)",
-              "chars": 72
+              "chars": 36
             },
             {
               "color": "rgb(0,0,0)",
@@ -862,8 +872,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 354,
-            "chars": 972,
+            "elements": 103,
+            "chars": 491,
+            "inkRatio": 3.349,
             "maxFontPx": 28,
             "medianBgLightness": 18
           },
@@ -871,48 +882,55 @@
             "index": 1,
             "elements": 11,
             "chars": 64,
+            "inkRatio": 0.076,
             "maxFontPx": 28,
             "medianBgLightness": null
           },
           {
             "index": 2,
-            "elements": 339,
+            "elements": 335,
             "chars": 381,
+            "inkRatio": 0.127,
             "maxFontPx": 24,
             "medianBgLightness": 94.1
           },
           {
             "index": 3,
-            "elements": 72,
+            "elements": 70,
             "chars": 756,
+            "inkRatio": 0.221,
             "maxFontPx": 21,
             "medianBgLightness": 90.2
           },
           {
             "index": 4,
-            "elements": 152,
+            "elements": 136,
             "chars": 1060,
+            "inkRatio": 0.285,
             "maxFontPx": 24,
             "medianBgLightness": 90.2
           },
           {
             "index": 5,
-            "elements": 72,
+            "elements": 70,
             "chars": 419,
+            "inkRatio": 0.17,
             "maxFontPx": 36,
             "medianBgLightness": null
           },
           {
             "index": 6,
-            "elements": 50,
+            "elements": 47,
             "chars": 456,
+            "inkRatio": 0.302,
             "maxFontPx": 24,
             "medianBgLightness": 14.1
           },
           {
             "index": 7,
-            "elements": 81,
+            "elements": 74,
             "chars": 450,
+            "inkRatio": 0.785,
             "maxFontPx": 28,
             "medianBgLightness": 62.2
           },
@@ -920,13 +938,15 @@
             "index": 8,
             "elements": 140,
             "chars": 737,
+            "inkRatio": 1.142,
             "maxFontPx": 16,
             "medianBgLightness": 11
           },
           {
             "index": 9,
-            "elements": 69,
-            "chars": 4766,
+            "elements": 66,
+            "chars": 4390,
+            "inkRatio": 2.358,
             "maxFontPx": 16,
             "medianBgLightness": 11
           }
@@ -1024,7 +1044,7 @@
           "ctaCount": 6,
           "formFields": 3,
           "focusVisibleRules": 5,
-          "domNodes": 2226,
+          "domNodes": 2231,
           "textChars": 10516
         }
       },
@@ -1089,7 +1109,7 @@
           "images": 39,
           "svgInline": 100,
           "videos": 9,
-          "imageAreaRatio": 0.4346,
+          "imageAreaRatio": 0.4353,
           "altCoverage": 1,
           "lazyCoverage": 0.615,
           "modernFormats": 0.564

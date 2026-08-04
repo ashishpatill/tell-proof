@@ -3,27 +3,35 @@
   "category": "premium-b2b-saas",
   "role": "workspace product",
   "urlHash": "b04d19f21678",
-  "measuredAt": "2026-08-04T21:58:21.248Z",
+  "measuredAt": "2026-08-04T22:32:00.618Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2844,
+      "loadMs": 3017,
       "paint": {
-        "fcpMs": 492,
-        "domInteractiveMs": 346,
-        "transferBytes": 109186
+        "fcpMs": 668,
+        "domInteractiveMs": 495,
+        "transferBytes": 109149
       },
       "network": {
         "requests": 251,
-        "bytes": 6278618,
+        "bytes": 5852713,
         "byType": {
           "document": {
             "requests": 1,
             "bytes": 0
           },
+          "image": {
+            "requests": 68,
+            "bytes": 837323
+          },
           "script": {
             "requests": 91,
-            "bytes": 958759
+            "bytes": 958839
+          },
+          "media": {
+            "requests": 4,
+            "bytes": 3909715
           },
           "stylesheet": {
             "requests": 22,
@@ -33,17 +41,9 @@
             "requests": 5,
             "bytes": 146324
           },
-          "image": {
-            "requests": 68,
-            "bytes": 837323
-          },
-          "media": {
-            "requests": 4,
-            "bytes": 4335699
-          },
           "fetch": {
             "requests": 38,
-            "bytes": 513
+            "bytes": 512
           },
           "other": {
             "requests": 20,
@@ -210,7 +210,7 @@
           "textColors": [
             {
               "color": "rgb(0,0,0)",
-              "chars": 2438
+              "chars": 2021
             },
             {
               "color": "rgb(97,93,89)",
@@ -325,43 +325,49 @@
         "bands": [
           {
             "index": 0,
-            "elements": 297,
-            "chars": 508,
+            "elements": 167,
+            "chars": 233,
+            "inkRatio": 0.475,
             "maxFontPx": 96,
-            "medianBgLightness": 94.9
+            "medianBgLightness": 67.8
           },
           {
             "index": 1,
-            "elements": 129,
+            "elements": 128,
             "chars": 117,
+            "inkRatio": 1.633,
             "maxFontPx": 54,
             "medianBgLightness": 100
           },
           {
             "index": 2,
-            "elements": 91,
-            "chars": 529,
+            "elements": 88,
+            "chars": 387,
+            "inkRatio": 1.343,
             "maxFontPx": 54,
             "medianBgLightness": 58
           },
           {
             "index": 3,
-            "elements": 36,
+            "elements": 34,
             "chars": 88,
+            "inkRatio": 1.603,
             "maxFontPx": 22,
             "medianBgLightness": 67.8
           },
           {
             "index": 4,
-            "elements": 46,
+            "elements": 41,
             "chars": 148,
+            "inkRatio": 2.697,
             "maxFontPx": 54,
             "medianBgLightness": 100
           },
           {
             "index": 5,
-            "elements": 39,
+            "elements": 37,
             "chars": 165,
+            "inkRatio": 1.543,
             "maxFontPx": 54,
             "medianBgLightness": 96.1
           },
@@ -369,13 +375,15 @@
             "index": 6,
             "elements": 150,
             "chars": 1155,
+            "inkRatio": 2.363,
             "maxFontPx": 54,
             "medianBgLightness": 43.5
           },
           {
             "index": 7,
-            "elements": 139,
+            "elements": 137,
             "chars": 388,
+            "inkRatio": 0.575,
             "maxFontPx": 20,
             "medianBgLightness": 100
           }
@@ -559,19 +567,23 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2911,
+      "loadMs": 2846,
       "paint": {
-        "fcpMs": 552,
-        "domInteractiveMs": 430,
-        "transferBytes": 109490
+        "fcpMs": 488,
+        "domInteractiveMs": 358,
+        "transferBytes": 108982
       },
       "network": {
         "requests": 242,
-        "bytes": 4704331,
+        "bytes": 4704305,
         "byType": {
           "document": {
             "requests": 1,
             "bytes": 0
+          },
+          "image": {
+            "requests": 61,
+            "bytes": 528145
           },
           "media": {
             "requests": 3,
@@ -581,25 +593,21 @@
             "requests": 22,
             "bytes": 0
           },
-          "script": {
-            "requests": 91,
-            "bytes": 958796
-          },
           "font": {
             "requests": 5,
             "bytes": 146324
           },
-          "image": {
-            "requests": 61,
-            "bytes": 528145
-          },
-          "fetch": {
-            "requests": 37,
-            "bytes": 512
+          "script": {
+            "requests": 91,
+            "bytes": 958770
           },
           "other": {
             "requests": 20,
             "bytes": 0
+          },
+          "fetch": {
+            "requests": 37,
+            "bytes": 512
           },
           "ping": {
             "requests": 2,
@@ -758,7 +766,7 @@
           "textColors": [
             {
               "color": "rgb(0,0,0)",
-              "chars": 2438
+              "chars": 1658
             },
             {
               "color": "rgb(97,93,89)",
@@ -877,43 +885,49 @@
         "bands": [
           {
             "index": 0,
-            "elements": 433,
-            "chars": 1051,
-            "maxFontPx": 48,
-            "medianBgLightness": 100
+            "elements": 179,
+            "chars": 271,
+            "inkRatio": 2.407,
+            "maxFontPx": 42,
+            "medianBgLightness": 94.9
           },
           {
             "index": 1,
-            "elements": 57,
+            "elements": 56,
             "chars": 192,
+            "inkRatio": 0.466,
             "maxFontPx": 28,
             "medianBgLightness": 53.1
           },
           {
             "index": 2,
-            "elements": 46,
+            "elements": 44,
             "chars": 191,
+            "inkRatio": 2.6,
             "maxFontPx": 32,
             "medianBgLightness": 100
           },
           {
             "index": 3,
-            "elements": 31,
+            "elements": 29,
             "chars": 76,
+            "inkRatio": 2.477,
             "maxFontPx": 32,
             "medianBgLightness": 0
           },
           {
             "index": 4,
-            "elements": 30,
+            "elements": 27,
             "chars": 115,
+            "inkRatio": 2.643,
             "maxFontPx": 22,
             "medianBgLightness": 0
           },
           {
             "index": 5,
-            "elements": 32,
+            "elements": 30,
             "chars": 165,
+            "inkRatio": 1.996,
             "maxFontPx": 32,
             "medianBgLightness": 100
           },
@@ -921,6 +935,7 @@
             "index": 6,
             "elements": 124,
             "chars": 840,
+            "inkRatio": 2.447,
             "maxFontPx": 32,
             "medianBgLightness": 96.1
           },
@@ -928,13 +943,15 @@
             "index": 7,
             "elements": 24,
             "chars": 123,
+            "inkRatio": 1.066,
             "maxFontPx": 22,
             "medianBgLightness": 96.5
           },
           {
             "index": 8,
-            "elements": 136,
+            "elements": 134,
             "chars": 341,
+            "inkRatio": 1.167,
             "maxFontPx": 20,
             "medianBgLightness": 100
           }

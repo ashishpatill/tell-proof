@@ -3,14 +3,14 @@
   "category": "solo-studio-portfolio",
   "role": "independent designer portfolio",
   "urlHash": "2a94c2f3b61b",
-  "measuredAt": "2026-08-04T21:56:54.996Z",
+  "measuredAt": "2026-08-04T22:30:24.834Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2415,
+      "loadMs": 2437,
       "paint": {
-        "fcpMs": 216,
-        "domInteractiveMs": 209,
+        "fcpMs": 240,
+        "domInteractiveMs": 229,
         "transferBytes": 30962
       },
       "network": {
@@ -243,43 +243,49 @@
         "bands": [
           {
             "index": 0,
-            "elements": 219,
+            "elements": 194,
             "chars": 907,
+            "inkRatio": 2.549,
             "maxFontPx": 457.5,
             "medianBgLightness": 64.9
           },
           {
             "index": 1,
-            "elements": 218,
+            "elements": 182,
             "chars": 481,
+            "inkRatio": 0.97,
             "maxFontPx": 16,
-            "medianBgLightness": 64.9
+            "medianBgLightness": 11.4
           },
           {
             "index": 2,
-            "elements": 197,
+            "elements": 153,
             "chars": 339,
+            "inkRatio": 0.918,
             "maxFontPx": 16,
-            "medianBgLightness": 64.9
+            "medianBgLightness": 11.4
           },
           {
             "index": 3,
-            "elements": 178,
+            "elements": 146,
             "chars": 355,
+            "inkRatio": 0.971,
             "maxFontPx": 16,
             "medianBgLightness": 11.4
           },
           {
             "index": 4,
-            "elements": 158,
+            "elements": 126,
             "chars": 261,
+            "inkRatio": 0.716,
             "maxFontPx": 16,
-            "medianBgLightness": 64.9
+            "medianBgLightness": 11.4
           },
           {
             "index": 5,
-            "elements": 67,
+            "elements": 63,
             "chars": 207,
+            "inkRatio": 0.182,
             "maxFontPx": 24,
             "medianBgLightness": 6.7
           }
@@ -388,10 +394,10 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2330,
+      "loadMs": 2305,
       "paint": {
         "fcpMs": 132,
-        "domInteractiveMs": 125,
+        "domInteractiveMs": 101,
         "transferBytes": 30962
       },
       "network": {
@@ -624,73 +630,83 @@
         "bands": [
           {
             "index": 0,
-            "elements": 215,
+            "elements": 189,
             "chars": 488,
+            "inkRatio": 2.22,
             "maxFontPx": 457.5,
             "medianBgLightness": 64.9
           },
           {
             "index": 1,
-            "elements": 84,
+            "elements": 68,
             "chars": 158,
+            "inkRatio": 0.902,
             "maxFontPx": 16,
             "medianBgLightness": 11.4
           },
           {
             "index": 2,
-            "elements": 85,
+            "elements": 69,
             "chars": 141,
+            "inkRatio": 1.277,
             "maxFontPx": 16,
             "medianBgLightness": 11.4
           },
           {
             "index": 3,
-            "elements": 72,
+            "elements": 60,
             "chars": 157,
+            "inkRatio": 0.508,
             "maxFontPx": 16,
-            "medianBgLightness": 64.9
+            "medianBgLightness": 11.4
           },
           {
             "index": 4,
-            "elements": 71,
+            "elements": 59,
             "chars": 102,
+            "inkRatio": 1.033,
             "maxFontPx": 16,
-            "medianBgLightness": 64.9
+            "medianBgLightness": 11.4
           },
           {
             "index": 5,
-            "elements": 120,
+            "elements": 96,
             "chars": 266,
+            "inkRatio": 0.808,
             "maxFontPx": 16,
             "medianBgLightness": 11.4
           },
           {
             "index": 6,
-            "elements": 75,
+            "elements": 59,
             "chars": 127,
+            "inkRatio": 1.002,
             "maxFontPx": 16,
             "medianBgLightness": 11.4
           },
           {
             "index": 7,
-            "elements": 92,
+            "elements": 76,
             "chars": 166,
+            "inkRatio": 0.859,
             "maxFontPx": 16,
             "medianBgLightness": 11.4
           },
           {
             "index": 8,
-            "elements": 108,
+            "elements": 88,
             "chars": 194,
+            "inkRatio": 1.156,
             "maxFontPx": 16,
-            "medianBgLightness": 64.9
+            "medianBgLightness": 11.4
           },
           {
             "index": 9,
-            "elements": 103,
+            "elements": 87,
             "chars": 215,
+            "inkRatio": 0.558,
             "maxFontPx": 24,
-            "medianBgLightness": 11.4
+            "medianBgLightness": 6.7
           }
         ],
         "shape": {

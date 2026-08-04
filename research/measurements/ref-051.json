@@ -3,14 +3,14 @@
   "category": "personal-craft",
   "role": "interaction engineer personal site",
   "urlHash": "6244d32bce46",
-  "measuredAt": "2026-08-04T22:08:12.547Z",
+  "measuredAt": "2026-08-04T22:41:31.662Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2438,
+      "loadMs": 2368,
       "paint": {
-        "fcpMs": 284,
-        "domInteractiveMs": 231,
+        "fcpMs": 188,
+        "domInteractiveMs": 161,
         "transferBytes": 6323
       },
       "network": {
@@ -21,13 +21,13 @@
             "requests": 1,
             "bytes": 0
           },
-          "font": {
-            "requests": 9,
-            "bytes": 1082076
-          },
           "stylesheet": {
             "requests": 8,
             "bytes": 597
+          },
+          "font": {
+            "requests": 9,
+            "bytes": 1082076
           },
           "script": {
             "requests": 40,
@@ -199,6 +199,7 @@
             "index": 0,
             "elements": 19,
             "chars": 343,
+            "inkRatio": 0.142,
             "maxFontPx": 16,
             "medianBgLightness": null
           },
@@ -206,6 +207,7 @@
             "index": 1,
             "elements": 25,
             "chars": 466,
+            "inkRatio": 0.215,
             "maxFontPx": 16,
             "medianBgLightness": null
           },
@@ -213,6 +215,7 @@
             "index": 2,
             "elements": 22,
             "chars": 381,
+            "inkRatio": 0.164,
             "maxFontPx": 16,
             "medianBgLightness": 12
           }
@@ -286,7 +289,7 @@
           "ctaCount": 2,
           "formFields": 1,
           "focusVisibleRules": 8,
-          "domNodes": 136,
+          "domNodes": 138,
           "textChars": 1308
         }
       },
@@ -335,10 +338,10 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2400,
+      "loadMs": 2372,
       "paint": {
-        "fcpMs": 212,
-        "domInteractiveMs": 197,
+        "fcpMs": 192,
+        "domInteractiveMs": 169,
         "transferBytes": 6323
       },
       "network": {
@@ -525,8 +528,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 19,
+            "elements": 17,
             "chars": 334,
+            "inkRatio": 0.387,
             "maxFontPx": 16,
             "medianBgLightness": null
           },
@@ -534,13 +538,15 @@
             "index": 1,
             "elements": 27,
             "chars": 475,
+            "inkRatio": 0.56,
             "maxFontPx": 16,
             "medianBgLightness": null
           },
           {
             "index": 2,
-            "elements": 23,
+            "elements": 22,
             "chars": 381,
+            "inkRatio": 0.463,
             "maxFontPx": 16,
             "medianBgLightness": 12
           }
@@ -610,7 +616,7 @@
           "ctaCount": 2,
           "formFields": 1,
           "focusVisibleRules": 8,
-          "domNodes": 138,
+          "domNodes": 137,
           "textChars": 1283
         }
       },

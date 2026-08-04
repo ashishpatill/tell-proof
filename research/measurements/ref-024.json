@@ -3,19 +3,19 @@
   "category": "ai-frontier",
   "role": "frontier model lab",
   "urlHash": "afe2508ac4ca",
-  "measuredAt": "2026-08-04T22:01:54.557Z",
+  "measuredAt": "2026-08-04T22:35:43.720Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2453,
+      "loadMs": 2469,
       "paint": {
-        "fcpMs": 184,
-        "domInteractiveMs": 223,
+        "fcpMs": 188,
+        "domInteractiveMs": 235,
         "transferBytes": 40717
       },
       "network": {
         "requests": 58,
-        "bytes": 1493524,
+        "bytes": 1493544,
         "byType": {
           "document": {
             "requests": 1,
@@ -23,7 +23,7 @@
           },
           "script": {
             "requests": 17,
-            "bytes": 327814
+            "bytes": 327834
           },
           "stylesheet": {
             "requests": 1,
@@ -183,35 +183,23 @@
           "textColors": [
             {
               "color": "rgb(20,20,19)",
-              "chars": 1342
+              "chars": 1183
             },
             {
               "color": "rgb(176,174,165)",
-              "chars": 1291
+              "chars": 1153
             },
             {
               "color": "rgb(250,249,245)",
-              "chars": 723
-            },
-            {
-              "color": "rgb(232,230,220)",
-              "chars": 198
-            },
-            {
-              "color": "rgb(255,255,255)",
-              "chars": 89
-            },
-            {
-              "color": "rgb(240,238,230)",
-              "chars": 41
+              "chars": 526
             }
           ],
           "distinctBackgrounds": 4,
-          "distinctTextColors": 7,
+          "distinctTextColors": 3,
           "distinctHues": 2,
-          "chromaticCount": 4,
+          "chromaticCount": 2,
           "maxSaturation": 29.1,
-          "medianNeutralHue": 49.1,
+          "medianNeutralHue": 60,
           "medianNeutralSat": 2.6,
           "pageBackground": {
             "h": 48,
@@ -220,8 +208,8 @@
           },
           "isDark": false,
           "gradientCount": 0,
-          "minTextContrast": 4.9,
-          "medianTextContrast": 15.87
+          "minTextContrast": 8.29,
+          "medianTextContrast": 8.29
         },
         "space": {
           "sectionPaddingTop": [],
@@ -289,29 +277,33 @@
         "bands": [
           {
             "index": 0,
-            "elements": 339,
-            "chars": 1249,
+            "elements": 143,
+            "chars": 423,
+            "inkRatio": 2.936,
             "maxFontPx": 60.9,
             "medianBgLightness": 7.6
           },
           {
             "index": 1,
-            "elements": 70,
+            "elements": 67,
             "chars": 711,
+            "inkRatio": 0.639,
             "maxFontPx": 24,
             "medianBgLightness": 84.5
           },
           {
             "index": 2,
-            "elements": 138,
+            "elements": 136,
             "chars": 574,
+            "inkRatio": 1.115,
             "maxFontPx": 24,
             "medianBgLightness": 7.6
           },
           {
             "index": 3,
-            "elements": 278,
+            "elements": 275,
             "chars": 1189,
+            "inkRatio": 0.109,
             "maxFontPx": 12,
             "medianBgLightness": null
           }
@@ -463,15 +455,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2464,
+      "loadMs": 2729,
       "paint": {
-        "fcpMs": 172,
-        "domInteractiveMs": 234,
+        "fcpMs": 204,
+        "domInteractiveMs": 249,
         "transferBytes": 40717
       },
       "network": {
         "requests": 58,
-        "bytes": 1493524,
+        "bytes": 1493534,
         "byType": {
           "document": {
             "requests": 1,
@@ -479,19 +471,19 @@
           },
           "script": {
             "requests": 17,
-            "bytes": 327814
+            "bytes": 327824
           },
           "stylesheet": {
             "requests": 1,
             "bytes": 0
           },
-          "fetch": {
-            "requests": 7,
-            "bytes": 42
-          },
           "font": {
             "requests": 3,
             "bytes": 359752
+          },
+          "fetch": {
+            "requests": 7,
+            "bytes": 42
           },
           "xhr": {
             "requests": 1,
@@ -640,36 +632,24 @@
           ],
           "textColors": [
             {
-              "color": "rgb(20,20,19)",
-              "chars": 1342
+              "color": "rgb(176,174,165)",
+              "chars": 1154
             },
             {
-              "color": "rgb(176,174,165)",
-              "chars": 1291
+              "color": "rgb(20,20,19)",
+              "chars": 1149
             },
             {
               "color": "rgb(250,249,245)",
-              "chars": 723
-            },
-            {
-              "color": "rgb(232,230,220)",
-              "chars": 198
-            },
-            {
-              "color": "rgb(255,255,255)",
-              "chars": 52
-            },
-            {
-              "color": "rgb(240,238,230)",
-              "chars": 41
+              "chars": 483
             }
           ],
           "distinctBackgrounds": 4,
-          "distinctTextColors": 7,
+          "distinctTextColors": 3,
           "distinctHues": 2,
-          "chromaticCount": 4,
+          "chromaticCount": 2,
           "maxSaturation": 29.1,
-          "medianNeutralHue": 49.1,
+          "medianNeutralHue": 60,
           "medianNeutralSat": 2.6,
           "pageBackground": {
             "h": 48,
@@ -678,8 +658,8 @@
           },
           "isDark": false,
           "gradientCount": 0,
-          "minTextContrast": 4.9,
-          "medianTextContrast": 15.87
+          "minTextContrast": 8.29,
+          "medianTextContrast": 8.29
         },
         "space": {
           "sectionPaddingTop": [],
@@ -739,15 +719,17 @@
         "bands": [
           {
             "index": 0,
-            "elements": 366,
-            "chars": 1234,
+            "elements": 93,
+            "chars": 369,
+            "inkRatio": 2.508,
             "maxFontPx": 40.3,
             "medianBgLightness": 7.6
           },
           {
             "index": 1,
-            "elements": 39,
+            "elements": 38,
             "chars": 371,
+            "inkRatio": 0.773,
             "maxFontPx": 27.3,
             "medianBgLightness": 84.5
           },
@@ -755,20 +737,23 @@
             "index": 2,
             "elements": 47,
             "chars": 461,
+            "inkRatio": 1.377,
             "maxFontPx": 24,
             "medianBgLightness": 7.6
           },
           {
             "index": 3,
-            "elements": 60,
+            "elements": 59,
             "chars": 329,
+            "inkRatio": 0.248,
             "maxFontPx": 24,
             "medianBgLightness": 7.6
           },
           {
             "index": 4,
-            "elements": 74,
+            "elements": 73,
             "chars": 263,
+            "inkRatio": 1.108,
             "maxFontPx": 20,
             "medianBgLightness": 7.6
           },
@@ -776,6 +761,7 @@
             "index": 5,
             "elements": 82,
             "chars": 296,
+            "inkRatio": 0.108,
             "maxFontPx": 12,
             "medianBgLightness": null
           },
@@ -783,13 +769,15 @@
             "index": 6,
             "elements": 80,
             "chars": 301,
+            "inkRatio": 0.121,
             "maxFontPx": 12,
             "medianBgLightness": null
           },
           {
             "index": 7,
-            "elements": 88,
+            "elements": 85,
             "chars": 431,
+            "inkRatio": 0.141,
             "maxFontPx": 12,
             "medianBgLightness": null
           }

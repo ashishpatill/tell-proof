@@ -3,14 +3,14 @@
   "category": "docs-product",
   "role": "framework documentation",
   "urlHash": "eb7997fa534a",
-  "measuredAt": "2026-08-04T22:06:40.342Z",
+  "measuredAt": "2026-08-04T22:40:01.119Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2502,
+      "loadMs": 2798,
       "paint": {
-        "fcpMs": 312,
-        "domInteractiveMs": 298,
+        "fcpMs": 548,
+        "domInteractiveMs": 533,
         "transferBytes": 33662
       },
       "network": {
@@ -210,27 +210,27 @@
           "textColors": [
             {
               "color": "rgb(102,102,102)",
-              "chars": 4827
+              "chars": 2607
             },
             {
               "color": "rgb(17,17,17)",
               "chars": 642
             },
             {
+              "color": "rgb(23,23,23)",
+              "chars": 228
+            },
+            {
               "color": "rgb(0,0,0)",
-              "chars": 585
+              "chars": 217
             },
             {
               "color": "rgb(255,255,255)",
-              "chars": 270
+              "chars": 142
             },
             {
-              "color": "rgb(23,23,23)",
-              "chars": 243
-            },
-            {
-              "color": "rgb(143,143,143)",
-              "chars": 46
+              "color": "rgb(145,98,192)",
+              "chars": 29
             }
           ],
           "distinctBackgrounds": 10,
@@ -329,43 +329,49 @@
         "bands": [
           {
             "index": 0,
-            "elements": 708,
-            "chars": 3075,
+            "elements": 62,
+            "chars": 301,
+            "inkRatio": 0.399,
             "maxFontPx": 72,
-            "medianBgLightness": 40
+            "medianBgLightness": 9
           },
           {
             "index": 1,
-            "elements": 255,
+            "elements": 215,
             "chars": 1211,
+            "inkRatio": 0.596,
             "maxFontPx": 32,
             "medianBgLightness": 40
           },
           {
             "index": 2,
-            "elements": 98,
+            "elements": 90,
             "chars": 726,
+            "inkRatio": 0.129,
             "maxFontPx": 32,
             "medianBgLightness": null
           },
           {
             "index": 3,
-            "elements": 48,
+            "elements": 47,
             "chars": 612,
+            "inkRatio": 0.248,
             "maxFontPx": 40,
             "medianBgLightness": 100
           },
           {
             "index": 4,
-            "elements": 68,
+            "elements": 67,
             "chars": 626,
+            "inkRatio": 0.383,
             "maxFontPx": 20,
             "medianBgLightness": 100
           },
           {
             "index": 5,
-            "elements": 83,
+            "elements": 82,
             "chars": 493,
+            "inkRatio": 0.076,
             "maxFontPx": 16,
             "medianBgLightness": 91.8
           }
@@ -529,10 +535,10 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2392,
+      "loadMs": 2447,
       "paint": {
-        "fcpMs": 188,
-        "domInteractiveMs": 187,
+        "fcpMs": 252,
+        "domInteractiveMs": 244,
         "transferBytes": 33662
       },
       "network": {
@@ -728,31 +734,31 @@
           "textColors": [
             {
               "color": "rgb(102,102,102)",
-              "chars": 2313
+              "chars": 1728
             },
             {
               "color": "rgb(17,17,17)",
-              "chars": 642
-            },
-            {
-              "color": "rgb(0,0,0)",
-              "chars": 585
-            },
-            {
-              "color": "rgb(255,255,255)",
-              "chars": 270
+              "chars": 634
             },
             {
               "color": "rgb(23,23,23)",
-              "chars": 243
+              "chars": 217
             },
             {
-              "color": "rgb(234,234,234)",
-              "chars": 30
+              "color": "rgb(0,0,0)",
+              "chars": 217
+            },
+            {
+              "color": "rgb(255,255,255)",
+              "chars": 137
+            },
+            {
+              "color": "rgb(145,98,192)",
+              "chars": 29
             }
           ],
           "distinctBackgrounds": 10,
-          "distinctTextColors": 11,
+          "distinctTextColors": 10,
           "distinctHues": 4,
           "chromaticCount": 8,
           "maxSaturation": 79.8,
@@ -840,15 +846,17 @@
         "bands": [
           {
             "index": 0,
-            "elements": 759,
-            "chars": 1390,
+            "elements": 49,
+            "chars": 245,
+            "inkRatio": 0.546,
             "maxFontPx": 48,
-            "medianBgLightness": 40
+            "medianBgLightness": 9
           },
           {
             "index": 1,
-            "elements": 96,
+            "elements": 56,
             "chars": 161,
+            "inkRatio": 1.121,
             "maxFontPx": 20,
             "medianBgLightness": 100
           },
@@ -856,13 +864,15 @@
             "index": 2,
             "elements": 24,
             "chars": 318,
+            "inkRatio": 0.627,
             "maxFontPx": 20,
             "medianBgLightness": 100
           },
           {
             "index": 3,
-            "elements": 141,
+            "elements": 140,
             "chars": 171,
+            "inkRatio": 0.139,
             "maxFontPx": 24,
             "medianBgLightness": 40
           },
@@ -870,13 +880,15 @@
             "index": 4,
             "elements": 67,
             "chars": 491,
+            "inkRatio": 0.303,
             "maxFontPx": 24,
             "medianBgLightness": 91.8
           },
           {
             "index": 5,
-            "elements": 87,
+            "elements": 86,
             "chars": 917,
+            "inkRatio": 0.903,
             "maxFontPx": 24,
             "medianBgLightness": 100
           }

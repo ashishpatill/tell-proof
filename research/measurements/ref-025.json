@@ -3,19 +3,19 @@
   "category": "ai-frontier",
   "role": "frontier model lab",
   "urlHash": "04d39e8bd5d5",
-  "measuredAt": "2026-08-04T22:02:01.498Z",
+  "measuredAt": "2026-08-04T22:35:50.945Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10319,
+      "loadMs": 10314,
       "paint": {
         "fcpMs": null,
-        "domInteractiveMs": 111,
-        "transferBytes": 5847
+        "domInteractiveMs": 106,
+        "transferBytes": 5782
       },
       "network": {
         "requests": 16,
-        "bytes": 7571,
+        "bytes": 5232,
         "byType": {
           "document": {
             "requests": 3,
@@ -35,7 +35,7 @@
           },
           "image": {
             "requests": 1,
-            "bytes": 6115
+            "bytes": 3776
           }
         },
         "fontFiles": 0,
@@ -86,19 +86,14 @@
         },
         "color": {
           "backgrounds": [],
-          "textColors": [
-            {
-              "color": "rgb(142,142,160)",
-              "chars": 58
-            }
-          ],
+          "textColors": [],
           "distinctBackgrounds": 0,
-          "distinctTextColors": 1,
+          "distinctTextColors": 0,
           "distinctHues": 0,
           "chromaticCount": 0,
           "maxSaturation": 0,
-          "medianNeutralHue": 240,
-          "medianNeutralSat": 8.7,
+          "medianNeutralHue": null,
+          "medianNeutralSat": null,
           "pageBackground": {
             "h": 0,
             "s": 0,
@@ -106,8 +101,8 @@
           },
           "isDark": true,
           "gradientCount": 0,
-          "minTextContrast": 3.22,
-          "medianTextContrast": 3.22
+          "minTextContrast": null,
+          "medianTextContrast": null
         },
         "space": {
           "sectionPaddingTop": [],
@@ -154,16 +149,18 @@
         "bands": [
           {
             "index": 0,
-            "elements": 6,
-            "chars": 58,
+            "elements": 5,
+            "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 16,
             "medianBgLightness": null
           },
           {
             "index": 1,
-            "elements": 7,
+            "elements": 5,
             "chars": 0,
-            "maxFontPx": 24,
+            "inkRatio": 0,
+            "maxFontPx": 16,
             "medianBgLightness": null
           }
         ],
@@ -267,15 +264,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10288,
+      "loadMs": 10289,
       "paint": {
         "fcpMs": null,
-        "domInteractiveMs": 81,
-        "transferBytes": 5872
+        "domInteractiveMs": 84,
+        "transferBytes": 5829
       },
       "network": {
         "requests": 16,
-        "bytes": 7212,
+        "bytes": 1896,
         "byType": {
           "document": {
             "requests": 3,
@@ -295,7 +292,7 @@
           },
           "image": {
             "requests": 1,
-            "bytes": 5756
+            "bytes": 440
           }
         },
         "fontFiles": 0,
@@ -346,19 +343,14 @@
         },
         "color": {
           "backgrounds": [],
-          "textColors": [
-            {
-              "color": "rgb(142,142,160)",
-              "chars": 58
-            }
-          ],
+          "textColors": [],
           "distinctBackgrounds": 0,
-          "distinctTextColors": 1,
+          "distinctTextColors": 0,
           "distinctHues": 0,
           "chromaticCount": 0,
           "maxSaturation": 0,
-          "medianNeutralHue": 240,
-          "medianNeutralSat": 8.7,
+          "medianNeutralHue": null,
+          "medianNeutralSat": null,
           "pageBackground": {
             "h": 0,
             "s": 0,
@@ -366,8 +358,8 @@
           },
           "isDark": true,
           "gradientCount": 0,
-          "minTextContrast": 3.22,
-          "medianTextContrast": 3.22
+          "minTextContrast": null,
+          "medianTextContrast": null
         },
         "space": {
           "sectionPaddingTop": [],
@@ -414,16 +406,18 @@
         "bands": [
           {
             "index": 0,
-            "elements": 6,
-            "chars": 58,
+            "elements": 5,
+            "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 16,
             "medianBgLightness": null
           },
           {
             "index": 1,
-            "elements": 7,
+            "elements": 5,
             "chars": 0,
-            "maxFontPx": 24,
+            "inkRatio": 0,
+            "maxFontPx": 16,
             "medianBgLightness": null
           }
         ],

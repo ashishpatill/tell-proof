@@ -3,19 +3,19 @@
   "category": "premium-b2b-saas",
   "role": "presentation product",
   "urlHash": "d8b211954adc",
-  "measuredAt": "2026-08-04T22:00:43.739Z",
+  "measuredAt": "2026-08-04T22:34:27.094Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2764,
+      "loadMs": 2855,
       "paint": {
-        "fcpMs": 332,
-        "domInteractiveMs": 375,
+        "fcpMs": 264,
+        "domInteractiveMs": 358,
         "transferBytes": 91295
       },
       "network": {
         "requests": 148,
-        "bytes": 1281380,
+        "bytes": 1345988,
         "byType": {
           "document": {
             "requests": 2,
@@ -31,19 +31,19 @@
           },
           "script": {
             "requests": 34,
-            "bytes": 988304
+            "bytes": 1052912
           },
           "fetch": {
             "requests": 10,
             "bytes": 825
           },
-          "xhr": {
-            "requests": 3,
-            "bytes": 3
-          },
           "ping": {
             "requests": 3,
             "bytes": 0
+          },
+          "xhr": {
+            "requests": 3,
+            "bytes": 3
           }
         },
         "fontFiles": 7,
@@ -321,8 +321,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 197,
+            "elements": 192,
             "chars": 314,
+            "inkRatio": 2.156,
             "maxFontPx": 180,
             "medianBgLightness": 5.9
           },
@@ -330,6 +331,7 @@
             "index": 1,
             "elements": 46,
             "chars": 449,
+            "inkRatio": 0.068,
             "maxFontPx": 32,
             "medianBgLightness": 50.8
           },
@@ -337,6 +339,7 @@
             "index": 2,
             "elements": 20,
             "chars": 361,
+            "inkRatio": 0.058,
             "maxFontPx": 32,
             "medianBgLightness": 50.8
           },
@@ -344,6 +347,7 @@
             "index": 3,
             "elements": 146,
             "chars": 520,
+            "inkRatio": 1.947,
             "maxFontPx": 64,
             "medianBgLightness": 82.4
           },
@@ -351,6 +355,7 @@
             "index": 4,
             "elements": 202,
             "chars": 2253,
+            "inkRatio": 0.598,
             "maxFontPx": 32,
             "medianBgLightness": 100
           },
@@ -358,34 +363,39 @@
             "index": 5,
             "elements": 75,
             "chars": 1086,
+            "inkRatio": 0.187,
             "maxFontPx": 48,
             "medianBgLightness": 5.9
           },
           {
             "index": 6,
-            "elements": 65,
+            "elements": 64,
             "chars": 110,
+            "inkRatio": 0.535,
             "maxFontPx": 48,
             "medianBgLightness": 5.9
           },
           {
             "index": 7,
-            "elements": 90,
+            "elements": 88,
             "chars": 582,
+            "inkRatio": 1.644,
             "maxFontPx": 92,
             "medianBgLightness": 5.9
           },
           {
             "index": 8,
-            "elements": 123,
+            "elements": 115,
             "chars": 1053,
+            "inkRatio": 0.893,
             "maxFontPx": 64,
             "medianBgLightness": 50.8
           },
           {
             "index": 9,
-            "elements": 235,
+            "elements": 229,
             "chars": 651,
+            "inkRatio": 2.379,
             "maxFontPx": 48,
             "medianBgLightness": 5.9
           }
@@ -543,7 +553,7 @@
           "images": 95,
           "svgInline": 11,
           "videos": 0,
-          "imageAreaRatio": 1.6413,
+          "imageAreaRatio": 1.6412,
           "altCoverage": 0.979,
           "lazyCoverage": 0.453,
           "modernFormats": 0
@@ -552,15 +562,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2702,
+      "loadMs": 2657,
       "paint": {
-        "fcpMs": 288,
-        "domInteractiveMs": 364,
+        "fcpMs": 272,
+        "domInteractiveMs": 356,
         "transferBytes": 91295
       },
       "network": {
         "requests": 148,
-        "bytes": 1685357,
+        "bytes": 1685389,
         "byType": {
           "document": {
             "requests": 2,
@@ -576,7 +586,7 @@
           },
           "script": {
             "requests": 34,
-            "bytes": 1052952
+            "bytes": 1052984
           },
           "fetch": {
             "requests": 10,
@@ -586,13 +596,13 @@
             "requests": 1,
             "bytes": 366709
           },
-          "xhr": {
-            "requests": 3,
-            "bytes": 3
-          },
           "ping": {
             "requests": 3,
             "bytes": 0
+          },
+          "xhr": {
+            "requests": 3,
+            "bytes": 3
           }
         },
         "fontFiles": 6,
@@ -867,8 +877,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 180,
+            "elements": 175,
             "chars": 368,
+            "inkRatio": 2.179,
             "maxFontPx": 82,
             "medianBgLightness": 5.9
           },
@@ -876,6 +887,7 @@
             "index": 1,
             "elements": 85,
             "chars": 581,
+            "inkRatio": 0.239,
             "maxFontPx": 24,
             "medianBgLightness": 50.8
           },
@@ -883,6 +895,7 @@
             "index": 2,
             "elements": 117,
             "chars": 480,
+            "inkRatio": 0.349,
             "maxFontPx": 52,
             "medianBgLightness": 50.8
           },
@@ -890,6 +903,7 @@
             "index": 3,
             "elements": 156,
             "chars": 1485,
+            "inkRatio": 2.828,
             "maxFontPx": 32,
             "medianBgLightness": 22.2
           },
@@ -897,6 +911,7 @@
             "index": 4,
             "elements": 145,
             "chars": 1346,
+            "inkRatio": 1.109,
             "maxFontPx": 32,
             "medianBgLightness": 82.4
           },
@@ -904,34 +919,39 @@
             "index": 5,
             "elements": 46,
             "chars": 731,
+            "inkRatio": 0.333,
             "maxFontPx": 24,
             "medianBgLightness": null
           },
           {
             "index": 6,
-            "elements": 81,
+            "elements": 80,
             "chars": 294,
+            "inkRatio": 1.489,
             "maxFontPx": 32,
             "medianBgLightness": 5.9
           },
           {
             "index": 7,
-            "elements": 110,
+            "elements": 108,
             "chars": 404,
+            "inkRatio": 0.983,
             "maxFontPx": 52,
             "medianBgLightness": 5.9
           },
           {
             "index": 8,
-            "elements": 87,
+            "elements": 73,
             "chars": 1047,
+            "inkRatio": 3.333,
             "maxFontPx": 40,
             "medianBgLightness": 50.8
           },
           {
             "index": 9,
-            "elements": 212,
+            "elements": 209,
             "chars": 605,
+            "inkRatio": 0.2,
             "maxFontPx": 20,
             "medianBgLightness": 94.3
           }

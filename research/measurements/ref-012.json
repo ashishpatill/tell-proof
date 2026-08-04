@@ -3,51 +3,51 @@
   "category": "design-tool",
   "role": "design platform",
   "urlHash": "68fedf649248",
-  "measuredAt": "2026-08-04T21:58:29.069Z",
+  "measuredAt": "2026-08-04T22:32:08.561Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10474,
+      "loadMs": 10451,
       "paint": {
-        "fcpMs": 276,
-        "domInteractiveMs": 272,
+        "fcpMs": 244,
+        "domInteractiveMs": 249,
         "transferBytes": 184468
       },
       "network": {
-        "requests": 320,
-        "bytes": 13164994,
+        "requests": 312,
+        "bytes": 13178162,
         "byType": {
           "document": {
             "requests": 18,
-            "bytes": 10294
-          },
-          "stylesheet": {
-            "requests": 13,
-            "bytes": 311081
+            "bytes": 10290
           },
           "other": {
             "requests": 3,
             "bytes": 30008
           },
-          "script": {
-            "requests": 107,
-            "bytes": 5531591
+          "stylesheet": {
+            "requests": 13,
+            "bytes": 311081
           },
           "font": {
             "requests": 1,
             "bytes": 315460
           },
+          "script": {
+            "requests": 104,
+            "bytes": 5528842
+          },
           "image": {
             "requests": 86,
-            "bytes": 967426
+            "bytes": 984651
           },
           "fetch": {
-            "requests": 62,
-            "bytes": 35301
+            "requests": 58,
+            "bytes": 34053
           },
           "xhr": {
-            "requests": 29,
-            "bytes": 5963833
+            "requests": 28,
+            "bytes": 5963777
           },
           "ping": {
             "requests": 1,
@@ -191,11 +191,11 @@
           "textColors": [
             {
               "color": "rgb(0,0,0)",
-              "chars": 1720
+              "chars": 1057
             },
             {
               "color": "rgb(255,255,255)",
-              "chars": 810
+              "chars": 768
             }
           ],
           "distinctBackgrounds": 3,
@@ -301,8 +301,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 432,
-            "chars": 1581,
+            "elements": 92,
+            "chars": 209,
+            "inkRatio": 2.344,
             "maxFontPx": 56,
             "medianBgLightness": 100
           },
@@ -310,6 +311,7 @@
             "index": 1,
             "elements": 21,
             "chars": 116,
+            "inkRatio": 1.046,
             "maxFontPx": 30,
             "medianBgLightness": 0
           },
@@ -317,13 +319,15 @@
             "index": 2,
             "elements": 45,
             "chars": 373,
+            "inkRatio": 1.105,
             "maxFontPx": 30,
             "medianBgLightness": 100
           },
           {
             "index": 3,
-            "elements": 37,
+            "elements": 34,
             "chars": 115,
+            "inkRatio": 1.044,
             "maxFontPx": 30,
             "medianBgLightness": 100
           },
@@ -331,6 +335,7 @@
             "index": 4,
             "elements": 45,
             "chars": 0,
+            "inkRatio": 0.004,
             "maxFontPx": 18,
             "medianBgLightness": 0
           },
@@ -338,13 +343,15 @@
             "index": 5,
             "elements": 23,
             "chars": 140,
+            "inkRatio": 1.076,
             "maxFontPx": 30,
             "medianBgLightness": 0
           },
           {
             "index": 6,
-            "elements": 47,
+            "elements": 45,
             "chars": 327,
+            "inkRatio": 0.956,
             "maxFontPx": 88,
             "medianBgLightness": 100
           },
@@ -352,20 +359,23 @@
             "index": 7,
             "elements": 144,
             "chars": 201,
+            "inkRatio": 1.71,
             "maxFontPx": 56,
             "medianBgLightness": 0
           },
           {
             "index": 8,
-            "elements": 206,
+            "elements": 196,
             "chars": 358,
+            "inkRatio": 1.04,
             "maxFontPx": 44,
             "medianBgLightness": 0
           },
           {
             "index": 9,
-            "elements": 141,
+            "elements": 140,
             "chars": 555,
+            "inkRatio": 0.07,
             "maxFontPx": 18,
             "medianBgLightness": null
           }
@@ -518,7 +528,7 @@
           "asymmetricGrids": 4,
           "asymmetryRatio": 0.308,
           "fullBleed": 15,
-          "aboveFoldElements": 84,
+          "aboveFoldElements": 89,
           "aboveFoldTextChars": 272,
           "aboveFoldInkRatio": 1,
           "stickyElements": 4,
@@ -537,47 +547,47 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10303,
+      "loadMs": 10300,
       "paint": {
-        "fcpMs": 128,
-        "domInteractiveMs": 101,
+        "fcpMs": 120,
+        "domInteractiveMs": 98,
         "transferBytes": 184468
       },
       "network": {
-        "requests": 313,
-        "bytes": 11519300,
+        "requests": 318,
+        "bytes": 13124455,
         "byType": {
           "document": {
             "requests": 18,
-            "bytes": 10283
+            "bytes": 10290
           },
           "stylesheet": {
             "requests": 13,
             "bytes": 311081
           },
-          "other": {
-            "requests": 3,
-            "bytes": 30008
-          },
           "font": {
             "requests": 1,
             "bytes": 315460
           },
+          "other": {
+            "requests": 3,
+            "bytes": 30008
+          },
           "script": {
             "requests": 104,
-            "bytes": 5532110
+            "bytes": 5534207
           },
           "image": {
-            "requests": 80,
-            "bytes": 465631
+            "requests": 83,
+            "bytes": 465673
           },
           "fetch": {
             "requests": 64,
-            "bytes": 35348
+            "bytes": 35385
           },
           "xhr": {
-            "requests": 29,
-            "bytes": 4819379
+            "requests": 31,
+            "bytes": 6422351
           },
           "ping": {
             "requests": 1,
@@ -721,11 +731,11 @@
           "textColors": [
             {
               "color": "rgb(0,0,0)",
-              "chars": 1720
+              "chars": 996
             },
             {
               "color": "rgb(255,255,255)",
-              "chars": 810
+              "chars": 768
             }
           ],
           "distinctBackgrounds": 3,
@@ -822,22 +832,25 @@
         "bands": [
           {
             "index": 0,
-            "elements": 427,
-            "chars": 1639,
+            "elements": 62,
+            "chars": 206,
+            "inkRatio": 3.208,
             "maxFontPx": 36,
-            "medianBgLightness": 100
+            "medianBgLightness": 0
           },
           {
             "index": 1,
             "elements": 55,
             "chars": 431,
+            "inkRatio": 0.952,
             "maxFontPx": 24,
             "medianBgLightness": 100
           },
           {
             "index": 2,
-            "elements": 48,
+            "elements": 45,
             "chars": 115,
+            "inkRatio": 1.121,
             "maxFontPx": 24,
             "medianBgLightness": 100
           },
@@ -845,13 +858,15 @@
             "index": 3,
             "elements": 45,
             "chars": 0,
+            "inkRatio": 0.016,
             "maxFontPx": 18,
             "medianBgLightness": 0
           },
           {
             "index": 4,
-            "elements": 44,
+            "elements": 42,
             "chars": 383,
+            "inkRatio": 2.057,
             "maxFontPx": 32,
             "medianBgLightness": 0
           },
@@ -859,13 +874,15 @@
             "index": 5,
             "elements": 136,
             "chars": 173,
+            "inkRatio": 0.64,
             "maxFontPx": 72,
             "medianBgLightness": 0
           },
           {
             "index": 6,
-            "elements": 158,
+            "elements": 148,
             "chars": 304,
+            "inkRatio": 2.033,
             "maxFontPx": 32,
             "medianBgLightness": 0
           },
@@ -873,6 +890,7 @@
             "index": 7,
             "elements": 85,
             "chars": 233,
+            "inkRatio": 0.204,
             "maxFontPx": 22,
             "medianBgLightness": null
           },
@@ -880,6 +898,7 @@
             "index": 8,
             "elements": 65,
             "chars": 248,
+            "inkRatio": 0.198,
             "maxFontPx": 22,
             "medianBgLightness": null
           },
@@ -887,6 +906,7 @@
             "index": 9,
             "elements": 67,
             "chars": 240,
+            "inkRatio": 0.187,
             "maxFontPx": 22,
             "medianBgLightness": null
           }
@@ -984,7 +1004,7 @@
           "ctaCount": 9,
           "formFields": 0,
           "focusVisibleRules": 7,
-          "domNodes": 1420,
+          "domNodes": 1419,
           "textChars": 2472
         }
       },

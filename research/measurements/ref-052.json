@@ -3,14 +3,14 @@
   "category": "personal-craft",
   "role": "designer personal site",
   "urlHash": "de1a2f903d69",
-  "measuredAt": "2026-08-04T22:08:19.333Z",
+  "measuredAt": "2026-08-04T22:41:38.323Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2398,
+      "loadMs": 2395,
       "paint": {
-        "fcpMs": 172,
-        "domInteractiveMs": 94,
+        "fcpMs": 180,
+        "domInteractiveMs": 105,
         "transferBytes": 3014
       },
       "network": {
@@ -216,6 +216,7 @@
             "index": 0,
             "elements": 67,
             "chars": 598,
+            "inkRatio": 0.165,
             "maxFontPx": 17,
             "medianBgLightness": 22.7
           },
@@ -223,6 +224,7 @@
             "index": 1,
             "elements": 23,
             "chars": 653,
+            "inkRatio": 0.273,
             "maxFontPx": 17,
             "medianBgLightness": 100
           }
@@ -346,10 +348,10 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2390,
+      "loadMs": 2383,
       "paint": {
-        "fcpMs": 208,
-        "domInteractiveMs": 83,
+        "fcpMs": 156,
+        "domInteractiveMs": 87,
         "transferBytes": 3014
       },
       "network": {
@@ -389,7 +391,7 @@
           "families": [
             {
               "family": "Sohne",
-              "area": 132757
+              "area": 130905
             },
             {
               "family": "Newsreader",
@@ -420,7 +422,7 @@
             },
             {
               "px": 14,
-              "area": 5116
+              "area": 3263
             }
           ],
           "stepRatios": [
@@ -481,7 +483,7 @@
             },
             {
               "color": "rgb(0,0,0)",
-              "chars": 35
+              "chars": 14
             }
           ],
           "distinctBackgrounds": 1,
@@ -550,13 +552,15 @@
             "index": 0,
             "elements": 67,
             "chars": 598,
+            "inkRatio": 0.536,
             "maxFontPx": 17,
             "medianBgLightness": 22.7
           },
           {
             "index": 1,
             "elements": 23,
-            "chars": 653,
+            "chars": 632,
+            "inkRatio": 0.689,
             "maxFontPx": 17,
             "medianBgLightness": 100
           }
@@ -627,7 +631,7 @@
           "formFields": 0,
           "focusVisibleRules": 0,
           "domNodes": 148,
-          "textChars": 1297
+          "textChars": 1276
         }
       },
       "afterScroll": {
@@ -657,8 +661,8 @@
           "asymmetryRatio": null,
           "fullBleed": 3,
           "aboveFoldElements": 29,
-          "aboveFoldTextChars": 653,
-          "aboveFoldInkRatio": 0.65,
+          "aboveFoldTextChars": 632,
+          "aboveFoldInkRatio": 0.643,
           "stickyElements": 1,
           "documentHeightVh": 1.87
         },

@@ -3,14 +3,14 @@
   "category": "dev-infra",
   "role": "email infrastructure",
   "urlHash": "4350554459a1",
-  "measuredAt": "2026-08-04T21:59:45.115Z",
+  "measuredAt": "2026-08-04T22:33:22.698Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 5540,
+      "loadMs": 5924,
       "paint": {
         "fcpMs": 432,
-        "domInteractiveMs": 275,
+        "domInteractiveMs": 273,
         "transferBytes": 62475
       },
       "network": {
@@ -29,13 +29,13 @@
             "requests": 8,
             "bytes": 637343
           },
-          "image": {
-            "requests": 51,
-            "bytes": 6187378
-          },
           "script": {
             "requests": 72,
             "bytes": 858
+          },
+          "image": {
+            "requests": 51,
+            "bytes": 6187378
           },
           "other": {
             "requests": 1,
@@ -62,7 +62,7 @@
           "families": [
             {
               "family": "inter",
-              "area": 1264288
+              "area": 1265081
             },
             {
               "family": "aBCFavorit",
@@ -99,7 +99,7 @@
           "topSizesByArea": [
             {
               "px": 14,
-              "area": 1073570
+              "area": 1074364
             },
             {
               "px": 56,
@@ -220,7 +220,7 @@
           "textColors": [
             {
               "color": "rgb(161,164,165)",
-              "chars": 11580
+              "chars": 11566
             },
             {
               "color": "rgb(240,240,240)",
@@ -360,71 +360,81 @@
         "bands": [
           {
             "index": 0,
-            "elements": 169,
-            "chars": 322,
+            "elements": 63,
+            "chars": 308,
+            "inkRatio": 1.123,
             "maxFontPx": 96,
             "medianBgLightness": 6.1
           },
           {
             "index": 1,
-            "elements": 378,
+            "elements": 364,
             "chars": 532,
+            "inkRatio": 0.42,
             "maxFontPx": 56,
             "medianBgLightness": 0
           },
           {
             "index": 2,
             "elements": 226,
-            "chars": 1244,
+            "chars": 1257,
+            "inkRatio": 0.319,
             "maxFontPx": 56,
             "medianBgLightness": null
           },
           {
             "index": 3,
-            "elements": 103,
-            "chars": 505,
+            "elements": 107,
+            "chars": 501,
+            "inkRatio": 0.432,
             "maxFontPx": 56,
             "medianBgLightness": 100
           },
           {
             "index": 4,
-            "elements": 32,
+            "elements": 31,
             "chars": 463,
+            "inkRatio": 0.125,
             "maxFontPx": 56,
             "medianBgLightness": null
           },
           {
             "index": 5,
-            "elements": 539,
+            "elements": 494,
             "chars": 1705,
+            "inkRatio": 0.593,
             "maxFontPx": 56,
             "medianBgLightness": 0
           },
           {
             "index": 6,
-            "elements": 243,
+            "elements": 217,
             "chars": 1734,
+            "inkRatio": 0.223,
             "maxFontPx": 56,
             "medianBgLightness": null
           },
           {
             "index": 7,
-            "elements": 49,
+            "elements": 48,
             "chars": 399,
+            "inkRatio": 0.241,
             "maxFontPx": 56,
             "medianBgLightness": 0
           },
           {
             "index": 8,
-            "elements": 595,
+            "elements": 594,
             "chars": 9094,
+            "inkRatio": 0.966,
             "maxFontPx": 56,
             "medianBgLightness": null
           },
           {
             "index": 9,
-            "elements": 113,
+            "elements": 108,
             "chars": 404,
+            "inkRatio": 0.653,
             "maxFontPx": 76.8,
             "medianBgLightness": 0
           }
@@ -469,7 +479,7 @@
           "maxRadius": 24,
           "pillCount": 254,
           "shadowElements": 88,
-          "shadowRatio": 0.036,
+          "shadowRatio": 0.034,
           "medianShadowAlpha": 0,
           "medianShadowBlur": 0,
           "distinctShadows": 4,
@@ -478,7 +488,7 @@
         },
         "motion": {
           "transitionElements": 136,
-          "transitionRatio": 0.056,
+          "transitionRatio": 0.053,
           "medianDurationMs": 200,
           "p90DurationMs": 200,
           "topEasings": [
@@ -530,20 +540,20 @@
           "ctaCount": 8,
           "formFields": 3,
           "focusVisibleRules": 8,
-          "domNodes": 2658,
-          "textChars": 17403
+          "domNodes": 2760,
+          "textChars": 17412
         }
       },
       "afterScroll": {
         "motion": {
-          "transitionElements": 135,
-          "transitionRatio": 0.055,
+          "transitionElements": 136,
+          "transitionRatio": 0.053,
           "medianDurationMs": 200,
           "p90DurationMs": 200,
           "topEasings": [
             {
               "value": "cubic-bezier(0.4, 0, 0.2, 1)",
-              "count": 124
+              "count": 125
             },
             {
               "value": "cubic-bezier(0.4, 0, 1, 1)",
@@ -558,7 +568,7 @@
               "count": 1
             }
           ],
-          "animatedElements": 10,
+          "animatedElements": 11,
           "infiniteAnimations": 7,
           "reducedMotionRules": 1,
           "hasVideo": 5,
@@ -566,7 +576,7 @@
           "hasWebGL": true
         },
         "layout": {
-          "sections": 16,
+          "sections": 17,
           "gridContainers": 7,
           "columnCounts": [
             {
@@ -589,17 +599,17 @@
           "asymmetricGrids": 0,
           "asymmetryRatio": 0,
           "fullBleed": 53,
-          "aboveFoldElements": 73,
-          "aboveFoldTextChars": 223,
+          "aboveFoldElements": 215,
+          "aboveFoldTextChars": 744,
           "aboveFoldInkRatio": 1,
-          "stickyElements": 3,
+          "stickyElements": 4,
           "documentHeightVh": 13.56
         },
         "media": {
           "images": 91,
           "svgInline": 103,
           "videos": 5,
-          "imageAreaRatio": 0.2234,
+          "imageAreaRatio": 0.2233,
           "altCoverage": 1,
           "lazyCoverage": 0.11,
           "modernFormats": 0.011
@@ -608,15 +618,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2756,
+      "loadMs": 7928,
       "paint": {
-        "fcpMs": 372,
-        "domInteractiveMs": 395,
+        "fcpMs": 2660,
+        "domInteractiveMs": 2645,
         "transferBytes": 62475
       },
       "network": {
-        "requests": 140,
-        "bytes": 6293221,
+        "requests": 152,
+        "bytes": 6293857,
         "byType": {
           "document": {
             "requests": 1,
@@ -630,21 +640,21 @@
             "requests": 8,
             "bytes": 637343
           },
-          "image": {
-            "requests": 40,
-            "bytes": 3389211
-          },
           "script": {
             "requests": 66,
             "bytes": 858
+          },
+          "image": {
+            "requests": 40,
+            "bytes": 3389211
           },
           "media": {
             "requests": 7,
             "bytes": 2264805
           },
           "fetch": {
-            "requests": 12,
-            "bytes": 0
+            "requests": 24,
+            "bytes": 636
           },
           "xhr": {
             "requests": 1,
@@ -652,14 +662,14 @@
           }
         },
         "fontFiles": 8,
-        "thirdPartyHosts": 3
+        "thirdPartyHosts": 4
       },
       "initial": {
         "typography": {
           "families": [
             {
               "family": "inter",
-              "area": 1213283
+              "area": 1212136
             },
             {
               "family": "aBCFavorit",
@@ -694,7 +704,7 @@
           "topSizesByArea": [
             {
               "px": 14,
-              "area": 1063251
+              "area": 1062104
             },
             {
               "px": 16,
@@ -809,7 +819,7 @@
           "textColors": [
             {
               "color": "rgb(161,164,165)",
-              "chars": 11565
+              "chars": 11512
             },
             {
               "color": "rgb(240,240,240)",
@@ -820,20 +830,20 @@
               "chars": 605
             },
             {
-              "color": "rgb(235,236,237)",
-              "chars": 551
-            },
-            {
               "color": "rgb(241,247,254)",
               "chars": 544
             },
             {
-              "color": "rgb(171,171,171)",
-              "chars": 530
+              "color": "rgb(229,237,253)",
+              "chars": 266
+            },
+            {
+              "color": "rgb(255,255,255)",
+              "chars": 216
             }
           ],
           "distinctBackgrounds": 12,
-          "distinctTextColors": 19,
+          "distinctTextColors": 18,
           "distinctHues": 9,
           "chromaticCount": 18,
           "maxSaturation": 100,
@@ -935,29 +945,33 @@
         "bands": [
           {
             "index": 0,
-            "elements": 932,
-            "chars": 1888,
+            "elements": 91,
+            "chars": 264,
+            "inkRatio": 1.293,
             "maxFontPx": 64,
-            "medianBgLightness": 94.1
+            "medianBgLightness": 0
           },
           {
             "index": 1,
-            "elements": 329,
+            "elements": 308,
             "chars": 800,
+            "inkRatio": 0.754,
             "maxFontPx": 48,
             "medianBgLightness": 0
           },
           {
             "index": 2,
-            "elements": 159,
-            "chars": 963,
+            "elements": 172,
+            "chars": 952,
+            "inkRatio": 0.551,
             "maxFontPx": 20,
             "medianBgLightness": null
           },
           {
             "index": 3,
-            "elements": 75,
-            "chars": 521,
+            "elements": 99,
+            "chars": 519,
+            "inkRatio": 0.852,
             "maxFontPx": 48,
             "medianBgLightness": 100
           },
@@ -965,13 +979,15 @@
             "index": 4,
             "elements": 29,
             "chars": 298,
+            "inkRatio": 0.141,
             "maxFontPx": 20,
             "medianBgLightness": null
           },
           {
             "index": 5,
-            "elements": 73,
+            "elements": 68,
             "chars": 504,
+            "inkRatio": 0.705,
             "maxFontPx": 48,
             "medianBgLightness": 62.9
           },
@@ -979,27 +995,31 @@
             "index": 6,
             "elements": 54,
             "chars": 1375,
+            "inkRatio": 0.519,
             "maxFontPx": 20,
             "medianBgLightness": null
           },
           {
             "index": 7,
-            "elements": 56,
+            "elements": 55,
             "chars": 399,
+            "inkRatio": 0.487,
             "maxFontPx": 48,
             "medianBgLightness": 0
           },
           {
             "index": 8,
-            "elements": 607,
+            "elements": 606,
             "chars": 9149,
+            "inkRatio": 3.315,
             "maxFontPx": 64,
             "medianBgLightness": null
           },
           {
             "index": 9,
-            "elements": 100,
+            "elements": 96,
             "chars": 349,
+            "inkRatio": 1.106,
             "maxFontPx": 16,
             "medianBgLightness": 0
           }
@@ -1044,7 +1064,7 @@
           "maxRadius": 24,
           "pillCount": 255,
           "shadowElements": 88,
-          "shadowRatio": 0.036,
+          "shadowRatio": 0.035,
           "medianShadowAlpha": 0,
           "medianShadowBlur": 0,
           "distinctShadows": 4,
@@ -1053,7 +1073,7 @@
         },
         "motion": {
           "transitionElements": 134,
-          "transitionRatio": 0.055,
+          "transitionRatio": 0.053,
           "medianDurationMs": 200,
           "p90DurationMs": 200,
           "topEasings": [
@@ -1105,14 +1125,14 @@
           "ctaCount": 7,
           "formFields": 3,
           "focusVisibleRules": 8,
-          "domNodes": 2648,
-          "textChars": 14985
+          "domNodes": 2761,
+          "textChars": 14972
         }
       },
       "afterScroll": {
         "motion": {
           "transitionElements": 134,
-          "transitionRatio": 0.055,
+          "transitionRatio": 0.052,
           "medianDurationMs": 200,
           "p90DurationMs": 200,
           "topEasings": [

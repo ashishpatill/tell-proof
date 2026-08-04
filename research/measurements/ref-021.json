@@ -3,15 +3,15 @@
   "category": "consumer-craft",
   "role": "browser product",
   "urlHash": "0b851f7076b1",
-  "measuredAt": "2026-08-04T22:01:14.977Z",
+  "measuredAt": "2026-08-04T22:34:58.283Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2482,
+      "loadMs": 2440,
       "paint": {
-        "fcpMs": 484,
-        "domInteractiveMs": 204,
-        "transferBytes": 158732
+        "fcpMs": 436,
+        "domInteractiveMs": 165,
+        "transferBytes": 158885
       },
       "network": {
         "requests": 71,
@@ -228,8 +228,8 @@
               "chars": 117
             },
             {
-              "color": "rgb(39,2,194)",
-              "chars": 88
+              "color": "rgb(255,255,255)",
+              "chars": 62
             }
           ],
           "distinctBackgrounds": 5,
@@ -301,22 +301,25 @@
         "bands": [
           {
             "index": 0,
-            "elements": 145,
-            "chars": 275,
+            "elements": 61,
+            "chars": 207,
+            "inkRatio": 2.917,
             "maxFontPx": 45.5,
-            "medianBgLightness": 58.8
+            "medianBgLightness": 96.3
           },
           {
             "index": 1,
-            "elements": 116,
+            "elements": 115,
             "chars": 899,
+            "inkRatio": 0.558,
             "maxFontPx": 45.5,
             "medianBgLightness": 38.4
           },
           {
             "index": 2,
-            "elements": 7,
+            "elements": 6,
             "chars": 128,
+            "inkRatio": 0.058,
             "maxFontPx": 40,
             "medianBgLightness": null
           },
@@ -324,6 +327,7 @@
             "index": 3,
             "elements": 8,
             "chars": 152,
+            "inkRatio": 0.044,
             "maxFontPx": 40,
             "medianBgLightness": null
           },
@@ -331,20 +335,23 @@
             "index": 4,
             "elements": 8,
             "chars": 77,
+            "inkRatio": 0.026,
             "maxFontPx": 40,
             "medianBgLightness": null
           },
           {
             "index": 5,
-            "elements": 7,
+            "elements": 6,
             "chars": 172,
+            "inkRatio": 0.062,
             "maxFontPx": 40,
             "medianBgLightness": null
           },
           {
             "index": 6,
-            "elements": 77,
+            "elements": 74,
             "chars": 523,
+            "inkRatio": 1.405,
             "maxFontPx": 28,
             "medianBgLightness": 100
           }
@@ -487,11 +494,11 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2456,
+      "loadMs": 2426,
       "paint": {
-        "fcpMs": 400,
-        "domInteractiveMs": 178,
-        "transferBytes": 158732
+        "fcpMs": 380,
+        "domInteractiveMs": 135,
+        "transferBytes": 158909
       },
       "network": {
         "requests": 51,
@@ -690,10 +697,6 @@
               "chars": 898
             },
             {
-              "color": "rgb(0,0,0)",
-              "chars": 435
-            },
-            {
               "color": "rgb(105,105,105)",
               "chars": 351
             },
@@ -706,8 +709,12 @@
               "chars": 123
             },
             {
+              "color": "rgb(0,0,0)",
+              "chars": 117
+            },
+            {
               "color": "rgb(39,2,194)",
-              "chars": 88
+              "chars": 40
             }
           ],
           "distinctBackgrounds": 5,
@@ -779,15 +786,17 @@
         "bands": [
           {
             "index": 0,
-            "elements": 182,
-            "chars": 736,
-            "maxFontPx": 45.5,
-            "medianBgLightness": 100
+            "elements": 54,
+            "chars": 319,
+            "inkRatio": 2.523,
+            "maxFontPx": 32,
+            "medianBgLightness": 0
           },
           {
             "index": 1,
             "elements": 111,
             "chars": 1024,
+            "inkRatio": 1.666,
             "maxFontPx": 27.2,
             "medianBgLightness": 96.3
           },
@@ -795,13 +804,15 @@
             "index": 2,
             "elements": 18,
             "chars": 283,
+            "inkRatio": 1.601,
             "maxFontPx": 28,
             "medianBgLightness": 58.8
           },
           {
             "index": 3,
-            "elements": 47,
+            "elements": 44,
             "chars": 171,
+            "inkRatio": 0.12,
             "maxFontPx": 16,
             "medianBgLightness": 100
           }

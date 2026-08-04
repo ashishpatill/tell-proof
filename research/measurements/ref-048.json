@@ -3,43 +3,43 @@
   "category": "art-directed-studio",
   "role": "creative technology studio",
   "urlHash": "b43a35afd2ff",
-  "measuredAt": "2026-08-04T22:07:17.420Z",
+  "measuredAt": "2026-08-04T22:40:38.380Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10871,
+      "loadMs": 10561,
       "paint": {
-        "fcpMs": 684,
-        "domInteractiveMs": 566,
-        "transferBytes": 7458
+        "fcpMs": 244,
+        "domInteractiveMs": 201,
+        "transferBytes": 7376
       },
       "network": {
-        "requests": 111,
-        "bytes": 25417673,
+        "requests": 112,
+        "bytes": 25077399,
         "byType": {
           "document": {
             "requests": 4,
-            "bytes": 5141
-          },
-          "script": {
-            "requests": 7,
-            "bytes": 475196
-          },
-          "fetch": {
-            "requests": 3,
-            "bytes": 602703
+            "bytes": 12217
           },
           "stylesheet": {
             "requests": 1,
-            "bytes": 0
+            "bytes": 14187
+          },
+          "script": {
+            "requests": 7,
+            "bytes": 475395
           },
           "image": {
             "requests": 47,
-            "bytes": 6140321
+            "bytes": 6139033
           },
           "font": {
             "requests": 6,
             "bytes": 188984
+          },
+          "fetch": {
+            "requests": 4,
+            "bytes": 602703
           },
           "xhr": {
             "requests": 39,
@@ -47,7 +47,7 @@
           },
           "media": {
             "requests": 4,
-            "bytes": 14613904
+            "bytes": 14253456
           }
         },
         "fontFiles": 6,
@@ -197,11 +197,11 @@
           "textColors": [
             {
               "color": "rgb(0,0,0)",
-              "chars": 1539
+              "chars": 1525
             },
             {
               "color": "rgb(255,255,255)",
-              "chars": 93
+              "chars": 85
             }
           ],
           "distinctBackgrounds": 7,
@@ -265,9 +265,9 @@
           "asymmetricGrids": 0,
           "asymmetryRatio": 0,
           "fullBleed": 19,
-          "aboveFoldElements": 124,
-          "aboveFoldTextChars": 193,
-          "aboveFoldInkRatio": 0.173,
+          "aboveFoldElements": 123,
+          "aboveFoldTextChars": 192,
+          "aboveFoldInkRatio": 0.168,
           "stickyElements": 5,
           "documentHeightVh": 1
         },
@@ -278,8 +278,8 @@
           "displayMeasureCh": 1.2,
           "displayWeight": "400",
           "displayLineHeight": 0.75,
-          "textBlocks": 34,
-          "totalChars": 193,
+          "textBlocks": 33,
+          "totalChars": 192,
           "ctaButtons": 0,
           "ctaHeights": [],
           "hasHeroMedia": true,
@@ -289,15 +289,17 @@
         "bands": [
           {
             "index": 0,
-            "elements": 112,
-            "chars": 173,
+            "elements": 70,
+            "chars": 151,
+            "inkRatio": 0.216,
             "maxFontPx": 36,
             "medianBgLightness": 0
           },
           {
             "index": 1,
-            "elements": 38,
-            "chars": 38,
+            "elements": 33,
+            "chars": 37,
+            "inkRatio": 0.12,
             "maxFontPx": 115.2,
             "medianBgLightness": 96.1
           }
@@ -477,15 +479,15 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10672,
+      "loadMs": 10504,
       "paint": {
-        "fcpMs": 1664,
-        "domInteractiveMs": 169,
+        "fcpMs": 1456,
+        "domInteractiveMs": 90,
         "transferBytes": 7409
       },
       "network": {
-        "requests": 111,
-        "bytes": 17335309,
+        "requests": 110,
+        "bytes": 14805164,
         "byType": {
           "document": {
             "requests": 3,
@@ -497,15 +499,15 @@
           },
           "script": {
             "requests": 7,
-            "bytes": 475340
+            "bytes": 475323
+          },
+          "image": {
+            "requests": 47,
+            "bytes": 6136092
           },
           "fetch": {
             "requests": 4,
             "bytes": 602703
-          },
-          "image": {
-            "requests": 47,
-            "bytes": 6136688
           },
           "font": {
             "requests": 6,
@@ -516,8 +518,8 @@
             "bytes": 3391424
           },
           "media": {
-            "requests": 4,
-            "bytes": 6513648
+            "requests": 3,
+            "bytes": 3984116
           }
         },
         "fontFiles": 6,
@@ -677,11 +679,11 @@
           "textColors": [
             {
               "color": "rgb(0,0,0)",
-              "chars": 1771
+              "chars": 1745
             },
             {
               "color": "rgb(255,255,255)",
-              "chars": 77
+              "chars": 59
             }
           ],
           "distinctBackgrounds": 7,
@@ -766,15 +768,17 @@
         "bands": [
           {
             "index": 0,
-            "elements": 118,
-            "chars": 176,
-            "maxFontPx": 38,
+            "elements": 57,
+            "chars": 132,
+            "inkRatio": 0.444,
+            "maxFontPx": 26,
             "medianBgLightness": 0
           },
           {
             "index": 1,
-            "elements": 31,
+            "elements": 29,
             "chars": 21,
+            "inkRatio": 0.117,
             "maxFontPx": 50.7,
             "medianBgLightness": null
           }

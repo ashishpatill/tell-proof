@@ -3,19 +3,19 @@
   "category": "dev-tool",
   "role": "AI code editor",
   "urlHash": "bbba856f6f33",
-  "measuredAt": "2026-08-04T22:02:24.007Z",
+  "measuredAt": "2026-08-04T22:36:13.453Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10441,
+      "loadMs": 10398,
       "paint": {
-        "fcpMs": 400,
-        "domInteractiveMs": 237,
-        "transferBytes": 62832
+        "fcpMs": 328,
+        "domInteractiveMs": 187,
+        "transferBytes": 73387
       },
       "network": {
         "requests": 175,
-        "bytes": 3836585,
+        "bytes": 3837704,
         "byType": {
           "document": {
             "requests": 7,
@@ -29,17 +29,17 @@
             "requests": 22,
             "bytes": 783304
           },
+          "script": {
+            "requests": 89,
+            "bytes": 1075215
+          },
           "image": {
             "requests": 27,
             "bytes": 1915259
           },
-          "script": {
-            "requests": 89,
-            "bytes": 1074098
-          },
           "fetch": {
             "requests": 17,
-            "bytes": 1284
+            "bytes": 1286
           },
           "media": {
             "requests": 1,
@@ -51,7 +51,7 @@
           }
         },
         "fontFiles": 22,
-        "thirdPartyHosts": 19
+        "thirdPartyHosts": 20
       },
       "initial": {
         "typography": {
@@ -205,7 +205,7 @@
             },
             {
               "color": "rgb(242,241,237)",
-              "area": 10921191
+              "area": 11044191
             },
             {
               "color": "rgb(217,213,207)",
@@ -235,7 +235,7 @@
           "textColors": [
             {
               "color": "rgb(38,37,30)",
-              "chars": 7562
+              "chars": 7523
             },
             {
               "color": "rgb(0,0,0)",
@@ -247,7 +247,7 @@
             },
             {
               "color": "rgb(247,247,244)",
-              "chars": 85
+              "chars": 61
             },
             {
               "color": "rgb(74,222,128)",
@@ -382,36 +382,41 @@
         "bands": [
           {
             "index": 0,
-            "elements": 512,
-            "chars": 3093,
-            "maxFontPx": 36,
+            "elements": 460,
+            "chars": 3030,
+            "inkRatio": 3.379,
+            "maxFontPx": 26,
             "medianBgLightness": 96.3
           },
           {
             "index": 1,
-            "elements": 215,
+            "elements": 284,
             "chars": 1215,
+            "inkRatio": 3.654,
             "maxFontPx": 22,
             "medianBgLightness": 93.9
           },
           {
             "index": 2,
-            "elements": 284,
+            "elements": 267,
             "chars": 1093,
+            "inkRatio": 2.916,
             "maxFontPx": 22,
             "medianBgLightness": 13.3
           },
           {
             "index": 3,
-            "elements": 249,
+            "elements": 245,
             "chars": 1269,
+            "inkRatio": 2.608,
             "maxFontPx": 22,
             "medianBgLightness": 13.3
           },
           {
             "index": 4,
-            "elements": 98,
+            "elements": 97,
             "chars": 607,
+            "inkRatio": 2.69,
             "maxFontPx": 22,
             "medianBgLightness": 100
           },
@@ -419,13 +424,15 @@
             "index": 5,
             "elements": 104,
             "chars": 1854,
+            "inkRatio": 2.234,
             "maxFontPx": 36,
             "medianBgLightness": 93.9
           },
           {
             "index": 6,
-            "elements": 210,
+            "elements": 209,
             "chars": 608,
+            "inkRatio": 2.305,
             "maxFontPx": 22,
             "medianBgLightness": 47.6
           },
@@ -433,6 +440,7 @@
             "index": 7,
             "elements": 100,
             "chars": 445,
+            "inkRatio": 0.708,
             "maxFontPx": 22,
             "medianBgLightness": 93.9
           },
@@ -440,6 +448,7 @@
             "index": 8,
             "elements": 113,
             "chars": 370,
+            "inkRatio": 1.091,
             "maxFontPx": 72,
             "medianBgLightness": 93.9
           }
@@ -448,7 +457,7 @@
           "radii": [
             {
               "value": 4,
-              "count": 140
+              "count": 148
             },
             {
               "value": 33554400,
@@ -492,14 +501,18 @@
           "borderedElements": 56
         },
         "motion": {
-          "transitionElements": 80,
-          "transitionRatio": 0.042,
+          "transitionElements": 88,
+          "transitionRatio": 0.045,
           "medianDurationMs": 150,
-          "p90DurationMs": 150,
+          "p90DurationMs": 550,
           "topEasings": [
             {
               "value": "cubic-bezier(0.4, 0, 0.2, 1)",
               "count": 74
+            },
+            {
+              "value": "ease-in-out",
+              "count": 8
             },
             {
               "value": "cubic-bezier(0.25, 1, 0.5, 1)",
@@ -507,10 +520,6 @@
             },
             {
               "value": "ease",
-              "count": 1
-            },
-            {
-              "value": "cubic-bezier(0.22, 1, 0.36, 1)",
               "count": 1
             }
           ],
@@ -522,12 +531,12 @@
           "hasWebGL": false
         },
         "media": {
-          "images": 28,
-          "svgInline": 52,
+          "images": 30,
+          "svgInline": 59,
           "videos": 1,
-          "imageAreaRatio": 0.3328,
+          "imageAreaRatio": 0.3331,
           "altCoverage": 1,
-          "lazyCoverage": 0.929,
+          "lazyCoverage": 0.933,
           "modernFormats": 0
         },
         "semantics": {
@@ -545,20 +554,24 @@
           "ctaCount": 14,
           "formFields": 3,
           "focusVisibleRules": 5,
-          "domNodes": 2241,
+          "domNodes": 2307,
           "textChars": 11158
         }
       },
       "afterScroll": {
         "motion": {
-          "transitionElements": 81,
-          "transitionRatio": 0.043,
+          "transitionElements": 89,
+          "transitionRatio": 0.045,
           "medianDurationMs": 150,
-          "p90DurationMs": 150,
+          "p90DurationMs": 550,
           "topEasings": [
             {
               "value": "cubic-bezier(0.4, 0, 0.2, 1)",
               "count": 75
+            },
+            {
+              "value": "ease-in-out",
+              "count": 8
             },
             {
               "value": "cubic-bezier(0.25, 1, 0.5, 1)",
@@ -566,10 +579,6 @@
             },
             {
               "value": "ease",
-              "count": 1
-            },
-            {
-              "value": "cubic-bezier(0.22, 1, 0.36, 1)",
               "count": 1
             }
           ],
@@ -619,63 +628,63 @@
           "documentHeightVh": 9.14
         },
         "media": {
-          "images": 28,
-          "svgInline": 52,
+          "images": 30,
+          "svgInline": 59,
           "videos": 1,
-          "imageAreaRatio": 0.3384,
+          "imageAreaRatio": 0.3387,
           "altCoverage": 1,
-          "lazyCoverage": 0.929,
+          "lazyCoverage": 0.933,
           "modernFormats": 0
         }
       }
     },
     {
       "viewport": "mobile",
-      "loadMs": 10366,
+      "loadMs": 10379,
       "paint": {
-        "fcpMs": 300,
-        "domInteractiveMs": 161,
-        "transferBytes": 73387
+        "fcpMs": 304,
+        "domInteractiveMs": 172,
+        "transferBytes": 62832
       },
       "network": {
-        "requests": 173,
-        "bytes": 3499709,
+        "requests": 177,
+        "bytes": 3497545,
         "byType": {
           "document": {
             "requests": 7,
             "bytes": 672
           },
-          "font": {
-            "requests": 22,
-            "bytes": 783304
-          },
           "stylesheet": {
             "requests": 4,
             "bytes": 0
           },
+          "font": {
+            "requests": 22,
+            "bytes": 783304
+          },
           "image": {
-            "requests": 24,
+            "requests": 23,
             "bytes": 1578513
           },
           "script": {
             "requests": 89,
-            "bytes": 1073966
+            "bytes": 1071804
           },
           "fetch": {
             "requests": 18,
-            "bytes": 1286
+            "bytes": 1284
           },
           "media": {
             "requests": 1,
             "bytes": 61968
           },
           "ping": {
-            "requests": 8,
+            "requests": 13,
             "bytes": 0
           }
         },
         "fontFiles": 22,
-        "thirdPartyHosts": 20
+        "thirdPartyHosts": 19
       },
       "initial": {
         "typography": {
@@ -690,7 +699,7 @@
             },
             {
               "family": "berkeleyMono",
-              "area": 110985
+              "area": 112346
             },
             {
               "family": "EB Garamond",
@@ -748,7 +757,7 @@
             },
             {
               "px": 12,
-              "area": 57283
+              "area": 58644
             },
             {
               "px": 33.8,
@@ -835,7 +844,7 @@
             },
             {
               "color": "rgb(247,247,244)",
-              "area": 6259575
+              "area": 6285717
             },
             {
               "color": "rgb(217,213,207)",
@@ -865,7 +874,7 @@
           "textColors": [
             {
               "color": "rgb(38,37,30)",
-              "chars": 7403
+              "chars": 6629
             },
             {
               "color": "rgb(0,0,0)",
@@ -877,7 +886,7 @@
             },
             {
               "color": "rgb(247,247,244)",
-              "chars": 77
+              "chars": 39
             },
             {
               "color": "rgb(74,222,128)",
@@ -976,12 +985,12 @@
           ],
           "asymmetricGrids": 6,
           "asymmetryRatio": 0.333,
-          "fullBleed": 91,
+          "fullBleed": 92,
           "aboveFoldElements": 462,
           "aboveFoldTextChars": 2947,
           "aboveFoldInkRatio": 1,
           "stickyElements": 7,
-          "documentHeightVh": 11.73
+          "documentHeightVh": 11.81
         },
         "hero": {
           "displayPx": 33.8,
@@ -1005,57 +1014,65 @@
         "bands": [
           {
             "index": 0,
-            "elements": 637,
-            "chars": 4030,
+            "elements": 501,
+            "chars": 3155,
+            "inkRatio": 4,
             "maxFontPx": 33.8,
-            "medianBgLightness": 96.3
+            "medianBgLightness": 92.2
           },
           {
             "index": 1,
-            "elements": 205,
-            "chars": 1201,
+            "elements": 174,
+            "chars": 1045,
+            "inkRatio": 4,
             "maxFontPx": 20,
             "medianBgLightness": 83.1
           },
           {
             "index": 2,
-            "elements": 240,
-            "chars": 783,
+            "elements": 222,
+            "chars": 930,
+            "inkRatio": 4,
             "maxFontPx": 15,
             "medianBgLightness": 13.3
           },
           {
             "index": 3,
-            "elements": 244,
-            "chars": 1240,
+            "elements": 246,
+            "chars": 1197,
+            "inkRatio": 4,
             "maxFontPx": 15,
-            "medianBgLightness": 91
+            "medianBgLightness": 89
           },
           {
             "index": 4,
-            "elements": 103,
-            "chars": 636,
+            "elements": 111,
+            "chars": 709,
+            "inkRatio": 3.277,
             "maxFontPx": 18,
             "medianBgLightness": 100
           },
           {
             "index": 5,
-            "elements": 40,
+            "elements": 39,
             "chars": 667,
+            "inkRatio": 1.804,
             "maxFontPx": 33.8,
             "medianBgLightness": 93.9
           },
           {
             "index": 6,
-            "elements": 150,
-            "chars": 610,
+            "elements": 141,
+            "chars": 584,
+            "inkRatio": 3.803,
             "maxFontPx": 20.6,
             "medianBgLightness": 63.7
           },
           {
             "index": 7,
-            "elements": 100,
-            "chars": 509,
+            "elements": 110,
+            "chars": 535,
+            "inkRatio": 1.826,
             "maxFontPx": 20.6,
             "medianBgLightness": 63.7
           },
@@ -1063,6 +1080,7 @@
             "index": 8,
             "elements": 110,
             "chars": 390,
+            "inkRatio": 2.399,
             "maxFontPx": 48.8,
             "medianBgLightness": 93.9
           },
@@ -1070,6 +1088,7 @@
             "index": 9,
             "elements": 95,
             "chars": 320,
+            "inkRatio": 0.253,
             "maxFontPx": 15,
             "medianBgLightness": 89
           }
@@ -1078,7 +1097,7 @@
           "radii": [
             {
               "value": 4,
-              "count": 149
+              "count": 141
             },
             {
               "value": 33554400,
@@ -1110,11 +1129,11 @@
             }
           ],
           "distinctRadii": 11,
-          "medianRadius": 4,
+          "medianRadius": 8,
           "maxRadius": 50,
           "pillCount": 80,
           "shadowElements": 14,
-          "shadowRatio": 0.007,
+          "shadowRatio": 0.008,
           "medianShadowAlpha": 0.14,
           "medianShadowBlur": 70,
           "distinctShadows": 8,
@@ -1122,18 +1141,14 @@
           "borderedElements": 54
         },
         "motion": {
-          "transitionElements": 72,
-          "transitionRatio": 0.037,
+          "transitionElements": 64,
+          "transitionRatio": 0.035,
           "medianDurationMs": 150,
-          "p90DurationMs": 600,
+          "p90DurationMs": 200,
           "topEasings": [
             {
               "value": "cubic-bezier(0.4, 0, 0.2, 1)",
               "count": 58
-            },
-            {
-              "value": "ease-in-out",
-              "count": 8
             },
             {
               "value": "cubic-bezier(0.25, 1, 0.5, 1)",
@@ -1141,6 +1156,10 @@
             },
             {
               "value": "ease",
+              "count": 1
+            },
+            {
+              "value": "cubic-bezier(0.22, 1, 0.36, 1)",
               "count": 1
             }
           ],
@@ -1152,12 +1171,12 @@
           "hasWebGL": false
         },
         "media": {
-          "images": 32,
-          "svgInline": 56,
+          "images": 28,
+          "svgInline": 51,
           "videos": 1,
-          "imageAreaRatio": 0.3453,
+          "imageAreaRatio": 0.3426,
           "altCoverage": 1,
-          "lazyCoverage": 0.938,
+          "lazyCoverage": 0.929,
           "modernFormats": 0
         },
         "semantics": {
@@ -1175,24 +1194,20 @@
           "ctaCount": 9,
           "formFields": 3,
           "focusVisibleRules": 5,
-          "domNodes": 2269,
-          "textChars": 10083
+          "domNodes": 2207,
+          "textChars": 10104
         }
       },
       "afterScroll": {
         "motion": {
-          "transitionElements": 73,
-          "transitionRatio": 0.038,
+          "transitionElements": 65,
+          "transitionRatio": 0.035,
           "medianDurationMs": 150,
-          "p90DurationMs": 600,
+          "p90DurationMs": 200,
           "topEasings": [
             {
               "value": "cubic-bezier(0.4, 0, 0.2, 1)",
               "count": 59
-            },
-            {
-              "value": "ease-in-out",
-              "count": 8
             },
             {
               "value": "cubic-bezier(0.25, 1, 0.5, 1)",
@@ -1200,6 +1215,10 @@
             },
             {
               "value": "ease",
+              "count": 1
+            },
+            {
+              "value": "cubic-bezier(0.22, 1, 0.36, 1)",
               "count": 1
             }
           ],
@@ -1233,20 +1252,20 @@
           ],
           "asymmetricGrids": 6,
           "asymmetryRatio": 0.333,
-          "fullBleed": 91,
-          "aboveFoldElements": 107,
-          "aboveFoldTextChars": 715,
+          "fullBleed": 92,
+          "aboveFoldElements": 99,
+          "aboveFoldTextChars": 734,
           "aboveFoldInkRatio": 1,
           "stickyElements": 7,
-          "documentHeightVh": 11.89
+          "documentHeightVh": 11.97
         },
         "media": {
-          "images": 32,
-          "svgInline": 56,
+          "images": 28,
+          "svgInline": 51,
           "videos": 1,
-          "imageAreaRatio": 0.3519,
+          "imageAreaRatio": 0.3492,
           "altCoverage": 1,
-          "lazyCoverage": 0.938,
+          "lazyCoverage": 0.929,
           "modernFormats": 0
         }
       }

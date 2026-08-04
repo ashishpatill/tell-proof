@@ -3,19 +3,19 @@
   "category": "capital-brand",
   "role": "venture firm",
   "urlHash": "28eae9d80dc6",
-  "measuredAt": "2026-08-04T22:03:16.986Z",
+  "measuredAt": "2026-08-04T22:37:06.929Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 11147,
+      "loadMs": 10873,
       "paint": {
-        "fcpMs": 620,
-        "domInteractiveMs": 608,
-        "transferBytes": 41469
+        "fcpMs": 488,
+        "domInteractiveMs": 477,
+        "transferBytes": 41552
       },
       "network": {
         "requests": 21,
-        "bytes": 29696726,
+        "bytes": 29694498,
         "byType": {
           "document": {
             "requests": 1,
@@ -23,23 +23,23 @@
           },
           "stylesheet": {
             "requests": 4,
-            "bytes": 683
+            "bytes": 1189
           },
           "script": {
             "requests": 11,
-            "bytes": 9454
+            "bytes": 6720
           },
           "media": {
             "requests": 1,
             "bytes": 29485891
           },
-          "image": {
-            "requests": 1,
-            "bytes": 119970
-          },
           "font": {
             "requests": 3,
             "bytes": 80728
+          },
+          "image": {
+            "requests": 1,
+            "bytes": 119970
           }
         },
         "fontFiles": 3,
@@ -136,21 +136,13 @@
             {
               "color": "rgb(255,255,255)",
               "chars": 129
-            },
-            {
-              "color": "rgb(17,24,39)",
-              "chars": 19
-            },
-            {
-              "color": "rgb(55,65,81)",
-              "chars": 1
             }
           ],
           "distinctBackgrounds": 1,
-          "distinctTextColors": 3,
-          "distinctHues": 2,
-          "chromaticCount": 2,
-          "maxSaturation": 39.3,
+          "distinctTextColors": 1,
+          "distinctHues": 0,
+          "chromaticCount": 0,
+          "maxSaturation": 0,
           "medianNeutralHue": 40,
           "medianNeutralSat": 3.9,
           "pageBackground": {
@@ -211,15 +203,17 @@
         "bands": [
           {
             "index": 0,
-            "elements": 190,
-            "chars": 20,
+            "elements": 23,
+            "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 16,
-            "medianBgLightness": 96.9
+            "medianBgLightness": null
           },
           {
             "index": 1,
             "elements": 64,
             "chars": 129,
+            "inkRatio": 0.035,
             "maxFontPx": 50,
             "medianBgLightness": 30.2
           }
@@ -358,11 +352,11 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10952,
+      "loadMs": 10983,
       "paint": {
-        "fcpMs": 548,
-        "domInteractiveMs": 545,
-        "transferBytes": 41603
+        "fcpMs": 720,
+        "domInteractiveMs": 717,
+        "transferBytes": 41628
       },
       "network": {
         "requests": 21,
@@ -481,21 +475,13 @@
             {
               "color": "rgb(255,255,255)",
               "chars": 129
-            },
-            {
-              "color": "rgb(17,24,39)",
-              "chars": 19
-            },
-            {
-              "color": "rgb(55,65,81)",
-              "chars": 1
             }
           ],
           "distinctBackgrounds": 1,
-          "distinctTextColors": 3,
-          "distinctHues": 2,
-          "chromaticCount": 2,
-          "maxSaturation": 39.3,
+          "distinctTextColors": 1,
+          "distinctHues": 0,
+          "chromaticCount": 0,
+          "maxSaturation": 0,
           "medianNeutralHue": 40,
           "medianNeutralSat": 3.9,
           "pageBackground": {
@@ -556,15 +542,17 @@
         "bands": [
           {
             "index": 0,
-            "elements": 190,
-            "chars": 20,
+            "elements": 23,
+            "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 16,
-            "medianBgLightness": 96.9
+            "medianBgLightness": null
           },
           {
             "index": 1,
             "elements": 64,
             "chars": 129,
+            "inkRatio": 0.09,
             "maxFontPx": 50,
             "medianBgLightness": 30.2
           }

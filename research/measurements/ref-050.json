@@ -3,14 +3,14 @@
   "category": "personal-craft",
   "role": "engineer-designer personal site",
   "urlHash": "a5377a572994",
-  "measuredAt": "2026-08-04T22:08:05.722Z",
+  "measuredAt": "2026-08-04T22:41:24.827Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2458,
+      "loadMs": 2503,
       "paint": {
-        "fcpMs": 340,
-        "domInteractiveMs": 104,
+        "fcpMs": 256,
+        "domInteractiveMs": 161,
         "transferBytes": 10008
       },
       "network": {
@@ -21,13 +21,17 @@
             "requests": 1,
             "bytes": 0
           },
+          "stylesheet": {
+            "requests": 2,
+            "bytes": 0
+          },
           "script": {
             "requests": 17,
             "bytes": 106
           },
-          "stylesheet": {
-            "requests": 2,
-            "bytes": 0
+          "font": {
+            "requests": 1,
+            "bytes": 51980
           },
           "fetch": {
             "requests": 7,
@@ -36,10 +40,6 @@
           "other": {
             "requests": 8,
             "bytes": 0
-          },
-          "font": {
-            "requests": 1,
-            "bytes": 51980
           }
         },
         "fontFiles": 1,
@@ -213,8 +213,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 117,
+            "elements": 109,
             "chars": 316,
+            "inkRatio": 4,
             "maxFontPx": 720,
             "medianBgLightness": 56.1
           },
@@ -222,6 +223,7 @@
             "index": 1,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -229,6 +231,7 @@
             "index": 2,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -236,6 +239,7 @@
             "index": 3,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -243,6 +247,7 @@
             "index": 4,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -250,6 +255,7 @@
             "index": 5,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -257,6 +263,7 @@
             "index": 6,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           }
@@ -375,10 +382,10 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2452,
+      "loadMs": 2421,
       "paint": {
-        "fcpMs": 208,
-        "domInteractiveMs": 108,
+        "fcpMs": 188,
+        "domInteractiveMs": 101,
         "transferBytes": 10008
       },
       "network": {
@@ -389,6 +396,10 @@
             "requests": 1,
             "bytes": 0
           },
+          "stylesheet": {
+            "requests": 2,
+            "bytes": 0
+          },
           "script": {
             "requests": 17,
             "bytes": 106
@@ -396,10 +407,6 @@
           "font": {
             "requests": 1,
             "bytes": 51980
-          },
-          "stylesheet": {
-            "requests": 2,
-            "bytes": 0
           },
           "fetch": {
             "requests": 7,
@@ -579,8 +586,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 117,
+            "elements": 109,
             "chars": 316,
+            "inkRatio": 3.663,
             "maxFontPx": 720,
             "medianBgLightness": 56.1
           },
@@ -588,6 +596,7 @@
             "index": 1,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -595,6 +604,7 @@
             "index": 2,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -602,6 +612,7 @@
             "index": 3,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           }

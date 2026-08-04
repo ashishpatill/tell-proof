@@ -3,14 +3,14 @@
   "category": "fintech-product",
   "role": "spend management",
   "urlHash": "153985ac3643",
-  "measuredAt": "2026-08-04T21:57:49.879Z",
+  "measuredAt": "2026-08-04T22:31:26.947Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2417,
+      "loadMs": 2390,
       "paint": {
-        "fcpMs": 236,
-        "domInteractiveMs": 214,
+        "fcpMs": 208,
+        "domInteractiveMs": 187,
         "transferBytes": 5796
       },
       "network": {
@@ -146,7 +146,8 @@
           {
             "index": 0,
             "elements": 1,
-            "chars": 14032,
+            "chars": 600,
+            "inkRatio": 1,
             "maxFontPx": 13,
             "medianBgLightness": null
           },
@@ -154,6 +155,7 @@
             "index": 1,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -161,6 +163,7 @@
             "index": 2,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -168,6 +171,7 @@
             "index": 3,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -175,6 +179,7 @@
             "index": 4,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           }
@@ -274,10 +279,10 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2389,
+      "loadMs": 2374,
       "paint": {
-        "fcpMs": 200,
-        "domInteractiveMs": 186,
+        "fcpMs": 188,
+        "domInteractiveMs": 171,
         "transferBytes": 5796
       },
       "network": {
@@ -413,7 +418,8 @@
           {
             "index": 0,
             "elements": 1,
-            "chars": 14032,
+            "chars": 600,
+            "inkRatio": 1,
             "maxFontPx": 13,
             "medianBgLightness": null
           },
@@ -421,6 +427,7 @@
             "index": 1,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -428,6 +435,7 @@
             "index": 2,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -435,6 +443,7 @@
             "index": 3,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -442,6 +451,7 @@
             "index": 4,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -449,6 +459,7 @@
             "index": 5,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -456,6 +467,7 @@
             "index": 6,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -463,6 +475,7 @@
             "index": 7,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           },
@@ -470,6 +483,7 @@
             "index": 8,
             "elements": 0,
             "chars": 0,
+            "inkRatio": 0,
             "maxFontPx": 0,
             "medianBgLightness": null
           }

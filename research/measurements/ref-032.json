@@ -3,14 +3,14 @@
   "category": "opinionated-smb",
   "role": "long-running product company",
   "urlHash": "23c7898f8bd4",
-  "measuredAt": "2026-08-04T22:03:52.681Z",
+  "measuredAt": "2026-08-04T22:37:42.269Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2911,
+      "loadMs": 2788,
       "paint": {
-        "fcpMs": 244,
-        "domInteractiveMs": 228,
+        "fcpMs": 224,
+        "domInteractiveMs": 212,
         "transferBytes": 18598
       },
       "network": {
@@ -254,8 +254,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 189,
-            "chars": 908,
+            "elements": 122,
+            "chars": 715,
+            "inkRatio": 0.227,
             "maxFontPx": 41.9,
             "medianBgLightness": null
           },
@@ -263,6 +264,7 @@
             "index": 1,
             "elements": 60,
             "chars": 2265,
+            "inkRatio": 0.469,
             "maxFontPx": 38.1,
             "medianBgLightness": null
           },
@@ -270,6 +272,7 @@
             "index": 2,
             "elements": 38,
             "chars": 1104,
+            "inkRatio": 0.417,
             "maxFontPx": 38.1,
             "medianBgLightness": null
           },
@@ -277,6 +280,7 @@
             "index": 3,
             "elements": 55,
             "chars": 1192,
+            "inkRatio": 0.532,
             "maxFontPx": 38.1,
             "medianBgLightness": null
           },
@@ -284,6 +288,7 @@
             "index": 4,
             "elements": 170,
             "chars": 1283,
+            "inkRatio": 0.336,
             "maxFontPx": 38.1,
             "medianBgLightness": null
           }
@@ -439,10 +444,10 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 3030,
+      "loadMs": 2930,
       "paint": {
-        "fcpMs": 312,
-        "domInteractiveMs": 226,
+        "fcpMs": 260,
+        "domInteractiveMs": 242,
         "transferBytes": 18598
       },
       "network": {
@@ -672,8 +677,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 184,
-            "chars": 746,
+            "elements": 113,
+            "chars": 374,
+            "inkRatio": 0.288,
             "maxFontPx": 30,
             "medianBgLightness": null
           },
@@ -681,6 +687,7 @@
             "index": 1,
             "elements": 41,
             "chars": 1188,
+            "inkRatio": 0.559,
             "maxFontPx": 12,
             "medianBgLightness": null
           },
@@ -688,6 +695,7 @@
             "index": 2,
             "elements": 25,
             "chars": 1247,
+            "inkRatio": 0.703,
             "maxFontPx": 27,
             "medianBgLightness": null
           },
@@ -695,6 +703,7 @@
             "index": 3,
             "elements": 35,
             "chars": 977,
+            "inkRatio": 0.782,
             "maxFontPx": 27,
             "medianBgLightness": null
           },
@@ -702,6 +711,7 @@
             "index": 4,
             "elements": 39,
             "chars": 839,
+            "inkRatio": 1.019,
             "maxFontPx": 27,
             "medianBgLightness": null
           },
@@ -709,6 +719,7 @@
             "index": 5,
             "elements": 72,
             "chars": 954,
+            "inkRatio": 0.891,
             "maxFontPx": 27,
             "medianBgLightness": null
           },
@@ -716,6 +727,7 @@
             "index": 6,
             "elements": 115,
             "chars": 782,
+            "inkRatio": 0.371,
             "maxFontPx": 19.8,
             "medianBgLightness": null
           }

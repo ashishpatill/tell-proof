@@ -3,19 +3,19 @@
   "category": "art-directed-studio",
   "role": "award-oriented art direction studio",
   "urlHash": "505dbe6f5aaf",
-  "measuredAt": "2026-08-04T21:57:19.524Z",
+  "measuredAt": "2026-08-04T22:30:56.257Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2851,
+      "loadMs": 2799,
       "paint": {
-        "fcpMs": 1832,
-        "domInteractiveMs": 539,
-        "transferBytes": 25100
+        "fcpMs": 1784,
+        "domInteractiveMs": 492,
+        "transferBytes": 24998
       },
       "network": {
         "requests": 62,
-        "bytes": 3461476,
+        "bytes": 3461481,
         "byType": {
           "document": {
             "requests": 1,
@@ -27,19 +27,19 @@
           },
           "script": {
             "requests": 11,
-            "bytes": 298979
+            "bytes": 298984
           },
           "image": {
             "requests": 40,
             "bytes": 3085250
           },
-          "xhr": {
-            "requests": 3,
-            "bytes": 15
-          },
           "font": {
             "requests": 4,
             "bytes": 77232
+          },
+          "xhr": {
+            "requests": 3,
+            "bytes": 15
           },
           "fetch": {
             "requests": 1,
@@ -189,7 +189,7 @@
           "textColors": [
             {
               "color": "rgb(255,255,255)",
-              "chars": 1763
+              "chars": 1722
             },
             {
               "color": "rgb(222,235,200)",
@@ -260,15 +260,17 @@
         "bands": [
           {
             "index": 0,
-            "elements": 197,
-            "chars": 1065,
+            "elements": 176,
+            "chars": 1024,
+            "inkRatio": 4,
             "maxFontPx": 230.4,
             "medianBgLightness": 59.2
           },
           {
             "index": 1,
-            "elements": 52,
+            "elements": 49,
             "chars": 336,
+            "inkRatio": 3.824,
             "maxFontPx": 230.4,
             "medianBgLightness": 85.3
           }
@@ -322,7 +324,7 @@
           "images": 23,
           "svgInline": 11,
           "videos": 0,
-          "imageAreaRatio": 2.1771,
+          "imageAreaRatio": 2.176,
           "altCoverage": 0.957,
           "lazyCoverage": 0.652,
           "modernFormats": 0
@@ -391,11 +393,11 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 3091,
+      "loadMs": 2807,
       "paint": {
-        "fcpMs": 2052,
-        "domInteractiveMs": 754,
-        "transferBytes": 25064
+        "fcpMs": 1796,
+        "domInteractiveMs": 496,
+        "transferBytes": 24828
       },
       "network": {
         "requests": 62,
@@ -417,13 +419,13 @@
             "requests": 40,
             "bytes": 3085250
           },
-          "xhr": {
-            "requests": 3,
-            "bytes": 15
-          },
           "font": {
             "requests": 4,
             "bytes": 77232
+          },
+          "xhr": {
+            "requests": 3,
+            "bytes": 15
           },
           "fetch": {
             "requests": 1,
@@ -577,19 +579,15 @@
             },
             {
               "color": "rgb(255,255,255)",
-              "chars": 1652
+              "chars": 1493
             },
             {
               "color": "rgb(222,235,200)",
-              "chars": 628
-            },
-            {
-              "color": "rgb(145,145,145)",
-              "chars": 18
+              "chars": 618
             }
           ],
           "distinctBackgrounds": 3,
-          "distinctTextColors": 4,
+          "distinctTextColors": 3,
           "distinctHues": 1,
           "chromaticCount": 1,
           "maxSaturation": 46.7,
@@ -648,8 +646,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 229,
-            "chars": 1158,
+            "elements": 178,
+            "chars": 971,
+            "inkRatio": 3.77,
             "maxFontPx": 78,
             "medianBgLightness": 59.2
           },
@@ -657,6 +656,7 @@
             "index": 1,
             "elements": 30,
             "chars": 267,
+            "inkRatio": 0.297,
             "maxFontPx": 25.6,
             "medianBgLightness": 85.3
           }
@@ -710,7 +710,7 @@
           "images": 23,
           "svgInline": 11,
           "videos": 0,
-          "imageAreaRatio": 2.7079,
+          "imageAreaRatio": 2.7109,
           "altCoverage": 0.957,
           "lazyCoverage": 0.652,
           "modernFormats": 0
@@ -770,7 +770,7 @@
           "images": 23,
           "svgInline": 11,
           "videos": 0,
-          "imageAreaRatio": 2.768,
+          "imageAreaRatio": 2.7636,
           "altCoverage": 0.957,
           "lazyCoverage": 0.652,
           "modernFormats": 0

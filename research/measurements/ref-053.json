@@ -3,55 +3,55 @@
   "category": "commerce-platform",
   "role": "commerce platform",
   "urlHash": "d83d5c546dae",
-  "measuredAt": "2026-08-04T22:08:26.065Z",
+  "measuredAt": "2026-08-04T22:41:45.023Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 2664,
+      "loadMs": 4457,
       "paint": {
-        "fcpMs": 248,
-        "domInteractiveMs": 139,
-        "transferBytes": 69039
+        "fcpMs": 256,
+        "domInteractiveMs": 242,
+        "transferBytes": 69101
       },
       "network": {
-        "requests": 195,
-        "bytes": 11142058,
+        "requests": 196,
+        "bytes": 12295076,
         "byType": {
           "document": {
             "requests": 2,
             "bytes": 0
           },
+          "image": {
+            "requests": 83,
+            "bytes": 1499156
+          },
           "stylesheet": {
             "requests": 3,
-            "bytes": 53076
-          },
-          "image": {
-            "requests": 86,
-            "bytes": 1499156
+            "bytes": 53086
           },
           "font": {
             "requests": 4,
             "bytes": 165948
           },
           "script": {
-            "requests": 52,
-            "bytes": 756269
+            "requests": 53,
+            "bytes": 762805
           },
           "fetch": {
-            "requests": 35,
-            "bytes": 2275144
+            "requests": 37,
+            "bytes": 2384657
           },
           "ping": {
             "requests": 3,
             "bytes": 0
           },
           "media": {
-            "requests": 10,
-            "bytes": 6392465
+            "requests": 11,
+            "bytes": 7429424
           }
         },
         "fontFiles": 4,
-        "thirdPartyHosts": 13
+        "thirdPartyHosts": 17
       },
       "initial": {
         "typography": {
@@ -219,7 +219,7 @@
           "textColors": [
             {
               "color": "rgb(255,255,255)",
-              "chars": 2330
+              "chars": 1859
             },
             {
               "color": "rgb(161,161,170)",
@@ -257,7 +257,7 @@
           "isDark": true,
           "gradientCount": 26,
           "minTextContrast": 4.15,
-          "medianTextContrast": 20.08
+          "medianTextContrast": 17.44
         },
         "space": {
           "sectionPaddingTop": [
@@ -369,8 +369,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 727,
-            "chars": 1744,
+            "elements": 129,
+            "chars": 549,
+            "inkRatio": 0.825,
             "maxFontPx": 96,
             "medianBgLightness": 100
           },
@@ -378,48 +379,55 @@
             "index": 1,
             "elements": 33,
             "chars": 355,
+            "inkRatio": 2.096,
             "maxFontPx": 55,
             "medianBgLightness": 100
           },
           {
             "index": 2,
-            "elements": 46,
+            "elements": 45,
             "chars": 0,
+            "inkRatio": 0.493,
             "maxFontPx": 16,
             "medianBgLightness": 6.7
           },
           {
             "index": 3,
-            "elements": 148,
+            "elements": 145,
             "chars": 701,
+            "inkRatio": 2.464,
             "maxFontPx": 55,
             "medianBgLightness": 95.9
           },
           {
             "index": 4,
-            "elements": 48,
+            "elements": 47,
             "chars": 339,
+            "inkRatio": 1.26,
             "maxFontPx": 55,
             "medianBgLightness": 2.4
           },
           {
             "index": 5,
-            "elements": 53,
+            "elements": 36,
             "chars": 349,
+            "inkRatio": 1.209,
             "maxFontPx": 55,
             "medianBgLightness": 5.9
           },
           {
             "index": 6,
-            "elements": 67,
+            "elements": 60,
             "chars": 340,
+            "inkRatio": 2.434,
             "maxFontPx": 70,
             "medianBgLightness": 2.5
           },
           {
             "index": 7,
-            "elements": 39,
+            "elements": 33,
             "chars": 392,
+            "inkRatio": 0.812,
             "maxFontPx": 96,
             "medianBgLightness": 6.7
           },
@@ -427,6 +435,7 @@
             "index": 8,
             "elements": 32,
             "chars": 364,
+            "inkRatio": 1.622,
             "maxFontPx": 55,
             "medianBgLightness": 9
           },
@@ -434,6 +443,7 @@
             "index": 9,
             "elements": 125,
             "chars": 419,
+            "inkRatio": 0.608,
             "maxFontPx": 48,
             "medianBgLightness": 0
           }
@@ -539,7 +549,7 @@
           "ctaCount": 5,
           "formFields": 3,
           "focusVisibleRules": 0,
-          "domNodes": 2275,
+          "domNodes": 2276,
           "textChars": 5094
         }
       },
@@ -625,35 +635,35 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 2762,
+      "loadMs": 3055,
       "paint": {
-        "fcpMs": 228,
-        "domInteractiveMs": 219,
-        "transferBytes": 69055
+        "fcpMs": 224,
+        "domInteractiveMs": 224,
+        "transferBytes": 69101
       },
       "network": {
-        "requests": 204,
-        "bytes": 8736039,
+        "requests": 208,
+        "bytes": 8736260,
         "byType": {
           "document": {
             "requests": 2,
             "bytes": 0
           },
           "image": {
-            "requests": 89,
+            "requests": 93,
             "bytes": 1146708
           },
           "stylesheet": {
             "requests": 3,
-            "bytes": 53076
+            "bytes": 53086
+          },
+          "script": {
+            "requests": 53,
+            "bytes": 762805
           },
           "font": {
             "requests": 4,
             "bytes": 165948
-          },
-          "script": {
-            "requests": 53,
-            "bytes": 762594
           },
           "fetch": {
             "requests": 41,
@@ -830,7 +840,7 @@
           "textColors": [
             {
               "color": "rgb(255,255,255)",
-              "chars": 2318
+              "chars": 1686
             },
             {
               "color": "rgb(161,161,170)",
@@ -868,7 +878,7 @@
           "isDark": true,
           "gradientCount": 24,
           "minTextContrast": 4.15,
-          "medianTextContrast": 20.08
+          "medianTextContrast": 17.44
         },
         "space": {
           "sectionPaddingTop": [
@@ -962,8 +972,9 @@
         "bands": [
           {
             "index": 0,
-            "elements": 871,
-            "chars": 2246,
+            "elements": 272,
+            "chars": 890,
+            "inkRatio": 2.757,
             "maxFontPx": 60,
             "medianBgLightness": 100
           },
@@ -971,48 +982,55 @@
             "index": 1,
             "elements": 108,
             "chars": 667,
+            "inkRatio": 1.541,
             "maxFontPx": 40,
             "medianBgLightness": 2.4
           },
           {
             "index": 2,
-            "elements": 32,
+            "elements": 31,
             "chars": 246,
+            "inkRatio": 1.023,
             "maxFontPx": 16,
             "medianBgLightness": 6.7
           },
           {
             "index": 3,
-            "elements": 155,
+            "elements": 152,
             "chars": 457,
+            "inkRatio": 2.445,
             "maxFontPx": 40,
             "medianBgLightness": 95.9
           },
           {
             "index": 4,
-            "elements": 63,
+            "elements": 62,
             "chars": 515,
+            "inkRatio": 1.734,
             "maxFontPx": 40,
             "medianBgLightness": 2.4
           },
           {
             "index": 5,
-            "elements": 58,
+            "elements": 42,
             "chars": 414,
+            "inkRatio": 1.587,
             "maxFontPx": 40,
             "medianBgLightness": 5.9
           },
           {
             "index": 6,
-            "elements": 80,
+            "elements": 61,
             "chars": 389,
+            "inkRatio": 1.997,
             "maxFontPx": 60,
-            "medianBgLightness": 5.9
+            "medianBgLightness": 6.7
           },
           {
             "index": 7,
             "elements": 29,
             "chars": 428,
+            "inkRatio": 1.044,
             "maxFontPx": 30,
             "medianBgLightness": 9
           },
@@ -1020,6 +1038,7 @@
             "index": 8,
             "elements": 46,
             "chars": 212,
+            "inkRatio": 1.672,
             "maxFontPx": 40,
             "medianBgLightness": 100
           },
@@ -1027,6 +1046,7 @@
             "index": 9,
             "elements": 85,
             "chars": 242,
+            "inkRatio": 0.114,
             "maxFontPx": 20,
             "medianBgLightness": null
           }
@@ -1138,8 +1158,8 @@
       },
       "afterScroll": {
         "motion": {
-          "transitionElements": 96,
-          "transitionRatio": 0.061,
+          "transitionElements": 97,
+          "transitionRatio": 0.062,
           "medianDurationMs": 200,
           "p90DurationMs": 500,
           "topEasings": [
@@ -1182,9 +1202,9 @@
           ],
           "asymmetricGrids": 3,
           "asymmetryRatio": 0.429,
-          "fullBleed": 52,
-          "aboveFoldElements": 211,
-          "aboveFoldTextChars": 762,
+          "fullBleed": 53,
+          "aboveFoldElements": 214,
+          "aboveFoldTextChars": 802,
           "aboveFoldInkRatio": 1,
           "stickyElements": 1,
           "documentHeightVh": 14.56

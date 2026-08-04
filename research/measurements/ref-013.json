@@ -3,23 +3,27 @@
   "category": "premium-b2b-saas",
   "role": "modern CRM",
   "urlHash": "e62e8206f90d",
-  "measuredAt": "2026-08-04T21:58:52.013Z",
+  "measuredAt": "2026-08-04T22:32:31.487Z",
   "views": [
     {
       "viewport": "desktop",
-      "loadMs": 10542,
+      "loadMs": 10557,
       "paint": {
-        "fcpMs": 472,
-        "domInteractiveMs": 205,
-        "transferBytes": 117866
+        "fcpMs": 488,
+        "domInteractiveMs": 343,
+        "transferBytes": 117951
       },
       "network": {
         "requests": 235,
-        "bytes": 3271808,
+        "bytes": 3271820,
         "byType": {
           "document": {
             "requests": 2,
             "bytes": 0
+          },
+          "script": {
+            "requests": 81,
+            "bytes": 2316804
           },
           "stylesheet": {
             "requests": 10,
@@ -33,13 +37,9 @@
             "requests": 76,
             "bytes": 218170
           },
-          "script": {
-            "requests": 81,
-            "bytes": 2316791
-          },
           "fetch": {
             "requests": 39,
-            "bytes": 30
+            "bytes": 29
           },
           "ping": {
             "requests": 5,
@@ -362,71 +362,81 @@
         "bands": [
           {
             "index": 0,
-            "elements": 1121,
-            "chars": 4692,
+            "elements": 661,
+            "chars": 2479,
+            "inkRatio": 0.218,
             "maxFontPx": 64,
             "medianBgLightness": 97.6
           },
           {
             "index": 1,
-            "elements": 359,
+            "elements": 357,
             "chars": 1550,
+            "inkRatio": 0.168,
             "maxFontPx": 40,
             "medianBgLightness": 93.3
           },
           {
             "index": 2,
-            "elements": 492,
+            "elements": 488,
             "chars": 997,
+            "inkRatio": 0.385,
             "maxFontPx": 24,
             "medianBgLightness": 52.7
           },
           {
             "index": 3,
-            "elements": 211,
+            "elements": 210,
             "chars": 1203,
+            "inkRatio": 0.135,
             "maxFontPx": 24,
             "medianBgLightness": 36.9
           },
           {
             "index": 4,
-            "elements": 560,
+            "elements": 372,
             "chars": 1260,
+            "inkRatio": 0.124,
             "maxFontPx": 40,
             "medianBgLightness": 54.5
           },
           {
             "index": 5,
-            "elements": 211,
+            "elements": 207,
             "chars": 969,
+            "inkRatio": 0.076,
             "maxFontPx": 40,
             "medianBgLightness": 92.7
           },
           {
             "index": 6,
-            "elements": 377,
+            "elements": 304,
             "chars": 420,
+            "inkRatio": 0.093,
             "maxFontPx": 48,
             "medianBgLightness": null
           },
           {
             "index": 7,
-            "elements": 27,
+            "elements": 26,
             "chars": 81,
+            "inkRatio": 0.023,
             "maxFontPx": 40,
             "medianBgLightness": null
           },
           {
             "index": 8,
-            "elements": 80,
+            "elements": 77,
             "chars": 458,
+            "inkRatio": 0.086,
             "maxFontPx": 40,
             "medianBgLightness": null
           },
           {
             "index": 9,
-            "elements": 537,
+            "elements": 343,
             "chars": 835,
+            "inkRatio": 0.114,
             "maxFontPx": 56,
             "medianBgLightness": null
           }
@@ -599,7 +609,7 @@
           "asymmetricGrids": 3,
           "asymmetryRatio": 0.094,
           "fullBleed": 56,
-          "aboveFoldElements": 145,
+          "aboveFoldElements": 146,
           "aboveFoldTextChars": 620,
           "aboveFoldInkRatio": 0.507,
           "stickyElements": 10,
@@ -618,27 +628,27 @@
     },
     {
       "viewport": "mobile",
-      "loadMs": 10618,
+      "loadMs": 10552,
       "paint": {
-        "fcpMs": 504,
-        "domInteractiveMs": 411,
-        "transferBytes": 117805
+        "fcpMs": 452,
+        "domInteractiveMs": 343,
+        "transferBytes": 117781
       },
       "network": {
         "requests": 220,
-        "bytes": 3314081,
+        "bytes": 3314025,
         "byType": {
           "document": {
             "requests": 2,
             "bytes": 0
           },
-          "script": {
-            "requests": 80,
-            "bytes": 2381363
-          },
           "stylesheet": {
             "requests": 10,
             "bytes": 42354
+          },
+          "script": {
+            "requests": 80,
+            "bytes": 2381307
           },
           "font": {
             "requests": 12,
@@ -825,12 +835,12 @@
           ],
           "textColors": [
             {
-              "color": "rgb(36,38,41)",
-              "chars": 1058
+              "color": "rgb(0,0,0)",
+              "chars": 965
             },
             {
-              "color": "rgb(0,0,0)",
-              "chars": 989
+              "color": "rgb(36,38,41)",
+              "chars": 898
             },
             {
               "color": "rgb(35,37,41)",
@@ -850,9 +860,9 @@
             }
           ],
           "distinctBackgrounds": 6,
-          "distinctTextColors": 15,
-          "distinctHues": 6,
-          "chromaticCount": 8,
+          "distinctTextColors": 14,
+          "distinctHues": 5,
+          "chromaticCount": 7,
           "maxSaturation": 100,
           "medianNeutralHue": 222.9,
           "medianNeutralSat": 4.3,
@@ -953,71 +963,81 @@
         "bands": [
           {
             "index": 0,
-            "elements": 1198,
-            "chars": 4775,
-            "maxFontPx": 64,
-            "medianBgLightness": 93.9
+            "elements": 326,
+            "chars": 1293,
+            "inkRatio": 0.345,
+            "maxFontPx": 40,
+            "medianBgLightness": 97.6
           },
           {
             "index": 1,
-            "elements": 353,
+            "elements": 352,
             "chars": 1527,
+            "inkRatio": 0.399,
             "maxFontPx": 24,
             "medianBgLightness": 93.3
           },
           {
             "index": 2,
-            "elements": 632,
+            "elements": 628,
             "chars": 1714,
+            "inkRatio": 0.481,
             "maxFontPx": 24,
             "medianBgLightness": 70.6
           },
           {
             "index": 3,
-            "elements": 428,
+            "elements": 376,
             "chars": 1420,
+            "inkRatio": 0.282,
             "maxFontPx": 24,
             "medianBgLightness": 54.5
           },
           {
             "index": 4,
-            "elements": 353,
+            "elements": 214,
             "chars": 803,
+            "inkRatio": 0.269,
             "maxFontPx": 32,
             "medianBgLightness": 92.7
           },
           {
             "index": 5,
-            "elements": 64,
+            "elements": 61,
             "chars": 460,
+            "inkRatio": 0.192,
             "maxFontPx": 32,
             "medianBgLightness": null
           },
           {
             "index": 6,
-            "elements": 297,
+            "elements": 253,
             "chars": 311,
+            "inkRatio": 0.201,
             "maxFontPx": 32,
             "medianBgLightness": null
           },
           {
             "index": 7,
-            "elements": 41,
+            "elements": 40,
             "chars": 171,
+            "inkRatio": 0.094,
             "maxFontPx": 32,
             "medianBgLightness": null
           },
           {
             "index": 8,
-            "elements": 377,
+            "elements": 190,
             "chars": 685,
+            "inkRatio": 0.352,
             "maxFontPx": 32,
             "medianBgLightness": null
           },
           {
             "index": 9,
-            "elements": 212,
+            "elements": 211,
             "chars": 518,
+            "inkRatio": 0.186,
             "maxFontPx": 36,
             "medianBgLightness": null
           }
