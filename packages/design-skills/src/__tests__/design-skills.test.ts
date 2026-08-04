@@ -73,7 +73,7 @@ describe("premium-content-custom-web engine", () => {
     expect(previewHtml).toContain("Interactive diagram");
     expect(previewHtml).toContain("Signal Path");
     expect(previewHtml).toContain('data-instrument="scrub"');
-    expect(previewHtml).toContain("<figcaption>");
+    expect(previewHtml).toContain("<figcaption data-scrub-caption>");
     expect(previewHtml).toContain('id="figure"');
   });
 
@@ -186,5 +186,39 @@ describe("premium-content-custom-web engine", () => {
     const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
     expect(previewHtml).toContain("Outcome: Account scoring");
     expect(previewHtml).not.toContain("Case outcome tied to a real feature");
+  });
+
+  it("rejects CSS-injecting brandAccent and keeps a safe accent", () => {
+    expect(() =>
+      DesignBrief.parse({
+        productName: "Safe",
+        siteKind: "saas-marketing",
+        lockSiteKind: true,
+        features: [{ id: "1", name: "One", description: "Only", priority: "p0" }],
+        brandAccent: "red;} body{display:none} .x{",
+      }),
+    ).toThrow();
+  });
+
+  it("keeps a single-feature dashboard main pane populated", () => {
+    const { previewHtml } = designFromFeatures(
+      DesignBrief.parse({
+        productName: "Ops",
+        siteKind: "dashboard-webapp",
+        lockSiteKind: true,
+        features: [{ id: "1", name: "Queue", description: "Today", priority: "p0" }],
+      }),
+    );
+    expect(previewHtml).toContain('id="workspace"');
+    expect(previewHtml).toContain('href="#workspace"');
+    expect(previewHtml).toContain("data-feature=\"Queue\"");
+    expect(previewHtml).toContain("ds-main");
+  });
+
+  it("wires educational scrub controls with a live script", () => {
+    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.educational!);
+    expect(previewHtml).toContain('data-scrub');
+    expect(previewHtml).toContain("ds-scrub-node");
+    expect(previewHtml).toContain("addEventListener('input'");
   });
 });

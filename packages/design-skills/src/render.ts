@@ -143,6 +143,7 @@ function heroVisual(items: string[]): string {
 function figureInstrument(section: SectionSpec): string {
   const steps = section.items.slice(0, 4);
   const mid = Math.max(0, Math.floor((steps.length - 1) / 2));
+  const max = Math.max(steps.length - 1, 0);
   return `<figure class="ds-figure" data-instrument="scrub">
     <div class="ds-figure-stage">
       <svg viewBox="0 0 360 160" role="img" aria-label="${esc(section.title)}">
@@ -152,40 +153,68 @@ function figureInstrument(section: SectionSpec): string {
           .map((_, i) => {
             const x = 60 + i * 70;
             const y = 50 + ((i * 23) % 50);
-            return `<circle cx="${x}" cy="${y}" r="${i === mid ? 8 : 5}" fill="var(--ds-accent)" opacity="${i === mid ? 1 : 0.45}"/>`;
+            return `<circle class="ds-scrub-node" data-step="${i}" cx="${x}" cy="${y}" r="${i === mid ? 8 : 5}" fill="var(--ds-accent)" opacity="${i === mid ? 1 : 0.45}"/>`;
           })
           .join("")}
       </svg>
       <label class="ds-scrub">
         <span class="ds-meta">Scrub mechanism</span>
-        <input type="range" min="0" max="${Math.max(steps.length - 1, 0)}" value="${mid}" data-scrub />
+        <input type="range" min="0" max="${max}" value="${mid}" data-scrub aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${mid}" />
       </label>
     </div>
-    <figcaption>${esc(section.figureCaption || section.title)}</figcaption>
-    <ol class="ds-list ds-figure-steps">${steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol>
+    <figcaption data-scrub-caption>${esc(section.figureCaption || section.title)}</figcaption>
+    <ol class="ds-list ds-figure-steps">${steps
+      .map((s, i) => `<li data-step="${i}" class="${i === mid ? "is-active" : ""}">${esc(s)}</li>`)
+      .join("")}</ol>
   </figure>`;
 }
 
-function scrollRevealScript(motion: DesignSpec["taste"]["motion"]): string {
-  if (motion !== "light-scroll-reveals") return "";
+function previewScripts(motion: DesignSpec["taste"]["motion"]): string {
+  const reveal =
+    motion === "light-scroll-reveals"
+      ? `var nodes=[].slice.call(document.querySelectorAll('.ds-reveal'));
+  if(nodes.length){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)){
+      nodes.forEach(function(n){n.classList.add('is-in')});
+    } else {
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target);} });
+      },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+      nodes.forEach(function(n){io.observe(n)});
+    }
+  }`
+      : "";
+
   return `<script>
 (function(){
-  var nodes=[].slice.call(document.querySelectorAll('.ds-reveal'));
-  if(!nodes.length) return;
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    nodes.forEach(function(n){n.classList.add('is-in')});
-    return;
+  ${reveal}
+  var scrub=document.querySelector('[data-scrub]');
+  if(!scrub) return;
+  var nodes=[].slice.call(document.querySelectorAll('.ds-scrub-node'));
+  var steps=[].slice.call(document.querySelectorAll('.ds-figure-steps [data-step]'));
+  var caption=document.querySelector('[data-scrub-caption]');
+  function paint(v){
+    var idx=Number(v)||0;
+    scrub.setAttribute('aria-valuenow', String(idx));
+    nodes.forEach(function(n){
+      var active=Number(n.getAttribute('data-step'))===idx;
+      n.setAttribute('r', active ? '8' : '5');
+      n.setAttribute('opacity', active ? '1' : '0.45');
+    });
+    steps.forEach(function(li){
+      var active=Number(li.getAttribute('data-step'))===idx;
+      li.classList.toggle('is-active', active);
+      if(active && caption){ caption.textContent = li.textContent || caption.textContent; }
+    });
   }
-  if(!('IntersectionObserver' in window)){
-    nodes.forEach(function(n){n.classList.add('is-in')});
-    return;
-  }
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target);} });
-  },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
-  nodes.forEach(function(n){io.observe(n)});
+  scrub.addEventListener('input', function(){ paint(scrub.value); });
+  paint(scrub.value);
 })();
 </script>`;
+}
+
+function homeHref(siteKind: DesignSpec["brief"]["siteKind"]): string {
+  return siteKind === "dashboard-webapp" ? "#workspace" : "#product";
 }
 
 function renderSection(section: SectionSpec, index: number, spec: DesignSpec): string {
@@ -193,24 +222,28 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec): s
   const reveal = `ds-reveal`;
   const delay = `style="transition-delay:${Math.min(index, 6) * 40}ms"`;
   const brand = section.brandLabel || spec.brief.productName;
+  const home = homeHref(spec.brief.siteKind);
 
   if (section.kind === "nav") {
     const quiet = !section.ctaLabel;
     return `<header class="ds-nav${quiet ? " ds-nav-quiet" : ""}" data-section="${esc(section.id)}">
       <div class="ds-wrap ds-nav-inner">
-        <a class="ds-brand" href="#product">${esc(section.title)}</a>
+        <a class="ds-brand" href="${home}">${esc(section.title)}</a>
         <nav aria-label="Primary">${section.items
           .map((item) => {
+            const key = item.toLowerCase();
             const href =
-              item.toLowerCase() === "pricing"
+              key === "pricing"
                 ? "#pricing"
-                : item.toLowerCase() === "features" || item.toLowerCase() === "capabilities"
+                : key === "features" || key === "capabilities"
                   ? "#features"
-                  : item.toLowerCase() === "chapters" || item.toLowerCase() === "story"
+                  : key === "chapters" || key === "story"
                     ? "#story"
-                    : item.toLowerCase() === "mechanism"
+                    : key === "mechanism"
                       ? "#figure"
-                      : "#product";
+                      : key === "workspace" || key === "queue" || key === "settings"
+                        ? "#workspace"
+                        : home;
             return `<a href="${href}">${esc(item)}</a>`;
           })
           .join("")}</nav>
@@ -339,7 +372,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec): s
       <div class="ds-wrap ds-cta-panel">
         <h2>${esc(section.title)}</h2>
         <p class="ds-lede">${esc(section.body)}</p>
-        ${section.ctaLabel ? `<a class="ds-btn ds-btn-primary" href="#product">${esc(section.ctaLabel)}</a>` : ""}
+        ${section.ctaLabel ? `<a class="ds-btn ds-btn-primary" href="${home}">${esc(section.ctaLabel)}</a>` : ""}
       </div>
     </section>`;
   }
@@ -348,7 +381,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec): s
     return `<footer class="ds-footer" data-section="${esc(section.id)}">
       <div class="ds-wrap ds-footer-inner">
         <strong>${esc(section.title)}</strong>
-        <nav>${section.items.map((item) => `<a href="#product">${esc(item)}</a>`).join("")}</nav>
+        <nav>${section.items.map((item) => `<a href="${home}">${esc(item)}</a>`).join("")}</nav>
       </div>
     </footer>`;
   }
@@ -368,8 +401,8 @@ export function renderPreviewHtml(spec: DesignSpec): string {
   const { tokens: t, taste, sections, brief, summary } = spec;
   const googleFonts = [t.fontDisplay, t.fontBody]
     .filter((v, i, a) => a.indexOf(v) === i)
-    .map((f) => f.replace(/ /g, "+"))
-    .join("&family=");
+    .map((f) => `family=${f.replace(/ /g, "+")}:wght@400;500;600;700`)
+    .join("&");
 
   return `<!doctype html>
 <html lang="en">
@@ -378,7 +411,8 @@ export function renderPreviewHtml(spec: DesignSpec): string {
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>${esc(brief.productName)} — preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=${googleFonts}:wght@400;500;600;700&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?${googleFonts}&display=swap"/>
+<noscript><style>.ds-reveal{opacity:1!important;transform:none!important}</style></noscript>
 <style>
 :root{${cssVars(t, taste.typographyWeight)}}
 *{box-sizing:border-box}
@@ -388,6 +422,8 @@ a{color:inherit;text-decoration:none}
 a:focus-visible,button:focus-visible,input:focus-visible,.ds-btn:focus-visible{
   outline:2px solid var(--ds-accent);outline-offset:3px
 }
+.ds-figure-steps .is-active{color:var(--ds-ink);font-weight:600}
+noscript .ds-reveal{opacity:1!important;transform:none!important}
 h1,h2,h3{font-family:var(--ds-font-display);line-height:1.12;letter-spacing:var(--ds-display-tracking);margin:0 0 .6rem;font-weight:var(--ds-display-weight)}
 h1{font-size:clamp(2.4rem,5vw,3.75rem)}
 h2{font-size:clamp(1.65rem,2.8vw,2.35rem)}
@@ -456,7 +492,7 @@ ${motionCss(taste.motion)}
 <body data-aesthetic="${esc(taste.aestheticLean)}" data-motion="${esc(taste.motion)}" data-sitekind="${esc(brief.siteKind)}">
 <p class="ds-sr">${esc(summary)}</p>
 ${sections.map((s, i) => renderSection(s, i, spec)).join("\n")}
-${scrollRevealScript(taste.motion)}
+${previewScripts(taste.motion)}
 </body>
 </html>`;
 }

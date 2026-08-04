@@ -79,7 +79,11 @@ export const DesignBrief = z.object({
     "not distracting with too many animations",
     "multi-million-dollar business quality",
   ]),
-  brandAccent: z.string().optional(),
+  /** Optional brand accent — hex only (#RGB / #RRGGBB / #RRGGBBAA). Rejects CSS injection. */
+  brandAccent: z
+    .string()
+    .regex(/^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/, "brandAccent must be a hex color")
+    .optional(),
   taste: TasteControls.partial().optional(),
 });
 export type DesignBrief = z.infer<typeof DesignBrief>;

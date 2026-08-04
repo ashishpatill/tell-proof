@@ -33,6 +33,9 @@ function ctaForGoal(goal: DesignBrief["businessGoal"]): string {
 /** Feature-derived plan lanes — never invent Starter/Growth/Enterprise filler. */
 function plansFromFeatures(features: FeatureSpec[]): string[] {
   if (features.length === 0) return [];
+  if (features.length === 1) {
+    return [`Recommended — ${features[0]!.name}`];
+  }
   const core = features.slice(0, Math.min(2, features.length)).map((f) => f.name);
   const recommended = features.slice(0, Math.min(4, features.length)).map((f) => f.name);
   const full = features.map((f) => f.name);
@@ -42,7 +45,7 @@ function plansFromFeatures(features: FeatureSpec[]): string[] {
   ];
   if (full.length > recommended.length) {
     lanes.push(`Full — ${full.join(", ")}`);
-  } else if (features.length >= 2) {
+  } else {
     lanes.push(`Team — ${features.map((f) => f.name).join(", ")} + shared workspace`);
   }
   return lanes;
@@ -97,7 +100,8 @@ export function buildSections(
         title: top[0]?.name ?? "Overview",
         body: top[0]?.description || "Primary working surface for the product’s core job.",
         asideItems: top.map((f) => f.name),
-        items: top.slice(1).map((f) => `${f.name} — ${f.description || "Core capability"}`),
+        // Always include the focal feature in main so single-feature dashboards are not empty.
+        items: top.map((f) => `${f.name} — ${f.description || "Core capability"}`),
         inspirationNotes: inspiration(taste.aestheticLean, "dashboard-or-webapp-ui"),
       }),
     );
