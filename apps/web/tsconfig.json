@@ -26,6 +26,9 @@
       ],
       "@tell/core": [
         "../../packages/core/src"
+      ],
+      "@tell/design-skills": [
+        "../../packages/design-skills/src"
       ]
     },
     "allowJs": true,
