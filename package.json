@@ -23,7 +23,8 @@
     "corpus:generate": "python3 scripts/generate-corpus-captures.py",
     "sync:demo-report": "pnpm -F @tell/core exec tsx ../../scripts/sync-demo-report.ts",
     "deploy:vercel": "bash scripts/deploy-vercel.sh",
-    "e2e:studio": "pnpm -F @tell/core exec tsx ../../scripts/e2e-studio-playwright.ts"
+    "e2e:studio": "pnpm -F @tell/core exec tsx ../../scripts/e2e-studio-playwright.ts",
+    "record:readme-demo": "pnpm exec tsx scripts/record-readme-demo.ts"
   },
   "devDependencies": {
     "vitest": "^2.1.9"
