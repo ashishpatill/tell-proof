@@ -299,10 +299,17 @@ ${surfaceRules()}
 .ds-section[data-bond="continues"]{padding-top:var(--s-lg)}
 .ds-section[data-bond="continues"] .ds-section-head{margin-bottom:var(--s-md)}
 .ds-section-head{display:grid;gap:var(--s-sm);margin-bottom:var(--s-xl)}
-.ds-section-head-spread{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s-lg) var(--s-2xl);align-items:end}
-.ds-section-head-spread .ds-lede{margin-top:0;max-width:38ch}
+/* Eyebrow rail + main column: a repeated inset left edge (personal-craft alignment pattern). */
+.ds-section-head-spine{grid-template-columns:5.5rem minmax(0,1fr);column-gap:var(--s-lg);align-items:start}
+.ds-section-head-spine .ds-eyebrow{margin:0;padding-top:0.4em;max-width:5.5rem}
+.ds-section-head-spine .ds-eyebrow-slot{display:block;min-height:1em}
+.ds-section-head-main{display:grid;gap:var(--s-sm);min-width:0}
+.ds-section-head-spread{grid-template-columns:5.5rem minmax(0,6fr) minmax(0,5fr);gap:var(--s-lg) var(--s-2xl);align-items:end}
+.ds-section-head-spread .ds-lede{margin-top:0;max-width:38ch;grid-column:3;grid-row:1}
 .ds-section-head .ds-lede{margin-top:var(--s-2xs)}
 .ds-split{display:grid;gap:var(--s-xl) var(--s-2xl);align-items:start}
+/* Chapter / index titles share one inset left — third axis beside wrap-wide and wrap. */
+.ds-chapter h3,.ds-index-row h3{justify-self:start;width:100%}
 
 /* Navigation
  *
@@ -312,7 +319,7 @@ ${surfaceRules()}
  * hairline underneath is what separates the bar from the page; the backdrop does not have to.
  */
 .ds-nav{position:sticky;top:0;z-index:var(--z-nav);background:var(--c-paper);border-bottom:1px solid var(--c-border)}
-.ds-nav-inner{display:flex;align-items:center;gap:var(--s-lg);min-height:var(--s-2xl)}
+.ds-nav-inner{display:flex;align-items:center;gap:var(--s-lg);min-height:var(--s-2xl);width:min(100% - (var(--gutter) * 2),var(--w-wide));margin-inline:auto}
 .ds-wordmark{font-family:var(--f-display);font-weight:var(--t-title-weight);font-size:var(--t-subheading-size);letter-spacing:var(--t-subheading-tracking)}
 .ds-nav-links{display:flex;gap:var(--s-md);margin-left:auto;font-size:var(--t-bodySmall-size);color:var(--c-ink-secondary)}
 .ds-nav-links a:hover{color:var(--c-ink)}
@@ -440,16 +447,31 @@ ${surfaceRules()}
 .ds-hero-spanning .ds-lede{max-width:46ch}
 .ds-hero-spanning .ds-actions{margin-top:var(--s-2xs)}
 .ds-hero-spanning .ds-plate-hang{margin-top:var(--s-xs);margin-bottom:calc(var(--s-2xl) * -1.35)}
-/* Studio / premium-b2b folds put most of the first screen into the product surface. */
-.ds-hero-spanning .ds-plate-bleed .ds-fig{min-height:min(74vh,760px)}
+/* Studio / premium-b2b: product surface owns the fold; claim rides a short gradient over it. */
+.ds-hero-overfigure{position:relative;padding:0;min-height:0;isolation:isolate}
+.ds-hero-overfigure .ds-plate-hang{margin:0 0 calc(var(--s-xl) * -1);padding:0;border:0;border-radius:0;box-shadow:none;background:transparent}
+.ds-hero-overfigure .ds-plate-hang::before,.ds-hero-overfigure .ds-plate-hang::after{display:none}
+.ds-hero-overfigure .ds-plate-bleed .ds-fig{min-height:min(92vh,920px);border-radius:0}
+.ds-hero-overfigure .ds-plate-hang figcaption{position:absolute;right:var(--gutter);bottom:var(--s-sm);order:0;width:auto;margin:0;z-index:2;color:var(--c-ink-tertiary);background:color-mix(in srgb,var(--c-paper) 88%,transparent);padding:0.2rem 0.45rem;border-radius:var(--r-xs)}
+.ds-hero-overclaim{
+  position:absolute;inset:0 0 auto;z-index:var(--z-raised);pointer-events:none;
+  padding:calc(var(--s-xl) + var(--s-sm)) 0 var(--s-2xl);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--c-paper) 94%,transparent) 0%,color-mix(in srgb,var(--c-paper) 72%,transparent) 42%,transparent 100%);
+}
+.ds-hero-overclaim .ds-wrap-wide,.ds-hero-overclaim .ds-hero-copy,.ds-hero-overclaim .ds-actions{pointer-events:auto}
+.ds-hero-overclaim .ds-hero-copy{padding-block:0;gap:var(--s-xs);max-width:36rem}
+.ds-hero-overclaim .ds-display{max-width:16ch}
+.ds-hero-overclaim .ds-lede{max-width:42ch;color:var(--c-ink-secondary)}
+.ds-hero-overfigure + .ds-metrics-band{padding-top:calc(var(--section-y-tight) + var(--s-lg))}
 /* Shared content spine — personal-craft pages score high alignment axes from one repeated left edge. */
-.ds-wrap,.ds-wrap-wide{padding-inline:0}
 .ds-section > .ds-wrap,.ds-section > .ds-wrap-wide{position:relative}
 /* Dashboard: keep the measured body voice on a full prose measure, not a squeezed app column. */
-[data-sitekind="dashboard-webapp"] .ds-hero .ds-lede,
+[data-sitekind="dashboard-webapp"] .ds-hero-overclaim .ds-lede{max-width:min(68ch,var(--w-prose));width:min(68ch,100%)}
 [data-sitekind="dashboard-webapp"] .ds-section-head .ds-lede,
-[data-sitekind="dashboard-webapp"] .ds-faq-item p{max-width:min(68ch,var(--w-prose));width:100%}
-[data-sitekind="dashboard-webapp"] .ds-faq .ds-split{grid-template-columns:minmax(14rem,4fr) minmax(28rem,8fr) !important}
+[data-sitekind="dashboard-webapp"] .ds-faq-item p{max-width:min(68ch,var(--w-prose));width:min(68ch,100%)}
+[data-sitekind="dashboard-webapp"] .ds-faq .ds-split{grid-template-columns:minmax(12rem,3fr) minmax(36rem,9fr) !important}
+[data-sitekind="dashboard-webapp"] .ds-app-main{min-width:0}
+[data-sitekind="dashboard-webapp"] .ds-app-main .ds-lede{max-width:min(68ch,var(--w-prose));width:min(68ch,100%);font-size:var(--t-body-size);line-height:var(--t-body-leading)}
 /* A hairline field behind the quiet band, so a nearly empty screen still reads as a surface. */
 .ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;opacity:.55}
 .ds-field .ds-fig{width:100%;height:100%}
@@ -526,7 +548,7 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 
 /* Index rows */
 .ds-index{display:grid;list-style:none;margin:0;padding:0}
-.ds-index-row{display:grid;grid-template-columns:3rem minmax(0,1fr) minmax(0,26rem) 4.5rem;gap:var(--s-md);align-items:baseline;padding:var(--s-md) var(--s-xs);border-top:1px solid var(--surface-border);border-radius:var(--r-sm)}
+.ds-index-row{display:grid;grid-template-columns:3.5rem minmax(12rem,28ch) minmax(0,1fr) minmax(7rem,9.5rem);gap:var(--s-md);align-items:center;padding:var(--s-md) var(--s-xs);border-top:1px solid var(--surface-border);border-radius:var(--r-sm)}
 .ds-index-row:last-child{border-bottom:1px solid var(--surface-border)}
 .ds-index-num{font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-index-row h3{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking)}
@@ -567,7 +589,8 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
   content:"";position:absolute;left:1.15rem;top:var(--s-md);bottom:var(--s-md);width:2px;
   background:linear-gradient(180deg,var(--c-accent),color-mix(in srgb,var(--c-accent) 20%,transparent));border-radius:1px;
 }
-.ds-chapter{display:grid;grid-template-columns:3.5rem minmax(0,22ch) minmax(0,1fr) minmax(7rem,9.5rem);gap:var(--s-sm) var(--s-lg);padding:var(--s-md) var(--s-sm) var(--s-md) 0;border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:center}
+/* Title column shares one left edge across the register — a third alignment axis beside wrap and mark. */
+.ds-chapter{display:grid;grid-template-columns:3.5rem minmax(12rem,22ch) minmax(0,1fr) minmax(7rem,9.5rem);gap:var(--s-sm) var(--s-lg);padding:var(--s-md) var(--s-sm) var(--s-md) 0;border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:center}
 .ds-chapter:nth-child(odd){background:color-mix(in srgb,var(--c-paper-raised) 70%,transparent)}
 /* Lead step: accent rail + soft wash — full accent-surface cells blew accent-coverage on brand hex briefs. */
 .ds-chapter:first-child{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--c-accent)}

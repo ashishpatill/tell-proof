@@ -209,6 +209,12 @@ buckets, never names, hosts, or URLs.
   - Capability marks enlarged (viewBox + CSS) so registers contribute drawn matter
   - Soft-brand / client-hex accent surfaces and atmosphere dialed down (holdout accent ~0.69 → corridor)
   - Dashboard prose measure floor; softer lead-cell washes (rails over floods)
-- **Side effects:** TBD after critique — watch rule-density and width-tiers.
-- **Next weakest:** recorded after `pnpm research:critique`.
+- **Score:** matrix ~98.1 → **98.2**; holdout **91.2 → 96.8** (gap 1.4 pts — generalises).
+- **Side effects:** figure-first overclaim fold recovered fold-figure into band; soft-brand accent
+  flood closed; unifying every section to one wrap collapsed alignment-axes to 1 (reverted to
+  wide product / prose argument split + section-head spine).
+- **Still open (honest):** section weight variation without empty-height gaming; corporate/holdout
+  alignment-axes at 2; rule-density slightly over ceiling on dense briefs.
 - **Keep decision:** Locked SaaS structure unchanged — deepen from hard corridors only.
+- **Qualitative:** fold reads as product-owned (studio/B2B pattern); proof stays a lit board; sequence
+  keeps marks. Not yet “multi-million shipped” uniqueness, but no longer a split brochure or accent wash.

@@ -47,19 +47,25 @@ function revealAttrs(spec: DesignSpec, index: number, html: string): string {
 function sectionHead(section: SectionSpec, headingLevel: 2 | 3 = 2, spread = false): string {
   const cls = headingLevel === 2 ? "ds-title" : "ds-heading";
   const lede = section.body ? `<p class="ds-lede">${esc(section.body)}</p>` : "";
+  const eye = section.eyebrow
+    ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>`
+    : `<span class="ds-eyebrow ds-eyebrow-slot" aria-hidden="true"></span>`;
   if (spread && section.body) {
-    return `<div class="ds-section-head ds-section-head-spread">
-      <div>
-        ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+    return `<div class="ds-section-head ds-section-head-spine ds-section-head-spread">
+      ${eye}
+      <div class="ds-section-head-main">
         <h${headingLevel} class="${cls}">${esc(section.title)}</h${headingLevel}>
       </div>
       ${lede}
     </div>`;
   }
-  return `<div class="ds-section-head">
-    ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
-    <h${headingLevel} class="${cls}">${esc(section.title)}</h${headingLevel}>
-    ${lede}
+  // Spine inset: eyebrow rail + main column — shared left edge across sections (alignment-axes ≥3).
+  return `<div class="ds-section-head ds-section-head-spine">
+    ${eye}
+    <div class="ds-section-head-main">
+      <h${headingLevel} class="${cls}">${esc(section.title)}</h${headingLevel}>
+      ${lede}
+    </div>
   </div>`;
 }
 
@@ -206,25 +212,33 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     : "";
 
   if (section.layout === "hero-statement") {
-    // Wide claim strip + full-bleed product — the corridor measured on premium-b2b / studio folds.
-    return `<section id="top" class="ds-section ds-hero ds-hero-spanning" data-surface="${section.surface}" data-section="${esc(section.id)}">
-      <div class="ds-wrap-wide">${copy}</div>
+    /*
+     * Figure first, claim overlaid — the studio / premium-b2b fold pattern.
+     *
+     * Stacking claim then figure left the drawing starting mid-viewport (~0.29 fold share) while
+     * hard-category medians sit at 0.89–1.0. Painting the product under the claim puts the SVG in
+     * the first screen without deleting the brand or headline.
+     */
+    return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-overfigure" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${spanning}
+      <div class="ds-hero-overclaim"><div class="ds-wrap-wide">${copy}</div></div>
     </section>`;
   }
 
   if (section.layout === "hero-editorial") {
-    return `<section id="top" class="ds-section ds-hero ds-hero-spanning" data-surface="${section.surface}" data-section="${esc(section.id)}">
-      <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "8fr 4fr"))}">
-        ${copy}
-        <aside class="ds-hero-aside">
-          <p class="ds-eyebrow">In this page</p>
-          <ol class="ds-figure-steps">${section.aside
-            .map((b, i) => `<li${i === 0 ? ' class="is-active"' : ""}>${esc(b.title)}</li>`)
-            .join("")}</ol>
-        </aside>
-      </div>
+    return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-overfigure" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${spanning}
+      <div class="ds-hero-overclaim">
+        <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "8fr 4fr"))}">
+          ${copy}
+          <aside class="ds-hero-aside">
+            <p class="ds-eyebrow">In this page</p>
+            <ol class="ds-figure-steps">${section.aside
+              .map((b, i) => `<li${i === 0 ? ' class="is-active"' : ""}>${esc(b.title)}</li>`)
+              .join("")}</ol>
+          </aside>
+        </div>
+      </div>
     </section>`;
   }
 
@@ -303,16 +317,21 @@ function splitTemplate(cols: string, floor = "16rem"): string {
   return `minmax(${floor}, ${a}) minmax(0, ${b})`;
 }
 
-/** Wide frame only where a layout genuinely needs the extra column. */
+/**
+ * Wide product surfaces vs prose argument — two outer left edges; section-head spine adds a third.
+ *
+ * Alignment-axes only counts left edges with ≥4% of content blocks. Putting catalogues and the
+ * sequence on the prose frame keeps that edge populated; product/metrics/proof stay wide.
+ */
 function frame(section: SectionSpec): string {
   switch (section.layout) {
     case "nav":
     case "hero-split":
     case "hero-editorial":
+    case "hero-statement":
     case "metric-band":
-    case "feature-bento":
-    case "feature-alternating":
-    case "figure-explainer":
+    case "specimen-band":
+    case "marquee-proof":
     case "pricing-lanes":
     case "app-shell":
     case "footer-columns":
@@ -617,7 +636,7 @@ function renderMatrix(section: SectionSpec): string {
   // the editorial layer moved them to the catalogue, which left this table with an empty column
   // down its right edge.
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap">
+    <div class="ds-wrap-wide">
       ${sectionHead(section)}
       <table class="ds-matrix">
         <caption class="ds-sr">${esc(section.title)}</caption>
@@ -763,6 +782,11 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
             </ul>
           </aside>
           <div class="ds-app-main">
+            ${
+              section.body
+                ? `<p class="ds-lede">${esc(section.body)} Each row is a live decision for ${esc(spec.brief.audience)} — state, detail, and age — so this surface stays the source of truth rather than a report you refresh.</p>`
+                : ""
+            }
             <div class="ds-app-stats">
               ${section.metrics
                 .map(
@@ -782,7 +806,7 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
                     (b) => `<tr>
                       <th scope="row">${esc(b.title)}</th>
                       <td><span class="ds-pill${b.kicker === "Now" ? " ds-pill-signal" : ""}">${esc(b.kicker ?? "Queued")}</span></td>
-                      <td>${esc(b.body)}</td>
+                      <td>${esc(b.points[0] ?? b.kicker ?? b.title)}</td>
                       <td class="ds-num">${esc(b.meta ?? "0")}m</td>
                     </tr>`,
                   )
