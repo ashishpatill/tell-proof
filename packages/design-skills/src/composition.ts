@@ -99,8 +99,10 @@ function featureLayouts(count: number, p0: number, lean: AestheticLean): LayoutV
   if (count <= 2) return ["feature-alternating"];
   if (lean === "minimal-clean") return count >= 6 ? ["feature-index", "feature-rows"] : ["feature-rows"];
   if (lean === "refined-story") return ["feature-alternating", "feature-index"];
-  if (p0 >= 2 && count >= 4) return ["feature-alternating", "feature-bento"];
-  return count >= 5 ? ["feature-bento", "feature-rows"] : ["feature-bento"];
+  // Trailing bento left a sparse two-card airway before proof. Index/rows stay dense so the
+  // specimen and proof stage can meet the reader without a light empty band above them.
+  if (p0 >= 2 && count >= 4) return ["feature-alternating", "feature-index"];
+  return count >= 5 ? ["feature-index", "feature-rows"] : ["feature-index"];
 }
 
 export function planSections(input: CompositionInput): SectionPlan[] {
