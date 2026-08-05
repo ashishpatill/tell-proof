@@ -130,19 +130,15 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     plans.push({ id: "hero", kind: "hero", layout: "hero-statement", surface: "paper", columns: split.hero });
     plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "inverse" });
     plans.push({ id: "app", kind: "app", layout: "app-shell", surface: "paper", columns: "260px 1fr" });
-    // The index is the legend for the surface above it. On its own screen it read as a second
-    // feature list; bonded, the reader sees the board and what is on the board at once.
+    // Index bonded to the shell — legend for the board above.
     plans.push({ id: "features", kind: "features", layout: "feature-index", surface: "paper", bond: true });
-    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
-    // The quiet beat sits between the drawn specimen and the specification table — a valley the
-    // denser screens on either side are measured against. At the end of the page it was only a
-    // soft landing into the FAQ, and every strip of the document weighed the same.
-    plans.push({ id: "proof", kind: "proof", layout: "marquee-proof", surface: "inverse" });
+    // Quiet inverse specimen — a low-character valley between the dense shell and the dense matrix.
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "inverse" });
+    plans.push({ id: "proof", kind: "proof", layout: "marquee-proof", surface: "inverse", bond: true });
     plans.push({ id: "figure", kind: "figure", layout: "figure-explainer", surface: "paper", columns: split.feature });
     /*
-     * A product page still has to answer "what do I get". The specification table is also the one
-     * genuinely dense screen a webapp page has; without it every band from the interface down
-     * carries the same weight, which is the rhythm a reader reads as generated.
+     * Specification + FAQ are the densest prose peak. Kept paper/raised against the inverse valley
+     * above so section-weight variation is honest rather than empty-height.
      */
     plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "raised" });
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });

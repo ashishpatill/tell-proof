@@ -192,14 +192,16 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 /* Fintech: inverse specimen is a stage; product drawing sits on a lit paper plate (readable contrast). */
 [data-sitekind="fintech-marketing"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
 [data-sitekind="fintech-marketing"] .ds-specimen-head .ds-heading{color:var(--surface-ink)}
-[data-sitekind="fintech-marketing"] .ds-specimen .ds-plate{
+[data-sitekind="fintech-marketing"] .ds-specimen .ds-plate,
+[data-sitekind="dashboard-webapp"] .ds-specimen[data-surface="inverse"] .ds-plate{
   padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);
   background:var(--c-paper);color:var(--c-ink);
   box-shadow:0 28px 64px color-mix(in srgb,#000 48%,transparent);
   --surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);
   --surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);
 }
-[data-sitekind="fintech-marketing"] .ds-specimen .ds-plate-bleed .ds-fig{border-radius:var(--r-lg);min-height:min(68vh,700px)}
+[data-sitekind="fintech-marketing"] .ds-specimen .ds-plate-bleed .ds-fig,
+[data-sitekind="dashboard-webapp"] .ds-specimen[data-surface="inverse"] .ds-plate-bleed .ds-fig{border-radius:var(--r-lg);min-height:min(68vh,700px)}
 [data-sitekind="fintech-marketing"] .ds-metrics-band{box-shadow:inset 0 3px 0 var(--c-accent)}
 [data-sitekind="fintech-marketing"] .ds-metric{min-height:10.5rem}
 [data-sitekind="fintech-marketing"] .ds-proof{padding-block:var(--s-2xl) calc(var(--section-y) * 0.85)}
@@ -234,6 +236,8 @@ ${semanticVars()};
 --z-grain:1;
 --focus-ring:0 0 0 3px color-mix(in srgb,var(--c-accent) 35%,transparent);
 --accent-soft:color-mix(in srgb,var(--c-accent) 14%,transparent);
+/* Shared inset rail — section heads, chapters, and indexes align on one left edge. */
+--align-rail:5.5rem;
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -315,11 +319,11 @@ ${surfaceRules()}
 .ds-section[data-bond="continues"] .ds-section-head{margin-bottom:var(--s-md)}
 .ds-section-head{display:grid;gap:var(--s-sm);margin-bottom:var(--s-xl)}
 /* Eyebrow rail + main column: a repeated inset left edge (personal-craft alignment pattern). */
-.ds-section-head-spine{grid-template-columns:5.5rem minmax(0,1fr);column-gap:var(--s-lg);align-items:start}
-.ds-section-head-spine .ds-eyebrow{margin:0;padding-top:0.4em;max-width:5.5rem}
+.ds-section-head-spine{grid-template-columns:var(--align-rail) minmax(0,1fr);column-gap:var(--s-lg);align-items:start}
+.ds-section-head-spine .ds-eyebrow{margin:0;padding-top:0.4em;max-width:var(--align-rail)}
 .ds-section-head-spine .ds-eyebrow-slot{display:block;min-height:1em}
 .ds-section-head-main{display:grid;gap:var(--s-sm);min-width:0}
-.ds-section-head-spread{grid-template-columns:5.5rem minmax(0,6fr) minmax(0,5fr);gap:var(--s-lg) var(--s-2xl);align-items:end}
+.ds-section-head-spread{grid-template-columns:var(--align-rail) minmax(0,6fr) minmax(0,5fr);gap:var(--s-lg) var(--s-2xl);align-items:end}
 .ds-section-head-spread .ds-lede{margin-top:0;max-width:38ch;grid-column:3;grid-row:1}
 .ds-section-head .ds-lede{margin-top:var(--s-2xs)}
 .ds-split{display:grid;gap:var(--s-xl) var(--s-2xl);align-items:start}
@@ -563,7 +567,8 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 
 /* Index rows */
 .ds-index{display:grid;list-style:none;margin:0;padding:0}
-.ds-index-row{display:grid;grid-template-columns:3.5rem minmax(12rem,28ch) minmax(0,1fr) minmax(7rem,9.5rem);gap:var(--s-md);align-items:center;padding:var(--s-md) var(--s-xs);border-top:1px solid var(--surface-border);border-radius:var(--r-sm)}
+.ds-index-row{display:grid;grid-template-columns:var(--align-rail) minmax(12rem,28ch) minmax(0,1fr) minmax(7rem,9.5rem);gap:var(--s-md);align-items:center;padding:var(--s-md) var(--s-xs);border-top:1px solid var(--surface-border);border-radius:var(--r-sm)}
+.ds-index-row .ds-mono,.ds-index-num{padding-left:0}
 .ds-index-row:last-child{border-bottom:1px solid var(--surface-border)}
 .ds-index-num{font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-index-row h3{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking)}
@@ -601,15 +606,15 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 /* Sequence is a single register with a spine — never a 2-col grid that leaves a hole on odd counts. */
 .ds-chapters{display:grid;grid-template-columns:1fr;gap:0;list-style:none;margin:0;padding:0;position:relative;border-top:1px solid var(--surface-border)}
 .ds-chapters::before{
-  content:"";position:absolute;left:1.15rem;top:var(--s-md);bottom:var(--s-md);width:2px;
+  content:"";position:absolute;left:calc(var(--align-rail) * 0.35);top:var(--s-md);bottom:var(--s-md);width:2px;
   background:linear-gradient(180deg,var(--c-accent),color-mix(in srgb,var(--c-accent) 20%,transparent));border-radius:1px;
 }
-/* Title column shares one left edge across the register — a third alignment axis beside wrap and mark. */
-.ds-chapter{display:grid;grid-template-columns:3.5rem minmax(12rem,22ch) minmax(0,1fr) minmax(7rem,9.5rem);gap:var(--s-sm) var(--s-lg);padding:var(--s-md) var(--s-sm) var(--s-md) 0;border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:center}
+/* Title column shares --align-rail with section-head-main — third left edge beside wrap / wrap-wide. */
+.ds-chapter{display:grid;grid-template-columns:var(--align-rail) minmax(12rem,22ch) minmax(0,1fr) minmax(7rem,9.5rem);gap:var(--s-sm) var(--s-lg);padding:var(--s-md) var(--s-sm) var(--s-md) 0;border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:center}
 .ds-chapter:nth-child(odd){background:color-mix(in srgb,var(--c-paper-raised) 70%,transparent)}
 /* Lead step: accent rail + soft wash — full accent-surface cells blew accent-coverage on brand hex briefs. */
 .ds-chapter:first-child{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--c-accent)}
-.ds-chapter-index{font-family:var(--f-mono);font-size:var(--t-caption-size);line-height:1;letter-spacing:0;color:var(--c-accent);font-weight:600;min-width:2.5ch;padding-left:var(--s-xl)}
+.ds-chapter-index{font-family:var(--f-mono);font-size:var(--t-caption-size);line-height:1;letter-spacing:0;color:var(--c-accent);font-weight:600;min-width:2.5ch;padding-left:0}
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:22ch;grid-column:auto}
 .ds-chapter .ds-body{max-width:52ch;grid-column:auto}
 .ds-chapter-mark{width:9.5rem;justify-self:end;opacity:.95}

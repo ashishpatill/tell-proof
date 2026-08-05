@@ -210,19 +210,14 @@ export function buildSections(
 
       case "specimen": {
         /*
-         * One heading and one caption. This band exists to be looked at, and every extra sentence
-         * put here is a sentence taken from the section that was supposed to explain the thing.
+         * One short heading. This band exists to be looked at — eyebrow + lede here steal characters
+         * from the quiet beat the denser screens are measured against.
          */
         sections.push(
           SectionSpec.parse({
             ...base,
-            eyebrow: "At a glance",
-            title: sentence(`${brief.productName}, end to end`),
-            body: sentence(
-              `Every capability on this page, in the order work meets them — drawn from the ${count(
-                features.length,
-              )} declared, nothing added`,
-            ),
+            title: sentence(brief.productName),
+            body: "",
           }),
         );
         break;

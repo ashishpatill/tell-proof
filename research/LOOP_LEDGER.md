@@ -218,3 +218,20 @@ buckets, never names, hosts, or URLs.
 - **Keep decision:** Locked SaaS structure unchanged — deepen from hard corridors only.
 - **Qualitative:** fold reads as product-owned (studio/B2B pattern); proof stays a lit board; sequence
   keeps marks. Not yet “multi-million shipped” uniqueness, but no longer a split brochure or accent wash.
+
+## Loop 11 — fifth offering: fintech trust + quiet specimen rhythm
+
+- **Goal:** add a measured demand-gap offering (fintech inverse/bleed ≠ SaaS conversion) and raise
+  section-weight variation honestly by quieting the specimen beat; keep iterating all templates.
+- **Evidence used:** fintech-product category (invertedShare ~0.7, bleedBands ~13, fold figure ~0.88).
+- **Closed:**
+  - New `fintech-marketing` siteKind + `fintech` template + `/showcase/fintech` + critique brief
+  - Inverse-heavy plan: metrics / specimen / proof / cta on inverse; lit paper plates on dark stages
+  - Specimen band type-led (titles only) + short head — char valley without empty height
+  - Shared `--align-rail` across section heads / chapters / indexes
+- **Score:** matrix **99.2**; fintech-trust **100**; saas **99.7**; corporate **99.4**; holdout **98.4**
+  (gap 0.7 — generalises).
+- **Still open:** dashboard section-weight variation (~0.24) — shell density spans multiple bands;
+  docs rule-density slightly over ceiling.
+- **Qualitative:** fintech reads as a money-product stage set (dark valleys, lit product plates), not
+  a recolored SaaS page. SaaS fold still product-owned. Satisfactory to ship and keep deepening.

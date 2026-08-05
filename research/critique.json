@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-08-05T13:30:05.998Z",
-  "overall": 0.9823,
+  "generatedAt": "2026-08-05T13:40:36.201Z",
+  "overall": 0.9918,
   "holdout": {
     "id": "holdout-commerce",
-    "total": 0.968,
-    "gap": 0.0143
+    "total": 0.9844,
+    "gap": 0.0074
   },
   "pages": [
     {
       "id": "saas-conversion",
-      "total": 0.9883,
+      "total": 0.9965,
       "holdout": false,
       "rows": [
         {
@@ -26,7 +26,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 11,
+          "value": 13,
           "band": [
             6,
             14
@@ -92,7 +92,7 @@
         {
           "id": "weight-range",
           "label": "Weights in play",
-          "value": 4,
+          "value": 5,
           "band": [
             3,
             8
@@ -147,7 +147,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 14.9,
+          "value": 15.27,
           "band": [
             8.74,
             21
@@ -202,7 +202,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.68,
+          "value": 9.66,
           "band": [
             5.99,
             12.6
@@ -213,12 +213,12 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.337,
+          "value": 0.419,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.641,
+          "score": 0.987,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
@@ -268,7 +268,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.063,
+          "value": 0.064,
           "band": [
             0.021,
             0.154
@@ -290,7 +290,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 127,
+          "value": 128,
           "band": [
             87,
             1983
@@ -367,7 +367,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 3,
+          "value": 4,
           "band": [
             3,
             6
@@ -422,7 +422,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2172,
+          "value": 0.2177,
           "band": [
             0.196,
             0.778
@@ -455,7 +455,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.2312,
+          "value": 0.2318,
           "band": [
             0.001,
             0.469
@@ -466,7 +466,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.03,
+          "value": 4.04,
           "band": [
             0.42,
             4.33
@@ -478,7 +478,7 @@
     },
     {
       "id": "dashboard-app",
-      "total": 0.9734,
+      "total": 0.9783,
       "holdout": false,
       "rows": [
         {
@@ -572,7 +572,7 @@
         {
           "id": "surface-layers",
           "label": "Surface layers",
-          "value": 7,
+          "value": 6,
           "band": [
             4,
             26
@@ -671,7 +671,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 8.1,
+          "value": 8.09,
           "band": [
             5.99,
             12.6
@@ -682,23 +682,23 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.23,
+          "value": 0.235,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.19,
+          "score": 0.211,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.4,
+          "value": 0.491,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.816,
+          "score": 1,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -715,7 +715,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.01,
+          "value": 0.012,
           "band": [
             0,
             0.014
@@ -759,7 +759,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 127,
+          "value": 128,
           "band": [
             87,
             1983
@@ -847,7 +847,7 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.462,
+          "value": 0.538,
           "band": [
             0.1,
             1.375
@@ -858,7 +858,7 @@
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 87.9,
+          "value": 83.4,
           "band": [
             0,
             100
@@ -891,7 +891,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2359,
+          "value": 0.2316,
           "band": [
             0.196,
             0.778
@@ -947,7 +947,7 @@
     },
     {
       "id": "corporate-story",
-      "total": 0.9769,
+      "total": 0.9935,
       "holdout": false,
       "rows": [
         {
@@ -1140,7 +1140,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 8.39,
+          "value": 8.32,
           "band": [
             5.99,
             12.6
@@ -1151,18 +1151,18 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.35,
+          "value": 0.357,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.696,
+          "score": 0.726,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.78,
+          "value": 0.787,
           "band": [
             0.447,
             0.96
@@ -1228,7 +1228,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 127,
+          "value": 128,
           "band": [
             87,
             1983
@@ -1305,12 +1305,12 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 2,
+          "value": 3,
           "band": [
             3,
             6
           ],
-          "score": 0.333,
+          "score": 1,
           "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
         },
         {
@@ -1360,7 +1360,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2326,
+          "value": 0.2346,
           "band": [
             0.196,
             0.778
@@ -1393,7 +1393,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.1334,
+          "value": 0.1346,
           "band": [
             0.001,
             0.469
@@ -1404,7 +1404,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 3.58,
+          "value": 3.61,
           "band": [
             0.42,
             4.33
@@ -1416,7 +1416,7 @@
     },
     {
       "id": "docs-educational",
-      "total": 0.9906,
+      "total": 0.9909,
       "holdout": false,
       "rows": [
         {
@@ -1609,7 +1609,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 7.91,
+          "value": 7.89,
           "band": [
             5.99,
             12.6
@@ -1620,18 +1620,18 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.39,
+          "value": 0.395,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.865,
+          "score": 0.886,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.454,
+          "value": 0.452,
           "band": [
             0.447,
             0.96
@@ -1675,7 +1675,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 127,
+          "value": 128,
           "band": [
             87,
             1983
@@ -1807,7 +1807,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2973,
+          "value": 0.2982,
           "band": [
             0.196,
             0.778
@@ -1840,7 +1840,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.1297,
+          "value": 0.1301,
           "band": [
             0.001,
             0.469
@@ -1851,25 +1851,25 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.8,
+          "value": 4.82,
           "band": [
             0.42,
             4.33
           ],
-          "score": 0.76,
+          "score": 0.749,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
     },
     {
-      "id": "holdout-commerce",
-      "total": 0.968,
-      "holdout": true,
+      "id": "fintech-trust",
+      "total": 1,
+      "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 6.2,
+          "value": 7.2,
           "band": [
             3.833,
             8.8
@@ -1886,6 +1886,475 @@
             14
           ],
           "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 5,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 0.98,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 16,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 67.2,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 5,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 5,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 9,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 3,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 15.27,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 92,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.961,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.806,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.88,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 10.11,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.45,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 1,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 0.521,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 1,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 5,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.008,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.062,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 5,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 4,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 982,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 38,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 14,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 7,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 5,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.571,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 90.7,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 5,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.214,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2089,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.92,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 20,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.3231,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 4.15,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 1,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
+      "id": "holdout-commerce",
+      "total": 0.9844,
+      "holdout": true,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 6.2,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 15,
+          "band": [
+            6,
+            14
+          ],
+          "score": 0.75,
           "why": "Too few steps reads as a template; too many reads as unmanaged."
         },
         {
@@ -1946,7 +2415,7 @@
         {
           "id": "weight-range",
           "label": "Weights in play",
-          "value": 4,
+          "value": 5,
           "band": [
             3,
             8
@@ -2001,7 +2470,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 14.74,
+          "value": 15.13,
           "band": [
             8.74,
             21
@@ -2056,7 +2525,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.34,
+          "value": 9.32,
           "band": [
             5.99,
             12.6
@@ -2067,18 +2536,18 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.282,
+          "value": 0.348,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.409,
+          "score": 0.688,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.518,
+          "value": 0.52,
           "band": [
             0.447,
             0.96
@@ -2122,7 +2591,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.059,
+          "value": 0.06,
           "band": [
             0.021,
             0.154
@@ -2144,7 +2613,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 127,
+          "value": 128,
           "band": [
             87,
             1983
@@ -2210,7 +2679,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 9,
+          "value": 8,
           "band": [
             5,
             10
@@ -2221,12 +2690,12 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 2,
+          "value": 3,
           "band": [
             3,
             6
           ],
-          "score": 0.333,
+          "score": 1,
           "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
         },
         {
@@ -2276,7 +2745,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2106,
+          "value": 0.2111,
           "band": [
             0.196,
             0.778
@@ -2309,7 +2778,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.2051,
+          "value": 0.2056,
           "band": [
             0.001,
             0.469
@@ -2320,12 +2789,12 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.5,
+          "value": 4.51,
           "band": [
             0.42,
             4.33
           ],
-          "score": 0.913,
+          "score": 0.908,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
@@ -2339,60 +2808,32 @@
         0.422,
         0.896
       ],
-      "mean": 0.56,
-      "scoredOn": 5,
+      "mean": 0.75,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.337
+          "value": 0.419
         },
         {
           "page": "dashboard-app",
-          "value": 0.23
+          "value": 0.235
         },
         {
           "page": "corporate-story",
-          "value": 0.35
+          "value": 0.357
         },
         {
           "page": "docs-educational",
-          "value": 0.39
+          "value": 0.395
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.45
         },
         {
           "page": "holdout-commerce",
-          "value": 0.282
-        }
-      ]
-    },
-    {
-      "id": "alignment-axes",
-      "label": "Alignment axes",
-      "band": [
-        3,
-        6
-      ],
-      "mean": 0.733,
-      "scoredOn": 5,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 3
-        },
-        {
-          "page": "dashboard-app",
-          "value": 4
-        },
-        {
-          "page": "corporate-story",
-          "value": 2
-        },
-        {
-          "page": "docs-educational",
-          "value": 3
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 2
+          "value": 0.348
         }
       ]
     },
@@ -2403,12 +2844,12 @@
         0.42,
         4.33
       ],
-      "mean": 0.91,
-      "scoredOn": 5,
+      "mean": 0.922,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 4.03
+          "value": 4.04
         },
         {
           "page": "dashboard-app",
@@ -2416,15 +2857,55 @@
         },
         {
           "page": "corporate-story",
-          "value": 3.58
+          "value": 3.61
         },
         {
           "page": "docs-educational",
-          "value": 4.8
+          "value": 4.82
+        },
+        {
+          "page": "fintech-trust",
+          "value": 4.15
         },
         {
           "page": "holdout-commerce",
-          "value": 4.5
+          "value": 4.51
+        }
+      ]
+    },
+    {
+      "id": "type-steps",
+      "label": "Distinct type sizes",
+      "band": [
+        6,
+        14
+      ],
+      "mean": 0.958,
+      "scoredOn": 6,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 13
+        },
+        {
+          "page": "dashboard-app",
+          "value": 12
+        },
+        {
+          "page": "corporate-story",
+          "value": 13
+        },
+        {
+          "page": "docs-educational",
+          "value": 12
+        },
+        {
+          "page": "fintech-trust",
+          "value": 13
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 15
         }
       ]
     },
@@ -2435,8 +2916,8 @@
         0.447,
         0.96
       ],
-      "mean": 0.937,
-      "scoredOn": 5,
+      "mean": 0.978,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2444,19 +2925,23 @@
         },
         {
           "page": "dashboard-app",
-          "value": 0.4
+          "value": 0.491
         },
         {
           "page": "corporate-story",
-          "value": 0.78
+          "value": 0.787
         },
         {
           "page": "docs-educational",
-          "value": 0.454
+          "value": 0.452
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.521
         },
         {
           "page": "holdout-commerce",
-          "value": 0.518
+          "value": 0.52
         }
       ]
     },
@@ -2468,7 +2953,7 @@
         8.8
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2487,40 +2972,12 @@
           "value": 5.4
         },
         {
+          "page": "fintech-trust",
+          "value": 7.2
+        },
+        {
           "page": "holdout-commerce",
           "value": 6.2
-        }
-      ]
-    },
-    {
-      "id": "type-steps",
-      "label": "Distinct type sizes",
-      "band": [
-        6,
-        14
-      ],
-      "mean": 1,
-      "scoredOn": 5,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 11
-        },
-        {
-          "page": "dashboard-app",
-          "value": 12
-        },
-        {
-          "page": "corporate-story",
-          "value": 13
-        },
-        {
-          "page": "docs-educational",
-          "value": 12
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 13
         }
       ]
     },
@@ -2532,7 +2989,7 @@
         6.11
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2551,6 +3008,10 @@
           "value": 3.75
         },
         {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
           "page": "holdout-commerce",
           "value": 4.31
         }
@@ -2564,7 +3025,7 @@
         1.15
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2583,6 +3044,10 @@
           "value": 1.05
         },
         {
+          "page": "fintech-trust",
+          "value": 0.98
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.98
         }
@@ -2596,7 +3061,7 @@
         32.9
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2615,6 +3080,10 @@
           "value": 21.3
         },
         {
+          "page": "fintech-trust",
+          "value": 16
+        },
+        {
           "page": "holdout-commerce",
           "value": 18.6
         }
@@ -2628,7 +3097,7 @@
         82.5
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2647,6 +3116,10 @@
           "value": 67.2
         },
         {
+          "page": "fintech-trust",
+          "value": 67.2
+        },
+        {
           "page": "holdout-commerce",
           "value": 72
         }
@@ -2660,7 +3133,7 @@
         1.5
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2676,6 +3149,10 @@
         },
         {
           "page": "docs-educational",
+          "value": 1.48
+        },
+        {
+          "page": "fintech-trust",
           "value": 1.48
         },
         {
@@ -2692,11 +3169,11 @@
         8
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 4
+          "value": 5
         },
         {
           "page": "dashboard-app",
@@ -2711,8 +3188,12 @@
           "value": 5
         },
         {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
           "page": "holdout-commerce",
-          "value": 4
+          "value": 5
         }
       ]
     },
@@ -2724,7 +3205,7 @@
         26
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2732,7 +3213,7 @@
         },
         {
           "page": "dashboard-app",
-          "value": 7
+          "value": 6
         },
         {
           "page": "corporate-story",
@@ -2741,6 +3222,10 @@
         {
           "page": "docs-educational",
           "value": 6
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5
         },
         {
           "page": "holdout-commerce",
@@ -2756,7 +3241,7 @@
         28
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2772,6 +3257,10 @@
         },
         {
           "page": "docs-educational",
+          "value": 9
+        },
+        {
+          "page": "fintech-trust",
           "value": 9
         },
         {
@@ -2788,7 +3277,7 @@
         5
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2807,6 +3296,10 @@
           "value": 3
         },
         {
+          "page": "fintech-trust",
+          "value": 3
+        },
+        {
           "page": "holdout-commerce",
           "value": 3
         }
@@ -2820,7 +3313,7 @@
         2.5
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2836,6 +3329,10 @@
         },
         {
           "page": "docs-educational",
+          "value": 0
+        },
+        {
+          "page": "fintech-trust",
           "value": 0
         },
         {
@@ -2852,11 +3349,11 @@
         21
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 14.9
+          "value": 15.27
         },
         {
           "page": "dashboard-app",
@@ -2871,8 +3368,12 @@
           "value": 15.1
         },
         {
+          "page": "fintech-trust",
+          "value": 15.27
+        },
+        {
           "page": "holdout-commerce",
-          "value": 14.74
+          "value": 15.13
         }
       ]
     },
@@ -2884,7 +3385,7 @@
         120
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2903,6 +3404,10 @@
           "value": 92
         },
         {
+          "page": "fintech-trust",
+          "value": 92
+        },
+        {
           "page": "holdout-commerce",
           "value": 77
         }
@@ -2916,7 +3421,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2935,6 +3440,10 @@
           "value": 0.96
         },
         {
+          "page": "fintech-trust",
+          "value": 0.961
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.856
         }
@@ -2948,7 +3457,7 @@
         0.854
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2967,6 +3476,10 @@
           "value": 0.806
         },
         {
+          "page": "fintech-trust",
+          "value": 0.806
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.833
         }
@@ -2980,7 +3493,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -2999,6 +3512,10 @@
           "value": 0.9
         },
         {
+          "page": "fintech-trust",
+          "value": 0.88
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.88
         }
@@ -3012,27 +3529,31 @@
         12.6
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 9.68
+          "value": 9.66
         },
         {
           "page": "dashboard-app",
-          "value": 8.1
+          "value": 8.09
         },
         {
           "page": "corporate-story",
-          "value": 8.39
+          "value": 8.32
         },
         {
           "page": "docs-educational",
-          "value": 7.91
+          "value": 7.89
+        },
+        {
+          "page": "fintech-trust",
+          "value": 10.11
         },
         {
           "page": "holdout-commerce",
-          "value": 9.34
+          "value": 9.32
         }
       ]
     },
@@ -3044,7 +3565,7 @@
         20
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3060,6 +3581,10 @@
         },
         {
           "page": "docs-educational",
+          "value": 5
+        },
+        {
+          "page": "fintech-trust",
           "value": 5
         },
         {
@@ -3076,7 +3601,7 @@
         0.014
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3084,7 +3609,7 @@
         },
         {
           "page": "dashboard-app",
-          "value": 0.01
+          "value": 0.012
         },
         {
           "page": "corporate-story",
@@ -3093,6 +3618,10 @@
         {
           "page": "docs-educational",
           "value": 0.002
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.008
         },
         {
           "page": "holdout-commerce",
@@ -3108,7 +3637,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3124,6 +3653,10 @@
         },
         {
           "page": "docs-educational",
+          "value": 1
+        },
+        {
+          "page": "fintech-trust",
           "value": 1
         },
         {
@@ -3140,11 +3673,11 @@
         0.154
       ],
       "mean": 1,
-      "scoredOn": 4,
+      "scoredOn": 5,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.063
+          "value": 0.064
         },
         {
           "page": "dashboard-app",
@@ -3159,8 +3692,12 @@
           "value": null
         },
         {
+          "page": "fintech-trust",
+          "value": 0.062
+        },
+        {
           "page": "holdout-commerce",
-          "value": 0.059
+          "value": 0.06
         }
       ]
     },
@@ -3172,7 +3709,7 @@
         300
       ],
       "mean": 1,
-      "scoredOn": 4,
+      "scoredOn": 5,
       "values": [
         {
           "page": "saas-conversion",
@@ -3189,6 +3726,10 @@
         {
           "page": "docs-educational",
           "value": null
+        },
+        {
+          "page": "fintech-trust",
+          "value": 180
         },
         {
           "page": "holdout-commerce",
@@ -3204,27 +3745,31 @@
         1983
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 127
+          "value": 128
         },
         {
           "page": "dashboard-app",
-          "value": 127
+          "value": 128
         },
         {
           "page": "corporate-story",
-          "value": 127
+          "value": 128
         },
         {
           "page": "docs-educational",
-          "value": 127
+          "value": 128
+        },
+        {
+          "page": "fintech-trust",
+          "value": 128
         },
         {
           "page": "holdout-commerce",
-          "value": 127
+          "value": 128
         }
       ]
     },
@@ -3236,7 +3781,7 @@
         55
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3252,6 +3797,10 @@
         },
         {
           "page": "docs-educational",
+          "value": 5
+        },
+        {
+          "page": "fintech-trust",
           "value": 5
         },
         {
@@ -3268,7 +3817,7 @@
         7
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3287,6 +3836,10 @@
           "value": 4
         },
         {
+          "page": "fintech-trust",
+          "value": 4
+        },
+        {
           "page": "holdout-commerce",
           "value": 4
         }
@@ -3300,7 +3853,7 @@
         1139
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3319,6 +3872,10 @@
           "value": 500
         },
         {
+          "page": "fintech-trust",
+          "value": 982
+        },
+        {
           "page": "holdout-commerce",
           "value": 873
         }
@@ -3332,7 +3889,7 @@
         115
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3351,6 +3908,10 @@
           "value": 25
         },
         {
+          "page": "fintech-trust",
+          "value": 38
+        },
+        {
           "page": "holdout-commerce",
           "value": 38
         }
@@ -3364,7 +3925,7 @@
         28
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3383,6 +3944,10 @@
           "value": 13
         },
         {
+          "page": "fintech-trust",
+          "value": 14
+        },
+        {
           "page": "holdout-commerce",
           "value": 14
         }
@@ -3396,7 +3961,7 @@
         10
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3415,8 +3980,48 @@
           "value": 6
         },
         {
+          "page": "fintech-trust",
+          "value": 7
+        },
+        {
           "page": "holdout-commerce",
-          "value": 9
+          "value": 8
+        }
+      ]
+    },
+    {
+      "id": "alignment-axes",
+      "label": "Alignment axes",
+      "band": [
+        3,
+        6
+      ],
+      "mean": 1,
+      "scoredOn": 6,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 4
+        },
+        {
+          "page": "dashboard-app",
+          "value": 4
+        },
+        {
+          "page": "corporate-story",
+          "value": 3
+        },
+        {
+          "page": "docs-educational",
+          "value": 3
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 3
         }
       ]
     },
@@ -3428,7 +4033,7 @@
         1.375
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3436,7 +4041,7 @@
         },
         {
           "page": "dashboard-app",
-          "value": 0.462
+          "value": 0.538
         },
         {
           "page": "corporate-story",
@@ -3445,6 +4050,10 @@
         {
           "page": "docs-educational",
           "value": 0.583
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.571
         },
         {
           "page": "holdout-commerce",
@@ -3460,7 +4069,7 @@
         100
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3468,7 +4077,7 @@
         },
         {
           "page": "dashboard-app",
-          "value": 87.9
+          "value": 83.4
         },
         {
           "page": "corporate-story",
@@ -3477,6 +4086,10 @@
         {
           "page": "docs-educational",
           "value": 92.1
+        },
+        {
+          "page": "fintech-trust",
+          "value": 90.7
         },
         {
           "page": "holdout-commerce",
@@ -3492,7 +4105,7 @@
         7
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3508,6 +4121,10 @@
         },
         {
           "page": "docs-educational",
+          "value": 5
+        },
+        {
+          "page": "fintech-trust",
           "value": 5
         },
         {
@@ -3524,7 +4141,7 @@
         0.5
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3543,6 +4160,10 @@
           "value": 0.167
         },
         {
+          "page": "fintech-trust",
+          "value": 0.214
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.214
         }
@@ -3556,27 +4177,31 @@
         0.778
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.2172
+          "value": 0.2177
         },
         {
           "page": "dashboard-app",
-          "value": 0.2359
+          "value": 0.2316
         },
         {
           "page": "corporate-story",
-          "value": 0.2326
+          "value": 0.2346
         },
         {
           "page": "docs-educational",
-          "value": 0.2973
+          "value": 0.2982
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.2089
         },
         {
           "page": "holdout-commerce",
-          "value": 0.2106
+          "value": 0.2111
         }
       ]
     },
@@ -3588,7 +4213,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3604,6 +4229,10 @@
         },
         {
           "page": "docs-educational",
+          "value": 0.92
+        },
+        {
+          "page": "fintech-trust",
           "value": 0.92
         },
         {
@@ -3620,7 +4249,7 @@
         157
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
@@ -3639,6 +4268,10 @@
           "value": 15
         },
         {
+          "page": "fintech-trust",
+          "value": 20
+        },
+        {
           "page": "holdout-commerce",
           "value": 19
         }
@@ -3652,11 +4285,11 @@
         0.469
       ],
       "mean": 1,
-      "scoredOn": 5,
+      "scoredOn": 6,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.2312
+          "value": 0.2318
         },
         {
           "page": "dashboard-app",
@@ -3664,15 +4297,19 @@
         },
         {
           "page": "corporate-story",
-          "value": 0.1334
+          "value": 0.1346
         },
         {
           "page": "docs-educational",
-          "value": 0.1297
+          "value": 0.1301
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.3231
         },
         {
           "page": "holdout-commerce",
-          "value": 0.2051
+          "value": 0.2056
         }
       ]
     }

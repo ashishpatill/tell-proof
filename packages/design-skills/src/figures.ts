@@ -553,24 +553,11 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
   const parts: string[] = [];
 
   /*
-   * Every stage is drawn to the same height, set by the wordiest one, because stages of different
-   * heights in a row read as a broken grid rather than as a sequence.
-   *
-   * Most sequences have no prose to give: the copy allocator states each claim exactly once, and it
-   * states it where the capability is explained, not again in the diagram. A stage that is only a
-   * name is drawn as a name — set large, with its ordinal set larger — rather than as a title over
-   * two hundred units of reserved emptiness, which is what a card with a rule and nothing under it
-   * looks like at reading size.
+   * Band role is the quiet screen — titles + ordinals only. Capability bodies in stage cards
+   * flattened section-weight variation by filling the specimen beat with paragraph characters.
+   * Plate role stays compact: name + meta, no body prose.
    */
-  const cols = Math.max(18, Math.round(nodeW / 6.6));
-  const detail = items.map((b) => {
-    if (!band) return [] as string[];
-    const points = b.points.slice(0, 2).map((p) => clip(p, cols));
-    return points.length ? points : wrap(b.body ?? "", cols, 3);
-  });
-  const lines = Math.max(...detail.map((d) => d.length), 0);
-  const typeLed = band && lines === 0;
-  const nodeH = band ? (typeLed ? 252 : 118 + lines * 21 + 30) : 104;
+  const nodeH = band ? 252 : 104;
   const H = band ? top + nodeH + 44 : 216;
 
   parts.push(text("Sequence", 4, 16, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
@@ -586,7 +573,7 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
       }),
     );
 
-    if (typeLed) {
+    if (band) {
       const nameLines = wrap(b.title, Math.max(9, Math.round(nodeW / 15)), 3);
       parts.push(text(String(i + 1).padStart(2, "0"), x + 24, top + 74, { size: FT.ordinal, fill: lead ? ACCENT : "var(--c-border-strong)", weight: 300 }));
       parts.push(rule(x + 24, top + 100, x + nodeW - 24, top + 100));
@@ -600,19 +587,8 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
       parts.push(box(x + 24, meterY, meterW * ((i + 1) / items.length), 3, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
     } else {
       parts.push(text(String(i + 1).padStart(2, "0"), x + 16, top + 28, { size: FT.micro, fill: lead ? ACCENT : QUIET, mono: true, track: 0.8 }));
-      parts.push(text(clip(b.title, band ? 26 : 20), x + 16, top + (band ? 66 : 56), { size: band ? FT.title : FT.small, fill: INK, weight: 600 }));
-      if (b.meta) parts.push(text(clip(b.meta, 24), x + 16, top + (band ? 92 : 80), { size: FT.micro, fill: QUIET, mono: true }));
-    }
-
-    if (band && !typeLed) {
-      parts.push(rule(x + 16, top + 106, x + nodeW - 16, top + 106));
-      detail[i]!.forEach((p, j) => {
-        parts.push(text(p, x + 16, top + 128 + j * 21, { size: FT.small, fill: BODY }));
-      });
-      const meterY = top + nodeH - 22;
-      const meterW = nodeW - 32;
-      parts.push(box(x + 16, meterY, meterW, 3, { r: 2, fill: LINE }));
-      parts.push(box(x + 16, meterY, meterW * ((i + 1) / items.length), 3, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
+      parts.push(text(clip(b.title, 20), x + 16, top + 56, { size: FT.small, fill: INK, weight: 600 }));
+      if (b.meta) parts.push(text(clip(b.meta, 24), x + 16, top + 80, { size: FT.micro, fill: QUIET, mono: true }));
     }
 
     if (i < items.length - 1) {
