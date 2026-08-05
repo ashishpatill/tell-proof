@@ -267,6 +267,14 @@ export function buildSections(
 
       case "proof": {
         const q = pullQuote(brief, features);
+        // Evidence chips are the declared capabilities restated as proof — never invented tiers.
+        const evidence = features.slice(0, 3).map((f) =>
+          block({
+            title: f.name,
+            body: f.description,
+            meta: f.priority === "p0" ? "Core" : "Included",
+          }),
+        );
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -274,6 +282,7 @@ export function buildSections(
             title: sentence(`Why it holds up under review`),
             quote: q.quote,
             quoteAttribution: q.attribution,
+            blocks: evidence,
           }),
         );
         break;

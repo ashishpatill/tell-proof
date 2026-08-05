@@ -127,7 +127,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     // The quiet beat sits between the drawn specimen and the specification table — a valley the
     // denser screens on either side are measured against. At the end of the page it was only a
     // soft landing into the FAQ, and every strip of the document weighed the same.
-    plans.push({ id: "proof", kind: "proof", layout: "pullquote", surface: "sunken" });
+    plans.push({ id: "proof", kind: "proof", layout: "pullquote", surface: "inverse" });
     plans.push({ id: "figure", kind: "figure", layout: "figure-explainer", surface: "paper", columns: split.feature });
     /*
      * A product page still has to answer "what do I get". The specification table is also the one
@@ -176,14 +176,17 @@ export function planSections(input: CompositionInput): SectionPlan[] {
   });
 
   if (siteKind !== "docs-educational") {
-    plans.push({ id: "proof", kind: "proof", layout: "pullquote", surface: lean === "refined-story" ? "inverse" : "sunken" });
+    // Inverse proof is a tonal beat with matter in it — not a grey empty screen. Every lean gets
+    // the dark band; the chips and mark keep it from reading as a hole above the sequence.
+    plans.push({ id: "proof", kind: "proof", layout: "pullquote", surface: "inverse" });
   }
 
   plans.push({
     id: "story",
     kind: "story",
     layout: "story-chapters",
-    surface: siteKind === "corporate-story" ? "paper" : "paper",
+    // Raised after inverse proof so the sequence lands as a lit register, not another paper void.
+    surface: "raised",
     columns: split.wide,
   });
 

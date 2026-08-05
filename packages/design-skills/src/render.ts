@@ -519,7 +519,7 @@ function renderChapters(section: SectionSpec): string {
    * turned into the densest vacancy the audit could find. Spread the head across the measure and
    * set the steps as a two-column register so every column the wrap owns has ink in it.
    */
-  return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+  return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${sectionHead(section, 2, true)}
       <ol class="ds-chapters">
@@ -542,17 +542,36 @@ function renderChapters(section: SectionSpec): string {
 }
 
 /**
- * The quiet screen. It earns its height by being nearly empty, so the only thing added is a
- * hairline field behind the statement — enough for the band to read as a surface rather than as a
- * gap where a section failed to render.
+ * Proof band — the claim and the evidence on one composed surface.
+ *
+ * A nearly empty full-screen statement was how this engine bought band-variation points and how
+ * the sequence page acquired a grey void no buyer would accept. The band now carries the quote,
+ * three feature-grounded proof chips, and the signature mark — sized to that matter, hung into
+ * the next section for depth.
  */
 function renderQuote(section: SectionSpec, figures: FigurePlan): string {
+  const proofs = section.blocks.slice(0, 3);
+  const proofList = proofs.length
+    ? `<div class="ds-statement-proofs">${proofs
+        .map(
+          (b) => `<div class="ds-statement-proof">
+            <strong>${esc(b.title)}</strong>
+            ${b.body ? `<span>${esc(b.body)}</span>` : b.points[0] ? `<span>${esc(b.points[0])}</span>` : ""}
+          </div>`,
+        )
+        .join("")}</div>`
+    : "";
   return `<section class="ds-section ds-statement" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    ${figures.field ? `<div class="ds-field">${figures.field}</div>` : ""}
-    <div class="ds-wrap">
-      ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
-      <blockquote class="ds-quote">${esc(section.quote ?? section.title)}</blockquote>
-      <p class="ds-quote-attribution">${esc(section.quoteAttribution ?? "")}</p>
+    <div class="ds-wrap-wide ds-statement-grid">
+      <div>
+        ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+        <blockquote class="ds-quote">${esc(section.quote ?? section.title)}</blockquote>
+        <p class="ds-quote-attribution">${esc(section.quoteAttribution ?? "")}</p>
+      </div>
+      <aside class="ds-statement-aside">
+        ${proofList}
+        ${figures.field ? `<div class="ds-statement-mark" aria-hidden="true">${figures.field}</div>` : ""}
+      </aside>
     </div>
   </section>`;
 }

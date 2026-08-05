@@ -83,10 +83,15 @@ interface MoodSeed {
  * paper and the accent family, where it is a deliberate choice rather than a wash.
  */
 const MOODS: Record<ColorMood, MoodSeed> = {
-  "neutral-professional": { paperHue: 250, paperChroma: 0, accentHue: 258, accentChroma: 0.15, signalHue: 155, dark: false, paperL: 0.985 },
-  "soft-brand-accent": { paperHue: 74, paperChroma: 0.008, accentHue: 28, accentChroma: 0.13, signalHue: 148, dark: false, paperL: 0.975 },
-  "dark-premium": { paperHue: 258, paperChroma: 0.005, accentHue: 232, accentChroma: 0.13, signalHue: 162, dark: true, paperL: 0.19 },
-  "light-airy": { paperHue: 220, paperChroma: 0, accentHue: 224, accentChroma: 0.16, signalHue: 168, dark: false, paperL: 0.99 },
+  /*
+   * Accent hues stay off the purple/violet cluster (≈250–280) that reads as default AI chrome.
+   * Neutral-professional is steel-ink blue; soft-brand is olive-copper (not cream+terracotta);
+   * light-airy is clear cyan-blue. Paper may carry a faint stock tint; ink stays achromatic.
+   */
+  "neutral-professional": { paperHue: 220, paperChroma: 0.004, accentHue: 215, accentChroma: 0.14, signalHue: 155, dark: false, paperL: 0.985 },
+  "soft-brand-accent": { paperHue: 85, paperChroma: 0.01, accentHue: 55, accentChroma: 0.12, signalHue: 148, dark: false, paperL: 0.978 },
+  "dark-premium": { paperHue: 230, paperChroma: 0.006, accentHue: 195, accentChroma: 0.12, signalHue: 162, dark: true, paperL: 0.19 },
+  "light-airy": { paperHue: 210, paperChroma: 0.003, accentHue: 205, accentChroma: 0.15, signalHue: 168, dark: false, paperL: 0.99 },
 };
 
 /**
@@ -144,9 +149,17 @@ export function buildPalette(mood: ColorMood, brandAccent?: string): Palette {
     ? surface(Math.max(0.08, seed.paperL - 0.055), 0.6)
     : surface(seed.paperL - 0.058, 1.25);
 
-  const inverse = dark ? grey(0.93) : grey(0.19);
+  /*
+   * Inverse is not a pure grey slab. A faint accent temperature in the dark band is what makes a
+   * tonal beat feel authored rather than toggled — still near-black, never a purple mesh.
+   */
+  const inverse = dark
+    ? grey(0.93)
+    : oklchToHex({ l: 0.2, c: Math.min(0.028, ac * 0.18), h: ah });
   const inverseInk = dark ? grey(0.2) : grey(0.975);
-  const inverseInkMuted = dark ? grey(0.42) : grey(0.8);
+  const inverseInkMuted = dark
+    ? grey(0.42)
+    : oklchToHex({ l: 0.8, c: Math.min(0.02, ac * 0.12), h: ah });
 
   /*
    * Ink ramp: literal greys, solved against the page so each contrast floor is a fact.

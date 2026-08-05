@@ -155,9 +155,13 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
   if (lean === "conversion-sharp") {
     return `
 [data-lean="conversion-sharp"] .ds-lead-card{border-color:var(--c-accent-border);background:var(--c-accent-surface)}
-[data-lean="conversion-sharp"] .ds-metric-value{color:var(--surface-ink)}
+[data-lean="conversion-sharp"] .ds-metric-value{color:var(--c-accent)}
 [data-lean="conversion-sharp"] .ds-hero-actions{padding-top:var(--s-sm)}
 [data-lean="conversion-sharp"] .ds-section-head h2{max-width:18ch}
+[data-lean="conversion-sharp"] .ds-card-lead{border-color:var(--c-accent-border);box-shadow:inset 3px 0 0 var(--c-accent)}
+[data-lean="conversion-sharp"] .ds-plan-recommended{box-shadow:0 22px 48px color-mix(in srgb,var(--c-accent) 18%,transparent)}
+[data-lean="conversion-sharp"] .ds-chapter:first-child{box-shadow:0 16px 36px color-mix(in srgb,var(--c-accent) 14%,transparent)}
+[data-lean="conversion-sharp"] .ds-statement-proof{border-color:color-mix(in srgb,var(--c-accent) 45%,var(--surface-border));background:color-mix(in srgb,var(--c-accent) 14%,transparent)}
 `;
   }
   if (lean === "refined-story") {
@@ -167,7 +171,7 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
  * page to two painted radii (button + pill), which is the absence of a radius system rather than
  * an editorial decision. */ 
 [data-lean="refined-story"] .ds-card{background:transparent;border:0;border-top:1px solid var(--surface-border);border-radius:var(--r-xs);padding:var(--s-md) 0 var(--s-lg);box-shadow:none}
-[data-lean="refined-story"] .ds-chapter-index{font-family:var(--f-display);font-size:var(--t-title-size);color:var(--surface-quiet);line-height:1}
+[data-lean="refined-story"] .ds-chapter-index{font-family:var(--f-display);font-size:var(--t-display-size);color:color-mix(in srgb,var(--c-accent) 70%,var(--surface-quiet));line-height:.9;opacity:.55}
 [data-lean="refined-story"] .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking)}
 [data-lean="refined-story"] .ds-eyebrow{font-family:var(--f-mono)}
 `;
@@ -210,7 +214,16 @@ body{
      than letting them add a horizontal scrollbar. Clip and not hidden, so the page can still be
      scrolled to an anchor vertically. */
   overflow-x:clip;
-  background:var(--c-paper);
+  /* Atmosphere is not decoration for its own sake — a flat single-fill page is the toy look.
+   * A soft accent wash at the top of the document and a slow paper shift down the scroll give the
+   * eye something to read as depth before any section paints. Accent stays dilute; this is not a
+   * purple mesh hero. */
+  background-color:var(--c-paper);
+  background-image:
+    radial-gradient(ellipse 110% 70% at 78% -10%,color-mix(in srgb,var(--c-accent) 14%,transparent),transparent 58%),
+    radial-gradient(ellipse 70% 50% at 8% 12%,color-mix(in srgb,var(--c-accent) 7%,transparent),transparent 55%),
+    linear-gradient(180deg,var(--c-paper) 0%,var(--c-paper-sunken) 42%,var(--c-paper) 100%);
+  background-attachment:fixed;
   color:var(--c-ink);
   font-family:var(--f-body);
   font-size:var(--t-body-size);
@@ -218,6 +231,11 @@ body{
   letter-spacing:var(--t-body-tracking);
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
+}
+body::before{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;z-index:80;opacity:.04;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.05 0 0 0 0 0.05 0 0 0 0 0.06 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 img,svg,video{max-width:100%;height:auto;display:block}
 a{color:inherit;text-decoration:none}
@@ -284,7 +302,14 @@ ${surfaceRules()}
 .ds-cta-note{font-size:var(--t-caption-size);color:var(--surface-quiet,var(--c-ink-tertiary))}
 
 /* Hero */
-.ds-hero{padding-block:calc(var(--section-y) * 1.1) var(--section-y);min-height:min(84vh,900px);display:grid;align-content:center}
+.ds-hero{position:relative;padding-block:calc(var(--section-y) * 1.1) var(--section-y);min-height:min(84vh,900px);display:grid;align-content:center;isolation:isolate}
+.ds-hero::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 80% at 92% 40%,color-mix(in srgb,var(--c-accent) 18%,transparent),transparent 62%),
+    radial-gradient(ellipse 45% 55% at 0% 100%,color-mix(in srgb,var(--c-accent) 8%,transparent),transparent 60%);
+}
+.ds-hero > *{position:relative;z-index:1}
 .ds-hero-copy{display:grid;gap:var(--s-md);align-content:start}
 .ds-hero-actions{display:flex;flex-wrap:wrap;gap:var(--s-sm);align-items:center;margin-top:var(--s-xs)}
 .ds-hero-facts{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-sm);margin:var(--s-xl) 0 0;padding-top:var(--s-md);list-style:none;border-top:1px solid var(--surface-border)}
@@ -323,9 +348,9 @@ ${surfaceRules()}
  * for, which puts its labels under seven pixels — legible in a viewBox, not on a screen. Letting it
  * bleed right restores the drawing to full size, and it is the same move reference pages use to
  * stop a fold from reading as two boxes side by side. */
-.ds-plate-fold{align-self:center}
+.ds-plate-fold{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--shadow-raised,0 18px 44px color-mix(in srgb,var(--c-ink) 8%,transparent))}
 @media (min-width:64rem){
-  .ds-plate-fold{margin-right:calc(var(--gutter) - max(0px,(100vw - var(--w-wide)) / 2))}
+  .ds-plate-fold{margin-right:calc(var(--gutter) - max(0px,(100vw - var(--w-wide)) / 2));margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 }
 /* Full-bleed. A page where nothing reaches the edge of the screen is a document in a frame, and
  * measured reference pages spend between a tenth and all of their bands on something that does. */
@@ -412,7 +437,8 @@ ${surfaceRules()}
 
 /* Metric band */
 .ds-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:var(--s-lg)}
-.ds-metric{display:grid;gap:var(--s-3xs);padding-top:var(--s-sm);border-top:1px solid var(--surface-border)}
+.ds-metric{display:grid;gap:var(--s-3xs);padding:var(--s-md) var(--s-sm) var(--s-sm);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:color-mix(in srgb,var(--surface-ink) 4%,transparent);position:relative}
+.ds-metric:first-child{border-color:var(--c-accent-border);background:color-mix(in srgb,var(--c-accent) 12%,transparent)}
 .ds-metric-value{font-family:var(--f-display);font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);font-weight:var(--t-heading-weight);color:var(--surface-ink)}
 .ds-metric-label{font-size:var(--t-caption-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--surface-quiet)}
 .ds-metric-note{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-body);max-width:34ch}
@@ -454,26 +480,51 @@ ${surfaceRules()}
 .ds-alt-detail{display:grid;gap:var(--s-sm)}
 .ds-alt-tier{margin:0;font-size:var(--t-caption-size);color:var(--surface-quiet)}
 
-/* Chapters — two columns under a spread head, so the sequence is a register rather than a
- * left-column void beside a list. A chapter with only a name still owns its cell; one with a body
- * fills it. */
-.ds-chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-2xl);row-gap:0;list-style:none;margin:0;padding:0}
-.ds-chapter{display:grid;gap:var(--s-2xs);padding-block:var(--s-md);border-top:1px solid var(--surface-border)}
-.ds-chapter-index{font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
+/* Chapters — two columns under a spread head. Surfaces, ordinals, and a rail so the sequence
+ * reads as a composed register rather than four labelled boxes on paper. */
+.ds-story{position:relative;isolation:isolate}
+.ds-story::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 50% 60% at 0% 20%,color-mix(in srgb,var(--c-accent) 10%,transparent),transparent 65%),
+    linear-gradient(180deg,color-mix(in srgb,var(--c-paper-raised) 80%,transparent),transparent 40%);
+}
+.ds-story > *{position:relative;z-index:1}
+.ds-chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-lg);row-gap:var(--s-md);list-style:none;margin:0;padding:0;position:relative}
+.ds-chapters::before{
+  content:"";position:absolute;left:calc(50% - 0.5px);top:var(--s-md);bottom:var(--s-md);width:1px;
+  background:linear-gradient(180deg,transparent,var(--c-accent-border),transparent);opacity:.7;
+}
+.ds-chapter{display:grid;gap:var(--s-2xs);padding:var(--s-lg) var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-xl);background:var(--c-paper);position:relative;box-shadow:0 1px 0 color-mix(in srgb,var(--c-ink) 4%,transparent)}
+.ds-chapter:nth-child(odd){background:var(--c-paper-raised)}
+.ds-chapter:first-child{border-color:var(--c-accent-border);background:var(--c-accent-surface)}
+.ds-chapter:nth-child(3){border-color:color-mix(in srgb,var(--c-accent) 28%,var(--c-border))}
+.ds-chapter-index{font-family:var(--f-display);font-size:var(--t-title-size);line-height:1;letter-spacing:var(--t-title-tracking);color:var(--c-accent);font-weight:var(--t-title-weight);opacity:.9}
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:24ch}
 .ds-chapter .ds-body{max-width:42ch}
 
-/* Statement band — one idea, given enough height that a whole measured band lands inside it.
+/* Proof band — a claim with evidence beside it, not a reserved empty screen.
  *
- * Band weight is sliced in viewport-tall strips down the document. A statement of ~one viewport
- * that sits between two dense sections shares both of its strips with them, and the quiet beat
- * the eye sees never shows up in the coefficient. A little over a viewport and a half guarantees
- * a strip that contains only the sentence — which is how a page of otherwise careful density
- * still fails to measure as having any. */
-.ds-statement{position:relative;min-height:min(140vh,1260px);display:grid;align-content:center;padding-block:var(--section-y)}
-.ds-statement > .ds-wrap{position:relative}
-.ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking);font-weight:var(--t-title-weight);max-width:20ch;text-wrap:balance}
+ * The 140vh "quiet" statement was a metric hack: it raised band variation and left a grey void
+ * above the sequence that no client would ship. The band now sizes to what it carries — quote,
+ * proof chips from declared features, and the signature mark — and hangs into the next section
+ * so the scroll has depth without a hole. */
+.ds-statement{position:relative;padding-block:calc(var(--section-y) * 0.85);margin-bottom:calc(var(--s-xl) * -1);z-index:var(--z-raised);isolation:isolate}
+.ds-statement::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 100% 50%,color-mix(in srgb,var(--c-accent) 22%,transparent),transparent 70%);
+}
+.ds-statement > *{position:relative;z-index:1}
+.ds-statement + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+.ds-statement-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s-2xl);align-items:end}
+.ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking);font-weight:var(--t-title-weight);max-width:22ch;text-wrap:balance}
 .ds-quote-attribution{margin-top:var(--s-lg);padding-top:var(--s-sm);border-top:1px solid var(--surface-border);font-size:var(--t-caption-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--surface-quiet);max-width:32ch}
+.ds-statement-aside{display:grid;gap:var(--s-sm);align-content:end}
+.ds-statement-proofs{display:grid;gap:var(--s-xs)}
+.ds-statement-proof{display:grid;gap:var(--s-3xs);padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:color-mix(in srgb,var(--surface-ink) 6%,transparent)}
+.ds-statement-proof strong{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading)}
+.ds-statement-proof span{font-size:var(--t-bodySmall-size);color:var(--surface-muted);max-width:36ch}
+.ds-statement-mark{justify-self:end;width:min(100%,14rem);opacity:.9;margin-top:var(--s-sm)}
 
 /* Plans */
 .ds-plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--s-md);align-items:start;list-style:none;margin:0;padding:0}
@@ -576,11 +627,13 @@ ${motionCss(spec.taste.motion)}
   .ds-footer-grid{grid-template-columns:1fr 1fr 1fr}
 }
 @media (max-width:820px){
-  .ds-split,.ds-alt-row,.ds-alt-pair,.ds-section-head-spread{grid-template-columns:1fr!important}
+  .ds-split,.ds-alt-row,.ds-alt-pair,.ds-section-head-spread,.ds-statement-grid{grid-template-columns:1fr!important}
+  .ds-chapters{grid-template-columns:1fr}
+  .ds-chapters::before{display:none}
   /* The sign-off is a composition across the band. Stacked under the buttons on a phone it is just
      a large grey shape between the last CTA and the footer, so it goes. */
   .ds-closing-grid{grid-template-columns:1fr}
-  .ds-closing-mark{display:none}
+  .ds-closing-mark,.ds-statement-mark{display:none}
   .ds-alt-row:nth-child(even) .ds-alt-figure{order:0}
   .ds-bento{grid-template-columns:1fr}
   .ds-card,.ds-card-lead,.ds-card-wide{grid-column:span 1}
