@@ -125,9 +125,22 @@ Append to `research/LOOP_LEDGER.md`:
 - **Next weakest:** …
 ```
 
+## What open-source builders are for (and not for)
+
+Open-source design / site builders are a **plumbing reference** when the engine is stuck on a
+working detail after several failed attempts (landmarks, focus rings, reduced-motion, opaque
+sticky bars, mobile stacking, token emission, structured specs). Encode those floors in
+`packages/design-skills/src/basics-checklist.ts` and move on.
+
+They are **not** a source of templates, aesthetic direction, or composition. Offerings and craft
+come only from the expert corpus + this loop. Do not add a template because a peer tool ships a
+theme pack. Do not spend a research loop rediscovering a basic that `assertBasics` already covers —
+run the checklist first, then measure craft.
+
 ## Related
 
 - `docs/10_DESIGN_EVIDENCE.md` — the measured corridors
 - `docs/11_DESIGN_ENGINE_PLAN.md` — how the engine is built against them
+- `docs/09_PREMIUM_DESIGN_SKILLS.md` — offering catalog + the two-sources rule
 - `premium-content-custom-web` — the skill graph that consumes the evidence
 - `tell-dogfood-audit` — the detector-side check that our own UI has no tells

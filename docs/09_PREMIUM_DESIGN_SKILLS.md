@@ -14,10 +14,31 @@
 | `agent-skills/web-design/premium-content-custom-web/` | Agent skill graph (main + sub-skills) |
 | `.cursor/skills/premium-content-custom-web/SKILL.md` | Agent entry skill |
 | `packages/design-skills` | Deterministic engine (`designFromFeatures`) |
+| `packages/design-skills/src/templates.ts` | Four research-backed offerings (depth-first catalog) |
+| `packages/design-skills/src/basics-checklist.ts` | Implementation floor only (not taste) |
 | `/studio` | Live canvas + Taste Controls + magic edit + viewport + copy HTML |
 | `/showcase/*` | SaaS, dashboard, corporate, educational demos |
 | `POST /api/design` | Brief → spec + preview HTML (`redesignFrom` optional) |
+| `GET /api/design?templates=1` | Offering catalog metadata |
 | MCP `tell_design_from_features` | MCP tool |
+
+## Two sources of learning (do not mix)
+
+| Question | Source |
+|---|---|
+| What does a multi-million-dollar page look like? Which offerings do we ship? How do we compose them? | **Expert study** via `design-research-loop` → corpus measurements → `docs/10_DESIGN_EVIDENCE.md` → `research/LOOP_LEDGER.md` |
+| Why is the sticky nav ghosting? Why won't columns stack? Why are tokens missing? | **Open-source design builders** — only for plumbing we keep getting wrong after retries. Encode those floors in `basics-checklist.ts`. Never invent a template or aesthetic from them. |
+
+### Offering catalog (keep count low)
+
+Four templates, one per `siteKind`. Improve each until the research loop's convergence criteria hold for two consecutive loops. Add a fifth only when a real demand gap appears that none of the four covers.
+
+| Key | Market job |
+|---|---|
+| `saas` | Demo-booking landing for B2B teams |
+| `dashboard` | Daily operator workspace |
+| `corporate` | Enterprise credibility / trust narrative |
+| `educational` | Technical mechanism explainer |
 
 ## Quality bar (Phase 7)
 

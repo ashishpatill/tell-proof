@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { designFromFeatures, SHOWCASE_BRIEFS } from "../orchestrate";
+import { designFromFeatures } from "../orchestrate";
+import { SHOWCASE_BRIEFS, listTemplates } from "../templates";
+import { assertBasics } from "../basics-checklist";
 import { contrastHex } from "../color";
 import { buildPalette } from "../palette";
 import { buildTypeLadder } from "../scale";
@@ -257,5 +259,26 @@ describe("measured craft floors", () => {
     const splits = previewHtml.match(/style="grid-template-columns:[^";]+/g) ?? [];
     const bare = splits.filter((s) => /\d+fr\s+\d+fr/.test(s));
     expect(bare).toEqual([]);
+  });
+});
+
+describe("research-backed offerings + implementation basics", () => {
+  it("keeps exactly four offerings — depth before breadth", () => {
+    const templates = listTemplates();
+    expect(templates).toHaveLength(4);
+    expect(templates.map((t) => t.key).sort()).toEqual(["corporate", "dashboard", "educational", "saas"]);
+    for (const t of templates) {
+      expect(t.marketJob.length).toBeGreaterThan(20);
+      expect(t.researchBasis.length).toBeGreaterThan(20);
+    }
+  });
+
+  it("clears the implementation basics gate on every offering", () => {
+    for (const t of listTemplates()) {
+      const { spec, previewHtml } = designFromFeatures(t.brief);
+      const report = assertBasics(spec, previewHtml);
+      const failed = report.findings.filter((f) => !f.ok).map((f) => `${t.key}:${f.id} — ${f.detail}`);
+      expect(failed, failed.join("\n")).toEqual([]);
+    }
   });
 });
