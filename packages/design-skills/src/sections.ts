@@ -45,6 +45,7 @@ function skillFor(kind: SectionPlan["kind"]): SkillNodeId {
       return "pricing-or-plans";
     case "story":
     case "figure":
+    case "specimen":
       return "content-storytelling-pages";
     case "app":
       return "dashboard-or-webapp-ui";
@@ -192,6 +193,26 @@ export function buildSections(
               ? sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
               : featuresLede(brief, features),
             blocks: slice,
+          }),
+        );
+        break;
+      }
+
+      case "specimen": {
+        /*
+         * One heading and one caption. This band exists to be looked at, and every extra sentence
+         * put here is a sentence taken from the section that was supposed to explain the thing.
+         */
+        sections.push(
+          SectionSpec.parse({
+            ...base,
+            eyebrow: "At a glance",
+            title: sentence(`${brief.productName}, end to end`),
+            body: sentence(
+              `Every capability on this page, in the order work meets them — drawn from the ${count(
+                features.length,
+              )} declared, nothing added`,
+            ),
           }),
         );
         break;

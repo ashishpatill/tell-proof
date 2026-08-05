@@ -150,7 +150,7 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-lean="minimal-clean"] .ds-bento{grid-template-columns:1fr;gap:0}
 [data-lean="minimal-clean"] .ds-eyebrow{color:var(--surface-quiet)}
 [data-lean="minimal-clean"] .ds-section-head{border-top:1px solid var(--surface-border);padding-top:var(--s-md)}
-[data-lean="minimal-clean"] .ds-index-row{grid-template-columns:2.5rem 1fr minmax(0,22rem)}
+[data-lean="minimal-clean"] .ds-index-row{grid-template-columns:2.5rem 1fr minmax(0,22rem) 4.5rem}
 `;
   }
   if (lean === "conversion-sharp") {
@@ -301,15 +301,53 @@ ${surfaceRules()}
 @media (min-width:64rem){
   .ds-plate-fold{margin-right:calc(var(--gutter) - max(0px,(100vw - var(--w-wide)) / 2))}
 }
+/* Full-bleed. A page where nothing reaches the edge of the screen is a document in a frame, and
+ * measured reference pages spend between a tenth and all of their bands on something that does. */
+.ds-bleed{width:100vw;margin-left:calc(50% - 50vw)}
+.ds-plate-bleed .ds-fig{width:100vw}
+.ds-plate-bleed figcaption{width:min(100% - (var(--gutter) * 2),var(--w-wide));margin-inline:auto}
 /* The fold plate hangs across the seam into the next band. Overlap is the cheapest depth there
  * is — no shadow, no blur, nothing to repaint on scroll — and it is what stops an opening screen
  * from reading as two stacked rectangles. */
-.ds-plate-hang{margin-top:var(--s-xl);margin-bottom:calc(var(--s-2xl) * -1);position:relative;z-index:var(--z-raised)}
+.ds-plate-hang{margin-top:var(--s-lg);margin-bottom:calc(var(--s-2xl) * -1);position:relative;z-index:var(--z-raised)}
 .ds-hero:has(.ds-plate-hang) + .ds-section{padding-top:calc(var(--section-y) + var(--s-2xl))}
+/*
+ * A fold whose figure spans the screen gives the copy the top of it and the drawing the rest.
+ *
+ * The centred 84vh hero was reserving a full screen for four hundred characters and pushing the
+ * drawing past the fold entirely, which is how a page ended up describing a product above the fold
+ * and showing it below.
+ */
+.ds-hero-spanning{min-height:0;padding-block:var(--s-xl) 0;align-content:start}
+.ds-hero-spanning .ds-hero-copy{gap:var(--s-sm)}
+.ds-hero-spanning .ds-plate-hang{margin-top:var(--s-md)}
 /* A hairline field behind the quiet band, so a nearly empty screen still reads as a surface. */
-.ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;align-content:center;opacity:.55}
-.ds-field .ds-fig{height:100%}
+.ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;opacity:.55}
+.ds-field .ds-fig{width:100%;height:100%}
+.ds-field-closing{opacity:.32;place-content:center}
+.ds-closing{position:relative}
+.ds-closing > .ds-wrap{position:relative}
 .ds-app-plot{padding:var(--s-sm);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:var(--surface-bg)}
+
+/* Specimen band — one drawing, a screen to itself, a heading and nothing else.
+ *
+ * The height is the point. A screen this empty is what makes the screens either side of it read as
+ * dense, and a page whose bands all weigh the same is the structural signature of a generated one. */
+/*
+ * A screen, not most of one. The band the probe reads is a viewport tall, so a quiet section that
+ * stops at 80vh has its silence averaged with whatever dense section shares the band — which is how
+ * a page with two genuinely empty screens still measured as evenly weighted.
+ */
+.ds-specimen{display:grid;gap:var(--s-xl);min-height:min(102vh,1040px);align-content:center}
+.ds-specimen-head{display:grid;gap:var(--s-2xs);justify-items:center;text-align:center}
+.ds-specimen-head .ds-heading{max-width:24ch}
+
+/* Capability marks — one small schematic per capability, set into the card. */
+.ds-card-mark{width:5.25rem;margin-bottom:var(--s-2xs);color:var(--surface-quiet)}
+.ds-card-lead .ds-card-mark{width:7rem}
+.ds-index-mark{width:4.5rem;justify-self:end;align-self:center}
+.ds-alt-mark{width:4.5rem;margin-bottom:var(--s-2xs)}
+.ds-metric-spark{margin-top:var(--s-2xs)}
 
 /* Product panel — a structural stand-in for the real interface, drawn from tokens only */
 .ds-panel{border:1px solid var(--surface-border);border-radius:var(--r-xl);background:var(--c-paper-raised);overflow:hidden}
@@ -344,7 +382,7 @@ ${surfaceRules()}
 
 /* Index rows */
 .ds-index{display:grid;list-style:none;margin:0;padding:0}
-.ds-index-row{display:grid;grid-template-columns:3rem minmax(0,1fr) minmax(0,26rem);gap:var(--s-md);align-items:baseline;padding:var(--s-md) var(--s-xs);border-top:1px solid var(--surface-border);border-radius:var(--r-sm)}
+.ds-index-row{display:grid;grid-template-columns:3rem minmax(0,1fr) minmax(0,26rem) 4.5rem;gap:var(--s-md);align-items:baseline;padding:var(--s-md) var(--s-xs);border-top:1px solid var(--surface-border);border-radius:var(--r-sm)}
 .ds-index-row:last-child{border-bottom:1px solid var(--surface-border)}
 .ds-index-num{font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-index-row h3{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking)}
@@ -371,7 +409,7 @@ ${surfaceRules()}
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:24ch}
 
 /* Statement band — one idea, given a whole screen */
-.ds-statement{position:relative;min-height:min(96vh,980px);display:grid;align-content:center;padding-block:var(--section-y)}
+.ds-statement{position:relative;min-height:min(102vh,1040px);display:grid;align-content:center;padding-block:var(--section-y)}
 .ds-statement > .ds-wrap{position:relative}
 .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking);font-weight:var(--t-title-weight);max-width:20ch;text-wrap:balance}
 .ds-quote-attribution{margin-top:var(--s-lg);padding-top:var(--s-sm);border-top:1px solid var(--surface-border);font-size:var(--t-caption-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--surface-quiet);max-width:32ch}
@@ -433,7 +471,10 @@ ${surfaceRules()}
 .ds-app{display:grid;gap:0;border:1px solid var(--c-border);border-radius:var(--r-xl);overflow:hidden;background:var(--c-paper)}
 .ds-app-top{display:flex;align-items:center;gap:var(--s-sm);padding:var(--s-xs) var(--s-md);border-bottom:1px solid var(--c-border);background:var(--c-paper-raised)}
 .ds-app-crumbs{font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--c-ink-tertiary)}
-.ds-app-grid{display:grid;align-items:stretch;min-height:32rem}
+/* One screen. A product surface that needs two screens to show is not a screenshot, it is a page —
+ * and split across two measured bands its density averages out to the same weight as the prose
+ * either side of it, which is exactly the rhythm it should be interrupting. */
+.ds-app-grid{display:grid;align-items:stretch;min-height:26rem}
 .ds-app-side{border-right:1px solid var(--c-border);background:var(--c-paper-raised);padding:var(--s-md) var(--s-sm);display:grid;gap:var(--s-md);align-content:start}
 .ds-app-nav{display:grid;gap:2px;list-style:none;margin:0;padding:0}
 .ds-app-nav a{display:block;padding:var(--s-2xs) var(--s-xs);border-radius:var(--r-sm);font-size:var(--t-bodySmall-size);color:var(--c-ink-body)}
@@ -441,6 +482,7 @@ ${surfaceRules()}
 .ds-app-main{padding:var(--s-lg) var(--s-md);display:grid;gap:var(--s-lg);align-content:start}
 .ds-app-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:var(--s-sm)}
 .ds-stat{border:1px solid var(--c-border);border-radius:var(--r-md);padding:var(--s-sm);display:grid;gap:var(--s-3xs)}
+.ds-stat-spark{margin-top:var(--s-3xs);opacity:.85}
 .ds-stat b{font-family:var(--f-mono);font-size:var(--t-subheading-size);font-weight:500}
 .ds-stat span{font-size:var(--t-caption-size);color:var(--c-ink-tertiary)}
 .ds-table{width:100%;border-collapse:collapse;font-size:var(--t-bodySmall-size)}
@@ -474,6 +516,7 @@ ${motionCss(spec.taste.motion)}
   .ds-card,.ds-card-lead,.ds-card-wide{grid-column:span 1}
   .ds-index-row{grid-template-columns:2rem 1fr;row-gap:var(--s-2xs)}
   .ds-index-row p{grid-column:2}
+  .ds-index-mark{display:none}
   .ds-nav-links{display:none}
   .ds-app-grid{grid-template-columns:1fr!important}
   .ds-app-side{border-right:0;border-bottom:1px solid var(--c-border)}

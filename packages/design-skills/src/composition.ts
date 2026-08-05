@@ -21,6 +21,7 @@ export interface SectionPlan {
     | "hero"
     | "metrics"
     | "features"
+    | "specimen"
     | "figure"
     | "story"
     | "proof"
@@ -54,11 +55,18 @@ export interface CompositionInput {
  * heading one word per line and runs its lede at sixteen characters. Asymmetry is still the point;
  * it just has to leave a readable column behind.
  */
+/*
+ * Hero ratios are stated from the copy's side. On a split fold the second track holds the product
+ * surface, and a quarter of the screen is not enough to show one — the drawing scales down until
+ * its own labels are under seven pixels, which is how a fold ends up describing a product instead
+ * of showing it. Measured reference folds are between a third and all drawn matter, so the figure
+ * track gets at least four twelfths wherever a split fold is chosen.
+ */
 const SPLIT: Record<AestheticLean, { hero: string; feature: string; wide: string }> = {
-  "minimal-clean": { hero: "6fr 4fr", feature: "5fr 7fr", wide: "4fr 8fr" },
-  "conversion-sharp": { hero: "7fr 5fr", feature: "6fr 6fr", wide: "7fr 5fr" },
-  "system-crafted": { hero: "8fr 4fr", feature: "7fr 5fr", wide: "5fr 7fr" },
-  "refined-story": { hero: "9fr 3fr", feature: "4fr 8fr", wide: "4fr 8fr" },
+  "minimal-clean": { hero: "6fr 5fr", feature: "5fr 7fr", wide: "4fr 8fr" },
+  "conversion-sharp": { hero: "6fr 6fr", feature: "6fr 6fr", wide: "7fr 5fr" },
+  "system-crafted": { hero: "7fr 5fr", feature: "7fr 5fr", wide: "5fr 7fr" },
+  "refined-story": { hero: "7fr 4fr", feature: "4fr 8fr", wide: "4fr 8fr" },
 };
 
 function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
@@ -96,8 +104,15 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "inverse" });
     plans.push({ id: "app", kind: "app", layout: "app-shell", surface: "paper", columns: "260px 1fr" });
     plans.push({ id: "features", kind: "features", layout: "feature-index", surface: "raised" });
-    plans.push({ id: "figure", kind: "figure", layout: "figure-explainer", surface: "sunken", columns: split.feature });
-    plans.push({ id: "proof", kind: "proof", layout: "pullquote", surface: "paper" });
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({ id: "figure", kind: "figure", layout: "figure-explainer", surface: "paper", columns: split.feature });
+    /*
+     * A product page still has to answer "what do I get". The specification table is also the one
+     * genuinely dense screen a webapp page has; without it every band from the interface down
+     * carries the same weight, which is the rhythm a reader reads as generated.
+     */
+    plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "raised" });
+    plans.push({ id: "proof", kind: "proof", layout: "pullquote", surface: "sunken" });
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr" });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "inverse" });
     plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
@@ -125,6 +140,17 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       surface: i === 0 ? "paper" : "raised",
       columns: layout === "feature-alternating" ? split.feature : undefined,
     });
+    /*
+     * A drawn screen between the catalogue and whatever follows it.
+     *
+     * Reference pages put a beat here: something that reaches the edges of the screen, carries one
+     * line of text, and separates two dense screens so both read as dense. Without it every band on
+     * the page weighs the same, which is the structural signature this engine was measured against
+     * and lost on.
+     */
+    if (i === 0) {
+      plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    }
   });
 
   if (siteKind !== "docs-educational") {

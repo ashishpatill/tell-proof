@@ -2,7 +2,7 @@
   "name": "tell",
   "private": true,
   "version": "0.1.0",
-  "description": "Every AI-built UI has a tell \u2014 capture, diagnose, art-direct, reconcile in Cursor.",
+  "description": "Every AI-built UI has a tell — capture, diagnose, art-direct, reconcile in Cursor.",
   "scripts": {
     "build": "pnpm -r build",
     "dev": "pnpm -F @tell/web dev",
@@ -29,7 +29,8 @@
     "research:aggregate": "pnpm -F @tell/core exec tsx ../../scripts/design-research/aggregate.ts",
     "research:critique": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/critique.ts",
     "research:shots": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/shots.ts",
-    "research:audit": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/layout-audit.ts"
+    "research:audit": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/layout-audit.ts",
+    "research:inspect": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/inspect.ts"
   },
   "devDependencies": {
     "vitest": "^2.1.9"

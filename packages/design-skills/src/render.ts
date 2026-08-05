@@ -80,14 +80,35 @@ function actions(section: SectionSpec, variant: "hero" | "band" = "hero"): strin
  * exactly once; a page that draws the same diagram twice has the same problem as a page that makes
  * the same claim twice.
  */
+/**
+ * The capability catalogue in page order, deduplicated.
+ *
+ * A catalogue split across two sections is still one catalogue, and a capability has to keep the
+ * same drawing in both — otherwise the second section reads as a different product's list.
+ */
+function catalogue(spec: DesignSpec): Block[] {
+  const seen = new Set<string>();
+  const out: Block[] = [];
+  for (const s of spec.sections) {
+    if (s.kind !== "features") continue;
+    for (const b of s.blocks) {
+      if (seen.has(b.title)) continue;
+      seen.add(b.title);
+      out.push(b);
+    }
+  }
+  return out;
+}
+
 function figuresFor(spec: DesignSpec): FigurePlan {
   const bySection = (kind: SectionSpec["kind"]): SectionSpec | undefined =>
     spec.sections.find((s) => s.kind === kind);
-  const features = bySection("features")?.blocks ?? [];
+  const features = catalogue(spec);
   const steps = bySection("figure")?.blocks ?? bySection("story")?.blocks ?? [];
   return planFigures({
     productName: spec.brief.productName,
     siteKind: spec.brief.siteKind,
+    heroLayout: bySection("hero")?.layout ?? "hero-split",
     features: features.length ? features : steps,
     steps,
     metrics: bySection("metrics")?.metrics ?? [],
@@ -103,14 +124,17 @@ function plate(svg: string, caption: string, extraClass = ""): string {
   </figure>`;
 }
 
-function cardMarkup(b: Block, i: number, opts: { lead?: boolean; wide?: boolean } = {}): string {
+function cardMarkup(b: Block, i: number, opts: { lead?: boolean; wide?: boolean; mark?: string } = {}): string {
   const cls = ["ds-card"];
   // Emphasis, not position. The accent wash used to land on whichever capability happened to be
   // first in a section, so a trailing "also included" grid opened with a tinted card promoting its
   // least important item.
   if (opts.lead && b.emphasis === "lead") cls.push("ds-card-lead", "ds-lead-card");
   else if (opts.wide && i === 1) cls.push("ds-card-wide");
+  // The mark is set into the corner of the card rather than stacked above the title, so it reads as
+  // the card's own drawing and not as a decorative header band.
   return `<li class="${cls.join(" ")}" data-feature="${esc(b.title)}">
+    ${opts.mark ? `<div class="ds-card-mark" aria-hidden="true">${opts.mark}</div>` : ""}
     ${b.kicker ? `<p class="ds-eyebrow">${esc(b.kicker)}</p>` : ""}
     <h3>${esc(b.title)}</h3>
     ${b.body ? `<p>${esc(b.body)}</p>` : ""}
@@ -141,9 +165,17 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
    * the top of every page the engine produced. Nothing here needs a description; the fold names
    * the parts, and the catalogue explains them.
    */
-  const meta = section.blocks.length
-    ? `<ul class="ds-hero-facts">${section.blocks.map((b) => `<li>${esc(b.title)}</li>`).join("")}</ul>`
-    : "";
+  /*
+   * The tracked list of core capability names belongs to a fold whose figure sits beside the copy.
+   * On a fold the drawing spans, the same names are already labelled inside the drawing, and the
+   * list only pushes the drawing off the screen — which is precisely how this engine ended up
+   * showing a fifth of the drawn matter reference folds carry.
+   */
+  const spans = section.layout !== "hero-split";
+  const meta =
+    section.blocks.length && !spans
+      ? `<ul class="ds-hero-facts">${section.blocks.map((b) => `<li>${esc(b.title)}</li>`).join("")}</ul>`
+      : "";
 
   const copy = `<div class="ds-hero-copy">
     ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
@@ -154,24 +186,28 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
   </div>`;
 
   /*
-   * The fold figure hangs below the section boundary rather than sitting inside it.
+   * The fold figure spans the screen and hangs across the seam into the next band.
    *
-   * Reference pages overlap a plate across the seam between the opening band and the one after it,
-   * which is the cheapest depth there is — no shadow, no blur, no paint cost — and it is the reason
-   * their folds read as composed rather than stacked. `ds-plate-hang` pulls the figure down over
-   * the following surface; the next section reserves the room for it.
+   * Measured reference folds are between a third and all drawn matter; this engine's were under a
+   * fifth, because the figure was set inside the container and pushed below the fold by a hero that
+   * reserved 84vh for four hundred characters. A spanning fold puts the copy at the top of the
+   * screen and gives the drawing the rest of it, then lets it overlap the following surface —
+   * overlap being the cheapest depth there is, with nothing to repaint on scroll.
    */
   const caption = `${spec.brief.productName} — illustrative`;
+  const spanning = figures.hero
+    ? `<div class="ds-bleed">${plate(figures.hero, caption, "ds-plate-hang ds-plate-bleed")}</div>`
+    : "";
 
   if (section.layout === "hero-statement") {
-    return `<section id="top" class="ds-section ds-hero" data-surface="${section.surface}" data-section="${esc(section.id)}">
+    return `<section id="top" class="ds-section ds-hero ds-hero-spanning" data-surface="${section.surface}" data-section="${esc(section.id)}">
       <div class="ds-wrap">${copy}</div>
-      ${figures.hero ? `<div class="ds-wrap-wide">${plate(figures.hero, caption, "ds-plate-hang")}</div>` : ""}
+      ${spanning}
     </section>`;
   }
 
   if (section.layout === "hero-editorial") {
-    return `<section id="top" class="ds-section ds-hero" data-surface="${section.surface}" data-section="${esc(section.id)}">
+    return `<section id="top" class="ds-section ds-hero ds-hero-spanning" data-surface="${section.surface}" data-section="${esc(section.id)}">
       <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "8fr 4fr"))}">
         ${copy}
         <aside class="ds-hero-aside">
@@ -181,7 +217,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
             .join("")}</ol>
         </aside>
       </div>
-      ${figures.hero ? `<div class="ds-wrap-wide">${plate(figures.hero, caption, "ds-plate-hang")}</div>` : ""}
+      ${spanning}
     </section>`;
   }
 
@@ -193,16 +229,42 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
   </section>`;
 }
 
-function renderMetricBand(section: SectionSpec): string {
+/**
+ * The specimen band — one drawing, a screen to itself, and a single line saying what it is.
+ *
+ * This is the beat every reference page has and this engine did not: a screen with almost no text
+ * on it, reaching the edges, between two screens that are dense. It is what makes the dense screens
+ * read as dense. Measured, it is the difference between a page whose bands all weigh the same and
+ * one whose rhythm a reader can feel.
+ */
+function renderSpecimen(section: SectionSpec, figures: FigurePlan): string {
+  if (!figures.band) return "";
+  return `<section class="ds-section ds-specimen" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-wrap-wide ds-specimen-head">
+      <h2 class="ds-heading">${esc(section.title)}</h2>
+      ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+    </div>
+    <div class="ds-bleed">
+      <figure class="ds-plate ds-plate-bleed">
+        ${figures.band}
+      </figure>
+    </div>
+  </section>`;
+}
+
+function renderMetricBand(section: SectionSpec, figures: FigurePlan): string {
+  // A reading has a direction, and a column of bare numerals asks the reader to take the direction
+  // on trust. The shape sits under the numeral at the width of its own column.
   return `<section class="ds-section ds-section-tight" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${sectionHead(section, 2)}
       <div class="ds-metrics">
         ${section.metrics
           .map(
-            (m) => `<div class="ds-metric">
+            (m, i) => `<div class="ds-metric">
               <p class="ds-metric-value">${esc(m.value)}</p>
               <p class="ds-metric-label">${esc(m.label)}</p>
+              ${figures.sparks[i] ? `<div class="ds-metric-spark">${figures.sparks[i]}</div>` : ""}
               ${m.note ? `<p class="ds-metric-note">${esc(m.note)}</p>` : ""}
             </div>`,
           )
@@ -254,10 +316,18 @@ function frame(section: SectionSpec): string {
 }
 
 function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigurePlan): string {
+  const markIndex = new Map(catalogue(spec).map((b, i) => [b.title, i] as const));
   const inner = (() => {
+    // Marks are indexed against the whole catalogue, so a capability keeps its own drawing even
+    // when the catalogue is split across two sections.
+    const markFor = (b: Block): string => {
+      const at = markIndex.get(b.title);
+      return at === undefined ? "" : (figures.marks[at] ?? "");
+    };
+
     if (section.layout === "feature-bento") {
       return `<ul class="ds-bento">${section.blocks
-        .map((b, i) => cardMarkup(b, i, { lead: true, wide: true }))
+        .map((b, i) => cardMarkup(b, i, { lead: true, wide: true, mark: markFor(b) }))
         .join("")}</ul>`;
     }
     if (section.layout === "feature-index") {
@@ -267,6 +337,7 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
             <span class="ds-index-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</span>
             <h3>${esc(b.title)}</h3>
             <p>${esc(b.body)}</p>
+            <div class="ds-index-mark" aria-hidden="true">${markFor(b)}</div>
           </li>`,
         )
         .join("")}</ol>`;
@@ -304,6 +375,7 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
           }
           return `<div class="ds-alt-row ds-alt-pair">
             <div class="ds-alt-name">
+              <div class="ds-alt-mark" aria-hidden="true">${markFor(b)}</div>
               <h3>${esc(b.title)}</h3>
               ${b.kicker ? `<p class="ds-alt-tier">${esc(b.kicker)}</p>` : ""}
             </div>
@@ -322,6 +394,7 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
           <span class="ds-index-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</span>
           <h3>${esc(b.title)}</h3>
           <p>${esc(b.body)}</p>
+          <div class="ds-index-mark" aria-hidden="true">${markFor(b)}</div>
         </li>`,
       )
       .join("")}</ol>`;
@@ -531,8 +604,16 @@ function renderFaq(section: SectionSpec): string {
   </section>`;
 }
 
-function renderCtaBand(section: SectionSpec): string {
-  return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="cta">
+/**
+ * The closing band, signed.
+ *
+ * Reference pages rarely end on a bare sentence and a button. The mark is set behind the closing
+ * decision at a scale nothing else on the page uses, in hairlines on the construction grid it was
+ * drawn against — a sign-off rather than one more panel.
+ */
+function renderCtaBand(section: SectionSpec, figures: FigurePlan): string {
+  return `<section class="ds-section ds-closing" data-surface="${section.surface}" data-section="${esc(section.id)}" id="cta">
+    ${figures.closing ? `<div class="ds-field ds-field-closing">${figures.closing}</div>` : ""}
     <div class="ds-wrap ds-cta">
       ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
       <h2 class="ds-title">${esc(section.title)}</h2>
@@ -613,10 +694,15 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
           <div class="ds-app-main">
             <div class="ds-app-stats">
               ${section.metrics
-                .map((m) => `<div class="ds-stat"><b>${esc(m.value)}</b><span>${esc(m.label)}</span></div>`)
+                .map(
+                  (m, i) => `<div class="ds-stat">
+                    <b>${esc(m.value)}</b>
+                    <span>${esc(m.label)}</span>
+                    ${figures.sparks[i] ? `<div class="ds-stat-spark" aria-hidden="true">${figures.sparks[i]}</div>` : ""}
+                  </div>`,
+                )
                 .join("")}
             </div>
-            ${figures.body ? `<div class="ds-app-plot">${figures.body}</div>` : ""}
             <table class="ds-table">
               <thead><tr><th scope="col">Item</th><th scope="col">State</th><th scope="col">Detail</th><th scope="col" class="ds-num">Age</th></tr></thead>
               <tbody>
@@ -658,7 +744,9 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-statement":
       return wrapped(renderHero(section, spec, figures));
     case "metric-band":
-      return wrapped(renderMetricBand(section));
+      return wrapped(renderMetricBand(section, figures));
+    case "specimen-band":
+      return wrapped(renderSpecimen(section, figures));
     case "feature-bento":
     case "feature-index":
     case "feature-rows":
@@ -677,7 +765,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "faq-columns":
       return wrapped(renderFaq(section));
     case "cta-band":
-      return wrapped(renderCtaBand(section));
+      return wrapped(renderCtaBand(section, figures));
     case "footer-columns":
       return renderFooter(section);
     case "app-shell":
