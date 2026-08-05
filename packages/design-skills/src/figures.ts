@@ -1099,6 +1099,8 @@ const ORDER: Record<string, Kind[]> = {
   "saas-marketing": ["interface", "flow", "series", "stack"],
   // Money products lead with the working surface and a plotted reading — fintech refs are figure-heavy.
   "fintech-marketing": ["interface", "series", "flow", "stack"],
+  // Studio folds are composed atmospheres — horizon/flow before product chrome.
+  "art-directed-studio": ["horizon", "flow", "stack", "series"],
 };
 
 export function planFigures(input: {

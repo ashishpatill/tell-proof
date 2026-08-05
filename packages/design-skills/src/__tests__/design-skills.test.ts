@@ -263,15 +263,16 @@ describe("measured craft floors", () => {
 });
 
 describe("research-backed offerings + implementation basics", () => {
-  it("keeps a depth-first offering catalog with a fintech gap filled", () => {
+  it("keeps a depth-first offering catalog with fintech and studio gaps filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(5);
+    expect(templates).toHaveLength(6);
     expect(templates.map((t) => t.key).sort()).toEqual([
       "corporate",
       "dashboard",
       "educational",
       "fintech",
       "saas",
+      "studio",
     ]);
     for (const t of templates) {
       expect(t.marketJob.length).toBeGreaterThan(20);
@@ -279,6 +280,8 @@ describe("research-backed offerings + implementation basics", () => {
     }
     const fintech = templates.find((t) => t.key === "fintech")!;
     expect(fintech.siteKind).toBe("fintech-marketing");
+    const studio = templates.find((t) => t.key === "studio")!;
+    expect(studio.siteKind).toBe("art-directed-studio");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -289,6 +292,20 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain('data-sitekind="fintech-marketing"');
     expect(previewHtml).toContain("ds-hero-overfigure");
     expect(previewHtml).toContain("ds-proof-board");
+  });
+
+  it("gives studio a paper-led selected-work plan distinct from SaaS and fintech", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.studio!);
+    expect(spec.brief.siteKind).toBe("art-directed-studio");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "feature-alternating")).toBe(true);
+    expect(spec.sections.some((s) => s.kind === "story")).toBe(true);
+    expect(spec.sections.some((s) => s.kind === "figure")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBeLessThanOrEqual(1);
+    expect(previewHtml).toContain('data-sitekind="art-directed-studio"');
+    expect(previewHtml).toContain("ds-hero-overfigure");
+    expect(previewHtml).toContain("Selected work");
   });
 
   it("clears the implementation basics gate on every offering", () => {

@@ -17,7 +17,7 @@
 
 import { DesignBrief, type SiteKind } from "./types";
 
-export type TemplateKey = "saas" | "dashboard" | "corporate" | "educational" | "fintech";
+export type TemplateKey = "saas" | "dashboard" | "corporate" | "educational" | "fintech" | "studio";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -295,6 +295,69 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
         colorMood: "neutral-professional",
         typographyWeight: "bold-confident",
         roundingDepth: "soft",
+      },
+    }),
+  },
+  {
+    key: "studio",
+    label: "Art-directed studio",
+    marketJob:
+      "Selected-work studio landing — figure-owned fold, method narrative, paper-led proof for creative buyers.",
+    siteKind: "art-directed-studio",
+    researchBasis:
+      "Calibrated against art-directed-studio corridors (foldFigure median 1.0, figureArea ~0.57, invertedShare ~0, display ~high corridor, alignment axes ~4). Distinct from SaaS/fintech: no pricing ladder, almost no inverse bands, selected-work alternating register + method figure + raised proof. Keep spanning overfigure fold; deepen uniqueness without empty-height rhythm hacks.",
+    brief: DesignBrief.parse({
+      productName: "Fieldmark",
+      tagline: "Art direction that survives the handoff",
+      audience: "brand and product leads hiring a studio for a system, not a deck",
+      businessGoal: "trust",
+      siteKind: "art-directed-studio",
+      lockSiteKind: true,
+      features: [
+        {
+          id: "s1",
+          name: "Identity systems",
+          description: "Type, colour, and motion rules that still hold when five vendors touch the brand",
+          priority: "p0",
+        },
+        {
+          id: "s2",
+          name: "Product surfaces",
+          description: "Interfaces composed as chapters of the same system, not a separate UI kit",
+          priority: "p0",
+        },
+        {
+          id: "s3",
+          name: "Launch films",
+          description: "Short motion pieces cut to the same grid the site and product already use",
+          priority: "p0",
+        },
+        {
+          id: "s4",
+          name: "Editorial sites",
+          description: "Marketing pages paced like print — tension, rest, and a real visual event",
+          priority: "p1",
+        },
+        {
+          id: "s5",
+          name: "Handoff kits",
+          description: "Tokens, specimens, and do-nots packaged so engineering does not invent a second brand",
+          priority: "p1",
+        },
+        {
+          id: "s6",
+          name: "Critique loops",
+          description: "Structured reviews that name the tell, not a vibe, before the next round of work",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "soft-brand-accent",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
       },
     }),
   },

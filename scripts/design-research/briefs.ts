@@ -112,6 +112,34 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       },
     },
   },
+  {
+    id: "studio-selected",
+    brief: {
+      productName: "Fieldmark",
+      tagline: "Art direction that survives the handoff",
+      audience: "brand and product leads hiring a studio for a system, not a deck",
+      businessGoal: "trust",
+      siteKind: "art-directed-studio",
+      lockSiteKind: true,
+      features: [
+        { id: "s1", name: "Identity systems", description: "Type, colour, and motion rules that still hold when five vendors touch the brand.", priority: "p0" },
+        { id: "s2", name: "Product surfaces", description: "Interfaces composed as chapters of the same system, not a separate UI kit.", priority: "p0" },
+        { id: "s3", name: "Launch films", description: "Short motion pieces cut to the same grid the site and product already use.", priority: "p0" },
+        { id: "s4", name: "Editorial sites", description: "Marketing pages paced like print — tension, rest, and a real visual event.", priority: "p1" },
+        { id: "s5", name: "Handoff kits", description: "Tokens, specimens, and do-nots packaged so engineering does not invent a second brand.", priority: "p1" },
+        { id: "s6", name: "Critique loops", description: "Structured reviews that name the tell, not a vibe, before the next round of work.", priority: "p2" },
+      ],
+      constraints: ["selected-work first", "paper-led", "restrained motion", "no pricing theatre"],
+      taste: {
+        aestheticLean: "refined-story",
+        motion: "light-scroll-reveals",
+        density: "sparse",
+        colorMood: "soft-brand-accent",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    },
+  },
 ];
 
 /**

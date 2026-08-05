@@ -42,7 +42,7 @@ import { designFromFeatures } from "@tell/design-skills";
 const { spec, previewHtml } = designFromFeatures(brief);
 ```
 
-Studio UI: `/studio` · Showcases: `/showcase/saas`, `/showcase/dashboard`, `/showcase/corporate`, `/showcase/educational`, `/showcase/fintech`
+Studio UI: `/studio` · Showcases: `/showcase/saas`, `/showcase/dashboard`, `/showcase/corporate`, `/showcase/educational`, `/showcase/fintech`, `/showcase/studio`
 
 **Offerings vs plumbing:** Templates/offerings deepen only via the expert research loop (`design-research-loop`). Open-source design builders are consulted only for implementation basics the engine keeps failing (`assertBasics` in `@tell/design-skills`). Do not invent aesthetics or new templates from those tools.
 

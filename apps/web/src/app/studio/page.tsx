@@ -208,6 +208,11 @@ export default function StudioPage() {
       if (/saas/.test(text)) nextKind = "saas-marketing";
     }
     if (/system|token|crafted/.test(text)) nextLean = "system-crafted";
+    if (/studio|portfolio|art.?direct|selected work|atelier/.test(text)) {
+      nextKind = "art-directed-studio";
+      nextLean = "refined-story";
+      nextDensity = "sparse";
+    }
     if (/story|editorial|refined|corporate/.test(text)) {
       nextLean = "refined-story";
       nextDensity = "sparse";
@@ -273,6 +278,9 @@ export default function StudioPage() {
             </a>
             <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/fintech">
               Fintech
+            </a>
+            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/studio">
+              Studio
             </a>
             <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/">
               Tell Report
@@ -342,6 +350,7 @@ export default function StudioPage() {
               "corporate-story",
               "docs-educational",
               "fintech-marketing",
+              "art-directed-studio",
             ]}
             testId="input-sitekind"
           />

@@ -97,6 +97,8 @@ function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
    * whether the product appears.
    */
   if (siteKind === "saas-marketing" || siteKind === "fintech-marketing") return "hero-statement";
+  // Studio folds are claim-over-figure — short brand event on a full composed surface.
+  if (siteKind === "art-directed-studio") return "hero-statement";
   if (lean === "minimal-clean") return "hero-statement";
   if (lean === "refined-story") return "hero-editorial";
   return "hero-split";
@@ -192,6 +194,60 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     return plans;
   }
 
+  /*
+   * Art-directed studio — figure owns the fold; the scroll stays paper-led.
+   *
+   * Measured art-directed-studio pages sit at foldFigure ~1.0, figureArea ~0.57, invertedShare ~0,
+   * and large display type. A SaaS plan (inverse metrics → pricing → inverse CTA) is the wrong
+   * skeleton: selected work, method, and a quiet specimen beat replace the conversion ladder.
+   */
+  if (siteKind === "art-directed-studio") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-statement", surface: "paper", columns: split.hero });
+    // Capability register on raised — stakes without inventing dark-stage metrics theatre.
+    plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "raised" });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-alternating",
+      surface: "paper",
+      columns: split.feature,
+    });
+    // Quiet type-led valley — honest weight variation without empty height.
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-chapters",
+      surface: "paper",
+      bond: true,
+      columns: split.wide,
+    });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    if (featureCount >= 4) {
+      plans.push({ id: "features-2", kind: "features", layout: "feature-index", surface: "paper" });
+    }
+    // Proof stays lit and filled, but on raised paper — studio refs barely invert.
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "raised",
+      bond: true,
+      columns: split.feature,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    // One controlled inverse close for tonal range — not an inverse-heavy scroll.
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "inverse" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
   plans.push({ id: "hero", kind: "hero", layout: heroLayout(siteKind, lean), surface: "paper", columns: split.hero });
 
   // A metric band immediately after the fold is how premium pages state the stakes without
@@ -281,13 +337,16 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "docs-educational") px = 60;
   if (siteKind === "dashboard-webapp") px = 62;
   if (siteKind === "fintech-marketing") px = 70;
+  // Studio display is a visual event — push the high end of the critique corridor (~6.5vw @ 1440).
+  if (siteKind === "art-directed-studio") px = 84;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
   if (density === "information-rich") px -= 6;
   if (density === "sparse") px += 4;
-  // Keep both ends of the measured corridor in view (46–88px at 1440).
-  return Math.max(48, Math.min(86, px));
+  // Studio may sit slightly above the general 86px ceiling while staying ≤ ~6.4vw.
+  const ceiling = siteKind === "art-directed-studio" ? 92 : 86;
+  return Math.max(48, Math.min(ceiling, px));
 }
 
 /** Body size — corpus median 16px, with denser surfaces running smaller. */

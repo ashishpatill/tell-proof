@@ -32,6 +32,9 @@ export function inferSiteKind(brief: DesignBrief): SiteKind {
   if (/\b(fintech|treasury|payments?|banking|ledger|payroll|expense|card|wire|ach|fx|currency)\b/.test(blob)) {
     return "fintech-marketing";
   }
+  if (/\b(studio|portfolio|art.?direction|selected work|creative technolog|brand system|atelier)\b/.test(blob)) {
+    return "art-directed-studio";
+  }
   if (brief.siteKind !== "saas-marketing") return brief.siteKind;
   return "saas-marketing";
 }
@@ -52,7 +55,9 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
           ? ["nav", "hero", "story", "proof", "features", "cta", "footer"]
           : siteKind === "fintech-marketing"
             ? ["nav", "hero", "metrics", "features", "specimen", "proof", "pricing", "cta", "footer"]
-            : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
+            : siteKind === "art-directed-studio"
+              ? ["nav", "hero", "features", "specimen", "story", "figure", "proof", "cta", "footer"]
+              : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
 
   const goals = [
     `Serve ${brief.audience}`,

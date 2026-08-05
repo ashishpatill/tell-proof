@@ -46,6 +46,11 @@ export const SiteKind = z.enum([
   "docs-educational",
   /** Money-movement / treasury marketing — inverse-heavy, bleed-dense, calibrated to fintech-product. */
   "fintech-marketing",
+  /**
+   * Art-directed studio / selected-work marketing — figure-owned fold, paper-led scroll,
+   * calibrated to art-directed-studio (fold figure ~1.0, little inverse, large display).
+   */
+  "art-directed-studio",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 

@@ -192,16 +192,31 @@ export function buildSections(
         featureCursor = featureCursor === 0 ? slice.length : featureCursor + slice.length;
         if (!slice.length) break;
         const isSecond = p.id !== "features";
+        const isStudio = brief.siteKind === "art-directed-studio";
         sections.push(
           SectionSpec.parse({
             ...base,
-            eyebrow: isSecond ? "Also included" : eyebrow.features,
+            eyebrow: isSecond
+              ? isStudio
+                ? "Also in practice"
+                : "Also included"
+              : isStudio
+                ? "Selected work"
+                : eyebrow.features,
             title: isSecond
-              ? sentence(`The rest of what ships with ${brief.productName}`)
-              : featuresTitle(brief, features),
+              ? isStudio
+                ? sentence(`The quieter practices that keep ${brief.productName} sharp`)
+                : sentence(`The rest of what ships with ${brief.productName}`)
+              : isStudio
+                ? sentence(`Work that still holds after the launch week`)
+                : featuresTitle(brief, features),
             body: isSecond
-              ? sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
-              : featuresLede(brief, features),
+              ? isStudio
+                ? sentence(`Handoffs, critique, and the rules that stop the system from drifting`)
+                : sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
+              : isStudio
+                ? sentence(`Each engagement is a composed surface — identity, product, and motion under one grid`)
+                : featuresLede(brief, features),
             blocks: slice,
           }),
         );
@@ -252,9 +267,15 @@ export function buildSections(
         sections.push(
           SectionSpec.parse({
             ...base,
-            eyebrow: eyebrow.story,
-            title: sentence(`The order things happen in`),
-            body: sentence(`The sequence ${brief.audience} actually meet, in order`),
+            eyebrow: brief.siteKind === "art-directed-studio" ? "Method" : eyebrow.story,
+            title:
+              brief.siteKind === "art-directed-studio"
+                ? sentence(`How a system gets made here`)
+                : sentence(`The order things happen in`),
+            body:
+              brief.siteKind === "art-directed-studio"
+                ? sentence(`The sequence from first critique to handoff, without the pitch theatre`)
+                : sentence(`The sequence ${brief.audience} actually meet, in order`),
             blocks: chapters(editorial.features).map((c) => block({ title: c.title, body: c.body, meta: c.meta })),
           }),
         );

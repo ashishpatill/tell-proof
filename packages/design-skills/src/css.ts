@@ -206,6 +206,19 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-sitekind="fintech-marketing"] .ds-metric{min-height:10.5rem}
 [data-sitekind="fintech-marketing"] .ds-proof{padding-block:var(--s-2xl) calc(var(--section-y) * 0.85)}
 [data-sitekind="fintech-marketing"] .ds-hero-overfigure .ds-plate-bleed .ds-fig{min-height:min(94vh,940px)}
+/* Studio: fold is almost entirely drawn matter; claim rides a short gradient over the plate. */
+[data-sitekind="art-directed-studio"] .ds-hero-overfigure .ds-plate-bleed .ds-fig{min-height:min(96vh,980px)}
+[data-sitekind="art-directed-studio"] .ds-hero-overclaim{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--c-paper) 92%,transparent) 0%,color-mix(in srgb,var(--c-paper) 55%,transparent) 42%,transparent 78%);
+  padding-block:calc(var(--s-2xl) + var(--s-md)) var(--s-xl);
+}
+[data-sitekind="art-directed-studio"] .ds-hero-overclaim .ds-display{max-width:12ch;font-size:clamp(2.75rem,6.2vw,5.75rem)}
+[data-sitekind="art-directed-studio"] .ds-hero-overclaim .ds-lede{max-width:36ch}
+[data-sitekind="art-directed-studio"] .ds-brand-mark{font-size:var(--t-subheading-size);letter-spacing:var(--t-caption-tracking)}
+[data-sitekind="art-directed-studio"] .ds-metrics-band{padding-block:var(--section-y-tight)}
+[data-sitekind="art-directed-studio"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="art-directed-studio"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
+[data-sitekind="art-directed-studio"] .ds-chapter-index{opacity:.7}
 `;
 }
 

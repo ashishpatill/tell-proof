@@ -114,6 +114,18 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Educational offerings include a scrubbable figure — the mechanism is shown, not only named.",
     ),
     check(
+      "kind-studio",
+      spec.brief.siteKind !== "art-directed-studio"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && spec.sections.some((s) => s.layout === "feature-alternating")
+          && spec.sections.some((s) => s.kind === "figure" || s.kind === "story")
+          && /ds-hero-overfigure/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length <= 1
+        ),
+      "Studio offerings stay paper-led with selected-work rhythm — no pricing ladder, at most one inverse close.",
+    ),
+    check(
       "no-filler-tiers",
       !/\b(Starter|Growth|Enterprise Plan|Lorem ipsum)\b/i.test(html)
         || spec.brief.features.some((f) => /starter|growth|enterprise/i.test(f.name)),
