@@ -89,7 +89,9 @@ const MOODS: Record<ColorMood, MoodSeed> = {
    * light-airy is clear cyan-blue. Paper may carry a faint stock tint; ink stays achromatic.
    */
   "neutral-professional": { paperHue: 220, paperChroma: 0.004, accentHue: 215, accentChroma: 0.14, signalHue: 155, dark: false, paperL: 0.985 },
-  "soft-brand-accent": { paperHue: 85, paperChroma: 0.01, accentHue: 55, accentChroma: 0.12, signalHue: 148, dark: false, paperL: 0.978 },
+  // Paper chroma stays faint — a client brand accent must not tint the whole page into the accent-
+  // coverage ceiling (holdout briefs with a supplied hex were painting ~0.7 of page area chromatic).
+  "soft-brand-accent": { paperHue: 85, paperChroma: 0.005, accentHue: 55, accentChroma: 0.1, signalHue: 148, dark: false, paperL: 0.978 },
   "dark-premium": { paperHue: 230, paperChroma: 0.006, accentHue: 195, accentChroma: 0.12, signalHue: 162, dark: true, paperL: 0.19 },
   "light-airy": { paperHue: 210, paperChroma: 0.003, accentHue: 205, accentChroma: 0.15, signalHue: 168, dark: false, paperL: 0.99 },
 };
@@ -102,10 +104,13 @@ function seedFromAccent(hex: string, base: MoodSeed): MoodSeed {
   const rgb = hexToRgb(hex);
   if (!rgb) return base;
   const { c, h } = rgbToOklch(rgb);
+  // Cap client chroma — a saturated brand hex used to push accent surfaces and washes past the
+  // measured accent-coverage corridor when the mood already carries paper warmth.
+  const cap = base.paperChroma > 0.004 ? 0.12 : 0.18;
   return {
     ...base,
     accentHue: h,
-    accentChroma: Math.max(0.06, Math.min(0.2, c)),
+    accentChroma: Math.max(0.06, Math.min(cap, c)),
     signalHue: (h + 130) % 360,
   };
 }
@@ -183,12 +188,14 @@ export function buildPalette(mood: ColorMood, brandAccent?: string): Palette {
     contrastHex(accent, "#ffffff") >= 4.5
       ? oklchToHex({ l: 0.99, c: 0.005, h: ah })
       : oklchToHex({ l: 0.16, c: 0.02, h: ah });
+  // Accent surfaces are rails and lead cells — not page-scale washes. Keep chroma low so a strong
+  // client hex cannot push accentAreaRatio past the measured corridor (~0.47 p90).
   const accentSurface = dark
-    ? oklchToHex({ l: seed.paperL + 0.07, c: ac * 0.28, h: ah })
-    : oklchToHex({ l: 0.955, c: ac * 0.22, h: ah });
+    ? oklchToHex({ l: seed.paperL + 0.07, c: ac * 0.16, h: ah })
+    : oklchToHex({ l: 0.96, c: ac * 0.12, h: ah });
   const accentBorder = dark
-    ? oklchToHex({ l: seed.paperL + 0.16, c: ac * 0.42, h: ah })
-    : oklchToHex({ l: 0.87, c: ac * 0.34, h: ah });
+    ? oklchToHex({ l: seed.paperL + 0.16, c: ac * 0.28, h: ah })
+    : oklchToHex({ l: 0.88, c: ac * 0.22, h: ah });
 
   const border = dark ? grey(seed.paperL + 0.1) : grey(0.895);
   const borderStrong = dark ? grey(seed.paperL + 0.2) : grey(0.79);

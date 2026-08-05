@@ -191,3 +191,24 @@ buckets, never names, hosts, or URLs.
   - Lit brackets on the full-bleed fold plate
 - **Side effects:** split-fold brochure look retired for conversion SaaS only.
 - **Next weakest:** holdout gap, alignment axes ≥3, drawn-matter share into band.
+
+## Loop 10 — challenging designer/project corridors into locked SaaS
+
+- **Goal:** absorb craft from hard local-corpus categories (premium-b2b, art-directed studio,
+  fintech product, brand agency, personal-craft typography) into the locked SaaS template —
+  raise drawn-matter share and fold ownership, close holdout overfit, without naming third parties.
+- **Evidence used (anonymised ids only in committed artifacts):**
+  - premium-b2b: foldFigure median ~0.89, figureArea ~0.45, layeredElements ~38, many figures
+  - art-directed-studio: foldFigure median 1.0, large composed surfaces owning the fold
+  - fintech-product: bleedBands median ~13, invertedShare ~0.7, dense inverse registers
+  - brand-agency / solo portfolio: high alignment axes, figure area ~0.5+
+  - personal-craft: typography spine / large gutters / shared left edges (not figure-led)
+- **Closed:**
+  - All `saas-marketing` leans use spanning product fold (system-crafted holdout was still split)
+  - Band target height 780→880; horizon/series band fills; hero/specimen SVG min-heights ~74/70vh
+  - Capability marks enlarged (viewBox + CSS) so registers contribute drawn matter
+  - Soft-brand / client-hex accent surfaces and atmosphere dialed down (holdout accent ~0.69 → corridor)
+  - Dashboard prose measure floor; softer lead-cell washes (rails over floods)
+- **Side effects:** TBD after critique — watch rule-density and width-tiers.
+- **Next weakest:** recorded after `pnpm research:critique`.
+- **Keep decision:** Locked SaaS structure unchanged — deepen from hard corridors only.

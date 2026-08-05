@@ -89,16 +89,17 @@ const SPLIT: Record<AestheticLean, { hero: string; feature: string; wide: string
 function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
   if (siteKind === "corporate-story") return lean === "conversion-sharp" ? "hero-editorial" : "hero-statement";
   if (siteKind === "docs-educational") return "hero-editorial";
+  /*
+   * Every SaaS marketing fold: short claim, then the product surface owns the screen.
+   *
+   * Measured premium-b2b and art-directed references put roughly 0.7–1.0 of the first viewport into
+   * drawn matter (category medians ~0.89 / 1.0). A lean-gated split fold left system-crafted and
+   * information-rich briefs at ~0.2 fold-figure — a brochure, not that corridor. Spanning is the
+   * default for this site kind; lean changes type and density, not whether the product appears.
+   */
+  if (siteKind === "saas-marketing") return "hero-statement";
   if (lean === "minimal-clean") return "hero-statement";
   if (lean === "refined-story") return "hero-editorial";
-  /*
-   * Conversion marketing: the product surface owns the fold.
-   *
-   * Measured premium-b2b and art-directed references put roughly 0.7–1.0 of the first screen into
-   * drawn matter. A split fold with a side plate was capping fold-figure share near 0.4 and reading
-   * as a brochure; spanning the interface under a short claim matches the corridor those pages sit in.
-   */
-  if (lean === "conversion-sharp" && siteKind === "saas-marketing") return "hero-statement";
   return "hero-split";
 }
 
@@ -250,7 +251,9 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
 
 /** Body size — corpus median 16px, with denser surfaces running smaller. */
 export function bodySizeFor(density: Density, siteKind: SiteKind): number {
-  if (siteKind === "dashboard-webapp") return density === "information-rich" ? 14 : 15;
+  // Dashboard still needs a readable prose measure on the claim/FAQ screens; 14px in a mid
+  // column was reading as a 34ch body voice against a 44ch floor.
+  if (siteKind === "dashboard-webapp") return density === "information-rich" ? 15 : 16;
   if (density === "information-rich") return 16;
   if (density === "sparse") return 18;
   return 17;

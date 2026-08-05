@@ -166,7 +166,14 @@ const BLEED_INSET = 0.07;
  * Bands whose content genuinely cannot fill it are drawn shorter rather than padded to reach it,
  * because the section is now sized by its figure rather than the other way round.
  */
-const BAND_TARGET_H = 780;
+/*
+ * Full-bleed bands target roughly three-quarters of a 900px research viewport.
+ *
+ * Hard-category folds (premium-b2b, art-directed studio) routinely put 0.7–1.0 of the first screen
+ * into drawn matter. A 620–780 drawing left our pages at ~0.15 page-figure share; raising the
+ * target grows real painted area rather than padding empty section height.
+ */
+const BAND_TARGET_H = 880;
 
 /** Keep a computed dimension inside the range it is allowed to take. */
 function clamp(v: number, lo: number, hi: number): number {
@@ -469,7 +476,7 @@ function interfaceBand(productName: string, rows: Block[], seed: string): string
  */
 export function seriesChart(label: string, periods: string[], seed: string, role: FigureRole = "column"): string {
   const W = role === "band" ? 1200 : 560;
-  const H = role === "band" ? 340 : 320;
+  const H = role === "band" ? Math.round(BAND_TARGET_H * 0.72) : 320;
   const left = 46;
   const right = W - 20;
   const top = 26;
@@ -743,7 +750,9 @@ export function horizonPlot(marks: Block[], seed: string, role: FigureRole = "pl
   if (items.length < 2) return "";
   const band = role === "band";
   const W = band ? 1200 : 720;
-  const H = band ? 320 : 208;
+  // Editorial fold bands were drawing a thin timeline into a reserved screen — studio-class folds
+  // fill the viewport with one composed surface. Match the specimen target when spanning.
+  const H = band ? Math.round(BAND_TARGET_H * 0.82) : 208;
   const left = band ? 16 : 8;
   const right = W - left;
   const axis = Math.round(H * 0.62);
@@ -797,8 +806,10 @@ export function horizonPlot(marks: Block[], seed: string, role: FigureRole = "pl
  * type is a row in a list; a card carrying a mark is a product surface.
  */
 export function capabilityMark(b: Block, index: number, seed: string): string {
-  const W = 168;
-  const H = 96;
+  // Marks are small schematics, not icons — sized so a register of them still registers as drawn
+  // matter on a dense B2B page (references often carry dozens of figures, not three plates).
+  const W = 220;
+  const H = 128;
   const r = rng(`${seed}:mark:${b.title}`);
   const n = Math.max(2, Math.min(5, b.points.length || 3));
   const lead = b.emphasis === "lead";

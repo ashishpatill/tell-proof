@@ -521,7 +521,8 @@ function renderFigure(section: SectionSpec): string {
 function renderChapters(section: SectionSpec, figures: FigurePlan): string {
   /*
    * Spined register with a mark per step. Odd-count card grids left a hole; empty chapter bodies
-   * read as wireframes. Every row carries index, title, body, and a capability mark.
+   * read as wireframes. Every row carries index, title, body, and a capability mark sized to
+   * count as drawn matter (premium-b2b pages carry dozens of figures, not three plates).
    */
   const count = section.blocks.length;
   return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">

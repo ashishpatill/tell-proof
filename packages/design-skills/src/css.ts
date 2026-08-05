@@ -236,10 +236,16 @@ body{
    * purple mesh hero. */
   background-color:var(--c-paper);
   background-image:
-    radial-gradient(ellipse 110% 70% at 78% -10%,color-mix(in srgb,var(--c-accent) 14%,transparent),transparent 58%),
-    radial-gradient(ellipse 70% 50% at 8% 12%,color-mix(in srgb,var(--c-accent) 7%,transparent),transparent 55%),
+    radial-gradient(ellipse 110% 70% at 78% -10%,color-mix(in srgb,var(--c-accent) 9%,transparent),transparent 58%),
+    radial-gradient(ellipse 70% 50% at 8% 12%,color-mix(in srgb,var(--c-accent) 4%,transparent),transparent 55%),
     linear-gradient(180deg,var(--c-paper) 0%,var(--c-paper-sunken) 42%,var(--c-paper) 100%);
   background-attachment:fixed;
+/* Soft-brand + client hex: keep atmosphere as stock, not a chromatic flood (accent-coverage ceiling). */
+body[data-mood="soft-brand-accent"]{
+  background-image:
+    radial-gradient(ellipse 90% 55% at 80% -8%,color-mix(in srgb,var(--c-accent) 5%,transparent),transparent 60%),
+    linear-gradient(180deg,var(--c-paper) 0%,var(--c-paper-sunken) 48%,var(--c-paper) 100%);
+}
   color:var(--c-ink);
   font-family:var(--f-body);
   font-size:var(--t-body-size);
@@ -428,11 +434,22 @@ ${surfaceRules()}
  * drawing past the fold entirely, which is how a page ended up describing a product above the fold
  * and showing it below.
  */
-.ds-hero-spanning{min-height:0;padding-block:var(--s-lg) 0;align-content:start}
-.ds-hero-spanning .ds-hero-copy{gap:var(--s-sm);max-width:42rem}
-.ds-hero-spanning .ds-display{max-width:20ch}
-.ds-hero-spanning .ds-plate-hang{margin-top:var(--s-sm);margin-bottom:calc(var(--s-2xl) * -1.25)}
-.ds-hero-spanning .ds-plate-bleed .ds-fig{min-height:min(62vh,640px)}
+.ds-hero-spanning{min-height:0;padding-block:var(--s-md) 0;align-content:start}
+.ds-hero-spanning .ds-hero-copy{gap:var(--s-xs);max-width:40rem;padding-block:var(--s-md) var(--s-xs)}
+.ds-hero-spanning .ds-display{max-width:18ch}
+.ds-hero-spanning .ds-lede{max-width:46ch}
+.ds-hero-spanning .ds-actions{margin-top:var(--s-2xs)}
+.ds-hero-spanning .ds-plate-hang{margin-top:var(--s-xs);margin-bottom:calc(var(--s-2xl) * -1.35)}
+/* Studio / premium-b2b folds put most of the first screen into the product surface. */
+.ds-hero-spanning .ds-plate-bleed .ds-fig{min-height:min(74vh,760px)}
+/* Shared content spine — personal-craft pages score high alignment axes from one repeated left edge. */
+.ds-wrap,.ds-wrap-wide{padding-inline:0}
+.ds-section > .ds-wrap,.ds-section > .ds-wrap-wide{position:relative}
+/* Dashboard: keep the measured body voice on a full prose measure, not a squeezed app column. */
+[data-sitekind="dashboard-webapp"] .ds-hero .ds-lede,
+[data-sitekind="dashboard-webapp"] .ds-section-head .ds-lede,
+[data-sitekind="dashboard-webapp"] .ds-faq-item p{max-width:min(68ch,var(--w-prose));width:100%}
+[data-sitekind="dashboard-webapp"] .ds-faq .ds-split{grid-template-columns:minmax(14rem,4fr) minmax(28rem,8fr) !important}
 /* A hairline field behind the quiet band, so a nearly empty screen still reads as a surface. */
 .ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;opacity:.55}
 .ds-field .ds-fig{width:100%;height:100%}
@@ -449,15 +466,27 @@ ${surfaceRules()}
  * So the band is as tall as its drawing, and the drawing is drawn to fill a screen. The silence is
  * bought with ink instead of with height.
  */
-.ds-specimen{display:grid;gap:var(--s-lg)}
-.ds-specimen-head{display:grid;gap:var(--s-2xs);justify-items:center;text-align:center}
-.ds-specimen-head .ds-heading{max-width:24ch}
+.ds-specimen{display:grid;gap:var(--s-md)}
+.ds-specimen-head{display:grid;gap:var(--s-3xs);justify-items:start;text-align:start;width:min(100% - (var(--gutter) * 2),var(--w-wide));margin-inline:auto}
+.ds-specimen-head .ds-heading{max-width:22ch}
+.ds-specimen .ds-plate-bleed .ds-fig{min-height:min(70vh,720px)}
+/* Soft-brand lead cells: rail only — avoid page-scale accent fills. */
+body[data-mood="soft-brand-accent"] .ds-chapter:first-child,
+body[data-mood="soft-brand-accent"] .ds-proof-cell.is-lead,
+body[data-mood="soft-brand-accent"] .ds-proof-cell:first-child,
+body[data-mood="soft-brand-accent"] .ds-metric:first-child,
+body[data-mood="soft-brand-accent"] .ds-plan-recommended{background:transparent}
+body[data-mood="soft-brand-accent"] .ds-chapter:first-child{box-shadow:inset 3px 0 0 var(--c-accent)}
+body[data-mood="soft-brand-accent"] .ds-proof-cell.is-lead,
+body[data-mood="soft-brand-accent"] .ds-proof-cell:first-child{box-shadow:inset 0 3px 0 var(--c-accent)}
+body[data-mood="soft-brand-accent"] .ds-metric:first-child{border-color:var(--c-accent-border)}
+body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-accent);margin-block:0;padding-block:var(--s-lg)}
 
 /* Capability marks — one small schematic per capability, set into the card. */
-.ds-card-mark{width:6.5rem;margin-bottom:var(--s-2xs);color:var(--surface-quiet);border-radius:var(--r-xs)}
-.ds-card-lead .ds-card-mark{width:8.5rem}
-.ds-index-mark{width:7.25rem;justify-self:end;align-self:center}
-.ds-alt-mark{width:7rem;justify-self:end;align-self:center;border-radius:var(--r-sm);overflow:hidden}
+.ds-card-mark{width:9rem;margin-bottom:var(--s-2xs);color:var(--surface-quiet);border-radius:var(--r-xs)}
+.ds-card-lead .ds-card-mark{width:11rem}
+.ds-index-mark{width:9.5rem;justify-self:end;align-self:center}
+.ds-alt-mark{width:9rem;justify-self:end;align-self:center;border-radius:var(--r-sm);overflow:hidden}
 .ds-metric-spark{margin-top:var(--s-2xs)}
 
 /* Product panel — a structural stand-in for the real interface, drawn from tokens only */
@@ -476,7 +505,10 @@ ${surfaceRules()}
 /* Metric band */
 .ds-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:var(--s-lg)}
 .ds-metric{display:grid;gap:var(--s-3xs);padding:var(--s-md) var(--s-sm) var(--s-sm);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:color-mix(in srgb,var(--surface-ink) 4%,transparent);position:relative}
-.ds-metric:first-child{border-color:var(--c-accent-border);background:color-mix(in srgb,var(--c-accent) 12%,transparent)}
+.ds-metric:first-child{border-color:var(--c-accent-border);background:var(--accent-soft)}
+/* Dense metric register — fintech-class inverse bands carry ink, not air. */
+.ds-metrics-band .ds-metric{padding:var(--s-lg) var(--s-md) var(--s-md);min-height:9.5rem}
+.ds-metrics-band .ds-metric-spark{width:100%;max-width:14rem}
 .ds-metric-value{font-family:var(--f-display);font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);font-weight:var(--t-heading-weight);color:var(--surface-ink)}
 .ds-metric-label{font-size:var(--t-caption-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--surface-quiet)}
 .ds-metric-note{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-body);max-width:34ch}
@@ -535,13 +567,14 @@ ${surfaceRules()}
   content:"";position:absolute;left:1.15rem;top:var(--s-md);bottom:var(--s-md);width:2px;
   background:linear-gradient(180deg,var(--c-accent),color-mix(in srgb,var(--c-accent) 20%,transparent));border-radius:1px;
 }
-.ds-chapter{display:grid;grid-template-columns:3.5rem minmax(0,22ch) minmax(0,1fr) 4.5rem;gap:var(--s-sm) var(--s-lg);padding:var(--s-md) var(--s-sm) var(--s-md) 0;border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:center}
+.ds-chapter{display:grid;grid-template-columns:3.5rem minmax(0,22ch) minmax(0,1fr) minmax(7rem,9.5rem);gap:var(--s-sm) var(--s-lg);padding:var(--s-md) var(--s-sm) var(--s-md) 0;border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:center}
 .ds-chapter:nth-child(odd){background:color-mix(in srgb,var(--c-paper-raised) 70%,transparent)}
-.ds-chapter:first-child{background:var(--c-accent-surface);box-shadow:inset 3px 0 0 var(--c-accent)}
+/* Lead step: accent rail + soft wash — full accent-surface cells blew accent-coverage on brand hex briefs. */
+.ds-chapter:first-child{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--c-accent)}
 .ds-chapter-index{font-family:var(--f-mono);font-size:var(--t-caption-size);line-height:1;letter-spacing:0;color:var(--c-accent);font-weight:600;min-width:2.5ch;padding-left:var(--s-xl)}
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:22ch;grid-column:auto}
 .ds-chapter .ds-body{max-width:52ch;grid-column:auto}
-.ds-chapter-mark{width:6.5rem;justify-self:end;opacity:.9}
+.ds-chapter-mark{width:9.5rem;justify-self:end;opacity:.95}
 
 /* Proof board — dense inverse surface packed with declared evidence.
  *
@@ -578,7 +611,7 @@ ${surfaceRules()}
 .ds-proof-cell{display:grid;gap:var(--s-2xs);align-content:start;padding:var(--s-md) var(--s-sm);border-right:1px solid var(--surface-border);min-height:0;background:transparent;border-radius:0}
 .ds-proof-cell:last-child{border-right:0}
 .ds-proof-cell.is-lead,.ds-proof-cell:first-child{background:var(--accent-soft);box-shadow:inset 0 3px 0 var(--c-accent)}
-.ds-proof-mark{width:4.75rem;margin-bottom:var(--s-3xs);opacity:.9}
+.ds-proof-mark{width:7.25rem;margin-bottom:var(--s-3xs);opacity:.95}
 .ds-proof-meta{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0;text-transform:none;color:var(--c-accent)}
 .ds-proof-cell h3{font-size:var(--t-body-size);line-height:var(--t-body-leading);letter-spacing:var(--t-body-tracking);font-weight:600;max-width:16ch}
 .ds-proof-cell p{font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--surface-muted);max-width:28ch}
