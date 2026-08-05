@@ -122,3 +122,24 @@ buckets, never names, hosts, or URLs.
   a template. Holdout still trails by ~1 pt on fold figure and accent — generalises, not overfitting.
 - **Next weakest:** holdout fold-figure (0.24 vs band 0.34), docs rule density (4.83 vs 4.33), accent
   coverage on cool-neutral pages.
+
+## Loop 6 — kill the empty proof void (eye over score)
+
+- **Goal:** the Sequence screen opened under a grey 140vh statement with almost no matter — a metric
+  hack that no buyer would ship. Raise color, layering, and chapter density so the page reads as
+  product work rather than a wireframe.
+- **Corpus:** unchanged (82 usable).
+- **Score:** 99.8 → 97.7 (deliberate). Section weight variation fell because the empty full-screen
+  statement was removed; that score was gamed. Prefer the eye.
+- **Closed:**
+  - Statement band sizes to quote + three feature-grounded proof chips + mark; hangs into Sequence.
+  - Body/hero/proof atmosphere washes; inverse tinted with accent temperature (not purple mesh).
+  - Accent hues moved off the violet AI cluster (steel/teal/olive-copper).
+  - Sequence: raised surface, bonded after proof, filled chapter bodies, ordinal+copy grid, accent rail.
+  - Conversion lean: accent lead cards, metric cells, proof chip borders.
+- **Side effects:** craft score dropped ~2 pts; holdout gap widened slightly (OVERFIT flag). Do not
+  reintroduce empty bands to recover band variation.
+- **Qualitative:** the grey void above Sequence is gone. Proof reads as a dark composed band with
+  evidence. Sequence still needs more drawn matter and less card-grid air before it matches top-tier
+  expert templates — next loop should put a figure into the story register, not pad height.
+- **Next weakest:** section weight variation (honest), dashboard accent coverage, drawn-matter share.
