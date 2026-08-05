@@ -256,7 +256,7 @@ function renderSpecimen(section: SectionSpec, figures: FigurePlan): string {
 function renderMetricBand(section: SectionSpec, figures: FigurePlan): string {
   // A reading has a direction, and a column of bare numerals asks the reader to take the direction
   // on trust. The shape sits under the numeral at the width of its own column.
-  return `<section class="ds-section ds-section-tight" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+  return `<section class="ds-section ds-section-tight ds-metrics-band" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${sectionHead(section, 2)}
       <div class="ds-metrics">
@@ -513,11 +513,15 @@ function renderFigure(section: SectionSpec): string {
 }
 
 function renderChapters(section: SectionSpec): string {
-  // The wide frame here is not decoration: the narrow track carries the section introduction, and
-  // inside the standard container it cannot hold a readable measure at these ratios.
+  /*
+   * The sequence used to be a split: heading in a narrow left column, steps stacked on the right.
+   * That left a screen-tall rectangle of nothing under the heading — the same defect the FAQ had,
+   * turned into the densest vacancy the audit could find. Spread the head across the measure and
+   * set the steps as a two-column register so every column the wrap owns has ink in it.
+   */
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "4fr 8fr", "22rem"))}">
-      <div>${sectionHead(section)}</div>
+    <div class="ds-wrap-wide">
+      ${sectionHead(section, 2, true)}
       <ol class="ds-chapters">
         ${section.blocks
           .map(
@@ -699,7 +703,7 @@ function renderFooter(section: SectionSpec): string {
 
 function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigurePlan): string {
   const rows = section.blocks;
-  return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}">
+  return `<section class="ds-section ds-app-band" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${sectionHead(section)}
       <div class="ds-app">

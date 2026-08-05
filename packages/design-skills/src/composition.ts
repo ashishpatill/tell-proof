@@ -79,7 +79,9 @@ export interface CompositionInput {
  */
 const SPLIT: Record<AestheticLean, { hero: string; feature: string; wide: string }> = {
   "minimal-clean": { hero: "6fr 5fr", feature: "5fr 7fr", wide: "4fr 8fr" },
-  "conversion-sharp": { hero: "6fr 6fr", feature: "6fr 6fr", wide: "7fr 5fr" },
+  // Conversion fold gives the figure the majority — the product has to be visible above the fold,
+  // and a copy column at five twelfths still holds a 16rem floor so the headline does not collapse.
+  "conversion-sharp": { hero: "5fr 7fr", feature: "5fr 7fr", wide: "7fr 5fr" },
   "system-crafted": { hero: "7fr 5fr", feature: "7fr 5fr", wide: "5fr 7fr" },
   "refined-story": { hero: "7fr 4fr", feature: "4fr 8fr", wide: "4fr 8fr" },
 };
@@ -122,6 +124,10 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     // feature list; bonded, the reader sees the board and what is on the board at once.
     plans.push({ id: "features", kind: "features", layout: "feature-index", surface: "paper", bond: true });
     plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    // The quiet beat sits between the drawn specimen and the specification table — a valley the
+    // denser screens on either side are measured against. At the end of the page it was only a
+    // soft landing into the FAQ, and every strip of the document weighed the same.
+    plans.push({ id: "proof", kind: "proof", layout: "pullquote", surface: "sunken" });
     plans.push({ id: "figure", kind: "figure", layout: "figure-explainer", surface: "paper", columns: split.feature });
     /*
      * A product page still has to answer "what do I get". The specification table is also the one
@@ -129,8 +135,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
      * carries the same weight, which is the rhythm a reader reads as generated.
      */
     plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "raised" });
-    plans.push({ id: "proof", kind: "proof", layout: "pullquote", surface: "sunken" });
-    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr" });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "inverse" });
     plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
     return plans;
@@ -194,7 +199,10 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "raised" });
   }
 
-  plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr" });
+  // FAQ answers the table above it. Bonded, the compare+faq pair is the densest beat on the page —
+  // the peak the quiet statement band is measured against. Separated, both were medium screens and
+  // the rhythm flattened.
+  plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
   plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "inverse" });
   plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
 

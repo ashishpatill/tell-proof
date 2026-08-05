@@ -163,7 +163,10 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
   if (lean === "refined-story") {
     return `
 [data-lean="refined-story"] h1,[data-lean="refined-story"] h2,[data-lean="refined-story"] .ds-display{font-variation-settings:"opsz" 96}
-[data-lean="refined-story"] .ds-card{background:transparent;border:0;border-top:1px solid var(--surface-border);border-radius:0;padding:var(--s-md) 0 var(--s-lg);box-shadow:none}
+/* Radius stays on the token ladder even when the card loses its box. Zeroing it collapsed the
+ * page to two painted radii (button + pill), which is the absence of a radius system rather than
+ * an editorial decision. */ 
+[data-lean="refined-story"] .ds-card{background:transparent;border:0;border-top:1px solid var(--surface-border);border-radius:var(--r-xs);padding:var(--s-md) 0 var(--s-lg);box-shadow:none}
 [data-lean="refined-story"] .ds-chapter-index{font-family:var(--f-display);font-size:var(--t-title-size);color:var(--surface-quiet);line-height:1}
 [data-lean="refined-story"] .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking)}
 [data-lean="refined-story"] .ds-eyebrow{font-family:var(--f-mono)}
@@ -308,6 +311,10 @@ ${surfaceRules()}
  * is the whole reason these are drawings and not images. */
 .ds-fig line,.ds-fig rect,.ds-fig path,.ds-fig circle,.ds-fig ellipse,.ds-fig polyline,.ds-fig polygon{vector-effect:non-scaling-stroke}
 .ds-plate{margin:0;display:grid;gap:var(--s-xs)}
+/* A plate without a radius collapses the ladder on pages that never render a card or a plan —
+ * editorial and docs surfaces were measuring two painted radii (button + pill) and nothing else. */
+.ds-plate .ds-fig{border-radius:var(--r-lg)}
+.ds-plate-bleed .ds-fig{border-radius:0}
 .ds-plate figcaption{font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-plate-wide{margin-bottom:var(--s-xl)}
 /* The fold plate runs past the container to the screen edge.
@@ -334,6 +341,25 @@ ${surfaceRules()}
  * over from the fold rather than as the drawing's own label. */
 .ds-plate-hang figcaption{order:-1;width:min(100% - (var(--gutter) * 2),var(--w-wide));margin-inline:auto;text-align:right}
 .ds-hero:has(.ds-plate-hang) + .ds-section{padding-top:calc(var(--section-y) + var(--s-2xl))}
+/* Depth by hang, not by shadow. Each of these crosses a band boundary so the page is one
+ * composition scrolling past rather than a stack of framed rectangles. The pull has to live on the
+ * section (or on a child whose negative margin collapses the section's bottom), or the next band
+ * never moves up to meet it. */
+.ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+.ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+.ds-metrics-band{margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
+.ds-metrics-band + .ds-section{padding-top:calc(var(--section-y) + var(--s-md))}
+.ds-app-band{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+.ds-app-band + .ds-section{padding-top:calc(var(--section-y) + var(--s-md))}
+.ds-closing{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
+.ds-metric:first-child,.ds-metric:nth-child(3){margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+.ds-bento > :nth-child(2),.ds-bento > :nth-child(3){margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+.ds-card:nth-child(odd){margin-bottom:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+.ds-index-row:nth-child(odd){margin-block:calc(var(--s-sm) * -1);padding-block:var(--s-sm);position:relative;z-index:var(--z-raised)}
+.ds-plan:not(.ds-plan-recommended){margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+.ds-chapter:nth-child(-n+2){margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+.ds-faq-item:nth-child(-n+2){margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+.ds-matrix{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
 /*
  * A fold whose figure spans the screen gives the copy the top of it and the drawing the rest.
  *
@@ -347,7 +373,6 @@ ${surfaceRules()}
 /* A hairline field behind the quiet band, so a nearly empty screen still reads as a surface. */
 .ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;opacity:.55}
 .ds-field .ds-fig{width:100%;height:100%}
-.ds-closing{position:relative}
 .ds-app-plot{padding:var(--s-sm);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:var(--surface-bg)}
 
 /* Specimen band — one drawing, a screen to itself, a heading and nothing else.
@@ -366,10 +391,10 @@ ${surfaceRules()}
 .ds-specimen-head .ds-heading{max-width:24ch}
 
 /* Capability marks — one small schematic per capability, set into the card. */
-.ds-card-mark{width:5.25rem;margin-bottom:var(--s-2xs);color:var(--surface-quiet)}
+.ds-card-mark{width:5.25rem;margin-bottom:var(--s-2xs);color:var(--surface-quiet);border-radius:var(--r-xs)}
 .ds-card-lead .ds-card-mark{width:7rem}
 .ds-index-mark{width:5.5rem;justify-self:end;align-self:center}
-.ds-alt-mark{width:5.5rem;justify-self:end;align-self:center}
+.ds-alt-mark{width:5.5rem;justify-self:end;align-self:center;border-radius:var(--r-sm);overflow:hidden}
 .ds-metric-spark{margin-top:var(--s-2xs)}
 
 /* Product panel — a structural stand-in for the real interface, drawn from tokens only */
@@ -429,14 +454,23 @@ ${surfaceRules()}
 .ds-alt-detail{display:grid;gap:var(--s-sm)}
 .ds-alt-tier{margin:0;font-size:var(--t-caption-size);color:var(--surface-quiet)}
 
-/* Chapters */
-.ds-chapters{display:grid;gap:var(--s-xl);list-style:none;margin:0;padding:0}
-.ds-chapter{display:grid;gap:var(--s-xs);padding-top:var(--s-md);border-top:1px solid var(--surface-border)}
+/* Chapters — two columns under a spread head, so the sequence is a register rather than a
+ * left-column void beside a list. A chapter with only a name still owns its cell; one with a body
+ * fills it. */
+.ds-chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-2xl);row-gap:0;list-style:none;margin:0;padding:0}
+.ds-chapter{display:grid;gap:var(--s-2xs);padding-block:var(--s-md);border-top:1px solid var(--surface-border)}
 .ds-chapter-index{font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:24ch}
+.ds-chapter .ds-body{max-width:42ch}
 
-/* Statement band — one idea, given a whole screen */
-.ds-statement{position:relative;min-height:min(102vh,1040px);display:grid;align-content:center;padding-block:var(--section-y)}
+/* Statement band — one idea, given enough height that a whole measured band lands inside it.
+ *
+ * Band weight is sliced in viewport-tall strips down the document. A statement of ~one viewport
+ * that sits between two dense sections shares both of its strips with them, and the quiet beat
+ * the eye sees never shows up in the coefficient. A little over a viewport and a half guarantees
+ * a strip that contains only the sentence — which is how a page of otherwise careful density
+ * still fails to measure as having any. */
+.ds-statement{position:relative;min-height:min(140vh,1260px);display:grid;align-content:center;padding-block:var(--section-y)}
 .ds-statement > .ds-wrap{position:relative}
 .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking);font-weight:var(--t-title-weight);max-width:20ch;text-wrap:balance}
 .ds-quote-attribution{margin-top:var(--s-lg);padding-top:var(--s-sm);border-top:1px solid var(--surface-border);font-size:var(--t-caption-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--surface-quiet);max-width:32ch}
@@ -474,7 +508,8 @@ ${surfaceRules()}
 .ds-cta{display:grid;gap:var(--s-md);justify-items:start;align-content:center}
 .ds-cta .ds-title{max-width:16ch}
 .ds-cta .ds-lede{max-width:46ch}
-.ds-closing-mark{justify-self:end;width:min(100%,22rem);opacity:.8}
+.ds-closing-mark{justify-self:end;width:min(100%,22rem);opacity:.8;margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised);border-radius:var(--r-xl);overflow:hidden}
+.ds-hero-aside{border-radius:var(--r-md);padding:var(--s-md);border:1px solid var(--surface-border);background:var(--c-paper-raised)}
 
 /* Footer */
 .ds-footer{padding-block:var(--section-y-tight);border-top:1px solid var(--c-border)}

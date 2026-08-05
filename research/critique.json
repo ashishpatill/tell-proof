@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-08-05T01:23:37.702Z",
-  "overall": 0.9833,
+  "generatedAt": "2026-08-05T05:34:29.845Z",
+  "overall": 0.9982,
   "holdout": {
     "id": "holdout-commerce",
-    "total": 0.9827,
-    "gap": 0.0006
+    "total": 0.9886,
+    "gap": 0.0096
   },
   "pages": [
     {
       "id": "saas-conversion",
-      "total": 0.9887,
+      "total": 1,
       "holdout": false,
       "rows": [
         {
@@ -59,7 +59,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 15.7,
+          "value": 13,
           "band": [
             12.8,
             32.9
@@ -169,7 +169,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.944,
+          "value": 0.943,
           "band": [
             0.611,
             1
@@ -191,7 +191,7 @@
         {
           "id": "layout-asymmetry",
           "label": "Asymmetric grids",
-          "value": 0.615,
+          "value": 0.714,
           "band": [
             0,
             1
@@ -202,7 +202,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.69,
+          "value": 9.81,
           "band": [
             5.99,
             12.6
@@ -213,18 +213,18 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.335,
+          "value": 0.49,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.633,
+          "score": 1,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.563,
+          "value": 0.554,
           "band": [
             0.447,
             0.96
@@ -235,7 +235,7 @@
         {
           "id": "radius-system",
           "label": "Radius steps",
-          "value": 4,
+          "value": 5,
           "band": [
             4,
             20
@@ -323,7 +323,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 563,
+          "value": 538,
           "band": [
             242,
             1139
@@ -367,7 +367,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 5,
+          "value": 4,
           "band": [
             3,
             6
@@ -422,7 +422,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2027,
+          "value": 0.2544,
           "band": [
             0.196,
             0.778
@@ -433,29 +433,29 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.3356,
+          "value": 0.4111,
           "band": [
             0.337,
             1
           ],
-          "score": 0.996,
+          "score": 1,
           "why": "The fold has to show the thing, not only describe it."
         },
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 2,
+          "value": 17,
           "band": [
             11,
             157
           ],
-          "score": 0.897,
+          "score": 1,
           "why": "Overlap across a boundary is depth that costs nothing in performance."
         },
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0032,
+          "value": 0.0031,
           "band": [
             0.001,
             0.469
@@ -466,7 +466,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 3.41,
+          "value": 3.36,
           "band": [
             0.42,
             4.33
@@ -478,7 +478,7 @@
     },
     {
       "id": "dashboard-app",
-      "total": 0.9737,
+      "total": 1,
       "holdout": false,
       "rows": [
         {
@@ -671,7 +671,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 8.19,
+          "value": 8.27,
           "band": [
             5.99,
             12.6
@@ -682,18 +682,18 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.162,
+          "value": 0.432,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0,
+          "score": 1,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.536,
+          "value": 0.71,
           "band": [
             0.447,
             0.96
@@ -880,7 +880,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.154,
+          "value": 0.231,
           "band": [
             0,
             0.5
@@ -891,7 +891,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.259,
+          "value": 0.3025,
           "band": [
             0.196,
             0.778
@@ -913,12 +913,12 @@
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 2,
+          "value": 14,
           "band": [
             11,
             157
           ],
-          "score": 0.897,
+          "score": 1,
           "why": "Overlap across a boundary is depth that costs nothing in performance."
         },
         {
@@ -935,7 +935,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.27,
+          "value": 4.23,
           "band": [
             0.42,
             4.33
@@ -947,7 +947,7 @@
     },
     {
       "id": "corporate-story",
-      "total": 0.9825,
+      "total": 0.9993,
       "holdout": false,
       "rows": [
         {
@@ -1107,7 +1107,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.958,
+          "value": 0.957,
           "band": [
             0.611,
             1
@@ -1129,7 +1129,7 @@
         {
           "id": "layout-asymmetry",
           "label": "Asymmetric grids",
-          "value": 0.8,
+          "value": 0.727,
           "band": [
             0,
             1
@@ -1140,7 +1140,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 8.49,
+          "value": 8.35,
           "band": [
             5.99,
             12.6
@@ -1151,18 +1151,18 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.329,
+          "value": 0.444,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.608,
+          "score": 1,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.535,
+          "value": 0.52,
           "band": [
             0.447,
             0.96
@@ -1173,12 +1173,12 @@
         {
           "id": "radius-system",
           "label": "Radius steps",
-          "value": 2,
+          "value": 4,
           "band": [
             4,
             20
           ],
-          "score": 0.792,
+          "score": 1,
           "why": "A radius scale, not one rounded value on everything."
         },
         {
@@ -1294,7 +1294,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 7,
+          "value": 6,
           "band": [
             5,
             10
@@ -1349,7 +1349,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.25,
+          "value": 0.167,
           "band": [
             0,
             0.5
@@ -1360,7 +1360,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2679,
+          "value": 0.318,
           "band": [
             0.196,
             0.778
@@ -1382,18 +1382,18 @@
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 2,
+          "value": 13,
           "band": [
             11,
             157
           ],
-          "score": 0.897,
+          "score": 1,
           "why": "Overlap across a boundary is depth that costs nothing in performance."
         },
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.3029,
+          "value": 0.3017,
           "band": [
             0.001,
             0.469
@@ -1404,7 +1404,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 2.94,
+          "value": 2.99,
           "band": [
             0.42,
             4.33
@@ -1416,7 +1416,7 @@
     },
     {
       "id": "docs-educational",
-      "total": 0.9882,
+      "total": 0.9936,
       "holdout": false,
       "rows": [
         {
@@ -1576,7 +1576,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.958,
+          "value": 0.957,
           "band": [
             0.611,
             1
@@ -1587,7 +1587,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.722,
+          "value": 0.806,
           "band": [
             0.285,
             0.854
@@ -1598,7 +1598,7 @@
         {
           "id": "layout-asymmetry",
           "label": "Asymmetric grids",
-          "value": 0.818,
+          "value": 0.75,
           "band": [
             0,
             1
@@ -1609,7 +1609,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 7.99,
+          "value": 7.45,
           "band": [
             5.99,
             12.6
@@ -1620,18 +1620,18 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.359,
+          "value": 0.454,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.734,
+          "score": 1,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.646,
+          "value": 0.493,
           "band": [
             0.447,
             0.96
@@ -1642,7 +1642,7 @@
         {
           "id": "radius-system",
           "label": "Radius steps",
-          "value": 4,
+          "value": 5,
           "band": [
             4,
             20
@@ -1741,7 +1741,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 10,
+          "value": 8,
           "band": [
             5,
             10
@@ -1796,7 +1796,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.167,
+          "value": 0.083,
           "band": [
             0,
             0.5
@@ -1807,7 +1807,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2078,
+          "value": 0.2226,
           "band": [
             0.196,
             0.778
@@ -1829,18 +1829,18 @@
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 1,
+          "value": 14,
           "band": [
             11,
             157
           ],
-          "score": 0.886,
+          "score": 1,
           "why": "Overlap across a boundary is depth that costs nothing in performance."
         },
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0022,
+          "value": 0.0024,
           "band": [
             0.001,
             0.469
@@ -1851,19 +1851,19 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.51,
+          "value": 4.83,
           "band": [
             0.42,
             4.33
           ],
-          "score": 0.908,
+          "score": 0.744,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
     },
     {
       "id": "holdout-commerce",
-      "total": 0.9827,
+      "total": 0.9886,
       "holdout": true,
       "rows": [
         {
@@ -2023,7 +2023,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.947,
+          "value": 0.946,
           "band": [
             0.611,
             1
@@ -2045,7 +2045,7 @@
         {
           "id": "layout-asymmetry",
           "label": "Asymmetric grids",
-          "value": 0.786,
+          "value": 0.733,
           "band": [
             0,
             1
@@ -2056,7 +2056,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.32,
+          "value": 9.23,
           "band": [
             5.99,
             12.6
@@ -2067,18 +2067,18 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.421,
+          "value": 0.426,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.996,
+          "score": 1,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.656,
+          "value": 0.659,
           "band": [
             0.447,
             0.96
@@ -2089,7 +2089,7 @@
         {
           "id": "radius-system",
           "label": "Radius steps",
-          "value": 5,
+          "value": 6,
           "band": [
             4,
             20
@@ -2210,18 +2210,18 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 11,
+          "value": 10,
           "band": [
             5,
             10
           ],
-          "score": 0.667,
+          "score": 1,
           "why": "One container width for every section is the clearest structural tell there is."
         },
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 3,
+          "value": 4,
           "band": [
             3,
             6
@@ -2276,7 +2276,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.1974,
+          "value": 0.2405,
           "band": [
             0.196,
             0.778
@@ -2298,29 +2298,29 @@
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 2,
+          "value": 17,
           "band": [
             11,
             157
           ],
-          "score": 0.897,
+          "score": 1,
           "why": "Overlap across a boundary is depth that costs nothing in performance."
         },
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.4815,
+          "value": 0.5268,
           "band": [
             0.001,
             0.469
           ],
-          "score": 0.947,
+          "score": 0.753,
           "why": "Colour has to appear somewhere beyond a button, without becoming the page."
         },
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 3.86,
+          "value": 3.9,
           "band": [
             0.42,
             4.33
@@ -2333,102 +2333,6 @@
   ],
   "worst": [
     {
-      "id": "band-variation",
-      "label": "Section weight variation",
-      "band": [
-        0.422,
-        0.896
-      ],
-      "mean": 0.594,
-      "scoredOn": 5,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 0.335
-        },
-        {
-          "page": "dashboard-app",
-          "value": 0.162
-        },
-        {
-          "page": "corporate-story",
-          "value": 0.329
-        },
-        {
-          "page": "docs-educational",
-          "value": 0.359
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 0.421
-        }
-      ]
-    },
-    {
-      "id": "layering",
-      "label": "Layered elements",
-      "band": [
-        11,
-        157
-      ],
-      "mean": 0.895,
-      "scoredOn": 5,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 2
-        },
-        {
-          "page": "dashboard-app",
-          "value": 2
-        },
-        {
-          "page": "corporate-story",
-          "value": 2
-        },
-        {
-          "page": "docs-educational",
-          "value": 1
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 2
-        }
-      ]
-    },
-    {
-      "id": "width-tiers",
-      "label": "Content width tiers",
-      "band": [
-        5,
-        10
-      ],
-      "mean": 0.933,
-      "scoredOn": 5,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 9
-        },
-        {
-          "page": "dashboard-app",
-          "value": 9
-        },
-        {
-          "page": "corporate-story",
-          "value": 7
-        },
-        {
-          "page": "docs-educational",
-          "value": 10
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 11
-        }
-      ]
-    },
-    {
       "id": "fold-figure",
       "label": "Drawn matter above the fold",
       "band": [
@@ -2440,7 +2344,7 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.3356
+          "value": 0.4111
         },
         {
           "page": "dashboard-app",
@@ -2461,66 +2365,34 @@
       ]
     },
     {
-      "id": "radius-system",
-      "label": "Radius steps",
-      "band": [
-        4,
-        20
-      ],
-      "mean": 0.958,
-      "scoredOn": 5,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 4
-        },
-        {
-          "page": "dashboard-app",
-          "value": 6
-        },
-        {
-          "page": "corporate-story",
-          "value": 2
-        },
-        {
-          "page": "docs-educational",
-          "value": 4
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 5
-        }
-      ]
-    },
-    {
       "id": "rule-structure",
       "label": "Rules per screen",
       "band": [
         0.42,
         4.33
       ],
-      "mean": 0.982,
+      "mean": 0.949,
       "scoredOn": 5,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 3.41
+          "value": 3.36
         },
         {
           "page": "dashboard-app",
-          "value": 4.27
+          "value": 4.23
         },
         {
           "page": "corporate-story",
-          "value": 2.94
+          "value": 2.99
         },
         {
           "page": "docs-educational",
-          "value": 4.51
+          "value": 4.83
         },
         {
           "page": "holdout-commerce",
-          "value": 3.86
+          "value": 3.9
         }
       ]
     },
@@ -2531,12 +2403,12 @@
         0.001,
         0.469
       ],
-      "mean": 0.989,
+      "mean": 0.951,
       "scoredOn": 5,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.0032
+          "value": 0.0031
         },
         {
           "page": "dashboard-app",
@@ -2544,15 +2416,15 @@
         },
         {
           "page": "corporate-story",
-          "value": 0.3029
+          "value": 0.3017
         },
         {
           "page": "docs-educational",
-          "value": 0.0022
+          "value": 0.0024
         },
         {
           "page": "holdout-commerce",
-          "value": 0.4815
+          "value": 0.5268
         }
       ]
     },
@@ -2696,7 +2568,7 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 15.7
+          "value": 13
         },
         {
           "page": "dashboard-app",
@@ -3016,7 +2888,7 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.944
+          "value": 0.943
         },
         {
           "page": "dashboard-app",
@@ -3024,15 +2896,15 @@
         },
         {
           "page": "corporate-story",
-          "value": 0.958
+          "value": 0.957
         },
         {
           "page": "docs-educational",
-          "value": 0.958
+          "value": 0.957
         },
         {
           "page": "holdout-commerce",
-          "value": 0.947
+          "value": 0.946
         }
       ]
     },
@@ -3060,7 +2932,7 @@
         },
         {
           "page": "docs-educational",
-          "value": 0.722
+          "value": 0.806
         },
         {
           "page": "holdout-commerce",
@@ -3080,7 +2952,7 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.615
+          "value": 0.714
         },
         {
           "page": "dashboard-app",
@@ -3088,15 +2960,15 @@
         },
         {
           "page": "corporate-story",
-          "value": 0.8
+          "value": 0.727
         },
         {
           "page": "docs-educational",
-          "value": 0.818
+          "value": 0.75
         },
         {
           "page": "holdout-commerce",
-          "value": 0.786
+          "value": 0.733
         }
       ]
     },
@@ -3112,23 +2984,55 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 9.69
+          "value": 9.81
         },
         {
           "page": "dashboard-app",
-          "value": 8.19
+          "value": 8.27
         },
         {
           "page": "corporate-story",
-          "value": 8.49
+          "value": 8.35
         },
         {
           "page": "docs-educational",
-          "value": 7.99
+          "value": 7.45
         },
         {
           "page": "holdout-commerce",
-          "value": 9.32
+          "value": 9.23
+        }
+      ]
+    },
+    {
+      "id": "band-variation",
+      "label": "Section weight variation",
+      "band": [
+        0.422,
+        0.896
+      ],
+      "mean": 1,
+      "scoredOn": 5,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.49
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.432
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.444
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.454
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.426
         }
       ]
     },
@@ -3144,23 +3048,55 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.563
+          "value": 0.554
         },
         {
           "page": "dashboard-app",
-          "value": 0.536
+          "value": 0.71
         },
         {
           "page": "corporate-story",
-          "value": 0.535
+          "value": 0.52
         },
         {
           "page": "docs-educational",
-          "value": 0.646
+          "value": 0.493
         },
         {
           "page": "holdout-commerce",
-          "value": 0.656
+          "value": 0.659
+        }
+      ]
+    },
+    {
+      "id": "radius-system",
+      "label": "Radius steps",
+      "band": [
+        4,
+        20
+      ],
+      "mean": 1,
+      "scoredOn": 5,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 5
+        },
+        {
+          "page": "dashboard-app",
+          "value": 6
+        },
+        {
+          "page": "corporate-story",
+          "value": 4
+        },
+        {
+          "page": "docs-educational",
+          "value": 5
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 6
         }
       ]
     },
@@ -3400,7 +3336,7 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 563
+          "value": 538
         },
         {
           "page": "dashboard-app",
@@ -3485,6 +3421,38 @@
       ]
     },
     {
+      "id": "width-tiers",
+      "label": "Content width tiers",
+      "band": [
+        5,
+        10
+      ],
+      "mean": 1,
+      "scoredOn": 5,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 9
+        },
+        {
+          "page": "dashboard-app",
+          "value": 9
+        },
+        {
+          "page": "corporate-story",
+          "value": 6
+        },
+        {
+          "page": "docs-educational",
+          "value": 8
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 10
+        }
+      ]
+    },
+    {
       "id": "alignment-axes",
       "label": "Alignment axes",
       "band": [
@@ -3496,7 +3464,7 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 5
+          "value": 4
         },
         {
           "page": "dashboard-app",
@@ -3512,7 +3480,7 @@
         },
         {
           "page": "holdout-commerce",
-          "value": 3
+          "value": 4
         }
       ]
     },
@@ -3628,15 +3596,15 @@
         },
         {
           "page": "dashboard-app",
-          "value": 0.154
+          "value": 0.231
         },
         {
           "page": "corporate-story",
-          "value": 0.25
+          "value": 0.167
         },
         {
           "page": "docs-educational",
-          "value": 0.167
+          "value": 0.083
         },
         {
           "page": "holdout-commerce",
@@ -3656,23 +3624,55 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.2027
+          "value": 0.2544
         },
         {
           "page": "dashboard-app",
-          "value": 0.259
+          "value": 0.3025
         },
         {
           "page": "corporate-story",
-          "value": 0.2679
+          "value": 0.318
         },
         {
           "page": "docs-educational",
-          "value": 0.2078
+          "value": 0.2226
         },
         {
           "page": "holdout-commerce",
-          "value": 0.1974
+          "value": 0.2405
+        }
+      ]
+    },
+    {
+      "id": "layering",
+      "label": "Layered elements",
+      "band": [
+        11,
+        157
+      ],
+      "mean": 1,
+      "scoredOn": 5,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 17
+        },
+        {
+          "page": "dashboard-app",
+          "value": 14
+        },
+        {
+          "page": "corporate-story",
+          "value": 13
+        },
+        {
+          "page": "docs-educational",
+          "value": 14
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 17
         }
       ]
     }

@@ -110,10 +110,24 @@ export const AUDIT_PROBE = `(() => {
     if (count > 2) out.repetition.push({ count, text: key.slice(0, 80) });
   }
 
+  // Two sections whose boxes overlap are either a packing bug or an intentional hang. A hang is
+  // declared the same way the overflow probe recognises one: a negative margin on the upper
+  // section, the lower section, or a child that crosses the seam. Anything else is a collision.
+  const sectionDeclaresHang = (section) => {
+    const cs = getComputedStyle(section);
+    if (parseFloat(cs.marginBottom) < -4 || parseFloat(cs.marginTop) < -4) return true;
+    for (const el of section.querySelectorAll('*')) {
+      const ecs = getComputedStyle(el);
+      if (parseFloat(ecs.marginBottom) < -4 || parseFloat(ecs.marginTop) < -4) return true;
+    }
+    return false;
+  };
+
   for (let i = 0; i < sections.length - 1; i += 1) {
     const a = rect(sections[i]);
     const b = rect(sections[i + 1]);
     if (b.top < a.bottom - 1) {
+      if (sectionDeclaresHang(sections[i]) || sectionDeclaresHang(sections[i + 1])) continue;
       out.collision.push({
         a: sections[i].dataset.section,
         b: sections[i + 1].dataset.section,
@@ -123,76 +137,135 @@ export const AUDIT_PROBE = `(() => {
   }
 
   /* ---------------- vacancy ----------------
-   * The defect a person sees before any other: a section that reserves a screen and fills the top
-   * third of it. No band metric catches it, because an empty screen is just a low number in a
-   * population of numbers, and a page of evenly medium screens scores the same as a page with a
-   * real quiet beat next to a real dense one.
+   * The defect a person sees before any other: a band that reserves a screen and fills a corner of
+   * it. No craft dimension catches it, because an empty screen is only a low number in a population
+   * of numbers, and a page of evenly medium screens scores the same as a page with a real quiet
+   * beat next to a real dense one.
    *
-   * A section's background is not content. Ink is what a reader can actually see inside the band:
-   * set text, drawn figures, and boxes small enough to be objects rather than backdrops.
+   * Measured in two dimensions, not one. Scanning row by row asks only whether *something* was
+   * painted at this height, so a split with a heading top-left and a list running the full height on
+   * the right reports as solid — every row has ink in it — while the reader is looking at half a
+   * screen of nothing under the heading. The hole this is looking for is a rectangle.
+   *
+   * Matter is what a reader can see: set text, drawn figures, and boxes filled or bounded distinctly
+   * enough to read as objects. A section's own background is not matter; counting it would make
+   * every band look full by definition.
    */
   const vh = window.innerHeight;
-  const isInk = (el) => {
+  const vw = window.innerWidth;
+  const isMatter = (el) => {
     const r = rect(el);
     if (r.width < 2 || r.height < 2) return false;
     const cs = getComputedStyle(el);
     if (cs.visibility === 'hidden' || cs.opacity === '0') return false;
     const tag = el.tagName.toLowerCase();
     if (tag === 'svg' || tag === 'img' || tag === 'canvas' || tag === 'video') return true;
-    // A box only reads as an object if it is smaller than the screen it sits on. Anything larger is
-    // the surface the objects are placed on, and counting it would make every section look full.
-    if (r.width * r.height < window.innerWidth * vh * 0.5) {
-      const bg = cs.backgroundColor || '';
-      const m = bg.match(/rgba?\\(([^)]+)\\)/);
-      const alpha = m ? (m[1].split(',')[3] === undefined ? 1 : parseFloat(m[1].split(',')[3])) : 0;
-      if (alpha > 0.02) return true;
-      if (parseFloat(cs.borderTopWidth) > 0 || parseFloat(cs.borderBottomWidth) > 0) return true;
-    }
+    // Set text is matter at the leaf, where the glyphs are. Marking every ancestor that contains
+    // text would fill the grid with the boxes doing the containing.
     if (el.children.length === 0 && (el.textContent || '').trim()) return true;
+    // A filled or bounded box is an object only while it is smaller than the screen it sits on.
+    // Anything larger is the surface the objects were placed on.
+    if (r.width * r.height < vw * vh * 0.5) {
+      const m = (cs.backgroundColor || '').match(/rgba?\\(([^)]+)\\)/);
+      const parts = m ? m[1].split(',') : [];
+      const alpha = m ? (parts[3] === undefined ? 1 : parseFloat(parts[3])) : 0;
+      if (alpha > 0.02) return true;
+    }
     return false;
   };
 
   /*
-   * Ink is mapped over the document once and sliced per section afterwards, rather than gathered
+   * Matter is mapped over the document once and sliced per section afterwards, rather than gathered
    * from each section's own descendants. A figure that hangs across a boundary belongs to the
    * section above it in the DOM and to the screen below it in the eye, and attributing by ancestry
-   * reported the space it occupies as a hole in the band it is sitting in — which is the opposite
-   * of what it is doing there.
+   * reported the room it occupies as a hole in the band it is sitting in — the opposite of what it
+   * is doing there.
    */
-  const ROW = 16;
-  const docRows = Math.ceil(document.documentElement.scrollHeight / ROW);
-  const pageInk = new Uint8Array(docRows);
+  const CELL = 20;
+  const cols = Math.ceil(vw / CELL);
+  const docRows = Math.ceil(document.documentElement.scrollHeight / CELL);
+  const grid = new Uint8Array(docRows * cols);
   for (const el of document.querySelectorAll('*')) {
-    if (!isInk(el)) continue;
+    if (!isMatter(el)) continue;
     const r = rect(el);
-    const from = Math.max(0, Math.floor((r.top + window.scrollY) / ROW));
-    const to = Math.min(docRows - 1, Math.floor((r.bottom + window.scrollY - 1) / ROW));
-    for (let i = from; i <= to; i += 1) pageInk[i] = 1;
+    const y0 = Math.max(0, Math.floor((r.top + window.scrollY) / CELL));
+    const y1 = Math.min(docRows - 1, Math.floor((r.bottom + window.scrollY - 1) / CELL));
+    const x0 = Math.max(0, Math.floor(r.left / CELL));
+    const x1 = Math.min(cols - 1, Math.floor((r.right - 1) / CELL));
+    for (let y = y0; y <= y1; y += 1) for (let x = x0; x <= x1; x += 1) grid[y * cols + x] = 1;
   }
+
+  // Largest all-empty rectangle in a binary grid. Standard largest-rectangle-under-a-histogram:
+  // accumulate empty run heights per column, then for each row a monotonic stack finds the widest
+  // span each height can hold. Sentinel -1 on the stack keeps the width arithmetic honest.
+  const largestHole = (rowFrom, rowTo, colFrom, colTo) => {
+    const width = colTo - colFrom + 1;
+    const heights = new Int32Array(width);
+    let best = { area: 0, w: 0, h: 0 };
+    const stack = new Int32Array(width + 2);
+    for (let y = rowFrom; y <= rowTo; y += 1) {
+      for (let i = 0; i < width; i += 1) {
+        heights[i] = grid[y * cols + colFrom + i] ? 0 : heights[i] + 1;
+      }
+      let top = 0;
+      stack[top++] = -1;
+      for (let i = 0; i <= width; i += 1) {
+        const h = i === width ? 0 : heights[i];
+        while (top > 1 && heights[stack[top - 1]] >= h) {
+          const hi = stack[--top];
+          const height = heights[hi];
+          const w = i - stack[top - 1] - 1;
+          const area = height * w;
+          if (area > best.area) best = { area, w, h: height };
+        }
+        stack[top++] = i;
+      }
+    }
+    return best;
+  };
 
   for (const section of sections) {
     const sr = rect(section);
-    const base = Math.floor((sr.top + window.scrollY) / ROW);
-    const rows = Math.ceil(sr.height / ROW);
-    if (rows < 4) continue;
-    let inked = 0;
-    let run = 0;
-    let worstRun = 0;
-    for (let i = 0; i < rows; i += 1) {
-      if (pageInk[base + i]) { inked += 1; run = 0; } else { run += 1; if (run > worstRun) worstRun = run; }
+    const top = Math.floor((sr.top + window.scrollY) / CELL);
+    const bottom = Math.min(docRows - 1, Math.floor((sr.bottom + window.scrollY - 1) / CELL));
+    if (bottom - top < 6) continue;
+
+    // Judge the band over the ground its own content claims — the wrap, not the viewport. Page
+    // margins are empty on purpose; a full-bleed decorative field at x=0 must not drag the column
+    // out to the glass and invent a hole the size of the screen. Prefer an explicit wrap when the
+    // section has one; otherwise take the interquartile span of matter so a single edge speck
+    // cannot set the bounds.
+    const wrap = section.querySelector('.ds-wrap, .ds-wrap-wide, .ds-wrap-narrow');
+    let left;
+    let right;
+    if (wrap) {
+      const wr = rect(wrap);
+      left = Math.max(0, Math.floor(wr.left / CELL));
+      right = Math.min(cols - 1, Math.floor((wr.right - 1) / CELL));
+    } else {
+      const xs = [];
+      for (let y = top; y <= bottom; y += 1) {
+        for (let x = 0; x < cols; x += 1) if (grid[y * cols + x]) xs.push(x);
+      }
+      if (xs.length < 8) continue;
+      xs.sort((a, b) => a - b);
+      left = xs[Math.floor(xs.length * 0.1)];
+      right = xs[Math.floor(xs.length * 0.9)];
     }
-    const fill = inked / rows;
-    // Three ways to fail. A band that paints less than half its own height is holding more air than
-    // matter whatever its size. A band taller than most of a screen has to work harder than that to
-    // justify the room it took. And one unbroken hole longer than a fifth of the screen reads as a
-    // mistake even when the rest of the band is dense — which is the failure mode of content that
-    // sits at the top of a reserved height instead of sizing to it.
-    if (fill < 0.5 || (sr.height > vh * 0.7 && fill < 0.58) || worstRun * ROW > vh * 0.22) {
+    if (right - left < 4) continue;
+
+    const hole = largestHole(top, bottom, left, right);
+    const holeW = hole.w * CELL;
+    const holeH = hole.h * CELL;
+    // A hole has to be wide enough and tall enough to be a hole rather than the padding inside a
+    // card, and big enough overall to be the thing the eye lands on. Below any one of the three it
+    // is space, which is the material this whole engine is trying to use well.
+    if (holeW > vw * 0.28 && holeH > vh * 0.28 && holeW * holeH > vw * vh * 0.12) {
       out.vacancy.push({
         section: section.dataset.section,
         height: Math.round(sr.height),
-        fill: Math.round(fill * 100) / 100,
-        gap: Math.round(worstRun * ROW),
+        fill: Math.round((1 - (holeW * holeH) / (sr.height * (right - left + 1) * CELL)) * 100) / 100,
+        gap: Math.round(holeW) + 'x' + Math.round(holeH),
       });
     }
   }
@@ -224,7 +297,7 @@ export interface AuditResult {
   starved: Array<{ el: string; ch: number; text: string }>;
   collision: Array<{ a: string; b: string; by: number }>;
   repetition: Array<{ count: number; text: string }>;
-  vacancy: Array<{ section: string; height: number; fill: number; gap: number }>;
+  vacancy: Array<{ section: string; height: number; fill: number; gap: string }>;
   ghosting: Array<{ el: string; alpha: number }>;
 }
 
@@ -289,7 +362,7 @@ async function main(): Promise<void> {
     console.log(`\n${r.id} — ${count === 0 ? "clean" : `${count} defects`}`);
     for (const o of r.overflow.slice(0, 6)) console.log(`  overflow    ${o.section} ${o.el} +${o.by}px below the band`);
     for (const c of r.collision) console.log(`  collision   ${c.a} / ${c.b} overlap ${c.by}px`);
-    for (const v of r.vacancy) console.log(`  vacancy     ${v.section} ${v.height}px tall, ${Math.round(v.fill * 100)}% inked, ${v.gap}px empty run`);
+    for (const v of r.vacancy) console.log(`  vacancy     ${v.section} ${v.height}px tall — ${v.gap}px hole inside its own content column`);
     for (const g of r.ghosting) console.log(`  ghosting    ${g.el} pinned at alpha ${g.alpha} with no backdrop`);
     for (const c of r.clipped.slice(0, 6)) console.log(`  clipped     ${c.el} ${c.client}px box, ${c.scroll}px content — "${c.text}"`);
     for (const s of r.starved.slice(0, 6)) console.log(`  starved     ${s.el} ${s.ch}ch — "${s.text}"`);

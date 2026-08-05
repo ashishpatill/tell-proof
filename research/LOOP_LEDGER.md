@@ -70,3 +70,55 @@ buckets, never names, hosts, or URLs.
 - **Qualitative:** the scroll now has beats. A statement gets a screen, the specification table gets
   a screen, and the two do not feel like the same section with different words in it.
 - **Next weakest:** recorded after the recalibration run — see `research/critique.json`.
+
+---
+
+## Loop 4 — draw the page
+
+- **Goal:** stop generating type-on-paper manuscripts. Measure composition (bleed, figures, tone
+  bands, shape variety, layering) on the corpus, then make the engine produce drawn matter that a
+  buyer can look at.
+- **Corpus:** widened to 93 references / 32 categories; 82 usable after render filter. Composition
+  probe added and bands recalibrated.
+- **Score:** ~96.2 (post-recalibration) → 97.7 with content-derived figures in place.
+- **Closed:**
+  - Figure system (`figures.ts`) — interface plates, series charts, flow/stack diagrams, horizon
+    plots, capability marks, metric sparks, signature mark. Deterministic, token-driven, no images.
+  - Fold and specimen bands carry drawings; type-scale outliers from decorative SVG text removed
+    by constructing the closing mark and consolidating figure type onto a page ladder.
+  - Editorial allocation so each claim is made once.
+- **Side effects:** SVG hairlines scaled below 1px until `vector-effect: non-scaling-stroke`; dark
+  specimen bands needed `--c-ink-body` emitted to keep figure prose readable.
+- **Qualitative:** pages stopped reading as a white document. The fold shows a product surface;
+  the specimen is a full-bleed drawing. Still too many empty half-columns and hairline grids.
+- **Next weakest:** band variation, rule density, layering, vacancy the score could not see.
+
+---
+
+## Loop 5 — dead space, rules, depth
+
+- **Goal:** kill the empty half-screens a person sees before any number moves; cut decorative rules
+  into corridor; add deliberate layering across band boundaries.
+- **Corpus:** unchanged (82 usable).
+- **Score:** 97.7 → 98.3 (mid-loop) → 99.8
+- **Closed:**
+  - Layout audit gained a two-dimensional vacancy detector (largest empty rectangle inside the
+    content column) and a ghosting detector. One-dimensional row scanning had been reporting split
+    layouts as full because every row had ink somewhere.
+  - Sticky nav made opaque; specimen and closing bands size to content; story/FAQ registers use a
+    spread head over a two-column grid instead of a left-column void beside a list.
+  - Figure rules drawn only between things; bonded section pairs (pricing→compare, app→features,
+    compare→faq) create density peaks; statement band tall enough that a measured strip lands
+    entirely inside it.
+  - Section hangs (specimen, metrics, app, closing, recommended plan, staggered cards) bring
+    layered-elements into corridor without shadows.
+  - Conversion fold gives the figure the majority track; radius ladder painted on plates/marks so
+    editorial pages are not stuck at two radii.
+- **Side effects:** intentional hangs initially flagged as collisions — the audit now recognises a
+  declared negative margin the same way overflow already did. Equal `6fr 6fr` conversion columns
+  had been hiding asymmetry; restoring `5fr 7fr` on the fold recovered drawn-matter-above-fold.
+- **Qualitative:** the story screen no longer has a blank left half. SaaS and dashboard critique
+  briefs score 100. Corporate fold reads as a composed surface (display, horizon, warm stock), not
+  a template. Holdout still trails by ~1 pt on fold figure and accent — generalises, not overfitting.
+- **Next weakest:** holdout fold-figure (0.24 vs band 0.34), docs rule density (4.83 vs 4.33), accent
+  coverage on cool-neutral pages.
