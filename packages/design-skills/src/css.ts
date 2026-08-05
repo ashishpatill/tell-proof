@@ -173,7 +173,7 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-lean="refined-story"] .ds-card{background:transparent;border:0;border-top:1px solid var(--surface-border);border-radius:var(--r-xs);padding:var(--s-md) 0 var(--s-lg);box-shadow:none}
 [data-lean="refined-story"] .ds-chapter-index{font-family:var(--f-display);font-size:var(--t-display-size);color:color-mix(in srgb,var(--c-accent) 70%,var(--surface-quiet));line-height:.9;opacity:.55}
 [data-lean="refined-story"] .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking)}
-[data-lean="refined-story"] .ds-eyebrow{font-family:var(--f-mono)}
+[data-lean="refined-story"] .ds-eyebrow{font-family:var(--f-mono);letter-spacing:0}
 `;
   }
   return `
@@ -204,10 +204,18 @@ ${semanticVars()};
 --section-y:${t.sectionY};
 --section-y-tight:${t.sectionYTight};
 --gutter:${t.gutter};
+--z-base:0;
+--z-raised:2;
+--z-nav:40;
+--z-overlay:60;
+--z-grain:1;
+--focus-ring:0 0 0 3px color-mix(in srgb,var(--c-accent) 35%,transparent);
+--accent-soft:color-mix(in srgb,var(--c-accent) 14%,transparent);
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
   margin:0;
   /* Bleeding elements reach past the container on purpose; clip the axis they travel on rather
@@ -234,7 +242,7 @@ body{
 }
 body::before{
   content:"";
-  position:fixed;inset:0;pointer-events:none;z-index:80;opacity:.04;
+  position:fixed;inset:0;pointer-events:none;z-index:var(--z-grain);opacity:.035;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.05 0 0 0 0 0.05 0 0 0 0 0.06 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 img,svg,video{max-width:100%;height:auto;display:block}
@@ -245,10 +253,13 @@ a{color:inherit;text-decoration:none}
   outline:2px solid var(--c-accent);
   outline-offset:2px;
   border-radius:var(--r-xs);
+  box-shadow:var(--focus-ring);
 }
 
-h1,h2,h3,h4{margin:0;font-family:var(--f-display);font-weight:var(--t-heading-weight)}
-p{margin:0}
+h1,h2,h3,h4{margin:0;font-family:var(--f-display);font-weight:var(--t-heading-weight);text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+/* Sticky nav clearance — anchors must not land under the bar. */
+[id],[data-section]{scroll-margin-top:calc(var(--s-2xl) + var(--s-sm))}
 
 .ds-display{font-family:var(--f-display);font-size:var(--t-display-size);line-height:var(--t-display-leading);letter-spacing:var(--t-display-tracking);font-weight:var(--t-display-weight);max-width:18ch;text-wrap:balance}
 .ds-title{font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking);font-weight:var(--t-title-weight);max-width:22ch;text-wrap:balance}
@@ -258,7 +269,8 @@ p{margin:0}
 .ds-body{font-size:var(--t-body-size);line-height:var(--t-body-leading);color:var(--surface-body,var(--c-ink-body));max-width:var(--w-prose)}
 .ds-small{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-body,var(--c-ink-body))}
 .ds-caption{font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--surface-quiet,var(--c-ink-tertiary))}
-.ds-eyebrow{font-size:var(--t-micro-size);line-height:var(--t-micro-leading);letter-spacing:var(--t-micro-tracking);font-weight:var(--t-micro-weight);text-transform:uppercase;color:var(--surface-quiet,var(--c-ink-tertiary))}
+/* Sentence-case index labels — forced uppercase on every eyebrow was chrome noise, not hierarchy. */
+.ds-eyebrow{font-size:var(--t-micro-size);line-height:var(--t-micro-leading);letter-spacing:0.02em;font-weight:600;text-transform:none;color:var(--surface-quiet,var(--c-ink-tertiary))}
 .ds-mono{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0}
 
 ${surfaceRules()}
@@ -285,7 +297,7 @@ ${surfaceRules()}
  * wordmark — the cheapest way there is to make an otherwise careful page look unfinished. The
  * hairline underneath is what separates the bar from the page; the backdrop does not have to.
  */
-.ds-nav{position:sticky;top:0;z-index:20;background:var(--c-paper);border-bottom:1px solid var(--c-border)}
+.ds-nav{position:sticky;top:0;z-index:var(--z-nav);background:var(--c-paper);border-bottom:1px solid var(--c-border)}
 .ds-nav-inner{display:flex;align-items:center;gap:var(--s-lg);min-height:var(--s-2xl)}
 .ds-wordmark{font-family:var(--f-display);font-weight:var(--t-title-weight);font-size:var(--t-subheading-size);letter-spacing:var(--t-subheading-tracking)}
 .ds-nav-links{display:flex;gap:var(--s-md);margin-left:auto;font-size:var(--t-bodySmall-size);color:var(--c-ink-secondary)}
@@ -302,7 +314,7 @@ ${surfaceRules()}
 .ds-cta-note{font-size:var(--t-caption-size);color:var(--surface-quiet,var(--c-ink-tertiary))}
 
 /* Hero */
-.ds-hero{position:relative;padding-block:calc(var(--section-y) * 1.1) var(--section-y);min-height:min(84vh,900px);display:grid;align-content:center;isolation:isolate}
+.ds-hero{position:relative;padding-block:calc(var(--section-y) * 0.95) var(--section-y);min-height:min(78vh,860px);display:grid;align-content:center;isolation:isolate}
 .ds-hero::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background:
@@ -350,9 +362,15 @@ ${surfaceRules()}
  * for, which puts its labels under seven pixels — legible in a viewBox, not on a screen. Letting it
  * bleed right restores the drawing to full size, and it is the same move reference pages use to
  * stop a fold from reading as two boxes side by side. */
-.ds-plate-fold{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--shadow-raised,0 18px 48px color-mix(in srgb,var(--c-ink) 10%,transparent)),0 0 0 1px color-mix(in srgb,var(--c-accent) 12%,transparent)}
+.ds-plate-fold,.ds-plate-lit{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--shadow-raised,0 18px 48px color-mix(in srgb,var(--c-ink) 10%,transparent)),0 0 0 1px color-mix(in srgb,var(--c-accent) 12%,transparent);position:relative}
+/* Corner brackets — drawn matter on the plate frame so a product surface does not read as a bare card. */
+.ds-plate-fold::before,.ds-plate-fold::after,.ds-plate-lit::before,.ds-plate-lit::after{
+  content:"";position:absolute;width:1.1rem;height:1.1rem;border:1.5px solid var(--c-accent);pointer-events:none;z-index:2;
+}
+.ds-plate-fold::before,.ds-plate-lit::before{top:0.45rem;left:0.45rem;border-right:0;border-bottom:0}
+.ds-plate-fold::after,.ds-plate-lit::after{right:0.45rem;bottom:0.45rem;border-left:0;border-top:0}
 @media (min-width:64rem){
-  .ds-plate-fold{margin-right:calc(var(--gutter) - max(0px,(100vw - var(--w-wide)) / 2));margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+  .ds-plate-fold{margin-right:calc(var(--gutter) - max(0px,(100vw - var(--w-wide)) / 2));margin-bottom:calc(var(--s-xl) * -1);z-index:var(--z-raised)}
 }
 /* Full-bleed. A page where nothing reaches the edge of the screen is a document in a frame, and
  * measured reference pages spend between a tenth and all of their bands on something that does. */
@@ -372,8 +390,9 @@ ${surfaceRules()}
  * composition scrolling past rather than a stack of framed rectangles. The pull has to live on the
  * section (or on a child whose negative margin collapses the section's bottom), or the next band
  * never moves up to meet it. */
-.ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
-.ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+.ds-specimen{margin-bottom:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+.ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-sm))}
+.ds-specimen + .ds-proof{margin-top:calc(var(--s-xl) * -1);padding-top:var(--s-2xl)}
 .ds-metrics-band{margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 .ds-metrics-band + .ds-section{padding-top:calc(var(--section-y) + var(--s-md))}
 .ds-app-band{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
@@ -499,12 +518,13 @@ ${surfaceRules()}
   content:"";position:absolute;left:1.15rem;top:var(--s-md);bottom:var(--s-md);width:2px;
   background:linear-gradient(180deg,var(--c-accent),color-mix(in srgb,var(--c-accent) 20%,transparent));border-radius:1px;
 }
-.ds-chapter{display:grid;grid-template-columns:3.5rem minmax(0,22ch) minmax(0,1fr);gap:var(--s-sm) var(--s-xl);padding:var(--s-md) var(--s-sm) var(--s-md) 0;border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:baseline}
+.ds-chapter{display:grid;grid-template-columns:3.5rem minmax(0,22ch) minmax(0,1fr) 4.5rem;gap:var(--s-sm) var(--s-lg);padding:var(--s-md) var(--s-sm) var(--s-md) 0;border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:center}
 .ds-chapter:nth-child(odd){background:color-mix(in srgb,var(--c-paper-raised) 70%,transparent)}
 .ds-chapter:first-child{background:var(--c-accent-surface);box-shadow:inset 3px 0 0 var(--c-accent)}
-.ds-chapter-index{font-family:var(--f-mono);font-size:var(--t-caption-size);line-height:1;letter-spacing:var(--t-micro-tracking);color:var(--c-accent);font-weight:600;min-width:2.5ch;padding-left:var(--s-xl)}
+.ds-chapter-index{font-family:var(--f-mono);font-size:var(--t-caption-size);line-height:1;letter-spacing:0;color:var(--c-accent);font-weight:600;min-width:2.5ch;padding-left:var(--s-xl)}
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:22ch;grid-column:auto}
 .ds-chapter .ds-body{max-width:52ch;grid-column:auto}
+.ds-chapter-mark{width:4.25rem;justify-self:end;opacity:.85}
 
 /* Proof board — dense inverse surface packed with declared evidence.
  *
@@ -533,18 +553,21 @@ ${surfaceRules()}
 .ds-proof-claim{font-family:var(--f-display);font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);font-weight:var(--t-subheading-weight);max-width:34ch;color:var(--surface-muted);text-wrap:balance}
 .ds-proof-foot{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:var(--t-micro-tracking);text-transform:uppercase;color:var(--surface-quiet);margin-top:var(--s-md);padding-top:var(--s-sm);border-top:1px solid var(--surface-border);max-width:36ch}
 /* Lit plate on the dark stage — forces paper tokens so drawn UI keeps contrast. */
-.ds-proof-figure{margin:0;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);color:var(--c-ink);box-shadow:0 24px 60px color-mix(in srgb,#000 45%,transparent);--surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);--surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);transform:translateY(var(--s-md))}
+.ds-proof-figure{margin:0;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);color:var(--c-ink);box-shadow:0 28px 64px color-mix(in srgb,#000 48%,transparent);--surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);--surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);transform:translateY(var(--s-md))}
 .ds-proof-figure .ds-fig{border-radius:var(--r-lg)}
 .ds-proof-figure figcaption{color:var(--c-ink-tertiary)}
 .ds-proof-figure-field{opacity:.55;padding:0;border:0;background:transparent;box-shadow:none;transform:none}
 .ds-proof-board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;list-style:none;margin:0;padding:0;border-top:1px solid var(--surface-border)}
 .ds-proof-cell{display:grid;gap:var(--s-2xs);align-content:start;padding:var(--s-md) var(--s-sm);border-right:1px solid var(--surface-border);min-height:0;background:transparent;border-radius:0}
 .ds-proof-cell:last-child{border-right:0}
-.ds-proof-cell.is-lead,.ds-proof-cell:first-child{background:color-mix(in srgb,var(--c-accent) 16%,transparent);box-shadow:inset 0 3px 0 var(--c-accent)}
+.ds-proof-cell.is-lead,.ds-proof-cell:first-child{background:var(--accent-soft);box-shadow:inset 0 3px 0 var(--c-accent)}
 .ds-proof-mark{width:3.25rem;margin-bottom:var(--s-3xs);opacity:.9}
-.ds-proof-meta{font-family:var(--f-mono);font-size:var(--t-micro-size);letter-spacing:var(--t-micro-tracking);text-transform:uppercase;color:var(--c-accent)}
+.ds-proof-meta{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0;text-transform:none;color:var(--c-accent)}
 .ds-proof-cell h3{font-size:var(--t-body-size);line-height:var(--t-body-leading);letter-spacing:var(--t-body-tracking);font-weight:600;max-width:16ch}
 .ds-proof-cell p{font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--surface-muted);max-width:28ch}
+/* Bonding strip — metadata on a hairline, not empty reserved height between subjects. */
+.ds-sec-meta{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-md);margin:0 0 var(--s-md);padding:var(--s-xs) 0;border-top:1px solid var(--surface-border);font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
+.ds-sec-meta b{color:var(--surface-ink);font-weight:600}
 /* Legacy statement aliases — kept so older fixtures do not break mid-render. */
 .ds-statement{position:relative;padding-block:calc(var(--section-y) * 0.75)}
 .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);max-width:28ch}
@@ -653,6 +676,7 @@ ${motionCss(spec.taste.motion)}
   .ds-split,.ds-alt-row,.ds-alt-pair,.ds-section-head-spread,.ds-proof-stage{grid-template-columns:1fr!important}
   .ds-chapter{grid-template-columns:2.75rem 1fr;row-gap:var(--s-2xs)}
   .ds-chapter .ds-body{grid-column:2}
+  .ds-chapter-mark{display:none}
   .ds-proof-board{grid-template-columns:1fr}
   .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border)}
   .ds-proof-figure{transform:none}

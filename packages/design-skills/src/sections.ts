@@ -273,8 +273,9 @@ export function buildSections(
           block({
             title: f.name,
             body: f.description,
-            meta: f.priority === "p0" ? "Core" : "Included",
-            kicker: f.priority === "p0" ? "Primary" : "In scope",
+            // Sentence case — screaming micro-labels inflate the uppercase count and read as chrome.
+            meta: f.priority === "p0" ? "Primary" : "In product",
+            kicker: f.priority === "p0" ? "Primary" : "In product",
             emphasis: f.priority === "p0" ? "lead" : "normal",
           }),
         );

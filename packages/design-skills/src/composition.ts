@@ -81,7 +81,7 @@ const SPLIT: Record<AestheticLean, { hero: string; feature: string; wide: string
   "minimal-clean": { hero: "6fr 5fr", feature: "5fr 7fr", wide: "4fr 8fr" },
   // Conversion fold gives the figure the majority — the product has to be visible above the fold,
   // and a copy column at five twelfths still holds a 16rem floor so the headline does not collapse.
-  "conversion-sharp": { hero: "5fr 7fr", feature: "5fr 7fr", wide: "7fr 5fr" },
+  "conversion-sharp": { hero: "4.5fr 7.5fr", feature: "5fr 7fr", wide: "7fr 5fr" },
   "system-crafted": { hero: "7fr 5fr", feature: "7fr 5fr", wide: "5fr 7fr" },
   "refined-story": { hero: "7fr 4fr", feature: "4fr 8fr", wide: "4fr 8fr" },
 };
@@ -177,7 +177,8 @@ export function planSections(input: CompositionInput): SectionPlan[] {
 
   if (siteKind !== "docs-educational") {
     // Dense proof board on inverse — never a lonely quote floating in a dark void.
-    plans.push({ id: "proof", kind: "proof", layout: "marquee-proof", surface: "inverse" });
+    // Bonded to the specimen above so a light airway cannot open between drawn product and proof.
+    plans.push({ id: "proof", kind: "proof", layout: "marquee-proof", surface: "inverse", bond: true });
   }
 
   plans.push({

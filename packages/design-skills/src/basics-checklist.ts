@@ -119,6 +119,31 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         || spec.brief.features.some((f) => /starter|growth|enterprise/i.test(f.name)),
       "Pricing and proof copy come from declared features, not invented SaaS tiers.",
     ),
+    check(
+      "scroll-margin",
+      /scroll-margin-top/.test(html),
+      "Section anchors clear the sticky nav — without scroll-margin, deep links land under the bar.",
+    ),
+    check(
+      "z-scale",
+      /--z-nav/.test(html) && /--z-raised/.test(html),
+      "A declared z-index scale keeps sticky chrome, hangs, and overlays from fighting with magic numbers.",
+    ),
+    check(
+      "focus-ring-token",
+      /--focus-ring/.test(html),
+      "Focus ring is a token, not an ad-hoc outline that drifts from the accent.",
+    ),
+    check(
+      "text-wrap",
+      /text-wrap:pretty/.test(html) && /text-wrap:balance/.test(html),
+      "Headings balance and prose wraps pretty — plumbing peer builders treat as baseline.",
+    ),
+    check(
+      "proof-board",
+      spec.brief.siteKind === "docs-educational" || /ds-proof-board/.test(html),
+      "Marketing and product pages carry a filled proof board, not a lonely quote on an empty band.",
+    ),
   ];
 
   return { passed: findings.every((f) => f.ok), findings };

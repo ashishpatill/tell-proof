@@ -125,6 +125,10 @@ function plate(svg: string, caption: string, extraClass = ""): string {
   </figure>`;
 }
 
+function secMeta(label: string, detail: string): string {
+  return `<div class="ds-sec-meta"><span>${esc(label)}</span><b>${esc(detail)}</b></div>`;
+}
+
 function cardMarkup(b: Block, i: number, opts: { lead?: boolean; wide?: boolean; mark?: string } = {}): string {
   const cls = ["ds-card"];
   // Emphasis, not position. The accent wash used to land on whichever capability happened to be
@@ -513,27 +517,24 @@ function renderFigure(section: SectionSpec): string {
   </section>`;
 }
 
-function renderChapters(section: SectionSpec): string {
+function renderChapters(section: SectionSpec, figures: FigurePlan): string {
   /*
-   * The sequence used to be a split: heading in a narrow left column, steps stacked on the right.
-   * That left a screen-tall rectangle of nothing under the heading — the same defect the FAQ had,
-   * turned into the densest vacancy the audit could find. Spread the head across the measure and
-   * set the steps as a two-column register so every column the wrap owns has ink in it.
+   * Spined register with a mark per step. Odd-count card grids left a hole; empty chapter bodies
+   * read as wireframes. Every row carries index, title, body, and a capability mark.
    */
+  const count = section.blocks.length;
   return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
+      ${secMeta("Sequence", `${count} steps · product order`)}
       ${sectionHead(section, 2, true)}
       <ol class="ds-chapters">
         ${section.blocks
           .map(
-            // A chapter whose payoff was spent in an earlier section is a name and a number, which
-            // is a legitimate beat. It was still emitting the paragraph that would have carried the
-            // payoff — an empty full-width box under every step, counted by the probe as a rule and
-            // read by a screen reader as a blank.
-            (b) => `<li class="ds-chapter">
-              <p class="ds-chapter-index">${esc(b.meta ?? "")}</p>
+            (b, i) => `<li class="ds-chapter">
+              <p class="ds-chapter-index">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
               <h3>${esc(b.title)}</h3>
               ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+              ${figures.marks[i] ? `<div class="ds-chapter-mark" aria-hidden="true">${figures.marks[i]}</div>` : ""}
             </li>`,
           )
           .join("")}
@@ -565,12 +566,13 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
         .join("")}</ul>`
     : "";
   const figure = figures.body
-    ? `<figure class="ds-proof-figure">${plate(figures.body, section.quoteAttribution ?? "Declared scope")}</figure>`
+    ? plate(figures.body, section.quoteAttribution ?? "Declared scope", "ds-proof-figure ds-plate-lit")
     : figures.field
       ? `<figure class="ds-proof-figure ds-proof-figure-field" aria-hidden="true">${figures.field}</figure>`
       : "";
   return `<section class="ds-section ds-proof" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
+      ${secMeta("Proof", `${cells.length} capabilities · declared scope`)}
       <div class="ds-proof-stage">
         <header class="ds-proof-head">
           ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
@@ -832,7 +834,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "figure-explainer":
       return wrapped(renderFigure(section));
     case "story-chapters":
-      return wrapped(renderChapters(section));
+      return wrapped(renderChapters(section, figures));
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));
