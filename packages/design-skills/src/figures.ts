@@ -1101,6 +1101,8 @@ const ORDER: Record<string, Kind[]> = {
   "fintech-marketing": ["interface", "series", "flow", "stack"],
   // Studio folds need a dense composed surface (flow), then a quieter horizon as specimen beat.
   "art-directed-studio": ["flow", "horizon", "stack", "series"],
+  // Consumer craft is product-surface first; horizon specimen stays type-quiet for rhythm.
+  "consumer-craft": ["interface", "horizon", "flow", "stack"],
 };
 
 export function planFigures(input: {

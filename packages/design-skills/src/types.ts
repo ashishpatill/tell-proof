@@ -51,6 +51,11 @@ export const SiteKind = z.enum([
    * calibrated to art-directed-studio (fold figure ~1.0, little inverse, large display).
    */
   "art-directed-studio",
+  /**
+   * Voice-led consumer craft marketing — figure-dense product story, moderate display,
+   * calibrated to consumer-craft (figureArea ~0.68, fold figure ~0.73, little inverse).
+   */
+  "consumer-craft",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 

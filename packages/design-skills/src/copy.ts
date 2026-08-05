@@ -106,7 +106,25 @@ const GOAL_CTA: Record<DesignBrief["businessGoal"], { primary: string; secondary
   activation: { primary: "Open the workspace", secondary: "See a sample board", note: "Your first view is ready in minutes." },
 };
 
-export function ctaFor(goal: DesignBrief["businessGoal"]): { primary: string; secondary: string; note: string } {
+export function ctaFor(
+  goal: DesignBrief["businessGoal"],
+  siteKind?: DesignBrief["siteKind"],
+): { primary: string; secondary: string; note: string } {
+  // Consumer craft sells a product, not a plan ladder — "Compare plans" is SaaS residue.
+  if (siteKind === "consumer-craft") {
+    return {
+      primary: "Order yours",
+      secondary: "See the details",
+      note: "Ships when the batch is ready — no waitlist theatre.",
+    };
+  }
+  if (siteKind === "art-directed-studio") {
+    return {
+      primary: "Start a conversation",
+      secondary: "Browse the work",
+      note: "We take a few engagements at a time.",
+    };
+  }
   return GOAL_CTA[goal];
 }
 

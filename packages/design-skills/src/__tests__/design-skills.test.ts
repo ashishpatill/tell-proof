@@ -263,10 +263,11 @@ describe("measured craft floors", () => {
 });
 
 describe("research-backed offerings + implementation basics", () => {
-  it("keeps a depth-first offering catalog with fintech and studio gaps filled", () => {
+  it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(6);
+    expect(templates).toHaveLength(7);
     expect(templates.map((t) => t.key).sort()).toEqual([
+      "consumer",
       "corporate",
       "dashboard",
       "educational",
@@ -282,6 +283,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(fintech.siteKind).toBe("fintech-marketing");
     const studio = templates.find((t) => t.key === "studio")!;
     expect(studio.siteKind).toBe("art-directed-studio");
+    const consumer = templates.find((t) => t.key === "consumer")!;
+    expect(consumer.siteKind).toBe("consumer-craft");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -306,6 +309,18 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain('data-sitekind="art-directed-studio"');
     expect(previewHtml).toContain("ds-hero-overfigure");
     expect(previewHtml).toContain("Selected work");
+  });
+
+  it("gives consumer craft a figure-forward plan without a SaaS pricing ladder", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.consumer!);
+    expect(spec.brief.siteKind).toBe("consumer-craft");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "feature-alternating")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBeLessThanOrEqual(1);
+    expect(previewHtml).toContain('data-sitekind="consumer-craft"');
+    expect(previewHtml).toContain("ds-hero-overfigure");
+    expect(previewHtml).toContain("In hand");
   });
 
   it("clears the implementation basics gate on every offering", () => {

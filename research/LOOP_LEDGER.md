@@ -253,3 +253,18 @@ buckets, never names, hosts, or URLs.
 - **Score:** studio-selected **99.7** (was 100 before cool-mood retune; matrix **99.3**); holdout **98.4**
 - **Qualitative:** fold shows layered claim-over-sequence (not brochure split); scroll stays paper;
   method + scrub figure read as studio craft. Satisfactory to ship; next gap is consumer-craft.
+
+## Loop 13 — seventh offering: consumer craft
+
+- **Goal:** fill the consumer-craft demand gap (figureArea ~0.68, foldFigure ~0.73, display ~3.2vw,
+  little inverse) with a voice-led product landing — not SaaS pricing theatre or studio editorial.
+- **Evidence used:** consumer-craft category medians; Playwright fold + scroll slices.
+- **Closed:**
+  - New `consumer-craft` siteKind + `consumer` template + `/showcase/consumer` + critique brief
+  - Plan: product overfigure → raised metrics → alternating in-hand register → quiet horizon
+    specimen → scrub figure → rows → raised proof → day-in-use story → FAQ → one inverse CTA
+  - Moderate display (~4vw); teal brand accent; site-kind CTAs ("Order yours") instead of plan compare
+  - Basics gate: no pricing, feature-alternating, ≤1 inverse, spanning overfigure
+- **Score:** consumer-craft **100**; matrix **99.4**; studio **99.7**; fintech **100**; holdout **98.4**
+- **Qualitative:** fold is a product surface under a short claim; scroll stays paper with a quiet
+  specimen valley; copy no longer asks to "Compare plans". Satisfactory to ship.

@@ -213,6 +213,11 @@ export default function StudioPage() {
       nextLean = "refined-story";
       nextDensity = "sparse";
     }
+    if (/consumer|everyday|lifestyle|shopper|retail|dtc/.test(text)) {
+      nextKind = "consumer-craft";
+      nextLean = "conversion-sharp";
+      nextDensity = "balanced";
+    }
     if (/story|editorial|refined|corporate/.test(text)) {
       nextLean = "refined-story";
       nextDensity = "sparse";
@@ -281,6 +286,9 @@ export default function StudioPage() {
             </a>
             <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/studio">
               Studio
+            </a>
+            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/consumer">
+              Consumer
             </a>
             <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/">
               Tell Report
@@ -351,6 +359,7 @@ export default function StudioPage() {
               "docs-educational",
               "fintech-marketing",
               "art-directed-studio",
+              "consumer-craft",
             ]}
             testId="input-sitekind"
           />

@@ -126,6 +126,18 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Studio offerings stay paper-led with selected-work rhythm — no pricing ladder, at most one inverse close.",
     ),
     check(
+      "kind-consumer",
+      spec.brief.siteKind !== "consumer-craft"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && spec.sections.some((s) => s.layout === "feature-alternating")
+          && /ds-hero-overfigure/.test(html)
+          && /ds-plate/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length <= 1
+        ),
+      "Consumer craft stays figure-forward and paper-led — no SaaS pricing ladder, at most one inverse close.",
+    ),
+    check(
       "no-filler-tiers",
       !/\b(Starter|Growth|Enterprise Plan|Lorem ipsum)\b/i.test(html)
         || spec.brief.features.some((f) => /starter|growth|enterprise/i.test(f.name)),

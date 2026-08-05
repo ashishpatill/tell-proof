@@ -14,10 +14,10 @@
 | `agent-skills/web-design/premium-content-custom-web/` | Agent skill graph (main + sub-skills) |
 | `.cursor/skills/premium-content-custom-web/SKILL.md` | Agent entry skill |
 | `packages/design-skills` | Deterministic engine (`designFromFeatures`) |
-| `packages/design-skills/src/templates.ts` | Research-backed offerings (depth-first catalog, incl. fintech + studio) |
+| `packages/design-skills/src/templates.ts` | Research-backed offerings (depth-first catalog across measured gaps) |
 | `packages/design-skills/src/basics-checklist.ts` | Implementation floor only (not taste) |
 | `/studio` | Live canvas + Taste Controls + magic edit + viewport + copy HTML |
-| `/showcase/*` | SaaS, dashboard, corporate, educational, fintech, studio demos |
+| `/showcase/*` | SaaS, dashboard, corporate, educational, fintech, studio, consumer demos |
 | `POST /api/design` | Brief → spec + preview HTML (`redesignFrom` optional) |
 | `GET /api/design?templates=1` | Offering catalog metadata |
 | MCP `tell_design_from_features` | MCP tool |
@@ -31,7 +31,7 @@
 
 ### Offering catalog (keep count low)
 
-One template per `siteKind` (saas, dashboard, corporate, educational, fintech, studio). Improve each until the research loop's convergence criteria hold for two consecutive loops. Add another only when a measured demand gap appears that none of the current kinds cover.
+One template per `siteKind` (saas, dashboard, corporate, educational, fintech, studio, consumer). Improve each until the research loop's convergence criteria hold for two consecutive loops. Add another only when a measured demand gap appears that none of the current kinds cover.
 
 | Key | Market job |
 |---|---|
@@ -41,6 +41,7 @@ One template per `siteKind` (saas, dashboard, corporate, educational, fintech, s
 | `educational` | Technical mechanism explainer |
 | `fintech` | Money-product trust landing |
 | `studio` | Art-directed selected-work studio landing |
+| `consumer` | Voice-led consumer product landing |
 
 ## Quality bar (Phase 7)
 

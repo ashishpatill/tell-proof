@@ -96,7 +96,7 @@ export function buildSections(
   });
 
   const eyebrow = eyebrows(brief);
-  const cta = ctaFor(brief.businessGoal);
+  const cta = ctaFor(brief.businessGoal, brief.siteKind);
   const navItems = navFor(plan.map((p) => ({ kind: p.kind, id: p.id })));
   const editorial = editorialize(features);
   const allBlocks = featureBlocks(editorial.features);
@@ -193,30 +193,43 @@ export function buildSections(
         if (!slice.length) break;
         const isSecond = p.id !== "features";
         const isStudio = brief.siteKind === "art-directed-studio";
+        const isConsumer = brief.siteKind === "consumer-craft";
         sections.push(
           SectionSpec.parse({
             ...base,
             eyebrow: isSecond
               ? isStudio
                 ? "Also in practice"
-                : "Also included"
+                : isConsumer
+                  ? "Also in the bag"
+                  : "Also included"
               : isStudio
                 ? "Selected work"
-                : eyebrow.features,
+                : isConsumer
+                  ? "In hand"
+                  : eyebrow.features,
             title: isSecond
               ? isStudio
                 ? sentence(`The quieter practices that keep ${brief.productName} sharp`)
-                : sentence(`The rest of what ships with ${brief.productName}`)
+                : isConsumer
+                  ? sentence(`The details you notice on week three`)
+                  : sentence(`The rest of what ships with ${brief.productName}`)
               : isStudio
                 ? sentence(`Work that still holds after the launch week`)
-                : featuresTitle(brief, features),
+                : isConsumer
+                  ? sentence(`Built for the day you actually have`)
+                  : featuresTitle(brief, features),
             body: isSecond
               ? isStudio
                 ? sentence(`Handoffs, critique, and the rules that stop the system from drifting`)
-                : sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
+                : isConsumer
+                  ? sentence(`Repair, modes, and the pockets that keep unpacking honest`)
+                  : sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
               : isStudio
                 ? sentence(`Each engagement is a composed surface — identity, product, and motion under one grid`)
-                : featuresLede(brief, features),
+                : isConsumer
+                  ? sentence(`Each capability is something you can point at on the product — not a lifestyle claim`)
+                  : featuresLede(brief, features),
             blocks: slice,
           }),
         );
@@ -231,7 +244,11 @@ export function buildSections(
         sections.push(
           SectionSpec.parse({
             ...base,
-            title: sentence(brief.productName),
+            // Consumer specimen is a drawn beat — keep the title to a short brand mark.
+            title:
+              brief.siteKind === "consumer-craft"
+                ? brief.productName.split(/\s+/)[0] ?? brief.productName
+                : sentence(brief.productName),
             body: "",
           }),
         );
@@ -267,15 +284,24 @@ export function buildSections(
         sections.push(
           SectionSpec.parse({
             ...base,
-            eyebrow: brief.siteKind === "art-directed-studio" ? "Method" : eyebrow.story,
+            eyebrow:
+              brief.siteKind === "art-directed-studio"
+                ? "Method"
+                : brief.siteKind === "consumer-craft"
+                  ? "In use"
+                  : eyebrow.story,
             title:
               brief.siteKind === "art-directed-studio"
                 ? sentence(`How a system gets made here`)
-                : sentence(`The order things happen in`),
+                : brief.siteKind === "consumer-craft"
+                  ? sentence(`A day with ${brief.productName}`)
+                  : sentence(`The order things happen in`),
             body:
               brief.siteKind === "art-directed-studio"
                 ? sentence(`The sequence from first critique to handoff, without the pitch theatre`)
-                : sentence(`The sequence ${brief.audience} actually meet, in order`),
+                : brief.siteKind === "consumer-craft"
+                  ? sentence(`From morning pack to evening empty — what you actually do with it`)
+                  : sentence(`The sequence ${brief.audience} actually meet, in order`),
             blocks: chapters(editorial.features).map((c) => block({ title: c.title, body: c.body, meta: c.meta })),
           }),
         );

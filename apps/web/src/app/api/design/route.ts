@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 }
 
 /**
- * GET ?showcase=saas|dashboard|corporate|educational|fintech|studio → research-backed offering
+ * GET ?showcase=saas|dashboard|corporate|educational|fintech|studio|consumer → research-backed offering
  * GET ?templates=1 → catalog metadata (no HTML) for Studio / agents
  */
 export async function GET(req: Request) {

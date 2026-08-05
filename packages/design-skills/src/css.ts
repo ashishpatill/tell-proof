@@ -225,6 +225,22 @@ body[data-sitekind="art-directed-studio"]{
     radial-gradient(120% 80% at 12% -10%,color-mix(in srgb,var(--c-accent) 8%,transparent),transparent 55%),
     linear-gradient(180deg,var(--c-paper),color-mix(in srgb,var(--c-paper-sunken) 55%,var(--c-paper)));
 }
+/* Consumer craft: denser product plates, shorter display voice, figure-forward alternating register. */
+[data-sitekind="consumer-craft"] .ds-hero-overfigure .ds-plate-bleed .ds-fig{min-height:min(90vh,900px)}
+[data-sitekind="consumer-craft"] .ds-hero-overclaim .ds-display{max-width:18ch}
+[data-sitekind="consumer-craft"] .ds-hero-overclaim .ds-lede{max-width:40ch}
+[data-sitekind="consumer-craft"] .ds-alt-figure .ds-fig{min-height:min(52vh,520px)}
+[data-sitekind="consumer-craft"] .ds-alt-mark{width:12rem}
+[data-sitekind="consumer-craft"] .ds-index-mark{width:11rem}
+[data-sitekind="consumer-craft"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
+[data-sitekind="consumer-craft"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:12ch}
+[data-sitekind="consumer-craft"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(78vh,800px)}
+[data-sitekind="consumer-craft"] .ds-metrics-band{padding-block:var(--section-y-tight)}
+[data-sitekind="consumer-craft"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
+/* Fewer structural rules — consumer refs sit under ~2 rules/screen. */
+[data-sitekind="consumer-craft"] .ds-alt-pair{border-top-color:transparent}
+[data-sitekind="consumer-craft"] .ds-alt-pair:last-child{border-bottom-color:transparent}
+[data-sitekind="consumer-craft"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 55%,transparent)}
 `;
 }
 

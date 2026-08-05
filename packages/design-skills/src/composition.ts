@@ -99,6 +99,8 @@ function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
   if (siteKind === "saas-marketing" || siteKind === "fintech-marketing") return "hero-statement";
   // Studio folds are claim-over-figure — short brand event on a full composed surface.
   if (siteKind === "art-directed-studio") return "hero-statement";
+  // Consumer craft leads with the product surface under a short voice claim.
+  if (siteKind === "consumer-craft") return "hero-statement";
   if (lean === "minimal-clean") return "hero-statement";
   if (lean === "refined-story") return "hero-editorial";
   return "hero-split";
@@ -248,6 +250,60 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     return plans;
   }
 
+  /*
+   * Consumer craft — figure-dense product story, paper-led, short scroll.
+   *
+   * Measured consumer-craft pages sit at figureArea ~0.68, foldFigure ~0.73, invertedShare ~0,
+   * and moderate display (~3.2vw). They show the thing often; they do not run a SaaS pricing
+   * ladder or an inverse-heavy money-product stage set.
+   */
+  if (siteKind === "consumer-craft") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-statement", surface: "paper", columns: split.hero });
+    plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "raised" });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-alternating",
+      surface: "paper",
+      columns: split.feature,
+    });
+    // Quiet drawn valley — honest weight variation against the dense product registers.
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    plans.push({
+      id: "features-2",
+      kind: "features",
+      layout: "feature-rows",
+      surface: "paper",
+      bond: true,
+    });
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "raised",
+      columns: split.feature,
+    });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-chapters",
+      surface: "paper",
+      bond: true,
+      columns: split.wide,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "inverse" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
   plans.push({ id: "hero", kind: "hero", layout: heroLayout(siteKind, lean), surface: "paper", columns: split.hero });
 
   // A metric band immediately after the fold is how premium pages state the stakes without
@@ -339,6 +395,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "fintech-marketing") px = 70;
   // Studio display is a visual event — high corridor without overshooting displayVw (~6.1 @ 1440).
   if (siteKind === "art-directed-studio") px = 80;
+  // Consumer craft speaks in a shorter voice — product owns the fold, not a 90px headline.
+  if (siteKind === "consumer-craft") px = 56;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;

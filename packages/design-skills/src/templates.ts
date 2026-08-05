@@ -17,7 +17,14 @@
 
 import { DesignBrief, type SiteKind } from "./types";
 
-export type TemplateKey = "saas" | "dashboard" | "corporate" | "educational" | "fintech" | "studio";
+export type TemplateKey =
+  | "saas"
+  | "dashboard"
+  | "corporate"
+  | "educational"
+  | "fintech"
+  | "studio"
+  | "consumer";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -360,6 +367,70 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
         colorMood: "light-airy",
         typographyWeight: "light-elegant",
         roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "consumer",
+    label: "Consumer craft",
+    marketJob:
+      "Voice-led consumer product landing — figure-dense story, short claim, conversion without SaaS theatre.",
+    siteKind: "consumer-craft",
+    researchBasis:
+      "Calibrated against consumer-craft corridors (figureArea ~0.68, foldFigure ~0.73, invertedShare ~0, display ~3.2vw, many figures). Distinct from studio (smaller type, denser product plates) and SaaS (no pricing ladder, paper-led proof). Keep spanning product fold; deepen uniqueness without empty-height rhythm hacks.",
+    brief: DesignBrief.parse({
+      productName: "Harborline",
+      tagline: "The everyday bag that earns its keep",
+      audience: "people who carry work and weekend in the same bag",
+      businessGoal: "sales",
+      siteKind: "consumer-craft",
+      lockSiteKind: true,
+      brandAccent: "#0F5C4C",
+      features: [
+        {
+          id: "v1",
+          name: "One-bag day",
+          description: "Laptop, shoes, and groceries without turning the bag into a suitcase",
+          priority: "p0",
+        },
+        {
+          id: "v2",
+          name: "Quiet hardware",
+          description: "Zips and pulls that do not announce themselves across a quiet room",
+          priority: "p0",
+        },
+        {
+          id: "v3",
+          name: "Weather skin",
+          description: "A finish that shrugs off rain without looking like outdoor gear",
+          priority: "p0",
+        },
+        {
+          id: "v4",
+          name: "Repair path",
+          description: "A zipper or strap replaced in weeks, not a whole bag written off",
+          priority: "p1",
+        },
+        {
+          id: "v5",
+          name: "Carry modes",
+          description: "Shoulder, crossbody, and hand — the strap changes, the silhouette does not",
+          priority: "p1",
+        },
+        {
+          id: "v6",
+          name: "Pack map",
+          description: "Pockets named for what goes in them, so unpacking is not a hunt",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "conversion-sharp",
+        density: "balanced",
+        motion: "subtle-micro",
+        colorMood: "neutral-professional",
+        typographyWeight: "medium-modern",
+        roundingDepth: "soft",
       },
     }),
   },

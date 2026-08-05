@@ -141,6 +141,35 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       },
     },
   },
+  {
+    id: "consumer-craft",
+    brief: {
+      productName: "Harborline",
+      tagline: "The everyday bag that earns its keep",
+      audience: "people who carry work and weekend in the same bag",
+      businessGoal: "sales",
+      siteKind: "consumer-craft",
+      lockSiteKind: true,
+      brandAccent: "#0F5C4C",
+      features: [
+        { id: "v1", name: "One-bag day", description: "Laptop, shoes, and groceries without turning the bag into a suitcase.", priority: "p0" },
+        { id: "v2", name: "Quiet hardware", description: "Zips and pulls that do not announce themselves across a quiet room.", priority: "p0" },
+        { id: "v3", name: "Weather skin", description: "A finish that shrugs off rain without looking like outdoor gear.", priority: "p0" },
+        { id: "v4", name: "Repair path", description: "A zipper or strap replaced in weeks, not a whole bag written off.", priority: "p1" },
+        { id: "v5", name: "Carry modes", description: "Shoulder, crossbody, and hand — the strap changes, the silhouette does not.", priority: "p1" },
+        { id: "v6", name: "Pack map", description: "Pockets named for what goes in them, so unpacking is not a hunt.", priority: "p2" },
+      ],
+      constraints: ["figure-dense", "voice-led", "no SaaS pricing theatre", "restrained motion"],
+      taste: {
+        aestheticLean: "conversion-sharp",
+        motion: "subtle-micro",
+        density: "balanced",
+        colorMood: "neutral-professional",
+        typographyWeight: "medium-modern",
+        roundingDepth: "soft",
+      },
+    },
+  },
 ];
 
 /**
