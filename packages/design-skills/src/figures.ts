@@ -154,6 +154,18 @@ export type FigureRole = "column" | "band" | "plate";
 const BLEED_INSET = 0.07;
 
 /**
+ * A quantity a plotted line can honestly be the shape of.
+ *
+ * Briefs state their headline figures as strings, and for most products those strings are
+ * capability names rather than readings — "Continuous close", "Long-hold capital". A chart drawn
+ * over names is a random walk with a numeric axis under it, presented on a page selling something
+ * as though it were evidence. This engine does not draw data it was not given.
+ */
+export function isReading(value: string): boolean {
+  return /\d/.test(value) && value.replace(/[\d\s.,%×x/+-]/gi, "").length <= 3;
+}
+
+/**
  * The type ladder the drawings use.
  *
  * A page's ladder is measured across everything rendered on it, drawings included, and reference
@@ -222,6 +234,7 @@ function box(
  * claim about this product rather than a stock dashboard.
  */
 export function interfacePlate(productName: string, rows: Block[], seed: string, role: FigureRole = "plate"): string {
+  if (role === "band") return interfaceBand(productName, rows, seed);
   /*
    * In a fold column the plate is the thing a buyer is looking at, and it was being drawn at a
    * postcard's proportion inside half a screen — which put its own labels under seven pixels once
@@ -316,6 +329,102 @@ export function interfacePlate(productName: string, rows: Block[], seed: string,
   }
 
   return frame(parts.join(""), { width: W, height: H, kind: "interface" });
+}
+
+/**
+ * The working surface given a whole screen.
+ *
+ * A full-bleed product surface is the specimen beat most premium software pages build a screen
+ * around, and it is the one drawing where extra width buys more product rather than more margin:
+ * the rail, the table and the detail panel are all on show at once, at the proportion the surface
+ * actually has, instead of a narrow plate enlarged until its own chrome looks heavy.
+ */
+function interfaceBand(productName: string, rows: Block[], seed: string): string {
+  const items = rows.slice(0, 6);
+  if (!items.length) return "";
+  const W = 1240;
+  const railW = 232;
+  const panelW = 320;
+  const r = rng(`${seed}:interface-band`);
+  const parts: string[] = [];
+
+  /*
+   * The surface is as tall as it has rows to show.
+   *
+   * Fixed at 620 it drew a four-row table into a six-row frame, leaving a third of the panel blank
+   * — the same emptiness a real product screenshot never has, and the exact thing that makes a
+   * mockup read as a placeholder. Both columns declare the height they need and the taller wins.
+   */
+  const detailLines = items[1]?.points.length
+    ? items[1]!.points.slice(0, 3).map((p) => clip(p, 40))
+    : wrap(items[1]?.body ?? items[0]!.body ?? "", 40, 3);
+  const gy = 158 + Math.max(detailLines.length, 1) * 22 + 28;
+  const H = Math.max(162 + items.length * 52 + 44, gy + 210);
+
+  parts.push(box(0.5, 0.5, W - 1, H - 1, { r: 12, fill: PAPER, stroke: LINE }));
+  parts.push(rule(0, 48, W, 48));
+  for (let i = 0; i < 3; i += 1) parts.push(`<circle cx="${24 + i * 14}" cy="24" r="3.5" fill="${LINE}"/>`);
+  parts.push(text(clip(productName, 30), 80, 28.5, { size: FT.micro, fill: QUIET, mono: true }));
+
+  // Rail
+  parts.push(rule(railW, 48, railW, H));
+  parts.push(text("Views", 24, 82, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
+  items.forEach((b, i) => {
+    const y = 112 + i * 38;
+    if (i === 0) {
+      parts.push(box(14, y - 17, railW - 28, 30, { r: 6, fill: ACCENT_FIELD }));
+      parts.push(`<rect x="14" y="${y - 17}" width="2" height="30" fill="${ACCENT}"/>`);
+    }
+    parts.push(text(clip(b.title, 24), 28, y + 4, { size: FT.small, fill: i === 0 ? INK : BODY }));
+  });
+
+  // Table
+  const tx = railW + 32;
+  const tw = W - tx - panelW - 56;
+  parts.push(text(clip(items[0]!.title, 40), tx, 88, { size: FT.title, fill: INK, weight: 600 }));
+  parts.push(text("Live", tx + tw, 86, { size: FT.micro, fill: QUIET, mono: true, anchor: "end", track: 0.6 }));
+  parts.push(rule(tx, 108, tx + tw, 108));
+  parts.push(text("Item", tx, 132, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
+  parts.push(text("State", tx + tw, 132, { size: FT.micro, fill: QUIET, mono: true, anchor: "end", track: 0.8 }));
+  items.forEach((b, i) => {
+    const y = 162 + i * 52;
+    const lead = i === 1;
+    if (lead) parts.push(box(tx - 12, y - 16, tw + 24, 46, { r: 7, fill: ACCENT_FIELD }));
+    parts.push(`<circle cx="${tx + 6}" cy="${y + 4}" r="3.5" fill="${lead ? ACCENT : LINE}"/>`);
+    parts.push(text(clip(b.title, 34), tx + 22, y + 9, { size: FT.body, fill: lead ? INK : BODY }));
+    parts.push(
+      text(b.meta ? clip(b.meta, 14) : String(i + 1).padStart(2, "0"), tx + tw, y + 9, {
+        size: FT.micro,
+        fill: lead ? INK : QUIET,
+        mono: true,
+        anchor: "end",
+      }),
+    );
+    parts.push(rule(tx, y + 30, tx + tw, y + 30));
+  });
+
+  // Detail panel — the thing a row opens into, which is what makes a surface a surface.
+  const px = W - panelW - 24;
+  parts.push(rule(px - 24, 48, px - 24, H));
+  parts.push(text("Detail", px, 82, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
+  parts.push(text(clip(items[1]?.title ?? items[0]!.title, 26), px, 112, { size: FT.body, fill: INK, weight: 600 }));
+  parts.push(rule(px, 130, px + panelW, 130));
+  detailLines.forEach((ln, i) => parts.push(text(ln, px, 158 + i * 22, { size: FT.small, fill: BODY })));
+  parts.push(box(px, gy, panelW, H - gy - 40, { r: 8, stroke: LINE }));
+  parts.push(text("Last 12 periods", px + 14, gy + 22, { size: FT.micro, fill: QUIET, mono: true, track: 0.6 }));
+  const n = 12;
+  const plotB = H - 40 - 18;
+  const plotH = plotB - (gy + 38);
+  let t = 0.3 + r() * 0.2;
+  const pts: string[] = [];
+  for (let i = 0; i < n; i += 1) {
+    t = Math.max(0.12, Math.min(0.92, t + (r() - 0.36) * 0.2));
+    pts.push(`${i === 0 ? "M" : "L"}${round(px + 14 + (i / (n - 1)) * (panelW - 28))} ${round(plotB - t * plotH)}`);
+  }
+  parts.push(`<path d="${pts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
+  parts.push(rule(px + 14, plotB, px + panelW - 14, plotB));
+
+  return frame(parts.join(""), { width: W, height: H, kind: "interface", inset: BLEED_INSET });
 }
 
 /* ------------------------------------------------------------------ */
@@ -485,7 +594,8 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
 /* ------------------------------------------------------------------ */
 
 /** Tiers of scope drawn as indented layers hanging off a single spine. */
-export function stackDiagram(layers: Block[], seed: string): string {
+export function stackDiagram(layers: Block[], seed: string, role: FigureRole = "plate"): string {
+  if (role === "band") return stackBand(layers, seed);
   const items = layers.slice(0, 5);
   if (items.length < 2) return "";
   const W = 560;
@@ -518,6 +628,64 @@ export function stackDiagram(layers: Block[], seed: string): string {
   });
 
   return frame(parts.join(""), { width: W, height: H, kind: "stack", label: `Scope: ${items.map((b) => b.title).join(", ")}` });
+}
+
+/**
+ * Scope across a whole screen: one register, one row per tier, read left to right.
+ *
+ * The column form hangs short bars off a spine because that is what fits beside a paragraph. Given
+ * the screen, the same content is better as a ledger — the tier named on the left, what it covers
+ * set as prose in the middle, and the share it accounts for measured on the right. Same claim, and
+ * at this width the reader gets the whole scope in one look instead of five stubs.
+ */
+function stackBand(layers: Block[], seed: string): string {
+  const items = layers.slice(0, 5);
+  if (items.length < 2) return "";
+  const W = 1240;
+  const rowH = 92;
+  const head = 74;
+  const H = head + items.length * rowH + 28;
+  const r = rng(`${seed}:stack-band`);
+  const nameW = 300;
+  const proseX = nameW + 48;
+  const meterX = W - 300;
+  const parts: string[] = [];
+
+  parts.push(text("Scope", 0, 22, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
+  parts.push(text("Tier", 0, head - 18, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
+  parts.push(text("What it covers", proseX, head - 18, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
+  parts.push(text("Share", W, head - 18, { size: FT.micro, fill: QUIET, mono: true, anchor: "end", track: 0.8 }));
+
+  items.forEach((b, i) => {
+    const y = head + i * rowH;
+    const lead = i === 0;
+    parts.push(rule(0, y, W, y));
+    if (lead) parts.push(box(-16, y + 1, W + 32, rowH - 2, { fill: ACCENT_FIELD }));
+    parts.push(text(String(i + 1).padStart(2, "0"), 0, y + 34, { size: FT.micro, fill: lead ? ACCENT : QUIET, mono: true, track: 0.8 }));
+    parts.push(text(clip(b.title, 26), 0, y + 62, { size: FT.title, fill: INK, weight: 600 }));
+
+    // Prose in a band that spans the screen is read at the distance the page's own body text is,
+    // so it is set at the page's body size rather than at the caption size a small plate uses.
+    const prose = b.points.length ? [clip(b.points[0]!, 52), ...(b.points[1] ? [clip(b.points[1]!, 52)] : [])] : wrap(b.body ?? "", 52, 2);
+    prose.forEach((ln, j) => parts.push(text(ln, proseX, y + 40 + j * 24, { size: FT.body, fill: BODY })));
+
+    // The share is the tier's own weight in the catalogue, not an invented percentage.
+    const share = (items.length - i) / ((items.length * (items.length + 1)) / 2);
+    const mw = W - meterX;
+    parts.push(box(meterX, y + 50, mw, 4, { r: 2, fill: LINE }));
+    parts.push(box(meterX, y + 50, mw * Math.max(0.12, share), 4, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
+    parts.push(text(b.meta ? clip(b.meta, 16) : `${Math.round(share * 100)}%`, W, y + 38, { size: FT.micro, fill: QUIET, mono: true, anchor: "end" }));
+  });
+  parts.push(rule(0, head + items.length * rowH, W, head + items.length * rowH));
+  void r;
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "stack",
+    inset: BLEED_INSET,
+    label: `Scope: ${items.map((b) => b.title).join(", ")}`,
+  });
 }
 
 /* ------------------------------------------------------------------ */
@@ -900,8 +1068,6 @@ type Kind = "interface" | "series" | "flow" | "stack" | "horizon";
  * paragraph.
  */
 const ORDER: Record<string, Kind[]> = {
-  // A page with an application shell already shows the interface, rendered rather than drawn. A
-  // schematic of an interface set inside one is the same diagram twice with different line weights.
   "dashboard-webapp": ["series", "flow", "stack", "interface"],
   "corporate-story": ["horizon", "stack", "series", "flow"],
   "docs-educational": ["flow", "interface", "stack", "series"],
@@ -913,6 +1079,8 @@ export function planFigures(input: {
   siteKind: string;
   /** A split fold has a column to fill; every other fold is spanned by its figure. */
   heroLayout: string;
+  /** The page renders a working application shell, so it must not also draw a schematic of one. */
+  hasAppShell: boolean;
   features: Block[];
   steps: Block[];
   metrics: MetricSpec[];
@@ -926,11 +1094,11 @@ export function planFigures(input: {
       case "interface":
         return interfacePlate(input.productName, input.features, seed, role);
       case "series":
-        return seriesChart(input.metrics[0]?.label ?? "Measured outcome", periods, seed, role);
+        return seriesChart(readings[0]?.label ?? "Measured outcome", periods, seed, role);
       case "flow":
         return flowDiagram(sequence, seed, role);
       case "stack":
-        return stackDiagram(input.features, seed);
+        return stackDiagram(input.features, seed, role);
       case "horizon":
         return horizonPlot(sequence, seed, role);
       default:
@@ -944,11 +1112,25 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["flow", "horizon", "series"];
-  const COLUMNAR: Kind[] = ["interface", "stack"];
+  const SPANNING: Kind[] = ["flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
-  const order = ORDER[input.siteKind] ?? ORDER["saas-marketing"]!;
+  /*
+   * Which drawings this brief can honestly support.
+   *
+   * A plotted series needs a reading to plot; without one the kind is unavailable and the slot
+   * falls through. A page that renders its application shell already shows the interface, so a
+   * schematic of an interface set on the same page is the same diagram twice with different line
+   * weights. Both are content decisions and both are made here, once, rather than being encoded in
+   * the per-site-kind ordering where they were previously only implied.
+   */
+  const readings = input.metrics.filter((m) => isReading(m.value));
+  const order = (ORDER[input.siteKind] ?? ORDER["saas-marketing"]!).filter((k) => {
+    if (k === "series") return readings.length > 0;
+    if (k === "interface") return !input.hasAppShell;
+    return true;
+  });
   const shaped = (pool: Kind[], from: Kind[]): Kind | undefined => from.find((k) => pool.includes(k));
 
   const heroKind = shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;

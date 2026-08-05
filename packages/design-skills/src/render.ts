@@ -6,7 +6,7 @@
  * the generated markup safe to hand to a developer as a starting point.
  */
 import { renderCss } from "./css";
-import { planFigures, type FigurePlan } from "./figures";
+import { isReading, planFigures, type FigurePlan } from "./figures";
 import type { Block, DesignSpec, SectionSpec } from "./types";
 
 function esc(s: string): string {
@@ -109,6 +109,7 @@ function figuresFor(spec: DesignSpec): FigurePlan {
     productName: spec.brief.productName,
     siteKind: spec.brief.siteKind,
     heroLayout: bySection("hero")?.layout ?? "hero-split",
+    hasAppShell: Boolean(bySection("app")),
     features: features.length ? features : steps,
     steps,
     metrics: bySection("metrics")?.metrics ?? [],
@@ -250,19 +251,6 @@ function renderSpecimen(section: SectionSpec, figures: FigurePlan): string {
       </figure>
     </div>
   </section>`;
-}
-
-/**
- * A quantity a trend line can honestly belong to.
- *
- * This band is fed whatever the brief calls a headline figure, and for most products that is a
- * capability name — "Continuous close", "Long-hold capital" — not a reading. A sparkline under a
- * capability name is a random walk drawn to look like evidence, which is the exact species of
- * decoration this engine exists to detect. The shape is only drawn where there is a number for it
- * to be the shape of.
- */
-function isReading(value: string): boolean {
-  return /\d/.test(value) && value.replace(/[\d\s.,%×x/+-]/gi, "").length <= 3;
 }
 
 function renderMetricBand(section: SectionSpec, figures: FigurePlan): string {

@@ -100,6 +100,16 @@ export const ColorTokens = z.object({
   inverseInk: z.string(),
   inverseInkMuted: z.string(),
   ink: z.string(),
+  /**
+   * The ink prose is read at.
+   *
+   * Declared by the palette and consumed all over the stylesheet, but missing from this schema —
+   * so zod stripped it on the way through and `--c-ink-body` was never emitted. Every
+   * `var(--c-ink-body)` on the page was an invalid reference, which HTML text survived by falling
+   * back to inherited primary ink, and which SVG text did not: an invalid `fill` resolves to the
+   * initial value, so drawn prose was rendering black on the dark bands.
+   */
+  inkBody: z.string(),
   inkSecondary: z.string(),
   inkTertiary: z.string(),
   inkQuiet: z.string(),
