@@ -263,14 +263,32 @@ describe("measured craft floors", () => {
 });
 
 describe("research-backed offerings + implementation basics", () => {
-  it("keeps exactly four offerings — depth before breadth", () => {
+  it("keeps a depth-first offering catalog with a fintech gap filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(4);
-    expect(templates.map((t) => t.key).sort()).toEqual(["corporate", "dashboard", "educational", "saas"]);
+    expect(templates).toHaveLength(5);
+    expect(templates.map((t) => t.key).sort()).toEqual([
+      "corporate",
+      "dashboard",
+      "educational",
+      "fintech",
+      "saas",
+    ]);
     for (const t of templates) {
       expect(t.marketJob.length).toBeGreaterThan(20);
       expect(t.researchBasis.length).toBeGreaterThan(20);
     }
+    const fintech = templates.find((t) => t.key === "fintech")!;
+    expect(fintech.siteKind).toBe("fintech-marketing");
+  });
+
+  it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.fintech!);
+    expect(spec.brief.siteKind).toBe("fintech-marketing");
+    const inverse = spec.sections.filter((s) => s.surface === "inverse").map((s) => s.kind);
+    expect(inverse.filter((k) => k === "metrics" || k === "specimen" || k === "proof" || k === "cta").length).toBeGreaterThanOrEqual(3);
+    expect(previewHtml).toContain('data-sitekind="fintech-marketing"');
+    expect(previewHtml).toContain("ds-hero-overfigure");
+    expect(previewHtml).toContain("ds-proof-board");
   });
 
   it("clears the implementation basics gate on every offering", () => {

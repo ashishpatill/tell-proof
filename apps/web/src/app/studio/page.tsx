@@ -204,6 +204,7 @@ export default function StudioPage() {
     if (/conversion|cta|saas|sharp/.test(text)) {
       nextLean = "conversion-sharp";
       nextMotion = "subtle-micro";
+      if (/\b(fintech|treasury|payments?|banking|wire|payroll)\b/.test(text)) nextKind = "fintech-marketing";
       if (/saas/.test(text)) nextKind = "saas-marketing";
     }
     if (/system|token|crafted/.test(text)) nextLean = "system-crafted";
@@ -270,6 +271,9 @@ export default function StudioPage() {
             <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/educational">
               Educational
             </a>
+            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/fintech">
+              Fintech
+            </a>
             <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/">
               Tell Report
             </a>
@@ -281,7 +285,7 @@ export default function StudioPage() {
         <aside className="space-y-4 rounded-card border border-border bg-surface p-4" data-testid="studio-controls">
           <div className="space-y-2" data-testid="preset-row">
             <p className="text-xs text-secondary">
-              Four offerings, deepened by the research loop — not a theme gallery.
+              Research-backed offerings, deepened by the loop — not a theme gallery.
             </p>
             <div className="flex flex-wrap gap-2">
               {listTemplates().map((t) => (
@@ -332,7 +336,13 @@ export default function StudioPage() {
             label="Site kind"
             value={siteKind}
             onChange={(v) => setSiteKind(v as SiteKind)}
-            options={["saas-marketing", "dashboard-webapp", "corporate-story", "docs-educational"]}
+            options={[
+              "saas-marketing",
+              "dashboard-webapp",
+              "corporate-story",
+              "docs-educational",
+              "fintech-marketing",
+            ]}
             testId="input-sitekind"
           />
           <Select

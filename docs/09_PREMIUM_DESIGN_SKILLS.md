@@ -14,10 +14,10 @@
 | `agent-skills/web-design/premium-content-custom-web/` | Agent skill graph (main + sub-skills) |
 | `.cursor/skills/premium-content-custom-web/SKILL.md` | Agent entry skill |
 | `packages/design-skills` | Deterministic engine (`designFromFeatures`) |
-| `packages/design-skills/src/templates.ts` | Four research-backed offerings (depth-first catalog) |
+| `packages/design-skills/src/templates.ts` | Research-backed offerings (depth-first catalog, incl. fintech) |
 | `packages/design-skills/src/basics-checklist.ts` | Implementation floor only (not taste) |
 | `/studio` | Live canvas + Taste Controls + magic edit + viewport + copy HTML |
-| `/showcase/*` | SaaS, dashboard, corporate, educational demos |
+| `/showcase/*` | SaaS, dashboard, corporate, educational, fintech demos |
 | `POST /api/design` | Brief → spec + preview HTML (`redesignFrom` optional) |
 | `GET /api/design?templates=1` | Offering catalog metadata |
 | MCP `tell_design_from_features` | MCP tool |
@@ -31,7 +31,7 @@
 
 ### Offering catalog (keep count low)
 
-Four templates, one per `siteKind`. Improve each until the research loop's convergence criteria hold for two consecutive loops. Add a fifth only when a real demand gap appears that none of the four covers.
+One template per `siteKind` (saas, dashboard, corporate, educational, fintech). Improve each until the research loop's convergence criteria hold for two consecutive loops. Add another only when a measured demand gap appears that none of the current kinds cover.
 
 | Key | Market job |
 |---|---|

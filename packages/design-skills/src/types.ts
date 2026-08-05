@@ -39,7 +39,14 @@ export const TasteControls = z.object({
 });
 export type TasteControls = z.infer<typeof TasteControls>;
 
-export const SiteKind = z.enum(["saas-marketing", "dashboard-webapp", "corporate-story", "docs-educational"]);
+export const SiteKind = z.enum([
+  "saas-marketing",
+  "dashboard-webapp",
+  "corporate-story",
+  "docs-educational",
+  /** Money-movement / treasury marketing — inverse-heavy, bleed-dense, calibrated to fintech-product. */
+  "fintech-marketing",
+]);
 export type SiteKind = z.infer<typeof SiteKind>;
 
 export const SkillNodeId = z.enum([

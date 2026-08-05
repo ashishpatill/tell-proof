@@ -90,14 +90,13 @@ function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
   if (siteKind === "corporate-story") return lean === "conversion-sharp" ? "hero-editorial" : "hero-statement";
   if (siteKind === "docs-educational") return "hero-editorial";
   /*
-   * Every SaaS marketing fold: short claim, then the product surface owns the screen.
+   * Every SaaS / fintech marketing fold: short claim, then the product surface owns the screen.
    *
-   * Measured premium-b2b and art-directed references put roughly 0.7–1.0 of the first viewport into
-   * drawn matter (category medians ~0.89 / 1.0). A lean-gated split fold left system-crafted and
-   * information-rich briefs at ~0.2 fold-figure — a brochure, not that corridor. Spanning is the
-   * default for this site kind; lean changes type and density, not whether the product appears.
+   * Measured premium-b2b, fintech-product, and art-directed references put roughly 0.7–1.0 of the
+   * first viewport into drawn matter. Spanning is the default; lean changes type and density, not
+   * whether the product appears.
    */
-  if (siteKind === "saas-marketing") return "hero-statement";
+  if (siteKind === "saas-marketing" || siteKind === "fintech-marketing") return "hero-statement";
   if (lean === "minimal-clean") return "hero-statement";
   if (lean === "refined-story") return "hero-editorial";
   return "hero-split";
@@ -146,6 +145,51 @@ export function planSections(input: CompositionInput): SectionPlan[] {
      * carries the same weight, which is the rhythm a reader reads as generated.
      */
     plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "raised" });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "inverse" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
+  /*
+   * Fintech marketing — inverse-heavy, bleed-dense.
+   *
+   * Measured fintech-product pages sit at invertedShare ~0.7 and bleedBands ~13 (medians). A SaaS
+   * plan with one inverse proof band cannot make that rhythm. This offering stacks inverse metrics,
+   * an inverse specimen stage, inverse proof, and inverse close around paper catalogues — tone
+   * moves down the scroll the way money-product sites do.
+   */
+  if (siteKind === "fintech-marketing") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-statement", surface: "paper", columns: split.hero });
+    plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "inverse" });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-alternating",
+      surface: "paper",
+      columns: split.feature,
+    });
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "inverse" });
+    plans.push({ id: "features-2", kind: "features", layout: "feature-index", surface: "raised", bond: true });
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "inverse",
+      columns: split.feature,
+    });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-chapters",
+      surface: "paper",
+      bond: true,
+      columns: split.wide,
+    });
+    if (featureCount >= 3) {
+      plans.push({ id: "pricing", kind: "pricing", layout: "pricing-lanes", surface: "raised" });
+      plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "raised", bond: true });
+    }
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "inverse" });
     plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
@@ -209,7 +253,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     columns: split.wide,
   });
 
-  if (siteKind === "saas-marketing" && featureCount >= 3) {
+  if ((siteKind === "saas-marketing" || siteKind === "fintech-marketing") && featureCount >= 3) {
     const lanes = goal === "sales" || goal === "leads" || goal === "demos";
     if (lanes) plans.push({ id: "pricing", kind: "pricing", layout: "pricing-lanes", surface: "raised" });
     // The matrix is what the lanes mean, not a second subject. Bonded, the two arrive as the one
@@ -240,6 +284,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "corporate-story") px = 78;
   if (siteKind === "docs-educational") px = 60;
   if (siteKind === "dashboard-webapp") px = 62;
+  if (siteKind === "fintech-marketing") px = 70;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;

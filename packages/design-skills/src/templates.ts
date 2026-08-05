@@ -1,9 +1,8 @@
 /**
  * Offering catalog — depth-first, research-backed.
  *
- * These four templates are the horizontal surface of the product: one per site kind we have
- * measured against the expert corpus. They exist so Studio and MCP can name an offering without
- * inventing a fifth render path.
+ * Templates are the horizontal surface of the product: one per site kind we have measured against
+ * the expert corpus. Studio and MCP name offerings from this list.
  *
  *   Source of truth for QUALITY:  design-research-loop → LOOP_LEDGER → docs/10_DESIGN_EVIDENCE.md
  *   Source of truth for PLUMBING: basics-checklist.ts (implementation floors only)
@@ -12,14 +11,13 @@
  * only when the engine is stuck on a working detail (landmarks, focus, stacking, token emission)
  * that those builders already solved as engineering.
  *
- * Expansion rule: do not add a fifth template until the four below clear the research loop's
- * convergence criteria for two consecutive loops AND a real demand gap appears that none of
- * them covers. Depth before breadth.
+ * Expansion rule: add an offering only when a measured demand gap appears that no current kind
+ * covers (e.g. fintech inverse/bleed rhythm ≠ SaaS conversion). Then deepen via the research loop.
  */
 
 import { DesignBrief, type SiteKind } from "./types";
 
-export type TemplateKey = "saas" | "dashboard" | "corporate" | "educational";
+export type TemplateKey = "saas" | "dashboard" | "corporate" | "educational" | "fintech";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -235,6 +233,69 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
         },
       ],
       taste: { aestheticLean: "minimal-clean", density: "balanced", motion: "subtle-micro", colorMood: "light-airy" },
+    }),
+  },
+  {
+    key: "fintech",
+    label: "Fintech trust",
+    marketJob:
+      "Money-product landing — inverse-heavy proof, bleed product stages, conversion for treasury buyers.",
+    siteKind: "fintech-marketing",
+    researchBasis:
+      "Calibrated against fintech-product corridors (invertedShare ~0.7, bleedBands ~13, fold figure ~0.88, accent used as stage not flood). Distinct from SaaS conversion: more inverse bands, specimen on inverse, denser metric register. Keep spanning product fold; deepen uniqueness without empty-height rhythm hacks.",
+    brief: DesignBrief.parse({
+      productName: "Clearwire",
+      tagline: "Treasury that moves at the speed of the invoice",
+      audience: "finance leads at mid-market companies running multi-entity cash",
+      businessGoal: "demos",
+      siteKind: "fintech-marketing",
+      lockSiteKind: true,
+      features: [
+        {
+          id: "t1",
+          name: "Same-day wires",
+          description: "Domestic wires that leave before the cut-off you can actually see, not the one in a PDF",
+          priority: "p0",
+        },
+        {
+          id: "t2",
+          name: "Entity wallets",
+          description: "Cash per entity with intercompany moves that post both ledgers in one action",
+          priority: "p0",
+        },
+        {
+          id: "t3",
+          name: "Approval paths",
+          description: "Thresholds and dual control enforced at send time, not discovered in the bank portal",
+          priority: "p0",
+        },
+        {
+          id: "t4",
+          name: "FX at quote",
+          description: "A locked rate on the payment screen so the P&L match is not a surprise tomorrow",
+          priority: "p1",
+        },
+        {
+          id: "t5",
+          name: "Audit export",
+          description: "Every send, approval, and fail as a package auditors open without a screenshare",
+          priority: "p1",
+        },
+        {
+          id: "t6",
+          name: "Cash forecast",
+          description: "Thirteen-week view built from open bills and scheduled pays, not a spreadsheet guess",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "conversion-sharp",
+        density: "balanced",
+        motion: "subtle-micro",
+        colorMood: "neutral-professional",
+        typographyWeight: "bold-confident",
+        roundingDepth: "soft",
+      },
     }),
   },
 ];

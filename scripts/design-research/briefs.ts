@@ -85,12 +85,39 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       taste: { aestheticLean: "minimal-clean", motion: "none", density: "balanced", colorMood: "light-airy" },
     },
   },
+  {
+    id: "fintech-trust",
+    brief: {
+      productName: "Clearwire",
+      tagline: "Treasury that moves at the speed of the invoice",
+      audience: "finance leads at mid-market companies running multi-entity cash",
+      businessGoal: "demos",
+      siteKind: "fintech-marketing",
+      lockSiteKind: true,
+      features: [
+        { id: "t1", name: "Same-day wires", description: "Domestic wires that leave before the cut-off you can actually see, not the one in a PDF.", priority: "p0" },
+        { id: "t2", name: "Entity wallets", description: "Cash per entity with intercompany moves that post both ledgers in one action.", priority: "p0" },
+        { id: "t3", name: "Approval paths", description: "Thresholds and dual control enforced at send time, not discovered in the bank portal.", priority: "p0" },
+        { id: "t4", name: "FX at quote", description: "A locked rate on the payment screen so the P&L match is not a surprise tomorrow.", priority: "p1" },
+        { id: "t5", name: "Audit export", description: "Every send, approval, and fail as a package auditors open without a screenshare.", priority: "p1" },
+        { id: "t6", name: "Cash forecast", description: "Thirteen-week view built from open bills and scheduled pays, not a spreadsheet guess.", priority: "p2" },
+      ],
+      constraints: ["money-product trust", "restrained motion", "inverse-heavy"],
+      taste: {
+        aestheticLean: "conversion-sharp",
+        motion: "subtle-micro",
+        density: "balanced",
+        colorMood: "neutral-professional",
+        typographyWeight: "bold-confident",
+      },
+    },
+  },
 ];
 
 /**
- * Holdout. The matrix above is four briefs, and it is easy to tune the engine until those four
- * score well and everything else quietly regresses. This one is deliberately unlike them — a
- * different industry, an information-rich commerce surface, a brand accent supplied by the client —
+ * Holdout. The matrix above is the scored set, and it is easy to tune the engine until those
+ * briefs score well and everything else quietly regresses. This one is deliberately unlike them —
+ * a different industry, an information-rich commerce surface, a brand accent supplied by the client —
  * and it is scored separately. If it trails the matrix average by more than a few points, the last
  * loop tuned the briefs rather than the engine.
  */

@@ -189,6 +189,21 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-mood="dark-premium"] .ds-nav{border-bottom:2px solid var(--c-accent)}
 [data-mood="dark-premium"] .ds-metrics-band{box-shadow:inset 0 3px 0 var(--c-accent)}
 [data-mood="dark-premium"] .ds-app{outline:1px solid var(--c-accent-border)}
+/* Fintech: inverse specimen is a stage; product drawing sits on a lit paper plate (readable contrast). */
+[data-sitekind="fintech-marketing"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
+[data-sitekind="fintech-marketing"] .ds-specimen-head .ds-heading{color:var(--surface-ink)}
+[data-sitekind="fintech-marketing"] .ds-specimen .ds-plate{
+  padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);
+  background:var(--c-paper);color:var(--c-ink);
+  box-shadow:0 28px 64px color-mix(in srgb,#000 48%,transparent);
+  --surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);
+  --surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);
+}
+[data-sitekind="fintech-marketing"] .ds-specimen .ds-plate-bleed .ds-fig{border-radius:var(--r-lg);min-height:min(68vh,700px)}
+[data-sitekind="fintech-marketing"] .ds-metrics-band{box-shadow:inset 0 3px 0 var(--c-accent)}
+[data-sitekind="fintech-marketing"] .ds-metric{min-height:10.5rem}
+[data-sitekind="fintech-marketing"] .ds-proof{padding-block:var(--s-2xl) calc(var(--section-y) * 0.85)}
+[data-sitekind="fintech-marketing"] .ds-hero-overfigure .ds-plate-bleed .ds-fig{min-height:min(94vh,940px)}
 `;
 }
 

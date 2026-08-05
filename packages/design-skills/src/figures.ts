@@ -1121,6 +1121,8 @@ const ORDER: Record<string, Kind[]> = {
   "corporate-story": ["horizon", "stack", "series", "flow"],
   "docs-educational": ["flow", "interface", "stack", "series"],
   "saas-marketing": ["interface", "flow", "series", "stack"],
+  // Money products lead with the working surface and a plotted reading — fintech refs are figure-heavy.
+  "fintech-marketing": ["interface", "series", "flow", "stack"],
 };
 
 export function planFigures(input: {
