@@ -267,19 +267,23 @@ export function buildSections(
 
       case "proof": {
         const q = pullQuote(brief, features);
-        // Evidence chips are the declared capabilities restated as proof — never invented tiers.
-        const evidence = features.slice(0, 3).map((f) =>
+        // Fill the board. Three chips beside a lonely quote still left a dark void; five evidence
+        // cells from declared features are the matter a proof band is supposed to carry.
+        const evidence = features.slice(0, 5).map((f) =>
           block({
             title: f.name,
             body: f.description,
             meta: f.priority === "p0" ? "Core" : "Included",
+            kicker: f.priority === "p0" ? "Primary" : "In scope",
+            emphasis: f.priority === "p0" ? "lead" : "normal",
           }),
         );
         sections.push(
           SectionSpec.parse({
             ...base,
             eyebrow: eyebrow.proof,
-            title: sentence(`Why it holds up under review`),
+            title: sentence(`Why ${brief.productName} holds under review`),
+            body: q.quote,
             quote: q.quote,
             quoteAttribution: q.attribution,
             blocks: evidence,

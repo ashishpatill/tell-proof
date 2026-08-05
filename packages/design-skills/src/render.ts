@@ -179,6 +179,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       : "";
 
   const copy = `<div class="ds-hero-copy">
+    <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
     ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
     <h1 class="ds-display">${esc(section.title)}</h1>
     <p class="ds-lede">${esc(section.body)}</p>
@@ -542,36 +543,44 @@ function renderChapters(section: SectionSpec): string {
 }
 
 /**
- * Proof band — the claim and the evidence on one composed surface.
+ * Proof band — a filled board, not a lonely quote on black.
  *
- * A nearly empty full-screen statement was how this engine bought band-variation points and how
- * the sequence page acquired a grey void no buyer would accept. The band now carries the quote,
- * three feature-grounded proof chips, and the signature mark — sized to that matter, hung into
- * the next section for depth.
+ * The pullquote layout left a dark void with one paragraph of type: the exact toy look buyers
+ * reject. This board packs declared capabilities (with marks), a short claim strip, and a drawn
+ * figure into one inverse surface so every region of the band has matter.
  */
-function renderQuote(section: SectionSpec, figures: FigurePlan): string {
-  const proofs = section.blocks.slice(0, 3);
-  const proofList = proofs.length
-    ? `<div class="ds-statement-proofs">${proofs
-        .map(
-          (b) => `<div class="ds-statement-proof">
-            <strong>${esc(b.title)}</strong>
-            ${b.body ? `<span>${esc(b.body)}</span>` : b.points[0] ? `<span>${esc(b.points[0])}</span>` : ""}
-          </div>`,
-        )
-        .join("")}</div>`
+function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
+  const cells = section.blocks.slice(0, 5);
+  const board = cells.length
+    ? `<ul class="ds-proof-board">${cells
+        .map((b, i) => {
+          const mark = figures.marks[i] ?? "";
+          return `<li class="ds-proof-cell${b.emphasis === "lead" ? " is-lead" : ""}">
+            ${mark ? `<div class="ds-proof-mark" aria-hidden="true">${mark}</div>` : ""}
+            <p class="ds-proof-meta">${esc(b.meta ?? b.kicker ?? "")}</p>
+            <h3>${esc(b.title)}</h3>
+            ${b.body ? `<p>${esc(b.body)}</p>` : ""}
+          </li>`;
+        })
+        .join("")}</ul>`
     : "";
-  return `<section class="ds-section ds-statement" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap-wide ds-statement-grid">
-      <div>
-        ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
-        <blockquote class="ds-quote">${esc(section.quote ?? section.title)}</blockquote>
-        <p class="ds-quote-attribution">${esc(section.quoteAttribution ?? "")}</p>
-      </div>
-      <aside class="ds-statement-aside">
-        ${proofList}
-        ${figures.field ? `<div class="ds-statement-mark" aria-hidden="true">${figures.field}</div>` : ""}
-      </aside>
+  const figure = figures.body
+    ? `<figure class="ds-proof-figure">${plate(figures.body, section.quoteAttribution ?? "Declared scope")}</figure>`
+    : figures.field
+      ? `<figure class="ds-proof-figure ds-proof-figure-field" aria-hidden="true">${figures.field}</figure>`
+      : "";
+  return `<section class="ds-section ds-proof" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-wrap-wide">
+      <header class="ds-proof-head">
+        <div>
+          ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+          <h2 class="ds-heading">${esc(section.title)}</h2>
+        </div>
+        <p class="ds-proof-claim">${esc(section.body || section.quote || "")}</p>
+      </header>
+      ${board}
+      ${figure}
+      ${section.quoteAttribution ? `<p class="ds-proof-foot">${esc(section.quoteAttribution)}</p>` : ""}
     </div>
   </section>`;
 }
@@ -825,7 +834,8 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "story-chapters":
       return wrapped(renderChapters(section));
     case "pullquote":
-      return wrapped(renderQuote(section, figures));
+    case "marquee-proof":
+      return wrapped(renderProofBoard(section, figures));
     case "pricing-lanes":
       return wrapped(renderPlans(section));
     case "compare-matrix":

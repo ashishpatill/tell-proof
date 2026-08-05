@@ -282,12 +282,15 @@ describe("research-backed offerings + implementation basics", () => {
     }
   });
 
-  it("fills the proof band with feature evidence instead of a reserved empty screen", () => {
+  it("fills the proof band with a dense evidence board instead of a lonely quote", () => {
     const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
-    expect(previewHtml).toContain("ds-statement-proof");
-    expect(previewHtml).toContain("ds-statement-grid");
+    expect(previewHtml).toContain("ds-proof-board");
+    expect(previewHtml).toContain("ds-proof-cell");
+    expect(previewHtml).toContain("ds-proof-claim");
     expect(previewHtml).toContain("ds-story");
-    expect(previewHtml).not.toMatch(/ds-statement\{[^}]*min-height:\s*min\(140vh/);
+    expect(previewHtml).not.toContain("How to read this page");
     expect(previewHtml).not.toContain("min-height:min(140vh");
+    const cells = previewHtml.match(/ds-proof-cell/g) ?? [];
+    expect(cells.length).toBeGreaterThanOrEqual(4);
   });
 });

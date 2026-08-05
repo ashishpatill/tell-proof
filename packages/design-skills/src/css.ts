@@ -161,7 +161,7 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-lean="conversion-sharp"] .ds-card-lead{border-color:var(--c-accent-border);box-shadow:inset 3px 0 0 var(--c-accent)}
 [data-lean="conversion-sharp"] .ds-plan-recommended{outline:1px solid color-mix(in srgb,var(--c-accent) 55%,transparent);outline-offset:2px}
 [data-lean="conversion-sharp"] .ds-chapter:first-child{outline:1px solid color-mix(in srgb,var(--c-accent) 40%,transparent);outline-offset:1px}
-[data-lean="conversion-sharp"] .ds-statement-proof{border-color:color-mix(in srgb,var(--c-accent) 45%,var(--surface-border));background:color-mix(in srgb,var(--c-accent) 14%,transparent)}
+[data-lean="conversion-sharp"] .ds-proof-cell.is-lead,[data-lean="conversion-sharp"] .ds-proof-cell:nth-child(1){outline:1px solid color-mix(in srgb,var(--c-accent) 50%,transparent);outline-offset:1px}
 `;
   }
   if (lean === "refined-story") {
@@ -311,6 +311,8 @@ ${surfaceRules()}
 }
 .ds-hero > *{position:relative;z-index:1}
 .ds-hero-copy{display:grid;gap:var(--s-md);align-content:start}
+/* Brand is a hero-level signal — not a nav leftover. */
+.ds-brand-mark{font-family:var(--f-display);font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);font-weight:var(--t-heading-weight);color:var(--c-accent);max-width:18ch}
 .ds-hero-actions{display:flex;flex-wrap:wrap;gap:var(--s-sm);align-items:center;margin-top:var(--s-xs)}
 .ds-hero-facts{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-sm);margin:var(--s-xl) 0 0;padding-top:var(--s-md);list-style:none;border-top:1px solid var(--surface-border)}
 .ds-hero-facts li{font-size:var(--t-caption-size);color:var(--surface-quiet)}
@@ -504,31 +506,40 @@ ${surfaceRules()}
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:24ch;grid-column:2}
 .ds-chapter .ds-body{max-width:42ch;grid-column:2}
 
-/* Proof band — a claim with evidence beside it, not a reserved empty screen.
+/* Proof board — dense inverse surface packed with declared evidence.
  *
- * The 140vh "quiet" statement was a metric hack: it raised band variation and left a grey void
- * above the sequence that no client would ship. The band now sizes to what it carries — quote,
- * proof chips from declared features, and the signature mark — and hangs into the next section
- * so the scroll has depth without a hole. */
-.ds-statement{position:relative;padding-block:calc(var(--section-y) * 0.85);margin-bottom:calc(var(--s-xl) * -1);z-index:var(--z-raised);isolation:isolate}
-.ds-statement::before{
+ * A lonely quote on black is the toy look. This band is a filled instrument: head + claim, a
+ * multi-cell capability board with marks, and a product figure. Every region of the band has ink.
+ * Hangs into the next section for depth without buying height with emptiness. */
+.ds-proof{position:relative;padding-block:calc(var(--section-y) * 0.75);margin-bottom:calc(var(--s-xl) * -1);z-index:var(--z-raised);isolation:isolate}
+.ds-proof::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse 60% 80% at 100% 50%,color-mix(in srgb,var(--c-accent) 22%,transparent),transparent 70%);
+  background:
+    radial-gradient(ellipse 55% 70% at 90% 20%,color-mix(in srgb,var(--c-accent) 28%,transparent),transparent 65%),
+    radial-gradient(ellipse 40% 50% at 10% 90%,color-mix(in srgb,var(--c-accent) 12%,transparent),transparent 60%),
+    linear-gradient(135deg,color-mix(in srgb,var(--c-accent) 8%,transparent),transparent 40%);
 }
-.ds-statement > *{position:relative;z-index:1}
-/* Hang already pulls the next band up — do not re-pad a full section-y or the sequence opens
- * with the same empty airway the 140vh band used to buy. */
-.ds-statement + .ds-section{padding-top:var(--s-2xl)}
-.ds-statement + .ds-story{padding-top:var(--s-xl)}
-.ds-statement-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s-2xl);align-items:end}
-.ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking);font-weight:var(--t-title-weight);max-width:22ch;text-wrap:balance}
-.ds-quote-attribution{margin-top:var(--s-lg);padding-top:var(--s-sm);border-top:1px solid var(--surface-border);font-size:var(--t-caption-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--surface-quiet);max-width:32ch}
-.ds-statement-aside{display:grid;gap:var(--s-sm);align-content:end}
-.ds-statement-proofs{display:grid;gap:var(--s-xs)}
-.ds-statement-proof{display:grid;gap:var(--s-3xs);padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:color-mix(in srgb,var(--surface-ink) 6%,transparent)}
-.ds-statement-proof strong{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading)}
-.ds-statement-proof span{font-size:var(--t-bodySmall-size);color:var(--surface-muted);max-width:36ch}
-.ds-statement-mark{justify-self:end;width:min(100%,14rem);opacity:.9;margin-top:var(--s-sm)}
+.ds-proof > *{position:relative;z-index:1}
+.ds-proof + .ds-section{padding-top:var(--s-2xl)}
+.ds-proof + .ds-story{padding-top:var(--s-xl)}
+.ds-proof-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s-lg) var(--s-2xl);align-items:end;margin-bottom:var(--s-xl);padding-bottom:var(--s-lg);border-bottom:1px solid var(--surface-border)}
+.ds-proof-head .ds-heading{max-width:16ch}
+.ds-proof-claim{font-family:var(--f-display);font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);font-weight:var(--t-subheading-weight);max-width:46ch;color:var(--surface-muted);text-wrap:balance}
+.ds-proof-board{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--s-sm);list-style:none;margin:0 0 var(--s-xl);padding:0}
+.ds-proof-cell{grid-column:span 2;display:grid;gap:var(--s-2xs);align-content:start;padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:color-mix(in srgb,var(--surface-ink) 6%,transparent);min-height:11rem}
+.ds-proof-cell:nth-child(1),.ds-proof-cell:nth-child(2){grid-column:span 3;min-height:12.5rem;background:color-mix(in srgb,var(--c-accent) 14%,transparent);border-color:color-mix(in srgb,var(--c-accent) 40%,var(--surface-border))}
+.ds-proof-cell.is-lead{box-shadow:inset 3px 0 0 var(--c-accent)}
+.ds-proof-mark{width:4.5rem;margin-bottom:var(--s-2xs);opacity:.9}
+.ds-proof-meta{font-family:var(--f-mono);font-size:var(--t-micro-size);letter-spacing:var(--t-micro-tracking);text-transform:uppercase;color:var(--c-accent)}
+.ds-proof-cell h3{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);max-width:18ch}
+.ds-proof-cell p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-muted);max-width:36ch}
+.ds-proof-figure{margin:0 0 var(--s-lg);padding:var(--s-sm);border:1px solid var(--surface-border);border-radius:var(--r-xl);background:color-mix(in srgb,var(--surface-ink) 5%,transparent)}
+.ds-proof-figure .ds-fig{border-radius:var(--r-lg)}
+.ds-proof-figure-field{opacity:.55;padding:0;border:0;background:transparent}
+.ds-proof-foot{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:var(--t-micro-tracking);text-transform:uppercase;color:var(--surface-quiet);padding-top:var(--s-sm);border-top:1px solid var(--surface-border)}
+/* Legacy statement aliases — kept so older fixtures do not break mid-render. */
+.ds-statement{position:relative;padding-block:calc(var(--section-y) * 0.75)}
+.ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);max-width:28ch}
 
 /* Plans */
 .ds-plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--s-md);align-items:start;list-style:none;margin:0;padding:0}
@@ -631,13 +642,15 @@ ${motionCss(spec.taste.motion)}
   .ds-footer-grid{grid-template-columns:1fr 1fr 1fr}
 }
 @media (max-width:820px){
-  .ds-split,.ds-alt-row,.ds-alt-pair,.ds-section-head-spread,.ds-statement-grid{grid-template-columns:1fr!important}
+  .ds-split,.ds-alt-row,.ds-alt-pair,.ds-section-head-spread,.ds-proof-head{grid-template-columns:1fr!important}
   .ds-chapters{grid-template-columns:1fr}
   .ds-chapters::before{display:none}
+  .ds-proof-board{grid-template-columns:1fr}
+  .ds-proof-cell,.ds-proof-cell:nth-child(1),.ds-proof-cell:nth-child(2){grid-column:span 1;min-height:0}
   /* The sign-off is a composition across the band. Stacked under the buttons on a phone it is just
      a large grey shape between the last CTA and the footer, so it goes. */
   .ds-closing-grid{grid-template-columns:1fr}
-  .ds-closing-mark,.ds-statement-mark{display:none}
+  .ds-closing-mark{display:none}
   .ds-alt-row:nth-child(even) .ds-alt-figure{order:0}
   .ds-bento{grid-template-columns:1fr}
   .ds-card,.ds-card-lead,.ds-card-wide{grid-column:span 1}

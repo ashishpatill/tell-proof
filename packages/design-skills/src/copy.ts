@@ -285,10 +285,9 @@ export function plans(brief: DesignBrief, features: FeatureSpec[]): Array<{ titl
  */
 export function pullQuote(brief: DesignBrief, features: FeatureSpec[]): { quote: string; attribution: string } {
   return {
-    quote: `Everything on this page is something ${brief.productName} does today. ${count(features.length)[0]!.toUpperCase()}${count(
-      features.length,
-    ).slice(1)} capabilities, and no roadmap standing in for one.`,
-    attribution: "How to read this page",
+    quote: `Everything on this page is something ${brief.productName} does today — ${count(features.length)} capabilities, and no roadmap standing in for one.`,
+    // Meta instructions ("how to read this page") read as a toy deck. Scope is the proof.
+    attribution: `${count(features.length)} capabilities · declared scope · ships together`,
   };
 }
 
