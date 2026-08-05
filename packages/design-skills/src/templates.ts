@@ -351,11 +351,13 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
           priority: "p2",
         },
       ],
+      // Cool paper + restrained blue accent — avoids the cream/terracotta AI-default cluster.
+      brandAccent: "#1F4B6E",
       taste: {
         aestheticLean: "refined-story",
         density: "sparse",
         motion: "light-scroll-reveals",
-        colorMood: "soft-brand-accent",
+        colorMood: "light-airy",
         typographyWeight: "light-elegant",
         roundingDepth: "sharp",
       },

@@ -235,3 +235,21 @@ buckets, never names, hosts, or URLs.
   docs rule-density slightly over ceiling.
 - **Qualitative:** fintech reads as a money-product stage set (dark valleys, lit product plates), not
   a recolored SaaS page. SaaS fold still product-owned. Satisfactory to ship and keep deepening.
+
+## Loop 12 — sixth offering: art-directed studio
+
+- **Goal:** fill the art-directed-studio demand gap (fold figure ~1.0, invertedShare ~0, large display)
+  with a paper-led selected-work plan — not a recolored SaaS/fintech skeleton. Iterate with critique
+  + Playwright eye until satisfactory.
+- **Evidence used:** art-directed-studio category (foldFigure median 1.0, figureArea ~0.57,
+  invertedShare ~0, display high corridor, alignment axes ~4). Open-design craft notes only for
+  anti-slop / editorial hierarchy plumbing checks already encoded in basics.
+- **Closed:**
+  - New `art-directed-studio` siteKind + `studio` template + `/showcase/studio` + critique brief
+  - Plan: overfigure fold → raised metrics → alternating selected work → sunken specimen → method
+    story → scrub figure → index → raised proof → FAQ → single inverse CTA (no pricing)
+  - Cool light-airy + steel accent (escape cream/terracotta AI cluster); flow-owned fold surface
+  - Basics gate: ≤1 inverse, feature-alternating + story/figure, spanning overfigure
+- **Score:** studio-selected **99.7** (was 100 before cool-mood retune; matrix **99.3**); holdout **98.4**
+- **Qualitative:** fold shows layered claim-over-sequence (not brochure split); scroll stays paper;
+  method + scrub figure read as studio craft. Satisfactory to ship; next gap is consumer-craft.

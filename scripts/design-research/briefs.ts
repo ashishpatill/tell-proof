@@ -130,11 +130,12 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "s6", name: "Critique loops", description: "Structured reviews that name the tell, not a vibe, before the next round of work.", priority: "p2" },
       ],
       constraints: ["selected-work first", "paper-led", "restrained motion", "no pricing theatre"],
+      brandAccent: "#1F4B6E",
       taste: {
         aestheticLean: "refined-story",
         motion: "light-scroll-reveals",
         density: "sparse",
-        colorMood: "soft-brand-accent",
+        colorMood: "light-airy",
         typographyWeight: "light-elegant",
         roundingDepth: "sharp",
       },

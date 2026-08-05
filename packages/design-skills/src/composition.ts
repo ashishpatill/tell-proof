@@ -337,15 +337,15 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "docs-educational") px = 60;
   if (siteKind === "dashboard-webapp") px = 62;
   if (siteKind === "fintech-marketing") px = 70;
-  // Studio display is a visual event — push the high end of the critique corridor (~6.5vw @ 1440).
-  if (siteKind === "art-directed-studio") px = 84;
+  // Studio display is a visual event — high corridor without overshooting displayVw (~6.1 @ 1440).
+  if (siteKind === "art-directed-studio") px = 80;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
   if (density === "information-rich") px -= 6;
   if (density === "sparse") px += 4;
-  // Studio may sit slightly above the general 86px ceiling while staying ≤ ~6.4vw.
-  const ceiling = siteKind === "art-directed-studio" ? 92 : 86;
+  // Studio may sit slightly above the general 86px ceiling; clamp keeps vw in band.
+  const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }
 
