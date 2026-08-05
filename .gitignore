@@ -32,3 +32,7 @@ docs/04_CLAUDE_PROJECT.md
 .vercel
 data/shared-reports/
 research/shots/
+
+# Throwaway probes written during a research loop to answer one question.
+# Anything worth keeping graduates into scripts/design-research/.
+scripts/tmp/

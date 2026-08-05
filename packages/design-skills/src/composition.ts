@@ -34,6 +34,21 @@ export interface SectionPlan {
   layout: LayoutVariant;
   surface: SurfaceLevel;
   columns?: string;
+  /**
+   * This section continues the previous one's subject rather than changing it.
+   *
+   * Every section here used to get the same break above it, which is why a page of twelve
+   * defensible sections read as twelve sections: each one took a screen, and each screen carried
+   * about the same weight as the one before it. Measured, reference pages of the same overall
+   * volume put roughly twice their average weight into one screen and a fifth of it into another —
+   * the spread is the rhythm, and it does not come from writing more, it comes from deciding which
+   * things belong on a screen together.
+   *
+   * A bonded section keeps the surface it inherits and drops the break, so a plan row and the table
+   * that details it arrive as one chapter with two movements instead of two chapters that happen to
+   * be about the same thing.
+   */
+  bond?: boolean;
 }
 
 export interface CompositionInput {
@@ -103,7 +118,9 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     plans.push({ id: "hero", kind: "hero", layout: "hero-statement", surface: "paper", columns: split.hero });
     plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "inverse" });
     plans.push({ id: "app", kind: "app", layout: "app-shell", surface: "paper", columns: "260px 1fr" });
-    plans.push({ id: "features", kind: "features", layout: "feature-index", surface: "raised" });
+    // The index is the legend for the surface above it. On its own screen it read as a second
+    // feature list; bonded, the reader sees the board and what is on the board at once.
+    plans.push({ id: "features", kind: "features", layout: "feature-index", surface: "paper", bond: true });
     plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
     plans.push({ id: "figure", kind: "figure", layout: "figure-explainer", surface: "paper", columns: split.feature });
     /*
@@ -166,10 +183,11 @@ export function planSections(input: CompositionInput): SectionPlan[] {
   });
 
   if (siteKind === "saas-marketing" && featureCount >= 3) {
-    if (goal === "sales" || goal === "leads" || goal === "demos") {
-      plans.push({ id: "pricing", kind: "pricing", layout: "pricing-lanes", surface: "raised" });
-    }
-    plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "paper" });
+    const lanes = goal === "sales" || goal === "leads" || goal === "demos";
+    if (lanes) plans.push({ id: "pricing", kind: "pricing", layout: "pricing-lanes", surface: "raised" });
+    // The matrix is what the lanes mean, not a second subject. Bonded, the two arrive as the one
+    // screen a reader compares on; separated, they were two screens asking the same question twice.
+    plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: lanes ? "raised" : "paper", bond: lanes });
   }
 
   if (siteKind === "corporate-story" || siteKind === "docs-educational") {

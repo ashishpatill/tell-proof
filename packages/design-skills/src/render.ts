@@ -337,7 +337,7 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
           (b, i) => `<li class="ds-index-row" data-feature="${esc(b.title)}">
             <span class="ds-index-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</span>
             <h3>${esc(b.title)}</h3>
-            <p>${esc(b.body)}</p>
+            ${b.body ? `<p>${esc(b.body)}</p>` : ""}
             <div class="ds-index-mark" aria-hidden="true">${markFor(b)}</div>
           </li>`,
         )
@@ -402,7 +402,7 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
         (b, i) => `<li class="ds-index-row" data-feature="${esc(b.title)}">
           <span class="ds-index-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</span>
           <h3>${esc(b.title)}</h3>
-          <p>${esc(b.body)}</p>
+          ${b.body ? `<p>${esc(b.body)}</p>` : ""}
           <div class="ds-index-mark" aria-hidden="true">${markFor(b)}</div>
         </li>`,
       )
@@ -477,7 +477,12 @@ function renderFigure(section: SectionSpec): string {
     <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
       <div>${sectionHead(section)}
         <ol class="ds-figure-steps">${steps
-          .map((s, i) => `<li data-step="${i}" class="${i === mid ? "is-active" : ""}">${esc(s.title)} — ${esc(s.body)}</li>`)
+          .map(
+            (s, i) =>
+              `<li data-step="${i}" class="${i === mid ? "is-active" : ""}">${esc(s.title)}${
+                s.body ? ` — ${esc(s.body)}` : ""
+              }</li>`,
+          )
           .join("")}</ol>
       </div>
       <figure class="ds-figure" data-instrument="scrub">
@@ -516,10 +521,14 @@ function renderChapters(section: SectionSpec): string {
       <ol class="ds-chapters">
         ${section.blocks
           .map(
+            // A chapter whose payoff was spent in an earlier section is a name and a number, which
+            // is a legitimate beat. It was still emitting the paragraph that would have carried the
+            // payoff — an empty full-width box under every step, counted by the probe as a rule and
+            // read by a screen reader as a blank.
             (b) => `<li class="ds-chapter">
               <p class="ds-chapter-index">${esc(b.meta ?? "")}</p>
               <h3>${esc(b.title)}</h3>
-              <p class="ds-body">${esc(b.body)}</p>
+              ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
             </li>`,
           )
           .join("")}
@@ -595,10 +604,19 @@ function renderMatrix(section: SectionSpec): string {
   </section>`;
 }
 
+/**
+ * The answers, set as a register rather than as a column beside a heading.
+ *
+ * The split form gave the head a third of the width and the questions the rest, which meant the
+ * left third of the section was a heading and then three hundred pixels of nothing — the same
+ * failure as a reserved height, turned on its side. Set across the full measure in two columns the
+ * questions take half the height, the void goes, and the answers land on the same screen as the
+ * table they follow, which is where a reader comparing options actually wants them.
+ */
 function renderFaq(section: SectionSpec): string {
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr", "18rem"))}">
-      <div>${sectionHead(section)}</div>
+    <div class="ds-wrap-wide">
+      ${sectionHead(section, 2, true)}
       <div class="ds-faq">
         ${section.blocks
           .map(
@@ -616,18 +634,26 @@ function renderFaq(section: SectionSpec): string {
 /**
  * The closing band, signed.
  *
- * Reference pages rarely end on a bare sentence and a button. The mark is set behind the closing
- * decision at a scale nothing else on the page uses, in hairlines on the construction grid it was
- * drawn against — a sign-off rather than one more panel.
+ * Reference pages rarely end on a bare sentence and a button. The mark is drawn on the construction
+ * grid it was built from and set beside the closing decision — a sign-off rather than one more
+ * panel.
+ *
+ * It used to sit *behind* the copy, in a band holding three quarters of a screen for four lines of
+ * text. Both halves of that were wrong. A mark faded to a third of its ink behind a headline is not
+ * a sign-off, it is a watermark; and the reserved height meant the last thing a reader saw on the
+ * page was three hundred pixels of nothing. Given its own column the mark is legible, the band is
+ * as tall as what is in it, and the composition reads across rather than down.
  */
 function renderCtaBand(section: SectionSpec, figures: FigurePlan): string {
   return `<section class="ds-section ds-closing" data-surface="${section.surface}" data-section="${esc(section.id)}" id="cta">
-    ${figures.closing ? `<div class="ds-field ds-field-closing">${figures.closing}</div>` : ""}
-    <div class="ds-wrap ds-cta">
-      ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
-      <h2 class="ds-title">${esc(section.title)}</h2>
-      <p class="ds-lede">${esc(section.body)}</p>
-      ${actions(section, "band")}
+    <div class="ds-wrap-wide ds-closing-grid">
+      <div class="ds-cta">
+        ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+        <h2 class="ds-title">${esc(section.title)}</h2>
+        <p class="ds-lede">${esc(section.body)}</p>
+        ${actions(section, "band")}
+      </div>
+      ${figures.closing ? `<div class="ds-closing-mark">${figures.closing}</div>` : ""}
     </div>
   </section>`;
 }
@@ -739,10 +765,20 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
   </section>`;
 }
 
+/**
+ * Mark a section that continues the previous one's subject, so the stylesheet can drop the break
+ * above it. Applied here rather than in each layout because it is a property of where the section
+ * sits in the argument, not of the shape it makes.
+ */
+function bondAttr(section: SectionSpec, html: string): string {
+  if (!section.bond) return html;
+  return html.replace(/^<(section|footer)\s/, (_m, tag: string) => `<${tag} data-bond="continues" `);
+}
+
 function renderSection(section: SectionSpec, index: number, spec: DesignSpec, figures: FigurePlan): string {
   const wrapped = (html: string): string => {
     if (section.layout === "nav") return html;
-    return revealAttrs(spec, index, html);
+    return revealAttrs(spec, index, bondAttr(section, html));
   };
 
   switch (section.layout) {

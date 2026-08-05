@@ -154,6 +154,26 @@ export type FigureRole = "column" | "band" | "plate";
 const BLEED_INSET = 0.07;
 
 /**
+ * The height a full-bleed specimen is drawn to, in the same units as its own width.
+ *
+ * A quiet screen is one with almost no text on it. It is not one with almost nothing on it, and the
+ * difference is the whole reason the beat exists: a wide, shallow drawing centred in a reserved
+ * viewport leaves a hole a reader reads as a mistake, while a drawing that fills the screen reads as
+ * the thing the screen was cleared for.
+ *
+ * A band renders at viewport width, so at the 1440×900 the corpus was measured on this is roughly
+ * three quarters of the screen — the drawing owns the band, and the heading above it still fits.
+ * Bands whose content genuinely cannot fill it are drawn shorter rather than padded to reach it,
+ * because the section is now sized by its figure rather than the other way round.
+ */
+const BAND_TARGET_H = 690;
+
+/** Keep a computed dimension inside the range it is allowed to take. */
+function clamp(v: number, lo: number, hi: number): number {
+  return Math.max(lo, Math.min(hi, v));
+}
+
+/**
  * A quantity a plotted line can honestly be the shape of.
  *
  * Briefs state their headline figures as strings, and for most products those strings are
@@ -284,7 +304,7 @@ export function interfacePlate(productName: string, rows: Block[], seed: string,
 
   items.forEach((b, i) => {
     const y = 128 + i * 42;
-    parts.push(rule(tx, y + 26, W - 24, y + 26));
+    if (i < items.length - 1) parts.push(rule(tx, y + 26, W - 24, y + 26));
     const lead = i === 1;
     if (lead) parts.push(box(tx - 10, y - 12, tw + 20, 38, { r: 6, fill: ACCENT_FIELD }));
     parts.push(`<circle cx="${tx + 5}" cy="${y + 3}" r="3" fill="${lead ? ACCENT : LINE}"/>`);
@@ -359,7 +379,12 @@ function interfaceBand(productName: string, rows: Block[], seed: string): string
     ? items[1]!.points.slice(0, 3).map((p) => clip(p, 40))
     : wrap(items[1]?.body ?? items[0]!.body ?? "", 40, 3);
   const gy = 158 + Math.max(detailLines.length, 1) * 22 + 28;
-  const H = Math.max(162 + items.length * 52 + 44, gy + 210);
+  // The table takes the room the band was drawn to hold. Past about 76px a row stops reading as a
+  // row, so a short catalogue draws a shorter surface rather than a stretched one.
+  const rowPitch = clamp(Math.round((BAND_TARGET_H - 206) / items.length), 52, 76);
+  // Room for a row to say what it is, rather than a column of bare names with a state beside them.
+  const rowSub = rowPitch >= 66;
+  const H = Math.max(162 + items.length * rowPitch + 44, gy + 210);
 
   parts.push(box(0.5, 0.5, W - 1, H - 1, { r: 12, fill: PAPER, stroke: LINE }));
   parts.push(rule(0, 48, W, 48));
@@ -387,11 +412,15 @@ function interfaceBand(productName: string, rows: Block[], seed: string): string
   parts.push(text("Item", tx, 132, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
   parts.push(text("State", tx + tw, 132, { size: FT.micro, fill: QUIET, mono: true, anchor: "end", track: 0.8 }));
   items.forEach((b, i) => {
-    const y = 162 + i * 52;
+    const y = 162 + i * rowPitch;
     const lead = i === 1;
-    if (lead) parts.push(box(tx - 12, y - 16, tw + 24, 46, { r: 7, fill: ACCENT_FIELD }));
+    if (lead) parts.push(box(tx - 12, y - 16, tw + 24, rowPitch - 6, { r: 7, fill: ACCENT_FIELD }));
     parts.push(`<circle cx="${tx + 6}" cy="${y + 4}" r="3.5" fill="${lead ? ACCENT : LINE}"/>`);
     parts.push(text(clip(b.title, 34), tx + 22, y + 9, { size: FT.body, fill: lead ? INK : BODY }));
+    if (rowSub) {
+      const sub = b.points[0] ?? b.body ?? "";
+      if (sub) parts.push(text(clip(sub, 48), tx + 22, y + 30, { size: FT.micro, fill: QUIET }));
+    }
     parts.push(
       text(b.meta ? clip(b.meta, 14) : String(i + 1).padStart(2, "0"), tx + tw, y + 9, {
         size: FT.micro,
@@ -400,7 +429,9 @@ function interfaceBand(productName: string, rows: Block[], seed: string): string
         anchor: "end",
       }),
     );
-    parts.push(rule(tx, y + 30, tx + tw, y + 30));
+    // No floor under the last row. A table's final separator sits between the table and nothing,
+    // which is a line drawn out of habit rather than to divide two things.
+    if (i < items.length - 1) parts.push(rule(tx, y + rowPitch - 22, tx + tw, y + rowPitch - 22));
   });
 
   // Detail panel — the thing a row opens into, which is what makes a surface a surface.
@@ -460,9 +491,13 @@ export function seriesChart(label: string, periods: string[], seed: string, role
   const y = (t: number) => bottom - t * (bottom - top);
 
   const parts: string[] = [];
+  // Two gridlines, not four. A reader takes the level off the labelled ceiling and the middle; the
+  // two extra lines were structure nobody used, and hairlines are a budget — measured pages spend
+  // between half a rule and four per screen across the *whole* page, and a chart that spends four
+  // on its own is taking the allowance the sections below it need.
   for (let g = 0; g <= 3; g += 1) {
     const gy = top + ((bottom - top) / 3) * g;
-    parts.push(rule(left, gy, right, gy));
+    if (g % 2 === 0) parts.push(rule(left, gy, right, gy));
     parts.push(text(`${100 - g * 30}`, left - 10, gy + 3.5, { size: FT.micro, fill: QUIET, mono: true, anchor: "end" }));
   }
 
@@ -642,9 +677,15 @@ function stackBand(layers: Block[], seed: string): string {
   const items = layers.slice(0, 5);
   if (items.length < 2) return "";
   const W = 1240;
-  const rowH = 92;
   const head = 74;
+  // Rows take the room the band was drawn to hold, up to the point where a row stops being a row
+  // and becomes a card with a rule on it. Where the ledger is short, the drawing is short: the
+  // section is sized by the figure, so a shallow one costs nothing but a shorter band.
+  const rowH = clamp(Math.round((BAND_TARGET_H - head - 28) / items.length), 96, 132);
   const H = head + items.length * rowH + 28;
+  // At the taller pitch there is a third line of room in each row, and a scope ledger that says
+  // three things about a tier is worth more than one that says two and leaves the rest blank.
+  const proseLines = rowH >= 116 ? 3 : 2;
   const r = rng(`${seed}:stack-band`);
   const nameW = 300;
   const proseX = nameW + 48;
@@ -666,7 +707,8 @@ function stackBand(layers: Block[], seed: string): string {
 
     // Prose in a band that spans the screen is read at the distance the page's own body text is,
     // so it is set at the page's body size rather than at the caption size a small plate uses.
-    const prose = b.points.length ? [clip(b.points[0]!, 52), ...(b.points[1] ? [clip(b.points[1]!, 52)] : [])] : wrap(b.body ?? "", 52, 2);
+    const stated = b.points.slice(0, proseLines).map((p) => clip(p, 52));
+    const prose = stated.length ? stated : wrap(b.body ?? "", 52, proseLines);
     prose.forEach((ln, j) => parts.push(text(ln, proseX, y + 40 + j * 24, { size: FT.body, fill: BODY })));
 
     // The share is the tier's own weight in the catalogue, not an invented percentage.
@@ -676,7 +718,6 @@ function stackBand(layers: Block[], seed: string): string {
     parts.push(box(meterX, y + 50, mw * Math.max(0.12, share), 4, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
     parts.push(text(b.meta ? clip(b.meta, 16) : `${Math.round(share * 100)}%`, W, y + 38, { size: FT.micro, fill: QUIET, mono: true, anchor: "end" }));
   });
-  parts.push(rule(0, head + items.length * rowH, W, head + items.length * rowH));
   void r;
 
   return frame(parts.join(""), {
@@ -890,18 +931,16 @@ export function signatureMark(productName: string, seed: string): string {
     .join("");
   const parts: string[] = [];
 
-  // Construction grid — the lines a mark is drawn against.
+  // Construction grid — the lines a mark is drawn against. Verticals only: the horizontals crossed
+  // the whole width of the figure, so on a page already carrying a rule under every table row and
+  // every question they were three more full-width hairlines spent on texture.
   for (let i = 1; i < 10; i += 1) {
     parts.push(`<line x1="${round((W / 10) * i)}" y1="0" x2="${round((W / 10) * i)}" y2="${H}" stroke="${LINE}" stroke-width="1" opacity="${round(0.25 + r() * 0.35)}"/>`);
-  }
-  for (let i = 1; i < 4; i += 1) {
-    parts.push(`<line x1="0" y1="${round((H / 4) * i)}" x2="${W}" y2="${round((H / 4) * i)}" stroke="${LINE}" stroke-width="1" opacity="0.3"/>`);
   }
   const cx = W * 0.5;
   const cy = H * 0.52;
   parts.push(`<circle cx="${cx}" cy="${cy}" r="${round(H * 0.4)}" fill="none" stroke="${LINE}" stroke-width="1"/>`);
   parts.push(`<circle cx="${cx}" cy="${cy}" r="${round(H * 0.28)}" fill="none" stroke="${LINE}" stroke-width="1"/>`);
-  parts.push(rule(cx - H * 0.4, cy, cx + H * 0.4, cy));
 
   const glyphH = H * 0.42;
   const glyphW = glyphH * 0.66;
@@ -1014,12 +1053,11 @@ export function latticeField(seed: string): string {
   const parts: string[] = [];
   const cols = 12;
   const step = W / cols;
+  // Verticals carry the field on their own. The horizontals turned it into graph paper, and four
+  // screen-wide hairlines behind a sentence is a quarter of a page's whole rule budget spent on a
+  // texture the reader is not meant to look at.
   for (let i = 1; i < cols; i += 1) {
     parts.push(`<line x1="${round(i * step)}" y1="0" x2="${round(i * step)}" y2="${H}" stroke="${LINE}" stroke-width="1" opacity="${round(0.3 + r() * 0.5)}"/>`);
-  }
-  for (let i = 1; i < 5; i += 1) {
-    const y = (H / 5) * i;
-    parts.push(`<line x1="0" y1="${round(y)}" x2="${W}" y2="${round(y)}" stroke="${LINE}" stroke-width="1" opacity="0.4"/>`);
   }
   // A handful of marked intersections, so the field reads as a plotted grid rather than graph paper.
   for (let i = 0; i < 7; i += 1) {

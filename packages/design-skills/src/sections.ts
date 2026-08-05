@@ -111,6 +111,7 @@ export function buildSections(
       layout: p.layout,
       surface: p.surface,
       columns: p.columns,
+      bond: p.bond ?? false,
       skillNode: skillFor(p.kind),
       inspirationNotes: inspiration(taste.aestheticLean, skillFor(p.kind), p.layout),
     };

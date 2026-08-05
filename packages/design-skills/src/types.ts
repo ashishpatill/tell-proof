@@ -239,6 +239,8 @@ export const SectionSpec = z.object({
   metrics: z.array(MetricSpec).default([]),
   /** Column ratio for split layouts, e.g. "7fr 5fr". Asymmetry is a measured craft signal. */
   columns: z.string().optional(),
+  /** True when this section continues the previous one's subject and shares its screen. */
+  bond: z.boolean().default(false),
   ctaLabel: z.string().optional(),
   ctaNote: z.string().optional(),
   secondaryLabel: z.string().optional(),

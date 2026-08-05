@@ -149,7 +149,6 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-lean="minimal-clean"] .ds-card{background:transparent;border:0;border-top:1px solid var(--surface-border);border-radius:0;padding:var(--s-md) 0 var(--s-lg);box-shadow:none}
 [data-lean="minimal-clean"] .ds-bento{grid-template-columns:1fr;gap:0}
 [data-lean="minimal-clean"] .ds-eyebrow{color:var(--surface-quiet)}
-[data-lean="minimal-clean"] .ds-section-head{border-top:1px solid var(--surface-border);padding-top:var(--s-md)}
 [data-lean="minimal-clean"] .ds-index-row{grid-template-columns:2.5rem 1fr minmax(0,22rem) 4.5rem}
 `;
   }
@@ -247,14 +246,25 @@ ${surfaceRules()}
 .ds-wrap-wide{width:min(100% - (var(--gutter) * 2),var(--w-wide));margin-inline:auto}
 .ds-section{padding-block:var(--section-y)}
 .ds-section-tight{padding-block:var(--section-y-tight)}
+/* A section that continues the one above it takes the break down to a beat. Two sections asking the
+ * same question from different angles belong on a screen together; the full break between them is
+ * what turned a page of twelve considered sections into twelve interchangeable screens. */
+.ds-section[data-bond="continues"]{padding-top:var(--s-lg)}
+.ds-section[data-bond="continues"] .ds-section-head{margin-bottom:var(--s-md)}
 .ds-section-head{display:grid;gap:var(--s-sm);margin-bottom:var(--s-xl)}
 .ds-section-head-spread{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s-lg) var(--s-2xl);align-items:end}
 .ds-section-head-spread .ds-lede{margin-top:0;max-width:38ch}
 .ds-section-head .ds-lede{margin-top:var(--s-2xs)}
 .ds-split{display:grid;gap:var(--s-xl) var(--s-2xl);align-items:start}
 
-/* Navigation */
-.ds-nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--c-paper) 86%,transparent);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--c-border)}
+/* Navigation
+ *
+ * Opaque, not translucent. A pinned bar exists so that the page cannot be read through it, and at
+ * 86% over a blur a display headline scrolling underneath still came through as a smear across the
+ * wordmark — the cheapest way there is to make an otherwise careful page look unfinished. The
+ * hairline underneath is what separates the bar from the page; the backdrop does not have to.
+ */
+.ds-nav{position:sticky;top:0;z-index:20;background:var(--c-paper);border-bottom:1px solid var(--c-border)}
 .ds-nav-inner{display:flex;align-items:center;gap:var(--s-lg);min-height:var(--s-2xl)}
 .ds-wordmark{font-family:var(--f-display);font-weight:var(--t-title-weight);font-size:var(--t-subheading-size);letter-spacing:var(--t-subheading-tracking)}
 .ds-nav-links{display:flex;gap:var(--s-md);margin-left:auto;font-size:var(--t-bodySmall-size);color:var(--c-ink-secondary)}
@@ -337,21 +347,21 @@ ${surfaceRules()}
 /* A hairline field behind the quiet band, so a nearly empty screen still reads as a surface. */
 .ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;opacity:.55}
 .ds-field .ds-fig{width:100%;height:100%}
-.ds-field-closing{opacity:.32;place-content:center}
 .ds-closing{position:relative}
-.ds-closing > .ds-wrap{position:relative}
 .ds-app-plot{padding:var(--s-sm);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:var(--surface-bg)}
 
 /* Specimen band — one drawing, a screen to itself, a heading and nothing else.
  *
- * The height is the point. A screen this empty is what makes the screens either side of it read as
- * dense, and a page whose bands all weigh the same is the structural signature of a generated one. */
-/*
- * A screen, not most of one. The band the probe reads is a viewport tall, so a quiet section that
- * stops at 80vh has its silence averaged with whatever dense section shares the band — which is how
- * a page with two genuinely empty screens still measured as evenly weighted.
+ * A quiet screen is one with almost no text on it, and that is not the same thing as one with
+ * almost nothing on it. Reserving a viewport here and letting a 560px drawing sit centred in it
+ * bought the low character count and three hundred pixels of hole with it, which is the single
+ * most visible defect a reader can find on a page: a band that reserved a screen and filled a
+ * third of it.
+ *
+ * So the band is as tall as its drawing, and the drawing is drawn to fill a screen. The silence is
+ * bought with ink instead of with height.
  */
-.ds-specimen{display:grid;gap:var(--s-xl);min-height:min(102vh,1040px);align-content:center}
+.ds-specimen{display:grid;gap:var(--s-lg)}
 .ds-specimen-head{display:grid;gap:var(--s-2xs);justify-items:center;text-align:center}
 .ds-specimen-head .ds-heading{max-width:24ch}
 
@@ -434,7 +444,10 @@ ${surfaceRules()}
 /* Plans */
 .ds-plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--s-md);align-items:start;list-style:none;margin:0;padding:0}
 .ds-plan{display:grid;gap:var(--s-xs);align-content:start;padding:var(--s-lg) var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-xl);background:var(--c-paper)}
-.ds-plan-recommended{border-color:var(--c-accent);background:var(--c-accent-surface)}
+/* The recommended lane stands proud of the row. Depth by overlap — no shadow, no blur, nothing to
+ * repaint on scroll — and it is the one place on a pricing row where a reader benefits from being
+ * told where to look before they have read anything. */
+.ds-plan-recommended{border-color:var(--c-accent);background:var(--c-accent-surface);margin-block:calc(var(--s-md) * -1);padding-block:calc(var(--s-lg) + var(--s-md));position:relative;z-index:var(--z-raised)}
 .ds-plan-flag{font-size:var(--t-micro-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--c-accent);font-weight:600}
 .ds-plan h3{font-size:var(--t-subheading-size)}
 .ds-plan-meta{font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
@@ -450,17 +463,18 @@ ${surfaceRules()}
 .ds-matrix .ds-yes{color:var(--c-signal);font-family:var(--f-mono)}
 .ds-matrix .ds-no{color:var(--surface-quiet);font-family:var(--f-mono)}
 
-/* FAQ */
-.ds-faq{display:grid;gap:0}
+/* FAQ — two registers side by side, so the answers are a screen rather than a scroll */
+.ds-faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-2xl)}
 .ds-faq-item{padding-block:var(--s-md);border-top:1px solid var(--surface-border)}
-.ds-faq-item:last-child{border-bottom:1px solid var(--surface-border)}
 .ds-faq-item h3{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);margin-bottom:var(--s-2xs);max-width:34ch}
 .ds-faq-item p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-body);max-width:56ch}
 
-/* CTA band */
-.ds-cta{display:grid;gap:var(--s-md);justify-items:start;min-height:min(72vh,720px);align-content:center}
+/* CTA band — the decision on the left, the mark on the right, and no reserved height under either */
+.ds-closing-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:var(--s-2xl);align-items:center}
+.ds-cta{display:grid;gap:var(--s-md);justify-items:start;align-content:center}
 .ds-cta .ds-title{max-width:16ch}
 .ds-cta .ds-lede{max-width:46ch}
+.ds-closing-mark{justify-self:end;width:min(100%,22rem);opacity:.8}
 
 /* Footer */
 .ds-footer{padding-block:var(--section-y-tight);border-top:1px solid var(--c-border)}
@@ -528,6 +542,10 @@ ${motionCss(spec.taste.motion)}
 }
 @media (max-width:820px){
   .ds-split,.ds-alt-row,.ds-alt-pair,.ds-section-head-spread{grid-template-columns:1fr!important}
+  /* The sign-off is a composition across the band. Stacked under the buttons on a phone it is just
+     a large grey shape between the last CTA and the footer, so it goes. */
+  .ds-closing-grid{grid-template-columns:1fr}
+  .ds-closing-mark{display:none}
   .ds-alt-row:nth-child(even) .ds-alt-figure{order:0}
   .ds-bento{grid-template-columns:1fr}
   .ds-card,.ds-card-lead,.ds-card-wide{grid-column:span 1}
