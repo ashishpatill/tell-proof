@@ -924,7 +924,7 @@ export function renderPreviewHtml(spec: DesignSpec): string {
 <noscript><style>.ds-reveal{opacity:1!important;transform:none!important}</style></noscript>
 <style>${renderCss(spec)}</style>
 </head>
-<body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-sitekind="${esc(spec.brief.siteKind)}">
+<body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-mood="${esc(spec.taste.colorMood)}" data-sitekind="${esc(spec.brief.siteKind)}">
 <a class="ds-skip" href="#main">Skip to content</a>
 <p class="ds-sr">${esc(spec.summary)}</p>
 ${spec.sections

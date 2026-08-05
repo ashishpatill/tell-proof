@@ -181,6 +181,11 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-lean="system-crafted"] .ds-eyebrow{font-family:var(--f-mono);text-transform:none;letter-spacing:0}
 [data-lean="system-crafted"] .ds-token-rail{display:flex}
 [data-lean="system-crafted"] .ds-index-row:hover{background:var(--c-paper-raised)}
+[data-lean="system-crafted"] .ds-app-top{border-bottom-color:var(--c-accent-border);box-shadow:inset 0 -2px 0 var(--c-accent)}
+[data-lean="system-crafted"] .ds-stat:first-child{border-color:var(--c-accent-border);background:var(--c-accent-surface)}
+[data-lean="system-crafted"] .ds-app-nav a[aria-current="page"]{box-shadow:inset 3px 0 0 var(--c-accent)}
+[data-mood="dark-premium"] .ds-metric:first-child{border-color:var(--c-accent-border);background:var(--accent-soft)}
+[data-mood="dark-premium"] .ds-brand-mark{color:var(--c-accent)}
 `;
 }
 
@@ -261,7 +266,7 @@ p{margin:0;text-wrap:pretty}
 /* Sticky nav clearance — anchors must not land under the bar. */
 [id],[data-section]{scroll-margin-top:calc(var(--s-2xl) + var(--s-sm))}
 
-.ds-display{font-family:var(--f-display);font-size:var(--t-display-size);line-height:var(--t-display-leading);letter-spacing:var(--t-display-tracking);font-weight:var(--t-display-weight);max-width:18ch;text-wrap:balance}
+.ds-display{font-family:var(--f-display);font-size:var(--t-display-size);line-height:var(--t-display-leading);letter-spacing:var(--t-display-tracking);font-weight:var(--t-display-weight);max-width:22ch;text-wrap:balance}
 .ds-title{font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking);font-weight:var(--t-title-weight);max-width:22ch;text-wrap:balance}
 .ds-heading{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);font-weight:var(--t-heading-weight);max-width:26ch}
 .ds-subheading{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);font-weight:var(--t-subheading-weight)}

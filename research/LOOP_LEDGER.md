@@ -161,3 +161,18 @@ buckets, never names, hosts, or URLs.
   uniqueness — next: richer drawn marks and less generic register chrome.
 - **Next weakest:** uniqueness of marks, dashboard accent, honest band variation without voids.
 - **Keep decision:** This SaaS conversion offering (proof stage + spined sequence + brand-first fold) is the locked template to deepen — not replace. Further loops raise uniqueness inside this structure.
+
+## Loop 8 — plumbing floors + denser authored matter
+
+- **Goal:** absorb implementation floors from peer design-builder plumbing (opaque stack, scroll-margin,
+  z-scale, focus-ring token, text-wrap, lit plates) and deepen the locked SaaS structure so proof /
+  sequence cannot read as empty chrome.
+- **Corpus:** unchanged.
+- **Closed:**
+  - Basics gate: scroll-margin, z-index scale, focus-ring token, text-wrap pretty/balance, proof-board
+  - Corner-bracketed lit plates; specimen→proof seam tightened; conversion hero more figure-majority
+  - Sequence rows carry capability marks; bonding meta strips replace empty airways
+  - Eyebrow / proof meta moved off screaming uppercase (reduces chrome noise)
+- **Side effects:** none intended to score-game; eye check is the gate.
+- **Qualitative:** page should read as a filled instrument with product matter on dark, not a quote void.
+- **Next weakest:** mark uniqueness, dashboard accent coverage, holdout fold figure.
