@@ -350,7 +350,7 @@ ${surfaceRules()}
  * for, which puts its labels under seven pixels — legible in a viewBox, not on a screen. Letting it
  * bleed right restores the drawing to full size, and it is the same move reference pages use to
  * stop a fold from reading as two boxes side by side. */
-.ds-plate-fold{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--shadow-raised,0 10px 28px color-mix(in srgb,var(--c-ink) 6%,transparent))}
+.ds-plate-fold{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--shadow-raised,0 18px 48px color-mix(in srgb,var(--c-ink) 10%,transparent)),0 0 0 1px color-mix(in srgb,var(--c-accent) 12%,transparent)}
 @media (min-width:64rem){
   .ds-plate-fold{margin-right:calc(var(--gutter) - max(0px,(100vw - var(--w-wide)) / 2));margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 }
@@ -493,25 +493,30 @@ ${surfaceRules()}
 }
 .ds-story > *{position:relative;z-index:1}
 .ds-story .ds-section-head{margin-bottom:var(--s-lg)}
-.ds-chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-md);row-gap:var(--s-sm);list-style:none;margin:0;padding:0;position:relative}
+/* Sequence is a single register with a spine — never a 2-col grid that leaves a hole on odd counts. */
+.ds-chapters{display:grid;grid-template-columns:1fr;gap:0;list-style:none;margin:0;padding:0;position:relative;border-top:1px solid var(--surface-border)}
 .ds-chapters::before{
-  content:"";position:absolute;left:calc(50% - 0.5px);top:var(--s-sm);bottom:var(--s-sm);width:1px;
-  background:linear-gradient(180deg,transparent,var(--c-accent),transparent);opacity:.35;
+  content:"";position:absolute;left:1.15rem;top:var(--s-md);bottom:var(--s-md);width:2px;
+  background:linear-gradient(180deg,var(--c-accent),color-mix(in srgb,var(--c-accent) 20%,transparent));border-radius:1px;
 }
-.ds-chapter{display:grid;grid-template-columns:auto 1fr;gap:var(--s-2xs) var(--s-md);padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:var(--c-paper);position:relative;align-items:start}
-.ds-chapter:nth-child(odd){background:var(--c-paper-raised)}
-.ds-chapter:first-child{border-color:var(--c-accent-border);background:var(--c-accent-surface);box-shadow:inset 3px 0 0 var(--c-accent)}
-.ds-chapter:nth-child(3){border-color:color-mix(in srgb,var(--c-accent) 28%,var(--c-border))}
-.ds-chapter-index{grid-row:1 / span 2;font-family:var(--f-display);font-size:var(--t-title-size);line-height:.9;letter-spacing:var(--t-title-tracking);color:var(--c-accent);font-weight:var(--t-title-weight);opacity:.85;min-width:2.5ch}
-.ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:24ch;grid-column:2}
-.ds-chapter .ds-body{max-width:42ch;grid-column:2}
+.ds-chapter{display:grid;grid-template-columns:3.5rem minmax(0,22ch) minmax(0,1fr);gap:var(--s-sm) var(--s-xl);padding:var(--s-md) var(--s-sm) var(--s-md) 0;border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:baseline}
+.ds-chapter:nth-child(odd){background:color-mix(in srgb,var(--c-paper-raised) 70%,transparent)}
+.ds-chapter:first-child{background:var(--c-accent-surface);box-shadow:inset 3px 0 0 var(--c-accent)}
+.ds-chapter-index{font-family:var(--f-mono);font-size:var(--t-caption-size);line-height:1;letter-spacing:var(--t-micro-tracking);color:var(--c-accent);font-weight:600;min-width:2.5ch;padding-left:var(--s-xl)}
+.ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:22ch;grid-column:auto}
+.ds-chapter .ds-body{max-width:52ch;grid-column:auto}
 
 /* Proof board — dense inverse surface packed with declared evidence.
  *
  * A lonely quote on black is the toy look. This band is a filled instrument: head + claim, a
  * multi-cell capability board with marks, and a product figure. Every region of the band has ink.
  * Hangs into the next section for depth without buying height with emptiness. */
-.ds-proof{position:relative;padding-block:calc(var(--section-y) * 0.75);margin-bottom:calc(var(--s-xl) * -1);z-index:var(--z-raised);isolation:isolate}
+/* Proof board — dark stage with a lit product plate and an evidence register.
+ *
+ * Pattern borrowed from measured premium B2B pages: the inverse band is the stage; the product
+ * drawing sits on a paper plate (readable contrast); evidence runs as a tight register, not a
+ * lonely quote or a toy card grid with empty airways. */
+.ds-proof{position:relative;padding-block:var(--s-2xl) calc(var(--section-y) * 0.7);margin-bottom:calc(var(--s-xl) * -1);z-index:var(--z-raised);isolation:isolate}
 .ds-proof::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background:
@@ -522,21 +527,24 @@ ${surfaceRules()}
 .ds-proof > *{position:relative;z-index:1}
 .ds-proof + .ds-section{padding-top:var(--s-2xl)}
 .ds-proof + .ds-story{padding-top:var(--s-xl)}
-.ds-proof-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s-lg) var(--s-2xl);align-items:end;margin-bottom:var(--s-xl);padding-bottom:var(--s-lg);border-bottom:1px solid var(--surface-border)}
-.ds-proof-head .ds-heading{max-width:16ch}
-.ds-proof-claim{font-family:var(--f-display);font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);font-weight:var(--t-subheading-weight);max-width:46ch;color:var(--surface-muted);text-wrap:balance}
-.ds-proof-board{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--s-sm);list-style:none;margin:0 0 var(--s-xl);padding:0}
-.ds-proof-cell{grid-column:span 2;display:grid;gap:var(--s-2xs);align-content:start;padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:color-mix(in srgb,var(--surface-ink) 6%,transparent);min-height:11rem}
-.ds-proof-cell:nth-child(1),.ds-proof-cell:nth-child(2){grid-column:span 3;min-height:12.5rem;background:color-mix(in srgb,var(--c-accent) 14%,transparent);border-color:color-mix(in srgb,var(--c-accent) 40%,var(--surface-border))}
-.ds-proof-cell.is-lead{box-shadow:inset 3px 0 0 var(--c-accent)}
-.ds-proof-mark{width:4.5rem;margin-bottom:var(--s-2xs);opacity:.9}
-.ds-proof-meta{font-family:var(--f-mono);font-size:var(--t-micro-size);letter-spacing:var(--t-micro-tracking);text-transform:uppercase;color:var(--c-accent)}
-.ds-proof-cell h3{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);max-width:18ch}
-.ds-proof-cell p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-muted);max-width:36ch}
-.ds-proof-figure{margin:0 0 var(--s-lg);padding:var(--s-sm);border:1px solid var(--surface-border);border-radius:var(--r-xl);background:color-mix(in srgb,var(--surface-ink) 5%,transparent)}
+.ds-proof-stage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s-xl) var(--s-2xl);align-items:start;margin-bottom:var(--s-xl)}
+.ds-proof-head{display:grid;gap:var(--s-md);align-content:start}
+.ds-proof-head .ds-heading{max-width:14ch}
+.ds-proof-claim{font-family:var(--f-display);font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);font-weight:var(--t-subheading-weight);max-width:34ch;color:var(--surface-muted);text-wrap:balance}
+.ds-proof-foot{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:var(--t-micro-tracking);text-transform:uppercase;color:var(--surface-quiet);margin-top:var(--s-md);padding-top:var(--s-sm);border-top:1px solid var(--surface-border);max-width:36ch}
+/* Lit plate on the dark stage — forces paper tokens so drawn UI keeps contrast. */
+.ds-proof-figure{margin:0;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);color:var(--c-ink);box-shadow:0 24px 60px color-mix(in srgb,#000 45%,transparent);--surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);--surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);transform:translateY(var(--s-md))}
 .ds-proof-figure .ds-fig{border-radius:var(--r-lg)}
-.ds-proof-figure-field{opacity:.55;padding:0;border:0;background:transparent}
-.ds-proof-foot{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:var(--t-micro-tracking);text-transform:uppercase;color:var(--surface-quiet);padding-top:var(--s-sm);border-top:1px solid var(--surface-border)}
+.ds-proof-figure figcaption{color:var(--c-ink-tertiary)}
+.ds-proof-figure-field{opacity:.55;padding:0;border:0;background:transparent;box-shadow:none;transform:none}
+.ds-proof-board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;list-style:none;margin:0;padding:0;border-top:1px solid var(--surface-border)}
+.ds-proof-cell{display:grid;gap:var(--s-2xs);align-content:start;padding:var(--s-md) var(--s-sm);border-right:1px solid var(--surface-border);min-height:0;background:transparent;border-radius:0}
+.ds-proof-cell:last-child{border-right:0}
+.ds-proof-cell.is-lead,.ds-proof-cell:first-child{background:color-mix(in srgb,var(--c-accent) 16%,transparent);box-shadow:inset 0 3px 0 var(--c-accent)}
+.ds-proof-mark{width:3.25rem;margin-bottom:var(--s-3xs);opacity:.9}
+.ds-proof-meta{font-family:var(--f-mono);font-size:var(--t-micro-size);letter-spacing:var(--t-micro-tracking);text-transform:uppercase;color:var(--c-accent)}
+.ds-proof-cell h3{font-size:var(--t-body-size);line-height:var(--t-body-leading);letter-spacing:var(--t-body-tracking);font-weight:600;max-width:16ch}
+.ds-proof-cell p{font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--surface-muted);max-width:28ch}
 /* Legacy statement aliases — kept so older fixtures do not break mid-render. */
 .ds-statement{position:relative;padding-block:calc(var(--section-y) * 0.75)}
 .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);max-width:28ch}
@@ -642,11 +650,12 @@ ${motionCss(spec.taste.motion)}
   .ds-footer-grid{grid-template-columns:1fr 1fr 1fr}
 }
 @media (max-width:820px){
-  .ds-split,.ds-alt-row,.ds-alt-pair,.ds-section-head-spread,.ds-proof-head{grid-template-columns:1fr!important}
-  .ds-chapters{grid-template-columns:1fr}
-  .ds-chapters::before{display:none}
+  .ds-split,.ds-alt-row,.ds-alt-pair,.ds-section-head-spread,.ds-proof-stage{grid-template-columns:1fr!important}
+  .ds-chapter{grid-template-columns:2.75rem 1fr;row-gap:var(--s-2xs)}
+  .ds-chapter .ds-body{grid-column:2}
   .ds-proof-board{grid-template-columns:1fr}
-  .ds-proof-cell,.ds-proof-cell:nth-child(1),.ds-proof-cell:nth-child(2){grid-column:span 1;min-height:0}
+  .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border)}
+  .ds-proof-figure{transform:none}
   /* The sign-off is a composition across the band. Stacked under the buttons on a phone it is just
      a large grey shape between the last CTA and the footer, so it goes. */
   .ds-closing-grid{grid-template-columns:1fr}

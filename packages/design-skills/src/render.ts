@@ -571,16 +571,16 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
       : "";
   return `<section class="ds-section ds-proof" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
-      <header class="ds-proof-head">
-        <div>
+      <div class="ds-proof-stage">
+        <header class="ds-proof-head">
           ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
           <h2 class="ds-heading">${esc(section.title)}</h2>
-        </div>
-        <p class="ds-proof-claim">${esc(section.body || section.quote || "")}</p>
-      </header>
+          <p class="ds-proof-claim">${esc(section.body || section.quote || "")}</p>
+          ${section.quoteAttribution ? `<p class="ds-proof-foot">${esc(section.quoteAttribution)}</p>` : ""}
+        </header>
+        ${figure}
+      </div>
       ${board}
-      ${figure}
-      ${section.quoteAttribution ? `<p class="ds-proof-foot">${esc(section.quoteAttribution)}</p>` : ""}
     </div>
   </section>`;
 }

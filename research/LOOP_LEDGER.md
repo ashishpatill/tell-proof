@@ -143,3 +143,20 @@ buckets, never names, hosts, or URLs.
   evidence. Sequence still needs more drawn matter and less card-grid air before it matches top-tier
   expert templates — next loop should put a figure into the story register, not pad height.
 - **Next weakest:** section weight variation (honest), dashboard accent coverage, drawn-matter share.
+
+## Loop 7 — kill lonely-quote proof (showcase bar)
+
+- **Goal:** the inverse “WHY TEAMS KEEP IT” band still read as a toy — one paragraph on black with
+  empty air. Replace with a dense proof stage buyers would put in a portfolio.
+- **Corpus:** unchanged.
+- **Score:** ~97.7 (eye-led; not chasing the prior 99.8 gaming peak).
+- **Closed:**
+  - `marquee-proof` layout: claim + lit paper product plate on dark stage + 5-cell evidence register
+  - Accent-surface lead cells; figure forced onto paper tokens so contrast holds on inverse
+  - Sequence becomes a spined register (no odd-count card-grid hole)
+  - Brand mark restored as a hero-level signal; attribution is scope, not “how to read this page”
+- **Side effects:** more uppercase micro-labels on SaaS; shadow on the lit plate trades a point of
+  shadow-coverage band for readable product matter on dark.
+- **Qualitative:** proof can no longer collapse to a lonely quote. Still short of top-tier expert
+  uniqueness — next: richer drawn marks and less generic register chrome.
+- **Next weakest:** uniqueness of marks, dashboard accent, honest band variation without voids.
