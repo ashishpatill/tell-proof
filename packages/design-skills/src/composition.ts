@@ -187,6 +187,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     layout: "story-chapters",
     // Raised after inverse proof so the sequence lands as a lit register, not another paper void.
     surface: "raised",
+    bond: true,
     columns: split.wide,
   });
 

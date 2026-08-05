@@ -183,9 +183,18 @@ export function outcomeNames(picks: FeatureCopy[]): Array<{ value: string; label
  * beat — it is the quiet screen between two dense ones, and reference pages use it constantly.
  */
 export function chapters(features: FeatureCopy[]): Array<{ title: string; body: string; meta: string }> {
+  /*
+   * Every step carries a sentence. Empty chapter bodies used to ship as titled cards with nothing
+   * under them — the sequence screen then read as a wireframe of numbered boxes, which is exactly
+   * the "toy" register buyers reject. Prefer the story payoff when this feature owns that beat;
+   * otherwise restate the declared description so the register stays full of product truth.
+   */
   return features.slice(0, 5).map((c, i) => ({
     title: c.name,
-    body: c.consequenceHome === "story" ? payoffLine(c) : "",
+    body:
+      c.consequenceHome === "story"
+        ? payoffLine(c)
+        : sentence(c.consequence || c.claim),
     meta: `Step ${String(i + 1).padStart(2, "0")}`,
   }));
 }

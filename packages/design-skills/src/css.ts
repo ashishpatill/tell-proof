@@ -159,8 +159,8 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-lean="conversion-sharp"] .ds-hero-actions{padding-top:var(--s-sm)}
 [data-lean="conversion-sharp"] .ds-section-head h2{max-width:18ch}
 [data-lean="conversion-sharp"] .ds-card-lead{border-color:var(--c-accent-border);box-shadow:inset 3px 0 0 var(--c-accent)}
-[data-lean="conversion-sharp"] .ds-plan-recommended{box-shadow:0 22px 48px color-mix(in srgb,var(--c-accent) 18%,transparent)}
-[data-lean="conversion-sharp"] .ds-chapter:first-child{box-shadow:0 16px 36px color-mix(in srgb,var(--c-accent) 14%,transparent)}
+[data-lean="conversion-sharp"] .ds-plan-recommended{outline:1px solid color-mix(in srgb,var(--c-accent) 55%,transparent);outline-offset:2px}
+[data-lean="conversion-sharp"] .ds-chapter:first-child{outline:1px solid color-mix(in srgb,var(--c-accent) 40%,transparent);outline-offset:1px}
 [data-lean="conversion-sharp"] .ds-statement-proof{border-color:color-mix(in srgb,var(--c-accent) 45%,var(--surface-border));background:color-mix(in srgb,var(--c-accent) 14%,transparent)}
 `;
   }
@@ -348,7 +348,7 @@ ${surfaceRules()}
  * for, which puts its labels under seven pixels — legible in a viewBox, not on a screen. Letting it
  * bleed right restores the drawing to full size, and it is the same move reference pages use to
  * stop a fold from reading as two boxes side by side. */
-.ds-plate-fold{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--shadow-raised,0 18px 44px color-mix(in srgb,var(--c-ink) 8%,transparent))}
+.ds-plate-fold{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--shadow-raised,0 10px 28px color-mix(in srgb,var(--c-ink) 6%,transparent))}
 @media (min-width:64rem){
   .ds-plate-fold{margin-right:calc(var(--gutter) - max(0px,(100vw - var(--w-wide)) / 2));margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 }
@@ -486,22 +486,23 @@ ${surfaceRules()}
 .ds-story::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background:
-    radial-gradient(ellipse 50% 60% at 0% 20%,color-mix(in srgb,var(--c-accent) 10%,transparent),transparent 65%),
-    linear-gradient(180deg,color-mix(in srgb,var(--c-paper-raised) 80%,transparent),transparent 40%);
+    radial-gradient(ellipse 55% 70% at 0% 10%,color-mix(in srgb,var(--c-accent) 16%,transparent),transparent 62%),
+    radial-gradient(ellipse 40% 50% at 100% 80%,color-mix(in srgb,var(--c-accent) 8%,transparent),transparent 60%);
 }
 .ds-story > *{position:relative;z-index:1}
-.ds-chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-lg);row-gap:var(--s-md);list-style:none;margin:0;padding:0;position:relative}
+.ds-story .ds-section-head{margin-bottom:var(--s-lg)}
+.ds-chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-md);row-gap:var(--s-sm);list-style:none;margin:0;padding:0;position:relative}
 .ds-chapters::before{
-  content:"";position:absolute;left:calc(50% - 0.5px);top:var(--s-md);bottom:var(--s-md);width:1px;
-  background:linear-gradient(180deg,transparent,var(--c-accent-border),transparent);opacity:.7;
+  content:"";position:absolute;left:calc(50% - 0.5px);top:var(--s-sm);bottom:var(--s-sm);width:1px;
+  background:linear-gradient(180deg,transparent,var(--c-accent),transparent);opacity:.35;
 }
-.ds-chapter{display:grid;gap:var(--s-2xs);padding:var(--s-lg) var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-xl);background:var(--c-paper);position:relative;box-shadow:0 1px 0 color-mix(in srgb,var(--c-ink) 4%,transparent)}
+.ds-chapter{display:grid;grid-template-columns:auto 1fr;gap:var(--s-2xs) var(--s-md);padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-lg);background:var(--c-paper);position:relative;align-items:start}
 .ds-chapter:nth-child(odd){background:var(--c-paper-raised)}
-.ds-chapter:first-child{border-color:var(--c-accent-border);background:var(--c-accent-surface)}
+.ds-chapter:first-child{border-color:var(--c-accent-border);background:var(--c-accent-surface);box-shadow:inset 3px 0 0 var(--c-accent)}
 .ds-chapter:nth-child(3){border-color:color-mix(in srgb,var(--c-accent) 28%,var(--c-border))}
-.ds-chapter-index{font-family:var(--f-display);font-size:var(--t-title-size);line-height:1;letter-spacing:var(--t-title-tracking);color:var(--c-accent);font-weight:var(--t-title-weight);opacity:.9}
-.ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:24ch}
-.ds-chapter .ds-body{max-width:42ch}
+.ds-chapter-index{grid-row:1 / span 2;font-family:var(--f-display);font-size:var(--t-title-size);line-height:.9;letter-spacing:var(--t-title-tracking);color:var(--c-accent);font-weight:var(--t-title-weight);opacity:.85;min-width:2.5ch}
+.ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:24ch;grid-column:2}
+.ds-chapter .ds-body{max-width:42ch;grid-column:2}
 
 /* Proof band — a claim with evidence beside it, not a reserved empty screen.
  *
@@ -515,7 +516,10 @@ ${surfaceRules()}
   background:radial-gradient(ellipse 60% 80% at 100% 50%,color-mix(in srgb,var(--c-accent) 22%,transparent),transparent 70%);
 }
 .ds-statement > *{position:relative;z-index:1}
-.ds-statement + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+/* Hang already pulls the next band up — do not re-pad a full section-y or the sequence opens
+ * with the same empty airway the 140vh band used to buy. */
+.ds-statement + .ds-section{padding-top:var(--s-2xl)}
+.ds-statement + .ds-story{padding-top:var(--s-xl)}
 .ds-statement-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s-2xl);align-items:end}
 .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking);font-weight:var(--t-title-weight);max-width:22ch;text-wrap:balance}
 .ds-quote-attribution{margin-top:var(--s-lg);padding-top:var(--s-sm);border-top:1px solid var(--surface-border);font-size:var(--t-caption-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--surface-quiet);max-width:32ch}
