@@ -160,3 +160,4 @@ buckets, never names, hosts, or URLs.
 - **Qualitative:** proof can no longer collapse to a lonely quote. Still short of top-tier expert
   uniqueness — next: richer drawn marks and less generic register chrome.
 - **Next weakest:** uniqueness of marks, dashboard accent, honest band variation without voids.
+- **Keep decision:** This SaaS conversion offering (proof stage + spined sequence + brand-first fold) is the locked template to deepen — not replace. Further loops raise uniqueness inside this structure.
