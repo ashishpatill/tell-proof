@@ -573,7 +573,7 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
   return `<section class="ds-section ds-proof" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${secMeta("Proof", `${cells.length} capabilities · declared scope`)}
-      <div class="ds-proof-stage">
+      <div class="ds-proof-stage" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
         <header class="ds-proof-head">
           ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
           <h2 class="ds-heading">${esc(section.title)}</h2>

@@ -180,7 +180,14 @@ export function planSections(input: CompositionInput): SectionPlan[] {
   if (siteKind !== "docs-educational") {
     // Dense proof board on inverse — never a lonely quote floating in a dark void.
     // Bonded to the specimen above so a light airway cannot open between drawn product and proof.
-    plans.push({ id: "proof", kind: "proof", layout: "marquee-proof", surface: "inverse", bond: true });
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "inverse",
+      bond: true,
+      columns: split.feature,
+    });
   }
 
   plans.push({
