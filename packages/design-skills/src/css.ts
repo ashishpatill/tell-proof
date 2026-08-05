@@ -186,6 +186,9 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-lean="system-crafted"] .ds-app-nav a[aria-current="page"]{box-shadow:inset 3px 0 0 var(--c-accent)}
 [data-mood="dark-premium"] .ds-metric:first-child{border-color:var(--c-accent-border);background:var(--accent-soft)}
 [data-mood="dark-premium"] .ds-brand-mark{color:var(--c-accent)}
+[data-mood="dark-premium"] .ds-nav{border-bottom:2px solid var(--c-accent)}
+[data-mood="dark-premium"] .ds-metrics-band{box-shadow:inset 0 3px 0 var(--c-accent)}
+[data-mood="dark-premium"] .ds-app{outline:1px solid var(--c-accent-border)}
 `;
 }
 
@@ -282,7 +285,7 @@ ${surfaceRules()}
 
 .ds-wrap{width:min(100% - (var(--gutter) * 2),var(--w-content));margin-inline:auto}
 .ds-wrap-wide{width:min(100% - (var(--gutter) * 2),var(--w-wide));margin-inline:auto}
-.ds-section{padding-block:var(--section-y)}
+.ds-section{padding-block:calc(var(--section-y) * 0.88)}
 .ds-section-tight{padding-block:var(--section-y-tight)}
 /* A section that continues the one above it takes the break down to a beat. Two sections asking the
  * same question from different angles belong on a screen together; the full break between them is

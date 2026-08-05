@@ -176,3 +176,5 @@ buckets, never names, hosts, or URLs.
 - **Side effects:** none intended to score-game; eye check is the gate.
 - **Qualitative:** page should read as a filled instrument with product matter on dark, not a quote void.
 - **Next weakest:** mark uniqueness, dashboard accent coverage, holdout fold figure.
+- **Status:** plumbing absorbed into basics gate; locked SaaS structure deepened. Not converged —
+  holdout gap still >3 pts and qualitative uniqueness still short of authored expert work.
