@@ -442,10 +442,10 @@ ${surfaceRules()}
 .ds-specimen-head .ds-heading{max-width:24ch}
 
 /* Capability marks — one small schematic per capability, set into the card. */
-.ds-card-mark{width:5.25rem;margin-bottom:var(--s-2xs);color:var(--surface-quiet);border-radius:var(--r-xs)}
-.ds-card-lead .ds-card-mark{width:7rem}
-.ds-index-mark{width:5.5rem;justify-self:end;align-self:center}
-.ds-alt-mark{width:5.5rem;justify-self:end;align-self:center;border-radius:var(--r-sm);overflow:hidden}
+.ds-card-mark{width:6.5rem;margin-bottom:var(--s-2xs);color:var(--surface-quiet);border-radius:var(--r-xs)}
+.ds-card-lead .ds-card-mark{width:8.5rem}
+.ds-index-mark{width:7.25rem;justify-self:end;align-self:center}
+.ds-alt-mark{width:7rem;justify-self:end;align-self:center;border-radius:var(--r-sm);overflow:hidden}
 .ds-metric-spark{margin-top:var(--s-2xs)}
 
 /* Product panel — a structural stand-in for the real interface, drawn from tokens only */
@@ -529,7 +529,7 @@ ${surfaceRules()}
 .ds-chapter-index{font-family:var(--f-mono);font-size:var(--t-caption-size);line-height:1;letter-spacing:0;color:var(--c-accent);font-weight:600;min-width:2.5ch;padding-left:var(--s-xl)}
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:22ch;grid-column:auto}
 .ds-chapter .ds-body{max-width:52ch;grid-column:auto}
-.ds-chapter-mark{width:4.25rem;justify-self:end;opacity:.85}
+.ds-chapter-mark{width:6.5rem;justify-self:end;opacity:.9}
 
 /* Proof board — dense inverse surface packed with declared evidence.
  *
@@ -566,7 +566,7 @@ ${surfaceRules()}
 .ds-proof-cell{display:grid;gap:var(--s-2xs);align-content:start;padding:var(--s-md) var(--s-sm);border-right:1px solid var(--surface-border);min-height:0;background:transparent;border-radius:0}
 .ds-proof-cell:last-child{border-right:0}
 .ds-proof-cell.is-lead,.ds-proof-cell:first-child{background:var(--accent-soft);box-shadow:inset 0 3px 0 var(--c-accent)}
-.ds-proof-mark{width:3.25rem;margin-bottom:var(--s-3xs);opacity:.9}
+.ds-proof-mark{width:4.75rem;margin-bottom:var(--s-3xs);opacity:.9}
 .ds-proof-meta{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0;text-transform:none;color:var(--c-accent)}
 .ds-proof-cell h3{font-size:var(--t-body-size);line-height:var(--t-body-leading);letter-spacing:var(--t-body-tracking);font-weight:600;max-width:16ch}
 .ds-proof-cell p{font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--surface-muted);max-width:28ch}

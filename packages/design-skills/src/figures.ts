@@ -166,7 +166,7 @@ const BLEED_INSET = 0.07;
  * Bands whose content genuinely cannot fill it are drawn shorter rather than padded to reach it,
  * because the section is now sized by its figure rather than the other way round.
  */
-const BAND_TARGET_H = 690;
+const BAND_TARGET_H = 780;
 
 /** Keep a computed dimension inside the range it is allowed to take. */
 function clamp(v: number, lo: number, hi: number): number {
