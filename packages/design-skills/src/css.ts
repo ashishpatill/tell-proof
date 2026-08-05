@@ -288,6 +288,15 @@ ${surfaceRules()}
 .ds-fig{display:block;width:100%;height:auto;font-family:var(--f-body);overflow:hidden}
 .ds-fig text{font-family:var(--f-body)}
 .ds-fig .ds-fig-mono{font-family:var(--f-mono)}
+/* A rule stays a rule at any size.
+ *
+ * Every figure is laid out in its own units and then scaled to whatever column it lands in — a
+ * capability mark drawn at 168 units wide renders at 72px, and without this its 1-unit hairlines
+ * render at 0.43px, which the compositor resolves as pale grey mush. Scaled the other way, a fold
+ * plate drawn at 557 units and rendered at 700 was setting 1.25px rules where the page sets 1px.
+ * Non-scaling strokes make a drawn hairline and a CSS border the same object at every scale, which
+ * is the whole reason these are drawings and not images. */
+.ds-fig line,.ds-fig rect,.ds-fig path,.ds-fig circle,.ds-fig ellipse,.ds-fig polyline,.ds-fig polygon{vector-effect:non-scaling-stroke}
 .ds-plate{margin:0;display:grid;gap:var(--s-xs)}
 .ds-plate figcaption{font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-plate-wide{margin-bottom:var(--s-xl)}
@@ -310,6 +319,10 @@ ${surfaceRules()}
  * is — no shadow, no blur, nothing to repaint on scroll — and it is what stops an opening screen
  * from reading as two stacked rectangles. */
 .ds-plate-hang{margin-top:var(--s-lg);margin-bottom:calc(var(--s-2xl) * -1);position:relative;z-index:var(--z-raised)}
+/* The label goes above a drawing that hangs. Below it, the caption is separated from its figure by
+ * the whole overlap and lands alone under the next band's top edge, where it reads as debris left
+ * over from the fold rather than as the drawing's own label. */
+.ds-plate-hang figcaption{order:-1;width:min(100% - (var(--gutter) * 2),var(--w-wide));margin-inline:auto;text-align:right}
 .ds-hero:has(.ds-plate-hang) + .ds-section{padding-top:calc(var(--section-y) + var(--s-2xl))}
 /*
  * A fold whose figure spans the screen gives the copy the top of it and the drawing the rest.
@@ -345,8 +358,8 @@ ${surfaceRules()}
 /* Capability marks — one small schematic per capability, set into the card. */
 .ds-card-mark{width:5.25rem;margin-bottom:var(--s-2xs);color:var(--surface-quiet)}
 .ds-card-lead .ds-card-mark{width:7rem}
-.ds-index-mark{width:4.5rem;justify-self:end;align-self:center}
-.ds-alt-mark{width:4.5rem;margin-bottom:var(--s-2xs)}
+.ds-index-mark{width:5.5rem;justify-self:end;align-self:center}
+.ds-alt-mark{width:5.5rem;justify-self:end;align-self:center}
 .ds-metric-spark{margin-top:var(--s-2xs)}
 
 /* Product panel — a structural stand-in for the real interface, drawn from tokens only */
@@ -389,14 +402,18 @@ ${surfaceRules()}
 .ds-index-row p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-body);max-width:52ch}
 
 /* Alternating feature rows */
-.ds-alt{display:grid;gap:var(--s-xl)}
-.ds-alt-row + .ds-alt-row{margin-top:var(--s-xs)}
+/* Block, not grid. A grid gap here stacked on top of the row rules below, so a register of
+ * one-sentence rows was separated by a gap and a padding and a margin at once — 100px of nothing
+ * between 55px of content, which is how a page reads as padded rather than composed. */
+.ds-alt{display:block}
+.ds-alt-row + .ds-alt-row{margin-top:var(--s-xl)}
 .ds-alt-pair + .ds-alt-pair{margin-top:0}
 .ds-alt-row{display:grid;gap:var(--s-lg) var(--s-2xl);align-items:center}
 .ds-alt-row:nth-child(even) .ds-alt-figure{order:-1}
 .ds-alt-copy{display:grid;gap:var(--s-xs);align-content:start}
 .ds-alt-copy h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:20ch}
-.ds-alt-pair{display:grid;grid-template-columns:minmax(14rem,4fr) minmax(0,7fr);gap:var(--s-lg) var(--s-2xl);align-items:baseline;padding-top:var(--s-lg);border-top:1px solid var(--surface-border)}
+.ds-alt-pair{display:grid;grid-template-columns:minmax(12rem,4fr) minmax(0,7fr) 5.5rem;gap:var(--s-sm) var(--s-xl);align-items:start;padding-block:var(--s-md);border-top:1px solid var(--surface-border)}
+.ds-alt-pair:last-child{border-bottom:1px solid var(--surface-border)}
 .ds-alt-name{display:grid;gap:var(--s-3xs);align-content:start}
 .ds-alt-name h3{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking)}
 .ds-alt-detail{display:grid;gap:var(--s-sm)}
@@ -514,6 +531,7 @@ ${motionCss(spec.taste.motion)}
   .ds-alt-row:nth-child(even) .ds-alt-figure{order:0}
   .ds-bento{grid-template-columns:1fr}
   .ds-card,.ds-card-lead,.ds-card-wide{grid-column:span 1}
+  .ds-alt-mark{display:none}
   .ds-index-row{grid-template-columns:2rem 1fr;row-gap:var(--s-2xs)}
   .ds-index-row p{grid-column:2}
   .ds-index-mark{display:none}

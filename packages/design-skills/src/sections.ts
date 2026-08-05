@@ -175,10 +175,19 @@ export function buildSections(
       }
 
       case "features": {
+        /*
+         * A follow-on catalogue has to be worth the heading, the lede and the screen it takes.
+         *
+         * The split was a flat 60/40, so a four-capability brief produced a second section titled
+         * "the rest of what ships with X" containing exactly one row — a full screen of chrome
+         * around a single line, which is what a page looks like when it has run out of things to
+         * say and keeps the furniture anyway. Below two leftovers the catalogue is not split.
+         */
+        const total = allBlocks.length;
+        const wanted = Math.min(total, Math.max(3, Math.ceil(total * 0.6)));
+        const first = total - wanted < 2 ? total : wanted;
         const slice =
-          featureCursor === 0
-            ? allBlocks.slice(0, Math.min(allBlocks.length, Math.max(3, Math.ceil(allBlocks.length * 0.6))))
-            : allBlocks.slice(Math.max(0, featureCursor));
+          featureCursor === 0 ? allBlocks.slice(0, first) : allBlocks.slice(Math.max(0, featureCursor));
         featureCursor = featureCursor === 0 ? slice.length : featureCursor + slice.length;
         if (!slice.length) break;
         const isSecond = p.id !== "features";

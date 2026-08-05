@@ -59,6 +59,33 @@ function round(n: number): number {
   return Math.round(n * 100) / 100;
 }
 
+/**
+ * Break a sentence into lines of roughly `cols` characters.
+ *
+ * SVG has no line box, so any prose inside a drawing has to be broken here or set as one line that
+ * runs off the edge. Breaking on words at a measured column is the same decision the page makes for
+ * its body text, applied to the drawing.
+ */
+function wrap(s: string, cols: number, max: number): string[] {
+  const words = s.trim().split(/\s+/).filter(Boolean);
+  const lines: string[] = [];
+  let line = "";
+  for (const w of words) {
+    if (!line) line = w;
+    else if (line.length + 1 + w.length <= cols) line += ` ${w}`;
+    else {
+      lines.push(line);
+      line = w;
+      if (lines.length === max) break;
+    }
+  }
+  if (line && lines.length < max) lines.push(line);
+  if (lines.length === max && words.join(" ").length > lines.join(" ").length) {
+    lines[max - 1] = clip(`${lines[max - 1]}…`, cols + 1);
+  }
+  return lines;
+}
+
 /* ------------------------------------------------------------------ */
 /* Frame                                                               */
 /* ------------------------------------------------------------------ */
@@ -82,6 +109,16 @@ interface FrameOptions {
   kind: FigureKind;
   /** Texture fields fill their band rather than preserving their drawn proportion. */
   stretch?: boolean;
+  /**
+   * Keep the drawing off the screen edge, as a share of its own width.
+   *
+   * A figure that bleeds the full viewport still has to respect the page's gutter, or its axis
+   * labels sit four pixels from the edge of the screen while every other line on the page starts a
+   * hundred pixels in. Widening the viewBox rather than shrinking the drawing means the inset
+   * scales with the figure instead of being a fixed pixel value that is wrong at two viewports out
+   * of three.
+   */
+  inset?: number;
 }
 
 /**
@@ -93,7 +130,9 @@ function frame(body: string, o: FrameOptions): string {
     ? ` role="img" aria-label="${esc(o.label)}"`
     : ` role="presentation" aria-hidden="true" focusable="false"`;
   const par = o.stretch ? "none" : "xMidYMid meet";
-  return `<svg class="ds-fig" data-figure="${o.kind}" viewBox="0 0 ${o.width} ${o.height}" preserveAspectRatio="${par}"${a11y}>${body}</svg>`;
+  const pad = round((o.inset ?? 0) * o.width);
+  const box = `${round(-pad)} 0 ${round(o.width + pad * 2)} ${o.height}`;
+  return `<svg class="ds-fig" data-figure="${o.kind}" viewBox="${box}" preserveAspectRatio="${par}"${a11y}>${body}</svg>`;
 }
 
 /**
@@ -104,6 +143,31 @@ function frame(body: string, o: FrameOptions): string {
  *  - `plate`  — inside a container, between paragraphs
  */
 export type FigureRole = "column" | "band" | "plate";
+
+/**
+ * How far a full-bleed drawing holds off the screen edge, as a share of its own width.
+ *
+ * Matched to the page gutter: at the widest container the engine sets, the content edge sits about
+ * seven per cent of the viewport in from the screen. A bleeding figure whose labels start closer
+ * than that reads as overflow rather than as a decision.
+ */
+const BLEED_INSET = 0.07;
+
+/**
+ * The type ladder the drawings use.
+ *
+ * A page's ladder is measured across everything rendered on it, drawings included, and reference
+ * pages travel between four and nine times from their smallest label to their display voice across
+ * six to fourteen distinct steps. Left to accumulate, the figures here were setting eleven sizes of
+ * their own — 11, 11.5, 12, 13 — differences no reader can see that spend steps a reader can. Six
+ * named roles, shared by every drawing, is a ladder rather than a pile.
+ *
+ * `ordinal` is the ceiling, and it is deliberately below the smallest display size the engine sets
+ * for any page. A drawing that can appear in the fold must never contain the largest type in the
+ * fold: at 58 the stage numerals in a spanning hero were bigger than the headline beside them, and
+ * both the eye and the probe read the numeral as the page's display voice.
+ */
+const FT = { micro: 10, small: 12, body: 15, title: 19, lead: 26, ordinal: 40 } as const;
 
 const INK = "var(--surface-ink)";
 const BODY = "var(--surface-body)";
@@ -122,7 +186,7 @@ function text(
   const attrs = [
     `x="${round(x)}"`,
     `y="${round(y)}"`,
-    `font-size="${opts.size ?? 13}"`,
+    `font-size="${opts.size ?? FT.small}"`,
     `fill="${opts.fill ?? BODY}"`,
   ];
   if (opts.weight) attrs.push(`font-weight="${opts.weight}"`);
@@ -180,30 +244,30 @@ export function interfacePlate(productName: string, rows: Block[], seed: string,
   for (let i = 0; i < 3; i += 1) {
     parts.push(`<circle cx="${20 + i * 13}" cy="20" r="3" fill="${LINE}"/>`);
   }
-  parts.push(text(clip(productName, 22), 70, 24.5, { size: 11, fill: QUIET, mono: true }));
+  parts.push(text(clip(productName, 22), 70, 24.5, { size: FT.micro, fill: QUIET, mono: true }));
 
   // Rail
   parts.push(rule(railW, 40, railW, H));
-  parts.push(text("Views", 20, 66, { size: 10, fill: QUIET, mono: true, track: 0.8 }));
+  parts.push(text("Views", 20, 66, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
   items.forEach((b, i) => {
     const y = 84 + i * 30;
     if (i === 0) {
       parts.push(box(12, y - 13, railW - 24, 24, { r: 5, fill: ACCENT_FIELD }));
       parts.push(`<rect x="12" y="${y - 13}" width="2" height="24" fill="${ACCENT}"/>`);
     }
-    parts.push(text(clip(b.title, 17), 22, y + 4, { size: 11.5, fill: i === 0 ? INK : BODY }));
+    parts.push(text(clip(b.title, 17), 22, y + 4, { size: FT.small, fill: i === 0 ? INK : BODY }));
   });
 
   // Table
   const tx = railW + 24;
   const tw = W - tx - 24;
-  parts.push(text(clip(items[0]!.title, 30), tx, 72, { size: 15, fill: INK, weight: 600 }));
-  parts.push(text("Live", W - 24, 70, { size: 10, fill: QUIET, mono: true, anchor: "end", track: 0.6 }));
+  parts.push(text(clip(items[0]!.title, 30), tx, 72, { size: FT.body, fill: INK, weight: 600 }));
+  parts.push(text("Live", W - 24, 70, { size: FT.micro, fill: QUIET, mono: true, anchor: "end", track: 0.6 }));
   parts.push(rule(tx, 88, W - 24, 88));
 
   const cols = ["Item", "State"];
-  parts.push(text(cols[0]!, tx, 106, { size: 10, fill: QUIET, mono: true, track: 0.8 }));
-  parts.push(text(cols[1]!, W - 24, 106, { size: 10, fill: QUIET, mono: true, anchor: "end", track: 0.8 }));
+  parts.push(text(cols[0]!, tx, 106, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
+  parts.push(text(cols[1]!, W - 24, 106, { size: FT.micro, fill: QUIET, mono: true, anchor: "end", track: 0.8 }));
 
   items.forEach((b, i) => {
     const y = 128 + i * 42;
@@ -211,10 +275,10 @@ export function interfacePlate(productName: string, rows: Block[], seed: string,
     const lead = i === 1;
     if (lead) parts.push(box(tx - 10, y - 12, tw + 20, 38, { r: 6, fill: ACCENT_FIELD }));
     parts.push(`<circle cx="${tx + 5}" cy="${y + 3}" r="3" fill="${lead ? ACCENT : LINE}"/>`);
-    parts.push(text(clip(b.title, 26), tx + 18, y + 7, { size: 12, fill: lead ? INK : BODY }));
+    parts.push(text(clip(b.title, 26), tx + 18, y + 7, { size: FT.small, fill: lead ? INK : BODY }));
     parts.push(
       text(b.meta ? clip(b.meta, 12) : `${Math.round(58 + r() * 40)}%`, W - 24, y + 7, {
-        size: 11,
+        size: FT.micro,
         fill: lead ? INK : QUIET,
         mono: true,
         anchor: "end",
@@ -233,7 +297,7 @@ export function interfacePlate(productName: string, rows: Block[], seed: string,
     const py = barY + 44;
     const ph = H - py - 24;
     parts.push(box(tx, py, tw, ph, { r: 8, stroke: LINE }));
-    parts.push(text("Last 12 periods", tx + 14, py + 20, { size: 10, fill: QUIET, mono: true, track: 0.6 }));
+    parts.push(text("Last 12 periods", tx + 14, py + 20, { size: FT.micro, fill: QUIET, mono: true, track: 0.6 }));
     const n = 12;
     const gx = (i: number) => tx + 14 + (i / (n - 1)) * (tw - 28);
     let t = 0.3 + r() * 0.2;
@@ -248,7 +312,7 @@ export function interfacePlate(productName: string, rows: Block[], seed: string,
   if (barY < H - 34) {
     parts.push(box(tx, barY, tw, 4, { r: 2, fill: LINE }));
     parts.push(box(tx, barY, tw * (0.52 + r() * 0.3), 4, { r: 2, fill: ACCENT }));
-    parts.push(text("Coverage", tx, barY + 24, { size: 10, fill: QUIET, mono: true, track: 0.6 }));
+    parts.push(text("Coverage", tx, barY + 24, { size: FT.micro, fill: QUIET, mono: true, track: 0.6 }));
   }
 
   return frame(parts.join(""), { width: W, height: H, kind: "interface" });
@@ -290,7 +354,7 @@ export function seriesChart(label: string, periods: string[], seed: string, role
   for (let g = 0; g <= 3; g += 1) {
     const gy = top + ((bottom - top) / 3) * g;
     parts.push(rule(left, gy, right, gy));
-    parts.push(text(`${100 - g * 30}`, left - 10, gy + 3.5, { size: 10, fill: QUIET, mono: true, anchor: "end" }));
+    parts.push(text(`${100 - g * 30}`, left - 10, gy + 3.5, { size: FT.micro, fill: QUIET, mono: true, anchor: "end" }));
   }
 
   const line = values.map((t, i) => `${i === 0 ? "M" : "L"}${round(x(i))} ${round(y(t))}`).join(" ");
@@ -307,32 +371,58 @@ export function seriesChart(label: string, periods: string[], seed: string, role
   const step = Math.max(1, Math.floor(n / Math.min(4, periods.length || 4)));
   for (let i = 0; i < n; i += step) {
     const p = periods[Math.floor(i / step) % (periods.length || 1)] ?? "";
-    if (p) parts.push(text(clip(p, 9), x(i), bottom + 18, { size: 10, fill: QUIET, mono: true, anchor: i === 0 ? "start" : "middle" }));
+    if (p) parts.push(text(clip(p, 9), x(i), bottom + 18, { size: FT.micro, fill: QUIET, mono: true, anchor: i === 0 ? "start" : "middle" }));
   }
-  parts.push(text(clip(label, 42), left, 14, { size: 11, fill: BODY }));
+  parts.push(text(clip(label, 42), left, 14, { size: FT.micro, fill: BODY }));
 
-  return frame(parts.join(""), { width: W, height: H, kind: "series", label: `${label} — illustrative series` });
+  return frame(parts.join(""), { width: W, height: H, kind: "series", inset: role === "band" ? BLEED_INSET : 0, label: `${label} — illustrative series` });
 }
 
 /* ------------------------------------------------------------------ */
 /* flow — the sequence, as stages                                      */
 /* ------------------------------------------------------------------ */
 
-/** The steps of the argument as connected stages, numbered, with the pivot marked. */
+/**
+ * The steps of the argument as connected stages, numbered, with the pivot marked.
+ *
+ * In band role this drawing is the whole screen, so the stages carry what the stage actually says
+ * rather than a title over reserved empty space. The card height is measured from the copy each
+ * stage has: a stage with two points is taller than a stage with none, and neither leaves a gap
+ * where a reader expects something to be.
+ */
 export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "plate"): string {
   const items = steps.slice(0, 4);
   if (items.length < 2) return "";
   const band = role === "band";
   const W = band ? 1200 : 720;
-  const H = band ? 320 : 216;
   const gap = band ? 40 : 26;
   const nodeW = (W - 8 - gap * (items.length - 1)) / items.length;
   const top = band ? 62 : 44;
-  const nodeH = band ? 176 : 104;
   const pivot = Math.min(items.length - 1, 1);
   const parts: string[] = [];
 
-  parts.push(text("Sequence", 4, 16, { size: 10, fill: QUIET, mono: true, track: 0.8 }));
+  /*
+   * Every stage is drawn to the same height, set by the wordiest one, because stages of different
+   * heights in a row read as a broken grid rather than as a sequence.
+   *
+   * Most sequences have no prose to give: the copy allocator states each claim exactly once, and it
+   * states it where the capability is explained, not again in the diagram. A stage that is only a
+   * name is drawn as a name — set large, with its ordinal set larger — rather than as a title over
+   * two hundred units of reserved emptiness, which is what a card with a rule and nothing under it
+   * looks like at reading size.
+   */
+  const cols = Math.max(18, Math.round(nodeW / 6.6));
+  const detail = items.map((b) => {
+    if (!band) return [] as string[];
+    const points = b.points.slice(0, 2).map((p) => clip(p, cols));
+    return points.length ? points : wrap(b.body ?? "", cols, 3);
+  });
+  const lines = Math.max(...detail.map((d) => d.length), 0);
+  const typeLed = band && lines === 0;
+  const nodeH = band ? (typeLed ? 252 : 118 + lines * 21 + 30) : 104;
+  const H = band ? top + nodeH + 44 : 216;
+
+  parts.push(text("Sequence", 4, 16, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
 
   items.forEach((b, i) => {
     const x = 4 + i * (nodeW + gap);
@@ -344,16 +434,29 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
         stroke: lead ? "var(--c-accent-border)" : LINE,
       }),
     );
-    parts.push(text(String(i + 1).padStart(2, "0"), x + 16, top + 28, { size: 10, fill: lead ? ACCENT : QUIET, mono: true, track: 0.8 }));
-    parts.push(text(clip(b.title, band ? 26 : 20), x + 16, top + (band ? 66 : 56), { size: band ? 19 : 14, fill: INK, weight: 600 }));
-    if (b.meta) parts.push(text(clip(b.meta, 24), x + 16, top + (band ? 92 : 80), { size: 11, fill: QUIET, mono: true }));
 
-    if (band) {
-      // A stage in a wide band has room to say what is settled by the time work leaves it. The
-      // detail is the capability's own points; the meter is how much of the stage they cover.
-      parts.push(rule(x + 16, top + 112, x + nodeW - 16, top + 112));
-      b.points.slice(0, 2).forEach((p, j) => {
-        parts.push(text(clip(p, 34), x + 16, top + 134 + j * 18, { size: 11.5, fill: BODY }));
+    if (typeLed) {
+      const nameLines = wrap(b.title, Math.max(9, Math.round(nodeW / 15)), 3);
+      parts.push(text(String(i + 1).padStart(2, "0"), x + 24, top + 74, { size: FT.ordinal, fill: lead ? ACCENT : "var(--c-border-strong)", weight: 300 }));
+      parts.push(rule(x + 24, top + 100, x + nodeW - 24, top + 100));
+      nameLines.forEach((ln, j) => {
+        parts.push(text(ln, x + 24, top + 140 + j * 30, { size: FT.lead, fill: INK, weight: 600 }));
+      });
+      if (b.meta) parts.push(text(clip(b.meta, 24), x + 24, top + nodeH - 30, { size: FT.micro, fill: QUIET, mono: true }));
+      const meterY = top + nodeH - 18;
+      const meterW = nodeW - 48;
+      parts.push(box(x + 24, meterY, meterW, 3, { r: 2, fill: LINE }));
+      parts.push(box(x + 24, meterY, meterW * ((i + 1) / items.length), 3, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
+    } else {
+      parts.push(text(String(i + 1).padStart(2, "0"), x + 16, top + 28, { size: FT.micro, fill: lead ? ACCENT : QUIET, mono: true, track: 0.8 }));
+      parts.push(text(clip(b.title, band ? 26 : 20), x + 16, top + (band ? 66 : 56), { size: band ? FT.title : FT.small, fill: INK, weight: 600 }));
+      if (b.meta) parts.push(text(clip(b.meta, 24), x + 16, top + (band ? 92 : 80), { size: FT.micro, fill: QUIET, mono: true }));
+    }
+
+    if (band && !typeLed) {
+      parts.push(rule(x + 16, top + 106, x + nodeW - 16, top + 106));
+      detail[i]!.forEach((p, j) => {
+        parts.push(text(p, x + 16, top + 128 + j * 21, { size: FT.small, fill: BODY }));
       });
       const meterY = top + nodeH - 22;
       const meterW = nodeW - 32;
@@ -372,9 +475,9 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
   });
 
   parts.push(rule(4, H - 22, W - 4, H - 22));
-  parts.push(text(clip(`${items.length} stages`, 20), 4, H - 6, { size: 10, fill: QUIET, mono: true, track: 0.6 }));
+  parts.push(text(clip(`${items.length} stages`, 20), 4, H - 6, { size: FT.micro, fill: QUIET, mono: true, track: 0.6 }));
   void seed;
-  return frame(parts.join(""), { width: W, height: H, kind: "flow", label: `Sequence: ${items.map((b) => b.title).join(", ")}` });
+  return frame(parts.join(""), { width: W, height: H, kind: "flow", inset: band ? BLEED_INSET : 0, label: `Sequence: ${items.map((b) => b.title).join(", ")}` });
 }
 
 /* ------------------------------------------------------------------ */
@@ -406,10 +509,10 @@ export function stackDiagram(layers: Block[], seed: string): string {
         stroke: lead ? "var(--c-accent-border)" : LINE,
       }),
     );
-    parts.push(text(clip(b.title, 30), spine + 32, y + rowH / 2 + 1, { size: 13, fill: INK, weight: 600 }));
+    parts.push(text(clip(b.title, 30), spine + 32, y + rowH / 2 + 1, { size: FT.small, fill: INK, weight: 600 }));
     if (b.meta) {
       parts.push(
-        text(clip(b.meta, 16), spine + 16 + w - 14, y + rowH / 2 + 1, { size: 10, fill: QUIET, mono: true, anchor: "end", track: 0.6 }),
+        text(clip(b.meta, 16), spine + 16 + w - 14, y + rowH / 2 + 1, { size: FT.micro, fill: QUIET, mono: true, anchor: "end", track: 0.6 }),
       );
     }
   });
@@ -458,18 +561,18 @@ export function horizonPlot(marks: Block[], seed: string, role: FigureRole = "pl
     parts.push(`<circle cx="${round(x)}" cy="${axis}" r="${band ? 5.5 : 4}" fill="${i === items.length - 1 ? ACCENT : PAPER}" stroke="${i === items.length - 1 ? ACCENT : LINE}" stroke-width="1.5"/>`);
     const anchor = i === items.length - 1 ? "end" : "start";
     const tx = anchor === "end" ? x - 8 : x + 10;
-    parts.push(text(clip(b.title, band ? 30 : 24), tx, up ? ty - 10 : ty + 20, { size: band ? 20 : 13, fill: INK, weight: 600, anchor }));
+    parts.push(text(clip(b.title, band ? 30 : 24), tx, up ? ty - 10 : ty + 20, { size: band ? FT.title : FT.small, fill: INK, weight: 600, anchor }));
     if (b.meta) {
-      parts.push(text(clip(b.meta, 18), tx, up ? ty + (band ? 12 : 8) : ty - (band ? 10 : 6), { size: band ? 11 : 10, fill: QUIET, mono: true, anchor, track: 0.6 }));
+      parts.push(text(clip(b.meta, 18), tx, up ? ty + (band ? 12 : 8) : ty - (band ? 10 : 6), { size: FT.micro, fill: QUIET, mono: true, anchor, track: 0.6 }));
     }
     if (band) {
       b.points.slice(0, 1).forEach((p) => {
-        parts.push(text(clip(p, 40), tx, up ? ty + 32 : ty - 30, { size: 12, fill: BODY, anchor }));
+        parts.push(text(clip(p, 40), tx, up ? ty + 32 : ty - 30, { size: FT.small, fill: BODY, anchor }));
       });
     }
   });
 
-  return frame(parts.join(""), { width: W, height: H, kind: "horizon", label: `Horizon: ${items.map((b) => b.title).join(", ")}` });
+  return frame(parts.join(""), { width: W, height: H, kind: "horizon", inset: band ? BLEED_INSET : 0, label: `Horizon: ${items.map((b) => b.title).join(", ")}` });
 }
 
 /* ------------------------------------------------------------------ */

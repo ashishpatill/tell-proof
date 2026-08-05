@@ -252,6 +252,19 @@ function renderSpecimen(section: SectionSpec, figures: FigurePlan): string {
   </section>`;
 }
 
+/**
+ * A quantity a trend line can honestly belong to.
+ *
+ * This band is fed whatever the brief calls a headline figure, and for most products that is a
+ * capability name — "Continuous close", "Long-hold capital" — not a reading. A sparkline under a
+ * capability name is a random walk drawn to look like evidence, which is the exact species of
+ * decoration this engine exists to detect. The shape is only drawn where there is a number for it
+ * to be the shape of.
+ */
+function isReading(value: string): boolean {
+  return /\d/.test(value) && value.replace(/[\d\s.,%×x/+-]/gi, "").length <= 3;
+}
+
 function renderMetricBand(section: SectionSpec, figures: FigurePlan): string {
   // A reading has a direction, and a column of bare numerals asks the reader to take the direction
   // on trust. The shape sits under the numeral at the width of its own column.
@@ -264,7 +277,7 @@ function renderMetricBand(section: SectionSpec, figures: FigurePlan): string {
             (m, i) => `<div class="ds-metric">
               <p class="ds-metric-value">${esc(m.value)}</p>
               <p class="ds-metric-label">${esc(m.label)}</p>
-              ${figures.sparks[i] ? `<div class="ds-metric-spark">${figures.sparks[i]}</div>` : ""}
+              ${figures.sparks[i] && isReading(m.value) ? `<div class="ds-metric-spark">${figures.sparks[i]}</div>` : ""}
               ${m.note ? `<p class="ds-metric-note">${esc(m.note)}</p>` : ""}
             </div>`,
           )
@@ -370,12 +383,19 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
                 <h3>${esc(b.title)}</h3>
                 ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
               </div>
-              <div class="ds-alt-figure">${plate(figures.body, b.title)}</div>
+              <div class="ds-alt-figure">${plate(figures.body, "")}</div>
             </div>`;
           }
+          /*
+           * Name, prose, drawing — the same three columns the index rows use.
+           *
+           * The mark used to be stacked above the title, which broke the left edge of the register
+           * with a 72px rectangle and read, at reading size, as a rendering fault rather than as a
+           * drawing. Set in its own column at the end of the row it is the row's illustration, and
+           * both row types in the engine now make the same shape.
+           */
           return `<div class="ds-alt-row ds-alt-pair">
             <div class="ds-alt-name">
-              <div class="ds-alt-mark" aria-hidden="true">${markFor(b)}</div>
               <h3>${esc(b.title)}</h3>
               ${b.kicker ? `<p class="ds-alt-tier">${esc(b.kicker)}</p>` : ""}
             </div>
@@ -383,6 +403,7 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
               ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
               ${b.points.length ? `<ul class="ds-card-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
             </div>
+            <div class="ds-alt-mark" aria-hidden="true">${markFor(b)}</div>
           </div>`;
         })
         .join("")}</div>`;
@@ -698,7 +719,7 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
                   (m, i) => `<div class="ds-stat">
                     <b>${esc(m.value)}</b>
                     <span>${esc(m.label)}</span>
-                    ${figures.sparks[i] ? `<div class="ds-stat-spark" aria-hidden="true">${figures.sparks[i]}</div>` : ""}
+                    ${figures.sparks[i] && isReading(m.value) ? `<div class="ds-stat-spark" aria-hidden="true">${figures.sparks[i]}</div>` : ""}
                   </div>`,
                 )
                 .join("")}
