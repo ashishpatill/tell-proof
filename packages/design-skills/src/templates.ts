@@ -44,7 +44,7 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
       "Demo-booking landing for B2B teams — one primary conversion path, feature-grounded proof.",
     siteKind: "saas-marketing",
     researchBasis:
-      "Calibrated against premium-b2b-saas and conversion-shaped corpus bands; conversion-sharp lean. Locked craft: lit inverse proof stage (claim + paper product plate + five-cell evidence register) and spined sequence — keep and deepen this offering; do not revert to lonely pullquote voids or odd-count card grids (loops 6–7).",
+      "Calibrated against premium-b2b-saas, art-directed-studio, and fintech-product corridors (fold figure share ~0.7–1.0, page figure share ~0.4+, layered hangs). Locked craft: spanning product fold, lit inverse proof stage, spined sequence — keep and deepen; no lonely pullquote voids or sparse bento airways.",
     brief: DesignBrief.parse({
       productName: "Northstar",
       tagline: "Know which accounts are moving before the forecast call",

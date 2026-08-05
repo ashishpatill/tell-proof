@@ -91,6 +91,14 @@ function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
   if (siteKind === "docs-educational") return "hero-editorial";
   if (lean === "minimal-clean") return "hero-statement";
   if (lean === "refined-story") return "hero-editorial";
+  /*
+   * Conversion marketing: the product surface owns the fold.
+   *
+   * Measured premium-b2b and art-directed references put roughly 0.7–1.0 of the first screen into
+   * drawn matter. A split fold with a side plate was capping fold-figure share near 0.4 and reading
+   * as a brochure; spanning the interface under a short claim matches the corridor those pages sit in.
+   */
+  if (lean === "conversion-sharp" && siteKind === "saas-marketing") return "hero-statement";
   return "hero-split";
 }
 

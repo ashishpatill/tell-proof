@@ -202,12 +202,13 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
    */
   const caption = `${spec.brief.productName} — illustrative`;
   const spanning = figures.hero
-    ? `<div class="ds-bleed">${plate(figures.hero, caption, "ds-plate-hang ds-plate-bleed")}</div>`
+    ? `<div class="ds-bleed">${plate(figures.hero, caption, "ds-plate-hang ds-plate-bleed ds-plate-lit")}</div>`
     : "";
 
   if (section.layout === "hero-statement") {
+    // Wide claim strip + full-bleed product — the corridor measured on premium-b2b / studio folds.
     return `<section id="top" class="ds-section ds-hero ds-hero-spanning" data-surface="${section.surface}" data-section="${esc(section.id)}">
-      <div class="ds-wrap">${copy}</div>
+      <div class="ds-wrap-wide">${copy}</div>
       ${spanning}
     </section>`;
   }

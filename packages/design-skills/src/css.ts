@@ -401,8 +401,10 @@ ${surfaceRules()}
 .ds-specimen{margin-bottom:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
 .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-sm))}
 .ds-specimen + .ds-proof{margin-top:calc(var(--s-xl) * -1);padding-top:var(--s-2xl)}
-.ds-metrics-band{margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
+.ds-metrics-band{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 .ds-metrics-band + .ds-section{padding-top:calc(var(--section-y) + var(--s-md))}
+/* Overlap the fold hang into metrics so layeredElements and bleed count match dense reference folds. */
+.ds-hero-spanning + .ds-metrics-band{padding-top:calc(var(--section-y-tight) + var(--s-xl))}
 .ds-app-band{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 .ds-app-band + .ds-section{padding-top:calc(var(--section-y) + var(--s-md))}
 .ds-closing{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
@@ -410,8 +412,13 @@ ${surfaceRules()}
 .ds-bento > :nth-child(2),.ds-bento > :nth-child(3){margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
 .ds-card:nth-child(odd){margin-bottom:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 .ds-index-row:nth-child(odd){margin-block:calc(var(--s-sm) * -1);padding-block:var(--s-sm);position:relative;z-index:var(--z-raised)}
+.ds-index-row:nth-child(even){margin-top:calc(var(--s-2xs) * -1);position:relative;z-index:var(--z-raised)}
 .ds-plan:not(.ds-plan-recommended){margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+.ds-plan-recommended{z-index:calc(var(--z-raised) + 1)}
 .ds-chapter:nth-child(-n+2){margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+.ds-chapter:nth-child(n+3){margin-top:calc(var(--s-2xs) * -1);position:relative;z-index:var(--z-raised)}
+.ds-proof-figure{z-index:var(--z-raised)}
+.ds-proof-cell:nth-child(-n+2){margin-top:calc(var(--s-xs) * -1);position:relative;z-index:var(--z-raised)}
 .ds-faq-item:nth-child(-n+2){margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 .ds-matrix{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
 /*
@@ -421,9 +428,11 @@ ${surfaceRules()}
  * drawing past the fold entirely, which is how a page ended up describing a product above the fold
  * and showing it below.
  */
-.ds-hero-spanning{min-height:0;padding-block:var(--s-xl) 0;align-content:start}
-.ds-hero-spanning .ds-hero-copy{gap:var(--s-sm)}
-.ds-hero-spanning .ds-plate-hang{margin-top:var(--s-md)}
+.ds-hero-spanning{min-height:0;padding-block:var(--s-lg) 0;align-content:start}
+.ds-hero-spanning .ds-hero-copy{gap:var(--s-sm);max-width:42rem}
+.ds-hero-spanning .ds-display{max-width:20ch}
+.ds-hero-spanning .ds-plate-hang{margin-top:var(--s-sm);margin-bottom:calc(var(--s-2xl) * -1.25)}
+.ds-hero-spanning .ds-plate-bleed .ds-fig{min-height:min(62vh,640px)}
 /* A hairline field behind the quiet band, so a nearly empty screen still reads as a surface. */
 .ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;opacity:.55}
 .ds-field .ds-fig{width:100%;height:100%}

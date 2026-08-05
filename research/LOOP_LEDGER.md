@@ -178,3 +178,16 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** mark uniqueness, dashboard accent coverage, holdout fold figure.
 - **Status:** plumbing absorbed into basics gate; locked SaaS structure deepened. Not converged —
   holdout gap still >3 pts and qualitative uniqueness still short of authored expert work.
+
+## Loop 9 — hard-corpus composition into locked SaaS
+
+- **Goal:** raise fold-figure and page-figure share toward premium-b2b / art-directed-studio medians
+  (~0.7–1.0 fold, ~0.4+ page) without naming third parties; keep the locked template.
+- **Evidence used:** category aggregates for `premium-b2b-saas`, `art-directed-studio`,
+  `fintech-product`, `consumer-craft`, `brand-agency` (figure area, bleed, layered elements).
+- **Closed:**
+  - Conversion SaaS fold becomes spanning product under a short claim (hero-statement)
+  - Stronger hang into metrics; more layered overlaps on index/chapters/proof cells
+  - Lit brackets on the full-bleed fold plate
+- **Side effects:** split-fold brochure look retired for conversion SaaS only.
+- **Next weakest:** holdout gap, alignment axes ≥3, drawn-matter share into band.
