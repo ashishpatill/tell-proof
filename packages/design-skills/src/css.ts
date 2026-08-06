@@ -189,6 +189,12 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-mood="dark-premium"] .ds-nav{border-bottom:2px solid var(--c-accent)}
 [data-mood="dark-premium"] .ds-metrics-band{box-shadow:inset 0 3px 0 var(--c-accent)}
 [data-mood="dark-premium"] .ds-app{outline:1px solid var(--c-accent-border)}
+`;
+}
+
+/** Site-kind art direction — always applied (must not live inside a lean branch). */
+function siteKindCss(): string {
+  return `
 /* Fintech: inverse specimen is a stage; product drawing sits on a lit paper plate (readable contrast). */
 [data-sitekind="fintech-marketing"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
 [data-sitekind="fintech-marketing"] .ds-specimen-head .ds-heading{color:var(--surface-ink)}
@@ -206,29 +212,29 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-sitekind="fintech-marketing"] .ds-metric{min-height:10.5rem}
 [data-sitekind="fintech-marketing"] .ds-proof{padding-block:var(--s-2xl) calc(var(--section-y) * 0.85)}
 [data-sitekind="fintech-marketing"] .ds-hero-overfigure .ds-plate-bleed .ds-fig{min-height:min(94vh,940px)}
-/* Studio: fold is almost entirely drawn matter; claim rides a short veil — figure must stay legible. */
-[data-sitekind="art-directed-studio"] .ds-hero-overfigure .ds-plate-bleed .ds-fig{min-height:min(96vh,980px)}
-[data-sitekind="art-directed-studio"] .ds-hero-overclaim{
-  background:linear-gradient(180deg,color-mix(in srgb,var(--c-paper) 78%,transparent) 0%,color-mix(in srgb,var(--c-paper) 28%,transparent) 38%,transparent 72%);
-  padding-block:calc(var(--s-2xl) + var(--s-md)) var(--s-xl);
+/* Studio — stack fold (claim then figure); cool stock, not cream wash. */
+[data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(88vh,900px)}
+/* Compact claim so labeled figure still enters the fold (drawn-matter band). */
+[data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-hero-claimband{padding:var(--s-lg) 0 var(--s-md)}
+[data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-display{
+  font-size:clamp(2.6rem,4.6vw,4.15rem);max-width:16ch;line-height:1.05;
 }
-[data-sitekind="art-directed-studio"] .ds-hero-overclaim .ds-display{max-width:14ch}
-[data-sitekind="art-directed-studio"] .ds-hero-overclaim .ds-lede{max-width:36ch;color:var(--c-ink)}
-[data-sitekind="art-directed-studio"] .ds-brand-mark{font-size:var(--t-subheading-size);letter-spacing:var(--t-caption-tracking)}
+[data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-lede{max-width:42ch}
+[data-sitekind="art-directed-studio"] .ds-brand-mark{font-size:var(--t-heading-size);line-height:1.15;letter-spacing:var(--t-caption-tracking)}
 [data-sitekind="art-directed-studio"] .ds-metrics-band{padding-block:var(--section-y-tight)}
 [data-sitekind="art-directed-studio"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="art-directed-studio"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
 [data-sitekind="art-directed-studio"] .ds-chapter-index{opacity:.7}
-/* Cool stock atmosphere — not warm cream wash. */
 body[data-sitekind="art-directed-studio"]{
   background:
     radial-gradient(120% 80% at 12% -10%,color-mix(in srgb,var(--c-accent) 8%,transparent),transparent 55%),
     linear-gradient(180deg,var(--c-paper),color-mix(in srgb,var(--c-paper-sunken) 55%,var(--c-paper)));
 }
 /* Consumer craft: denser product plates, shorter display voice, figure-forward alternating register. */
-[data-sitekind="consumer-craft"] .ds-hero-overfigure .ds-plate-bleed .ds-fig{min-height:min(90vh,900px)}
-[data-sitekind="consumer-craft"] .ds-hero-overclaim .ds-display{max-width:18ch}
-[data-sitekind="consumer-craft"] .ds-hero-overclaim .ds-lede{max-width:40ch}
+[data-sitekind="consumer-craft"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(84vh,860px)}
+[data-sitekind="consumer-craft"] .ds-hero-stackfold .ds-hero-claimband{padding:var(--s-lg) 0 var(--s-md)}
+[data-sitekind="consumer-craft"] .ds-hero-solidclaim .ds-hero-overclaim .ds-display{max-width:18ch;font-size:clamp(2.4rem,4.2vw,3.6rem)}
+[data-sitekind="consumer-craft"] .ds-hero-solidclaim .ds-hero-overclaim .ds-lede{max-width:40ch}
 [data-sitekind="consumer-craft"] .ds-alt-figure .ds-fig{min-height:min(52vh,520px)}
 [data-sitekind="consumer-craft"] .ds-alt-mark{width:12rem}
 [data-sitekind="consumer-craft"] .ds-index-mark{width:11rem}
@@ -501,7 +507,7 @@ ${surfaceRules()}
 .ds-hero-spanning .ds-lede{max-width:46ch}
 .ds-hero-spanning .ds-actions{margin-top:var(--s-2xs)}
 .ds-hero-spanning .ds-plate-hang{margin-top:var(--s-xs);margin-bottom:calc(var(--s-2xl) * -1.35)}
-/* Studio / premium-b2b: product surface owns the fold; claim rides a short gradient over it. */
+/* SaaS / fintech: product surface owns the fold; claim rides a short gradient over it. */
 .ds-hero-overfigure{position:relative;padding:0;min-height:0;isolation:isolate}
 .ds-hero-overfigure .ds-plate-hang{margin:0 0 calc(var(--s-xl) * -1);padding:0;border:0;border-radius:0;box-shadow:none;background:transparent}
 .ds-hero-overfigure .ds-plate-hang::before,.ds-hero-overfigure .ds-plate-hang::after{display:none}
@@ -517,6 +523,39 @@ ${surfaceRules()}
 .ds-hero-overclaim .ds-display{max-width:16ch}
 .ds-hero-overclaim .ds-lede{max-width:42ch;color:var(--c-ink-secondary)}
 .ds-hero-overfigure + .ds-metrics-band{padding-top:calc(var(--section-y-tight) + var(--s-lg))}
+/*
+ * Stack fold — claim then labeled figure in normal flow (studio/consumer).
+ * Claim is relative + opaque; figure never shares the type's box. No absolute overlay,
+ * no padding-top fake push (those left stage labels parked under the lede).
+ */
+.ds-hero-stackfold{display:flex;flex-direction:column;position:relative;padding:0;min-height:0;isolation:isolate}
+.ds-hero-stackfold .ds-hero-overclaim.ds-hero-claimband{
+  position:relative;inset:auto;z-index:auto;pointer-events:auto;
+  background:var(--c-paper);
+  padding:calc(var(--s-xl) + var(--s-sm)) 0 var(--s-xl);
+  border-bottom:1px solid var(--surface-border);
+  box-shadow:none;
+}
+.ds-hero-stackfold .ds-plate-hang{margin:0;padding:0;border:0;border-radius:0;box-shadow:none;background:transparent}
+.ds-hero-stackfold .ds-plate-hang::before,.ds-hero-stackfold .ds-plate-hang::after{display:none}
+.ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(88vh,900px);border-radius:0;padding-top:0}
+.ds-hero-stackfold .ds-plate-hang figcaption{
+  position:absolute;right:var(--gutter);bottom:var(--s-sm);order:0;width:auto;margin:0;z-index:2;
+  color:var(--c-ink-tertiary);background:color-mix(in srgb,var(--c-paper) 88%,transparent);
+  padding:0.2rem 0.45rem;border-radius:var(--r-xs);
+}
+.ds-hero-solidclaim .ds-hero-overclaim .ds-hero-copy{gap:1.25rem;max-width:38rem}
+.ds-hero-solidclaim .ds-hero-overclaim .ds-brand-mark{
+  line-height:1.15;margin:0 0 0.65rem;padding:0;
+}
+.ds-hero-solidclaim .ds-hero-overclaim .ds-eyebrow{line-height:1.45;margin:0;padding:0}
+.ds-hero-solidclaim .ds-hero-overclaim .ds-display{max-width:14ch;margin:0.4rem 0 0;padding:0;line-height:1.08}
+.ds-hero-solidclaim .ds-hero-overclaim .ds-lede{max-width:38ch;color:var(--c-ink);margin:0}
+.ds-hero-solidclaim .ds-hero-overclaim .ds-actions{margin-top:0.6rem}
+[data-sitekind="art-directed-studio"] .ds-hero-solidclaim .ds-hero-overclaim .ds-brand-mark{
+  margin-bottom:0.75rem;
+}
+.ds-hero-stackfold + .ds-metrics-band{padding-top:calc(var(--section-y-tight) + var(--s-lg))}
 /* Shared content spine — personal-craft pages score high alignment axes from one repeated left edge. */
 .ds-section > .ds-wrap,.ds-section > .ds-wrap-wide{position:relative}
 /* Dashboard: keep the measured body voice on a full prose measure, not a squeezed app column. */
@@ -792,6 +831,7 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-skip:focus{top:var(--s-sm)}
 
 ${leanCss(spec.taste.aestheticLean)}
+${siteKindCss()}
 ${motionCss(spec.taste.motion)}
 
 @media (max-width:1080px){

@@ -213,12 +213,19 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
 
   if (section.layout === "hero-statement") {
     /*
-     * Figure first, claim overlaid — the studio / premium-b2b fold pattern.
-     *
-     * Stacking claim then figure left the drawing starting mid-viewport (~0.29 fold share) while
-     * hard-category medians sit at 0.89–1.0. Painting the product under the claim puts the SVG in
-     * the first screen without deleting the brand or headline.
+     * SaaS/fintech: figure first, claim overlaid on a soft gradient.
+     * Studio/consumer: *stack fold* — opaque claim band in document flow, then the labeled
+     * figure. Never absolutely park stage labels under readable type (Fieldmark collision).
+     * Plumbing matches opaque sticky nav: underlayer ink must not share the type's box.
      */
+    const solidClaim =
+      spec.brief.siteKind === "art-directed-studio" || spec.brief.siteKind === "consumer-craft";
+    if (solidClaim) {
+      return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-stackfold ds-hero-solidclaim" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      <div class="ds-hero-overclaim ds-hero-claimband"><div class="ds-wrap-wide">${copy}</div></div>
+      ${spanning}
+    </section>`;
+    }
     return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-overfigure" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${spanning}
       <div class="ds-hero-overclaim"><div class="ds-wrap-wide">${copy}</div></div>

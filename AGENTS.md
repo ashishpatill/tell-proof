@@ -86,9 +86,11 @@ Feature workflows live in `.cursor/skills/`:
 - `tell-report-ui` — web app + API routes
 - `tell-github-setup` — clone/install/run localhost
 - `tell-demo-fixture` — fixtures + offline demo
+- `tell-template-craft` — open-design plumbing → measured designer corridors for templates
 - `tell-dogfood-audit` — zero-tells self audit
 - `tell-deploy` — Vercel/Docker public URL
 - `tell-demo-script` — demo + compliance
+- `tell-template-craft` — open-design plumbing first, then top-designer craft iteration + screenshot proof
 
 ## Subagents
 

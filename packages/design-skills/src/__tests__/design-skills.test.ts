@@ -307,7 +307,10 @@ describe("research-backed offerings + implementation basics", () => {
     const inverse = spec.sections.filter((s) => s.surface === "inverse");
     expect(inverse.length).toBeLessThanOrEqual(1);
     expect(previewHtml).toContain('data-sitekind="art-directed-studio"');
-    expect(previewHtml).toContain("ds-hero-overfigure");
+    expect(previewHtml).toContain("ds-hero-stackfold");
+    expect(previewHtml).toContain("ds-hero-claimband");
+    expect(previewHtml).toMatch(/<section id="top"[^>]*ds-hero-stackfold/);
+    expect(previewHtml).not.toMatch(/<section id="top"[^>]*ds-hero-overfigure/);
     expect(previewHtml).toContain("Selected work");
   });
 
@@ -319,7 +322,8 @@ describe("research-backed offerings + implementation basics", () => {
     const inverse = spec.sections.filter((s) => s.surface === "inverse");
     expect(inverse.length).toBeLessThanOrEqual(1);
     expect(previewHtml).toContain('data-sitekind="consumer-craft"');
-    expect(previewHtml).toContain("ds-hero-overfigure");
+    expect(previewHtml).toContain("ds-hero-claimband");
+    expect(previewHtml).toContain("ds-hero-stackfold");
     expect(previewHtml).toContain("In hand");
   });
 

@@ -92,7 +92,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     check(
       "asymmetric-or-statement-fold",
       (() => {
-        if (/ds-hero-spanning/.test(html)) return true;
+        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold/.test(html)) return true;
         const splits = html.match(/grid-template-columns:[^";]+/g) ?? [];
         return splits.some((s) => {
           const fr = Array.from(s.matchAll(/(\d+(?:\.\d+)?)fr/g)).map((m) => Number(m[1]));
@@ -120,10 +120,11 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           !spec.sections.some((s) => s.kind === "pricing")
           && spec.sections.some((s) => s.layout === "feature-alternating")
           && spec.sections.some((s) => s.kind === "figure" || s.kind === "story")
-          && /ds-hero-overfigure/.test(html)
+          && /ds-hero-claimband/.test(html)
+          && /ds-hero-stackfold/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length <= 1
         ),
-      "Studio offerings stay paper-led with selected-work rhythm — no pricing ladder, at most one inverse close.",
+      "Studio offerings stay paper-led with selected-work rhythm — stack fold + solid claim, no pricing, ≤1 inverse.",
     ),
     check(
       "kind-consumer",
@@ -131,11 +132,20 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         || (
           !spec.sections.some((s) => s.kind === "pricing")
           && spec.sections.some((s) => s.layout === "feature-alternating")
-          && /ds-hero-overfigure/.test(html)
+          && /ds-hero-claimband/.test(html)
+          && /ds-hero-stackfold/.test(html)
           && /ds-plate/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length <= 1
         ),
-      "Consumer craft stays figure-forward and paper-led — no SaaS pricing ladder, at most one inverse close.",
+      "Consumer craft stays figure-forward and paper-led — stack fold + solid claim, no pricing, ≤1 inverse.",
+    ),
+    check(
+      "solid-claim-when-labeled-fold",
+      !(
+        (spec.brief.siteKind === "art-directed-studio" || spec.brief.siteKind === "consumer-craft")
+        && !(/ds-hero-claimband/.test(html) && /ds-hero-stackfold/.test(html))
+      ),
+      "Studio/consumer folds stack an opaque claim above the labeled figure — never overlay stage labels under type.",
     ),
     check(
       "no-filler-tiers",

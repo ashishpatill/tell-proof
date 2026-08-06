@@ -44,7 +44,7 @@ const { spec, previewHtml } = designFromFeatures(brief);
 
 Studio UI: `/studio` · Specimen gallery: `/showcase` · Offerings: `/showcase/{saas|dashboard|corporate|educational|fintech|studio|consumer}`
 
-**Offerings vs plumbing:** Templates/offerings deepen only via the expert research loop (`design-research-loop`). Open-source design builders are consulted only for implementation basics the engine keeps failing (`assertBasics` in `@tell/design-skills`). Do not invent aesthetics or new templates from those tools.
+**Offerings vs plumbing:** Use `tell-template-craft` for every new/fixed template — Phase A open-design plumbing, Phase B measured designer corridors (`design-research-loop`). Do not invent aesthetics from peer theme packs; do not name third parties in commits.
 
 ## Taste Controls (always offer)
 

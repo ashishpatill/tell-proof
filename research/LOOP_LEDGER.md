@@ -268,3 +268,20 @@ buckets, never names, hosts, or URLs.
 - **Score:** consumer-craft **100**; matrix **99.4**; studio **99.7**; fintech **100**; holdout **98.4**
 - **Qualitative:** fold is a product surface under a short claim; scroll stays paper with a quiet
   specimen valley; copy no longer asks to "Compare plans". Satisfactory to ship.
+
+## Loop 14 — Fieldmark overlap fix + template-craft skill
+
+- **Goal:** kill Fieldmark text collision (stage labels under lede) and encode the open-design →
+  designer-corridor loop as a reusable skill.
+- **Plumbing (open-design first):** studio/consumer leave absolute overfigure. Stack fold —
+  opaque `ds-hero-claimband` in document flow, then labeled figure. Same idea as opaque sticky nav:
+  underlayer ink must not share the type's box. Compact claim so figure still enters the fold.
+- **Skill:** `.cursor/skills/tell-template-craft/SKILL.md` — Phase A plumbing from open-design
+  craft/, Phase B anonymised corridors + screenshot contract. Listed in `AGENTS.md`.
+- **Basics:** studio/consumer require `ds-hero-stackfold` + `ds-hero-claimband`.
+- **Score:** matrix **99.4**; studio-selected **99.8**; consumer **100**; holdout **98.4**.
+  Also fixed siteKind CSS being trapped inside the system-crafted lean branch (studio/consumer
+  overrides never applied under refined-story).
+- **Qualitative:** Playwright reports 0 label/claim intersections; claim ~505px / figure ~330px in
+  fold; sequence stages read clean on the slice below. Screenshot proof for `/showcase`,
+  `/showcase/studio`, Fieldmark fold + figure.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-05T13:56:37.130Z",
+  "generatedAt": "2026-08-06T14:34:09.419Z",
   "overall": 0.9938,
   "holdout": {
     "id": "holdout-commerce",
@@ -2012,7 +2012,7 @@
         {
           "id": "section-rhythm",
           "label": "Section padding",
-          "value": 92,
+          "value": 64,
           "band": [
             36,
             120
@@ -2023,7 +2023,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.961,
+          "value": 0.971,
           "band": [
             0.611,
             1
@@ -2056,7 +2056,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 10.11,
+          "value": 10.1,
           "band": [
             5.99,
             12.6
@@ -2067,7 +2067,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.45,
+          "value": 0.452,
           "band": [
             0.422,
             0.896
@@ -2078,7 +2078,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.521,
+          "value": 0.527,
           "band": [
             0.447,
             0.96
@@ -2100,7 +2100,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.008,
+          "value": 0.011,
           "band": [
             0,
             0.014
@@ -2232,7 +2232,7 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.571,
+          "value": 0.643,
           "band": [
             0.1,
             1.375
@@ -2276,7 +2276,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2089,
+          "value": 0.2074,
           "band": [
             0.196,
             0.778
@@ -2287,7 +2287,7 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.92,
+          "value": 0.9278,
           "band": [
             0.337,
             1
@@ -2309,7 +2309,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.3231,
+          "value": 0.3208,
           "band": [
             0.001,
             0.469
@@ -2320,7 +2320,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.15,
+          "value": 4.16,
           "band": [
             0.42,
             4.33
@@ -2332,13 +2332,13 @@
     },
     {
       "id": "studio-selected",
-      "total": 0.9974,
+      "total": 0.9977,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 8.8,
+          "value": 7.6,
           "band": [
             3.833,
             8.8
@@ -2360,7 +2360,7 @@
         {
           "id": "display-scale",
           "label": "Display size vs viewport",
-          "value": 6.11,
+          "value": 4.6,
           "band": [
             3.16,
             6.11
@@ -2371,7 +2371,7 @@
         {
           "id": "display-leading",
           "label": "Display line height",
-          "value": 0.98,
+          "value": 1.05,
           "band": [
             0.975,
             1.15
@@ -2382,7 +2382,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 13.1,
+          "value": 18.4,
           "band": [
             12.8,
             32.9
@@ -2470,7 +2470,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 15.46,
+          "value": 15.91,
           "band": [
             8.74,
             21
@@ -2481,18 +2481,18 @@
         {
           "id": "section-rhythm",
           "label": "Section padding",
-          "value": 65,
+          "value": 124,
           "band": [
             36,
             120
           ],
-          "score": 1,
+          "score": 0.905,
           "why": "Vertical breathing room separates chapters of the argument."
         },
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.94,
+          "value": 0.929,
           "band": [
             0.611,
             1
@@ -2525,7 +2525,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.8,
+          "value": 10.19,
           "band": [
             5.99,
             12.6
@@ -2536,7 +2536,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.578,
+          "value": 0.562,
           "band": [
             0.422,
             0.896
@@ -2547,12 +2547,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.988,
+          "value": 0.931,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.891,
+          "score": 1,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -2646,7 +2646,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 461,
+          "value": 362,
           "band": [
             242,
             1139
@@ -2701,7 +2701,7 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.375,
+          "value": 0.333,
           "band": [
             0.1,
             1.375
@@ -2712,7 +2712,7 @@
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 3.7,
+          "value": 98.6,
           "band": [
             0,
             100
@@ -2723,7 +2723,7 @@
         {
           "id": "shape-variety",
           "label": "Section shape variety",
-          "value": 4,
+          "value": 3,
           "band": [
             2,
             7
@@ -2734,7 +2734,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.25,
+          "value": 0.333,
           "band": [
             0,
             0.5
@@ -2745,7 +2745,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2567,
+          "value": 0.2429,
           "band": [
             0.196,
             0.778
@@ -2756,7 +2756,7 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.92,
+          "value": 0.3664,
           "band": [
             0.337,
             1
@@ -2767,7 +2767,7 @@
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 14,
+          "value": 12,
           "band": [
             11,
             157
@@ -2778,7 +2778,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0021,
+          "value": 0.002,
           "band": [
             0.001,
             0.469
@@ -2789,7 +2789,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 3.16,
+          "value": 3.14,
           "band": [
             0.42,
             4.33
@@ -2807,7 +2807,7 @@
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 5.8,
+          "value": 5.76,
           "band": [
             3.833,
             8.8
@@ -2829,7 +2829,7 @@
         {
           "id": "display-scale",
           "label": "Display size vs viewport",
-          "value": 4.03,
+          "value": 4,
           "band": [
             3.16,
             6.11
@@ -2840,7 +2840,7 @@
         {
           "id": "display-leading",
           "label": "Display line height",
-          "value": 0.98,
+          "value": 1.08,
           "band": [
             0.975,
             1.15
@@ -2851,7 +2851,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 18.2,
+          "value": 20.6,
           "band": [
             12.8,
             32.9
@@ -2950,7 +2950,7 @@
         {
           "id": "section-rhythm",
           "label": "Section padding",
-          "value": 92,
+          "value": 64,
           "band": [
             36,
             120
@@ -2961,7 +2961,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.957,
+          "value": 0.968,
           "band": [
             0.611,
             1
@@ -2994,7 +2994,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 8.65,
+          "value": 9.41,
           "band": [
             5.99,
             12.6
@@ -3005,7 +3005,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.526,
+          "value": 0.472,
           "band": [
             0.422,
             0.896
@@ -3016,7 +3016,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.754,
+          "value": 0.626,
           "band": [
             0.447,
             0.96
@@ -3115,7 +3115,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 902,
+          "value": 639,
           "band": [
             242,
             1139
@@ -3203,7 +3203,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.308,
+          "value": 0.231,
           "band": [
             0,
             0.5
@@ -3214,7 +3214,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2688,
+          "value": 0.2473,
           "band": [
             0.196,
             0.778
@@ -3225,7 +3225,7 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.92,
+          "value": 0.3778,
           "band": [
             0.337,
             1
@@ -3236,7 +3236,7 @@
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 16,
+          "value": 14,
           "band": [
             11,
             157
@@ -3247,7 +3247,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0571,
+          "value": 0.0525,
           "band": [
             0.001,
             0.469
@@ -3258,7 +3258,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.04,
+          "value": 3.83,
           "band": [
             0.42,
             4.33
@@ -3767,15 +3767,15 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.45
+          "value": 0.452
         },
         {
           "page": "studio-selected",
-          "value": 0.578
+          "value": 0.562
         },
         {
           "page": "consumer-craft",
-          "value": 0.526
+          "value": 0.472
         },
         {
           "page": "holdout-commerce",
@@ -3811,15 +3811,15 @@
         },
         {
           "page": "fintech-trust",
-          "value": 4.15
+          "value": 4.16
         },
         {
           "page": "studio-selected",
-          "value": 3.16
+          "value": 3.14
         },
         {
           "page": "consumer-craft",
-          "value": 4.04
+          "value": 3.83
         },
         {
           "page": "holdout-commerce",
@@ -3878,7 +3878,7 @@
         0.447,
         0.96
       ],
-      "mean": 0.97,
+      "mean": 0.983,
       "scoredOn": 8,
       "values": [
         {
@@ -3899,19 +3899,63 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.521
+          "value": 0.527
         },
         {
           "page": "studio-selected",
-          "value": 0.988
+          "value": 0.931
         },
         {
           "page": "consumer-craft",
-          "value": 0.754
+          "value": 0.626
         },
         {
           "page": "holdout-commerce",
           "value": 0.52
+        }
+      ]
+    },
+    {
+      "id": "section-rhythm",
+      "label": "Section padding",
+      "band": [
+        36,
+        120
+      ],
+      "mean": 0.988,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 92
+        },
+        {
+          "page": "dashboard-app",
+          "value": 77
+        },
+        {
+          "page": "corporate-story",
+          "value": 64
+        },
+        {
+          "page": "docs-educational",
+          "value": 92
+        },
+        {
+          "page": "fintech-trust",
+          "value": 64
+        },
+        {
+          "page": "studio-selected",
+          "value": 124
+        },
+        {
+          "page": "consumer-craft",
+          "value": 64
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 77
         }
       ]
     },
@@ -3947,11 +3991,11 @@
         },
         {
           "page": "studio-selected",
-          "value": 8.8
+          "value": 7.6
         },
         {
           "page": "consumer-craft",
-          "value": 5.8
+          "value": 5.76
         },
         {
           "page": "holdout-commerce",
@@ -3991,11 +4035,11 @@
         },
         {
           "page": "studio-selected",
-          "value": 6.11
+          "value": 4.6
         },
         {
           "page": "consumer-craft",
-          "value": 4.03
+          "value": 4
         },
         {
           "page": "holdout-commerce",
@@ -4035,11 +4079,11 @@
         },
         {
           "page": "studio-selected",
-          "value": 0.98
+          "value": 1.05
         },
         {
           "page": "consumer-craft",
-          "value": 0.98
+          "value": 1.08
         },
         {
           "page": "holdout-commerce",
@@ -4079,11 +4123,11 @@
         },
         {
           "page": "studio-selected",
-          "value": 13.1
+          "value": 18.4
         },
         {
           "page": "consumer-craft",
-          "value": 18.2
+          "value": 20.6
         },
         {
           "page": "holdout-commerce",
@@ -4431,7 +4475,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 15.46
+          "value": 15.91
         },
         {
           "page": "consumer-craft",
@@ -4440,50 +4484,6 @@
         {
           "page": "holdout-commerce",
           "value": 15.13
-        }
-      ]
-    },
-    {
-      "id": "section-rhythm",
-      "label": "Section padding",
-      "band": [
-        36,
-        120
-      ],
-      "mean": 1,
-      "scoredOn": 8,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 92
-        },
-        {
-          "page": "dashboard-app",
-          "value": 77
-        },
-        {
-          "page": "corporate-story",
-          "value": 64
-        },
-        {
-          "page": "docs-educational",
-          "value": 92
-        },
-        {
-          "page": "fintech-trust",
-          "value": 92
-        },
-        {
-          "page": "studio-selected",
-          "value": 65
-        },
-        {
-          "page": "consumer-craft",
-          "value": 92
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 77
         }
       ]
     },
@@ -4515,15 +4515,15 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.961
+          "value": 0.971
         },
         {
           "page": "studio-selected",
-          "value": 0.94
+          "value": 0.929
         },
         {
           "page": "consumer-craft",
-          "value": 0.957
+          "value": 0.968
         },
         {
           "page": "holdout-commerce",
@@ -4647,15 +4647,15 @@
         },
         {
           "page": "fintech-trust",
-          "value": 10.11
+          "value": 10.1
         },
         {
           "page": "studio-selected",
-          "value": 9.8
+          "value": 10.19
         },
         {
           "page": "consumer-craft",
-          "value": 8.65
+          "value": 9.41
         },
         {
           "page": "holdout-commerce",
@@ -4735,7 +4735,7 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.008
+          "value": 0.011
         },
         {
           "page": "studio-selected",
@@ -5047,11 +5047,11 @@
         },
         {
           "page": "studio-selected",
-          "value": 461
+          "value": 362
         },
         {
           "page": "consumer-craft",
-          "value": 902
+          "value": 639
         },
         {
           "page": "holdout-commerce",
@@ -5263,11 +5263,11 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.571
+          "value": 0.643
         },
         {
           "page": "studio-selected",
-          "value": 0.375
+          "value": 0.333
         },
         {
           "page": "consumer-craft",
@@ -5311,7 +5311,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 3.7
+          "value": 98.6
         },
         {
           "page": "consumer-craft",
@@ -5355,7 +5355,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 4
+          "value": 3
         },
         {
           "page": "consumer-craft",
@@ -5399,11 +5399,11 @@
         },
         {
           "page": "studio-selected",
-          "value": 0.25
+          "value": 0.333
         },
         {
           "page": "consumer-craft",
-          "value": 0.308
+          "value": 0.231
         },
         {
           "page": "holdout-commerce",
@@ -5439,15 +5439,15 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.2089
+          "value": 0.2074
         },
         {
           "page": "studio-selected",
-          "value": 0.2567
+          "value": 0.2429
         },
         {
           "page": "consumer-craft",
-          "value": 0.2688
+          "value": 0.2473
         },
         {
           "page": "holdout-commerce",
@@ -5483,15 +5483,15 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.92
+          "value": 0.9278
         },
         {
           "page": "studio-selected",
-          "value": 0.92
+          "value": 0.3664
         },
         {
           "page": "consumer-craft",
-          "value": 0.92
+          "value": 0.3778
         },
         {
           "page": "holdout-commerce",
@@ -5531,11 +5531,11 @@
         },
         {
           "page": "studio-selected",
-          "value": 14
+          "value": 12
         },
         {
           "page": "consumer-craft",
-          "value": 16
+          "value": 14
         },
         {
           "page": "holdout-commerce",
@@ -5571,15 +5571,15 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.3231
+          "value": 0.3208
         },
         {
           "page": "studio-selected",
-          "value": 0.0021
+          "value": 0.002
         },
         {
           "page": "consumer-craft",
-          "value": 0.0571
+          "value": 0.0525
         },
         {
           "page": "holdout-commerce",

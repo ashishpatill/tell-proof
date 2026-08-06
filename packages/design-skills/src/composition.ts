@@ -394,8 +394,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "docs-educational") px = 60;
   if (siteKind === "dashboard-webapp") px = 62;
   if (siteKind === "fintech-marketing") px = 70;
-  // Studio display is a visual event — high corridor without overshooting displayVw (~6.1 @ 1440).
-  if (siteKind === "art-directed-studio") px = 80;
+  // Studio stack fold: display stays an event, but short enough that the labeled figure enters the fold.
+  if (siteKind === "art-directed-studio") px = 66;
   // Consumer craft speaks in a shorter voice — product owns the fold, not a 90px headline.
   if (siteKind === "consumer-craft") px = 56;
   if (lean === "refined-story") px += 6;
