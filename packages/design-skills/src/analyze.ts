@@ -29,6 +29,15 @@ export function inferSiteKind(brief: DesignBrief): SiteKind {
   if (/\b(enterprise|corporate|brand|story|about us|investors)\b/.test(blob)) {
     return "corporate-story";
   }
+  if (/\b(fintech|treasury|payments?|banking|ledger|payroll|expense|card|wire|ach|fx|currency)\b/.test(blob)) {
+    return "fintech-marketing";
+  }
+  if (/\b(studio|portfolio|art.?direction|selected work|creative technolog|brand system|atelier)\b/.test(blob)) {
+    return "art-directed-studio";
+  }
+  if (/\b(consumer|shoppers?|everyday|lifestyle|direct.?to.?consumer|dtc|retail brand)\b/.test(blob)) {
+    return "consumer-craft";
+  }
   if (brief.siteKind !== "saas-marketing") return brief.siteKind;
   return "saas-marketing";
 }
@@ -47,7 +56,13 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
         ? ["nav", "hero", "figure", "story", "features", "cta", "footer"]
         : siteKind === "corporate-story"
           ? ["nav", "hero", "story", "proof", "features", "cta", "footer"]
-          : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
+          : siteKind === "fintech-marketing"
+            ? ["nav", "hero", "metrics", "features", "specimen", "proof", "pricing", "cta", "footer"]
+            : siteKind === "art-directed-studio"
+              ? ["nav", "hero", "features", "specimen", "story", "figure", "proof", "cta", "footer"]
+              : siteKind === "consumer-craft"
+                ? ["nav", "hero", "metrics", "features", "specimen", "proof", "story", "cta", "footer"]
+                : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
 
   const goals = [
     `Serve ${brief.audience}`,

@@ -1,0 +1,5591 @@
+{
+  "generatedAt": "2026-08-06T14:34:09.419Z",
+  "overall": 0.9938,
+  "holdout": {
+    "id": "holdout-commerce",
+    "total": 0.9844,
+    "gap": 0.0094
+  },
+  "pages": [
+    {
+      "id": "saas-conversion",
+      "total": 0.9965,
+      "holdout": false,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 7,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 13,
+          "band": [
+            6,
+            14
+          ],
+          "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 4.86,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 0.98,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 16.5,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 67.2,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 5,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 6,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 9,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 3,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 15.27,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 92,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.96,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.806,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.875,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 9.66,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.419,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 0.987,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 0.413,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 0.867,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 5,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.007,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.064,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 5,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 4,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 850,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 37,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 14,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 8,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 4,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.643,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 90.7,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 5,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.214,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2177,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.92,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 20,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.2318,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 4.04,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 1,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
+      "id": "dashboard-app",
+      "total": 0.9783,
+      "holdout": false,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 5.6,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 12,
+          "band": [
+            6,
+            14
+          ],
+          "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 3.89,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 0.98,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 18.3,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 68,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 7,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 6,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 9,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 3,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 13.75,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 77,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.82,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.833,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.778,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 8.09,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.235,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 0.211,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 0.491,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 1,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 6,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.012,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.084,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 5,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 4,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 424,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 26,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 17,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 7,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 4,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.538,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 83.4,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 5,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.154,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2316,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.92,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 17,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.0059,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 4.57,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 0.877,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
+      "id": "corporate-story",
+      "total": 0.9935,
+      "holdout": false,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 8.6,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 13,
+          "band": [
+            6,
+            14
+          ],
+          "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 5.97,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 0.98,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 13.4,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 68.5,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 3,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 4,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 9,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 2,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 14.74,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 64,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.932,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.806,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.842,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 8.32,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.357,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 0.726,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 0.787,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 1,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 5,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.008,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.065,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 5,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 4,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 448,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 29,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 13,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 6,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 3,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.5,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 89.2,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 5,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.25,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2346,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.92,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 14,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.1346,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 3.61,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 1,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
+      "id": "docs-educational",
+      "total": 0.9909,
+      "holdout": false,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 5.4,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 12,
+          "band": [
+            6,
+            14
+          ],
+          "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 3.75,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 1.05,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 21.3,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 67.2,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 5,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 6,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 9,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 3,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 15.1,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 92,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.96,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.806,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.9,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 7.89,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.395,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 0.886,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 0.452,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 1,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 5,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.002,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 5,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 4,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 500,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 25,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 13,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 6,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 3,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.583,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 92.1,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 5,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.167,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2982,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.92,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 15,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.1301,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 4.82,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 0.749,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
+      "id": "fintech-trust",
+      "total": 1,
+      "holdout": false,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 7.2,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 13,
+          "band": [
+            6,
+            14
+          ],
+          "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 5,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 0.98,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 16,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 67.2,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 5,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 5,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 9,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 3,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 15.27,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 64,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.971,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.806,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.88,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 10.1,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.452,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 1,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 0.527,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 1,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 5,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.011,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.062,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 5,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 4,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 982,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 38,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 14,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 7,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 5,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.643,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 90.7,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 5,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.214,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2074,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.9278,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 20,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.3208,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 4.16,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 1,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
+      "id": "studio-selected",
+      "total": 0.9977,
+      "holdout": false,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 7.6,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 14,
+          "band": [
+            6,
+            14
+          ],
+          "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 4.6,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 1.05,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 18.4,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 68.5,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 4,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 4,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 8,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 2,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 15.91,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 124,
+          "band": [
+            36,
+            120
+          ],
+          "score": 0.905,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.929,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.806,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.875,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 10.19,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.562,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 1,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 0.931,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 1,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 5,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.009,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.063,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 5,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 4,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 362,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 34,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 8,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 8,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 4,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.333,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 98.6,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 3,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.333,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2429,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.3664,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 12,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.002,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 3.14,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 1,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
+      "id": "consumer-craft",
+      "total": 1,
+      "holdout": false,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 5.76,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 11,
+          "band": [
+            6,
+            14
+          ],
+          "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 4,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 1.08,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 20.6,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 67.2,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 4,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 6,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 8,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 2,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 15.27,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 64,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.968,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.806,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.875,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 9.41,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.472,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 1,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 0.626,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 1,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 5,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.009,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.06,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 5,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 4,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 639,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 34,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 8,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 9,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 4,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.462,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 90,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 4,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.231,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2473,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.3778,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 14,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.0525,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 3.83,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 1,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
+      "id": "holdout-commerce",
+      "total": 0.9844,
+      "holdout": true,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 6.2,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 15,
+          "band": [
+            6,
+            14
+          ],
+          "score": 0.75,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 4.31,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 0.98,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 18.6,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 72,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 5,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 5,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 9,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 3,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 15.13,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 77,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.856,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.833,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.88,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 9.32,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.348,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 0.688,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 0.52,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 1,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 6,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.006,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.06,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 5,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 4,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 873,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 38,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 14,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 8,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 3,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.643,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 89.2,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 5,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.214,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2111,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.92,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 19,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.2056,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 4.51,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 0.908,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    }
+  ],
+  "worst": [
+    {
+      "id": "band-variation",
+      "label": "Section weight variation",
+      "band": [
+        0.422,
+        0.896
+      ],
+      "mean": 0.812,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.419
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.235
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.357
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.395
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.452
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.562
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.472
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.348
+        }
+      ]
+    },
+    {
+      "id": "rule-structure",
+      "label": "Rules per screen",
+      "band": [
+        0.42,
+        4.33
+      ],
+      "mean": 0.942,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 4.04
+        },
+        {
+          "page": "dashboard-app",
+          "value": 4.57
+        },
+        {
+          "page": "corporate-story",
+          "value": 3.61
+        },
+        {
+          "page": "docs-educational",
+          "value": 4.82
+        },
+        {
+          "page": "fintech-trust",
+          "value": 4.16
+        },
+        {
+          "page": "studio-selected",
+          "value": 3.14
+        },
+        {
+          "page": "consumer-craft",
+          "value": 3.83
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 4.51
+        }
+      ]
+    },
+    {
+      "id": "type-steps",
+      "label": "Distinct type sizes",
+      "band": [
+        6,
+        14
+      ],
+      "mean": 0.969,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 13
+        },
+        {
+          "page": "dashboard-app",
+          "value": 12
+        },
+        {
+          "page": "corporate-story",
+          "value": 13
+        },
+        {
+          "page": "docs-educational",
+          "value": 12
+        },
+        {
+          "page": "fintech-trust",
+          "value": 13
+        },
+        {
+          "page": "studio-selected",
+          "value": 14
+        },
+        {
+          "page": "consumer-craft",
+          "value": 11
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 15
+        }
+      ]
+    },
+    {
+      "id": "band-ink-variation",
+      "label": "Section coverage variation",
+      "band": [
+        0.447,
+        0.96
+      ],
+      "mean": 0.983,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.413
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.491
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.787
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.452
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.527
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.931
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.626
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.52
+        }
+      ]
+    },
+    {
+      "id": "section-rhythm",
+      "label": "Section padding",
+      "band": [
+        36,
+        120
+      ],
+      "mean": 0.988,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 92
+        },
+        {
+          "page": "dashboard-app",
+          "value": 77
+        },
+        {
+          "page": "corporate-story",
+          "value": 64
+        },
+        {
+          "page": "docs-educational",
+          "value": 92
+        },
+        {
+          "page": "fintech-trust",
+          "value": 64
+        },
+        {
+          "page": "studio-selected",
+          "value": 124
+        },
+        {
+          "page": "consumer-craft",
+          "value": 64
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 77
+        }
+      ]
+    },
+    {
+      "id": "type-scale-range",
+      "label": "Type scale range",
+      "band": [
+        3.833,
+        8.8
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 7
+        },
+        {
+          "page": "dashboard-app",
+          "value": 5.6
+        },
+        {
+          "page": "corporate-story",
+          "value": 8.6
+        },
+        {
+          "page": "docs-educational",
+          "value": 5.4
+        },
+        {
+          "page": "fintech-trust",
+          "value": 7.2
+        },
+        {
+          "page": "studio-selected",
+          "value": 7.6
+        },
+        {
+          "page": "consumer-craft",
+          "value": 5.76
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 6.2
+        }
+      ]
+    },
+    {
+      "id": "display-scale",
+      "label": "Display size vs viewport",
+      "band": [
+        3.16,
+        6.11
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 4.86
+        },
+        {
+          "page": "dashboard-app",
+          "value": 3.89
+        },
+        {
+          "page": "corporate-story",
+          "value": 5.97
+        },
+        {
+          "page": "docs-educational",
+          "value": 3.75
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
+          "page": "studio-selected",
+          "value": 4.6
+        },
+        {
+          "page": "consumer-craft",
+          "value": 4
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 4.31
+        }
+      ]
+    },
+    {
+      "id": "display-leading",
+      "label": "Display line height",
+      "band": [
+        0.975,
+        1.15
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.98
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.98
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.98
+        },
+        {
+          "page": "docs-educational",
+          "value": 1.05
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.98
+        },
+        {
+          "page": "studio-selected",
+          "value": 1.05
+        },
+        {
+          "page": "consumer-craft",
+          "value": 1.08
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.98
+        }
+      ]
+    },
+    {
+      "id": "display-measure",
+      "label": "Display measure (ch)",
+      "band": [
+        12.8,
+        32.9
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 16.5
+        },
+        {
+          "page": "dashboard-app",
+          "value": 18.3
+        },
+        {
+          "page": "corporate-story",
+          "value": 13.4
+        },
+        {
+          "page": "docs-educational",
+          "value": 21.3
+        },
+        {
+          "page": "fintech-trust",
+          "value": 16
+        },
+        {
+          "page": "studio-selected",
+          "value": 18.4
+        },
+        {
+          "page": "consumer-craft",
+          "value": 20.6
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 18.6
+        }
+      ]
+    },
+    {
+      "id": "body-measure",
+      "label": "Body measure (ch)",
+      "band": [
+        44.4,
+        82.5
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 67.2
+        },
+        {
+          "page": "dashboard-app",
+          "value": 68
+        },
+        {
+          "page": "corporate-story",
+          "value": 68.5
+        },
+        {
+          "page": "docs-educational",
+          "value": 67.2
+        },
+        {
+          "page": "fintech-trust",
+          "value": 67.2
+        },
+        {
+          "page": "studio-selected",
+          "value": 68.5
+        },
+        {
+          "page": "consumer-craft",
+          "value": 67.2
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 72
+        }
+      ]
+    },
+    {
+      "id": "body-leading",
+      "label": "Body line height",
+      "band": [
+        1.3,
+        1.5
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 1.48
+        },
+        {
+          "page": "dashboard-app",
+          "value": 1.48
+        },
+        {
+          "page": "corporate-story",
+          "value": 1.48
+        },
+        {
+          "page": "docs-educational",
+          "value": 1.48
+        },
+        {
+          "page": "fintech-trust",
+          "value": 1.48
+        },
+        {
+          "page": "studio-selected",
+          "value": 1.48
+        },
+        {
+          "page": "consumer-craft",
+          "value": 1.48
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 1.48
+        }
+      ]
+    },
+    {
+      "id": "weight-range",
+      "label": "Weights in play",
+      "band": [
+        3,
+        8
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 5
+        },
+        {
+          "page": "dashboard-app",
+          "value": 7
+        },
+        {
+          "page": "corporate-story",
+          "value": 3
+        },
+        {
+          "page": "docs-educational",
+          "value": 5
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
+          "page": "studio-selected",
+          "value": 4
+        },
+        {
+          "page": "consumer-craft",
+          "value": 4
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "surface-layers",
+      "label": "Surface layers",
+      "band": [
+        4,
+        26
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 6
+        },
+        {
+          "page": "dashboard-app",
+          "value": 6
+        },
+        {
+          "page": "corporate-story",
+          "value": 4
+        },
+        {
+          "page": "docs-educational",
+          "value": 6
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
+          "page": "studio-selected",
+          "value": 4
+        },
+        {
+          "page": "consumer-craft",
+          "value": 6
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "text-tones",
+      "label": "Text tones",
+      "band": [
+        4,
+        28
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 9
+        },
+        {
+          "page": "dashboard-app",
+          "value": 9
+        },
+        {
+          "page": "corporate-story",
+          "value": 9
+        },
+        {
+          "page": "docs-educational",
+          "value": 9
+        },
+        {
+          "page": "fintech-trust",
+          "value": 9
+        },
+        {
+          "page": "studio-selected",
+          "value": 8
+        },
+        {
+          "page": "consumer-craft",
+          "value": 8
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 9
+        }
+      ]
+    },
+    {
+      "id": "hue-discipline",
+      "label": "Hue discipline",
+      "band": [
+        0,
+        5
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 3
+        },
+        {
+          "page": "dashboard-app",
+          "value": 3
+        },
+        {
+          "page": "corporate-story",
+          "value": 2
+        },
+        {
+          "page": "docs-educational",
+          "value": 3
+        },
+        {
+          "page": "fintech-trust",
+          "value": 3
+        },
+        {
+          "page": "studio-selected",
+          "value": 2
+        },
+        {
+          "page": "consumer-craft",
+          "value": 2
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "neutral-temperature",
+      "label": "Neutral temperature",
+      "band": [
+        0,
+        2.5
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0
+        },
+        {
+          "page": "corporate-story",
+          "value": 0
+        },
+        {
+          "page": "docs-educational",
+          "value": 0
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0
+        },
+        {
+          "page": "studio-selected",
+          "value": 0
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "contrast-floor",
+      "label": "Median text contrast",
+      "band": [
+        8.74,
+        21
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 15.27
+        },
+        {
+          "page": "dashboard-app",
+          "value": 13.75
+        },
+        {
+          "page": "corporate-story",
+          "value": 14.74
+        },
+        {
+          "page": "docs-educational",
+          "value": 15.1
+        },
+        {
+          "page": "fintech-trust",
+          "value": 15.27
+        },
+        {
+          "page": "studio-selected",
+          "value": 15.91
+        },
+        {
+          "page": "consumer-craft",
+          "value": 15.27
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 15.13
+        }
+      ]
+    },
+    {
+      "id": "grid-conformity",
+      "label": "Spacing grid conformity",
+      "band": [
+        0.611,
+        1
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.96
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.82
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.932
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.96
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.971
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.929
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.968
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.856
+        }
+      ]
+    },
+    {
+      "id": "container-control",
+      "label": "Container ratio",
+      "band": [
+        0.285,
+        0.854
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.806
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.833
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.806
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.806
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.806
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.806
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.806
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.833
+        }
+      ]
+    },
+    {
+      "id": "layout-asymmetry",
+      "label": "Asymmetric grids",
+      "band": [
+        0,
+        1
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.875
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.778
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.842
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.9
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.88
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.875
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.875
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.88
+        }
+      ]
+    },
+    {
+      "id": "scroll-length",
+      "label": "Document height (vh)",
+      "band": [
+        5.99,
+        12.6
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 9.66
+        },
+        {
+          "page": "dashboard-app",
+          "value": 8.09
+        },
+        {
+          "page": "corporate-story",
+          "value": 8.32
+        },
+        {
+          "page": "docs-educational",
+          "value": 7.89
+        },
+        {
+          "page": "fintech-trust",
+          "value": 10.1
+        },
+        {
+          "page": "studio-selected",
+          "value": 10.19
+        },
+        {
+          "page": "consumer-craft",
+          "value": 9.41
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 9.32
+        }
+      ]
+    },
+    {
+      "id": "radius-system",
+      "label": "Radius steps",
+      "band": [
+        4,
+        20
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 5
+        },
+        {
+          "page": "dashboard-app",
+          "value": 6
+        },
+        {
+          "page": "corporate-story",
+          "value": 5
+        },
+        {
+          "page": "docs-educational",
+          "value": 5
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
+          "page": "studio-selected",
+          "value": 5
+        },
+        {
+          "page": "consumer-craft",
+          "value": 5
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "shadow-restraint",
+      "label": "Shadow coverage",
+      "band": [
+        0,
+        0.014
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.007
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.012
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.008
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.002
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.011
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.009
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.009
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.006
+        }
+      ]
+    },
+    {
+      "id": "hairlines",
+      "label": "Hairline borders",
+      "band": [
+        0.947,
+        1
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 1
+        },
+        {
+          "page": "dashboard-app",
+          "value": 1
+        },
+        {
+          "page": "corporate-story",
+          "value": 1
+        },
+        {
+          "page": "docs-educational",
+          "value": 1
+        },
+        {
+          "page": "fintech-trust",
+          "value": 1
+        },
+        {
+          "page": "studio-selected",
+          "value": 1
+        },
+        {
+          "page": "consumer-craft",
+          "value": 1
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "motion-restraint",
+      "label": "Transition coverage",
+      "band": [
+        0.021,
+        0.154
+      ],
+      "mean": 1,
+      "scoredOn": 7,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.064
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.084
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.065
+        },
+        {
+          "page": "docs-educational",
+          "value": null
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.062
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.063
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.06
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.06
+        }
+      ]
+    },
+    {
+      "id": "motion-speed",
+      "label": "Median transition (ms)",
+      "band": [
+        150,
+        300
+      ],
+      "mean": 1,
+      "scoredOn": 7,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 180
+        },
+        {
+          "page": "dashboard-app",
+          "value": 180
+        },
+        {
+          "page": "corporate-story",
+          "value": 180
+        },
+        {
+          "page": "docs-educational",
+          "value": null
+        },
+        {
+          "page": "fintech-trust",
+          "value": 180
+        },
+        {
+          "page": "studio-selected",
+          "value": 180
+        },
+        {
+          "page": "consumer-craft",
+          "value": 180
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 180
+        }
+      ]
+    },
+    {
+      "id": "token-system",
+      "label": "Declared tokens",
+      "band": [
+        87,
+        1983
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 128
+        },
+        {
+          "page": "dashboard-app",
+          "value": 128
+        },
+        {
+          "page": "corporate-story",
+          "value": 128
+        },
+        {
+          "page": "docs-educational",
+          "value": 128
+        },
+        {
+          "page": "fintech-trust",
+          "value": 128
+        },
+        {
+          "page": "studio-selected",
+          "value": 128
+        },
+        {
+          "page": "consumer-craft",
+          "value": 128
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 128
+        }
+      ]
+    },
+    {
+      "id": "nav-restraint",
+      "label": "Nav links",
+      "band": [
+        1,
+        55
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 5
+        },
+        {
+          "page": "dashboard-app",
+          "value": 5
+        },
+        {
+          "page": "corporate-story",
+          "value": 5
+        },
+        {
+          "page": "docs-educational",
+          "value": 5
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
+          "page": "studio-selected",
+          "value": 5
+        },
+        {
+          "page": "consumer-craft",
+          "value": 5
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "cta-discipline",
+      "label": "Above-fold CTAs",
+      "band": [
+        0,
+        7
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 4
+        },
+        {
+          "page": "dashboard-app",
+          "value": 4
+        },
+        {
+          "page": "corporate-story",
+          "value": 4
+        },
+        {
+          "page": "docs-educational",
+          "value": 4
+        },
+        {
+          "page": "fintech-trust",
+          "value": 4
+        },
+        {
+          "page": "studio-selected",
+          "value": 4
+        },
+        {
+          "page": "consumer-craft",
+          "value": 4
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "fold-density",
+      "label": "Above-fold characters",
+      "band": [
+        242,
+        1139
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 850
+        },
+        {
+          "page": "dashboard-app",
+          "value": 424
+        },
+        {
+          "page": "corporate-story",
+          "value": 448
+        },
+        {
+          "page": "docs-educational",
+          "value": 500
+        },
+        {
+          "page": "fintech-trust",
+          "value": 982
+        },
+        {
+          "page": "studio-selected",
+          "value": 362
+        },
+        {
+          "page": "consumer-craft",
+          "value": 639
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 873
+        }
+      ]
+    },
+    {
+      "id": "heading-depth",
+      "label": "Headings on page",
+      "band": [
+        14,
+        115
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 37
+        },
+        {
+          "page": "dashboard-app",
+          "value": 26
+        },
+        {
+          "page": "corporate-story",
+          "value": 29
+        },
+        {
+          "page": "docs-educational",
+          "value": 25
+        },
+        {
+          "page": "fintech-trust",
+          "value": 38
+        },
+        {
+          "page": "studio-selected",
+          "value": 34
+        },
+        {
+          "page": "consumer-craft",
+          "value": 34
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 38
+        }
+      ]
+    },
+    {
+      "id": "micro-labels",
+      "label": "Uppercase micro-labels",
+      "band": [
+        0,
+        28
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 14
+        },
+        {
+          "page": "dashboard-app",
+          "value": 17
+        },
+        {
+          "page": "corporate-story",
+          "value": 13
+        },
+        {
+          "page": "docs-educational",
+          "value": 13
+        },
+        {
+          "page": "fintech-trust",
+          "value": 14
+        },
+        {
+          "page": "studio-selected",
+          "value": 8
+        },
+        {
+          "page": "consumer-craft",
+          "value": 8
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 14
+        }
+      ]
+    },
+    {
+      "id": "width-tiers",
+      "label": "Content width tiers",
+      "band": [
+        5,
+        10
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 8
+        },
+        {
+          "page": "dashboard-app",
+          "value": 7
+        },
+        {
+          "page": "corporate-story",
+          "value": 6
+        },
+        {
+          "page": "docs-educational",
+          "value": 6
+        },
+        {
+          "page": "fintech-trust",
+          "value": 7
+        },
+        {
+          "page": "studio-selected",
+          "value": 8
+        },
+        {
+          "page": "consumer-craft",
+          "value": 9
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 8
+        }
+      ]
+    },
+    {
+      "id": "alignment-axes",
+      "label": "Alignment axes",
+      "band": [
+        3,
+        6
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 4
+        },
+        {
+          "page": "dashboard-app",
+          "value": 4
+        },
+        {
+          "page": "corporate-story",
+          "value": 3
+        },
+        {
+          "page": "docs-educational",
+          "value": 3
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
+          "page": "studio-selected",
+          "value": 4
+        },
+        {
+          "page": "consumer-craft",
+          "value": 4
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "bleed",
+      "label": "Full-bleed bands",
+      "band": [
+        0.1,
+        1.375
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.643
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.538
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.5
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.583
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.643
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.333
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.462
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.643
+        }
+      ]
+    },
+    {
+      "id": "tonal-range",
+      "label": "Tonal range down the scroll",
+      "band": [
+        0,
+        100
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 90.7
+        },
+        {
+          "page": "dashboard-app",
+          "value": 83.4
+        },
+        {
+          "page": "corporate-story",
+          "value": 89.2
+        },
+        {
+          "page": "docs-educational",
+          "value": 92.1
+        },
+        {
+          "page": "fintech-trust",
+          "value": 90.7
+        },
+        {
+          "page": "studio-selected",
+          "value": 98.6
+        },
+        {
+          "page": "consumer-craft",
+          "value": 90
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 89.2
+        }
+      ]
+    },
+    {
+      "id": "shape-variety",
+      "label": "Section shape variety",
+      "band": [
+        2,
+        7
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 5
+        },
+        {
+          "page": "dashboard-app",
+          "value": 5
+        },
+        {
+          "page": "corporate-story",
+          "value": 5
+        },
+        {
+          "page": "docs-educational",
+          "value": 5
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
+          "page": "studio-selected",
+          "value": 3
+        },
+        {
+          "page": "consumer-craft",
+          "value": 4
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "shape-repetition",
+      "label": "Repeated shape run",
+      "band": [
+        0,
+        0.5
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.214
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.154
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.25
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.167
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.214
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.333
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.231
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.214
+        }
+      ]
+    },
+    {
+      "id": "figure-weight",
+      "label": "Drawn matter (share of page)",
+      "band": [
+        0.196,
+        0.778
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.2177
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.2316
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.2346
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.2982
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.2074
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.2429
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.2473
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.2111
+        }
+      ]
+    },
+    {
+      "id": "fold-figure",
+      "label": "Drawn matter above the fold",
+      "band": [
+        0.337,
+        1
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.92
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.92
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.92
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.92
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.9278
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.3664
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.3778
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.92
+        }
+      ]
+    },
+    {
+      "id": "layering",
+      "label": "Layered elements",
+      "band": [
+        11,
+        157
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 20
+        },
+        {
+          "page": "dashboard-app",
+          "value": 17
+        },
+        {
+          "page": "corporate-story",
+          "value": 14
+        },
+        {
+          "page": "docs-educational",
+          "value": 15
+        },
+        {
+          "page": "fintech-trust",
+          "value": 20
+        },
+        {
+          "page": "studio-selected",
+          "value": 12
+        },
+        {
+          "page": "consumer-craft",
+          "value": 14
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 19
+        }
+      ]
+    },
+    {
+      "id": "accent-coverage",
+      "label": "Accent coverage",
+      "band": [
+        0.001,
+        0.469
+      ],
+      "mean": 1,
+      "scoredOn": 8,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.2318
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.0059
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.1346
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.1301
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.3208
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.002
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.0525
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.2056
+        }
+      ]
+    }
+  ]
+}

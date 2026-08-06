@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
-import { DesignFromFeaturesRequest, SHOWCASE_BRIEFS, designFromFeatures } from "@tell/design-skills";
+import {
+  DesignFromFeaturesRequest,
+  designFromFeatures,
+  getTemplate,
+  listTemplates,
+} from "@tell/design-skills";
 import { ZodError } from "zod";
 
 export const runtime = "nodejs";
-
-const SHOWCASE_KEYS = new Set(Object.keys(SHOWCASE_BRIEFS));
 
 /** POST { brief, redesignFrom? } → DesignSpec + previewHtml (deterministic skill graph). */
 export async function POST(req: Request) {
@@ -27,16 +30,30 @@ export async function POST(req: Request) {
   }
 }
 
-/** GET ?showcase=saas|dashboard|corporate|educational → preset design */
+/**
+ * GET ?showcase=saas|dashboard|corporate|educational|fintech|studio|consumer → research-backed offering
+ * GET ?templates=1 → catalog metadata (no HTML) for Studio / agents
+ */
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
+    if (url.searchParams.get("templates") === "1") {
+      return NextResponse.json({
+        templates: listTemplates().map(({ key, label, marketJob, siteKind, researchBasis }) => ({
+          key,
+          label,
+          marketJob,
+          siteKind,
+          researchBasis,
+        })),
+      });
+    }
     const key = url.searchParams.get("showcase") ?? "saas";
-    if (!SHOWCASE_KEYS.has(key) || !Object.prototype.hasOwnProperty.call(SHOWCASE_BRIEFS, key)) {
+    const template = getTemplate(key);
+    if (!template) {
       return NextResponse.json({ error: `Unknown showcase "${key}"` }, { status: 404 });
     }
-    const brief = SHOWCASE_BRIEFS[key]!;
-    return NextResponse.json(designFromFeatures(brief));
+    return NextResponse.json(designFromFeatures(template.brief));
   } catch (err) {
     const message = err instanceof Error ? err.message : "Showcase generation failed";
     return NextResponse.json({ error: message }, { status: 500 });

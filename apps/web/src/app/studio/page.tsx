@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   DesignFromFeaturesResponse,
+  listTemplates,
+  templateToStudioPreset,
   type AestheticLean,
   type ColorMood,
   type Density,
@@ -10,6 +12,7 @@ import {
   type MotionLevel,
   type RoundingDepth,
   type SiteKind,
+  type TemplateKey,
   type TypeWeight,
 } from "@tell/design-skills";
 
@@ -18,75 +21,12 @@ type GenerateMode = "create" | "redesign";
 type BusinessGoal = "leads" | "demos" | "trust" | "sales" | "activation";
 type ViewportWidth = "390" | "768" | "1280";
 
-const PRESETS: Record<
-  string,
-  {
-    productName: string;
-    tagline: string;
-    audience: string;
-    siteKind: SiteKind;
-    businessGoal: BusinessGoal;
-    featuresText: string;
-    aestheticLean: AestheticLean;
-    motion: MotionLevel;
-    density: Density;
-  }
-> = {
-  saas: {
-    productName: "Northstar",
-    tagline: "Revenue intelligence your sellers actually open",
-    audience: "B2B SaaS sales leaders",
-    siteKind: "saas-marketing",
-    businessGoal: "demos",
-    featuresText: `Account scoring — Ranks accounts by fit and intent
-Pipeline coaching — Flags stalled deals with next actions
-CRM sync — Bi-directional sync with your system of record
-Executive digest — Weekly narrative for leadership`,
-    aestheticLean: "conversion-sharp",
-    motion: "subtle-micro",
-    density: "balanced",
-  },
-  dashboard: {
-    productName: "Northstar",
-    tagline: "Seller workspace",
-    audience: "Account executives",
-    siteKind: "dashboard-webapp",
-    businessGoal: "activation",
-    featuresText: `Priority queue — Today’s accounts ranked by urgency
-Deal room — Context, stakeholders, and risks
-Playbooks — Guided steps for common motions
-Activity feed — Signals from email and CRM`,
-    aestheticLean: "minimal-clean",
-    motion: "none",
-    density: "information-rich",
-  },
-  corporate: {
-    productName: "Northstar",
-    tagline: "Clarity for teams that sell complexity",
-    audience: "Enterprise operators and investors",
-    siteKind: "corporate-story",
-    businessGoal: "trust",
-    featuresText: `Brand system — One visual language across every surface
-Trust narrative — Security, privacy, and operating principles
-Customer outcomes — Measured lifts without vanity metrics`,
-    aestheticLean: "refined-story",
-    motion: "light-scroll-reveals",
-    density: "sparse",
-  },
-  educational: {
-    productName: "Signal Path",
-    tagline: "How the system actually works",
-    audience: "Technical readers and operators",
-    siteKind: "docs-educational",
-    businessGoal: "trust",
-    featuresText: `Interactive diagram — Scrub the mechanism in place
-Chapter narrative — Calm long-form explanation
-Callout labels — Precise part names without chrome`,
-    aestheticLean: "refined-story",
-    motion: "subtle-micro",
-    density: "sparse",
-  },
-};
+/** Research-backed offerings — single source in @tell/design-skills templates. */
+const TEMPLATE_KEYS = listTemplates().map((t) => t.key);
+const PRESETS = Object.fromEntries(TEMPLATE_KEYS.map((key) => [key, templateToStudioPreset(key)])) as Record<
+  TemplateKey,
+  ReturnType<typeof templateToStudioPreset>
+>;
 
 function parseFeatures(text: string) {
   return text
@@ -214,7 +154,7 @@ export default function StudioPage() {
     }
   }
 
-  function loadPreset(key: keyof typeof PRESETS) {
+  function loadPreset(key: TemplateKey) {
     const p = PRESETS[key]!;
     setProductName(p.productName);
     setTagline(p.tagline);
@@ -226,6 +166,9 @@ export default function StudioPage() {
     setAestheticLean(p.aestheticLean);
     setMotion(p.motion);
     setDensity(p.density);
+    setColorMood(p.colorMood);
+    setTypographyWeight(p.typographyWeight);
+    setRoundingDepth(p.roundingDepth);
     void generateWith({
       productName: p.productName,
       tagline: p.tagline,
@@ -238,9 +181,9 @@ export default function StudioPage() {
         density: p.density,
         motion: p.motion,
         aestheticLean: p.aestheticLean,
-        colorMood,
-        typographyWeight,
-        roundingDepth: p.siteKind === "dashboard-webapp" ? "sharp" : roundingDepth,
+        colorMood: p.colorMood,
+        typographyWeight: p.typographyWeight,
+        roundingDepth: p.roundingDepth,
       },
     });
   }
@@ -261,9 +204,20 @@ export default function StudioPage() {
     if (/conversion|cta|saas|sharp/.test(text)) {
       nextLean = "conversion-sharp";
       nextMotion = "subtle-micro";
+      if (/\b(fintech|treasury|payments?|banking|wire|payroll)\b/.test(text)) nextKind = "fintech-marketing";
       if (/saas/.test(text)) nextKind = "saas-marketing";
     }
     if (/system|token|crafted/.test(text)) nextLean = "system-crafted";
+    if (/studio|portfolio|art.?direct|selected work|atelier/.test(text)) {
+      nextKind = "art-directed-studio";
+      nextLean = "refined-story";
+      nextDensity = "sparse";
+    }
+    if (/consumer|everyday|lifestyle|shopper|retail|dtc/.test(text)) {
+      nextKind = "consumer-craft";
+      nextLean = "conversion-sharp";
+      nextDensity = "balanced";
+    }
     if (/story|editorial|refined|corporate/.test(text)) {
       nextLean = "refined-story";
       nextDensity = "sparse";
@@ -315,17 +269,11 @@ export default function StudioPage() {
             <h1 className="font-display text-xl font-semibold tracking-tight">Premium content-custom design</h1>
           </div>
           <div className="flex flex-wrap gap-2 text-sm text-secondary">
-            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/saas">
-              SaaS showcase
+            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase">
+              Specimens
             </a>
-            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/dashboard">
-              Dashboard
-            </a>
-            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/corporate">
-              Corporate
-            </a>
-            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/educational">
-              Educational
+            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/studio">
+              Featured
             </a>
             <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/">
               Tell Report
@@ -336,19 +284,25 @@ export default function StudioPage() {
 
       <div className="mx-auto grid max-w-[1600px] gap-4 p-4 md:grid-cols-[380px_1fr] md:p-6">
         <aside className="space-y-4 rounded-card border border-border bg-surface p-4" data-testid="studio-controls">
-          <div className="flex flex-wrap gap-2" data-testid="preset-row">
-            {(["saas", "dashboard", "corporate", "educational"] as const).map((key) => (
-              <button
-                key={key}
-                type="button"
-                className="rounded border border-border px-2 py-1 text-xs font-medium capitalize transition hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50"
-                onClick={() => loadPreset(key)}
-                disabled={loading}
-                data-testid={`preset-${key}`}
-              >
-                {key}
-              </button>
-            ))}
+          <div className="space-y-2" data-testid="preset-row">
+            <p className="text-xs text-secondary">
+              Research-backed offerings, deepened by the loop — not a theme gallery.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {listTemplates().map((t) => (
+                <button
+                  key={t.key}
+                  type="button"
+                  title={t.marketJob}
+                  className="rounded border border-border px-2 py-1 text-xs font-medium transition hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50"
+                  onClick={() => loadPreset(t.key)}
+                  disabled={loading}
+                  data-testid={`preset-${t.key}`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <label className="block text-sm">
@@ -383,7 +337,15 @@ export default function StudioPage() {
             label="Site kind"
             value={siteKind}
             onChange={(v) => setSiteKind(v as SiteKind)}
-            options={["saas-marketing", "dashboard-webapp", "corporate-story", "docs-educational"]}
+            options={[
+              "saas-marketing",
+              "dashboard-webapp",
+              "corporate-story",
+              "docs-educational",
+              "fintech-marketing",
+              "art-directed-studio",
+              "consumer-craft",
+            ]}
             testId="input-sitekind"
           />
           <Select

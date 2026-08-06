@@ -42,7 +42,9 @@ import { designFromFeatures } from "@tell/design-skills";
 const { spec, previewHtml } = designFromFeatures(brief);
 ```
 
-Studio UI: `/studio` · Showcases: `/showcase/saas`, `/showcase/dashboard`, `/showcase/corporate`, `/showcase/educational`
+Studio UI: `/studio` · Specimen gallery: `/showcase` · Offerings: `/showcase/{saas|dashboard|corporate|educational|fintech|studio|consumer}`
+
+**Offerings vs plumbing:** Use `tell-template-craft` for every new/fixed template — Phase A open-design plumbing, Phase B measured designer corridors (`design-research-loop`). Do not invent aesthetics from peer theme packs; do not name third parties in commits.
 
 ## Taste Controls (always offer)
 

@@ -1,0 +1,653 @@
+[
+  {
+    "ref": "ref-001",
+    "category": "solo-studio-portfolio",
+    "role": "independent designer portfolio",
+    "urlHash": "2a94c2f3b61b",
+    "ok": true
+  },
+  {
+    "ref": "ref-002",
+    "category": "subscription-studio",
+    "role": "one-person productised design studio",
+    "urlHash": "0e30123d60a1",
+    "ok": true
+  },
+  {
+    "ref": "ref-003",
+    "category": "brand-product-agency",
+    "role": "premium brand + product studio",
+    "urlHash": "96955a122915",
+    "ok": true
+  },
+  {
+    "ref": "ref-004",
+    "category": "art-directed-studio",
+    "role": "award-oriented art direction studio",
+    "urlHash": "505dbe6f5aaf",
+    "ok": true
+  },
+  {
+    "ref": "ref-005",
+    "category": "premium-b2b-saas",
+    "role": "category-defining product site",
+    "urlHash": "0d09434b854f",
+    "ok": true
+  },
+  {
+    "ref": "ref-006",
+    "category": "dev-infra",
+    "role": "developer platform",
+    "urlHash": "843a793e92e9",
+    "ok": true
+  },
+  {
+    "ref": "ref-007",
+    "category": "fintech-infra",
+    "role": "payments infrastructure",
+    "urlHash": "e559114825bc",
+    "ok": true
+  },
+  {
+    "ref": "ref-008",
+    "category": "fintech-product",
+    "role": "spend management",
+    "urlHash": "153985ac3643",
+    "ok": true
+  },
+  {
+    "ref": "ref-009",
+    "category": "fintech-product",
+    "role": "business banking",
+    "urlHash": "61c89e9f9be6",
+    "ok": true
+  },
+  {
+    "ref": "ref-010",
+    "category": "premium-b2b-saas",
+    "role": "internal tooling platform",
+    "urlHash": "b7c8559e4eb6",
+    "ok": true
+  },
+  {
+    "ref": "ref-011",
+    "category": "premium-b2b-saas",
+    "role": "workspace product",
+    "urlHash": "b04d19f21678",
+    "ok": true
+  },
+  {
+    "ref": "ref-012",
+    "category": "design-tool",
+    "role": "design platform",
+    "urlHash": "68fedf649248",
+    "ok": true
+  },
+  {
+    "ref": "ref-013",
+    "category": "premium-b2b-saas",
+    "role": "modern CRM",
+    "urlHash": "e62e8206f90d",
+    "ok": true
+  },
+  {
+    "ref": "ref-014",
+    "category": "consumer-craft",
+    "role": "craft-led desktop product",
+    "urlHash": "54cd3c13de79",
+    "ok": true
+  },
+  {
+    "ref": "ref-015",
+    "category": "dev-infra",
+    "role": "auth infrastructure",
+    "urlHash": "28160215470a",
+    "ok": true
+  },
+  {
+    "ref": "ref-016",
+    "category": "dev-infra",
+    "role": "email infrastructure",
+    "urlHash": "4350554459a1",
+    "ok": true
+  },
+  {
+    "ref": "ref-017",
+    "category": "enterprise-trust",
+    "role": "compliance automation",
+    "urlHash": "4aa14ef0db3c",
+    "ok": true
+  },
+  {
+    "ref": "ref-018",
+    "category": "fintech-product",
+    "role": "corporate cards",
+    "urlHash": "00130686bd80",
+    "ok": true
+  },
+  {
+    "ref": "ref-019",
+    "category": "premium-b2b-saas",
+    "role": "presentation product",
+    "urlHash": "d8b211954adc",
+    "ok": true
+  },
+  {
+    "ref": "ref-020",
+    "category": "consumer-craft",
+    "role": "email client",
+    "urlHash": "11261f2e1907",
+    "ok": true
+  },
+  {
+    "ref": "ref-021",
+    "category": "consumer-craft",
+    "role": "browser product",
+    "urlHash": "0b851f7076b1",
+    "ok": true
+  },
+  {
+    "ref": "ref-022",
+    "category": "design-tool",
+    "role": "site builder",
+    "urlHash": "b48bc03253fb",
+    "ok": true
+  },
+  {
+    "ref": "ref-023",
+    "category": "design-tool",
+    "role": "visual development platform",
+    "urlHash": "3b7f0693c2fe",
+    "ok": true
+  },
+  {
+    "ref": "ref-024",
+    "category": "ai-frontier",
+    "role": "frontier model lab",
+    "urlHash": "afe2508ac4ca",
+    "ok": true
+  },
+  {
+    "ref": "ref-025",
+    "category": "ai-frontier",
+    "role": "frontier model lab",
+    "urlHash": "04d39e8bd5d5",
+    "ok": true
+  },
+  {
+    "ref": "ref-026",
+    "category": "dev-tool",
+    "role": "AI code editor",
+    "urlHash": "bbba856f6f33",
+    "ok": true
+  },
+  {
+    "ref": "ref-027",
+    "category": "enterprise-corporate",
+    "role": "defence/enterprise software",
+    "urlHash": "880592b70866",
+    "ok": true
+  },
+  {
+    "ref": "ref-028",
+    "category": "enterprise-corporate",
+    "role": "global consultancy",
+    "urlHash": "14a922610f3a",
+    "ok": false
+  },
+  {
+    "ref": "ref-029",
+    "category": "capital-brand",
+    "role": "venture firm",
+    "urlHash": "a25cb9d20bad",
+    "ok": true
+  },
+  {
+    "ref": "ref-030",
+    "category": "capital-brand",
+    "role": "venture firm",
+    "urlHash": "28eae9d80dc6",
+    "ok": true
+  },
+  {
+    "ref": "ref-031",
+    "category": "editorial-brand",
+    "role": "publishing arm of an infra company",
+    "urlHash": "a06c1adbc58f",
+    "ok": true
+  },
+  {
+    "ref": "ref-032",
+    "category": "opinionated-smb",
+    "role": "long-running product company",
+    "urlHash": "23c7898f8bd4",
+    "ok": true
+  },
+  {
+    "ref": "ref-033",
+    "category": "dev-infra",
+    "role": "database platform",
+    "urlHash": "927c7e064e12",
+    "ok": true
+  },
+  {
+    "ref": "ref-034",
+    "category": "dev-infra",
+    "role": "backend platform",
+    "urlHash": "41531850c10d",
+    "ok": true
+  },
+  {
+    "ref": "ref-035",
+    "category": "dev-infra",
+    "role": "deployment platform",
+    "urlHash": "2117f23fb145",
+    "ok": true
+  },
+  {
+    "ref": "ref-036",
+    "category": "dev-infra",
+    "role": "product analytics",
+    "urlHash": "13e1e72b5ea1",
+    "ok": true
+  },
+  {
+    "ref": "ref-037",
+    "category": "dev-infra",
+    "role": "error monitoring",
+    "urlHash": "27a97de21249",
+    "ok": true
+  },
+  {
+    "ref": "ref-038",
+    "category": "enterprise-observability",
+    "role": "observability suite",
+    "urlHash": "2850f31e276b",
+    "ok": true
+  },
+  {
+    "ref": "ref-039",
+    "category": "hr-fintech",
+    "role": "workforce platform",
+    "urlHash": "49f89780293b",
+    "ok": true
+  },
+  {
+    "ref": "ref-040",
+    "category": "hr-fintech",
+    "role": "global payroll",
+    "urlHash": "c73aa4d8e3f4",
+    "ok": true
+  },
+  {
+    "ref": "ref-041",
+    "category": "ai-infra",
+    "role": "serverless compute for AI",
+    "urlHash": "a464761d5c69",
+    "ok": true
+  },
+  {
+    "ref": "ref-042",
+    "category": "ai-infra",
+    "role": "model inference platform",
+    "urlHash": "5719d4db2a20",
+    "ok": true
+  },
+  {
+    "ref": "ref-043",
+    "category": "ai-community",
+    "role": "model hub",
+    "urlHash": "453cb49f45b2",
+    "ok": true
+  },
+  {
+    "ref": "ref-044",
+    "category": "docs-product",
+    "role": "framework documentation",
+    "urlHash": "722f1c5535fd",
+    "ok": true
+  },
+  {
+    "ref": "ref-045",
+    "category": "docs-product",
+    "role": "framework documentation",
+    "urlHash": "eb7997fa534a",
+    "ok": true
+  },
+  {
+    "ref": "ref-046",
+    "category": "art-directed-studio",
+    "role": "interactive studio",
+    "urlHash": "c43e12731e6d",
+    "ok": true
+  },
+  {
+    "ref": "ref-047",
+    "category": "art-directed-studio",
+    "role": "digital production studio",
+    "urlHash": "3f6cace6900e",
+    "ok": true
+  },
+  {
+    "ref": "ref-048",
+    "category": "art-directed-studio",
+    "role": "creative technology studio",
+    "urlHash": "b43a35afd2ff",
+    "ok": true
+  },
+  {
+    "ref": "ref-049",
+    "category": "brand-agency",
+    "role": "brand and digital agency",
+    "urlHash": "fcf119faf08e",
+    "ok": true
+  },
+  {
+    "ref": "ref-050",
+    "category": "personal-craft",
+    "role": "engineer-designer personal site",
+    "urlHash": "a5377a572994",
+    "ok": true
+  },
+  {
+    "ref": "ref-051",
+    "category": "personal-craft",
+    "role": "interaction engineer personal site",
+    "urlHash": "6244d32bce46",
+    "ok": true
+  },
+  {
+    "ref": "ref-052",
+    "category": "personal-craft",
+    "role": "designer personal site",
+    "urlHash": "de1a2f903d69",
+    "ok": true
+  },
+  {
+    "ref": "ref-053",
+    "category": "commerce-platform",
+    "role": "commerce platform",
+    "urlHash": "d83d5c546dae",
+    "ok": true
+  },
+  {
+    "ref": "ref-054",
+    "category": "premium-b2b-saas",
+    "role": "customer messaging platform",
+    "urlHash": "620fa6d664f5",
+    "ok": true
+  },
+  {
+    "ref": "ref-055",
+    "category": "award-index",
+    "role": "design award index",
+    "urlHash": "110ecd988d76",
+    "ok": true
+  },
+  {
+    "ref": "ref-056",
+    "category": "type-foundry",
+    "role": "typeface foundry with editorial specimen pages",
+    "urlHash": "bb22d8774731",
+    "ok": true
+  },
+  {
+    "ref": "ref-057",
+    "category": "type-foundry",
+    "role": "typeface foundry catalogue",
+    "urlHash": "1a5f935f5db3",
+    "ok": true
+  },
+  {
+    "ref": "ref-058",
+    "category": "type-foundry",
+    "role": "typeface foundry storefront",
+    "urlHash": "035e12601b7c",
+    "ok": true
+  },
+  {
+    "ref": "ref-059",
+    "category": "type-foundry",
+    "role": "typeface foundry specimen",
+    "urlHash": "8d9127772281",
+    "ok": true
+  },
+  {
+    "ref": "ref-060",
+    "category": "brand-agency",
+    "role": "multi-partner brand design practice",
+    "urlHash": "0c7f801d3f93",
+    "ok": true
+  },
+  {
+    "ref": "ref-061",
+    "category": "brand-product-agency",
+    "role": "product and brand agency",
+    "urlHash": "99501b30e9e2",
+    "ok": true
+  },
+  {
+    "ref": "ref-062",
+    "category": "brand-agency",
+    "role": "brand and campaign agency",
+    "urlHash": "aaed013961f4",
+    "ok": true
+  },
+  {
+    "ref": "ref-063",
+    "category": "art-directed-studio",
+    "role": "interactive art direction studio",
+    "urlHash": "4516d9fdc1cc",
+    "ok": true
+  },
+  {
+    "ref": "ref-064",
+    "category": "art-directed-studio",
+    "role": "digital brand studio",
+    "urlHash": "fefe51973de4",
+    "ok": true
+  },
+  {
+    "ref": "ref-065",
+    "category": "art-directed-studio",
+    "role": "experience design studio",
+    "urlHash": "eae095367aed",
+    "ok": true
+  },
+  {
+    "ref": "ref-066",
+    "category": "enterprise-agency",
+    "role": "large experience agency",
+    "urlHash": "f24333d6427b",
+    "ok": true
+  },
+  {
+    "ref": "ref-067",
+    "category": "editorial-longform",
+    "role": "independent editorial publication",
+    "urlHash": "6e503fb7b6ec",
+    "ok": true
+  },
+  {
+    "ref": "ref-068",
+    "category": "editorial-longform",
+    "role": "subscription essay publication",
+    "urlHash": "6e09a0edb432",
+    "ok": true
+  },
+  {
+    "ref": "ref-069",
+    "category": "research-editorial",
+    "role": "UX research publication",
+    "urlHash": "eab1480bacdc",
+    "ok": true
+  },
+  {
+    "ref": "ref-070",
+    "category": "design-system-docs",
+    "role": "public design system documentation",
+    "urlHash": "1dd3b6fd5932",
+    "ok": true
+  },
+  {
+    "ref": "ref-071",
+    "category": "design-system-docs",
+    "role": "public design system documentation",
+    "urlHash": "b85caab91258",
+    "ok": true
+  },
+  {
+    "ref": "ref-072",
+    "category": "design-system-docs",
+    "role": "enterprise design system documentation",
+    "urlHash": "b990fd16531e",
+    "ok": true
+  },
+  {
+    "ref": "ref-073",
+    "category": "design-system-docs",
+    "role": "enterprise design system documentation",
+    "urlHash": "70803a415e0d",
+    "ok": true
+  },
+  {
+    "ref": "ref-074",
+    "category": "design-system-docs",
+    "role": "platform design system documentation",
+    "urlHash": "56f060d26c0d",
+    "ok": true
+  },
+  {
+    "ref": "ref-075",
+    "category": "design-system-docs",
+    "role": "enterprise design system documentation",
+    "urlHash": "992e177f0b54",
+    "ok": true
+  },
+  {
+    "ref": "ref-076",
+    "category": "consumer-craft",
+    "role": "voice-led consumer brand",
+    "urlHash": "310750a6b429",
+    "ok": true
+  },
+  {
+    "ref": "ref-077",
+    "category": "commerce-platform",
+    "role": "direct-to-consumer commerce",
+    "urlHash": "411395979756",
+    "ok": true
+  },
+  {
+    "ref": "ref-078",
+    "category": "dev-tool",
+    "role": "developer tool product site",
+    "urlHash": "ffaeaf3880e4",
+    "ok": true
+  },
+  {
+    "ref": "ref-079",
+    "category": "dev-tool",
+    "role": "developer tool product site",
+    "urlHash": "8d73894f4f6f",
+    "ok": true
+  },
+  {
+    "ref": "ref-080",
+    "category": "dev-infra",
+    "role": "database infrastructure product",
+    "urlHash": "48154e455e67",
+    "ok": true
+  },
+  {
+    "ref": "ref-081",
+    "category": "dev-tool",
+    "role": "developer platform",
+    "urlHash": "913d78c4daa9",
+    "ok": true
+  },
+  {
+    "ref": "ref-082",
+    "category": "ai-infra",
+    "role": "data platform for AI",
+    "urlHash": "9b1b34f5e5d2",
+    "ok": true
+  },
+  {
+    "ref": "ref-083",
+    "category": "enterprise-data",
+    "role": "enterprise data platform",
+    "urlHash": "42aaa147ffc4",
+    "ok": true
+  },
+  {
+    "ref": "ref-084",
+    "category": "enterprise-data",
+    "role": "enterprise data platform",
+    "urlHash": "5404d1fc1349",
+    "ok": true
+  },
+  {
+    "ref": "ref-085",
+    "category": "personal-craft",
+    "role": "engineer-writer personal site",
+    "urlHash": "3db07e09d17b",
+    "ok": true
+  },
+  {
+    "ref": "ref-086",
+    "category": "personal-craft",
+    "role": "photographer portfolio",
+    "urlHash": "cae9e8f2b8c3",
+    "ok": true
+  },
+  {
+    "ref": "ref-087",
+    "category": "personal-craft",
+    "role": "product designer portfolio",
+    "urlHash": "be4956870ce8",
+    "ok": true
+  },
+  {
+    "ref": "ref-088",
+    "category": "art-directed-studio",
+    "role": "interactive developer portfolio",
+    "urlHash": "7aba482edf37",
+    "ok": true
+  },
+  {
+    "ref": "ref-089",
+    "category": "premium-b2b-saas",
+    "role": "event brand page",
+    "urlHash": "8ed599fa6e7c",
+    "ok": true
+  },
+  {
+    "ref": "ref-090",
+    "category": "fintech-product",
+    "role": "consumer fintech product",
+    "urlHash": "d3fcacd5c5f3",
+    "ok": true
+  },
+  {
+    "ref": "ref-091",
+    "category": "fintech-product",
+    "role": "consumer bank product",
+    "urlHash": "32f28d5dbb1b",
+    "ok": true
+  },
+  {
+    "ref": "ref-092",
+    "category": "fintech-product",
+    "role": "consumer wealth product",
+    "urlHash": "2c564e42a0c8",
+    "ok": true
+  },
+  {
+    "ref": "ref-093",
+    "category": "docs-product",
+    "role": "documentation product",
+    "urlHash": "3791a4a3ea86",
+    "ok": true
+  }
+]

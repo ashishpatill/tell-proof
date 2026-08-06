@@ -1,0 +1,189 @@
+/**
+ * Type and space ladders.
+ *
+ * Measured reference pages do not pick sizes; they walk a ladder. The corridors this module
+ * targets come from `docs/10_DESIGN_EVIDENCE.md`:
+ *  - 8–16 distinct type sizes on a page, smallest→largest ratio roughly 4–9×
+ *  - display type between ~3.2% and ~6.5% of viewport width at desktop
+ *  - display leading under 1.15, body leading 1.4–1.75
+ *  - almost every spacing value landing on a 4px grid
+ */
+import type { Density, TypeWeight } from "./types";
+
+export interface TypeStep {
+  name: string;
+  /** Rendered size at 1440px viewport, used for reasoning and tests. */
+  px: number;
+  /** CSS value — fluid for the large end, fixed for the small end. */
+  css: string;
+  lineHeight: number;
+  trackingEm: number;
+  weight: number;
+}
+
+export interface TypeLadder {
+  steps: TypeStep[];
+  /** Convenience lookups. */
+  byName: Record<string, TypeStep>;
+  displayPx: number;
+  bodyPx: number;
+  rangeRatio: number;
+}
+
+const DESIGN_VW = 1440;
+
+function fluid(minPx: number, maxPx: number, minVw = 400, maxVw = DESIGN_VW): string {
+  const slope = (maxPx - minPx) / (maxVw - minVw);
+  const intercept = minPx - slope * minVw;
+  const vw = Number((slope * 100).toFixed(3));
+  const rem = Number((intercept / 16).toFixed(3));
+  return `clamp(${(minPx / 16).toFixed(3)}rem, ${rem}rem + ${vw}vw, ${(maxPx / 16).toFixed(3)}rem)`;
+}
+
+/**
+ * Leading tightens as type grows: it is the most reliable single signal of typographic intent,
+ * and the flat 1.2-everywhere default is what makes generated pages read as unconsidered.
+ */
+function leadingFor(px: number): number {
+  if (px >= 56) return 0.98;
+  if (px >= 40) return 1.05;
+  if (px >= 30) return 1.16;
+  // The 20–29px band is where ledes and sub-heads live. It had been set at display leading, which
+  // is too tight for anything read as a sentence — the measured corridor for text at this size
+  // starts at 1.3.
+  if (px >= 22) return 1.36;
+  // 1.58 sat outside the measured corridor for text a reader is asked to read at length. Small
+  // type does want looser leading than large type, but not looser than the corpus ever sets it.
+  if (px >= 14) return 1.48;
+  return 1.45;
+}
+
+/** Optical tracking: large type needs negative tracking, micro labels need positive. */
+function trackingFor(px: number, weightBias: number): number {
+  if (px >= 56) return -0.032 + weightBias;
+  if (px >= 40) return -0.028 + weightBias;
+  if (px >= 28) return -0.022 + weightBias;
+  if (px >= 20) return -0.016 + weightBias;
+  if (px >= 15) return -0.008;
+  if (px >= 13) return 0;
+  return 0.06;
+}
+
+export interface LadderOptions {
+  density: Density;
+  typographyWeight: TypeWeight;
+  /** Target display size in px at 1440. Composition picks this per site kind and lean. */
+  displayPx: number;
+  bodyPx: number;
+  /** Modular ratio between adjacent large steps. */
+  ratio: number;
+}
+
+export function buildTypeLadder(opts: LadderOptions): TypeLadder {
+  const { displayPx, bodyPx, ratio, typographyWeight } = opts;
+  const weightBias = typographyWeight === "light-elegant" ? 0.006 : typographyWeight === "bold-confident" ? -0.004 : 0;
+
+  const bodyWeight = typographyWeight === "bold-confident" ? 420 : 400;
+  const displayWeight = typographyWeight === "bold-confident" ? 700 : typographyWeight === "light-elegant" ? 400 : 560;
+  const headingWeight = typographyWeight === "bold-confident" ? 650 : typographyWeight === "light-elegant" ? 420 : 540;
+
+  // Downward ladder from the display size, then a small-end ladder from body size.
+  const large = [displayPx, displayPx / ratio, displayPx / ratio ** 2, displayPx / ratio ** 2.6]
+    .map((n) => Math.round(n));
+  const small = [
+    Math.round(bodyPx * 1.28),
+    Math.round(bodyPx * 1.14),
+    bodyPx,
+    Math.round(bodyPx * 0.9),
+    Math.round(bodyPx * 0.8),
+    Math.round(bodyPx * 0.7),
+  ];
+
+  const named: Array<{ name: string; px: number; weight: number; minRatio: number }> = [
+    { name: "display", px: large[0]!, weight: displayWeight, minRatio: 0.42 },
+    { name: "title", px: large[1]!, weight: headingWeight, minRatio: 0.52 },
+    { name: "heading", px: large[2]!, weight: headingWeight, minRatio: 0.66 },
+    { name: "subheading", px: large[3]!, weight: headingWeight, minRatio: 0.78 },
+    { name: "lede", px: small[0]!, weight: bodyWeight, minRatio: 0.86 },
+    { name: "bodyLarge", px: small[1]!, weight: bodyWeight, minRatio: 0.92 },
+    { name: "body", px: small[2]!, weight: bodyWeight, minRatio: 1 },
+    { name: "bodySmall", px: small[3]!, weight: bodyWeight, minRatio: 1 },
+    { name: "caption", px: small[4]!, weight: bodyWeight, minRatio: 1 },
+    { name: "micro", px: small[5]!, weight: 560, minRatio: 1 },
+  ];
+
+  const steps: TypeStep[] = named.map((n) => {
+    const minPx = Math.max(11, Math.round(n.px * n.minRatio));
+    return {
+      name: n.name,
+      px: n.px,
+      css: n.minRatio < 1 ? fluid(minPx, n.px) : `${(n.px / 16).toFixed(3)}rem`,
+      lineHeight: leadingFor(n.px),
+      trackingEm: Number(trackingFor(n.px, weightBias).toFixed(4)),
+      weight: n.weight,
+    };
+  });
+
+  const byName: Record<string, TypeStep> = {};
+  for (const s of steps) byName[s.name] = s;
+
+  const sizes = steps.map((s) => s.px);
+  return {
+    steps,
+    byName,
+    displayPx,
+    bodyPx,
+    rangeRatio: Number((Math.max(...sizes) / Math.min(...sizes)).toFixed(2)),
+  };
+}
+
+/** Spacing ladder, every value on the 4px grid. */
+export interface SpaceLadder {
+  steps: Array<{ name: string; px: number }>;
+  sectionY: string;
+  sectionYTight: string;
+  gutter: string;
+}
+
+export function buildSpaceLadder(density: Density): SpaceLadder {
+  const base = density === "information-rich" ? 4 : density === "sparse" ? 4 : 4;
+  const multipliers = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 40];
+  const names = ["3xs", "2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl"];
+  const steps = multipliers.map((m, i) => ({ name: names[i]!, px: base * m }));
+
+  /*
+   * Section rhythm. The measured corridor for section padding is 48–120px at desktop, which was a
+   * correction: the engine had been running to 168px at the sparse end, on the assumption that more
+   * air always reads as more expensive. It does not. Reference pages buy their sense of space with
+   * a narrower container and taller individual bands, not with runaway section padding — padding
+   * that large just pushes the argument below the fold.
+   */
+  const [minY, maxY] =
+    density === "information-rich" ? [40, 88] : density === "sparse" ? [60, 108] : [56, 104];
+
+  return {
+    steps,
+    sectionY: fluid(minY, maxY),
+    sectionYTight: fluid(Math.round(minY * 0.62), Math.round(maxY * 0.6)),
+    gutter: fluid(20, 40),
+  };
+}
+
+/**
+ * Container widths per density.
+ *
+ * Corpus corridor for the dominant content width is 0.26–0.85 of the viewport, median well under
+ * 0.8. Premium pages frame their content noticeably narrower than the full window; a 1240px
+ * container at 1440px reads as a page that ran out of ideas for the margins.
+ */
+export function containerFor(density: Density, wide = false): string {
+  if (wide) return density === "information-rich" ? "1200px" : "1160px";
+  if (density === "information-rich") return "1120px";
+  if (density === "sparse") return "940px";
+  return "1040px";
+}
+
+/** Reading column for prose — 60–72ch is where sustained reading lives. */
+export function proseWidth(bodyPx: number, ch = 68): string {
+  return `${Math.round(bodyPx * 0.5 * ch)}px`;
+}
