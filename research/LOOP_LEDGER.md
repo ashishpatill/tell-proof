@@ -285,3 +285,28 @@ buckets, never names, hosts, or URLs.
 - **Qualitative:** Playwright reports 0 label/claim intersections; claim ~505px / figure ~330px in
   fold; sequence stages read clean on the slice below. Screenshot proof for `/showcase`,
   `/showcase/studio`, Fieldmark fold + figure.
+
+## Loop 15 — eighth offering: editorial foundry (RSI)
+
+- **Goal:** fill the type-foundry / personal-craft / editorial-longform demand gap with a template
+  that is structurally hard to replicate from a theme pack — hard-seam fold, type ladder, spine,
+  marginalia, colophon — and dogfood the engine until critique + eye pass.
+- **Failure named (champion):** seven offerings still shared SaaS/studio fold grammars; nothing in
+  the catalog forced a typography-spine composition or a non-text optical-size figure.
+- **Challenger:** new `editorial-foundry` siteKind + `foundry` template (`Glyph Press`) with engine
+  craft the prior kinds do not emit:
+  - `hero-seam` layout — paper claim | inverse type-ladder plate joined by a hard accent edge
+  - sticky vertical typographic spine
+  - `type-ladder` figure (constructed glyphs, not SVG `<text>` — SVG text polluted display metrics)
+  - `story-marginalia` essay with outer-column notes + full-bleed measure rules
+  - paper colophon close (no inverse demo theatre, no pricing, no metrics band)
+- **Score:** matrix **99.3**; foundry-editorial **98.6** (was 86.3 before ladder glyph fix);
+  holdout **98.4** (gap 0.8 — generalises). Prior matrix ~99.4; no regression on locked SaaS/studio/consumer.
+- **Closed:** type-probe pollution from ladder SVG text; layeredElements hang CSS; basics gate
+  `kind-foundry`; showcase `/showcase/foundry` featured on gallery.
+- **Side effects:** foundry ink-variation slightly above corridor ceiling (1.12 vs 0.96) — acceptable
+  for a hard-seam fold that must stay dense on one half; do not empty the ladder to game the band.
+- **Qualitative:** fold reads as a foundry specimen board, not a recolored SaaS page. Hard seam +
+  spine + constructed optical sizes are craft a generic design engine will not invent from controls.
+- **Next weakest:** dashboard band-variation; foundry coverage variation; deepen foundry uniqueness
+  (second letter clarity on ladder, richer marginalia marks) without score-gaming.

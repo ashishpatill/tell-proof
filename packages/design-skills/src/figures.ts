@@ -99,7 +99,8 @@ export type FigureKind =
   | "lattice"
   | "mark"
   | "spark"
-  | "signature";
+  | "signature"
+  | "type-ladder";
 
 interface FrameOptions {
   /** Named for a screen reader; omit to mark the figure decorative. */
@@ -943,6 +944,120 @@ export function signatureMark(productName: string, seed: string): string {
 }
 
 /**
+ * Optical-size ladder — the foundry fold signature.
+ *
+ * Generic engines put a product plate or a chart on the fold. A type foundry puts the face itself:
+ * the same letterform at successive optical sizes with measured labels. Drawn as *constructed
+ * strokes* (not `<text>` at display px) so the page probe's type ladder stays honest — huge SVG
+ * text was previously stealing the display-size / type-steps measurements.
+ */
+export function typeLadder(
+  productName: string,
+  cuts: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const W = role === "band" ? 1440 : role === "column" ? 640 : 720;
+  const H = role === "band" ? 880 : role === "column" ? 720 : 520;
+  const r = rng(`${seed}:ladder`);
+  const parts: string[] = [];
+  const padX = W * (role === "band" ? 0.08 : 0.1);
+  const padY = H * 0.07;
+  const steps = [
+    { label: "Display", h: H * 0.2 },
+    { label: "Title", h: H * 0.12 },
+    { label: "Deck", h: H * 0.075 },
+    { label: "Text", h: H * 0.05 },
+    { label: "Caption", h: H * 0.035 },
+  ];
+  const initials = productName
+    .split(/[\s-]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]!.toUpperCase())
+    .join("") || "AH";
+  /*
+   * Prefer letterforms whose construction reads at hairline weight on inverse.
+   * Arc-heavy glyphs (C/G/O/S) vanish on the dark seam at specimen scale; map to clear cousins
+   * so the ladder always shows a paired sample a buyer can actually see.
+   */
+  const clearGlyph = (ch: string): string => {
+    const map: Record<string, string> = {
+      B: "R",
+      C: "A",
+      D: "P",
+      E: "F",
+      G: "A",
+      J: "I",
+      O: "H",
+      Q: "R",
+      S: "Z",
+      U: "H",
+    };
+    return map[ch] ?? ch;
+  };
+  const raw = (initials.length >= 2 ? initials : `${initials}H`).slice(0, 2);
+  const letters = [clearGlyph(raw[0]!), clearGlyph(raw[1]!)];
+  // Avoid a monogram twin when mapping collapses both letters.
+  if (letters[0] === letters[1]) letters[1] = letters[0] === "A" ? "H" : "A";
+
+  // Baseline grid — verticals only, foundry construction sheet.
+  for (let i = 1; i < 8; i += 1) {
+    const x = padX + ((W - padX * 2) / 8) * i;
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(padY)}" x2="${round(x)}" y2="${round(H - padY)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.18 + r() * 0.22)}" vector-effect="non-scaling-stroke"/>`,
+    );
+  }
+
+  // Accent seam edge on the left of the ladder — the hard rule that marks foundry craft.
+  parts.push(
+    `<line x1="${round(padX)}" y1="${round(padY)}" x2="${round(padX)}" y2="${round(H - padY)}" stroke="${ACCENT}" stroke-width="3" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  let y = padY + 8;
+  for (let i = 0; i < steps.length; i += 1) {
+    const s = steps[i]!;
+    const cut = cuts[i];
+    const glyphH = s.h;
+    const glyphW = glyphH * 0.62;
+    const gap = glyphW * 0.28;
+    let gx = padX + 28;
+    for (const ch of letters) {
+      parts.push(constructedGlyph(ch, gx, y, glyphW, glyphH));
+      gx += glyphW + gap;
+    }
+    const labelY = y + glyphH * 0.55;
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(W - padX)}" y="${round(labelY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${esc(s.label)}</text>`,
+    );
+    if (cut) {
+      parts.push(
+        `<text class="ds-fig-mono" x="${round(W - padX)}" y="${round(labelY + 14)}" font-size="10" fill="var(--surface-muted)" text-anchor="end">${esc(clip(cut.title, 22))}</text>`,
+      );
+    }
+    if (i < steps.length - 1) {
+      const ruleY = y + glyphH + Math.max(10, H * 0.012);
+      parts.push(
+        `<line x1="${round(padX + 28)}" y1="${round(ruleY)}" x2="${round(W - padX)}" y2="${round(ruleY)}" stroke="${LINE}" stroke-width="1" opacity="0.5" vector-effect="non-scaling-stroke"/>`,
+      );
+      y = ruleY + Math.max(10, H * 0.014);
+    }
+  }
+
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(padX + 28)}" y="${round(H - padY + 4)}" font-size="10" fill="var(--surface-quiet)">${esc(clip(productName, 28))} · optical sizes</text>`,
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "type-ladder",
+    label: `${productName} type ladder`,
+    inset: role === "band" ? BLEED_INSET : 0,
+  });
+}
+
+/**
  * One letterform drawn as strokes rather than typeset. Not a typeface — a construction, the way a
  * mark is drawn before it is drawn properly: stems on the vertical, a shoulder or a bowl where the
  * letter needs one, a diagonal where it needs that instead.
@@ -1080,7 +1195,7 @@ export interface FigurePlan {
   sparks: string[];
 }
 
-type Kind = "interface" | "series" | "flow" | "stack" | "horizon";
+type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder";
 
 /**
  * Which drawing goes where.
@@ -1103,6 +1218,8 @@ const ORDER: Record<string, Kind[]> = {
   "art-directed-studio": ["flow", "horizon", "stack", "series"],
   // Consumer craft is product-surface first; horizon specimen stays type-quiet for rhythm.
   "consumer-craft": ["interface", "horizon", "flow", "stack"],
+  // Foundry: optical-size ladder owns the fold; horizon/stack keep scroll beats distinct.
+  "editorial-foundry": ["type-ladder", "horizon", "stack", "flow"],
 };
 
 export function planFigures(input: {
@@ -1132,6 +1249,8 @@ export function planFigures(input: {
         return stackDiagram(input.features, seed, role);
       case "horizon":
         return horizonPlot(sequence, seed, role);
+      case "type-ladder":
+        return typeLadder(input.productName, input.features, seed, role);
       default:
         return "";
     }
@@ -1143,8 +1262,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["interface", "stack", "series"];
+  const SPANNING: Kind[] = ["type-ladder", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["type-ladder", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -1164,13 +1283,20 @@ export function planFigures(input: {
   });
   const shaped = (pool: Kind[], from: Kind[]): Kind | undefined => from.find((k) => pool.includes(k));
 
-  const heroKind = shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;
+  // Foundry hard-seam fold: the ladder always owns the inverse column — never fall through to a plate.
+  const heroKind =
+    input.siteKind === "editorial-foundry"
+      ? ("type-ladder" as Kind)
+      : shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;
   const afterHero = order.filter((k) => k !== heroKind);
   const bandKind = shaped(SPANNING, afterHero);
   const remaining = afterHero.filter((k) => k !== bandKind);
   const bodyKind = shaped(COLUMNAR, remaining) ?? remaining[0];
 
-  const hero = draw(heroKind, heroSpans ? "band" : "column");
+  // Seam fold draws the ladder as a column (half viewport), not a full-bleed band.
+  const heroRole: FigureRole =
+    input.heroLayout === "hero-seam" ? "column" : heroSpans ? "band" : "column";
+  const hero = draw(heroKind, heroRole);
   const body = bodyKind ? draw(bodyKind, "plate") : "";
   const band = bandKind ? draw(bandKind, "band") : "";
 

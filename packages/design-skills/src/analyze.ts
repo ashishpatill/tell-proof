@@ -38,6 +38,9 @@ export function inferSiteKind(brief: DesignBrief): SiteKind {
   if (/\b(consumer|shoppers?|everyday|lifestyle|direct.?to.?consumer|dtc|retail brand)\b/.test(blob)) {
     return "consumer-craft";
   }
+  if (/\b(foundry|typeface|type.?specimen|optical size|glyph|typography studio|editorial foundry)\b/.test(blob)) {
+    return "editorial-foundry";
+  }
   if (brief.siteKind !== "saas-marketing") return brief.siteKind;
   return "saas-marketing";
 }
@@ -62,6 +65,8 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
               ? ["nav", "hero", "features", "specimen", "story", "figure", "proof", "cta", "footer"]
               : siteKind === "consumer-craft"
                 ? ["nav", "hero", "metrics", "features", "specimen", "proof", "story", "cta", "footer"]
+                : siteKind === "editorial-foundry"
+                  ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                 : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
 
   const goals = [

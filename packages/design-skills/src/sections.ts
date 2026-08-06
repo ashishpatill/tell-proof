@@ -194,6 +194,7 @@ export function buildSections(
         const isSecond = p.id !== "features";
         const isStudio = brief.siteKind === "art-directed-studio";
         const isConsumer = brief.siteKind === "consumer-craft";
+        const isFoundry = brief.siteKind === "editorial-foundry";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -202,33 +203,45 @@ export function buildSections(
                 ? "Also in practice"
                 : isConsumer
                   ? "Also in the bag"
-                  : "Also included"
+                  : isFoundry
+                    ? "Also cut"
+                    : "Also included"
               : isStudio
                 ? "Selected work"
                 : isConsumer
                   ? "In hand"
-                  : eyebrow.features,
+                  : isFoundry
+                    ? "The cuts"
+                    : eyebrow.features,
             title: isSecond
               ? isStudio
                 ? sentence(`The quieter practices that keep ${brief.productName} sharp`)
                 : isConsumer
                   ? sentence(`The details you notice on week three`)
+                  : isFoundry
+                    ? sentence(`The quieter cuts that keep the system honest`)
                   : sentence(`The rest of what ships with ${brief.productName}`)
               : isStudio
                 ? sentence(`Work that still holds after the launch week`)
                 : isConsumer
                   ? sentence(`Built for the day you actually have`)
+                  : isFoundry
+                    ? sentence(`Cuts drawn for real reading sizes`)
                   : featuresTitle(brief, features),
             body: isSecond
               ? isStudio
                 ? sentence(`Handoffs, critique, and the rules that stop the system from drifting`)
                 : isConsumer
                   ? sentence(`Repair, modes, and the pockets that keep unpacking honest`)
+                  : isFoundry
+                    ? sentence(`Italics, numerals, and the marks that stop a layout from inventing a second face`)
                   : sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
               : isStudio
                 ? sentence(`Each engagement is a composed surface — identity, product, and motion under one grid`)
                 : isConsumer
                   ? sentence(`Each capability is something you can point at on the product — not a lifestyle claim`)
+                  : isFoundry
+                    ? sentence(`Each cut is a size and a job — not a style picker dressed as a product`)
                   : featuresLede(brief, features),
             blocks: slice,
           }),
@@ -248,6 +261,8 @@ export function buildSections(
             title:
               brief.siteKind === "consumer-craft"
                 ? brief.productName.split(/\s+/)[0] ?? brief.productName
+                : brief.siteKind === "editorial-foundry"
+                  ? sentence(`${brief.productName} at reading size`)
                 : sentence(brief.productName),
             body: "",
           }),
@@ -257,24 +272,31 @@ export function buildSections(
 
       case "figure": {
         const focal = editorial.features[0];
+        const isFoundry = brief.siteKind === "editorial-foundry";
         sections.push(
           SectionSpec.parse({
             ...base,
-            eyebrow: eyebrow.figure,
-            title: sentence(`${focal?.name ?? brief.productName}, step by step`),
-            body: sentence(
-              `The path work takes through ${brief.productName}, drawn rather than described`,
-            ),
+            eyebrow: isFoundry ? "Optical sizes" : eyebrow.figure,
+            title: isFoundry
+              ? sentence(`How ${brief.productName} changes with size`)
+              : sentence(`${focal?.name ?? brief.productName}, step by step`),
+            body: isFoundry
+              ? sentence(`The same face at display, title, deck, text, and caption — drawn, not described`)
+              : sentence(
+                  `The path work takes through ${brief.productName}, drawn rather than described`,
+                ),
             // Step labels only. A diagram whose legend restates every description is a paragraph
             // with a picture behind it.
             blocks: editorial.features.slice(0, 4).map((c, i) =>
               block({ title: c.name, meta: `0${i + 1}` }),
             ),
-            figureCaption: sentence(
-              `Drag to step through how ${brief.productName} moves work from ${
-                features[0]?.name.toLowerCase() ?? "input"
-              } to ${features[features.length - 1]?.name.toLowerCase() ?? "outcome"}`,
-            ),
+            figureCaption: isFoundry
+              ? sentence(`Step through the optical sizes ${brief.productName} is cut for`)
+              : sentence(
+                  `Drag to step through how ${brief.productName} moves work from ${
+                    features[0]?.name.toLowerCase() ?? "input"
+                  } to ${features[features.length - 1]?.name.toLowerCase() ?? "outcome"}`,
+                ),
           }),
         );
         break;
@@ -289,20 +311,34 @@ export function buildSections(
                 ? "Method"
                 : brief.siteKind === "consumer-craft"
                   ? "In use"
+                  : brief.siteKind === "editorial-foundry"
+                    ? "Composition notes"
                   : eyebrow.story,
             title:
               brief.siteKind === "art-directed-studio"
                 ? sentence(`How a system gets made here`)
                 : brief.siteKind === "consumer-craft"
                   ? sentence(`A day with ${brief.productName}`)
+                  : brief.siteKind === "editorial-foundry"
+                    ? sentence(`How the face is set on a real page`)
                   : sentence(`The order things happen in`),
             body:
               brief.siteKind === "art-directed-studio"
                 ? sentence(`The sequence from first critique to handoff, without the pitch theatre`)
                 : brief.siteKind === "consumer-craft"
                   ? sentence(`From morning pack to evening empty — what you actually do with it`)
+                  : brief.siteKind === "editorial-foundry"
+                    ? sentence(`Measure, hierarchy, and the notes that keep a layout from drifting`)
                   : sentence(`The sequence ${brief.audience} actually meet, in order`),
-            blocks: chapters(editorial.features).map((c) => block({ title: c.title, body: c.body, meta: c.meta })),
+            blocks: chapters(editorial.features).map((c, i) =>
+              block({
+                title: c.title,
+                body: c.body,
+                meta: c.meta,
+                // Marginalia hang these kickers in the outer column on foundry pages.
+                kicker: brief.siteKind === "editorial-foundry" ? `Note ${String(i + 1).padStart(2, "0")}` : undefined,
+              }),
+            ),
           }),
         );
         break;
@@ -389,16 +425,20 @@ export function buildSections(
         sections.push(
           SectionSpec.parse({
             ...base,
-            eyebrow: eyebrow.cta,
+            eyebrow: brief.siteKind === "editorial-foundry" ? "Colophon" : eyebrow.cta,
             title: sentence(
-              brief.businessGoal === "trust"
-                ? `See it against your own material`
-                : `Put ${brief.productName} in front of your ${brief.audience.split(" ").slice(-1)[0] ?? "team"}`,
+              brief.siteKind === "editorial-foundry"
+                ? `Request a specimen of ${brief.productName}`
+                : brief.businessGoal === "trust"
+                  ? `See it against your own material`
+                  : `Put ${brief.productName} in front of your ${brief.audience.split(" ").slice(-1)[0] ?? "team"}`,
             ),
             // Not `cta.note` — the fold already said that, and a closing band that repeats the
             // reassurance from the top of the page reads as a page with one idea.
             body: sentence(
-              `${count(features.length)[0]!.toUpperCase()}${count(features.length).slice(1)} capabilities, one conversation`,
+              brief.siteKind === "editorial-foundry"
+                ? `Edition notes, trial files, and the cuts ${brief.audience} actually set`
+                : `${count(features.length)[0]!.toUpperCase()}${count(features.length).slice(1)} capabilities, one conversation`,
             ),
             ctaLabel: cta.primary,
             secondaryLabel: cta.secondary,

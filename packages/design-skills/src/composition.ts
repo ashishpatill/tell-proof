@@ -101,6 +101,8 @@ function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
   if (siteKind === "art-directed-studio") return "hero-statement";
   // Consumer craft leads with the product surface under a short voice claim.
   if (siteKind === "consumer-craft") return "hero-statement";
+  // Foundry: hard vertical seam — paper claim | inverse type ladder. Not a stack or overfigure.
+  if (siteKind === "editorial-foundry") return "hero-seam";
   if (lean === "minimal-clean") return "hero-statement";
   if (lean === "refined-story") return "hero-editorial";
   return "hero-split";
@@ -304,6 +306,69 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     return plans;
   }
 
+  /*
+   * Editorial foundry — typography spine, hard-seam fold, paper-led scroll.
+   *
+   * Measured type-foundry / personal-craft / editorial-longform pages sit at foldFigure ~0.97,
+   * figureArea ~0.38, invertedShare ~0, display ~3.3vw, alignment axes ~6. They are not SaaS
+   * conversion ladders, studio selected-work grids, or consumer product plates: the argument is
+   * the type system itself. Hard seam + type ladder + marginalia + colophon are the craft that
+   * generic engines do not invent from a theme pack.
+   */
+  if (siteKind === "editorial-foundry") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-seam", surface: "paper", columns: "1fr 1fr" });
+    // Cut catalogue — indexed list on a shared rail, not metric theatre.
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    // Optical-size ladder as the teaching figure (foundry signature).
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    // Quiet sunken valley — honest weight variation without empty height.
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    // Marginalia essay — annotations hang in the outer column (editorial-longform craft).
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-marginalia",
+      surface: "paper",
+      bond: true,
+      columns: "7fr 5fr",
+    });
+    if (featureCount >= 4) {
+      plans.push({
+        id: "features-2",
+        kind: "features",
+        layout: "feature-alternating",
+        surface: "paper",
+        columns: split.feature,
+      });
+    }
+    // Proof stays on raised paper — foundry refs barely invert.
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "raised",
+      bond: true,
+      columns: split.feature,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    // Colophon close on paper — not inverse demo-booking theatre.
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
   plans.push({ id: "hero", kind: "hero", layout: heroLayout(siteKind, lean), surface: "paper", columns: split.hero });
 
   // A metric band immediately after the fold is how premium pages state the stakes without
@@ -398,12 +463,15 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "art-directed-studio") px = 66;
   // Consumer craft speaks in a shorter voice — product owns the fold, not a 90px headline.
   if (siteKind === "consumer-craft") px = 56;
+  // Foundry display is restrained (~3.3vw / ~48px) — the ladder and seam own the fold, not a shout.
+  if (siteKind === "editorial-foundry") px = 48;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
   if (density === "information-rich") px -= 6;
   if (density === "sparse") px += 4;
-  // Studio may sit slightly above the general 86px ceiling; clamp keeps vw in band.
+  // Foundry clamps to the low corridor; studio may sit slightly above the general ceiling.
+  if (siteKind === "editorial-foundry") return Math.max(44, Math.min(54, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

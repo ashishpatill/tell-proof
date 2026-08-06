@@ -24,7 +24,8 @@ export type TemplateKey =
   | "educational"
   | "fintech"
   | "studio"
-  | "consumer";
+  | "consumer"
+  | "foundry";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -431,6 +432,71 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
         colorMood: "neutral-professional",
         typographyWeight: "medium-modern",
         roundingDepth: "soft",
+      },
+    }),
+  },
+  {
+    key: "foundry",
+    label: "Editorial foundry",
+    marketJob:
+      "Type-craft / foundry landing — hard-seam fold, optical-size ladder, marginalia essay, colophon close.",
+    siteKind: "editorial-foundry",
+    researchBasis:
+      "Calibrated against type-foundry + personal-craft + editorial-longform corridors (foldFigure ~0.97, figureArea ~0.38, invertedShare ~0, display ~3.3vw, alignment axes ~6). Distinct craft the theme-pack engines miss: hard vertical seam (paper claim | inverse ladder), sticky typographic spine, type-ladder figure, marginalia essay with full-bleed measure rules, paper colophon — no pricing, no metrics theatre, zero inverse bands.",
+    brief: DesignBrief.parse({
+      productName: "Glyph Press",
+      tagline: "Faces cut for the sizes you actually set",
+      audience: "art directors and editorial designers commissioning a text face",
+      businessGoal: "trust",
+      siteKind: "editorial-foundry",
+      lockSiteKind: true,
+      // Ink-led cool stock — escapes cream/terracotta and violet AI clusters.
+      brandAccent: "#1A3A4A",
+      features: [
+        {
+          id: "g1",
+          name: "Display cut",
+          description: "Tight tracking and open counters that hold at poster size without going brittle",
+          priority: "p0",
+        },
+        {
+          id: "g2",
+          name: "Text cut",
+          description: "Optical size for long reading — ink traps and spacing tuned for 10–12 point",
+          priority: "p0",
+        },
+        {
+          id: "g3",
+          name: "Caption cut",
+          description: "A denser face for labels and footnotes that still matches the text colour",
+          priority: "p0",
+        },
+        {
+          id: "g4",
+          name: "Italic mates",
+          description: "True italics drawn as companions, not slanted romans with a costume change",
+          priority: "p1",
+        },
+        {
+          id: "g5",
+          name: "Tabular figures",
+          description: "Lining and oldstyle numerals that keep columns honest in tables and price lists",
+          priority: "p1",
+        },
+        {
+          id: "g6",
+          name: "Language coverage",
+          description: "Latin extended with the marks editorial work actually needs, not a checkbox dump",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
       },
     }),
   },

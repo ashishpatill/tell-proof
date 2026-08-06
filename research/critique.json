@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-06T14:34:09.419Z",
-  "overall": 0.9938,
+  "generatedAt": "2026-08-06T19:12:09.651Z",
+  "overall": 0.9928,
   "holdout": {
     "id": "holdout-commerce",
     "total": 0.9844,
-    "gap": 0.0094
+    "gap": 0.0084
   },
   "pages": [
     {
@@ -3269,6 +3269,475 @@
       ]
     },
     {
+      "id": "foundry-editorial",
+      "total": 0.9855,
+      "holdout": false,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 5.4,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 14,
+          "band": [
+            6,
+            14
+          ],
+          "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 3.3,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 1.08,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 17.1,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 68.5,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 3,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 5,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 7,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 1,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 15.91,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 65,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.914,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.382,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.842,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 10.84,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.589,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 1,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 1.116,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 0.391,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 5,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.007,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.057,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 5,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 3,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 490,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 33,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 10,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 7,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 3,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.125,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 98.6,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 4,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.25,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2347,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.4639,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 19,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.0482,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 2.58,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 1,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
       "id": "holdout-commerce",
       "total": 0.9844,
       "holdout": true,
@@ -3746,8 +4215,8 @@
         0.422,
         0.896
       ],
-      "mean": 0.812,
-      "scoredOn": 8,
+      "mean": 0.833,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -3778,96 +4247,12 @@
           "value": 0.472
         },
         {
+          "page": "foundry-editorial",
+          "value": 0.589
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.348
-        }
-      ]
-    },
-    {
-      "id": "rule-structure",
-      "label": "Rules per screen",
-      "band": [
-        0.42,
-        4.33
-      ],
-      "mean": 0.942,
-      "scoredOn": 8,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 4.04
-        },
-        {
-          "page": "dashboard-app",
-          "value": 4.57
-        },
-        {
-          "page": "corporate-story",
-          "value": 3.61
-        },
-        {
-          "page": "docs-educational",
-          "value": 4.82
-        },
-        {
-          "page": "fintech-trust",
-          "value": 4.16
-        },
-        {
-          "page": "studio-selected",
-          "value": 3.14
-        },
-        {
-          "page": "consumer-craft",
-          "value": 3.83
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 4.51
-        }
-      ]
-    },
-    {
-      "id": "type-steps",
-      "label": "Distinct type sizes",
-      "band": [
-        6,
-        14
-      ],
-      "mean": 0.969,
-      "scoredOn": 8,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 13
-        },
-        {
-          "page": "dashboard-app",
-          "value": 12
-        },
-        {
-          "page": "corporate-story",
-          "value": 13
-        },
-        {
-          "page": "docs-educational",
-          "value": 12
-        },
-        {
-          "page": "fintech-trust",
-          "value": 13
-        },
-        {
-          "page": "studio-selected",
-          "value": 14
-        },
-        {
-          "page": "consumer-craft",
-          "value": 11
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 15
         }
       ]
     },
@@ -3878,8 +4263,8 @@
         0.447,
         0.96
       ],
-      "mean": 0.983,
-      "scoredOn": 8,
+      "mean": 0.918,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -3910,8 +4295,108 @@
           "value": 0.626
         },
         {
+          "page": "foundry-editorial",
+          "value": 1.116
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.52
+        }
+      ]
+    },
+    {
+      "id": "rule-structure",
+      "label": "Rules per screen",
+      "band": [
+        0.42,
+        4.33
+      ],
+      "mean": 0.948,
+      "scoredOn": 9,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 4.04
+        },
+        {
+          "page": "dashboard-app",
+          "value": 4.57
+        },
+        {
+          "page": "corporate-story",
+          "value": 3.61
+        },
+        {
+          "page": "docs-educational",
+          "value": 4.82
+        },
+        {
+          "page": "fintech-trust",
+          "value": 4.16
+        },
+        {
+          "page": "studio-selected",
+          "value": 3.14
+        },
+        {
+          "page": "consumer-craft",
+          "value": 3.83
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 2.58
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 4.51
+        }
+      ]
+    },
+    {
+      "id": "type-steps",
+      "label": "Distinct type sizes",
+      "band": [
+        6,
+        14
+      ],
+      "mean": 0.972,
+      "scoredOn": 9,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 13
+        },
+        {
+          "page": "dashboard-app",
+          "value": 12
+        },
+        {
+          "page": "corporate-story",
+          "value": 13
+        },
+        {
+          "page": "docs-educational",
+          "value": 12
+        },
+        {
+          "page": "fintech-trust",
+          "value": 13
+        },
+        {
+          "page": "studio-selected",
+          "value": 14
+        },
+        {
+          "page": "consumer-craft",
+          "value": 11
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 14
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 15
         }
       ]
     },
@@ -3922,8 +4407,8 @@
         36,
         120
       ],
-      "mean": 0.988,
-      "scoredOn": 8,
+      "mean": 0.989,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -3954,6 +4439,10 @@
           "value": 64
         },
         {
+          "page": "foundry-editorial",
+          "value": 65
+        },
+        {
           "page": "holdout-commerce",
           "value": 77
         }
@@ -3967,7 +4456,7 @@
         8.8
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -3998,6 +4487,10 @@
           "value": 5.76
         },
         {
+          "page": "foundry-editorial",
+          "value": 5.4
+        },
+        {
           "page": "holdout-commerce",
           "value": 6.2
         }
@@ -4011,7 +4504,7 @@
         6.11
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4042,6 +4535,10 @@
           "value": 4
         },
         {
+          "page": "foundry-editorial",
+          "value": 3.3
+        },
+        {
           "page": "holdout-commerce",
           "value": 4.31
         }
@@ -4055,7 +4552,7 @@
         1.15
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4086,6 +4583,10 @@
           "value": 1.08
         },
         {
+          "page": "foundry-editorial",
+          "value": 1.08
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.98
         }
@@ -4099,7 +4600,7 @@
         32.9
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4130,6 +4631,10 @@
           "value": 20.6
         },
         {
+          "page": "foundry-editorial",
+          "value": 17.1
+        },
+        {
           "page": "holdout-commerce",
           "value": 18.6
         }
@@ -4143,7 +4648,7 @@
         82.5
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4174,6 +4679,10 @@
           "value": 67.2
         },
         {
+          "page": "foundry-editorial",
+          "value": 68.5
+        },
+        {
           "page": "holdout-commerce",
           "value": 72
         }
@@ -4187,7 +4696,7 @@
         1.5
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4218,6 +4727,10 @@
           "value": 1.48
         },
         {
+          "page": "foundry-editorial",
+          "value": 1.48
+        },
+        {
           "page": "holdout-commerce",
           "value": 1.48
         }
@@ -4231,7 +4744,7 @@
         8
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4262,6 +4775,10 @@
           "value": 4
         },
         {
+          "page": "foundry-editorial",
+          "value": 3
+        },
+        {
           "page": "holdout-commerce",
           "value": 5
         }
@@ -4275,7 +4792,7 @@
         26
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4304,6 +4821,10 @@
         {
           "page": "consumer-craft",
           "value": 6
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 5
         },
         {
           "page": "holdout-commerce",
@@ -4319,7 +4840,7 @@
         28
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4348,6 +4869,10 @@
         {
           "page": "consumer-craft",
           "value": 8
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 7
         },
         {
           "page": "holdout-commerce",
@@ -4363,7 +4888,7 @@
         5
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4392,6 +4917,10 @@
         {
           "page": "consumer-craft",
           "value": 2
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 1
         },
         {
           "page": "holdout-commerce",
@@ -4407,7 +4936,7 @@
         2.5
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4435,6 +4964,10 @@
         },
         {
           "page": "consumer-craft",
+          "value": 0
+        },
+        {
+          "page": "foundry-editorial",
           "value": 0
         },
         {
@@ -4451,7 +4984,7 @@
         21
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4482,6 +5015,10 @@
           "value": 15.27
         },
         {
+          "page": "foundry-editorial",
+          "value": 15.91
+        },
+        {
           "page": "holdout-commerce",
           "value": 15.13
         }
@@ -4495,7 +5032,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4526,6 +5063,10 @@
           "value": 0.968
         },
         {
+          "page": "foundry-editorial",
+          "value": 0.914
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.856
         }
@@ -4539,7 +5080,7 @@
         0.854
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4570,6 +5111,10 @@
           "value": 0.806
         },
         {
+          "page": "foundry-editorial",
+          "value": 0.382
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.833
         }
@@ -4583,7 +5128,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4614,6 +5159,10 @@
           "value": 0.875
         },
         {
+          "page": "foundry-editorial",
+          "value": 0.842
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.88
         }
@@ -4627,7 +5176,7 @@
         12.6
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4658,6 +5207,10 @@
           "value": 9.41
         },
         {
+          "page": "foundry-editorial",
+          "value": 10.84
+        },
+        {
           "page": "holdout-commerce",
           "value": 9.32
         }
@@ -4671,7 +5224,7 @@
         20
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4702,6 +5255,10 @@
           "value": 5
         },
         {
+          "page": "foundry-editorial",
+          "value": 5
+        },
+        {
           "page": "holdout-commerce",
           "value": 6
         }
@@ -4715,7 +5272,7 @@
         0.014
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4746,6 +5303,10 @@
           "value": 0.009
         },
         {
+          "page": "foundry-editorial",
+          "value": 0.007
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.006
         }
@@ -4759,7 +5320,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4790,6 +5351,10 @@
           "value": 1
         },
         {
+          "page": "foundry-editorial",
+          "value": 1
+        },
+        {
           "page": "holdout-commerce",
           "value": 1
         }
@@ -4803,7 +5368,7 @@
         0.154
       ],
       "mean": 1,
-      "scoredOn": 7,
+      "scoredOn": 8,
       "values": [
         {
           "page": "saas-conversion",
@@ -4834,6 +5399,10 @@
           "value": 0.06
         },
         {
+          "page": "foundry-editorial",
+          "value": 0.057
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.06
         }
@@ -4847,7 +5416,7 @@
         300
       ],
       "mean": 1,
-      "scoredOn": 7,
+      "scoredOn": 8,
       "values": [
         {
           "page": "saas-conversion",
@@ -4878,6 +5447,10 @@
           "value": 180
         },
         {
+          "page": "foundry-editorial",
+          "value": 180
+        },
+        {
           "page": "holdout-commerce",
           "value": 180
         }
@@ -4891,7 +5464,7 @@
         1983
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4919,6 +5492,10 @@
         },
         {
           "page": "consumer-craft",
+          "value": 128
+        },
+        {
+          "page": "foundry-editorial",
           "value": 128
         },
         {
@@ -4935,7 +5512,7 @@
         55
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -4963,6 +5540,10 @@
         },
         {
           "page": "consumer-craft",
+          "value": 5
+        },
+        {
+          "page": "foundry-editorial",
           "value": 5
         },
         {
@@ -4979,7 +5560,7 @@
         7
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5010,6 +5591,10 @@
           "value": 4
         },
         {
+          "page": "foundry-editorial",
+          "value": 3
+        },
+        {
           "page": "holdout-commerce",
           "value": 4
         }
@@ -5023,7 +5608,7 @@
         1139
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5054,6 +5639,10 @@
           "value": 639
         },
         {
+          "page": "foundry-editorial",
+          "value": 490
+        },
+        {
           "page": "holdout-commerce",
           "value": 873
         }
@@ -5067,7 +5656,7 @@
         115
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5098,6 +5687,10 @@
           "value": 34
         },
         {
+          "page": "foundry-editorial",
+          "value": 33
+        },
+        {
           "page": "holdout-commerce",
           "value": 38
         }
@@ -5111,7 +5704,7 @@
         28
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5142,6 +5735,10 @@
           "value": 8
         },
         {
+          "page": "foundry-editorial",
+          "value": 10
+        },
+        {
           "page": "holdout-commerce",
           "value": 14
         }
@@ -5155,7 +5752,7 @@
         10
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5186,6 +5783,10 @@
           "value": 9
         },
         {
+          "page": "foundry-editorial",
+          "value": 7
+        },
+        {
           "page": "holdout-commerce",
           "value": 8
         }
@@ -5199,7 +5800,7 @@
         6
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5230,6 +5831,10 @@
           "value": 4
         },
         {
+          "page": "foundry-editorial",
+          "value": 3
+        },
+        {
           "page": "holdout-commerce",
           "value": 3
         }
@@ -5243,7 +5848,7 @@
         1.375
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5274,6 +5879,10 @@
           "value": 0.462
         },
         {
+          "page": "foundry-editorial",
+          "value": 0.125
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.643
         }
@@ -5287,7 +5896,7 @@
         100
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5318,6 +5927,10 @@
           "value": 90
         },
         {
+          "page": "foundry-editorial",
+          "value": 98.6
+        },
+        {
           "page": "holdout-commerce",
           "value": 89.2
         }
@@ -5331,7 +5944,7 @@
         7
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5362,6 +5975,10 @@
           "value": 4
         },
         {
+          "page": "foundry-editorial",
+          "value": 4
+        },
+        {
           "page": "holdout-commerce",
           "value": 5
         }
@@ -5375,7 +5992,7 @@
         0.5
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5406,6 +6023,10 @@
           "value": 0.231
         },
         {
+          "page": "foundry-editorial",
+          "value": 0.25
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.214
         }
@@ -5419,7 +6040,7 @@
         0.778
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5450,6 +6071,10 @@
           "value": 0.2473
         },
         {
+          "page": "foundry-editorial",
+          "value": 0.2347
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.2111
         }
@@ -5463,7 +6088,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5494,6 +6119,10 @@
           "value": 0.3778
         },
         {
+          "page": "foundry-editorial",
+          "value": 0.4639
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.92
         }
@@ -5507,7 +6136,7 @@
         157
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5538,6 +6167,10 @@
           "value": 14
         },
         {
+          "page": "foundry-editorial",
+          "value": 19
+        },
+        {
           "page": "holdout-commerce",
           "value": 19
         }
@@ -5551,7 +6184,7 @@
         0.469
       ],
       "mean": 1,
-      "scoredOn": 8,
+      "scoredOn": 9,
       "values": [
         {
           "page": "saas-conversion",
@@ -5580,6 +6213,10 @@
         {
           "page": "consumer-craft",
           "value": 0.0525
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 0.0482
         },
         {
           "page": "holdout-commerce",

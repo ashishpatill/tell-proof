@@ -15,19 +15,25 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
   const leanDefault =
     siteKind === "dashboard-webapp"
       ? "system-crafted"
-      : siteKind === "corporate-story" || siteKind === "docs-educational"
+      : siteKind === "corporate-story" || siteKind === "docs-educational" || siteKind === "editorial-foundry"
         ? "refined-story"
         : "conversion-sharp";
 
   return TasteControls.parse({
     density:
       brief.taste?.density ??
-      (siteKind === "docs-educational" ? "balanced" : siteKind === "dashboard-webapp" ? "information-rich" : "balanced"),
-    motion: brief.taste?.motion ?? (siteKind === "dashboard-webapp" ? "subtle-micro" : "subtle-micro"),
+      (siteKind === "docs-educational" || siteKind === "editorial-foundry"
+        ? "sparse"
+        : siteKind === "dashboard-webapp"
+          ? "information-rich"
+          : "balanced"),
+    motion:
+      brief.taste?.motion ??
+      (siteKind === "editorial-foundry" ? "light-scroll-reveals" : siteKind === "dashboard-webapp" ? "subtle-micro" : "subtle-micro"),
     aestheticLean: brief.taste?.aestheticLean ?? leanDefault,
-    colorMood: brief.taste?.colorMood ?? "neutral-professional",
-    typographyWeight: brief.taste?.typographyWeight ?? "medium-modern",
-    roundingDepth: brief.taste?.roundingDepth ?? (siteKind === "dashboard-webapp" ? "sharp" : "soft"),
+    colorMood: brief.taste?.colorMood ?? (siteKind === "editorial-foundry" ? "light-airy" : "neutral-professional"),
+    typographyWeight: brief.taste?.typographyWeight ?? (siteKind === "editorial-foundry" ? "light-elegant" : "medium-modern"),
+    roundingDepth: brief.taste?.roundingDepth ?? (siteKind === "dashboard-webapp" || siteKind === "editorial-foundry" ? "sharp" : "soft"),
   });
 }
 

@@ -247,6 +247,47 @@ body[data-sitekind="art-directed-studio"]{
 [data-sitekind="consumer-craft"] .ds-alt-pair{border-top-color:transparent}
 [data-sitekind="consumer-craft"] .ds-alt-pair:last-child{border-bottom-color:transparent}
 [data-sitekind="consumer-craft"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 55%,transparent)}
+/* Editorial foundry — hard seam, spine, type ladder, marginalia, colophon. */
+[data-sitekind="editorial-foundry"]{
+  --align-rail:6.5rem;
+}
+body[data-sitekind="editorial-foundry"]{
+  background:
+    linear-gradient(90deg,transparent 0,transparent calc(var(--align-rail) - 1px),color-mix(in srgb,var(--c-border) 55%,transparent) calc(var(--align-rail) - 1px),color-mix(in srgb,var(--c-border) 55%,transparent) var(--align-rail),transparent var(--align-rail)),
+    linear-gradient(180deg,var(--c-paper),color-mix(in srgb,var(--c-paper-sunken) 40%,var(--c-paper)) 48%,var(--c-paper));
+}
+[data-sitekind="editorial-foundry"] .ds-brand-mark{
+  font-size:var(--t-heading-size);line-height:1.1;letter-spacing:var(--t-caption-tracking);
+  font-family:var(--f-display);
+}
+[data-sitekind="editorial-foundry"] .ds-hero-seam .ds-display{
+  font-size:clamp(2.1rem,3.3vw,3.05rem);max-width:14ch;line-height:1.08;letter-spacing:-0.03em;
+}
+[data-sitekind="editorial-foundry"] .ds-hero-seam .ds-lede{max-width:36ch}
+[data-sitekind="editorial-foundry"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="editorial-foundry"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
+[data-sitekind="editorial-foundry"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
+[data-sitekind="editorial-foundry"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
+[data-sitekind="editorial-foundry"] .ds-section-head,
+[data-sitekind="editorial-foundry"] .ds-index-row,
+[data-sitekind="editorial-foundry"] .ds-marginalia-essay,
+[data-sitekind="editorial-foundry"] .ds-chapter{padding-left:0;margin-left:var(--align-rail)}
+[data-sitekind="editorial-foundry"] .ds-closing-colophon{
+  border-top:1px solid var(--c-border);
+  padding-block:var(--s-3xl,var(--s-2xl)) var(--section-y);
+}
+[data-sitekind="editorial-foundry"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:16ch}
+[data-sitekind="editorial-foundry"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
+/* Deliberate overlaps across band boundaries — layeredElements corridor floor is 11. */
+[data-sitekind="editorial-foundry"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="editorial-foundry"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="editorial-foundry"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="editorial-foundry"] .ds-marginalia-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="editorial-foundry"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="editorial-foundry"] .ds-index-mark{margin-top:calc(var(--s-xs) * -1)}
+/* Quiet the sunken specimen a notch so ink-variation stays inside corridor (seam is already dense). */
+[data-sitekind="editorial-foundry"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(62vh,640px)}
+[data-sitekind="editorial-foundry"] .ds-alt-figure .ds-fig{min-height:min(48vh,480px)}
 `;
 }
 
@@ -556,6 +597,71 @@ ${surfaceRules()}
   margin-bottom:0.75rem;
 }
 .ds-hero-stackfold + .ds-metrics-band{padding-top:calc(var(--section-y-tight) + var(--s-lg))}
+/* Hard-seam fold + typographic spine (editorial foundry). */
+.ds-hero-seam{
+  position:relative;isolation:isolate;padding:0;min-height:min(100vh,920px);
+  display:flex;flex-direction:column;
+}
+.ds-seam-grid{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:inherit;flex:1;
+}
+.ds-seam-claim{
+  display:flex;align-items:flex-end;padding:calc(var(--nav-h,4.5rem) + var(--s-xl)) var(--gutter) var(--s-2xl) var(--align-rail);
+  background:var(--c-paper);color:var(--c-ink);
+}
+.ds-seam-claim-inner{max-width:34rem;width:100%}
+.ds-seam-plate{
+  position:relative;display:flex;align-items:stretch;justify-content:stretch;
+  background:var(--c-inverse);color:var(--c-inverse-ink);
+  --surface-bg:var(--c-inverse);--surface-ink:var(--c-inverse-ink);
+  --surface-body:var(--c-inverse-ink);--surface-muted:var(--c-inverse-ink-muted);
+  --surface-quiet:color-mix(in srgb,var(--c-inverse-ink) 55%,transparent);
+  --surface-border:color-mix(in srgb,var(--c-inverse-ink) 22%,transparent);
+  overflow:hidden;
+}
+.ds-seam-edge{
+  position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c-accent);z-index:2;
+}
+.ds-seam-figure{margin:0;width:100%;min-height:100%;display:flex;align-items:stretch}
+.ds-seam-figure .ds-fig{width:100%;height:100%;min-height:min(92vh,880px);display:block}
+.ds-spine{
+  position:absolute;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-md));bottom:var(--s-md);
+  width:var(--align-rail);z-index:3;pointer-events:none;
+  display:flex;align-items:flex-start;justify-content:center;padding-top:var(--s-lg);
+}
+.ds-spine-text{
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);white-space:nowrap;
+}
+@media (max-width:800px){
+  .ds-seam-grid{grid-template-columns:1fr}
+  .ds-seam-claim{padding:calc(var(--nav-h,4.5rem) + var(--s-lg)) var(--gutter) var(--s-xl)}
+  .ds-seam-plate{min-height:70vh}
+  .ds-spine{display:none}
+}
+.ds-marginalia-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
+.ds-marginalia-essay{display:flex;flex-direction:column;gap:var(--s-xl);max-width:42rem}
+.ds-marginalia-beat{position:relative}
+.ds-marginalia-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
+.ds-marginalia-rule{
+  border:0;border-top:1px solid var(--surface-border);margin:var(--s-xl) 0 0;
+  width:100vw;margin-left:calc(50% - 50vw);max-width:none;
+}
+.ds-marginalia-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-marginalia-rail{position:sticky;top:calc(var(--nav-h,4.5rem) + var(--s-md))}
+.ds-marginalia-notes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-lg)}
+.ds-marginalia-note{padding-left:var(--s-sm);border-left:2px solid var(--c-accent)}
+.ds-marginalia-meta{
+  margin:0 0 0.25rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--surface-quiet);
+}
+.ds-marginalia-title{margin:0;font-size:var(--t-small-size,0.85rem);line-height:1.35;color:var(--surface-muted);max-width:22ch}
+@media (max-width:800px){
+  .ds-marginalia-grid{grid-template-columns:1fr !important}
+  .ds-marginalia-rail{position:static}
+  .ds-marginalia-rule{width:100%;margin-left:0}
+}
 /* Shared content spine — personal-craft pages score high alignment axes from one repeated left edge. */
 .ds-section > .ds-wrap,.ds-section > .ds-wrap-wide{position:relative}
 /* Dashboard: keep the measured body voice on a full prose measure, not a squeezed app column. */

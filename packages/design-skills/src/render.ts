@@ -232,6 +232,33 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     </section>`;
   }
 
+  /*
+   * Hard-seam fold — the foundry signature.
+   *
+   * Left: paper claim on a shared typographic rail. Right: inverse type-ladder plate.
+   * The join is a hard vertical accent edge — not a gradient wash, not a stack, not an overfigure.
+   * A sticky vertical spine carries the product name through the scroll. Generic engines do not
+   * invent this grammar from a theme pack.
+   */
+  if (section.layout === "hero-seam") {
+    const ladder = figures.hero
+      ? `<figure class="ds-seam-figure" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const spine = `<aside class="ds-spine" aria-hidden="true"><span class="ds-spine-text">${esc(spec.brief.productName)}</span></aside>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-seam" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${spine}
+      <div class="ds-seam-grid">
+        <div class="ds-seam-claim">
+          <div class="ds-seam-claim-inner">${copy}</div>
+        </div>
+        <div class="ds-seam-plate" data-surface="inverse">
+          <div class="ds-seam-edge" aria-hidden="true"></div>
+          ${ladder}
+        </div>
+      </div>
+    </section>`;
+  }
+
   if (section.layout === "hero-editorial") {
     return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-overfigure" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${spanning}
@@ -572,6 +599,50 @@ function renderChapters(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
+ * Marginalia essay — editorial-longform craft the engine did not previously emit.
+ *
+ * Reading column on the shared rail; annotations hang in the outer column as true marginalia
+ * (not cards). A full-bleed hairline interrupts the measure between beats. Hard for a generic
+ * theme pack to fake without inventing this layout grammar.
+ */
+function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
+  const count = section.blocks.length;
+  const notes = section.blocks
+    .map((b, i) => {
+      const note = b.kicker || b.meta || `Cut ${String(i + 1).padStart(2, "0")}`;
+      return `<li class="ds-marginalia-note" style="--note-i:${i}">
+        <p class="ds-marginalia-meta">${esc(note)}</p>
+        <p class="ds-marginalia-title">${esc(b.title)}</p>
+      </li>`;
+    })
+    .join("");
+  const essay = section.blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-marginalia-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      return `<article class="ds-marginalia-beat">
+        <p class="ds-chapter-index">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
+        <h3>${esc(b.title)}</h3>
+        ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+        ${mark}
+        ${i < count - 1 ? `<hr class="ds-marginalia-rule" aria-hidden="true"/>` : ""}
+      </article>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-marginalia" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-wrap-wide">
+      ${secMeta("Essay", `${count} cuts · annotated`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-marginalia-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
+        <div class="ds-marginalia-essay">${essay}</div>
+        <aside class="ds-marginalia-rail" aria-label="Marginal notes">
+          <ol class="ds-marginalia-notes">${notes}</ol>
+        </aside>
+      </div>
+    </div>
+  </section>`;
+}
+
+/**
  * Proof band — a filled board, not a lonely quote on black.
  *
  * The pullquote layout left a dark void with one paragraph of type: the exact toy look buyers
@@ -707,7 +778,9 @@ function renderFaq(section: SectionSpec): string {
  * as tall as what is in it, and the composition reads across rather than down.
  */
 function renderCtaBand(section: SectionSpec, figures: FigurePlan): string {
-  return `<section class="ds-section ds-closing" data-surface="${section.surface}" data-section="${esc(section.id)}" id="cta">
+  const isColophon = /Colophon/i.test(section.eyebrow ?? "");
+  const colophonClass = isColophon ? " ds-closing-colophon" : "";
+  return `<section class="ds-section ds-closing${colophonClass}" data-surface="${section.surface}" data-section="${esc(section.id)}" id="cta">
     <div class="ds-wrap-wide ds-closing-grid">
       <div class="ds-cta">
         ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
@@ -854,6 +927,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-editorial":
     case "hero-split":
     case "hero-statement":
+    case "hero-seam":
       return wrapped(renderHero(section, spec, figures));
     case "metric-band":
       return wrapped(renderMetricBand(section, figures));
@@ -868,6 +942,8 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderFigure(section));
     case "story-chapters":
       return wrapped(renderChapters(section, figures));
+    case "story-marginalia":
+      return wrapped(renderMarginalia(section, figures));
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));

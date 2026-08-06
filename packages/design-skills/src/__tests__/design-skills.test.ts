@@ -265,13 +265,14 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(7);
+    expect(templates).toHaveLength(8);
     expect(templates.map((t) => t.key).sort()).toEqual([
       "consumer",
       "corporate",
       "dashboard",
       "educational",
       "fintech",
+      "foundry",
       "saas",
       "studio",
     ]);
@@ -285,6 +286,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(studio.siteKind).toBe("art-directed-studio");
     const consumer = templates.find((t) => t.key === "consumer")!;
     expect(consumer.siteKind).toBe("consumer-craft");
+    const foundry = templates.find((t) => t.key === "foundry")!;
+    expect(foundry.siteKind).toBe("editorial-foundry");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -325,6 +328,24 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-hero-claimband");
     expect(previewHtml).toContain("ds-hero-stackfold");
     expect(previewHtml).toContain("In hand");
+  });
+
+  it("gives editorial foundry a hard-seam + type-ladder plan distinct from studio and SaaS", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.foundry!);
+    expect(spec.brief.siteKind).toBe("editorial-foundry");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-seam")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-marginalia")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="editorial-foundry"');
+    expect(previewHtml).toContain("ds-hero-seam");
+    expect(previewHtml).toContain("ds-spine");
+    expect(previewHtml).toContain('data-figure="type-ladder"');
+    expect(previewHtml).toContain("ds-marginalia");
+    expect(previewHtml).toContain("Colophon");
+    expect(previewHtml).toContain("The cuts");
   });
 
   it("clears the implementation basics gate on every offering", () => {

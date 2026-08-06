@@ -56,6 +56,13 @@ export const SiteKind = z.enum([
    * calibrated to consumer-craft (figureArea ~0.68, fold figure ~0.73, little inverse).
    */
   "consumer-craft",
+  /**
+   * Editorial foundry / type-craft marketing — hard-seam fold, typographic spine,
+   * type-ladder specimen, marginalia essay. Calibrated to type-foundry + personal-craft
+   * + editorial-longform (fold figure ~0.97, figureArea ~0.38, invertedShare ~0,
+   * display ~3.3vw, alignment axes ~6). Not a recolored SaaS/studio skeleton.
+   */
+  "editorial-foundry",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 
@@ -188,6 +195,8 @@ export const LayoutVariant = z.enum([
   "hero-editorial",
   "hero-split",
   "hero-statement",
+  /** Hard vertical seam: paper claim | inverse type ladder — foundry signature fold. */
+  "hero-seam",
   "metric-band",
   "specimen-band",
   "marquee-proof",
@@ -197,6 +206,8 @@ export const LayoutVariant = z.enum([
   "feature-rows",
   "figure-explainer",
   "story-chapters",
+  /** Essay register with outer-margin annotations — editorial-longform craft. */
+  "story-marginalia",
   "pullquote",
   "pricing-lanes",
   "compare-matrix",
