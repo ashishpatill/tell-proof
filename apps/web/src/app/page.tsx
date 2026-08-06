@@ -858,7 +858,17 @@ export default function HomePage() {
           <div className="grid h-9 w-9 place-items-center rounded-full border border-accent/50 bg-accent/10 font-mono text-accent">⊕</div>
           <div>
             <p className="font-display text-3xl leading-none">Tell Proof</p>
-            <p className="font-mono text-meta uppercase tracking-[0.12em] text-secondary">Independent visual checks for agent-built software</p>
+            <p className="font-mono text-meta uppercase tracking-[0.12em] text-secondary">
+              Independent visual checks for agent-built software
+              {" · "}
+              <a className="text-accent underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase">
+                Specimens
+              </a>
+              {" · "}
+              <a className="text-accent underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/studio">
+                Studio
+              </a>
+            </p>
           </div>
         </div>
         <label className="ml-auto flex min-w-[320px] flex-1 items-center gap-2 rounded-card border border-border bg-surface px-3 py-2 font-mono text-sm text-secondary">
