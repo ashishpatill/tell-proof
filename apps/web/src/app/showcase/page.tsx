@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { designFromFeatures, listTemplates, type DesignTemplate } from "@tell/design-skills";
+import { ScaledPreview } from "@/components/showcase/ScaledPreview";
 import "./showcase.css";
 
 export const dynamic = "force-static";
@@ -76,9 +77,14 @@ export default function ShowcaseGalleryPage() {
               <span>{featured.index} / {String(offerings.length).padStart(2, "0")}</span>
             </div>
             <div className="sx-plate">
-              <div className="sx-plate-frame">
-                <iframe title={`${featured.label} preview`} srcDoc={featured.previewHtml} tabIndex={-1} />
-              </div>
+              <ScaledPreview
+                className="sx-plate-frame"
+                title={`${featured.label} preview`}
+                html={featured.previewHtml}
+                designWidth={1440}
+                designHeight={990}
+                testId="showcase-featured-preview"
+              />
               <div className="sx-plate-meta">
                 <h2>{featured.label}</h2>
                 <p>{featured.marketJob}</p>
@@ -105,9 +111,15 @@ export default function ShowcaseGalleryPage() {
                     <p className="sx-kind">{o.siteKind}</p>
                   </div>
                   <p className="sx-row-job">{o.marketJob}</p>
-                  <div className="sx-thumb" aria-hidden="true">
-                    <iframe title="" srcDoc={o.previewHtml} tabIndex={-1} />
-                  </div>
+                  <ScaledPreview
+                    className="sx-thumb"
+                    title={`${o.label} thumbnail`}
+                    html={o.previewHtml}
+                    designWidth={1440}
+                    designHeight={900}
+                    decorative
+                    testId={`showcase-thumb-${o.key}`}
+                  />
                 </Link>
               </li>
             ))}
