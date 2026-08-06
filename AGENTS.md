@@ -92,6 +92,7 @@ Feature workflows live in `.cursor/skills/`:
 - `tell-demo-script` — demo + compliance
 - `tell-template-craft` — open-design plumbing first, then top-designer craft iteration + screenshot proof
 - `tell-recursive-improve` — champion/challenger loop + `research/LEARNINGS.md` (no nav-only showcase shots)
+- `ship-loop` — analyze PR → fix → semantic commits → push → re-check → merge
 
 ## Subagents
 

@@ -17,6 +17,13 @@ Pattern keys match `tell-recursive-improve`.
 - **Fix:** Taller thumbs (~10.5rem); scroll still frame to **figure/claim beat** (skip y=0); featured **cinema reel** through beats; screenshot contract requires a craft beat, not chrome.
 - **Do not:** Ship gallery shots of the top 400px of a 1440 page and call it a specimen.
 
+## 2026-08-06 — `showcase:sticky-nav-in-still`
+
+- **Failure:** Even after beat scroll, sticky nav still occupied the top of every plate/thumb.
+- **Fix:** Inject preview-only CSS in `SpecimenPreview` that hides `.ds-nav` / skip link inside the iframe.
+- **Do not:** Treat nav chrome as part of the specimen proof.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.
+Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) → push → green → merge.

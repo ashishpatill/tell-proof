@@ -127,6 +127,17 @@ export function SpecimenPreview({
       const doc = iframe.contentDocument;
       const win = iframe.contentWindow;
       if (!doc || !win) return;
+      // Showcase chrome: hide sticky nav so stills/reels show craft, not browser chrome.
+      if (!doc.getElementById("sx-preview-chrome")) {
+        const style = doc.createElement("style");
+        style.id = "sx-preview-chrome";
+        style.textContent = `
+          .ds-nav{display:none!important}
+          .ds-skip{display:none!important}
+          html{scroll-padding-top:0!important}
+        `;
+        doc.head.appendChild(style);
+      }
       window.setTimeout(() => {
         const found = discoverBeats(doc);
         setBeats(found);
