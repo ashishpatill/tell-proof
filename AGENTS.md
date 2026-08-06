@@ -91,6 +91,7 @@ Feature workflows live in `.cursor/skills/`:
 - `tell-deploy` — Vercel/Docker public URL
 - `tell-demo-script` — demo + compliance
 - `tell-template-craft` — open-design plumbing first, then top-designer craft iteration + screenshot proof
+- `tell-recursive-improve` — champion/challenger loop + `research/LEARNINGS.md` (no nav-only showcase shots)
 
 ## Subagents
 

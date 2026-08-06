@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { designFromFeatures, listTemplates, type DesignTemplate } from "@tell/design-skills";
-import { ScaledPreview } from "@/components/showcase/ScaledPreview";
+import { SpecimenPreview } from "@/components/showcase/SpecimenPreview";
 import "./showcase.css";
 
 export const dynamic = "force-static";
@@ -20,10 +20,9 @@ function buildOfferings(): OfferingPreview[] {
   }));
 }
 
-/** Specimen gallery — one composition that showcases the engine's craft. */
+/** Specimen gallery — cinema reels of craft beats, not nav-strip thumbnails. */
 export default function ShowcaseGalleryPage() {
   const offerings = buildOfferings();
-  // Lead with the newest craft gap fill so the gallery feels current, not SaaS-default.
   const featured = offerings.find((o) => o.key === "studio") ?? offerings[0]!;
   const rest = offerings.filter((o) => o.key !== featured.key);
 
@@ -46,15 +45,15 @@ export default function ShowcaseGalleryPage() {
           </nav>
         </header>
 
-        <section className="sx-hero" aria-labelledby="sx-hero-title">
+        <section className="sx-hero sx-hero-cinema" aria-labelledby="sx-hero-title">
           <div className="sx-hero-copy">
             <p className="sx-kicker">Premium content-custom design</p>
             <h1 id="sx-hero-title" className="sx-display">
               Specimens, not themes
             </h1>
             <p className="sx-lede">
-              Seven site kinds measured against an expert corpus — each one a different argument on
-              the page, generated from declared features.
+              Each offering is a measured argument on the page. The reel below walks the craft beats —
+              claim, figure, stakes — not a cropped browser chrome.
             </p>
             <div className="sx-hero-actions">
               <Link className="sx-nav-cta" href="/studio">
@@ -66,23 +65,27 @@ export default function ShowcaseGalleryPage() {
             </div>
             <ul className="sx-facts">
               <li>{offerings.length} offerings</li>
-              <li>Research-loop calibrated</li>
+              <li>Scroll-reel proofs</li>
               <li>Zero auto-apply</li>
             </ul>
           </div>
 
           <article className="sx-featured" aria-label={`Featured specimen: ${featured.label}`}>
             <div className="sx-featured-label">
-              <span>Featured proof</span>
-              <span>{featured.index} / {String(offerings.length).padStart(2, "0")}</span>
+              <span>Featured reel</span>
+              <span>
+                {featured.index} / {String(offerings.length).padStart(2, "0")}
+              </span>
             </div>
             <div className="sx-plate">
-              <ScaledPreview
+              <SpecimenPreview
                 className="sx-plate-frame"
                 title={`${featured.label} preview`}
                 html={featured.previewHtml}
                 designWidth={1440}
-                designHeight={990}
+                designHeight={1100}
+                mode="cinema"
+                prefer="auto"
                 testId="showcase-featured-preview"
               />
               <div className="sx-plate-meta">
@@ -97,12 +100,16 @@ export default function ShowcaseGalleryPage() {
         <section className="sx-index" id="index" aria-labelledby="sx-index-title">
           <div className="sx-index-head">
             <h2 id="sx-index-title">The index</h2>
-            <p>Each row is a measured corridor — not a color theme with a new name.</p>
+            <p>Hover a row to scrub its reel. Stills open on the figure beat, not the nav.</p>
           </div>
           <ol className="sx-list">
             {rest.map((o) => (
               <li key={o.key}>
-                <Link className="sx-row" href={`/showcase/${o.key}`} data-testid={`showcase-link-${o.key}`}>
+                <Link
+                  className="sx-row"
+                  href={`/showcase/${o.key}`}
+                  data-testid={`showcase-link-${o.key}`}
+                >
                   <span className="sx-num" aria-hidden="true">
                     {o.index}
                   </span>
@@ -111,12 +118,14 @@ export default function ShowcaseGalleryPage() {
                     <p className="sx-kind">{o.siteKind}</p>
                   </div>
                   <p className="sx-row-job">{o.marketJob}</p>
-                  <ScaledPreview
+                  <SpecimenPreview
                     className="sx-thumb"
                     title={`${o.label} thumbnail`}
                     html={o.previewHtml}
                     designWidth={1440}
                     designHeight={900}
+                    mode="still"
+                    prefer="figure"
                     decorative
                     testId={`showcase-thumb-${o.key}`}
                   />
@@ -127,7 +136,7 @@ export default function ShowcaseGalleryPage() {
         </section>
 
         <footer className="sx-foot">
-          <p>Deepened by the design-research loop · plumbing floors from peer builders only when stuck.</p>
+          <p>Deepened by the recursive improve loop · research learnings compound across sessions.</p>
           <p>
             <Link href="/studio">Edit in Studio</Link>
             {" · "}

@@ -57,9 +57,11 @@ for *measurement and eye* only; encode results as anonymised corridors (same as 
 
 When improving templates or `/showcase`, post artifacts after each meaningful fix:
 
-- Gallery fold: `/showcase`
+- Gallery: `/showcase` with **craft beats visible** (figure / claim+figure / inverse) — never sticky-nav-only crops
 - Offering fold + 1–2 scroll slices for the template under work
+- Prefer clipping `.sx-plate-frame` / `.sx-thumb` after `data-ready=true` and a non-empty `data-beat`
 - Paths under `/opt/cursor/artifacts/screenshots/` (or `research/shots/`)
+- Also follow `tell-recursive-improve` + `research/LEARNINGS.md` after any human-named miss
 
 ## Invariants
 
