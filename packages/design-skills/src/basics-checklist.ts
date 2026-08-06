@@ -92,14 +92,14 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     check(
       "asymmetric-or-statement-fold",
       (() => {
-        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold/.test(html)) return true;
+        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam/.test(html)) return true;
         const splits = html.match(/grid-template-columns:[^";]+/g) ?? [];
         return splits.some((s) => {
           const fr = Array.from(s.matchAll(/(\d+(?:\.\d+)?)fr/g)).map((m) => Number(m[1]));
           return fr.length === 2 && fr[0] !== fr[1];
         });
       })(),
-      "Fold is either an asymmetric split or a spanning statement — equal 50/50 is the template tell.",
+      "Fold is either an asymmetric split, spanning statement, or hard-seam — equal 50/50 is the template tell.",
     ),
     check(
       "kind-shell",
@@ -138,6 +138,21 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && spec.sections.filter((s) => s.surface === "inverse").length <= 1
         ),
       "Consumer craft stays figure-forward and paper-led — stack fold + solid claim, no pricing, ≤1 inverse.",
+    ),
+    check(
+      "kind-foundry",
+      spec.brief.siteKind !== "editorial-foundry"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && !spec.sections.some((s) => s.kind === "metrics")
+          && /ds-hero-seam/.test(html)
+          && /ds-spine/.test(html)
+          && /data-figure="type-ladder"/.test(html)
+          && /ds-marginalia/.test(html)
+          && /Colophon/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length === 0
+        ),
+      "Foundry offerings use hard-seam + type ladder + marginalia + colophon — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "solid-claim-when-labeled-fold",

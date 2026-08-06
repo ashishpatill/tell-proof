@@ -170,6 +170,35 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       },
     },
   },
+  {
+    id: "foundry-editorial",
+    brief: {
+      productName: "Glyph Press",
+      tagline: "Faces cut for the sizes you actually set",
+      audience: "art directors and editorial designers commissioning a text face",
+      businessGoal: "trust",
+      siteKind: "editorial-foundry",
+      lockSiteKind: true,
+      brandAccent: "#1A3A4A",
+      features: [
+        { id: "g1", name: "Display cut", description: "Tight tracking and open counters that hold at poster size without going brittle.", priority: "p0" },
+        { id: "g2", name: "Text cut", description: "Optical size for long reading — ink traps and spacing tuned for 10–12 point.", priority: "p0" },
+        { id: "g3", name: "Caption cut", description: "A denser face for labels and footnotes that still matches the text colour.", priority: "p0" },
+        { id: "g4", name: "Italic mates", description: "True italics drawn as companions, not slanted romans with a costume change.", priority: "p1" },
+        { id: "g5", name: "Tabular figures", description: "Lining and oldstyle numerals that keep columns honest in tables and price lists.", priority: "p1" },
+        { id: "g6", name: "Language coverage", description: "Latin extended with the marks editorial work actually needs, not a checkbox dump.", priority: "p2" },
+      ],
+      constraints: ["type-craft first", "paper-led", "hard-seam fold", "no pricing theatre", "restrained motion"],
+      taste: {
+        aestheticLean: "refined-story",
+        motion: "light-scroll-reveals",
+        density: "sparse",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    },
+  },
 ];
 
 /**

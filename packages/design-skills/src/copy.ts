@@ -125,6 +125,13 @@ export function ctaFor(
       note: "We take a few engagements at a time.",
     };
   }
+  if (siteKind === "editorial-foundry") {
+    return {
+      primary: "Request a specimen",
+      secondary: "See the cuts",
+      note: "Trial files ship with the optical sizes you will actually set.",
+    };
+  }
   return GOAL_CTA[goal];
 }
 

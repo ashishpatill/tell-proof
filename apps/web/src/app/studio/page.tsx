@@ -218,6 +218,11 @@ export default function StudioPage() {
       nextLean = "conversion-sharp";
       nextDensity = "balanced";
     }
+    if (/foundry|typeface|specimen|optical|glyph|typography/.test(text)) {
+      nextKind = "editorial-foundry";
+      nextLean = "refined-story";
+      nextDensity = "sparse";
+    }
     if (/story|editorial|refined|corporate/.test(text)) {
       nextLean = "refined-story";
       nextDensity = "sparse";
@@ -345,6 +350,7 @@ export default function StudioPage() {
               "fintech-marketing",
               "art-directed-studio",
               "consumer-craft",
+              "editorial-foundry",
             ]}
             testId="input-sitekind"
           />

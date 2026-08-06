@@ -23,6 +23,15 @@ Pattern keys match `tell-recursive-improve`.
 - **Fix:** Inject preview-only CSS in `SpecimenPreview` that hides `.ds-nav` / skip link inside the iframe.
 - **Do not:** Treat nav chrome as part of the specimen proof.
 
+
+## 2026-08-06 — `template:svg-text-steals-display`
+
+- **Failure:** Foundry type-ladder used SVG `<text font-size="180+">` for optical samples. The
+  critique probe treated those as page display type → displayVw 10.97, type-steps 18, measure 2.7ch,
+  craft score 86.
+- **Fix:** Draw optical sizes as `constructedGlyph` strokes; keep only 10–11px mono labels in SVG.
+- **Do not:** Put large SVG text on the fold and expect type bands to stay honest.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.
