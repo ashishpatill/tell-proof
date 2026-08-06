@@ -361,7 +361,8 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     columns: split.wide,
   });
 
-  if ((siteKind === "saas-marketing" || siteKind === "fintech-marketing") && featureCount >= 3) {
+  // Fintech / studio / consumer return earlier — only SaaS reaches this pricing branch.
+  if (siteKind === "saas-marketing" && featureCount >= 3) {
     const lanes = goal === "sales" || goal === "leads" || goal === "demos";
     if (lanes) plans.push({ id: "pricing", kind: "pricing", layout: "pricing-lanes", surface: "raised" });
     // The matrix is what the lanes mean, not a second subject. Bonded, the two arrive as the one

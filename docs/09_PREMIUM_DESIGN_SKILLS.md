@@ -17,7 +17,8 @@
 | `packages/design-skills/src/templates.ts` | Research-backed offerings (depth-first catalog across measured gaps) |
 | `packages/design-skills/src/basics-checklist.ts` | Implementation floor only (not taste) |
 | `/studio` | Live canvas + Taste Controls + magic edit + viewport + copy HTML |
-| `/showcase/*` | SaaS, dashboard, corporate, educational, fintech, studio, consumer demos |
+| `/showcase` | Specimen gallery (print-atelier index of all offerings) |
+| `/showcase/*` | Full proof sheets: saas, dashboard, corporate, educational, fintech, studio, consumer |
 | `POST /api/design` | Brief → spec + preview HTML (`redesignFrom` optional) |
 | `GET /api/design?templates=1` | Offering catalog metadata |
 | MCP `tell_design_from_features` | MCP tool |

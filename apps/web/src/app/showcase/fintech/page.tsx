@@ -1,18 +1,19 @@
-import { designFromFeatures, SHOWCASE_BRIEFS } from "@tell/design-skills";
+import { designFromFeatures, getTemplate } from "@tell/design-skills";
+import { ShowcaseFrame } from "@/components/showcase/ShowcaseFrame";
 
 export const dynamic = "force-static";
 
-/** Fintech trust marketing showcase — inverse-heavy, bleed-dense product landing. */
+/** Fintech trust marketing showcase. */
 export default function FintechShowcasePage() {
-  const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.fintech!);
+  const template = getTemplate("fintech")!;
+  const { previewHtml } = designFromFeatures(template.brief);
   return (
-    <main data-testid="showcase-fintech">
-      <iframe
-        title="Fintech trust showcase"
-        srcDoc={previewHtml}
-        className="h-screen w-full border-0"
-        data-testid="showcase-frame"
-      />
-    </main>
+    <ShowcaseFrame
+      offeringKey={template.key}
+      title={template.label}
+      marketJob={template.marketJob}
+      previewHtml={previewHtml}
+      testId="showcase-fintech"
+    />
   );
 }

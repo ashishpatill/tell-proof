@@ -1,18 +1,19 @@
-import { designFromFeatures, SHOWCASE_BRIEFS } from "@tell/design-skills";
+import { designFromFeatures, getTemplate } from "@tell/design-skills";
+import { ShowcaseFrame } from "@/components/showcase/ShowcaseFrame";
 
 export const dynamic = "force-static";
 
-/** Minimal-clean dashboard webapp showcase. */
+/** Operator console / dashboard webapp showcase. */
 export default function DashboardShowcasePage() {
-  const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.dashboard!);
+  const template = getTemplate("dashboard")!;
+  const { previewHtml } = designFromFeatures(template.brief);
   return (
-    <main data-testid="showcase-dashboard">
-      <iframe
-        title="Dashboard webapp showcase"
-        srcDoc={previewHtml}
-        className="h-screen w-full border-0"
-        data-testid="showcase-frame"
-      />
-    </main>
+    <ShowcaseFrame
+      offeringKey={template.key}
+      title={template.label}
+      marketJob={template.marketJob}
+      previewHtml={previewHtml}
+      testId="showcase-dashboard"
+    />
   );
 }
