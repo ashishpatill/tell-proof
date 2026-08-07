@@ -559,6 +559,46 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     return plans;
   }
 
+  /*
+   * Docs / mechanism explainer — teaching surface with a real weight valley.
+   *
+   * Generic path stacked medium-density bands (metrics + features + chapters + compare) so
+   * section-weight variation collapsed (~0.34). Dedicated plan: stackfold figure, scrub instrument,
+   * catalogue, quiet sunken specimen, dense chapter register, dense compare, inverse close.
+   * No metric theatre — the scrub owns the stakes.
+   */
+  if (siteKind === "docs-educational") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-editorial", surface: "paper", columns: split.hero });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    // Quiet valley immediately after the scrub peak — titles-only horizon (see renderSpecimen).
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-chapters",
+      surface: "raised",
+      bond: true,
+      columns: split.wide,
+    });
+    plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "raised", bond: true });
+    // Inverse close is the dense peak against the sunken specimen valley.
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "inverse" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
 
   /*
    * Press atelier — brand-agency / production craft.
@@ -622,13 +662,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
 
   // A metric band immediately after the fold is how premium pages state the stakes without
   // asking the reader to scroll through the whole argument first.
-  if (siteKind !== "docs-educational" || density !== "sparse") {
-    plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: lean === "refined-story" ? "raised" : "inverse" });
-  }
-
-  if (siteKind === "docs-educational") {
-    plans.push({ id: "figure", kind: "figure", layout: "figure-explainer", surface: "raised", columns: split.wide });
-  }
+  plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: lean === "refined-story" ? "raised" : "inverse" });
 
   const featureVariants = featureLayouts(featureCount, p0Count, lean);
   featureVariants.forEach((layout, i) => {
@@ -652,18 +686,16 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     }
   });
 
-  if (siteKind !== "docs-educational") {
-    // Dense proof board on inverse — never a lonely quote floating in a dark void.
-    // Bonded to the specimen above so a light airway cannot open between drawn product and proof.
-    plans.push({
-      id: "proof",
-      kind: "proof",
-      layout: "marquee-proof",
-      surface: "inverse",
-      bond: true,
-      columns: split.feature,
-    });
-  }
+  // Dense proof board on inverse — never a lonely quote floating in a dark void.
+  // Bonded to the specimen above so a light airway cannot open between drawn product and proof.
+  plans.push({
+    id: "proof",
+    kind: "proof",
+    layout: "marquee-proof",
+    surface: "inverse",
+    bond: true,
+    columns: split.feature,
+  });
 
   plans.push({
     id: "story",
@@ -675,7 +707,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     columns: split.wide,
   });
 
-  // Fintech / studio / consumer return earlier — only SaaS reaches this pricing branch.
+  // Fintech / studio / consumer / educational / archive return earlier — only SaaS/corporate here.
   if (siteKind === "saas-marketing" && featureCount >= 3) {
     const lanes = goal === "sales" || goal === "leads" || goal === "demos";
     if (lanes) plans.push({ id: "pricing", kind: "pricing", layout: "pricing-lanes", surface: "raised" });
@@ -684,7 +716,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: lanes ? "raised" : "paper", bond: lanes });
   }
 
-  if (siteKind === "corporate-story" || siteKind === "docs-educational") {
+  if (siteKind === "corporate-story") {
     plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "raised" });
   }
 

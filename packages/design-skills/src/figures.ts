@@ -566,7 +566,7 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
   const W = band ? 1200 : 720;
   const gap = band ? 40 : 26;
   const nodeW = (W - 8 - gap * (items.length - 1)) / items.length;
-  const top = band ? 62 : 44;
+  const top = band ? 72 : 44;
   const pivot = Math.min(items.length - 1, 1);
   const parts: string[] = [];
 
@@ -574,11 +574,14 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
    * Band role is the quiet screen — titles + ordinals only. Capability bodies in stage cards
    * flattened section-weight variation by filling the specimen beat with paragraph characters.
    * Plate role stays compact: name + meta, no body prose.
+   * Tall band H fills stackfold min-height so the fold does not letterbox empty airways under stages.
    */
-  const nodeH = band ? 252 : 104;
-  const H = band ? top + nodeH + 44 : 216;
+  const nodeH = band ? 420 : 104;
+  const H = band ? top + nodeH + 56 : 216;
 
-  parts.push(text("Sequence", 4, 16, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
+  if (!band) {
+    parts.push(text("Sequence", 4, 16, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
+  }
 
   items.forEach((b, i) => {
     const x = 4 + i * (nodeW + gap);
@@ -593,16 +596,16 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
 
     if (band) {
       const nameLines = wrap(b.title, Math.max(9, Math.round(nodeW / 15)), 3);
-      parts.push(text(String(i + 1).padStart(2, "0"), x + 24, top + 74, { size: FT.ordinal, fill: lead ? ACCENT : "var(--c-border-strong)", weight: 300 }));
-      parts.push(rule(x + 24, top + 100, x + nodeW - 24, top + 100));
+      parts.push(text(String(i + 1).padStart(2, "0"), x + 24, top + 110, { size: FT.ordinal, fill: lead ? ACCENT : "var(--c-border-strong)", weight: 300 }));
+      parts.push(rule(x + 24, top + 140, x + nodeW - 24, top + 140));
       nameLines.forEach((ln, j) => {
-        parts.push(text(ln, x + 24, top + 140 + j * 30, { size: FT.lead, fill: INK, weight: 600 }));
+        parts.push(text(ln, x + 24, top + 190 + j * 36, { size: FT.lead, fill: INK, weight: 600 }));
       });
-      if (b.meta) parts.push(text(clip(b.meta, 24), x + 24, top + nodeH - 30, { size: FT.micro, fill: QUIET, mono: true }));
-      const meterY = top + nodeH - 18;
+      if (b.meta) parts.push(text(clip(b.meta, 24), x + 24, top + nodeH - 48, { size: FT.micro, fill: QUIET, mono: true }));
+      const meterY = top + nodeH - 28;
       const meterW = nodeW - 48;
-      parts.push(box(x + 24, meterY, meterW, 3, { r: 2, fill: LINE }));
-      parts.push(box(x + 24, meterY, meterW * ((i + 1) / items.length), 3, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
+      parts.push(box(x + 24, meterY, meterW, 4, { r: 2, fill: LINE }));
+      parts.push(box(x + 24, meterY, meterW * ((i + 1) / items.length), 4, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
     } else {
       parts.push(text(String(i + 1).padStart(2, "0"), x + 16, top + 28, { size: FT.micro, fill: lead ? ACCENT : QUIET, mono: true, track: 0.8 }));
       parts.push(text(clip(b.title, 20), x + 16, top + 56, { size: FT.small, fill: INK, weight: 600 }));
@@ -622,7 +625,15 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
   parts.push(rule(4, H - 22, W - 4, H - 22));
   parts.push(text(clip(`${items.length} stages`, 20), 4, H - 6, { size: FT.micro, fill: QUIET, mono: true, track: 0.6 }));
   void seed;
-  return frame(parts.join(""), { width: W, height: H, kind: "flow", inset: band ? BLEED_INSET : 0, label: `Sequence: ${items.map((b) => b.title).join(", ")}` });
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "flow",
+    inset: band ? BLEED_INSET : 0,
+    // Band plates are forced tall for fold coverage — stretch so stages fill the airways.
+    stretch: band,
+    label: `Sequence: ${items.map((b) => b.title).join(", ")}`,
+  });
 }
 
 /* ------------------------------------------------------------------ */
@@ -1376,9 +1387,13 @@ export function indexLedger(
 ): string {
   const r = rng(`${seed}:index-ledger:${role}`);
   const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
-  const H = role === "band" ? 720 : role === "column" ? 520 : 480;
-  const padX = role === "band" ? 48 : 28;
-  const padY = role === "band" ? 40 : 28;
+  /*
+   * Tall plate dilutes CSS ruleDensity (rules ÷ screens). SVG strokes do not count — pack cells
+   * with dual ink + stamps, keep hairlines sparse. Shrinking H to "fill voids" raised rules/screen.
+   */
+  const H = role === "band" ? 640 : role === "column" ? 520 : 480;
+  const padX = role === "band" ? 44 : 28;
+  const padY = role === "band" ? 36 : 28;
   const parts: string[] = [];
 
   // Outer rule — hairline only.
@@ -1410,21 +1425,22 @@ export function indexLedger(
   const gridH = gridBottom - gridTop;
   const colGap = 22;
   const colW = (W - padX * 2 - colGap * (cols - 1)) / cols;
-  // Sparse ledger — rules/screen must stay ≤4.33; prior 3×18 rows scored ~10.
-  const rowsPerCol = role === "band" ? 5 : 4;
+  /*
+   * 2×6 packed cells: dual ink lines + stamps fill voids; hairline only on odd rows so the SVG
+   * stays sparse. CSS bordered rows elsewhere own the ruleDensity budget — not this drawing.
+   */
+  const rowsPerCol = role === "band" ? 6 : 5;
   const rowH = gridH / rowsPerCol;
 
   for (let c = 0; c < cols; c += 1) {
     const x0 = padX + c * (colW + colGap);
-    // Column letter marker
-    const letter = letters[c * 8] ?? letters[c]!;
+    const letter = letters[Math.min(c * 8, letters.length - 1)] ?? letters[c]!;
     parts.push(
       `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(gridTop - 4)}" font-size="11" fill="var(--c-accent)">${letter}</text>`,
     );
-    // Vertical column rule (except first)
     if (c > 0) {
       parts.push(
-        `<line x1="${round(x0 - colGap / 2)}" y1="${round(gridTop)}" x2="${round(x0 - colGap / 2)}" y2="${round(gridBottom)}" stroke="${LINE}" stroke-width="1" opacity="0.45" vector-effect="non-scaling-stroke"/>`,
+        `<line x1="${round(x0 - colGap / 2)}" y1="${round(gridTop)}" x2="${round(x0 - colGap / 2)}" y2="${round(gridBottom)}" stroke="${LINE}" stroke-width="1" opacity="0.4" vector-effect="non-scaling-stroke"/>`,
       );
     }
 
@@ -1433,21 +1449,36 @@ export function indexLedger(
       const entryIdx = c * rowsPerCol + row;
       const f = baseEntries[entryIdx % baseEntries.length]!;
       const ordinal = String(entryIdx + 1).padStart(3, "0");
-      // Ruled row — one hairline per entry (no double underlines).
+      // Sparse SVG hairlines — do not flood; CSS ruleDensity ignores these strokes anyway.
+      if (row % 2 === 1 || row === rowsPerCol - 1) {
+        parts.push(
+          `<line x1="${round(x0)}" y1="${round(y + rowH)}" x2="${round(x0 + colW)}" y2="${round(y + rowH)}" stroke="${LINE}" stroke-width="1" opacity="0.38" vector-effect="non-scaling-stroke"/>`,
+        );
+      }
       parts.push(
-        `<line x1="${round(x0)}" y1="${round(y + rowH)}" x2="${round(x0 + colW)}" y2="${round(y + rowH)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.28 + (row % 3) * 0.12)}" vector-effect="non-scaling-stroke"/>`,
-      );
-      parts.push(
-        `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(y + rowH * 0.62)}" font-size="11" fill="var(--surface-quiet)">${ordinal}</text>`,
+        `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(y + rowH * 0.38)}" font-size="11" fill="var(--surface-quiet)">${ordinal}</text>`,
       );
       const title = clip(f.title ?? `Entry ${ordinal}`, role === "band" ? 22 : 14);
       parts.push(
-        `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.62)}" font-size="11" fill="var(--surface-muted)">${esc(title)}</text>`,
+        `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.38)}" font-size="11" fill="var(--surface-muted)">${esc(title)}</text>`,
       );
-      // Accent tick on every 3rd row — ink without extra rules.
-      if (row % 3 === 0) {
+      const sub = clip(
+        f.kicker || `${letter}${row + 1} · shelf ${ordinal}`,
+        role === "band" ? 22 : 16,
+      );
+      parts.push(
+        `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.72)}" font-size="11" fill="var(--surface-quiet)">${esc(sub)}</text>`,
+      );
+      // Accent stamp — filled mark, not an extra rule.
+      if (row % 2 === 0) {
         parts.push(
-          `<rect x="${round(x0 + colW - 8)}" y="${round(y + rowH * 0.4)}" width="4" height="4" fill="${ACCENT}" opacity="0.7"/>`,
+          `<rect x="${round(x0 + colW - 10)}" y="${round(y + rowH * 0.28)}" width="5" height="5" fill="${ACCENT}" opacity="0.75"/>`,
+        );
+      }
+      // Pale letter watermark — ink without hairline flood.
+      if (row % 3 === 1) {
+        parts.push(
+          `<text class="ds-fig-mono" x="${round(x0 + colW - 14)}" y="${round(y + rowH * 0.78)}" font-size="11" fill="var(--surface-quiet)" opacity="0.35" text-anchor="end">${letter}</text>`,
         );
       }
     }
