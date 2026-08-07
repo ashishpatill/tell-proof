@@ -71,6 +71,15 @@ export const SiteKind = z.enum([
    * layered matter). Not a recolored SaaS, foundry, or studio skeleton.
    */
   "research-dossier",
+  /**
+   * Signal observatory / enterprise telemetry marketing — chronometer fold, scrub rail,
+   * signal-lattice instrument plate, chrono essay with tick beads, calibration close.
+   * Calibrated to enterprise-observability + enterprise-data + award-index
+   * (figureArea ~0.4–0.78, foldFigure ~0.23–0.57, alignment axes ~3–6, spine ~0.2–0.8,
+   * dense instrument matter, quiet-to-moderate display). Not a recolored dashboard shell
+   * or SaaS conversion ladder.
+   */
+  "signal-observatory",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 
@@ -210,6 +219,11 @@ export const LayoutVariant = z.enum([
    * Magazine volume/issue running head; not overfigure, not seam, not SaaS split.
    */
   "hero-folio",
+  /**
+   * Chronometer fold — vertical time ticks + claim + spanning signal lattice.
+   * Sticky scrub rail for time windows. Signal-observatory signature; not folio, seam, or SaaS.
+   */
+  "hero-chrono",
   "metric-band",
   "specimen-band",
   "marquee-proof",
@@ -226,6 +240,11 @@ export const LayoutVariant = z.enum([
    * Hard for a theme pack to invent: paired pages, superscript refs, bottom register.
    */
   "story-spread",
+  /**
+   * Chrono essay — vertical event track with tick beads + outer time labels.
+   * Signal-observatory signature; not chapters, marginalia, or verso/recto.
+   */
+  "story-chrono",
   "pullquote",
   "pricing-lanes",
   "compare-matrix",

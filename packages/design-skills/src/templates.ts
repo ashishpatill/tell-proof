@@ -26,7 +26,8 @@ export type TemplateKey =
   | "studio"
   | "consumer"
   | "foundry"
-  | "dossier";
+  | "dossier"
+  | "observatory";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -559,6 +560,71 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
       taste: {
         aestheticLean: "refined-story",
         density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "observatory",
+    label: "Signal observatory",
+    marketJob:
+      "Enterprise telemetry / on-call desk landing — chronometer fold, scrub rail, signal lattice, chrono essay, calibration close.",
+    siteKind: "signal-observatory",
+    researchBasis:
+      "Calibrated against enterprise-observability + enterprise-data + award-index corridors (figureArea ~0.4–0.78, foldFigure ~0.23–0.57, alignment axes ~3–6, spineConformity ~0.2–0.8, quiet-to-moderate display, instrument-dense matter). Distinct craft theme packs miss: vertical chronometer ticks, sticky time-window scrub rail, signal-lattice amplitude figure with mono labels only, chrono essay with tick beads + outer time index, bleed rule + paper calibration close — no pricing, no metrics theatre, zero inverse bands.",
+    brief: DesignBrief.parse({
+      productName: "Nightglass",
+      tagline: "The desk that keeps every channel under one live window",
+      audience: "on-call leads and SRE desks at platform companies",
+      businessGoal: "trust",
+      siteKind: "signal-observatory",
+      lockSiteKind: true,
+      // Cool ink-led stock — escapes cream/terracotta and violet AI clusters.
+      brandAccent: "#1F4A45",
+      features: [
+        {
+          id: "n1",
+          name: "Live window",
+          description: "A scrubbable time bracket that keeps the same channels under the eye while the incident moves",
+          priority: "p0",
+        },
+        {
+          id: "n2",
+          name: "Channel lattice",
+          description: "Amplitudes and status on a shared grid so a quiet service cannot hide beside a loud one",
+          priority: "p0",
+        },
+        {
+          id: "n3",
+          name: "Threshold rails",
+          description: "Limits that travel with the reading — the desk sees the floor before the page invents calm",
+          priority: "p0",
+        },
+        {
+          id: "n4",
+          name: "Handoff beads",
+          description: "Shift notes pinned to the minute they mattered, not buried in a chat nobody searches",
+          priority: "p1",
+        },
+        {
+          id: "n5",
+          name: "Calibration strip",
+          description: "Tolerance marks stamped on the close so a reused screenshot cannot orphan its scale",
+          priority: "p1",
+        },
+        {
+          id: "n6",
+          name: "Desk memory",
+          description: "A window that survives the jump from night lead to morning lead without becoming orphan charts",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "balanced",
         motion: "light-scroll-reveals",
         colorMood: "light-airy",
         typographyWeight: "light-elegant",

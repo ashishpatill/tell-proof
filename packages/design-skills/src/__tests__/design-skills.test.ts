@@ -265,7 +265,7 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(9);
+    expect(templates).toHaveLength(10);
     expect(templates.map((t) => t.key).sort()).toEqual([
       "consumer",
       "corporate",
@@ -274,6 +274,7 @@ describe("research-backed offerings + implementation basics", () => {
       "educational",
       "fintech",
       "foundry",
+      "observatory",
       "saas",
       "studio",
     ]);
@@ -291,6 +292,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(foundry.siteKind).toBe("editorial-foundry");
     const dossier = templates.find((t) => t.key === "dossier")!;
     expect(dossier.siteKind).toBe("research-dossier");
+    const observatory = templates.find((t) => t.key === "observatory")!;
+    expect(observatory.siteKind).toBe("signal-observatory");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -370,6 +373,26 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Imprint");
     expect(previewHtml).toContain("The instruments");
+  });
+
+  it("gives signal observatory a chrono + lattice plan distinct from dossier and SaaS", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.observatory!);
+    expect(spec.brief.siteKind).toBe("signal-observatory");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-chrono")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-chrono")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="signal-observatory"');
+    expect(previewHtml).toContain("ds-hero-chrono");
+    expect(previewHtml).toContain("ds-chronometer");
+    expect(previewHtml).toContain("ds-scrub-rail");
+    expect(previewHtml).toContain('data-figure="signal-lattice"');
+    expect(previewHtml).toContain("ds-chrono");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Calibration");
+    expect(previewHtml).toContain("The channels");
   });
 
   it("clears the implementation basics gate on every offering", () => {

@@ -101,7 +101,8 @@ export type FigureKind =
   | "spark"
   | "signature"
   | "type-ladder"
-  | "dossier-plate";
+  | "dossier-plate"
+  | "signal-lattice";
 
 interface FrameOptions {
   /** Named for a screen reader; omit to mark the figure decorative. */
@@ -1185,6 +1186,128 @@ export function dossierPlate(
 }
 
 /**
+ * Signal lattice — observatory signature figure.
+ *
+ * A channel grid with amplitude bars and status dots. Labels stay mono ≤11px so the type probe
+ * does not treat them as display (foundry SVG-text lesson). Theme packs do not invent instrument
+ * lattices from a density slider.
+ */
+export function signalLattice(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:signal-lattice:${role}`);
+  const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
+  const H = role === "band" ? 720 : role === "column" ? 520 : 480;
+  const padX = role === "band" ? 56 : 36;
+  const padY = role === "band" ? 48 : 32;
+  const parts: string[] = [];
+
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  // Top chronometer strip — hour ticks across the plate.
+  const chronY = padY + 18;
+  parts.push(
+    `<line x1="${round(padX + 8)}" y1="${round(chronY)}" x2="${round(W - padX - 8)}" y2="${round(chronY)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  const hours = 12;
+  for (let i = 0; i <= hours; i += 1) {
+    const x = padX + 8 + ((W - padX * 2 - 16) * i) / hours;
+    const tall = i % 3 === 0;
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(chronY - (tall ? 8 : 4))}" x2="${round(x)}" y2="${round(chronY + (tall ? 8 : 4))}" stroke="${tall ? ACCENT : LINE}" stroke-width="${tall ? 1.5 : 1}" vector-effect="non-scaling-stroke"/>`,
+    );
+    if (tall) {
+      parts.push(
+        `<text class="ds-fig-mono" x="${round(x)}" y="${round(chronY - 12)}" font-size="10" fill="var(--surface-quiet)" text-anchor="middle">${String(i).padStart(2, "0")}</text>`,
+      );
+    }
+  }
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX - 8)}" y="${round(chronY - 12)}" font-size="10" fill="var(--surface-quiet)" text-anchor="end">UTC</text>`,
+  );
+
+  const channels = features.slice(0, 6);
+  const count = Math.max(4, channels.length);
+  const gridTop = padY + 44;
+  const gridBottom = H - padY - 28;
+  const gridH = gridBottom - gridTop;
+  const rowH = gridH / count;
+  const labelW = Math.min(140, W * 0.16);
+  const barLeft = padX + labelW + 12;
+  const barRight = W - padX - 24;
+  const barW = barRight - barLeft;
+
+  for (let i = 0; i < count; i += 1) {
+    const f = channels[i] ?? channels[i % Math.max(1, channels.length)]!;
+    const y0 = gridTop + rowH * i;
+    const mid = y0 + rowH / 2;
+    // Row rule
+    if (i > 0) {
+      parts.push(
+        `<line x1="${round(padX + 8)}" y1="${round(y0)}" x2="${round(W - padX - 8)}" y2="${round(y0)}" stroke="${LINE}" stroke-width="1" opacity="0.35" vector-effect="non-scaling-stroke"/>`,
+      );
+    }
+    // Channel id + title (mono only)
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(mid - 4)}" font-size="10" fill="var(--surface-quiet)">${String(i + 1).padStart(2, "0")}</text>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(mid + 12)}" font-size="11" fill="var(--surface-muted)">${esc(clip(f?.title ?? `ch-${i + 1}`, 16))}</text>`,
+    );
+
+    // Amplitude bars — dense instrument matter without SVG display type.
+    const bars = 28;
+    const gap = barW / bars;
+    const ampSeed = 0.25 + r() * 0.55;
+    for (let b = 0; b < bars; b += 1) {
+      const h = rowH * (0.18 + ampSeed * Math.abs(Math.sin((b + i * 3) * 0.55 + r() * 0.4)) * 0.72);
+      const x = barLeft + gap * b + gap * 0.15;
+      const y = mid - h / 2;
+      const hot = b > bars * 0.62 && b < bars * 0.78;
+      parts.push(
+        `<rect x="${round(x)}" y="${round(y)}" width="${round(gap * 0.55)}" height="${round(h)}" fill="${hot ? ACCENT : LINE}" opacity="${hot ? 0.85 : round(0.35 + r() * 0.35)}"/>`,
+      );
+    }
+
+    // Status dot
+    const status = i % 3 === 0 ? ACCENT : LINE;
+    parts.push(
+      `<circle cx="${round(W - padX - 12)}" cy="${round(mid)}" r="3.5" fill="${status}"/>`,
+    );
+  }
+
+  // Live window bracket
+  const winX = barLeft + barW * 0.62;
+  const winW = barW * 0.16;
+  parts.push(
+    `<rect x="${round(winX)}" y="${round(gridTop)}" width="${round(winW)}" height="${round(gridH)}" fill="none" stroke="${ACCENT}" stroke-width="1.5" opacity="0.7" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(winX + winW / 2)}" y="${round(gridTop - 6)}" font-size="10" fill="var(--c-accent)" text-anchor="middle">LIVE</text>`,
+  );
+
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(H - padY + 14)}" font-size="11" fill="var(--surface-quiet)">${esc(clip(productName, 28))} · signal lattice</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX - 8)}" y="${round(H - padY + 14)}" font-size="10" fill="var(--surface-quiet)" text-anchor="end">${count} channels</text>`,
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "signal-lattice",
+    label: `${productName} signal lattice`,
+    inset: role === "band" ? BLEED_INSET : 0,
+  });
+}
+
+/**
  * One letterform drawn as strokes rather than typeset. Not a typeface — a construction, the way a
  * mark is drawn before it is drawn properly: stems on the vertical, a shoulder or a bowl where the
  * letter needs one, a diagonal where it needs that instead.
@@ -1322,7 +1445,7 @@ export interface FigurePlan {
   sparks: string[];
 }
 
-type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder" | "dossier-plate";
+type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder" | "dossier-plate" | "signal-lattice";
 
 /**
  * Which drawing goes where.
@@ -1349,6 +1472,8 @@ const ORDER: Record<string, Kind[]> = {
   "editorial-foundry": ["type-ladder", "horizon", "stack", "flow"],
   // Dossier: cartographic plate owns the fold; denser stack specimen keeps ink-variation honest.
   "research-dossier": ["dossier-plate", "stack", "horizon", "flow"],
+  // Observatory: signal lattice owns the fold; denser stack specimen keeps ink-variation honest.
+  "signal-observatory": ["signal-lattice", "stack", "horizon", "flow"],
 };
 
 export function planFigures(input: {
@@ -1382,6 +1507,8 @@ export function planFigures(input: {
         return typeLadder(input.productName, input.features, seed, role);
       case "dossier-plate":
         return dossierPlate(input.productName, input.features, seed, role);
+      case "signal-lattice":
+        return signalLattice(input.productName, input.features, seed, role);
       default:
         return "";
     }
@@ -1393,8 +1520,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["dossier-plate", "type-ladder", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -1416,11 +1543,14 @@ export function planFigures(input: {
 
   // Foundry hard-seam fold: the ladder always owns the inverse column — never fall through to a plate.
   // Dossier folio fold: the cartographic plate always owns the spanning field.
+  // Observatory chrono fold: the signal lattice always owns the spanning field.
   const heroKind =
     input.siteKind === "editorial-foundry"
       ? ("type-ladder" as Kind)
       : input.siteKind === "research-dossier"
         ? ("dossier-plate" as Kind)
+        : input.siteKind === "signal-observatory"
+          ? ("signal-lattice" as Kind)
       : shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;
   const afterHero = order.filter((k) => k !== heroKind);
   const bandKind = shaped(SPANNING, afterHero);

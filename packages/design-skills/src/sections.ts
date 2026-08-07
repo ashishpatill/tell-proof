@@ -140,6 +140,7 @@ export function buildSections(
           block({ title: c.name, emphasis: "normal" }),
         );
         const isDossier = brief.siteKind === "research-dossier";
+        const isObservatory = brief.siteKind === "signal-observatory";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -149,8 +150,8 @@ export function buildSections(
             brandLabel: brief.productName,
             ctaLabel: cta.primary,
             secondaryLabel: cta.secondary,
-            // Folio fold must leave room for the dossier plate — skip the reassurance line.
-            ctaNote: isDossier ? undefined : cta.note,
+            // Folio / chrono folds must leave room for the plate — skip the reassurance line.
+            ctaNote: isDossier || isObservatory ? undefined : cta.note,
             blocks: named,
             aside: editorial.features
               .slice(0, 4)
@@ -198,6 +199,7 @@ export function buildSections(
         const isConsumer = brief.siteKind === "consumer-craft";
         const isFoundry = brief.siteKind === "editorial-foundry";
         const isDossier = brief.siteKind === "research-dossier";
+        const isObservatory = brief.siteKind === "signal-observatory";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -210,6 +212,8 @@ export function buildSections(
                     ? "Also cut"
                     : isDossier
                       ? "Also in the brief"
+                      : isObservatory
+                        ? "Also on the desk"
                     : "Also included"
               : isStudio
                 ? "Selected work"
@@ -219,6 +223,8 @@ export function buildSections(
                     ? "The cuts"
                     : isDossier
                       ? "The instruments"
+                      : isObservatory
+                        ? "The channels"
                     : eyebrow.features,
             title: isSecond
               ? isStudio
@@ -229,6 +235,8 @@ export function buildSections(
                     ? sentence(`The quieter cuts that keep the system honest`)
                   : isDossier
                     ? sentence(`The quieter instruments that keep a brief honest`)
+                    : isObservatory
+                      ? sentence(`The quieter channels that keep a desk honest`)
                   : sentence(`The rest of what ships with ${brief.productName}`)
               : isStudio
                 ? sentence(`Work that still holds after the launch week`)
@@ -238,6 +246,8 @@ export function buildSections(
                     ? sentence(`Cuts drawn for real reading sizes`)
                   : isDossier
                     ? sentence(`Instruments a capital brief actually uses`)
+                    : isObservatory
+                      ? sentence(`Channels an on-call desk actually watches`)
                   : featuresTitle(brief, features),
             body: isSecond
               ? isStudio
@@ -248,6 +258,8 @@ export function buildSections(
                     ? sentence(`Italics, numerals, and the marks that stop a layout from inventing a second face`)
                   : isDossier
                     ? sentence(`Sources, caveats, and the rails that stop a memo from inventing conviction`)
+                    : isObservatory
+                      ? sentence(`Thresholds, handoffs, and the rails that stop a page from inventing calm`)
                   : sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
               : isStudio
                 ? sentence(`Each engagement is a composed surface — identity, product, and motion under one grid`)
@@ -257,6 +269,8 @@ export function buildSections(
                     ? sentence(`Each cut is a size and a job — not a style picker dressed as a product`)
                   : isDossier
                     ? sentence(`Each instrument is a named reading — not a dashboard dressed as research`)
+                    : isObservatory
+                      ? sentence(`Each channel is a named signal — not a chart dressed as a product`)
                   : featuresLede(brief, features),
             blocks: slice,
           }),
@@ -280,6 +294,8 @@ export function buildSections(
                   ? sentence(`${brief.productName} at reading size`)
                 : brief.siteKind === "research-dossier"
                   ? sentence(`${brief.productName} field plate`)
+                : brief.siteKind === "signal-observatory"
+                  ? sentence(`${brief.productName} channel field`)
                 : sentence(brief.productName),
             body: "",
           }),
@@ -291,19 +307,30 @@ export function buildSections(
         const focal = editorial.features[0];
         const isFoundry = brief.siteKind === "editorial-foundry";
         const isDossier = brief.siteKind === "research-dossier";
+        const isObservatory = brief.siteKind === "signal-observatory";
         sections.push(
           SectionSpec.parse({
             ...base,
-            eyebrow: isFoundry ? "Optical sizes" : isDossier ? "Plate legend" : eyebrow.figure,
+            eyebrow: isFoundry
+              ? "Optical sizes"
+              : isDossier
+                ? "Plate legend"
+                : isObservatory
+                  ? "Channel legend"
+                  : eyebrow.figure,
             title: isFoundry
               ? sentence(`How ${brief.productName} changes with size`)
               : isDossier
                 ? sentence(`How ${brief.productName} maps a briefing`)
+                : isObservatory
+                  ? sentence(`How ${brief.productName} reads a window`)
               : sentence(`${focal?.name ?? brief.productName}, step by step`),
             body: isFoundry
               ? sentence(`The same face at display, title, deck, text, and caption — drawn, not described`)
               : isDossier
                 ? sentence(`Pins, coordinates, and regions — the instruments drawn rather than claimed`)
+                : isObservatory
+                  ? sentence(`Amplitudes, live brackets, and channel ids — the lattice drawn rather than claimed`)
               : sentence(
                   `The path work takes through ${brief.productName}, drawn rather than described`,
                 ),
@@ -316,6 +343,8 @@ export function buildSections(
               ? sentence(`Step through the optical sizes ${brief.productName} is cut for`)
               : isDossier
                 ? sentence(`Read the pins that mark each instrument on the dossier plate`)
+                : isObservatory
+                  ? sentence(`Read the channels that mark each signal on the lattice`)
               : sentence(
                   `Drag to step through how ${brief.productName} moves work from ${
                     features[0]?.name.toLowerCase() ?? "input"
@@ -339,6 +368,8 @@ export function buildSections(
                     ? "Composition notes"
                   : brief.siteKind === "research-dossier"
                     ? "Reading notes"
+                    : brief.siteKind === "signal-observatory"
+                      ? "Incident time"
                   : eyebrow.story,
             title:
               brief.siteKind === "art-directed-studio"
@@ -349,6 +380,8 @@ export function buildSections(
                     ? sentence(`How the face is set on a real page`)
                   : brief.siteKind === "research-dossier"
                     ? sentence(`How a brief is actually read`)
+                    : brief.siteKind === "signal-observatory"
+                      ? sentence(`How a window is actually walked`)
                   : sentence(`The order things happen in`),
             body:
               brief.siteKind === "art-directed-studio"
@@ -359,15 +392,19 @@ export function buildSections(
                     ? sentence(`Measure, hierarchy, and the notes that keep a layout from drifting`)
                   : brief.siteKind === "research-dossier"
                     ? sentence(`Verso claim, recto evidence, footnotes that keep conviction honest`)
+                    : brief.siteKind === "signal-observatory"
+                      ? sentence(`Tick beads, channel notes, and the handoffs that keep calm honest`)
                   : sentence(`The sequence ${brief.audience} actually meet, in order`),
             blocks: chapters(editorial.features).map((c, i) =>
               block({
                 title: c.title,
                 body: c.body,
-                meta: c.meta,
-                // Marginalia / footnotes hang these kickers beside the essay.
+                meta: brief.siteKind === "signal-observatory"
+                  ? `T+${String(i * 6).padStart(2, "0")}h`
+                  : c.meta,
+                // Marginalia / footnotes / chrono notes hang these kickers beside the essay.
                 kicker:
-                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier"
+                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier" || brief.siteKind === "signal-observatory"
                     ? `Note ${String(i + 1).padStart(2, "0")}`
                     : undefined,
               }),
@@ -463,12 +500,16 @@ export function buildSections(
                 ? "Colophon"
                 : brief.siteKind === "research-dossier"
                   ? "Imprint"
+                  : brief.siteKind === "signal-observatory"
+                    ? "Calibration"
                   : eyebrow.cta,
             title: sentence(
               brief.siteKind === "editorial-foundry"
                 ? `Request a specimen of ${brief.productName}`
                 : brief.siteKind === "research-dossier"
                   ? `Request the next ${brief.productName} folio`
+                  : brief.siteKind === "signal-observatory"
+                    ? `Calibrate a ${brief.productName} window`
                 : brief.businessGoal === "trust"
                   ? `See it against your own material`
                   : `Put ${brief.productName} in front of your ${brief.audience.split(" ").slice(-1)[0] ?? "team"}`,
@@ -480,6 +521,8 @@ export function buildSections(
                 ? `Edition notes, trial files, and the cuts ${brief.audience} actually set`
                 : brief.siteKind === "research-dossier"
                   ? `Numbered folios, source notes, and the instruments ${brief.audience} actually open`
+                  : brief.siteKind === "signal-observatory"
+                    ? `Tolerance marks, channel maps, and the windows ${brief.audience} actually watch`
                 : `${count(features.length)[0]!.toUpperCase()}${count(features.length).slice(1)} capabilities, one conversation`,
             ),
             ctaLabel: cta.primary,

@@ -228,6 +228,11 @@ export default function StudioPage() {
       nextLean = "refined-story";
       nextDensity = "sparse";
     }
+    if (/observatory|telemetry|signal desk|channel lattice|on.?call|sre desk|incident/.test(text)) {
+      nextKind = "signal-observatory";
+      nextLean = "refined-story";
+      nextDensity = "balanced";
+    }
     if (/story|editorial|refined|corporate/.test(text)) {
       nextLean = "refined-story";
       nextDensity = "sparse";
@@ -357,6 +362,7 @@ export default function StudioPage() {
               "consumer-craft",
               "editorial-foundry",
               "research-dossier",
+              "signal-observatory",
             ]}
             testId="input-sitekind"
           />

@@ -295,6 +295,43 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     </section>`;
   }
 
+  /*
+   * Chronometer fold — the signal-observatory signature.
+   *
+   * Left vertical chronometer (hour ticks), compact claim, spanning signal lattice, sticky scrub
+   * rail for time windows. Not folio, not hard-seam, not SaaS split — an instrument-desk grammar.
+   */
+  if (section.layout === "hero-chrono") {
+    const latticeFig = figures.hero
+      ? `<figure class="ds-chrono-lattice" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const ticks = Array.from({ length: 13 }, (_, i) => {
+      const label = String(i).padStart(2, "0");
+      const major = i % 3 === 0;
+      return `<li class="ds-chrono-tick${major ? " is-major" : ""}" style="--tick:${i}"><span>${label}</span></li>`;
+    }).join("");
+    const chronometer = `<aside class="ds-chronometer" aria-hidden="true"><ol>${ticks}</ol><span class="ds-chronometer-label">UTC</span></aside>`;
+    const windows = [
+      { id: "t24", label: "T−24h", href: "#features" },
+      { id: "live", label: "Live", href: "#figure" },
+      { id: "p6", label: "+6h", href: "#story" },
+      { id: "cal", label: "Calibrate", href: "#cta" },
+    ];
+    const scrub = `<nav class="ds-scrub-rail" aria-label="Time windows"><ol>${windows
+      .map(
+        (w, i) =>
+          `<li><a href="${w.href}" class="ds-scrub-chip${i === 1 ? " is-live" : ""}" data-window="${w.id}"><span class="ds-scrub-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-scrub-label">${esc(w.label)}</span></a></li>`,
+      )
+      .join("")}</ol></nav>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-chrono" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${chronometer}
+      ${scrub}
+      <div class="ds-chrono-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-chrono-field">${latticeFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
   if (section.layout === "hero-editorial") {
     return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-overfigure" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${spanning}
@@ -732,6 +769,55 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
+ * Chrono essay — signal-observatory signature story.
+ *
+ * A vertical event track with tick beads and outer time labels. Not chapters, not marginalia,
+ * not verso/recto — a time-ordered instrument reading.
+ */
+function renderChrono(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const count = blocks.length || 1;
+  const ticks = blocks
+    .map((b, i) => {
+      const t = b.meta || `T+${String(i * 6).padStart(2, "0")}h`;
+      return `<li class="ds-chrono-aside-tick" style="--i:${i}">
+        <span class="ds-chrono-aside-time">${esc(t)}</span>
+        <span class="ds-chrono-aside-title">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  const essay = blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-chrono-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const bead = `<span class="ds-chrono-bead" aria-hidden="true" style="--i:${i}"></span>`;
+      return `<article class="ds-chrono-beat" style="--i:${i}">
+        ${bead}
+        <p class="ds-chapter-index">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
+        <h3>${esc(b.title)}</h3>
+        ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+        ${b.kicker ? `<p class="ds-chrono-note">${esc(b.kicker)}</p>` : ""}
+        ${mark}
+      </article>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-chrono" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-wrap-wide">
+      ${secMeta("Chronology", `${count} events · instrument time`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-chrono-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
+        <div class="ds-chrono-essay">
+          <div class="ds-chrono-track" aria-hidden="true"></div>
+          ${essay}
+        </div>
+        <aside class="ds-chrono-aside" aria-label="Time index">
+          <ol class="ds-chrono-aside-list">${ticks}</ol>
+        </aside>
+      </div>
+    </div>
+  </section>`;
+}
+
+/**
  * Proof band — a filled board, not a lonely quote on black.
  *
  * The pullquote layout left a dark void with one paragraph of type: the exact toy look buyers
@@ -867,7 +953,7 @@ function renderFaq(section: SectionSpec): string {
  * as tall as what is in it, and the composition reads across rather than down.
  */
 function renderCtaBand(section: SectionSpec, figures: FigurePlan): string {
-  const isColophon = /Colophon|Imprint/i.test(section.eyebrow ?? "");
+  const isColophon = /Colophon|Imprint|Calibration/i.test(section.eyebrow ?? "");
   const colophonClass = isColophon ? " ds-closing-colophon" : "";
   return `<section class="ds-section ds-closing${colophonClass}" data-surface="${section.surface}" data-section="${esc(section.id)}" id="cta">
     <div class="ds-wrap-wide ds-closing-grid">
@@ -1018,6 +1104,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-statement":
     case "hero-seam":
     case "hero-folio":
+    case "hero-chrono":
       return wrapped(renderHero(section, spec, figures));
     case "metric-band":
       return wrapped(renderMetricBand(section, figures));
@@ -1036,6 +1123,8 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderMarginalia(section, figures));
     case "story-spread":
       return wrapped(renderSpread(section, figures));
+    case "story-chrono":
+      return wrapped(renderChrono(section, figures));
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));

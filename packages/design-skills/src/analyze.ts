@@ -44,6 +44,9 @@ export function inferSiteKind(brief: DesignBrief): SiteKind {
   if (/\b(dossier|briefing|research desk|capital brief|memo|imprint|folio|thesis desk)\b/.test(blob)) {
     return "research-dossier";
   }
+  if (/\b(observatory|telemetry|signal desk|channel lattice|scrub rail|incident timeline|sre desk|on.?call)\b/.test(blob)) {
+    return "signal-observatory";
+  }
   if (brief.siteKind !== "saas-marketing") return brief.siteKind;
   return "saas-marketing";
 }
@@ -72,6 +75,8 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
                   ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                   : siteKind === "research-dossier"
                     ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
+                    : siteKind === "signal-observatory"
+                      ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                 : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
 
   const goals = [

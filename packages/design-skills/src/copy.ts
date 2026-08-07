@@ -139,6 +139,13 @@ export function ctaFor(
       note: "Briefings ship as numbered folios — not a demo theatre.",
     };
   }
+  if (siteKind === "signal-observatory") {
+    return {
+      primary: "Open a desk window",
+      secondary: "Read the channels",
+      note: "Windows ship with the channels you actually watch — not a demo theatre.",
+    };
+  }
   return GOAL_CTA[goal];
 }
 

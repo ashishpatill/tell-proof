@@ -18,7 +18,8 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
       : siteKind === "corporate-story" ||
           siteKind === "docs-educational" ||
           siteKind === "editorial-foundry" ||
-          siteKind === "research-dossier"
+          siteKind === "research-dossier" ||
+          siteKind === "signal-observatory"
         ? "refined-story"
         : "conversion-sharp";
 
@@ -27,12 +28,14 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
       brief.taste?.density ??
       (siteKind === "docs-educational" || siteKind === "editorial-foundry" || siteKind === "research-dossier"
         ? "sparse"
+        : siteKind === "signal-observatory"
+          ? "balanced"
         : siteKind === "dashboard-webapp"
           ? "information-rich"
           : "balanced"),
     motion:
       brief.taste?.motion ??
-      (siteKind === "editorial-foundry" || siteKind === "research-dossier"
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory"
         ? "light-scroll-reveals"
         : siteKind === "dashboard-webapp"
           ? "subtle-micro"
@@ -40,13 +43,20 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
     aestheticLean: brief.taste?.aestheticLean ?? leanDefault,
     colorMood:
       brief.taste?.colorMood ??
-      (siteKind === "editorial-foundry" || siteKind === "research-dossier" ? "light-airy" : "neutral-professional"),
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory"
+        ? "light-airy"
+        : "neutral-professional"),
     typographyWeight:
       brief.taste?.typographyWeight ??
-      (siteKind === "editorial-foundry" || siteKind === "research-dossier" ? "light-elegant" : "medium-modern"),
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory"
+        ? "light-elegant"
+        : "medium-modern"),
     roundingDepth:
       brief.taste?.roundingDepth ??
-      (siteKind === "dashboard-webapp" || siteKind === "editorial-foundry" || siteKind === "research-dossier"
+      (siteKind === "dashboard-webapp" ||
+        siteKind === "editorial-foundry" ||
+        siteKind === "research-dossier" ||
+        siteKind === "signal-observatory"
         ? "sharp"
         : "soft"),
   });

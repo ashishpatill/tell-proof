@@ -92,7 +92,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     check(
       "asymmetric-or-statement-fold",
       (() => {
-        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam|ds-hero-folio/.test(html)) return true;
+        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam|ds-hero-folio|ds-hero-chrono/.test(html)) return true;
         const splits = html.match(/grid-template-columns:[^";]+/g) ?? [];
         return splits.some((s) => {
           const fr = Array.from(s.matchAll(/(\d+(?:\.\d+)?)fr/g)).map((m) => Number(m[1]));
@@ -171,6 +171,23 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
       "Dossier offerings use folio + chapter rail + dossier plate + spread footnotes + imprint — no pricing, no metrics theatre, zero inverse bands.",
+    ),
+    check(
+      "kind-observatory",
+      spec.brief.siteKind !== "signal-observatory"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && !spec.sections.some((s) => s.kind === "metrics")
+          && /ds-hero-chrono/.test(html)
+          && /ds-chronometer/.test(html)
+          && /ds-scrub-rail/.test(html)
+          && /data-figure="signal-lattice"/.test(html)
+          && /ds-chrono/.test(html)
+          && /Calibration/.test(html)
+          && /ds-bleed-rule/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length === 0
+        ),
+      "Observatory offerings use chronometer + scrub rail + signal lattice + chrono essay + calibration — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "solid-claim-when-labeled-fold",

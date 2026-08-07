@@ -18,7 +18,7 @@
 | `packages/design-skills/src/basics-checklist.ts` | Implementation floor only (not taste) |
 | `/studio` | Live canvas + Taste Controls + magic edit + viewport + copy HTML |
 | `/showcase` | Specimen gallery (print-atelier index of all offerings) |
-| `/showcase/*` | Full proof sheets: saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier |
+| `/showcase/*` | Full proof sheets: saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory |
 | `POST /api/design` | Brief → spec + preview HTML (`redesignFrom` optional) |
 | `GET /api/design?templates=1` | Offering catalog metadata |
 | MCP `tell_design_from_features` | MCP tool |
@@ -32,7 +32,7 @@
 
 ### Offering catalog (keep count low)
 
-One template per `siteKind` (saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier). Improve each until the research loop's convergence criteria hold for two consecutive loops. Add another only when a measured demand gap appears that none of the current kinds cover.
+One template per `siteKind` (saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory). Improve each until the research loop's convergence criteria hold for two consecutive loops. Add another only when a measured demand gap appears that none of the current kinds cover.
 
 | Key | Market job |
 |---|---|
@@ -45,6 +45,7 @@ One template per `siteKind` (saas, dashboard, corporate, educational, fintech, s
 | `consumer` | Voice-led consumer product landing |
 | `foundry` | Editorial foundry — hard-seam fold, type ladder, marginalia, colophon |
 | `dossier` | Research dossier — folio masthead, chapter rail, dossier plate, verso/recto footnotes, imprint |
+| `observatory` | Signal observatory — chronometer fold, scrub rail, signal lattice, chrono essay, calibration |
 
 ## Quality bar (Phase 7)
 

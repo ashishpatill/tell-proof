@@ -228,6 +228,35 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       },
     },
   },
+  {
+    id: "observatory-signal",
+    brief: {
+      productName: "Nightglass",
+      tagline: "The desk that keeps every channel under one live window",
+      audience: "on-call leads and SRE desks at platform companies",
+      businessGoal: "trust",
+      siteKind: "signal-observatory",
+      lockSiteKind: true,
+      brandAccent: "#1F4A45",
+      features: [
+        { id: "n1", name: "Live window", description: "A scrubbable time bracket that keeps the same channels under the eye while the incident moves.", priority: "p0" },
+        { id: "n2", name: "Channel lattice", description: "Amplitudes and status on a shared grid so a quiet service cannot hide beside a loud one.", priority: "p0" },
+        { id: "n3", name: "Threshold rails", description: "Limits that travel with the reading — the desk sees the floor before the page invents calm.", priority: "p0" },
+        { id: "n4", name: "Handoff beads", description: "Shift notes pinned to the minute they mattered, not buried in a chat nobody searches.", priority: "p1" },
+        { id: "n5", name: "Calibration strip", description: "Tolerance marks stamped on the close so a reused screenshot cannot orphan its scale.", priority: "p1" },
+        { id: "n6", name: "Desk memory", description: "A window that survives the jump from night lead to morning lead without becoming orphan charts.", priority: "p2" },
+      ],
+      constraints: ["instrument-first", "signal lattice", "chrono essay", "no pricing theatre", "restrained motion"],
+      taste: {
+        aestheticLean: "refined-story",
+        motion: "light-scroll-reveals",
+        density: "balanced",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    },
+  },
 ];
 
 /**

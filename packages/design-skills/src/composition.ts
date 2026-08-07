@@ -104,6 +104,7 @@ function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
   // Foundry: hard vertical seam — paper claim | inverse type ladder. Not a stack or overfigure.
   if (siteKind === "editorial-foundry") return "hero-seam";
   if (siteKind === "research-dossier") return "hero-folio";
+  if (siteKind === "signal-observatory") return "hero-chrono";
   if (lean === "minimal-clean") return "hero-statement";
   if (lean === "refined-story") return "hero-editorial";
   return "hero-split";
@@ -433,6 +434,66 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     return plans;
   }
 
+  /*
+   * Signal observatory — enterprise telemetry / instrument-desk craft.
+   *
+   * Measured enterprise-observability + enterprise-data pages sit at high figure area
+   * (~0.4–0.78), mid fold figure, moderate-to-high alignment axes, and instrument-dense
+   * matter — not SaaS conversion, foundry seams, or dossier folios. Chronometer + scrub
+   * rail + signal lattice + chrono essay + calibration are craft a theme pack will not invent.
+   */
+  if (siteKind === "signal-observatory") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-chrono", surface: "paper", columns: split.wide });
+    // Channel index — named signals, not metric theatre.
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    // Teaching figure: lattice redrawn with channel callouts.
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    // Chrono essay — event track with tick beads (observatory signature).
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-chrono",
+      surface: "paper",
+      bond: true,
+      columns: "7fr 5fr",
+    });
+    if (featureCount >= 4) {
+      plans.push({
+        id: "features-2",
+        kind: "features",
+        layout: "feature-rows",
+        surface: "paper",
+        columns: split.wide,
+      });
+    }
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "raised",
+      bond: true,
+      columns: split.feature,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    // Calibration close on paper — not inverse demo theatre.
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
   plans.push({ id: "hero", kind: "hero", layout: heroLayout(siteKind, lean), surface: "paper", columns: split.hero });
 
   // A metric band immediately after the fold is how premium pages state the stakes without
@@ -532,6 +593,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   // Quiet display — capital/research editorial refs sit ~1.2–3.5vw, not SaaS shout.
   // Floor at band p10 (3.16vw @1440 ≈ 45.5px); 48 keeps room without shouting.
   if (siteKind === "research-dossier") px = 48;
+  // Observatory: display ~4–5vw corridor; lattice owns the fold, not a shout.
+  if (siteKind === "signal-observatory") px = 52;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -540,6 +603,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   // Foundry clamps to the low corridor; studio may sit slightly above the general ceiling.
   if (siteKind === "editorial-foundry") return Math.max(44, Math.min(54, px));
   if (siteKind === "research-dossier") return Math.max(46, Math.min(54, px));
+  if (siteKind === "signal-observatory") return Math.max(48, Math.min(58, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

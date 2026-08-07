@@ -43,8 +43,9 @@ function discoverBeats(doc: Document): Beat[] {
     pick("h1", "hero", "Claim");
   if (hero) beats.push(hero);
 
-  // Prefer the unique craft figure for each kind — folio plate, seam ladder, then spanning product.
+  // Prefer the unique craft figure for each kind — lattice, folio plate, seam ladder, then product.
   const figureRaw =
+    pick(".ds-hero .ds-chrono-lattice .ds-fig, .ds-chrono-lattice", "figure", "Lattice") ||
     pick(".ds-hero .ds-folio-plate .ds-fig, .ds-folio-plate", "figure", "Plate") ||
     pick(".ds-hero .ds-seam-figure .ds-fig, .ds-seam-figure", "figure", "Ladder") ||
     pick(".ds-hero .ds-plate-bleed", "figure", "Figure") ||
@@ -67,8 +68,8 @@ function discoverBeats(doc: Document): Beat[] {
   const specimen = pick(".ds-specimen, [data-section='specimen']", "specimen", "Specimen");
   if (specimen) beats.push(specimen);
 
-  // Dossier / foundry signature essays — the craft theme packs miss.
-  const spread = pick(".ds-spread, .ds-marginalia, [data-section='story']", "spread", "Spread");
+  // Dossier / foundry / observatory signature essays — the craft theme packs miss.
+  const spread = pick(".ds-spread, .ds-marginalia, .ds-chrono, [data-section='story']", "spread", "Spread");
   if (spread) beats.push(spread);
 
   const proof =
@@ -177,6 +178,8 @@ export function SpecimenPreview({
           .ds-nav{display:none!important}
           .ds-skip{display:none!important}
           .ds-chapter-rail{display:none!important}
+          .ds-scrub-rail{display:none!important}
+          .ds-chronometer{display:none!important}
           html{scroll-padding-top:0!important}
         `;
         doc.head.appendChild(style);
