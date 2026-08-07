@@ -634,11 +634,11 @@ ${surfaceRules()}
 .ds-section-head .ds-lede{margin-top:var(--s-2xs)}
 /* Educational — mechanism teaching surface: packed scrub stage, quiet valley, sparse CSS rules. */
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband{
-  padding:0.25rem 0 var(--s-md);
+  padding:0.25rem 0 var(--s-lg);
   position:relative;z-index:calc(var(--z-raised) + 2);
-  /* Opaque claim over the hung plate — Sequence SVG labels must not bleed into the CTA. */
-  background:linear-gradient(180deg,var(--c-paper) 82%,transparent);
-  border-bottom:0;box-shadow:none;
+  /* Fully opaque over the hung plate — Sequence SVG micro-label must not bleed into the CTA. */
+  background:var(--c-paper);
+  border-bottom:1px solid var(--surface-border);box-shadow:none;
 }
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-display{
   font-size:clamp(2rem,3.1vw,2.85rem);max-width:14ch;line-height:1.05;margin:0.2rem 0 0;

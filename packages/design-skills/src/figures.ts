@@ -565,7 +565,7 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
   const nodeH = band ? 420 : 104;
   const H = band ? top + nodeH + 56 : 216;
 
-  parts.push(text("Sequence", 4, 16, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
+  parts.push(text(band ? "Mechanism" : "Sequence", 4, 16, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
 
   items.forEach((b, i) => {
     const x = 4 + i * (nodeW + gap);
