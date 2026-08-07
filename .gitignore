@@ -26,6 +26,10 @@ tell-preview-report.json
 research/corpus.local.json
 research/raw/
 
+# Peer plumbing reference identity (URL + checkout path). Committed plans are
+# anonymised in docs/11–13; never commit this file.
+research/plumbing-reference.local.json
+
 # Internal planning notes (kept local, not shipped)
 docs/03_CLAUDE_DESIGN_BRIEF.md
 docs/04_CLAUDE_PROJECT.md

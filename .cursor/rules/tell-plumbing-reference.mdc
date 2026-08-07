@@ -1,0 +1,41 @@
+---
+description: Peer plumbing reference memory for platform/MCP/auth/design-flow plans — never name the peer in commits
+alwaysApply: true
+---
+
+# Plumbing & platform reference (project memory)
+
+Tell keeps an **anonymised** study of a peer local-first design daemon for
+**patterns only** (MCP install strategies, CLI shipping, skill staging, route-class
+auth, design-task flow shapes). Use it when building agent/platform features.
+
+## Where the plans live (committed)
+
+| Doc | Scope |
+|---|---|
+| `docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md` | MCP, one-click/deeplink install, CLI, skills packaging, multi-agent hosts |
+| `docs/12_AUTH_SECURITY_BOUNDARIES_PLAN.md` | Capture tokens, origins, run-scoped capabilities, pairing — **not** product login |
+| `docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md` | Common/complex design tasks mapped onto Priya’s loop |
+
+## Where the peer identity lives (never commit)
+
+- `research/plumbing-reference.local.json` — clone URL, local checkout path, study notes
+- Same anonymity rule as `research/corpus.local.json`: **no third-party product names
+  or URLs in committed code, docs, comments, or commit messages**
+
+## How to use the reference
+
+1. If the local JSON exists, clone/update to the path it names (default
+   `/tmp/learn-plumbing/reference`).
+2. Study patterns; implement **Tell-shaped** equivalents under `packages/*`,
+   `apps/web`, `@tell/schema`.
+3. For **template layout plumbing only** (sticky, stacking, focus, landmarks),
+   follow `tell-template-craft` Phase A → encode floors in `basics-checklist.ts`.
+4. For **craft/aesthetics**, use `design-research-loop` + `docs/10_DESIGN_EVIDENCE.md`
+   only — never peer theme packs.
+
+## Non-negotiables when adapting
+
+- Deterministic core; never auto-apply; zod at boundaries; offline fixture fallback
+- Do not copy peer source into this repo
+- Do not mention the peer’s name in anything that gets committed

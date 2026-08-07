@@ -125,12 +125,14 @@ Append to `research/LOOP_LEDGER.md`:
 - **Next weakest:** …
 ```
 
-## What open-source builders are for (and not for)
+## What peer design daemons are for (and not for)
 
-Open-source design / site builders are a **plumbing reference** when the engine is stuck on a
-working detail after several failed attempts (landmarks, focus rings, reduced-motion, opaque
-sticky bars, mobile stacking, token emission, structured specs). Encode those floors in
-`packages/design-skills/src/basics-checklist.ts` and move on.
+A peer local-first design daemon (identity only in `research/plumbing-reference.local.json`) is a
+**plumbing + platform reference** when Tell is stuck on a working detail after several failed
+attempts (landmarks, focus rings, reduced-motion, opaque sticky bars, mobile stacking, token
+emission, structured specs) **or** when implementing MCP install / CLI / auth envelopes
+(`docs/11`–`docs/13`). Encode layout floors in `packages/design-skills/src/basics-checklist.ts`
+and move on. Adapt platform patterns Tell-shaped — never copy source; never name the peer in commits.
 
 They are **not** a source of templates, aesthetic direction, or composition. Offerings and craft
 come only from the expert corpus + this loop. Do not add a template because a peer tool ships a

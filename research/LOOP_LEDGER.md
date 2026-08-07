@@ -271,12 +271,12 @@ buckets, never names, hosts, or URLs.
 
 ## Loop 14 — Fieldmark overlap fix + template-craft skill
 
-- **Goal:** kill Fieldmark text collision (stage labels under lede) and encode the open-design →
+- **Goal:** kill Fieldmark text collision (stage labels under lede) and encode the peer-plumbing →
   designer-corridor loop as a reusable skill.
-- **Plumbing (open-design first):** studio/consumer leave absolute overfigure. Stack fold —
+- **Plumbing (peer checkout first):** studio/consumer leave absolute overfigure. Stack fold —
   opaque `ds-hero-claimband` in document flow, then labeled figure. Same idea as opaque sticky nav:
   underlayer ink must not share the type's box. Compact claim so figure still enters the fold.
-- **Skill:** `.cursor/skills/tell-template-craft/SKILL.md` — Phase A plumbing from open-design
+- **Skill:** `.cursor/skills/tell-template-craft/SKILL.md` — Phase A peer plumbing from
   craft/, Phase B anonymised corridors + screenshot contract. Listed in `AGENTS.md`.
 - **Basics:** studio/consumer require `ds-hero-stackfold` + `ds-hero-claimband`.
 - **Score:** matrix **99.4**; studio-selected **99.8**; consumer **100**; holdout **98.4**.

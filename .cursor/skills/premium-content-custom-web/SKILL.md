@@ -44,7 +44,7 @@ const { spec, previewHtml } = designFromFeatures(brief);
 
 Studio UI: `/studio` · Specimen gallery: `/showcase` · Offerings: `/showcase/{saas|dashboard|corporate|educational|fintech|studio|consumer}`
 
-**Offerings vs plumbing:** Use `tell-template-craft` for every new/fixed template — Phase A open-design plumbing, Phase B measured designer corridors (`design-research-loop`). Do not invent aesthetics from peer theme packs; do not name third parties in commits.
+**Offerings vs plumbing:** Use `tell-template-craft` for every new/fixed template — Phase A peer plumbing checkout, Phase B measured designer corridors (`design-research-loop`). Do not invent aesthetics from peer theme packs; do not name third parties in commits. See `docs/11`–`docs/13` for platform/MCP adaptations from the same study.
 
 ## Taste Controls (always offer)
 

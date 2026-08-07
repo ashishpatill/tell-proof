@@ -86,11 +86,11 @@ Feature workflows live in `.cursor/skills/`:
 - `tell-report-ui` — web app + API routes
 - `tell-github-setup` — clone/install/run localhost
 - `tell-demo-fixture` — fixtures + offline demo
-- `tell-template-craft` — open-design plumbing → measured designer corridors for templates
+- `tell-template-craft` — peer plumbing → measured designer corridors for templates
 - `tell-dogfood-audit` — zero-tells self audit
 - `tell-deploy` — Vercel/Docker public URL
 - `tell-demo-script` — demo + compliance
-- `tell-template-craft` — open-design plumbing first, then top-designer craft iteration + screenshot proof
+- `tell-template-craft` — peer plumbing first, then top-designer craft iteration + screenshot proof
 - `tell-recursive-improve` — champion/challenger loop + `research/LEARNINGS.md` (no nav-only showcase shots)
 - `ship-loop` — analyze PR → fix → semantic commits → push → re-check → merge
 
@@ -122,6 +122,10 @@ See `ORCHESTRATION.md` for model routing and when to invoke each.
 - Educational / interactive visualization plan: `docs/07_VISUALIZATION_PLAN.md` (principles only — no third-party author or site names)
 - AI design methods + how to add styles: `docs/08_AI_DESIGN_METHODS.md` (principle-only)
 - Premium content-custom skill graph: `docs/09_PREMIUM_DESIGN_SKILLS.md`, `agent-skills/web-design/premium-content-custom-web/`, `/studio`
+- Agent/platform integration: `docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md`
+- Auth/security envelopes: `docs/12_AUTH_SECURITY_BOUNDARIES_PLAN.md`
+- Design capability flows: `docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`
+- Peer plumbing identity: gitignored `research/plumbing-reference.local.json` (never name the peer in commits)
 
 ## Cursor Cloud specific instructions
 
