@@ -89,7 +89,7 @@ Most agent UI pipelines stop at HTML that compiles and looks fine in a thumbnail
 
 | Prompt-only / generic kit | Tell |
 |---|---|
-| One layout grammar restyled per product | **Eleven site kinds** with distinct fold grammar (ledger, lattice, dossier plate, optical seam, …) |
+| One layout grammar restyled per product | **Twelve site kinds** with distinct fold grammar (press sheet, ledger, lattice, dossier plate, optical seam, …) |
 | Taste lives only in the model’s prior | **Deterministic detectors + critique bands** — scores and evidence, not vibes |
 | Nav crop as “proof” of craft | **Craft reels** that scroll to plate / spread / imprint beats |
 | Filler tiers and lorem sections | **Feature-derived** pricing, proof, and instruments from the brief you typed |
