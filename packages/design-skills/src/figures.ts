@@ -124,6 +124,11 @@ interface FrameOptions {
    * of three.
    */
   inset?: number;
+  /**
+   * Marks figures whose cells carry drawn page matter (not empty stroked rects).
+   * Basics gate + showcase eye rely on this so empty SIG voids cannot ship again.
+   */
+  dense?: boolean;
 }
 
 /**
@@ -137,7 +142,8 @@ function frame(body: string, o: FrameOptions): string {
   const par = o.stretch ? "none" : "xMidYMid meet";
   const pad = round((o.inset ?? 0) * o.width);
   const box = `${round(-pad)} 0 ${round(o.width + pad * 2)} ${o.height}`;
-  return `<svg class="ds-fig" data-figure="${o.kind}" viewBox="${box}" preserveAspectRatio="${par}"${a11y}>${body}</svg>`;
+  const dense = o.dense ? ` data-dense="ink"` : "";
+  return `<svg class="ds-fig" data-figure="${o.kind}"${dense} viewBox="${box}" preserveAspectRatio="${par}"${a11y}>${body}</svg>`;
 }
 
 /**
@@ -213,6 +219,9 @@ export function isReading(value: string): boolean {
  */
 const FT = { micro: 11, small: 12, body: 15, title: 19, lead: 26, ordinal: 40 } as const;
 
+/** Floor for every SVG mono label — below this invents an invisible type-step the probe still counts. */
+export const FIG_MONO_PX = FT.micro;
+
 const INK = "var(--surface-ink)";
 const BODY = "var(--surface-body)";
 const QUIET = "var(--surface-quiet)";
@@ -227,10 +236,14 @@ function text(
   y: number,
   opts: { size?: number; fill?: string; weight?: number; anchor?: string; mono?: boolean; track?: number } = {},
 ): string {
+  // Mono labels share one step on the page ladder. Anything below FIG_MONO_PX is invisible craft
+  // that still burns a distinctSizes slot (press atelier FT.micro=10 → type-steps 15).
+  const raw = opts.size ?? FT.small;
+  const size = opts.mono ? Math.max(FIG_MONO_PX, raw) : raw;
   const attrs = [
     `x="${round(x)}"`,
     `y="${round(y)}"`,
-    `font-size="${opts.size ?? FT.small}"`,
+    `font-size="${size}"`,
     `fill="${opts.fill ?? BODY}"`,
   ];
   if (opts.weight) attrs.push(`font-weight="${opts.weight}"`);
@@ -1464,6 +1477,112 @@ export function indexLedger(
  * Mono labels only (≤11px) — foundry SVG-text lesson. Theme packs restyle SaaS cards; they do
  * not invent filled press formes from a density slider.
  */
+/**
+ * Drawn page matter for a cell — title bar, media/prose, folio.
+ * Shared so imposition grids and future cell figures cannot ship empty stroked voids
+ * (`template:empty-sig-voids`). Prefer filled rects over rules to keep rule-structure in band.
+ */
+export function miniPageMatter(
+  px: number,
+  py: number,
+  pw: number,
+  ph: number,
+  variant: number,
+  folio: string,
+  rnd: () => number = Math.random,
+): string {
+  const parts: string[] = [];
+  parts.push(
+    `<rect x="${round(px)}" y="${round(py)}" width="${round(pw)}" height="${round(ph)}" fill="var(--c-paper)" stroke="${LINE}" stroke-width="1" opacity="0.98" vector-effect="non-scaling-stroke"/>`,
+  );
+  const inset = 4;
+  const ix = px + inset;
+  const iy = py + inset;
+  const iw = pw - inset * 2;
+  parts.push(
+    `<rect x="${round(ix)}" y="${round(iy)}" width="${round(iw * (0.62 + (variant % 3) * 0.1))}" height="3.5" fill="var(--surface-muted)" opacity="0.95"/>`,
+  );
+  parts.push(
+    `<rect x="${round(ix)}" y="${round(iy + 6)}" width="${round(iw * 0.42)}" height="2" fill="var(--surface-quiet)" opacity="0.75"/>`,
+  );
+  const mediaH = Math.max(14, ph * (0.32 + (variant % 2) * 0.1));
+  const mediaY = iy + 12;
+  if (variant % 3 === 0) {
+    parts.push(
+      `<rect x="${round(ix)}" y="${round(mediaY)}" width="${round(iw)}" height="${round(mediaH)}" fill="${ACCENT_FIELD}" stroke="${LINE}" stroke-width="1" opacity="0.95" vector-effect="non-scaling-stroke"/>`,
+    );
+    for (let k = 0; k < 2; k += 1) {
+      const ly = mediaY + mediaH * (0.3 + k * 0.28);
+      parts.push(
+        `<line x1="${round(ix + 3)}" y1="${round(ly)}" x2="${round(ix + iw - 3)}" y2="${round(ly)}" stroke="${ACCENT}" stroke-width="1" opacity="${round(0.35 + k * 0.15)}" vector-effect="non-scaling-stroke"/>`,
+      );
+    }
+    parts.push(
+      `<rect x="${round(ix + iw - 10)}" y="${round(mediaY + 3)}" width="7" height="7" fill="${ACCENT}" opacity="0.55"/>`,
+    );
+  } else if (variant % 3 === 1) {
+    const colW = iw * 0.44;
+    parts.push(
+      `<rect x="${round(ix + iw - colW)}" y="${round(mediaY)}" width="${round(colW)}" height="${round(mediaH)}" fill="${ACCENT_FIELD}" stroke="${LINE}" stroke-width="1" opacity="0.85" vector-effect="non-scaling-stroke"/>`,
+    );
+    const proseRows = Math.max(4, Math.floor(mediaH / 4.5));
+    for (let row = 0; row < proseRows; row += 1) {
+      parts.push(
+        `<rect x="${round(ix)}" y="${round(mediaY + row * 4.5)}" width="${round(iw * 0.48 * (0.65 + rnd() * 0.35))}" height="2.2" fill="var(--surface-quiet)" opacity="0.65"/>`,
+      );
+    }
+  } else {
+    const colGap = 3;
+    const colW = (iw - colGap) / 2;
+    for (let c = 0; c < 2; c += 1) {
+      for (let row = 0; row < 8; row += 1) {
+        const wMul = row === 0 ? 0.85 : 0.55 + rnd() * 0.4;
+        parts.push(
+          `<rect x="${round(ix + c * (colW + colGap))}" y="${round(mediaY + row * 4)}" width="${round(colW * wMul)}" height="2" fill="var(--surface-quiet)" opacity="${round(0.5 + (row % 3) * 0.12)}"/>`,
+        );
+      }
+    }
+  }
+  const bodyY = mediaY + mediaH + 5;
+  const bodyRows = Math.max(3, Math.floor((py + ph - inset - bodyY - 12) / 3.8));
+  for (let row = 0; row < bodyRows; row += 1) {
+    parts.push(
+      `<rect x="${round(ix)}" y="${round(bodyY + row * 3.8)}" width="${round(iw * (0.55 + rnd() * 0.4))}" height="2" fill="var(--surface-quiet)" opacity="0.5"/>`,
+    );
+  }
+  parts.push(
+    `<rect x="${round(ix)}" y="${round(py + ph - 9)}" width="${round(iw * 0.35)}" height="1.5" fill="var(--surface-quiet)" opacity="0.45"/>`,
+  );
+  parts.push(
+    text(folio, px + pw - 4, py + ph - 3, { size: FIG_MONO_PX, fill: QUIET, mono: true, anchor: "end" }),
+  );
+  return parts.join("");
+}
+
+/** Filled density patches (not tick rules) — reads as a densitometer without flooding rule-structure. */
+export function densitometerStrip(
+  x0: number,
+  y0: number,
+  width: number,
+  patches = 8,
+  labelLeft = "DENS",
+): string {
+  const parts: string[] = [];
+  parts.push(text(labelLeft, x0, y0 + 6, { size: FIG_MONO_PX, fill: QUIET, mono: true }));
+  parts.push(text("GRIP", x0, y0 + 18, { size: FIG_MONO_PX, fill: QUIET, mono: true }));
+  const densStart = x0 + 42;
+  const densSpan = Math.max(40, width - 42);
+  for (let i = 0; i < patches; i += 1) {
+    const px = densStart + (i / patches) * densSpan;
+    const pw = densSpan / patches - 4;
+    const op = round(0.12 + (i / Math.max(1, patches - 1)) * 0.8);
+    parts.push(
+      `<rect x="${round(px)}" y="${round(y0)}" width="${round(pw)}" height="12" fill="${ACCENT}" opacity="${op}"/>`,
+    );
+  }
+  return parts.join("");
+}
+
 export function pressSheet(
   productName: string,
   features: Block[],
@@ -1505,14 +1624,22 @@ export function pressSheet(
   );
 
   const headY = padY + 16;
+  parts.push(text("PRESS SHEET", padX + 12, headY, { size: FIG_MONO_PX, fill: QUIET, mono: true }));
   parts.push(
-    `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">PRESS SHEET</text>`,
+    text(clip(productName, 28), W / 2, headY, {
+      size: FIG_MONO_PX,
+      fill: "var(--surface-muted)",
+      mono: true,
+      anchor: "middle",
+    }),
   );
   parts.push(
-    `<text class="ds-fig-mono" x="${round(W / 2)}" y="${round(headY)}" font-size="11" fill="var(--surface-muted)" text-anchor="middle">${esc(clip(productName, 28))}</text>`,
-  );
-  parts.push(
-    `<text class="ds-fig-mono" x="${round(W - padX - 12)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">SIG A–H · FORME 16</text>`,
+    text("SIG A–H · FORME 16", W - padX - 12, headY, {
+      size: FIG_MONO_PX,
+      fill: QUIET,
+      mono: true,
+      anchor: "end",
+    }),
   );
   parts.push(
     `<line x1="${round(padX)}" y1="${round(headY + 8)}" x2="${round(W - padX)}" y2="${round(headY + 8)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
@@ -1535,78 +1662,6 @@ export function pressSheet(
   reg(W / 2, padY + 30);
   reg(padX + 22, H / 2);
   reg(W - padX - 22, H / 2);
-
-  /** Mini page layout — dense text bars + media + folio. Kills empty SIG voids at showcase scale. */
-  const drawPage = (px: number, py: number, pw: number, ph: number, variant: number, folio: string) => {
-    parts.push(
-      `<rect x="${round(px)}" y="${round(py)}" width="${round(pw)}" height="${round(ph)}" fill="var(--c-paper)" stroke="${LINE}" stroke-width="1" opacity="0.98" vector-effect="non-scaling-stroke"/>`,
-    );
-    const inset = 4;
-    const ix = px + inset;
-    const iy = py + inset;
-    const iw = pw - inset * 2;
-    // Title + kicker always present — ink at the top of every page.
-    parts.push(
-      `<rect x="${round(ix)}" y="${round(iy)}" width="${round(iw * (0.62 + (variant % 3) * 0.1))}" height="3.5" fill="var(--surface-muted)" opacity="0.95"/>`,
-    );
-    parts.push(
-      `<rect x="${round(ix)}" y="${round(iy + 6)}" width="${round(iw * 0.42)}" height="2" fill="var(--surface-quiet)" opacity="0.75"/>`,
-    );
-    const mediaH = Math.max(14, ph * (0.32 + (variant % 2) * 0.1));
-    const mediaY = iy + 12;
-    if (variant % 3 === 0) {
-      parts.push(
-        `<rect x="${round(ix)}" y="${round(mediaY)}" width="${round(iw)}" height="${round(mediaH)}" fill="${ACCENT_FIELD}" stroke="${LINE}" stroke-width="1" opacity="0.95" vector-effect="non-scaling-stroke"/>`,
-      );
-      for (let k = 0; k < 2; k += 1) {
-        const ly = mediaY + mediaH * (0.3 + k * 0.28);
-        parts.push(
-          `<line x1="${round(ix + 3)}" y1="${round(ly)}" x2="${round(ix + iw - 3)}" y2="${round(ly)}" stroke="${ACCENT}" stroke-width="1" opacity="${round(0.35 + k * 0.15)}" vector-effect="non-scaling-stroke"/>`,
-        );
-      }
-      // Accent corner mark — reads as plate crop at small scale.
-      parts.push(
-        `<rect x="${round(ix + iw - 10)}" y="${round(mediaY + 3)}" width="7" height="7" fill="${ACCENT}" opacity="0.55"/>`,
-      );
-    } else if (variant % 3 === 1) {
-      const colW = iw * 0.44;
-      parts.push(
-        `<rect x="${round(ix + iw - colW)}" y="${round(mediaY)}" width="${round(colW)}" height="${round(mediaH)}" fill="${ACCENT_FIELD}" stroke="${LINE}" stroke-width="1" opacity="0.85" vector-effect="non-scaling-stroke"/>`,
-      );
-      const proseRows = Math.max(4, Math.floor(mediaH / 4.5));
-      for (let row = 0; row < proseRows; row += 1) {
-        parts.push(
-          `<rect x="${round(ix)}" y="${round(mediaY + row * 4.5)}" width="${round(iw * 0.48 * (0.65 + r() * 0.35))}" height="2.2" fill="var(--surface-quiet)" opacity="0.65"/>`,
-        );
-      }
-    } else {
-      // Dual column body — denser than sparse bars.
-      const colGap = 3;
-      const colW = (iw - colGap) / 2;
-      for (let c = 0; c < 2; c += 1) {
-        for (let row = 0; row < 8; row += 1) {
-          const wMul = row === 0 ? 0.85 : 0.55 + r() * 0.4;
-          parts.push(
-            `<rect x="${round(ix + c * (colW + colGap))}" y="${round(mediaY + row * 4)}" width="${round(colW * wMul)}" height="2" fill="var(--surface-quiet)" opacity="${round(0.5 + (row % 3) * 0.12)}"/>`,
-          );
-        }
-      }
-    }
-    const bodyY = mediaY + mediaH + 5;
-    const bodyRows = Math.max(3, Math.floor((py + ph - inset - bodyY - 12) / 3.8));
-    for (let row = 0; row < bodyRows; row += 1) {
-      parts.push(
-        `<rect x="${round(ix)}" y="${round(bodyY + row * 3.8)}" width="${round(iw * (0.55 + r() * 0.4))}" height="2" fill="var(--surface-quiet)" opacity="0.5"/>`,
-      );
-    }
-    // Folio anchor — ink bar instead of a rule (keeps rule density in band).
-    parts.push(
-      `<rect x="${round(ix)}" y="${round(py + ph - 9)}" width="${round(iw * 0.35)}" height="1.5" fill="var(--surface-quiet)" opacity="0.45"/>`,
-    );
-    parts.push(
-      `<text class="ds-fig-mono" x="${round(px + pw - 4)}" y="${round(py + ph - 3)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${folio}</text>`,
-    );
-  };
 
   const base = features.length ? features : [{ title: "Signature", body: "", meta: "A" } as Block];
   const cols = role === "band" ? 4 : 3;
@@ -1640,11 +1695,14 @@ export function pressSheet(
       parts.push(
         `<rect x="${round(cx)}" y="${round(cy)}" width="${round(cw)}" height="20" fill="color-mix(in srgb, var(--c-accent) 16%, var(--c-paper))" opacity="0.98"/>`,
       );
+      parts.push(text(`SIG ${sig}`, cx + 6, cy + 13, { size: FIG_MONO_PX, fill: ACCENT, mono: true }));
       parts.push(
-        `<text class="ds-fig-mono" x="${round(cx + 6)}" y="${round(cy + 13)}" font-size="11" fill="var(--c-accent)">SIG ${sig}</text>`,
-      );
-      parts.push(
-        `<text class="ds-fig-mono" x="${round(cx + cw - 6)}" y="${round(cy + 13)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${esc(clip(f.title ?? `Plate ${sig}`, 14))}</text>`,
+        text(clip(f.title ?? `Plate ${sig}`, 14), cx + cw - 6, cy + 13, {
+          size: FIG_MONO_PX,
+          fill: QUIET,
+          mono: true,
+          anchor: "end",
+        }),
       );
 
       const pageTop = cy + 24;
@@ -1657,13 +1715,16 @@ export function pressSheet(
         for (let pc = 0; pc < 2; pc += 1) {
           const pi = pr * 2 + pc;
           const folio = String(i * 4 + pi + 1).padStart(2, "0");
-          drawPage(
-            pageX0 + pc * (pageW + gap),
-            pageTop + pr * (pageH + gap),
-            pageW,
-            pageH,
-            (i * 3 + pi + Math.floor(r() * 3)) % 6,
-            folio,
+          parts.push(
+            miniPageMatter(
+              pageX0 + pc * (pageW + gap),
+              pageTop + pr * (pageH + gap),
+              pageW,
+              pageH,
+              (i * 3 + pi + Math.floor(r() * 3)) % 6,
+              folio,
+              r,
+            ),
           );
         }
       }
@@ -1678,24 +1739,7 @@ export function pressSheet(
   parts.push(
     `<line x1="${round(padX)}" y1="${round(densY)}" x2="${round(W - padX)}" y2="${round(densY)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
-  parts.push(
-    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(densY + 14)}" font-size="11" fill="var(--surface-quiet)">DENS</text>`,
-  );
-  parts.push(
-    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(densY + 26)}" font-size="11" fill="var(--surface-quiet)">GRIP</text>`,
-  );
-  const patches = 8;
-  const densStart = padX + 52;
-  const densEnd = W - padX - 10;
-  const densSpan = densEnd - densStart;
-  for (let i = 0; i < patches; i += 1) {
-    const px = densStart + (i / patches) * densSpan;
-    const pw = densSpan / patches - 4;
-    const op = round(0.12 + (i / (patches - 1)) * 0.8);
-    parts.push(
-      `<rect x="${round(px)}" y="${round(densY + 8)}" width="${round(pw)}" height="12" fill="${ACCENT}" opacity="${op}"/>`,
-    );
-  }
+  parts.push(densitometerStrip(padX + 10, densY + 8, W - padX * 2 - 20, 8));
 
   return frame(parts.join(""), {
     width: W,
@@ -1703,6 +1747,7 @@ export function pressSheet(
     kind: "press-sheet",
     label: `${productName} press sheet`,
     inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
   });
 }
 

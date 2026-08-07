@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T11:40:11.255Z",
+  "generatedAt": "2026-08-07T11:50:22.186Z",
   "overall": 0.991,
   "holdout": {
     "id": "holdout-commerce",
@@ -3739,7 +3739,7 @@
     },
     {
       "id": "dossier-research",
-      "total": 0.9867,
+      "total": 0.9864,
       "holdout": false,
       "rows": [
         {
@@ -3899,7 +3899,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.772,
+          "value": 0.769,
           "band": [
             0.611,
             1
@@ -3943,7 +3943,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.441,
+          "value": 0.443,
           "band": [
             0.422,
             0.896
@@ -3954,12 +3954,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.103,
+          "value": 1.106,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.441,
+          "score": 0.43,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -3998,7 +3998,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.081,
+          "value": 0.079,
           "band": [
             0.021,
             0.154
@@ -4042,7 +4042,7 @@
         {
           "id": "cta-discipline",
           "label": "Above-fold CTAs",
-          "value": 3,
+          "value": 2,
           "band": [
             0,
             7
@@ -4053,7 +4053,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 498,
+          "value": 483,
           "band": [
             242,
             1139
@@ -4086,7 +4086,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 7,
+          "value": 8,
           "band": [
             5,
             10
@@ -4837,7 +4837,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.824,
+          "value": 0.822,
           "band": [
             0.611,
             1
@@ -4881,7 +4881,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.586,
+          "value": 0.588,
           "band": [
             0.422,
             0.896
@@ -4892,7 +4892,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.314,
+          "value": 1.317,
           "band": [
             0.447,
             0.96
@@ -4936,7 +4936,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.093,
+          "value": 0.091,
           "band": [
             0.021,
             0.154
@@ -4980,7 +4980,7 @@
         {
           "id": "cta-discipline",
           "label": "Above-fold CTAs",
-          "value": 3,
+          "value": 2,
           "band": [
             0,
             7
@@ -4991,7 +4991,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 468,
+          "value": 449,
           "band": [
             242,
             1139
@@ -5035,7 +5035,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 3,
+          "value": 4,
           "band": [
             3,
             6
@@ -6091,7 +6091,7 @@
         0.447,
         0.96
       ],
-      "mean": 0.714,
+      "mean": 0.713,
       "scoredOn": 13,
       "values": [
         {
@@ -6128,7 +6128,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 1.103
+          "value": 1.106
         },
         {
           "page": "observatory-signal",
@@ -6136,7 +6136,7 @@
         },
         {
           "page": "archive-index",
-          "value": 1.314
+          "value": 1.317
         },
         {
           "page": "press-atelier",
@@ -6192,7 +6192,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 0.441
+          "value": 0.443
         },
         {
           "page": "observatory-signal",
@@ -6200,7 +6200,7 @@
         },
         {
           "page": "archive-index",
-          "value": 0.586
+          "value": 0.588
         },
         {
           "page": "press-atelier",
@@ -7216,7 +7216,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 0.772
+          "value": 0.769
         },
         {
           "page": "observatory-signal",
@@ -7224,7 +7224,7 @@
         },
         {
           "page": "archive-index",
-          "value": 0.824
+          "value": 0.822
         },
         {
           "page": "press-atelier",
@@ -7664,7 +7664,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 0.081
+          "value": 0.079
         },
         {
           "page": "observatory-signal",
@@ -7672,7 +7672,7 @@
         },
         {
           "page": "archive-index",
-          "value": 0.093
+          "value": 0.091
         },
         {
           "page": "press-atelier",
@@ -7920,7 +7920,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 3
+          "value": 2
         },
         {
           "page": "observatory-signal",
@@ -7928,7 +7928,7 @@
         },
         {
           "page": "archive-index",
-          "value": 3
+          "value": 2
         },
         {
           "page": "press-atelier",
@@ -7984,7 +7984,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 498
+          "value": 483
         },
         {
           "page": "observatory-signal",
@@ -7992,7 +7992,7 @@
         },
         {
           "page": "archive-index",
-          "value": 468
+          "value": 449
         },
         {
           "page": "press-atelier",
@@ -8176,7 +8176,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 7
+          "value": 8
         },
         {
           "page": "observatory-signal",
@@ -8248,7 +8248,7 @@
         },
         {
           "page": "archive-index",
-          "value": 3
+          "value": 4
         },
         {
           "page": "press-atelier",

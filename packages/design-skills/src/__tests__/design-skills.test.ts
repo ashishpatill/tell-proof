@@ -438,6 +438,10 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-press-masthead");
     expect(previewHtml).toContain("ds-sig-rail");
     expect(previewHtml).toContain('data-figure="press-sheet"');
+    expect(previewHtml).toContain('data-dense="ink"');
+    expect(previewHtml).toMatch(/data-figure="press-sheet"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="press-sheet"/);
+    // Mini page folios — densify helper left page matter, not empty SIG voids.
+    expect(previewHtml).toContain(">01</text>");
     expect(previewHtml).toContain("ds-gather");
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Pressroom");
@@ -445,6 +449,21 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).not.toContain('class="ds-alpha-rail"');
     expect(previewHtml).not.toContain('class="ds-chapter-rail"');
     expect(previewHtml).not.toContain('class="ds-scrub-rail"');
+    // Engine mono floor — no SVG figure labels below 11px.
+    const svgSizes = [...previewHtml.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)].map((m) => Number(m[1]));
+    expect(svgSizes.every((n) => n >= 11)).toBe(true);
+  });
+
+  it("exposes reusable densify helpers for cell-grid figures", async () => {
+    const { miniPageMatter, densitometerStrip, FIG_MONO_PX } = await import("../figures");
+    expect(FIG_MONO_PX).toBe(11);
+    const page = miniPageMatter(0, 0, 80, 100, 0, "07", () => 0.5);
+    expect(page).toContain("var(--surface-muted)");
+    expect(page).toContain(">07</text>");
+    expect(page).toContain(`font-size="${FIG_MONO_PX}"`);
+    const dens = densitometerStrip(0, 0, 200, 4);
+    expect(dens).toContain("DENS");
+    expect(dens).toContain("GRIP");
   });
 
   it("clears the implementation basics gate on every offering", () => {

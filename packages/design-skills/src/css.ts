@@ -195,6 +195,22 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 /** Site-kind art direction — always applied (must not live inside a lean branch). */
 function siteKindCss(): string {
   return `
+/* Fold-owns-figure recipe — compact claim chrome so unique craft figures own the first viewport.
+ * Per-kind hang fields (+*-field) still set the geometry; this shared block keeps secondary CTAs
+ * and fold notes from re-starving the plate/forme/ledger/lattice. */
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-cta-note,
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-actions .ds-btn-ghost,
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-actions .ds-btn-secondary,
+[data-sitekind="observatory-signal"] .ds-hero-chrono .ds-cta-note,
+[data-sitekind="observatory-signal"] .ds-hero-chrono .ds-actions .ds-btn-ghost,
+[data-sitekind="observatory-signal"] .ds-hero-chrono .ds-actions .ds-btn-secondary,
+[data-sitekind="archive-index"] .ds-hero-register .ds-cta-note,
+[data-sitekind="archive-index"] .ds-hero-register .ds-actions .ds-btn-ghost,
+[data-sitekind="archive-index"] .ds-hero-register .ds-actions .ds-btn-secondary,
+[data-sitekind="press-atelier"] .ds-hero-press .ds-cta-note,
+[data-sitekind="press-atelier"] .ds-hero-press .ds-actions .ds-btn-ghost,
+[data-sitekind="press-atelier"] .ds-hero-press .ds-actions .ds-btn-secondary{display:none}
+
 /* Fintech: inverse specimen is a stage; product drawing sits on a lit paper plate (readable contrast). */
 [data-sitekind="fintech-marketing"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
 [data-sitekind="fintech-marketing"] .ds-specimen-head .ds-heading{color:var(--surface-ink)}

@@ -124,6 +124,8 @@
 }
 
 /* ── Gallery stage only (never collide with `.sx-chrome .sx-stage` proof iframe) ──── */
+/* CONTRACT: do not reintroduce unscoped `.sx-stage { … }` rules — gallery is `.sx-shell > .sx-stage`,
+ * proof is `.sx-chrome .sx-stage`. Shared class without a parent scope caused empty proof + dead mast. */
 
 .sx-shell > .sx-stage {
   display: grid;
