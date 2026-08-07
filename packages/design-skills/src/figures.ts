@@ -1219,16 +1219,16 @@ export function signalLattice(
     const x = padX + 8 + ((W - padX * 2 - 16) * i) / hours;
     const tall = i % 3 === 0;
     parts.push(
-      `<line x1="${round(x)}" y1="${round(chronY - (tall ? 8 : 4))}" x2="${round(x)}" y2="${round(chronY + (tall ? 8 : 4))}" stroke="${tall ? ACCENT : LINE}" stroke-width="${tall ? 1.5 : 1}" vector-effect="non-scaling-stroke"/>`,
+      `<line x1="${round(x)}" y1="${round(chronY - (tall ? 8 : 4))}" x2="${round(x)}" y2="${round(chronY + (tall ? 8 : 4))}" stroke="${tall ? ACCENT : LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
     );
     if (tall) {
       parts.push(
-        `<text class="ds-fig-mono" x="${round(x)}" y="${round(chronY - 12)}" font-size="10" fill="var(--surface-quiet)" text-anchor="middle">${String(i).padStart(2, "0")}</text>`,
+        `<text class="ds-fig-mono" x="${round(x)}" y="${round(chronY - 12)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">${String(i).padStart(2, "0")}</text>`,
       );
     }
   }
   parts.push(
-    `<text class="ds-fig-mono" x="${round(W - padX - 8)}" y="${round(chronY - 12)}" font-size="10" fill="var(--surface-quiet)" text-anchor="end">UTC</text>`,
+    `<text class="ds-fig-mono" x="${round(W - padX - 8)}" y="${round(chronY - 12)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">UTC</text>`,
   );
 
   const channels = features.slice(0, 6);
@@ -1254,7 +1254,7 @@ export function signalLattice(
     }
     // Channel id + title (mono only)
     parts.push(
-      `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(mid - 4)}" font-size="10" fill="var(--surface-quiet)">${String(i + 1).padStart(2, "0")}</text>`,
+      `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(mid - 4)}" font-size="11" fill="var(--surface-quiet)">${String(i + 1).padStart(2, "0")}</text>`,
     );
     parts.push(
       `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(mid + 12)}" font-size="11" fill="var(--surface-muted)">${esc(clip(f?.title ?? `ch-${i + 1}`, 16))}</text>`,
@@ -1285,17 +1285,17 @@ export function signalLattice(
   const winX = barLeft + barW * 0.62;
   const winW = barW * 0.16;
   parts.push(
-    `<rect x="${round(winX)}" y="${round(gridTop)}" width="${round(winW)}" height="${round(gridH)}" fill="none" stroke="${ACCENT}" stroke-width="1.5" opacity="0.7" vector-effect="non-scaling-stroke"/>`,
+    `<rect x="${round(winX)}" y="${round(gridTop)}" width="${round(winW)}" height="${round(gridH)}" fill="none" stroke="${ACCENT}" stroke-width="1" opacity="0.7" vector-effect="non-scaling-stroke"/>`,
   );
   parts.push(
-    `<text class="ds-fig-mono" x="${round(winX + winW / 2)}" y="${round(gridTop - 6)}" font-size="10" fill="var(--c-accent)" text-anchor="middle">LIVE</text>`,
+    `<text class="ds-fig-mono" x="${round(winX + winW / 2)}" y="${round(gridTop - 6)}" font-size="11" fill="var(--c-accent)" text-anchor="middle">LIVE</text>`,
   );
 
   parts.push(
     `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(H - padY + 14)}" font-size="11" fill="var(--surface-quiet)">${esc(clip(productName, 28))} · signal lattice</text>`,
   );
   parts.push(
-    `<text class="ds-fig-mono" x="${round(W - padX - 8)}" y="${round(H - padY + 14)}" font-size="10" fill="var(--surface-quiet)" text-anchor="end">${count} channels</text>`,
+    `<text class="ds-fig-mono" x="${round(W - padX - 8)}" y="${round(H - padY + 14)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${count} channels</text>`,
   );
 
   return frame(parts.join(""), {

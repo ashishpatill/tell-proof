@@ -49,6 +49,23 @@ Pattern keys match `tell-recursive-improve`.
   hide chapter rail in preview chrome like sticky nav.
 - **Do not:** Ship a gallery of nav-crop stills and call the earlier cinema commit "done".
 
+## 2026-08-07 — `template:thick-chrome-kills-hairline`
+
+- **Failure:** Observatory first critique scored **96.0** with hairline ratio 0.839 (band ≥0.947).
+  Chronometer major ticks, chrono track/beads, aside borders, 3px bleed seal, and calibration stripe
+  were 1.5–3px chrome — the probe treats those as non-hairline and tanks the band.
+- **Fix:** Force observatory structural rules to 1px; consolidate mono labels to 11px; hairline bleed
+  seal. Score **96.0 → 99.0**.
+- **Do not:** Add 2–3px “accent bars” as borders on a new siteKind and expect hairline bands to hold.
+
+## 2026-08-07 — `template:chrono-claim-starves-lattice`
+
+- **Failure:** Same class as folio-claim-starves-plate — chronometer fold put full claim + dual CTAs
+  above the signal lattice, so narrow showcase frames showed scrub chrome without the unique figure.
+- **Fix:** Compact claim, hang `.ds-chrono-field` under a soft paper fade, raise lattice min-height
+  so amplitude channels enter the first desktop viewport (lattice top ~344px @1440×900).
+- **Do not:** Treat a unique lattice as shipped if the fold shot is only type + sticky scrub.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.

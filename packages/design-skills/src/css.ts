@@ -357,25 +357,27 @@ body[data-sitekind="signal-observatory"]{
   font-family:var(--f-display);
 }
 [data-sitekind="signal-observatory"] .ds-hero-chrono .ds-display{
-  font-size:clamp(2.2rem,3.6vw,3.2rem);max-width:15ch;line-height:1.08;letter-spacing:-0.03em;
+  font-size:clamp(2.0rem,3.2vw,2.85rem);max-width:14ch;line-height:1.08;letter-spacing:-0.03em;
 }
-[data-sitekind="signal-observatory"] .ds-hero-chrono .ds-lede{max-width:38ch;margin:0.35rem 0 0}
-[data-sitekind="signal-observatory"] .ds-hero-chrono .ds-brand-mark{margin:0 0 0.35rem}
+[data-sitekind="signal-observatory"] .ds-hero-chrono .ds-lede{max-width:36ch;margin:0.25rem 0 0}
+[data-sitekind="signal-observatory"] .ds-hero-chrono .ds-brand-mark{margin:0 0 0.25rem}
 [data-sitekind="signal-observatory"] .ds-hero-chrono .ds-eyebrow{margin:0}
-[data-sitekind="signal-observatory"] .ds-hero-chrono .ds-actions{margin-top:0.55rem}
+[data-sitekind="signal-observatory"] .ds-hero-chrono .ds-actions{margin-top:0.45rem}
 [data-sitekind="signal-observatory"] .ds-chrono-claim{
-  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding:var(--s-xs,0.35rem) 0 0.2rem;
   padding-left:var(--chrono-rail);
   position:relative;z-index:2;
-  background:linear-gradient(180deg,var(--c-paper) 70%,transparent);
+  background:linear-gradient(180deg,var(--c-paper) 65%,transparent);
 }
 [data-sitekind="signal-observatory"] .ds-chrono-field{
-  margin-top:calc(var(--s-2xl) * -1);position:relative;z-index:1;
+  margin-top:calc(var(--s-3xl,2.5rem) * -1.15);position:relative;z-index:1;
   padding-left:var(--chrono-rail);
 }
-[data-sitekind="signal-observatory"] .ds-chrono-lattice .ds-fig{min-height:min(82vh,860px)}
-[data-sitekind="signal-observatory"] .ds-hero-chrono{min-height:min(100vh,920px)}
+[data-sitekind="signal-observatory"] .ds-chrono-lattice .ds-fig{min-height:min(88vh,920px)}
+[data-sitekind="signal-observatory"] .ds-hero-chrono{min-height:min(100vh,900px);padding-bottom:var(--scrub-rail)}
 [data-sitekind="signal-observatory"] .ds-hero-chrono .ds-cta-note{display:none}
+/* Keep secondary CTA off the fold so the lattice enters the first viewport. */
+[data-sitekind="signal-observatory"] .ds-hero-chrono .ds-actions .ds-btn-ghost{display:none}
 [data-sitekind="signal-observatory"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="signal-observatory"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
 [data-sitekind="signal-observatory"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
@@ -384,7 +386,7 @@ body[data-sitekind="signal-observatory"]{
 [data-sitekind="signal-observatory"] .ds-chrono-essay,
 [data-sitekind="signal-observatory"] .ds-chapter{padding-left:0;margin-left:var(--chrono-rail)}
 [data-sitekind="signal-observatory"] .ds-closing-colophon{
-  border-top:3px solid var(--c-accent);padding-top:var(--s-xl);
+  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
 }
 [data-sitekind="signal-observatory"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
 [data-sitekind="signal-observatory"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
@@ -393,14 +395,16 @@ body[data-sitekind="signal-observatory"]{
 [data-sitekind="signal-observatory"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="signal-observatory"] .ds-chrono-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="signal-observatory"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="signal-observatory"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(68vh,700px)}
+[data-sitekind="signal-observatory"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(74vh,760px)}
 [data-sitekind="signal-observatory"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
+/* Observatory bleed seal stays hairline — thick accent bars tank the hairline ratio. */
+[data-sitekind="signal-observatory"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
 /* Calibration strip marks on the closing band */
 [data-sitekind="signal-observatory"] .ds-closing-colophon::before{
-  content:"";display:block;height:10px;margin:0 0 var(--s-md);
+  content:"";display:block;height:1px;margin:0 0 var(--s-md);
   background:
-    repeating-linear-gradient(90deg,var(--c-accent) 0 2px,transparent 2px 12px);
-  opacity:0.55;
+    repeating-linear-gradient(90deg,var(--c-accent) 0 1px,transparent 1px 10px);
+  opacity:0.7;
 }
 `;
 }
@@ -848,27 +852,27 @@ ${surfaceRules()}
   width:100%;align-items:center;
 }
 .ds-chrono-tick{
-  font-family:var(--f-mono);font-size:9px;letter-spacing:0.08em;color:var(--c-ink-tertiary);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;color:var(--c-ink-tertiary);
   position:relative;width:100%;text-align:center;
 }
 .ds-chrono-tick::before{
   content:"";position:absolute;right:0.15rem;top:50%;width:0.45rem;height:1px;background:var(--c-border);
 }
-.ds-chrono-tick.is-major{color:var(--c-accent);font-size:10px}
-.ds-chrono-tick.is-major::before{width:0.75rem;height:2px;background:var(--c-accent)}
+.ds-chrono-tick.is-major{color:var(--c-accent)}
+.ds-chrono-tick.is-major::before{width:0.75rem;background:var(--c-accent)}
 .ds-chronometer-label{
   writing-mode:vertical-rl;transform:rotate(180deg);
-  font-family:var(--f-mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;
   color:var(--c-ink-tertiary);margin-top:var(--s-sm);
 }
 .ds-chrono-claim{
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) 0 var(--s-md);
+  padding:calc(var(--nav-h,4.5rem) + var(--s-sm)) 0 var(--s-xs);
   padding-left:var(--chrono-rail,3.25rem);
 }
-.ds-chrono-claim .ds-hero-copy{max-width:34rem;gap:0.65rem}
+.ds-chrono-claim .ds-hero-copy{max-width:32rem;gap:0.5rem}
 .ds-chrono-field{margin-top:0;padding-left:var(--chrono-rail,3.25rem)}
 .ds-chrono-lattice{margin:0;width:100%;display:block}
-.ds-chrono-lattice .ds-fig{width:100%;min-height:min(76vh,800px);display:block}
+.ds-chrono-lattice .ds-fig{width:100%;min-height:min(82vh,860px);display:block}
 .ds-scrub-rail{
   position:fixed;left:0;right:0;bottom:0;z-index:var(--z-nav);
   height:var(--scrub-rail,3.5rem);
@@ -891,8 +895,8 @@ ${surfaceRules()}
 .ds-scrub-chip:hover,.ds-scrub-chip:focus-visible{color:var(--c-accent)}
 .ds-scrub-chip.is-live{color:var(--c-accent)}
 .ds-scrub-chip.is-live .ds-scrub-label{font-weight:600}
-.ds-scrub-meta{font-family:var(--f-mono);font-size:10px;letter-spacing:0.16em}
-.ds-scrub-label{font-family:var(--f-mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase}
+.ds-scrub-meta{font-family:var(--f-mono);font-size:11px;letter-spacing:0.16em}
+.ds-scrub-label{font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase}
 @media (max-width:800px){
   .ds-chronometer{display:none}
   .ds-chrono-claim,.ds-chrono-field{padding-left:0}
@@ -905,12 +909,12 @@ ${surfaceRules()}
 .ds-chrono-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
 .ds-chrono-essay{position:relative;display:flex;flex-direction:column;gap:var(--s-2xl);max-width:42rem;padding-left:1.5rem}
 .ds-chrono-track{
-  position:absolute;left:0.35rem;top:0.5rem;bottom:0.5rem;width:2px;
+  position:absolute;left:0.35rem;top:0.5rem;bottom:0.5rem;width:1px;
   background:linear-gradient(180deg,var(--c-accent),var(--c-border));
 }
 .ds-chrono-bead{
   position:absolute;left:-1.28rem;top:0.55rem;width:0.7rem;height:0.7rem;border-radius:50%;
-  background:var(--c-paper);border:2px solid var(--c-accent);z-index:1;
+  background:var(--c-paper);border:1px solid var(--c-accent);z-index:1;
 }
 .ds-chrono-beat{position:relative}
 .ds-chrono-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
@@ -920,7 +924,7 @@ ${surfaceRules()}
 }
 .ds-chrono-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
 .ds-chrono-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-lg)}
-.ds-chrono-aside-tick{display:flex;flex-direction:column;gap:0.25rem;border-left:2px solid var(--c-border);padding-left:0.75rem}
+.ds-chrono-aside-tick{display:flex;flex-direction:column;gap:0.25rem;border-left:1px solid var(--c-border);padding-left:0.75rem}
 .ds-chrono-aside-time{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent);
 }

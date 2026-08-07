@@ -353,3 +353,32 @@ buckets, never names, hosts, or URLs.
   folio/seam/spread/imprint; chapter-rail hidden in preview chrome; learning `showcase:list-not-reel`.
 - **Side effects:** featured is excluded from the strip (8 cells) — intentional so the stage owns it.
 - **Qualitative:** gallery reads as a specimen cinema, not a sitemap of offerings.
+
+## Loop 18 — tenth offering: signal observatory (RSI)
+
+- **Goal:** fill the enterprise-observability / enterprise-data / award-index demand gap with a
+  template structurally hard to replicate from a theme pack — chronometer fold, scrub rail, signal
+  lattice, chrono essay, calibration — and dogfood the engine until critique + eye pass.
+- **Failure named (champion):** nine offerings still lacked an instrument-desk grammar; nothing
+  forced a vertical chronometer, sticky time-window scrub rail, amplitude lattice, or tick-bead
+  chronology. Theme packs restyle SaaS/dashboard shells; they do not invent desk instruments.
+- **Challenger:** new `signal-observatory` siteKind + `observatory` template (`Nightglass`) with
+  craft prior kinds do not emit:
+  - `hero-chrono` — UTC chronometer ticks + compact claim + spanning signal lattice
+  - sticky `ds-scrub-rail` — T−24h / Live / +6h / Calibrate time windows
+  - `signal-lattice` figure (amplitude bars + LIVE bracket; mono labels only — foundry SVG-text lesson)
+  - `story-chrono` — event track with tick beads + outer time index
+  - hairline bleed + paper calibration close (no pricing, no metrics theatre, zero inverse)
+- **Score:** matrix **99.1**; observatory-signal **96.0 → 98.9/99.0** after hairline + type
+  consolidation + fold hang; holdout **98.4** (gap 0.7 — generalises). No regression on locked
+  SaaS/studio/consumer/foundry/dossier.
+- **Closed:** thick-chrome hairline failure (`template:thick-chrome-kills-hairline`); fold lattice
+  into first viewport (`template:chrono-claim-starves-lattice`); basics gate `kind-observatory`;
+  showcase `/showcase/observatory` featured on gallery cinema; beat discovery for lattice/chrono.
+- **Side effects:** observatory ink-variation still slightly above corridor ceiling (1.07 vs 0.96) —
+  acceptable for a lattice-owned fold that must stay dense; do not empty the lattice to game the band.
+- **Qualitative:** fold reads as an on-call instrument desk, not a recolored dashboard or SaaS page.
+  Chronometer + scrub rail + amplitude lattice + chrono beads are craft a generic design engine will
+  not invent from taste controls.
+- **Next weakest:** dashboard band-variation; observatory ink-variation ceiling; deepen uniqueness
+  (richer LIVE bracket legends, calibration tolerance numerals) without score-gaming.
