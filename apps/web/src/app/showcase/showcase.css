@@ -125,7 +125,7 @@
 
 /* ── Stage: one composition — brand + dominant craft cinema ──── */
 
-.sx-stage {
+.sx-root .sx-stage {
   display: grid;
   gap: 1.5rem;
   padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3rem) 2rem;
@@ -802,9 +802,23 @@
 
 .sx-stage {
   position: relative;
+  display: block;
+  max-width: none;
+  margin-inline: 0;
+  gap: 0;
   background:
     linear-gradient(90deg, transparent 0, transparent calc(50% - 0.5px), rgb(var(--border) / 0.35) calc(50% - 0.5px), rgb(var(--border) / 0.35) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
     linear-gradient(rgb(var(--bg)), rgb(28 25 22));
+  padding: 0.75rem;
+}
+
+.sx-chrome .sx-stage {
+  /* Specimen proof frame — must not inherit gallery stage max-width/centering/grid. */
+  display: block;
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
+  gap: 0;
   padding: 0.75rem;
 }
 

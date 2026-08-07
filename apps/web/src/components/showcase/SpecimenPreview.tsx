@@ -49,14 +49,17 @@ function discoverBeats(doc: Document): Beat[] {
     pick(".ds-hero .ds-chrono-lattice .ds-fig, .ds-chrono-lattice", "figure", "Lattice") ||
     pick(".ds-hero .ds-folio-plate .ds-fig, .ds-folio-plate", "figure", "Plate") ||
     pick(".ds-hero .ds-seam-figure .ds-fig, .ds-seam-figure", "figure", "Ladder") ||
-    pick(".ds-hero .ds-plate-bleed", "figure", "Figure") ||
+    pick(".ds-hero .ds-plate-bleed .ds-fig, .ds-hero .ds-plate-bleed", "figure", "Figure") ||
     pick(".ds-plate-bleed .ds-fig", "figure", "Figure") ||
     pick(".ds-alt-figure, [data-section='features'] .ds-plate", "figure", "Figure");
-  // Overfigure / folio plates start high — nudge into drawn matter past claim chrome.
+  // Nudge into drawn matter past claim chrome — register/chrono/edu figures start under claim.
   if (figureRaw) {
+    // Ledger/lattice/plate/figure must show drawn matter — not truncated claim tails in cinema.
+    const deepFigure = ["Ledger", "Lattice", "Plate", "Ladder", "Figure"].includes(figureRaw.label);
+    const floor = deepFigure ? 300 : 220;
     const figure =
-      figureRaw.y < 200 ? { ...figureRaw, y: Math.max(figureRaw.y, 220) } : figureRaw;
-    if (!hero || Math.abs(figure.y - hero.y) > 80) beats.push(figure);
+      figureRaw.y < floor ? { ...figureRaw, y: Math.max(figureRaw.y, floor) } : figureRaw;
+    if (!hero || Math.abs(figure.y - hero.y) > 48 || deepFigure) beats.push(figure);
   }
 
   const metrics = pick(".ds-metrics-band, [data-section='metrics']", "metrics", "Stakes");

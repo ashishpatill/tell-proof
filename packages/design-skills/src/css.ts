@@ -171,7 +171,12 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
  * page to two painted radii (button + pill), which is the absence of a radius system rather than
  * an editorial decision. */ 
 [data-lean="refined-story"] .ds-card{background:transparent;border:0;border-top:1px solid var(--surface-border);border-radius:var(--r-xs);padding:var(--s-md) 0 var(--s-lg);box-shadow:none}
-[data-lean="refined-story"] .ds-chapter-index{font-family:var(--f-display);font-size:var(--t-display-size);color:color-mix(in srgb,var(--c-accent) 70%,var(--surface-quiet));line-height:.9;opacity:.55}
+/* Display-sized chapter indices collided with title/body columns (mechanism explainer).
+ * Keep editorial presence without stealing the page display metric or overlapping prose. */
+[data-lean="refined-story"] .ds-chapter-index{
+  font-family:var(--f-display);font-size:clamp(1.35rem,1.8vw,1.85rem);
+  color:color-mix(in srgb,var(--c-accent) 78%,var(--surface-quiet));line-height:1;opacity:.72;
+}
 [data-lean="refined-story"] .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking)}
 [data-lean="refined-story"] .ds-eyebrow{font-family:var(--f-mono);letter-spacing:0}
 `;
@@ -450,16 +455,19 @@ body[data-sitekind="archive-index"]{
   opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
 [data-sitekind="archive-index"] .ds-register-claim{
-  padding:var(--s-sm) 0 var(--s-xs,0.3rem);
+  padding:0.45rem 0 0.2rem;
   padding-left:var(--alpha-rail);
   position:relative;z-index:2;
-  background:linear-gradient(180deg,var(--c-paper) 70%,transparent);
+  background:linear-gradient(180deg,var(--c-paper) 78%,transparent);
 }
+[data-sitekind="archive-index"] .ds-register-claim .ds-hero-copy{gap:0.35rem;max-width:28rem}
+[data-sitekind="archive-index"] .ds-register-claim .ds-lede{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:40ch}
+[data-sitekind="archive-index"] .ds-register-claim .ds-btn-secondary{display:none}
 [data-sitekind="archive-index"] .ds-register-field{
-  margin-top:calc(var(--s-2xl) * -1);position:relative;z-index:1;
+  margin-top:calc(var(--s-xl) * -0.75);position:relative;z-index:1;
   padding-left:var(--alpha-rail);
 }
-[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(86vh,900px)}
+[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(80vh,840px)}
 [data-sitekind="archive-index"] .ds-hero-register{min-height:min(100vh,900px)}
 [data-sitekind="archive-index"] .ds-hero-register .ds-cta-note{display:none}
 [data-sitekind="archive-index"] .ds-hero-register .ds-actions .ds-btn-ghost{display:none}
@@ -600,9 +608,32 @@ ${surfaceRules()}
 .ds-section-head-spine .ds-eyebrow{margin:0;padding-top:0.4em;max-width:var(--align-rail)}
 .ds-section-head-spine .ds-eyebrow-slot{display:block;min-height:1em}
 .ds-section-head-main{display:grid;gap:var(--s-sm);min-width:0}
-.ds-section-head-spread{grid-template-columns:var(--align-rail) minmax(0,6fr) minmax(0,5fr);gap:var(--s-lg) var(--s-2xl);align-items:end}
-.ds-section-head-spread .ds-lede{margin-top:0;max-width:38ch;grid-column:3;grid-row:1}
+.ds-section-head-spread{grid-template-columns:var(--align-rail) minmax(0,6fr) minmax(0,5fr);gap:var(--s-lg) var(--s-2xl);align-items:start}
+.ds-section-head-spread .ds-section-head-main{grid-column:2;min-width:0}
+.ds-section-head-spread .ds-section-head-main .ds-title,
+.ds-section-head-spread .ds-section-head-main .ds-heading{max-width:18ch}
+.ds-section-head-spread .ds-lede{
+  margin-top:0.35em;max-width:36ch;grid-column:3;grid-row:1;align-self:start;min-width:0;
+}
 .ds-section-head .ds-lede{margin-top:var(--s-2xs)}
+/* Educational / mechanism: no negative-margin chapter collisions; ink stays in its cell. */
+[data-sitekind="docs-educational"] .ds-chapter,
+[data-sitekind="docs-educational"] .ds-chapter:nth-child(-n+2),
+[data-sitekind="docs-educational"] .ds-chapter:nth-child(n+3){
+  margin-top:0;z-index:auto;
+}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{
+  min-height:min(72vh,740px);
+}
+[data-sitekind="docs-educational"] .ds-hero-aside{
+  padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-md);
+  background:color-mix(in srgb,var(--c-paper-raised) 88%,transparent);
+}
+[data-sitekind="docs-educational"] .ds-figure-stage{
+  min-height:18rem;padding:var(--s-md);border:1px solid var(--surface-border);
+  border-radius:var(--r-lg);background:var(--c-paper);
+}
+[data-sitekind="docs-educational"] .ds-scrub{display:grid;gap:var(--s-2xs);margin-top:var(--s-sm)}
 .ds-split{display:grid;gap:var(--s-xl) var(--s-2xl);align-items:start}
 /* Chapter / index titles share one inset left — third axis beside wrap-wide and wrap. */
 .ds-chapter h3,.ds-index-row h3{justify-self:start;width:100%}

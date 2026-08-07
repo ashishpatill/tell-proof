@@ -414,3 +414,23 @@ buckets, never names, hosts, or URLs.
   rail + ruled ledger + entry folios are craft theme packs will not invent from taste controls.
 - **Next weakest:** archive ink-variation; docs rule density; deepen register uniqueness
   (section tabs, stamp marks) without score-gaming.
+
+## Loop 20 — fix empty/overlap bugs (RSI dogfood, human-named)
+
+- **Goal:** clear human-named failures — educational label/CTA overlaps, Stamp Roll empty cells,
+  Tell Specimens proof pages reading as empty (dark gutters).
+- **Failure named (champion):** score-green templates still shipped absolute overfigure collisions,
+  sparse ledger cells, and CSS class collision between gallery `.sx-stage` and specimen chrome.
+- **Challenger:**
+  - Educational → stackfold + solid claim; denser scrub; chapter-index size floor; no chapter
+    negative-margin on docs-educational; basics `kind-figure` requires stackfold.
+  - Archive ledger → dual-line cell ink + stamps without rule flood; compact claim.
+  - Showcase → scope gallery stage under `.sx-root`; full-bleed `.sx-chrome .sx-stage`; deeper
+    cinema beat nudge into figure ink.
+- **Score:** matrix **99.0**; docs-educational **98.4**; archive-index **97.4**; holdout **98.4**.
+- **Closed:** `template:overfigure-collides-with-labels`, `template:ledger-cell-void`,
+  `showcase:stage-class-collision`.
+- **Eye:** Playwright + computer-use — educational fold no longer parks CTAs on stages; specimen
+  pages full-bleed at 1600; archive cells show title+meta.
+- **Next weakest:** archive rules/screen ~4.51 (band ≤4.33); educational section-weight variation;
+  continue deepening unreplicable craft without score-gaming empties.

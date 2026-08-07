@@ -1396,14 +1396,17 @@ export function indexLedger(
   const gridH = gridBottom - gridTop;
   const colGap = 22;
   const colW = (W - padX * 2 - colGap * (cols - 1)) / cols;
-  // Sparse ledger — rules/screen must stay ≤4.33; prior 3×18 rows scored ~10.
+  /*
+   * Density without rule flood: 2 cols × 5 rows (rules/screen ≤4.33) with TWO ink lines
+   * per cell so voids never read empty. Extra stamps/watermarks add ink without hairlines.
+   */
   const rowsPerCol = role === "band" ? 5 : 4;
   const rowH = gridH / rowsPerCol;
 
   for (let c = 0; c < cols; c += 1) {
     const x0 = padX + c * (colW + colGap);
     // Column letter marker
-    const letter = letters[c * 8] ?? letters[c]!;
+    const letter = letters[Math.min(c * 8, letters.length - 1)] ?? letters[c]!;
     parts.push(
       `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(gridTop - 4)}" font-size="11" fill="var(--c-accent)">${letter}</text>`,
     );
@@ -1421,19 +1424,33 @@ export function indexLedger(
       const ordinal = String(entryIdx + 1).padStart(3, "0");
       // Ruled row — one hairline per entry (no double underlines).
       parts.push(
-        `<line x1="${round(x0)}" y1="${round(y + rowH)}" x2="${round(x0 + colW)}" y2="${round(y + rowH)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.28 + (row % 3) * 0.12)}" vector-effect="non-scaling-stroke"/>`,
+        `<line x1="${round(x0)}" y1="${round(y + rowH)}" x2="${round(x0 + colW)}" y2="${round(y + rowH)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.32 + (row % 3) * 0.1)}" vector-effect="non-scaling-stroke"/>`,
       );
       parts.push(
-        `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(y + rowH * 0.62)}" font-size="11" fill="var(--surface-quiet)">${ordinal}</text>`,
+        `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(y + rowH * 0.38)}" font-size="11" fill="var(--surface-quiet)">${ordinal}</text>`,
       );
       const title = clip(f.title ?? `Entry ${ordinal}`, role === "band" ? 22 : 14);
       parts.push(
-        `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.62)}" font-size="11" fill="var(--surface-muted)">${esc(title)}</text>`,
+        `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.38)}" font-size="11" fill="var(--surface-muted)">${esc(title)}</text>`,
       );
-      // Accent tick on every 3rd row — ink without extra rules.
-      if (row % 3 === 0) {
+      // Second ink line — short meta only (never long body → mid-word ellipsis debris).
+      const sub = clip(
+        f.meta || f.kicker || `${letter}${row + 1} · ${ordinal}`,
+        role === "band" ? 22 : 16,
+      );
+      parts.push(
+        `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.72)}" font-size="10" fill="var(--surface-quiet)">${esc(sub)}</text>`,
+      );
+      // Accent stamp — small filled mark, not an extra rule.
+      if (row % 2 === 0) {
         parts.push(
-          `<rect x="${round(x0 + colW - 8)}" y="${round(y + rowH * 0.4)}" width="4" height="4" fill="${ACCENT}" opacity="0.7"/>`,
+          `<rect x="${round(x0 + colW - 10)}" y="${round(y + rowH * 0.28)}" width="5" height="5" fill="${ACCENT}" opacity="0.75"/>`,
+        );
+      }
+      // Pale letter watermark in the cell — ink without hairline flood.
+      if (row % 3 === 1) {
+        parts.push(
+          `<text class="ds-fig-mono" x="${round(x0 + colW - 14)}" y="${round(y + rowH * 0.78)}" font-size="11" fill="var(--surface-quiet)" opacity="0.35" text-anchor="end">${letter}</text>`,
         );
       }
     }

@@ -110,8 +110,14 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     check(
       "kind-figure",
       spec.brief.siteKind !== "docs-educational"
-        || (spec.sections.some((s) => s.kind === "figure") && /data-instrument="scrub"/.test(html)),
-      "Educational offerings include a scrubbable figure — the mechanism is shown, not only named.",
+        || (
+          spec.sections.some((s) => s.kind === "figure")
+          && /data-instrument="scrub"/.test(html)
+          && /ds-hero-stackfold/.test(html)
+          && /ds-hero-claimband/.test(html)
+          && !/class="[^"]*ds-hero-overfigure/.test(html)
+        ),
+      "Educational offerings use stack fold + scrub figure — never absolute overfigure (CTA/label collisions).",
     ),
     check(
       "kind-studio",
