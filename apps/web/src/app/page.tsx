@@ -30,12 +30,26 @@ import type { BrandDNA, Reconciliation, RedesignProposal, TellReport, Verdict } 
 import { DIRECTION_PRESETS, parseDirectionPlan, type DirectionPlan } from "@tell/taste";
 import { RECONCILE_DIRECTIONS, buildOverridesPatch, learnBrandDNA, reconcile, resolveDirection } from "@tell/redesign";
 import { demoReport } from "@/lib/demo-report";
-import { BeforeAfterSeam } from "@/components/BeforeAfterSeam";
+import dynamic from "next/dynamic";
 import { useLlmRestyle } from "@/lib/use-llm-restyle";
 import { useVoice } from "@/lib/use-voice";
 import { SETUP_ACTIVE_STATES, type SetupJob } from "@/lib/setup-types";
 import { discoverRoutes, routeFromInput, type DiscoveredRoute } from "@/lib/discover-routes";
 import { matrixTarget } from "@/lib/matrix-target";
+
+const BeforeAfterSeam = dynamic(
+  () => import("@/components/BeforeAfterSeam").then((m) => m.BeforeAfterSeam),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="min-h-[280px] rounded-card border border-border bg-surface-raised/40"
+        data-testid="seam-loading"
+        aria-busy="true"
+      />
+    ),
+  },
+);
 
 const badgeStyles: Record<Verdict, string> = {
   generic: "border-accent/40 bg-accent/10 text-accent",

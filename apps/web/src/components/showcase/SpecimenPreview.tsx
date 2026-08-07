@@ -13,7 +13,10 @@ export type PreviewMode = "still" | "cinema";
 export type { SpecimenBeat, SpecimenPrefer };
 
 type SpecimenPreviewProps = {
-  html: string;
+  /** Inline HTML (srcDoc). Prefer `src` for gallery/nav so pages stay small. */
+  html?: string;
+  /** Iframe URL — preferred for showcase (lazy + cacheable). */
+  src?: string;
   title: string;
   designWidth?: number;
   designHeight?: number;
@@ -31,6 +34,11 @@ type SpecimenPreviewProps = {
   autoplayInView?: boolean;
   /** Dwell ms between cinema beats when autoplaying (featured should be slow). */
   dwellMs?: number;
+  /**
+   * Defer attaching iframe src/srcDoc until near the viewport (default true when `src` is set).
+   * Keeps the gallery from parsing 14×200KB documents on first paint.
+   */
+  lazy?: boolean;
 };
 
 /**
@@ -39,6 +47,7 @@ type SpecimenPreviewProps = {
  */
 export function SpecimenPreview({
   html,
+  src,
   title,
   designWidth = 1440,
   designHeight = 900,
@@ -49,6 +58,7 @@ export function SpecimenPreview({
   prefer = "auto",
   autoplayInView = false,
   dwellMs,
+  lazy,
 }: SpecimenPreviewProps) {
   const frameRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -59,14 +69,39 @@ export function SpecimenPreview({
   const [hovering, setHovering] = useState(false);
   const [inView, setInView] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const lazyDefault = Boolean(src) && html == null;
+  const lazyLoad = lazy ?? lazyDefault;
+  const [shouldLoad, setShouldLoad] = useState(!lazyLoad);
 
   const playInView = autoplayInView;
   const gapMs = dwellMs ?? (playInView ? 4200 : 1600);
   const firstDwellMs = playInView ? Math.max(gapMs, 3600) : 500;
+  const docKey = src ?? html ?? "";
 
   useEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
+
+  useEffect(() => {
+    if (!lazyLoad || shouldLoad) return;
+    const el = frameRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setShouldLoad(true);
+        }
+      },
+      { rootMargin: "240px 0px", threshold: 0.01 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [lazyLoad, shouldLoad]);
+
+  // Hover can force-load a filmstrip cell before it scrolls into the rootMargin.
+  useEffect(() => {
+    if (hovering && lazyLoad && !shouldLoad) setShouldLoad(true);
+  }, [hovering, lazyLoad, shouldLoad]);
 
   useEffect(() => {
     const el = frameRef.current;
@@ -97,6 +132,7 @@ export function SpecimenPreview({
   }, [playInView]);
 
   useEffect(() => {
+    if (!shouldLoad) return;
     const iframe = iframeRef.current;
     if (!iframe) return;
 
@@ -139,9 +175,11 @@ export function SpecimenPreview({
     };
 
     iframe.addEventListener("load", onLoad);
-    if (iframe.contentDocument?.readyState === "complete") onLoad();
+    if (iframe.contentDocument?.readyState === "complete" && iframe.contentDocument.body?.childNodes.length) {
+      onLoad();
+    }
     return () => iframe.removeEventListener("load", onLoad);
-  }, [html, prefer]);
+  }, [docKey, prefer, shouldLoad]);
 
   const cinemaOn =
     mode === "cinema"
@@ -193,17 +231,29 @@ export function SpecimenPreview({
       ref={frameRef}
       className={className}
       data-testid={testId}
-      data-ready={ready ? "true" : "false"}
+      data-ready={ready && shouldLoad ? "true" : "false"}
       data-mode={mode}
       data-beat={beats[active]?.id ?? ""}
       data-playing={cinemaOn && !reducedMotion ? "true" : "false"}
+      data-lazy={lazyLoad && !shouldLoad ? "pending" : "loaded"}
       style={style}
       aria-hidden={decorative || undefined}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
       <div className="sx-scale-surface">
-        <iframe ref={iframeRef} title={decorative ? "" : title} srcDoc={html} tabIndex={-1} />
+        {shouldLoad ? (
+          <iframe
+            ref={iframeRef}
+            title={decorative ? "" : title}
+            src={src || undefined}
+            srcDoc={src ? undefined : html}
+            tabIndex={-1}
+            loading="lazy"
+          />
+        ) : (
+          <div className="sx-preview-skeleton" aria-hidden="true" />
+        )}
       </div>
       {showBeats ? (
         <div className="sx-beats" aria-hidden="true">

@@ -451,6 +451,30 @@
 }
 
 /* Measured scale — fills frame width; no fixed 0.48/0.14 gutters on the right. */
+.sx-preview-skeleton {
+  width: var(--sx-design-w, 1440px);
+  height: var(--sx-design-h, 900px);
+  background:
+    linear-gradient(110deg, rgb(46 42 38 / 0.35) 20%, rgb(87 78 69 / 0.25) 40%, rgb(46 42 38 / 0.35) 60%);
+  background-size: 200% 100%;
+  animation: sx-shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes sx-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sx-preview-skeleton {
+    animation: none;
+  }
+}
+
 .sx-scale-surface {
   position: absolute;
   inset: 0 auto auto 0;

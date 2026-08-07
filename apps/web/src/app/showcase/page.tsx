@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { designFromFeatures, listTemplates, type DesignTemplate } from "@tell/design-skills";
+import { listTemplates, type DesignTemplate } from "@tell/design-skills";
 import { ShowcaseAnthologyReel } from "@/components/showcase/ShowcaseAnthologyReel";
 import { SpecimenPreview } from "@/components/showcase/SpecimenPreview";
+import { specimenHtmlSrc } from "@/components/showcase/specimenSrc";
 import "./showcase.css";
 
 export const dynamic = "force-static";
@@ -11,18 +12,18 @@ export const metadata = {
     "Fourteen research-backed site kinds — filmstrip reels play on hover; the hero slowly tours best beats across specimens.",
 };
 
-type OfferingPreview = DesignTemplate & { previewHtml: string; index: string };
+type OfferingMeta = DesignTemplate & { index: string };
 
-function buildOfferings(): OfferingPreview[] {
+function buildOfferings(): OfferingMeta[] {
   return listTemplates().map((t, i) => ({
     ...t,
-    previewHtml: designFromFeatures(t.brief).previewHtml,
     index: String(i + 1).padStart(2, "0"),
   }));
 }
 
 /**
  * Specimen gallery — hero anthology (slow cross-template tour) + filmstrip (hover-only reels).
+ * Metadata only in the page payload; specimen HTML loads lazily via /api/design/html.
  */
 export default function ShowcaseGalleryPage() {
   const offerings = buildOfferings();
@@ -31,7 +32,6 @@ export default function ShowcaseGalleryPage() {
     label: o.label,
     marketJob: o.marketJob,
     index: o.index,
-    html: o.previewHtml,
   }));
   const featured =
     offerings.find((o) => o.key === "herbarium") ??
@@ -44,15 +44,19 @@ export default function ShowcaseGalleryPage() {
       <div className="sx-grain" aria-hidden="true" />
       <div className="sx-shell">
         <header className="sx-nav">
-          <Link className="sx-brand" href="/showcase">
+          <Link className="sx-brand" href="/showcase" prefetch={false}>
             <span className="sx-brand-mark">Tell</span>
             <span className="sx-brand-meta">Specimens</span>
           </Link>
           <nav className="sx-nav-links" aria-label="Primary">
             <a href="#reels">Reels</a>
-            <Link href="/studio">Studio</Link>
-            <Link href="/">Tell Report</Link>
-            <Link className="sx-nav-cta" href={`/showcase/${featured.key}`}>
+            <Link href="/studio" prefetch={false}>
+              Studio
+            </Link>
+            <Link href="/" prefetch={false}>
+              Tell Report
+            </Link>
+            <Link className="sx-nav-cta" href={`/showcase/${featured.key}`} prefetch={false}>
               Open featured
             </Link>
           </nav>
@@ -72,7 +76,7 @@ export default function ShowcaseGalleryPage() {
               <a className="sx-nav-cta" href="#reels">
                 Browse the filmstrip
               </a>
-              <Link className="sx-btn-ghost" href={`/showcase/${featured.key}`}>
+              <Link className="sx-btn-ghost" href={`/showcase/${featured.key}`} prefetch={false}>
                 Open a specimen
               </Link>
             </div>
@@ -114,6 +118,7 @@ export default function ShowcaseGalleryPage() {
                 <Link
                   className="sx-cell-link"
                   href={`/showcase/${o.key}`}
+                  prefetch={false}
                   data-testid={`showcase-link-${o.key}`}
                 >
                   <div className="sx-cell-frame">
@@ -126,7 +131,7 @@ export default function ShowcaseGalleryPage() {
                     <SpecimenPreview
                       className="sx-thumb sx-thumb-reel"
                       title={`${o.label} craft reel`}
-                      html={o.previewHtml}
+                      src={specimenHtmlSrc(o.key)}
                       designWidth={1440}
                       designHeight={900}
                       mode="cinema"
@@ -164,9 +169,13 @@ export default function ShowcaseGalleryPage() {
             hover.
           </p>
           <p>
-            <Link href="/studio">Edit in Studio</Link>
+            <Link href="/studio" prefetch={false}>
+              Edit in Studio
+            </Link>
             {" · "}
-            <Link href="/">Back to Tell</Link>
+            <Link href="/" prefetch={false}>
+              Back to Tell
+            </Link>
           </p>
         </footer>
       </div>

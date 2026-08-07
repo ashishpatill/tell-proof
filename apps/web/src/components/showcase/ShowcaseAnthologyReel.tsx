@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { specimenHtmlSrc } from "./specimenSrc";
 import { SpecimenPreview } from "./SpecimenPreview";
 
 export type AnthologySlide = {
@@ -9,7 +10,6 @@ export type AnthologySlide = {
   label: string;
   marketJob: string;
   index: string;
-  html: string;
 };
 
 /** Curated order — distinct fold instruments, not the same template looping 2–3 beats. */
@@ -38,7 +38,7 @@ type ShowcaseAnthologyReelProps = {
 
 /**
  * Featured hero reel: slow tour across best craft beats from *different* templates.
- * One still craft frame per offering — never the same 2–3 views of a single specimen on repeat.
+ * Loads one specimen document at a time via cached HTML API — not 14× inline HTML.
  */
 export function ShowcaseAnthologyReel({
   slides,
@@ -89,6 +89,21 @@ export function ShowcaseAnthologyReel({
     return () => window.clearInterval(timer);
   }, [reducedMotion, sequence.length, dwellMs, inView, hovering]);
 
+  // Warm the next slide’s HTML into HTTP cache while the current one dwells.
+  useEffect(() => {
+    if (sequence.length < 2) return;
+    const next = sequence[(idx + 1) % sequence.length];
+    if (!next) return;
+    const link = document.createElement("link");
+    link.rel = "prefetch";
+    link.href = specimenHtmlSrc(next.key);
+    link.as = "document";
+    document.head.appendChild(link);
+    return () => {
+      link.remove();
+    };
+  }, [idx, sequence]);
+
   const slide = sequence[idx] ?? sequence[0];
   if (!slide) return null;
 
@@ -113,7 +128,8 @@ export function ShowcaseAnthologyReel({
           key={slide.key}
           className="sx-plate-frame"
           title={`${slide.label} craft beat`}
-          html={slide.html}
+          src={specimenHtmlSrc(slide.key)}
+          lazy={false}
           designWidth={1440}
           designHeight={1200}
           mode="still"
@@ -123,7 +139,9 @@ export function ShowcaseAnthologyReel({
         <div className="sx-plate-meta">
           <h2>{slide.label}</h2>
           <p>{slide.marketJob}</p>
-          <Link href={`/showcase/${slide.key}`}>Open full specimen →</Link>
+          <Link href={`/showcase/${slide.key}`} prefetch={false}>
+            Open full specimen →
+          </Link>
         </div>
       </div>
       <div className="sx-anthology-dots" aria-label="Specimen tour">
