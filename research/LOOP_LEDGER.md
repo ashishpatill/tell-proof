@@ -528,3 +528,24 @@ buckets, never names, hosts, or URLs.
 - **Qualitative:** engine now refuses empty press sheets and sub-11 SVG mono at preflight.
 - **Next weakest:** press ink-variation; deepen densify helpers into other cell-grid figures when
   a new kind needs them.
+
+## Loop 23 — empty/overlap dogfood + ruleDensity / band valley (parallel RSI)
+
+- **Goal:** clear human-named failures (educational overlaps, Stamp Roll empty cells, Specimens
+  gutters) then bring archive/educational rules/screen into band and raise educational
+  section-weight variation — without empty-height gaming.
+- **Challenger:**
+  - Educational → stackfold + solid opaque claim; quiet titles-only horizon specimen valley;
+    hang mechanism figure into fold; thin CSS bordered rows / matrix cells; drop band-flow
+    chrome micro-label under claim.
+  - Archive ledger → dual-line cell ink + stamps; restore tall plate; CSS rule thinning last
+    (do not confuse SVG strokes with `ruleDensity`).
+  - Showcase → `.sx-shell > .sx-stage` gallery vs `.sx-chrome .sx-stage` proof; desktop mast|reel;
+    craft-first cinema via `specimenBeats`.
+- **Score:** matrix **99.1**; docs-educational **98.4 → 99.9**; archive-index **97.4 → 97.6**;
+  educational rules **5.27 → 4.28**; archive rules **4.77 → 4.21**; band-variation **~0.34 → 0.485**.
+- **Closed:** `template:overfigure-collides-with-labels`, `template:ledger-cell-void`,
+  `showcase:stage-class-collision`, `template:css-rule-density-not-svg`.
+- **Side effects:** archive ink-variation still above corridor — accepted for ledger-owned fold.
+- **Next weakest:** archive/press ink-variation ceilings; deepen unreplicable craft without
+  score-gaming.

@@ -14,6 +14,7 @@ export function craftFigureFloor(doc: Pick<Document, "querySelector">): number {
   if (doc.querySelector(".ds-chrono-lattice, [data-sitekind='observatory-signal']")) return 300;
   if (doc.querySelector(".ds-folio-plate, [data-sitekind='research-dossier']")) return 280;
   if (doc.querySelector(".ds-seam-figure")) return 260;
+  if (doc.querySelector("[data-sitekind='docs-educational']")) return 280;
   return 220;
 }
 
@@ -70,7 +71,9 @@ export function discoverBeats(doc: Document): SpecimenBeat[] {
     "spread",
     "Spread",
   );
+  const entry = pick(".ds-entry, .ds-entry-essay", "entry", "Entry");
   if (spread) beats.push(spread);
+  else if (entry) beats.push(entry);
 
   const proof =
     pick(".ds-proof-board, .ds-proof", "proof", "Proof") ||

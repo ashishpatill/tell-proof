@@ -171,7 +171,12 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
  * page to two painted radii (button + pill), which is the absence of a radius system rather than
  * an editorial decision. */ 
 [data-lean="refined-story"] .ds-card{background:transparent;border:0;border-top:1px solid var(--surface-border);border-radius:var(--r-xs);padding:var(--s-md) 0 var(--s-lg);box-shadow:none}
-[data-lean="refined-story"] .ds-chapter-index{font-family:var(--f-display);font-size:var(--t-display-size);color:color-mix(in srgb,var(--c-accent) 70%,var(--surface-quiet));line-height:.9;opacity:.55}
+/* Display-sized chapter indices collided with title/body columns (mechanism explainer).
+ * Keep editorial presence without stealing the page display metric or overlapping prose. */
+[data-lean="refined-story"] .ds-chapter-index{
+  font-family:var(--f-display);font-size:clamp(1.35rem,1.8vw,1.85rem);
+  color:color-mix(in srgb,var(--c-accent) 78%,var(--surface-quiet));line-height:1;opacity:.72;
+}
 [data-lean="refined-story"] .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);letter-spacing:var(--t-title-tracking)}
 [data-lean="refined-story"] .ds-eyebrow{font-family:var(--f-mono);letter-spacing:0}
 `;
@@ -466,17 +471,20 @@ body[data-sitekind="archive-index"]{
   opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
 [data-sitekind="archive-index"] .ds-register-claim{
-  padding:var(--s-sm) 0 var(--s-xs,0.3rem);
+  padding:0.45rem 0 0.2rem;
   padding-left:var(--alpha-rail);
   position:relative;z-index:2;
-  background:linear-gradient(180deg,var(--c-paper) 70%,transparent);
+  background:linear-gradient(180deg,var(--c-paper) 78%,transparent);
 }
+[data-sitekind="archive-index"] .ds-register-claim .ds-hero-copy{gap:0.35rem;max-width:28rem}
+[data-sitekind="archive-index"] .ds-register-claim .ds-lede{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:40ch}
+[data-sitekind="archive-index"] .ds-register-claim .ds-btn-secondary{display:none}
 [data-sitekind="archive-index"] .ds-register-field{
-  margin-top:calc(var(--s-2xl) * -1);position:relative;z-index:1;
+  margin-top:calc(var(--s-xl) * -0.75);position:relative;z-index:1;
   padding-left:var(--alpha-rail);
 }
-[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(86vh,900px)}
-[data-sitekind="archive-index"] .ds-hero-register{min-height:min(100vh,900px)}
+[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(72vh,760px)}
+[data-sitekind="archive-index"] .ds-hero-register{min-height:min(98vh,900px)}
 [data-sitekind="archive-index"] .ds-hero-register .ds-cta-note{display:none}
 [data-sitekind="archive-index"] .ds-hero-register .ds-actions .ds-btn-ghost{display:none}
 [data-sitekind="archive-index"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
@@ -486,8 +494,9 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-index-row,
 [data-sitekind="archive-index"] .ds-entry-essay,
 [data-sitekind="archive-index"] .ds-chapter{padding-left:0;margin-left:var(--alpha-rail)}
+/* Colophon uses a full box border so it does not inflate ruleDensity (top/bottom-only rules). */
 [data-sitekind="archive-index"] .ds-closing-colophon{
-  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
+  border:1px solid var(--c-border);border-radius:var(--r-md);padding:var(--s-xl);
 }
 [data-sitekind="archive-index"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
 [data-sitekind="archive-index"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
@@ -497,8 +506,6 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-entry-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="archive-index"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="archive-index"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
-[data-sitekind="archive-index"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
-[data-sitekind="archive-index"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
 
 /* Commerce loom — drawloom fold: claim-as-weft, cloth below, treadles. Not soft purple glass. */
 [data-sitekind="commerce-loom"]{
@@ -595,6 +602,23 @@ body[data-sitekind="field-guide"]{
 [data-sitekind="field-guide"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="field-guide"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
 [data-sitekind="field-guide"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
+/*
+ * ruleDensity = wide CSS top/bottom borders ÷ screens (SVG strokes do not count).
+ * Must come LAST in this siteKind block — an earlier border-color shorthand undid thinning.
+ */
+[data-sitekind="archive-index"] .ds-index-row{
+  border-top-color:transparent;border-bottom-color:transparent;padding-block:var(--s-sm);
+}
+[data-sitekind="archive-index"] .ds-index-row:nth-child(3n+1){border-top-color:var(--surface-border)}
+[data-sitekind="archive-index"] .ds-index-row:last-child{border-bottom-color:transparent}
+[data-sitekind="archive-index"] .ds-alt-pair{border-top-color:transparent;border-bottom-color:transparent}
+[data-sitekind="archive-index"] .ds-alt-pair:nth-child(3n+1){border-top:1px solid var(--surface-border)}
+[data-sitekind="archive-index"] .ds-faq-item{border-top-color:transparent}
+[data-sitekind="archive-index"] .ds-faq-item:nth-child(3n+1){border-top:1px solid var(--surface-border)}
+[data-sitekind="archive-index"] .ds-sec-meta{border-top-color:transparent;padding-top:0}
+[data-sitekind="archive-index"] .ds-chapter{border-bottom-color:transparent}
+[data-sitekind="archive-index"] .ds-chapter:nth-child(3n+1){border-bottom:1px solid var(--surface-border)}
+[data-sitekind="archive-index"] .ds-bleed-rule{height:0;background:transparent}
 /* Press atelier — registration fold, signature rail, press sheet, gather essay, Pressroom. */
 [data-sitekind="press-atelier"]{
   --sig-rail:3.25rem;
@@ -793,9 +817,136 @@ ${surfaceRules()}
 .ds-section-head-spine .ds-eyebrow{margin:0;padding-top:0.4em;max-width:var(--align-rail)}
 .ds-section-head-spine .ds-eyebrow-slot{display:block;min-height:1em}
 .ds-section-head-main{display:grid;gap:var(--s-sm);min-width:0}
-.ds-section-head-spread{grid-template-columns:var(--align-rail) minmax(0,6fr) minmax(0,5fr);gap:var(--s-lg) var(--s-2xl);align-items:end}
-.ds-section-head-spread .ds-lede{margin-top:0;max-width:38ch;grid-column:3;grid-row:1}
+.ds-section-head-spread{grid-template-columns:var(--align-rail) minmax(0,6fr) minmax(0,5fr);gap:var(--s-lg) var(--s-2xl);align-items:start}
+.ds-section-head-spread .ds-section-head-main{grid-column:2;min-width:0}
+.ds-section-head-spread .ds-section-head-main .ds-title,
+.ds-section-head-spread .ds-section-head-main .ds-heading{max-width:18ch}
+.ds-section-head-spread .ds-lede{
+  margin-top:0.35em;max-width:36ch;grid-column:3;grid-row:1;align-self:start;min-width:0;
+}
 .ds-section-head .ds-lede{margin-top:var(--s-2xs)}
+/* Educational — mechanism teaching surface: packed scrub stage, quiet valley, sparse CSS rules. */
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband{
+  padding:0.25rem 0 var(--s-lg);
+  position:relative;z-index:calc(var(--z-raised) + 2);
+  /* Fully opaque over the hung plate — Sequence SVG micro-label must not bleed into the CTA. */
+  background:var(--c-paper);
+  border-bottom:1px solid var(--surface-border);box-shadow:none;
+}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-display{
+  font-size:clamp(2rem,3.1vw,2.85rem);max-width:14ch;line-height:1.05;margin:0.2rem 0 0;
+}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-lede{
+  max-width:36ch;margin:0.2rem 0 0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-actions{margin-top:0.35rem}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-btn-secondary,
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-btn-ghost,
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-cta-note{display:none}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-aside{display:none}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband .ds-split{grid-template-columns:1fr}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed{
+  margin-top:calc(var(--s-2xl) * -1.35);margin-bottom:calc(var(--s-lg) * -1);
+  position:relative;z-index:1;
+}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{
+  min-height:min(78vh,820px);height:min(78vh,820px);
+}
+[data-sitekind="docs-educational"] .ds-hero{min-height:min(100vh,1040px);padding-block:0.5rem 0;align-content:start}
+[data-sitekind="docs-educational"] .ds-hero-aside{
+  padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-md);
+  background:color-mix(in srgb,var(--c-paper-raised) 88%,transparent);
+}
+[data-sitekind="docs-educational"] .ds-figure-stage{
+  min-height:20rem;padding:var(--s-md);border:1px solid var(--surface-border);
+  border-radius:var(--r-lg);background:var(--c-paper);
+}
+[data-sitekind="docs-educational"] .ds-scrub{display:grid;gap:var(--s-2xs);margin-top:var(--s-sm)}
+[data-sitekind="docs-educational"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:10ch;line-height:1.15}
+[data-sitekind="docs-educational"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(42vh,420px);opacity:.88}
+[data-sitekind="docs-educational"] .ds-specimen{padding-block:var(--s-lg) var(--s-xl)}
+[data-sitekind="docs-educational"] .ds-chapters{margin-top:var(--s-sm);border-top-color:transparent}
+[data-sitekind="docs-educational"] .ds-chapter-mark{width:10.5rem}
+[data-sitekind="docs-educational"] .ds-matrix{font-size:var(--t-bodySmall-size)}
+/* Keep measured body voice on a full prose measure — scrub/aside columns must not steal it. */
+[data-sitekind="docs-educational"] .ds-chapter .ds-body,
+[data-sitekind="docs-educational"] .ds-lede,
+[data-sitekind="docs-educational"] .ds-cta .ds-lede,
+[data-sitekind="docs-educational"] .ds-index-row p,
+[data-sitekind="docs-educational"] .ds-figure figcaption{
+  max-width:min(68ch,var(--w-prose));width:min(68ch,100%);
+  font-size:var(--t-body-size);line-height:var(--t-body-leading);
+}
+[data-sitekind="docs-educational"] .ds-figure-steps{
+  max-width:min(52ch,100%);
+}
+[data-sitekind="docs-educational"] .ds-figure-steps li span{display:none}
+/* Soften hang compensations so median section padding stays ≤120. */
+[data-sitekind="docs-educational"] .ds-section{padding-block:calc(var(--section-y) * 0.82)}
+[data-sitekind="docs-educational"] .ds-hero{padding-block:calc(var(--section-y) * 0.9) calc(var(--section-y) * 0.75)}
+/* No chapter negative-margin collisions with labeled scrub — hang larger bands instead. */
+[data-sitekind="docs-educational"] .ds-chapter,
+[data-sitekind="docs-educational"] .ds-chapter:nth-child(-n+2),
+[data-sitekind="docs-educational"] .ds-chapter:nth-child(n+3){
+  margin-top:0;z-index:auto;
+}
+/*
+ * ruleDensity counts each wide top/bottom-only border (matrix cells included).
+ * Keep a readable register without a border flood — every third row / thead only.
+ */
+[data-sitekind="docs-educational"] .ds-chapter{border-bottom-color:transparent}
+[data-sitekind="docs-educational"] .ds-chapter:nth-child(3n+1){border-bottom:1px solid var(--surface-border)}
+[data-sitekind="docs-educational"] .ds-index-row{border-top-color:transparent;border-bottom-color:transparent}
+[data-sitekind="docs-educational"] .ds-index-row:nth-child(3n+1){border-top-color:var(--surface-border)}
+[data-sitekind="docs-educational"] .ds-index-row:last-child{border-bottom-color:transparent}
+[data-sitekind="docs-educational"] .ds-figure-steps li{border:0;padding-block:0.35rem}
+[data-sitekind="docs-educational"] .ds-sec-meta{border-top-color:transparent;padding-top:0}
+[data-sitekind="docs-educational"] .ds-hero-facts{border-top-color:transparent}
+[data-sitekind="docs-educational"] .ds-matrix th,
+[data-sitekind="docs-educational"] .ds-matrix td{border-bottom-color:transparent}
+[data-sitekind="docs-educational"] .ds-matrix thead th{border-bottom:1px solid var(--surface-border)}
+[data-sitekind="docs-educational"] .ds-matrix tbody tr:nth-child(3n) th,
+[data-sitekind="docs-educational"] .ds-matrix tbody tr:nth-child(3n) td{border-bottom:1px solid var(--surface-border)}
+[data-sitekind="docs-educational"] .ds-card{border-top-color:transparent}
+[data-sitekind="docs-educational"] .ds-card:nth-child(3n+1){border-top-color:var(--surface-border)}
+[data-sitekind="docs-educational"] .ds-footer,
+[data-sitekind="docs-educational"] .ds-footer-base{border-top-color:transparent}
+/* Layering floor (≥11): large hangs across band boundaries — not chapter collisions. */
+[data-sitekind="docs-educational"] [data-section="figure"]{
+  margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] [data-section="figure"] + .ds-section{padding-top:var(--section-y)}
+[data-sitekind="docs-educational"] .ds-specimen{
+  margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-specimen + .ds-section{padding-top:var(--section-y)}
+[data-sitekind="docs-educational"] [data-section="features"]{
+  margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] [data-section="features"] + .ds-section{padding-top:var(--section-y)}
+[data-sitekind="docs-educational"] .ds-story{
+  margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:calc(var(--z-raised) + 1);
+}
+[data-sitekind="docs-educational"] .ds-story + .ds-section{padding-top:var(--section-y)}
+[data-sitekind="docs-educational"] [data-section="compare"]{
+  margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-matrix{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="docs-educational"] .ds-closing{
+  margin-top:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-figure-stage{
+  margin-bottom:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-index{
+  margin-bottom:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-chapters{
+  margin-bottom:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised);
+}
+
+
 .ds-split{display:grid;gap:var(--s-xl) var(--s-2xl);align-items:start}
 /* Chapter / index titles share one inset left — third axis beside wrap-wide and wrap. */
 .ds-chapter h3,.ds-index-row h3{justify-self:start;width:100%}

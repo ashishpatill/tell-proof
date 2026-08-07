@@ -107,6 +107,46 @@ Pattern keys match `tell-recursive-improve`.
 - **Do not:** Recover band-variation with empty height, or leave a prose-heavy stack drawing in the
   quiet valley before a dense app shell.
 
+## 2026-08-07 — `template:overfigure-collides-with-labels`
+
+- **Failure:** Mechanism explainer (`docs-educational`) used absolute `hero-overfigure` so CTAs and
+  claim rode on top of the spanning flow diagram — "See the approach" / "Read the detail" parked on
+  stage cards; SVG "Sequence" labels collided with the display. Refined-story chapter indices at
+  `--t-display-size` also smashed into title/body columns.
+- **Fix:** Educational fold is **stackfold + solid claim** (opaque claim band, then figure);
+  denser scrub instrument; chapter-index capped to ~1.85rem; no negative-margin chapter overlaps on
+  docs-educational; basics gate requires stackfold and forbids `class="…ds-hero-overfigure"`.
+- **Do not:** Absolute-overlay claim on any figure that carries readable stage titles.
+
+## 2026-08-07 — `template:ledger-cell-void`
+
+- **Failure:** Archive index-ledger kept rules sparse (good) but each cell was one 11px line in a
+  ~128px-tall row → looked empty. Human named Stamp Roll "lots of empty components."
+- **Fix:** Dual ink line per cell (ordinal+title + short meta), accent stamps + letter watermarks;
+  compact register claim; never clip long body into SVG ellipsis debris.
+- **Do not:** Equate "sparse rules" with empty cells — fill with ink, not more hairlines.
+
+## 2026-08-07 — `showcase:stage-class-collision`
+
+- **Failure:** Gallery `.sx-stage { max-width:1440px; margin:auto; display:grid }` leaked into
+  specimen `ShowcaseFrame` pages → proof iframe sat as a centered card with huge dark gutters
+  ("empty Specimens page").
+- **Fix:** Scope gallery stage under `.sx-root .sx-stage`; reset `.sx-chrome .sx-stage` to
+  full-bleed block. SpecimenPreview nudges cinema beats deeper into ledger/figure ink.
+- **Do not:** Reuse gallery layout class names for proof chrome without a reset.
+
+## 2026-08-07 — `template:css-rule-density-not-svg`
+
+- **Failure:** Archive/educational `ruleDensity` stayed above corridor (≤4.33) after thinning SVG
+  ledger hairlines. Shortening the ledger plate to "pack cells" made density *worse*.
+- **Cause:** `composition.ruleDensity` counts wide CSS top/bottom-only borders (and thin DOM bars /
+  `hr`) ÷ screens — **not** SVG strokes. A later `border-color:` shorthand on archive `.ds-index-row`
+  also undid transparent even-row tops. Matrix `td/th` border-bottoms each count as a rule.
+- **Fix:** Thin CSS bordered rows (every 3rd); put thinning rules last; restore tall ledger and fill
+  cells with dual ink + stamps; quiet educational specimen (titles-only horizon) for band-variation;
+  widen educational body measure so scrub/aside columns cannot steal the body candidate.
+- **Do not:** Confuse SVG strokes with `ruleDensity`, or shrink page height to "fix" empty cells.
+
 ## 2026-08-07 — `template:press-claim-starves-forme`
 
 - **Failure class:** Same as folio-claim-starves-plate / chrono-claim-starves-lattice /

@@ -18,6 +18,12 @@ function esc(s: string): string {
     .replace(/'/g, "&#39;");
 }
 
+function clip(s: string, n: number): string {
+  const t = s.trim();
+  if (t.length <= n) return t;
+  return `${t.slice(0, Math.max(1, n - 1)).trimEnd()}…`;
+}
+
 /**
  * Add the reveal class to a section without disturbing the classes it already has.
  *
@@ -526,9 +532,14 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
   }
 
   if (section.layout === "hero-editorial") {
-    return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-overfigure" data-surface="${section.surface}" data-section="${esc(section.id)}">
-      ${spanning}
-      <div class="ds-hero-overclaim">
+    /*
+     * Stack fold — opaque claim + aside, then the mechanism figure.
+     * Absolute overfigure parked CTAs and "Sequence" SVG labels under the display
+     * (Fieldmark-class collision). Educational figures carry readable stage titles;
+     * they must not share the type box.
+     */
+    return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-stackfold ds-hero-solidclaim" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      <div class="ds-hero-overclaim ds-hero-claimband">
         <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "8fr 4fr"))}">
           ${copy}
           <aside class="ds-hero-aside">
@@ -539,6 +550,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
           </aside>
         </div>
       </div>
+      ${spanning}
     </section>`;
   }
 
@@ -564,17 +576,27 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
  */
 function renderSpecimen(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
   let drawing = figures.band;
-  if (spec?.brief.siteKind === "dashboard-webapp") {
-    const marks = catalogue(spec).slice(0, 4);
+  const siteKind = spec?.brief.siteKind;
+  /*
+   * Quiet valley for band-variation: titles-only horizon beats a prose-heavy flow/stack drawing.
+   * Dashboard and educational both need a real character dip before dense peaks.
+   */
+  if (siteKind === "dashboard-webapp" || siteKind === "docs-educational") {
+    const raw = catalogue(spec!).slice(0, 4);
+    const marks =
+      siteKind === "docs-educational"
+        ? raw.map((m) => ({ ...m, body: "", meta: undefined, points: [], kicker: undefined }))
+        : raw;
     if (marks.length >= 2) {
-      drawing = horizonPlot(marks, spec.brief.productName, "band");
+      drawing = horizonPlot(marks, spec!.brief.productName, "band");
     }
   }
   if (!drawing) return "";
+  const quietHead = siteKind === "docs-educational";
   return `<section class="ds-section ds-specimen" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide ds-specimen-head">
       <h2 class="ds-heading">${esc(section.title)}</h2>
-      ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+      ${!quietHead && section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
     </div>
     <div class="ds-bleed">
       <figure class="ds-plate ds-plate-bleed">
@@ -675,12 +697,13 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
         .join("")}</ul>`;
     }
     if (section.layout === "feature-index") {
+      const quietIndex = spec.brief.siteKind === "docs-educational";
       return `<ol class="ds-index">${section.blocks
         .map(
           (b, i) => `<li class="ds-index-row" data-feature="${esc(b.title)}">
             <span class="ds-index-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</span>
             <h3>${esc(b.title)}</h3>
-            ${b.body ? `<p>${esc(b.body)}</p>` : ""}
+            ${!quietIndex && b.body ? `<p>${esc(b.body)}</p>` : ""}
             <div class="ds-index-mark" aria-hidden="true">${markFor(b)}</div>
           </li>`,
         )
@@ -794,26 +817,36 @@ function renderFigure(section: SectionSpec): string {
   const steps = section.blocks.slice(0, 4);
   const mid = Math.max(0, Math.floor((steps.length - 1) / 2));
   const max = Math.max(steps.length - 1, 0);
-  const W = 620;
-  const H = 340;
-  const left = 56;
-  const right = W - 24;
-  const top = 32;
-  const floor = H - 56;
+  const W = 720;
+  const H = 420;
+  const left = 64;
+  const right = W - 28;
+  const top = 40;
+  const floor = H - 72;
   const span = Math.max(1, steps.length - 1);
   const points = steps.map((_, i) => ({
     x: left + (i / span) * (right - left),
-    y: floor - (i / span) * (floor - top) * 0.86,
+    y: floor - (0.22 + (i / span) * 0.72) * (floor - top),
+    title: steps[i]?.title ?? `Step ${i + 1}`,
   }));
   const path = points.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
   const area = `${path} L${points[points.length - 1]?.x.toFixed(1) ?? left} ${floor} L${points[0]?.x.toFixed(1) ?? left} ${floor} Z`;
 
-  const grid = [0, 1, 2, 3]
+  const grid = [0, 1, 2, 3, 4]
     .map((g) => {
       const y = top + ((floor - top) / 3) * g;
       return `<line x1="${left}" y1="${y.toFixed(1)}" x2="${right}" y2="${y.toFixed(1)}" stroke="var(--surface-border)" stroke-width="1"/>
         <text class="ds-fig-mono" x="${left - 12}" y="${(y + 4).toFixed(1)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${100 - g * 30}</text>`;
     })
+    .join("");
+
+  // Vertical guide + step titles — the stage must never read as an empty chart void.
+  const guides = points
+    .map(
+      (p, i) =>
+        `<line x1="${p.x.toFixed(1)}" y1="${top}" x2="${p.x.toFixed(1)}" y2="${floor}" stroke="var(--surface-border)" stroke-width="1" opacity="0.35" stroke-dasharray="2 4"/>
+         <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(top - 12).toFixed(1)}" font-size="11" fill="${i === mid ? "var(--c-accent)" : "var(--surface-quiet)"}" text-anchor="middle">${esc(clip(p.title, 14))}</text>`,
+    )
     .join("");
 
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
@@ -822,8 +855,8 @@ function renderFigure(section: SectionSpec): string {
         <ol class="ds-figure-steps">${steps
           .map(
             (s, i) =>
-              `<li data-step="${i}" class="${i === mid ? "is-active" : ""}">${esc(s.title)}${
-                s.body ? ` — ${esc(s.body)}` : ""
+              `<li data-step="${i}" class="${i === mid ? "is-active" : ""}"><strong>${esc(s.title)}</strong>${
+                s.body ? `<span> — ${esc(s.body)}</span>` : ""
               }</li>`,
           )
           .join("")}</ol>
@@ -831,10 +864,13 @@ function renderFigure(section: SectionSpec): string {
       <figure class="ds-figure" data-instrument="scrub">
         <div class="ds-figure-stage">
           <svg class="ds-fig" data-figure="scrub" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(section.title)}">
+            <rect x="${left}" y="${top}" width="${right - left}" height="${floor - top}" fill="var(--c-paper-raised)" opacity="0.55"/>
             ${grid}
+            ${guides}
             <path d="${area}" fill="var(--c-accent-surface)"/>
-            <path d="${path}" fill="none" stroke="var(--c-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="${path}" fill="none" stroke="var(--c-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             <line x1="${left}" y1="${top}" x2="${left}" y2="${floor}" stroke="var(--surface-border)" stroke-width="1"/>
+            <line x1="${left}" y1="${floor}" x2="${right}" y2="${floor}" stroke="var(--surface-border)" stroke-width="1"/>
             ${points
               .map(
                 (p, i) =>
@@ -843,6 +879,7 @@ function renderFigure(section: SectionSpec): string {
                    <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(floor + 20).toFixed(1)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">${String(i + 1).padStart(2, "0")}</text>`,
               )
               .join("")}
+            <text class="ds-fig-mono" x="${left + 8}" y="${(floor - 10).toFixed(1)}" font-size="11" fill="var(--surface-quiet)">cost · cumulative</text>
           </svg>
           <label class="ds-scrub">
             <span class="ds-caption">Step through the mechanism</span>
