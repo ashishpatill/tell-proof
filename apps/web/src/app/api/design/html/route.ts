@@ -3,11 +3,10 @@ import { designFromFeatures, getTemplate } from "@tell/design-skills";
 
 export const runtime = "nodejs";
 
-const htmlCache = new Map<string, string>();
-
 /**
- * Lightweight specimen document for iframe `src` (gallery thumbs + proof frames).
+ * Specimen document for iframe `src` (gallery thumbs + proof frames).
  * Avoids embedding ~200KB HTML × N into the RSC/page payload.
+ * No process-lifetime HTML cache — hot reload must reflect craft CSS/render changes.
  *
  * GET /api/design/html?showcase=saas
  */
@@ -19,16 +18,12 @@ export async function GET(req: Request) {
     if (!template) {
       return new NextResponse(`Unknown showcase "${key}"`, { status: 404 });
     }
-    let previewHtml = htmlCache.get(key);
-    if (!previewHtml) {
-      previewHtml = designFromFeatures(template.brief).previewHtml;
-      htmlCache.set(key, previewHtml);
-    }
+    const { previewHtml } = designFromFeatures(template.brief);
     return new NextResponse(previewHtml, {
       status: 200,
       headers: {
         "Content-Type": "text/html; charset=utf-8",
-        "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",
+        "Cache-Control": "public, max-age=60, stale-while-revalidate=600",
         Vary: "Accept-Encoding",
       },
     });

@@ -332,4 +332,13 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Do not:** Autoplay every thumb in view. Do not call a single-template 3-beat loop an "across
   specimens" tour.
 
+## 2026-08-07 — `template:claim-band-starves-fold-instrument`
 
+- **Failure:** First-five marketing folds stacked a tall left-capped claim band *above* a full-bleed
+  instrument band. At 1440×900 the claim alone ate ~450px with an empty right half; the pipeline
+  board / posture grid / queue console / wire ledger started below the fold. Screenshots looked
+  unfinished (Northstar empty right; Lattice empty bottom).
+- **Fix:** Split folds (`ds-*-fold` grid) — claim left, instrument right, both in the first viewport.
+  Draw those instruments in the taller `column` figure role. Basics gate requires `ds-*-fold`.
+- **Do not:** Park unique fold instruments under a full-width claim with `max-width:18ch` type and
+  call the empty right half "asymmetric luxury."

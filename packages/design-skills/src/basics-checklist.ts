@@ -404,23 +404,23 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           return /ds-press-plate/.test(html) && /ds-hero-glassine/.test(html);
         }
         if (kind === "saas-marketing") {
-          return /ds-pipeline-field/.test(html) && /ds-hero-pipeline/.test(html);
+          return /ds-pipeline-fold/.test(html) && /ds-pipeline-field/.test(html) && /ds-hero-pipeline/.test(html);
         }
         if (kind === "dashboard-webapp") {
-          return /ds-queue-field/.test(html) && /ds-hero-queue/.test(html);
+          return /ds-queue-fold/.test(html) && /ds-queue-field/.test(html) && /ds-hero-queue/.test(html);
         }
         if (kind === "corporate-story") {
-          return /ds-diligence-field/.test(html) && /ds-hero-diligence/.test(html);
+          return /ds-diligence-fold/.test(html) && /ds-diligence-field/.test(html) && /ds-hero-diligence/.test(html);
         }
         if (kind === "docs-educational") {
-          return /ds-mechanism-stage/.test(html) && /ds-hero-mechanism/.test(html);
+          return /ds-mechanism-fold/.test(html) && /ds-mechanism-stage/.test(html) && /ds-hero-mechanism/.test(html);
         }
         if (kind === "fintech-marketing") {
-          return /ds-wire-field/.test(html) && /ds-hero-wire/.test(html);
+          return /ds-wire-fold/.test(html) && /ds-wire-field/.test(html) && /ds-hero-wire/.test(html);
         }
         return true;
       })(),
-      "Unique craft figures hang under a compact claim so the forme/plate/ledger owns the fold — not a shouty claim stack.",
+      "Unique craft figures sit beside the claim in a split fold — never a tall left-only claim with an empty right half.",
     ),
     check(
       "solid-claim-when-labeled-fold",

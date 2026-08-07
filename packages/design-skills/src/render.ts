@@ -554,7 +554,8 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
 
   /*
    * Pipeline fold — SaaS-marketing signature.
-   * Sticky stage rail + compact claim + spanning pipeline board. Not stackfold.
+   * Sticky stage rail + split fold: claim left, pipeline board right (fills the viewport).
+   * Never a tall left-only claim band with the board shoved below the fold.
    */
   if (section.layout === "hero-pipeline") {
     const board = figures.hero
@@ -569,15 +570,17 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       .join("")}</ol></nav>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-pipeline" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${rail}
-      <div class="ds-pipeline-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-bleed ds-pipeline-field">${board}</div>
+      <div class="ds-wrap-wide ds-pipeline-fold">
+        <div class="ds-pipeline-claim">${copy}</div>
+        <div class="ds-pipeline-field">${board}</div>
+      </div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
 
   /*
    * Queue fold — dashboard-webapp signature.
-   * Sticky priority rail + compact claim + spanning operator console. App shell remains below.
+   * Sticky priority rail + split fold: claim left, operator console right. App shell remains below.
    */
   if (section.layout === "hero-queue") {
     const consoleFig = figures.hero
@@ -592,15 +595,17 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       .join("")}</ol></nav>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-queue" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${rail}
-      <div class="ds-queue-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-bleed ds-queue-field">${consoleFig}</div>
+      <div class="ds-wrap-wide ds-queue-fold">
+        <div class="ds-queue-claim">${copy}</div>
+        <div class="ds-queue-field">${consoleFig}</div>
+      </div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
 
   /*
    * Diligence fold — corporate-story signature.
-   * Sticky principle spine + hard measure + spanning posture grid. Paper-led (not foundry inverse).
+   * Sticky principle spine + split fold: claim left, posture grid right. Paper-led (not foundry inverse).
    */
   if (section.layout === "hero-diligence") {
     const grid = figures.hero
@@ -612,9 +617,11 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       .join("")}</ol></aside>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-diligence" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${spine}
-      <div class="ds-diligence-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-wrap-wide ds-diligence-fold">
+        <div class="ds-diligence-claim">${copy}</div>
+        <div class="ds-diligence-field">${grid}</div>
+      </div>
       <div class="ds-measure-rule" aria-hidden="true"></div>
-      <div class="ds-bleed ds-diligence-field">${grid}</div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
@@ -643,11 +650,12 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       )
       .join("")}</ol>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-mechanism" data-surface="${section.surface}" data-section="${esc(section.id)}">
-      <div class="ds-mechanism-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-wrap-wide ds-mechanism-grid">
-        <div class="ds-mechanism-legend">
-          <p class="ds-eyebrow">The scrub</p>
-          ${list}
+      <div class="ds-wrap-wide ds-mechanism-fold">
+        <div class="ds-mechanism-claim">${copy}
+          <div class="ds-mechanism-legend">
+            <p class="ds-eyebrow">The scrub</p>
+            ${list}
+          </div>
         </div>
         <div class="ds-mechanism-stage">${plateFig}</div>
       </div>
@@ -656,7 +664,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
 
   /*
    * Wire fold — fintech-marketing signature.
-   * Sticky cutoff rail + spanning wire ledger + tolerance strip. Not SaaS stackfold.
+   * Sticky cutoff rail + split fold: claim left, wire ledger right + tolerance strip.
    */
   if (section.layout === "hero-wire") {
     const ledger = figures.hero
@@ -676,8 +684,10 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       .join("")}</ol></nav>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-wire" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${rail}
-      <div class="ds-wire-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-bleed ds-wire-field">${ledger}</div>
+      <div class="ds-wrap-wide ds-wire-fold">
+        <div class="ds-wire-claim">${copy}</div>
+        <div class="ds-wire-field">${ledger}</div>
+      </div>
       <div class="ds-tolerance-strip" aria-hidden="true"><span>Tolerance floor</span><b>±0.4%</b><span>illustrative</span></div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;

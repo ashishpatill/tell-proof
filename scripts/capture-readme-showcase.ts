@@ -91,7 +91,7 @@ const TEMPLATES: Array<{
     key: "educational",
     beats: [
       { id: "fold", sel: ".ds-mechanism-stage, .ds-hero-mechanism, .ds-hero", yPad: 8 },
-      { id: "scrub", sel: ".ds-mechanism-grid, #features", yPad: 28 },
+      { id: "scrub", sel: ".ds-mechanism-fold, #features", yPad: 28 },
       { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
     ],
   },

@@ -1830,8 +1830,8 @@ export function pipelineBoard(
   role: FigureRole = "band",
 ): string {
   const items = features.slice(0, 5);
-  const W = role === "band" ? 1440 : 920;
-  const H = role === "band" ? 780 : 560;
+  const W = role === "band" ? 1440 : role === "column" ? 720 : 920;
+  const H = role === "band" ? 780 : role === "column" ? 640 : 560;
   const r = rng(`${seed}:pipeline`);
   const pad = role === "band" ? W * 0.05 : W * 0.07;
   const parts: string[] = [];
@@ -1917,8 +1917,8 @@ export function queueConsole(
   role: FigureRole = "band",
 ): string {
   const items = features.slice(0, 6);
-  const W = role === "band" ? 1440 : 920;
-  const H = role === "band" ? 760 : 540;
+  const W = role === "band" ? 1440 : role === "column" ? 720 : 920;
+  const H = role === "band" ? 760 : role === "column" ? 640 : 540;
   const r = rng(`${seed}:queue`);
   const pad = W * 0.04;
   const parts: string[] = [];
@@ -1992,8 +1992,8 @@ export function postureGrid(
   role: FigureRole = "band",
 ): string {
   const items = features.slice(0, 4);
-  const W = role === "band" ? 1440 : 920;
-  const H = role === "band" ? 720 : 520;
+  const W = role === "band" ? 1440 : role === "column" ? 680 : 920;
+  const H = role === "band" ? 720 : role === "column" ? 640 : 520;
   void seed;
   const pad = W * 0.06;
   const parts: string[] = [];
@@ -2055,8 +2055,8 @@ export function mechanismPlate(
   role: FigureRole = "band",
 ): string {
   const items = features.slice(0, 4);
-  const W = role === "band" ? 1440 : 920;
-  const H = role === "band" ? 700 : 520;
+  const W = role === "band" ? 1440 : role === "column" ? 720 : 920;
+  const H = role === "band" ? 700 : role === "column" ? 620 : 520;
   void seed;
   const pad = W * 0.06;
   const parts: string[] = [];
@@ -2138,8 +2138,8 @@ export function wireLedger(
   role: FigureRole = "band",
 ): string {
   const items = features.slice(0, 5);
-  const W = role === "band" ? 1440 : 920;
-  const H = role === "band" ? 760 : 540;
+  const W = role === "band" ? 1440 : role === "column" ? 720 : 920;
+  const H = role === "band" ? 760 : role === "column" ? 640 : 540;
   const r = rng(`${seed}:wire`);
   const pad = W * 0.05;
   const parts: string[] = [];
@@ -2843,9 +2843,21 @@ export function planFigures(input: {
   const remaining = afterHero.filter((k) => k !== bandKind);
   const bodyKind = shaped(COLUMNAR, remaining) ?? remaining[0];
 
-  // Seam fold draws the ladder as a column (half viewport), not a full-bleed band.
-  const heroRole: FigureRole =
-    input.heroLayout === "hero-seam" ? "column" : heroSpans ? "band" : "column";
+  // Seam + first-five marketing folds draw the instrument as a column (half viewport),
+  // never a full-bleed band parked under a tall left-only claim.
+  const columnFold = new Set([
+    "hero-seam",
+    "hero-pipeline",
+    "hero-diligence",
+    "hero-queue",
+    "hero-wire",
+    "hero-mechanism",
+  ]);
+  const heroRole: FigureRole = columnFold.has(input.heroLayout)
+    ? "column"
+    : heroSpans
+      ? "band"
+      : "column";
   const hero = draw(heroKind, heroRole);
   const body = bodyKind ? draw(bodyKind, "plate") : "";
   const band = bandKind ? draw(bandKind, "band") : "";
