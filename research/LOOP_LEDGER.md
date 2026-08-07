@@ -442,3 +442,24 @@ buckets, never names, hosts, or URLs.
   a generic design engine will not invent from taste controls.
 - **Next weakest:** loom/field ink-variation ceiling; deepen shuttle/blot uniqueness without
   score-gaming; corporate band-variation.
+
+## Loop 21 — marvel RSI: break sticky-rail recipe (drawloom + glassine)
+
+- **Goal:** Human named Loop 20 folds as still-basic sticky-rail landings. Invent unreplicable
+  fold craft designers would ask “how did you make that?”, then re-measure.
+- **Failure named (champion):** Left sticky size/taxon rail + claim-then-figure still read as the
+  same editorial-landing recipe as archive/observatory with different chrome labels.
+- **Challenger:**
+  - Drawloom — headline as weft picks through warp threads; reed bar; cloth owns lower fold;
+    size tape becomes bottom treadles
+  - Glassine press — specimen under translucent peeled sheet; museum label stuck on glassine;
+    corner pins + lucida; taxon as bottom binomial strip
+- **Score:** first marvel pass **94.2 / 94.3** (hairline + shadow + short weft measure + fold
+  starvation); dogfood → loom **97.6**, field **97.6**, matrix **98.9**, holdout **98.4**.
+- **Closed:** `template:sticky-rail-recipe`, `template:marvel-chrome-tax`; basics gates for
+  drawloom/glassine markers; copy no longer claims sticky rails.
+- **Side effects:** ink-variation still above corridor (accepted for photo-owned folds).
+- **Qualitative:** desktop folds show woven weft lines through warp + textile cloth, and a
+  pinned glassine peel over botanical matter — not left-rail SaaS landings.
+- **Next weakest:** ink-variation ceiling; keep hairlines at 1px when deepening peel/reed craft.
+

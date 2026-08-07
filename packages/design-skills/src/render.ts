@@ -382,7 +382,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     let line = "";
     for (const w of words) {
       const next = line ? `${line} ${w}` : w;
-      if (next.length > 18 && line) {
+      if (next.length > 28 && line) {
         picks.push(line);
         line = w;
       } else {

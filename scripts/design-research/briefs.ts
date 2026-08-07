@@ -297,14 +297,14 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       lockSiteKind: true,
       brandAccent: "#3A4A3C",
       features: [
-        { id: "l1", name: "Size tape", description: "A sticky tape that lands you on the fit window without scrolling the whole roll.", priority: "p0" },
+        { id: "l1", name: "Size treadles", description: "Bottom size treadles that land you on the fit window without a left sticky rail.", priority: "p0" },
         { id: "l2", name: "Warp cells", description: "SKU cells woven on a shared loom so a quiet line cannot hide beside a loud one.", priority: "p0" },
         { id: "l3", name: "Photo weft", description: "Copyright-free textile stock clipped into the weave — matter, not a lifestyle card grid.", priority: "p0" },
         { id: "l4", name: "Hangtag notes", description: "Fit notes that travel with the reading — the limits of a cut stay visible while you decide.", priority: "p1" },
         { id: "l5", name: "Care label", description: "Edition and care stamped so a reused page cannot orphan its provenance.", priority: "p1" },
         { id: "l6", name: "Cut memory", description: "A loom that survives the jump from sample to order without becoming orphan cards.", priority: "p2" },
       ],
-      constraints: ["loom-first", "size tape", "hangtag essay", "no pricing theatre", "restrained motion"],
+      constraints: ["loom-first", "drawloom weft", "hangtag essay", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "light-scroll-reveals",
@@ -326,14 +326,14 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       lockSiteKind: true,
       brandAccent: "#2F4538",
       features: [
-        { id: "h1", name: "Taxon rail", description: "A sticky Kingdom→Species rail that lands you on the rank you need without losing the plate.", priority: "p0" },
+        { id: "h1", name: "Binomial strip", description: "Kingdom→Species treadles under the press so ranks stay reachable without a left sticky rail.", priority: "p0" },
         { id: "h2", name: "Pressed plate", description: "A specimen silhouette with pin marks so the voucher reads as collected matter, not stock art.", priority: "p0" },
         { id: "h3", name: "Photo inset", description: "Copyright-free botanical stock clipped into the voucher window — evidence, not a card collage.", priority: "p0" },
         { id: "h4", name: "Range beads", description: "Distribution notes that travel with the reading — west-to-east ticks stay visible while you decide.", priority: "p1" },
         { id: "h5", name: "Voucher close", description: "Edition and custody stamped so a reused page cannot orphan its provenance.", priority: "p1" },
         { id: "h6", name: "Plate memory", description: "A voucher that survives the jump from field to desk without becoming orphan photos.", priority: "p2" },
       ],
-      constraints: ["voucher-first", "specimen plate", "range essay", "no pricing theatre", "restrained motion"],
+      constraints: ["voucher-first", "glassine press", "range essay", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "light-scroll-reveals",

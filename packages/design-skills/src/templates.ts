@@ -704,10 +704,10 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
     key: "loom",
     label: "Commerce loom",
     marketJob:
-      "Merchandising press landing — size-tape rail, warp/weft SKU loom with free textile photos, hangtag essay, Care label close.",
+      "Merchandising press landing — drawloom weft claim, size treadles, warp/weft photo cloth, hangtag essay, Care label close.",
     siteKind: "commerce-loom",
     researchBasis:
-      "Calibrated against commerce-platform + brand-product-agency corridors (figure-forward, quiet-to-moderate display, low inverse). Distinct craft soft theme packs miss: sticky size-tape rail, loom-weave figure with copyright-free textile photo cells, hangtag essay with eyelet marks, paper Care label — no pricing, no metrics theatre, zero inverse bands, no glass card collage.",
+      "Calibrated against commerce-platform + brand-product-agency corridors (figure-forward, quiet-to-moderate display, low inverse). Distinct craft soft theme packs miss: claim-as-weft drawloom, bottom size treadles, loom-weave figure with copyright-free textile photo cells, hangtag essay with eyelet marks, paper Care label — no pricing, no metrics theatre, zero inverse bands, no glass card collage.",
     brief: DesignBrief.parse({
       productName: "Warp Desk",
       tagline: "The press that keeps every SKU under one honest weave",
@@ -720,8 +720,8 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
       features: [
         {
           id: "l1",
-          name: "Size tape",
-          description: "A sticky tape that lands you on the fit window without scrolling the whole roll",
+          name: "Size treadles",
+          description: "Bottom size treadles that land you on the fit window without a left sticky rail",
           priority: "p0",
         },
         {
@@ -769,10 +769,10 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
     key: "herbarium",
     label: "Field guide",
     marketJob:
-      "Herbarium / voucher landing — taxon rail, specimen plate with free botanical photos, range essay, Voucher close.",
+      "Herbarium / voucher landing — glassine press, binomial strip, specimen plate with free botanical photos, range essay, Voucher close.",
     siteKind: "field-guide",
     researchBasis:
-      "Calibrated against personal-craft + brand-agency + consumer-craft corridors (high figureArea, quiet display, paper-led). Distinct craft soft theme packs miss: sticky taxon rail, specimen-plate with pressed silhouette + copyright-free botanical inset, range essay with distribution beads, paper Voucher close — no pricing, no metrics theatre, zero inverse bands, no floating glass collage.",
+      "Calibrated against personal-craft + brand-agency + consumer-craft corridors (high figureArea, quiet display, paper-led). Distinct craft soft theme packs miss: glassine press with peeled sheet + museum label, bottom binomial strip, specimen-plate with pressed silhouette + copyright-free botanical inset, range essay with distribution beads, paper Voucher close — no pricing, no metrics theatre, zero inverse bands, no floating glass collage.",
     brief: DesignBrief.parse({
       productName: "Vellum Press",
       tagline: "The voucher that keeps every trait under one honest plate",
@@ -785,8 +785,8 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
       features: [
         {
           id: "h1",
-          name: "Taxon rail",
-          description: "A sticky Kingdom→Species rail that lands you on the rank you need without losing the plate",
+          name: "Binomial strip",
+          description: "Kingdom→Species treadles under the press so ranks stay reachable without a left sticky rail",
           priority: "p0",
         },
         {

@@ -136,3 +136,27 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Fix:** Force `text.ds-fig-mono{font-size:11px!important}` on loom/field; demote hang-aside
   titles to a shared 14px; drop 8–10px tape/taxon chips to 11px.
 - **Do not:** Assume SVG `font-size="11"` survives scaling as one type step across figure roles.
+
+## 2026-08-07 — `template:sticky-rail-recipe`
+
+- **Failure named (champion):** Loom + field still read as sticky left-rail editorial landings
+  (claim column + figure) — a density/chrome swap on the archive/observatory recipe, not marvel
+  craft. Soft packs lose to structure; this structure was still the same recipe.
+- **Challenger:** Drawloom (headline as weft picks through warp; cloth below; size treadles at
+  bottom) + glassine press (specimen under peeled translucent sheet; museum label; corner pins;
+  binomial strip at bottom).
+- **Eval:** Critique after dogfood **97.6 / 97.6** (matrix **98.9**). Desktop fold shots show
+  woven weft lines and pinned glassine peel — not left sticky chrome.
+- **Do not:** Answer “make it unique” by renaming a left sticky rail. Invent a fold grammar a
+  rail cannot emit.
+
+## 2026-08-07 — `template:marvel-chrome-tax`
+
+- **Failure:** First marvel pass scored **94.2 / 94.3**. 3px active borders on treadle/binomial
+  chips tanked hairline (0.85 / 0.84); peel/label box-shadows blew shadow coverage; short weft
+  wraps (~10ch) starved display measure; tall claim starved fold figure.
+- **Fix:** Force 1px instrument borders; drop decorative shadows; longer weft wraps (~28ch);
+  hang cloth / raise plate into the first viewport.
+- **Do not:** Decorate a new siteKind with 2–3px accent bars or soft drop shadows and expect
+  hairline/shadow bands to hold.
+

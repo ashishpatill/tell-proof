@@ -89,15 +89,15 @@ export const SiteKind = z.enum([
    */
   "archive-index",
   /**
-   * Commerce loom / merchandising press — warp/weft SKU loom owning the fold, sticky size-tape
-   * rail, free textile photo cells, hangtag essay, Care label close.
+   * Commerce loom / merchandising press — drawloom fold (claim woven as weft through warp),
+   * size treadles, free textile photo cloth, hangtag essay, Care label close.
    * Calibrated to commerce-platform + brand-product-agency (figure-forward, quiet-to-moderate
    * display, dense product matter, low inverse). Not SaaS conversion, not soft card grids.
    */
   "commerce-loom",
   /**
-   * Field guide / herbarium craft — voucher masthead, sticky taxon rail, specimen plate with
-   * pressed silhouette + free botanical photo inset, range essay, Voucher close.
+   * Field guide / herbarium craft — glassine press fold (specimen under peeled sheet + museum
+   * label), binomial strip, free botanical plate, range essay, Voucher close.
    * Calibrated to personal-craft + brand-agency + consumer-craft (figureArea high, quiet display,
    * paper-led, layered specimen matter). Not soft glass hero collages or theme-pack card stacks.
    */
