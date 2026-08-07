@@ -7,7 +7,8 @@
     "paths": {
       "@tell/schema": ["../schema/src"],
       "@tell/core": ["../core/src"],
-      "@tell/taste": ["../taste/src"]
+      "@tell/taste": ["../taste/src"],
+      "@tell/redesign": ["../redesign/src"]
     }
   },
   "include": ["src"]
