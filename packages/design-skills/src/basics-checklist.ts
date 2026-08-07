@@ -150,6 +150,17 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Footer links must target real sections (or be plain text) — never mass-link to #top. Brand wordmark → #top is fine.",
     ),
     check(
+      "no-boilerplate-proof-title",
+      !/holds under review/i.test(html),
+      "Proof titles must be siteKind-specific — never the shared 'holds under review' spam across offerings.",
+    ),
+    check(
+      "flow-band-no-stretch",
+      !/data-figure="flow"[^>]*preserveAspectRatio="none"/.test(html) &&
+        !/<svg[^>]*data-figure="flow"[^>]*preserveAspectRatio="none"/.test(html),
+      "Flow stage cards must keep aspect ratio — stretch+empty ordinals read as broken non-clickable UI.",
+    ),
+    check(
       "kind-studio",
       spec.brief.siteKind !== "art-directed-studio"
         || (

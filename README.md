@@ -26,13 +26,35 @@
 
 ## Specimens — craft reels, not theme packs
 
-Tell ships an eleven-offering catalog under [`/showcase`](./apps/web/src/app/showcase). Each cell is a **craft reel** that walks the best beats (plate, lattice, ledger, spread) — not a cropped nav strip and not a one-size card grid restyled with new colors.
+Tell ships a fourteen-offering catalog under [`/showcase`](./apps/web/src/app/showcase). Each cell is a **craft reel** that walks the best beats (plate, lattice, ledger, spread) — not a cropped nav strip and not a one-size card grid restyled with new colors.
 
-![Tell Specimens — featured craft reel (Archive index)](./docs/media/showcase/01-showcase-featured.png)
+![Tell Specimens — featured craft reel](./docs/media/showcase/01-showcase-featured.png)
 
 ![Tell Specimens — filmstrip of research-backed offerings](./docs/media/showcase/02-showcase-gallery.png)
 
-### Top templates (first viewport craft)
+### First five (marketing kinds — distinct folds)
+
+Plumbing + craft pass: stackfold (no claim/SVG collisions), siteKind-unique proof copy (no shared “holds under review”), distinct hero figure grammar, and filled stage matter (no empty ordinal shells).
+
+| SaaS · Northstar | Operator console · Queueboard |
+|:---:|:---:|
+| ![SaaS fold](./docs/media/showcase/saas-fold.png) | ![Dashboard fold](./docs/media/showcase/dashboard-fold.png) |
+| ![SaaS craft reel](./docs/media/showcase/saas-reel.gif) | ![Dashboard craft reel](./docs/media/showcase/dashboard-reel.gif) |
+| Interface product fold · “Why demos convert” | Flow stages → app shell · Queueboard |
+
+| Trust narrative · Lattice | Mechanism explainer · Signal Path |
+|:---:|:---:|
+| ![Corporate fold](./docs/media/showcase/corporate-fold.png) | ![Educational fold](./docs/media/showcase/educational-fold.png) |
+| ![Corporate craft reel](./docs/media/showcase/corporate-reel.gif) | ![Educational craft reel](./docs/media/showcase/educational-reel.gif) |
+| Horizon fold + diligence proof | Scope ledger fold (not empty stage cards) · scrub instrument |
+
+| Fintech trust · Clearwire | |
+|:---:|:---:|
+| ![Fintech fold](./docs/media/showcase/fintech-fold.png) | |
+| ![Fintech craft reel](./docs/media/showcase/fintech-reel.gif) | |
+| Horizon cash timeline on the fold · treasury-specific proof (not twin SaaS interface) | |
+
+### Signature craft offerings
 
 These are not “SaaS with a different accent.” Each `siteKind` owns unreplicable structure — measured against research corridors, dogfooded until critique holds.
 
@@ -46,15 +68,12 @@ These are not “SaaS with a different accent.” Each `siteKind` owns unreplica
 | ![Research dossier fold — cartographic plate with pin callouts](./docs/media/showcase/dossier-fold.png) | ![Editorial foundry fold — optical-size ladder seam](./docs/media/showcase/foundry-fold.png) |
 | Folio masthead, chapter rail, dossier plate, imprint | Hard-seam fold, type ladder, marginalia, colophon |
 
-| SaaS marketing · Northstar | Dashboard workspace · Northstar |
-|:---:|:---:|
-| ![SaaS marketing fold — product plate over claim](./docs/media/showcase/saas-fold.png) | ![Dashboard fold — staged operator workspace](./docs/media/showcase/dashboard-fold.png) |
-| Brand-first claim + feature-derived product stage | Operator shell with measured band rhythm |
-
-Regenerate README frames (web on `:3000`):
+Regenerate README frames + first-five reels (web on `:3000`):
 
 ```bash
 pnpm capture:readme-showcase
+# optional: rebuild per-template GIFs from the captured PNGs
+# ffmpeg paletteuse on docs/media/showcase/{saas,dashboard,corporate,educational,fintech}-*.png
 ```
 
 ---

@@ -211,6 +211,7 @@ export const TellDetector = z.enum([
   "EmojiChromeTell",
   "CenteredEverythingTell",
   "GrayMushTell",
+  "BoilerplateCopyTell",
 ]);
 export type TellDetector = z.infer<typeof TellDetector>;
 

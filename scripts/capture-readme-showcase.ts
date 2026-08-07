@@ -20,7 +20,7 @@ const ARTIFACTS = "/opt/cursor/artifacts/screenshots";
 const BASE = process.env.TELL_WEB_URL ?? "http://127.0.0.1:3000";
 const VIEWPORT = { width: 1440, height: 900 };
 
-/** Newest / most distinctive offerings featured on the README. */
+/** Newest / most distinctive offerings featured on the README — plus fixed first-five marketing kinds. */
 const TEMPLATES: Array<{
   key: string;
   beats: Array<{ id: string; sel: string; yPad?: number }>;
@@ -57,15 +57,44 @@ const TEMPLATES: Array<{
     ],
   },
   {
-    key: "dashboard",
+    key: "saas",
     beats: [
-      { id: "fold", sel: ".ds-hero, h1", yPad: 0 },
-      { id: "shell", sel: ".ds-dash-grid, .ds-app-shell, [data-section='specimen']", yPad: 20 },
+      { id: "fold", sel: ".ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 },
+      { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
+      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
     ],
   },
   {
-    key: "saas",
-    beats: [{ id: "fold", sel: ".ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 }],
+    key: "dashboard",
+    beats: [
+      { id: "fold", sel: ".ds-hero .ds-plate-bleed, .ds-hero, h1", yPad: 8 },
+      { id: "shell", sel: "#app, .ds-app-band, .ds-app", yPad: 20 },
+      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
+    ],
+  },
+  {
+    key: "corporate",
+    beats: [
+      { id: "fold", sel: ".ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 },
+      { id: "story", sel: "#story, [data-section='story']", yPad: 36 },
+      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
+    ],
+  },
+  {
+    key: "educational",
+    beats: [
+      { id: "fold", sel: ".ds-hero .ds-plate-bleed, [data-figure='stack'], .ds-hero", yPad: 8 },
+      { id: "scrub", sel: "#figure, [data-section='figure']", yPad: 28 },
+      { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
+    ],
+  },
+  {
+    key: "fintech",
+    beats: [
+      { id: "fold", sel: ".ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 },
+      { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
+      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
+    ],
   },
 ];
 
@@ -130,7 +159,7 @@ async function main(): Promise<void> {
   const page = await context.newPage();
 
   // ——— Showcase gallery (live app) ———
-  await page.goto(`${BASE}/showcase`, { waitUntil: "networkidle", timeout: 60_000 });
+  await page.goto(`${BASE}/showcase`, { waitUntil: "domcontentloaded", timeout: 60_000 });
   await page.waitForSelector('[data-testid="showcase-featured-preview"][data-ready="true"]', {
     timeout: 45_000,
   });
@@ -147,11 +176,11 @@ async function main(): Promise<void> {
   // ——— Full-bleed template craft ———
   for (const t of pages) {
     await page.goto(`http://127.0.0.1:4323/${t.key}`, {
-      waitUntil: "networkidle",
+      waitUntil: "domcontentloaded",
       timeout: 30_000,
     });
     await page.waitForSelector(".ds-hero, h1, [data-sitekind]", { timeout: 20_000 });
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(500);
 
     for (const beat of t.beats) {
       if (beat.id === "fold") {

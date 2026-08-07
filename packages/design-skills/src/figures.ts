@@ -557,10 +557,9 @@ export function seriesChart(label: string, periods: string[], seed: string, role
 /**
  * The steps of the argument as connected stages, numbered, with the pivot marked.
  *
- * In band role this drawing is the whole screen, so the stages carry what the stage actually says
- * rather than a title over reserved empty space. The card height is measured from the copy each
- * stage has: a stage with two points is taller than a stage with none, and neither leaves a gap
- * where a reader expects something to be.
+ * Band role is the fold figure: each stage must carry title + a real line of matter — empty
+ * ordinal shells (title-only in a 420px card stretched to 760px) read as broken UI and invite
+ * clicks that never come. Plate role stays compact.
  */
 export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "plate"): string {
   const items = steps.slice(0, 4);
@@ -569,18 +568,13 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
   const W = band ? 1200 : 720;
   const gap = band ? 40 : 26;
   const nodeW = (W - 8 - gap * (items.length - 1)) / items.length;
-  const top = band ? 72 : 44;
+  const top = band ? 48 : 44;
   const pivot = Math.min(items.length - 1, 1);
   const parts: string[] = [];
 
-  /*
-   * Band role is the quiet screen — titles + ordinals only. Capability bodies in stage cards
-   * flattened section-weight variation by filling the specimen beat with paragraph characters.
-   * Plate role stays compact: name + meta, no body prose.
-   * Tall band H fills stackfold min-height so the fold does not letterbox empty airways under stages.
-   */
-  const nodeH = band ? 420 : 104;
-  const H = band ? top + nodeH + 56 : 216;
+  // Content-sized cards — never stretch empty airways to fake fold coverage.
+  const nodeH = band ? 248 : 104;
+  const H = band ? top + nodeH + 48 : 216;
 
   if (!band) {
     parts.push(text("Sequence", 4, 16, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
@@ -598,17 +592,48 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
     );
 
     if (band) {
-      const nameLines = wrap(b.title, Math.max(9, Math.round(nodeW / 15)), 3);
-      parts.push(text(String(i + 1).padStart(2, "0"), x + 24, top + 110, { size: FT.ordinal, fill: lead ? ACCENT : "var(--c-border-strong)", weight: 300 }));
-      parts.push(rule(x + 24, top + 140, x + nodeW - 24, top + 140));
+      const nameLines = wrap(b.title, Math.max(9, Math.round(nodeW / 14)), 2);
+      const matter =
+        (b.points?.[0] && String(b.points[0])) ||
+        (b.body && String(b.body)) ||
+        (b.meta && String(b.meta)) ||
+        "";
+      const bodyLines = matter ? wrap(matter, Math.max(12, Math.round(nodeW / 11)), 3) : [];
+      parts.push(
+        text(String(i + 1).padStart(2, "0"), x + 20, top + 36, {
+          size: FT.lead,
+          fill: lead ? ACCENT : "var(--c-border-strong)",
+          weight: 500,
+          mono: true,
+          track: 0.6,
+        }),
+      );
       nameLines.forEach((ln, j) => {
-        parts.push(text(ln, x + 24, top + 190 + j * 36, { size: FT.lead, fill: INK, weight: 600 }));
+        parts.push(text(ln, x + 20, top + 72 + j * 28, { size: FT.small, fill: INK, weight: 600 }));
       });
-      if (b.meta) parts.push(text(clip(b.meta, 24), x + 24, top + nodeH - 48, { size: FT.micro, fill: QUIET, mono: true }));
-      const meterY = top + nodeH - 28;
-      const meterW = nodeW - 48;
-      parts.push(box(x + 24, meterY, meterW, 4, { r: 2, fill: LINE }));
-      parts.push(box(x + 24, meterY, meterW * ((i + 1) / items.length), 4, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
+      const bodyTop = top + 72 + nameLines.length * 28 + 16;
+      parts.push(rule(x + 20, bodyTop - 8, x + nodeW - 20, bodyTop - 8));
+      bodyLines.forEach((ln, j) => {
+        parts.push(text(ln, x + 20, bodyTop + 8 + j * 22, { size: FT.micro, fill: BODY }));
+      });
+      if (b.meta && !matter.includes(String(b.meta))) {
+        parts.push(
+          text(clip(b.meta, 28), x + 20, top + nodeH - 36, {
+            size: FT.micro,
+            fill: QUIET,
+            mono: true,
+          }),
+        );
+      }
+      const meterY = top + nodeH - 20;
+      const meterW = nodeW - 40;
+      parts.push(box(x + 20, meterY, meterW, 3, { r: 2, fill: LINE }));
+      parts.push(
+        box(x + 20, meterY, meterW * ((i + 1) / items.length), 3, {
+          r: 2,
+          fill: lead ? ACCENT : "var(--c-border-strong)",
+        }),
+      );
     } else {
       parts.push(text(String(i + 1).padStart(2, "0"), x + 16, top + 28, { size: FT.micro, fill: lead ? ACCENT : QUIET, mono: true, track: 0.8 }));
       parts.push(text(clip(b.title, 20), x + 16, top + 56, { size: FT.small, fill: INK, weight: 600 }));
@@ -633,8 +658,8 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
     height: H,
     kind: "flow",
     inset: band ? BLEED_INSET : 0,
-    // Band plates are forced tall for fold coverage — stretch so stages fill the airways.
-    stretch: band,
+    // Never stretch band flow — empty ordinal shells + preserveAspectRatio=none = broken cards.
+    stretch: false,
     label: `Sequence: ${items.map((b) => b.title).join(", ")}`,
   });
 }
@@ -2246,12 +2271,15 @@ type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder
 const ORDER: Record<string, Kind[]> = {
   "dashboard-webapp": ["series", "flow", "stack", "interface"],
   "corporate-story": ["horizon", "stack", "series", "flow"],
-  "docs-educational": ["flow", "interface", "stack", "series"],
-  "saas-marketing": ["interface", "flow", "series", "stack"],
-  // Money products lead with the working surface and a plotted reading — fintech refs are figure-heavy.
-  "fintech-marketing": ["interface", "series", "flow", "stack"],
-  // Studio folds need a dense composed surface (flow), then a quieter horizon as specimen beat.
-  "art-directed-studio": ["flow", "horizon", "stack", "series"],
+  // Educational: layer stack owns the fold (mechanism), flow stays in body — never twin studio's flow hero.
+  "docs-educational": ["stack", "flow", "interface", "series"],
+  // SaaS: product surface on the fold; series as specimen — not the same band stack as fintech.
+  "saas-marketing": ["interface", "series", "flow", "stack"],
+  // Fintech: horizon cash timeline on the fold (always drawable); interface is the working surface in body.
+  // Series is preferred when metrics carry readings, but must not fall through to twin SaaS interface hero.
+  "fintech-marketing": ["horizon", "series", "interface", "flow"],
+  // Studio: quiet horizon fold (selected-work), flow method in the body — not twin educational.
+  "art-directed-studio": ["horizon", "flow", "stack", "series"],
   // Consumer craft is product-surface first; horizon specimen stays type-quiet for rhythm.
   "consumer-craft": ["interface", "horizon", "flow", "stack"],
   // Foundry: optical-size ladder owns the fold; horizon/stack keep scroll beats distinct.
@@ -2363,6 +2391,8 @@ export function planFigures(input: {
                 ? ("specimen-plate" as Kind)
             : input.siteKind === "press-atelier"
               ? ("press-sheet" as Kind)
+            : input.siteKind === "fintech-marketing"
+              ? ((shaped(SPANNING, order.filter((k) => k !== "interface")) ?? "horizon") as Kind)
       : shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;
   const afterHero = order.filter((k) => k !== heroKind);
   const bandKind = shaped(SPANNING, afterHero);

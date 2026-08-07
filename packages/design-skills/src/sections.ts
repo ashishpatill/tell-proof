@@ -97,7 +97,10 @@ export function buildSections(
 
   const eyebrow = eyebrows(brief);
   const cta = ctaFor(brief.businessGoal, brief.siteKind);
-  const navItems = navFor(plan.map((p) => ({ kind: p.kind, id: p.id })));
+  const navItems = navFor(
+    plan.map((p) => ({ kind: p.kind, id: p.id })),
+    brief.siteKind,
+  );
   const editorial = editorialize(features);
   const allBlocks = featureBlocks(editorial.features);
 
@@ -499,6 +502,16 @@ export function buildSections(
                             ? sentence(`How a voucher is actually read`)
                         : brief.siteKind === "press-atelier"
                           ? sentence(`How a signature is actually gathered`)
+                  : brief.siteKind === "saas-marketing"
+                    ? sentence(`How ${brief.productName} moves an account`)
+                    : brief.siteKind === "dashboard-webapp"
+                      ? sentence(`How a day on ${brief.productName} actually runs`)
+                      : brief.siteKind === "corporate-story"
+                        ? sentence(`How ${brief.productName} earns the room`)
+                        : brief.siteKind === "docs-educational"
+                          ? sentence(`How ${brief.productName} decides under constraint`)
+                          : brief.siteKind === "fintech-marketing"
+                            ? sentence(`How a send clears on ${brief.productName}`)
                   : sentence(`The order things happen in`),
             body:
               brief.siteKind === "art-directed-studio"
@@ -519,6 +532,16 @@ export function buildSections(
                             ? sentence(`Range beads, taxon ranks, and the notes that keep a voucher honest`)
                         : brief.siteKind === "press-atelier"
                           ? sentence(`Fold ticks, plate index, and the gathers that keep a forme honest`)
+                  : brief.siteKind === "saas-marketing"
+                    ? sentence(`From first signal to booked walkthrough — the path revenue leaders actually take`)
+                    : brief.siteKind === "dashboard-webapp"
+                      ? sentence(`Queue, deal room, playbook, handoff — the loop account executives live in`)
+                      : brief.siteKind === "corporate-story"
+                        ? sentence(`Language, principles, outcomes, posture — the diligence path in order`)
+                        : brief.siteKind === "docs-educational"
+                          ? sentence(`Placement, preemption, backpressure, failure — the cost function in order`)
+                          : brief.siteKind === "fintech-marketing"
+                            ? sentence(`Wire, wallet, approval, FX — the send path treasury actually walks`)
                   : sentence(`The sequence ${brief.audience} actually meet, in order`),
             blocks: chapters(editorial.features).map((c, i) =>
               block({
@@ -559,11 +582,25 @@ export function buildSections(
             emphasis: f.priority === "p0" ? "lead" : "normal",
           }),
         );
+        const proofTitle =
+          brief.siteKind === "saas-marketing"
+            ? sentence(`Why ${brief.productName} earns the second meeting`)
+            : brief.siteKind === "dashboard-webapp"
+              ? sentence(`Why operators keep ${brief.productName} open all day`)
+              : brief.siteKind === "corporate-story"
+                ? sentence(`Why ${brief.productName} holds up in diligence`)
+                : brief.siteKind === "fintech-marketing"
+                  ? sentence(`Why treasury teams short-list ${brief.productName}`)
+                  : brief.siteKind === "art-directed-studio"
+                    ? sentence(`Why work from ${brief.productName} survives the handoff`)
+                    : brief.siteKind === "docs-educational"
+                      ? sentence(`Why the ${brief.productName} model holds under load`)
+                      : sentence(`Why ${brief.productName} earns trust in review`);
         sections.push(
           SectionSpec.parse({
             ...base,
             eyebrow: eyebrow.proof,
-            title: sentence(`Why ${brief.productName} holds under review`),
+            title: proofTitle,
             body: q.quote,
             quote: q.quote,
             quoteAttribution: q.attribution,

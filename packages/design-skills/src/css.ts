@@ -876,17 +876,20 @@ ${surfaceRules()}
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-btn-secondary,
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-btn-ghost,
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-cta-note{display:none}
-[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-aside{display:none}
-[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband .ds-split{grid-template-columns:1fr}
+/* aside shown above — do not hide */
 /* Stackfold stays in document flow — never pull labeled stages under the claim (overlap regression). */
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed{
   margin-top:0;margin-bottom:0;
   position:relative;z-index:1;
 }
+/* Content-sized figure — never force a stretched empty stage grid to 72vh. */
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{
-  min-height:min(72vh,760px);height:min(72vh,760px);
+  min-height:min(52vh,560px);height:auto;max-height:none;
 }
-[data-sitekind="docs-educational"] .ds-hero{min-height:min(100vh,1040px);padding-block:0.5rem 0;align-content:start}
+/* Show mechanism aside on educational folds — stages are real scroll targets, not dead chrome. */
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-aside{display:block}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband .ds-split{grid-template-columns:minmax(0,7fr) minmax(12rem,4fr)}
+[data-sitekind="docs-educational"] .ds-hero{min-height:0;padding-block:0.5rem 0;align-content:start}
 [data-sitekind="docs-educational"] .ds-hero-aside{
   padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-md);
   background:color-mix(in srgb,var(--c-paper-raised) 88%,transparent);

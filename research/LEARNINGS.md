@@ -279,3 +279,18 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Do not:** Treat critique score as an eye pass. Absolute overfigure over labeled product SVG is
   never "premium fold figure." Fake interactive chrome (hover without action, links to `#top`)
   fails the human test even when anchors "work."
+
+## 2026-08-07 — `template:empty-flow-band` + `template:boilerplate-proof-spam`
+
+- **Failure (human):** Mechanism explainer showed huge empty ordinal stage cards that looked
+  clickable and weren't; templates 04 (educational) and 06 (studio) both opened on `flow` heroes;
+  every marketing proof used "Why X holds under review"; first five felt like one skeleton.
+- **Root cause:** `flowDiagram` band = title-only + `stretch:true` + CSS forced 72vh height;
+  `ORDER` collided (edu/studio → flow; saas/fintech → interface); `sections.ts` proof title had no
+  siteKind branch; shared pull-quote / "The order things happen in".
+- **Fix:** Content-sized flow cards with body lines, no stretch; educational → stack hero + visible
+  aside; fintech → horizon hero (never twin SaaS interface); siteKind proof/story/nav/quote maps;
+  basics gates `no-boilerplate-proof-title` + `flow-band-no-stretch`; detector `BoilerplateCopyTell`
+  on snapshot text; README first-five stills + craft-reel GIFs.
+- **Do not:** Stretch empty SVG shells to fake fold coverage. Do not reuse one proof title across
+  offerings. Critique score is not an eye pass for empty cards or shared copy.
