@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T11:58:58.402Z",
+  "generatedAt": "2026-08-07T12:01:48.001Z",
   "overall": 0.9913,
   "holdout": {
     "id": "holdout-commerce",
@@ -2734,7 +2734,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.444,
+          "value": 0.333,
           "band": [
             0,
             0.5
@@ -4522,7 +4522,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 522,
+          "value": 509,
           "band": [
             242,
             1139
@@ -4881,7 +4881,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.558,
+          "value": 0.551,
           "band": [
             0.422,
             0.896
@@ -4892,7 +4892,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.305,
+          "value": 1.303,
           "band": [
             0.447,
             0.96
@@ -4991,7 +4991,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 526,
+          "value": 550,
           "band": [
             242,
             1139
@@ -5667,7 +5667,7 @@
         },
         {
           "page": "archive-index",
-          "value": 1.305
+          "value": 1.303
         },
         {
           "page": "holdout-commerce",
@@ -5787,7 +5787,7 @@
         },
         {
           "page": "archive-index",
-          "value": 0.558
+          "value": 0.551
         },
         {
           "page": "holdout-commerce",
@@ -7403,11 +7403,11 @@
         },
         {
           "page": "observatory-signal",
-          "value": 522
+          "value": 509
         },
         {
           "page": "archive-index",
-          "value": 526
+          "value": 550
         },
         {
           "page": "holdout-commerce",
@@ -7867,7 +7867,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 0.444
+          "value": 0.333
         },
         {
           "page": "consumer-craft",

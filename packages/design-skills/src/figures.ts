@@ -1446,7 +1446,10 @@ export function indexLedger(
       parts.push(
         `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.38)}" font-size="11" fill="var(--surface-muted)">${esc(title)}</text>`,
       );
-      const sub = clip(f.meta || f.kicker || `${letter}${row + 1} · ${ordinal}`, role === "band" ? 22 : 16);
+      const sub = clip(
+        f.kicker || `${letter}${row + 1} · shelf ${ordinal}`,
+        role === "band" ? 22 : 16,
+      );
       parts.push(
         `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.72)}" font-size="10" fill="var(--surface-quiet)">${esc(sub)}</text>`,
       );

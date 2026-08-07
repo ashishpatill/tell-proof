@@ -633,7 +633,13 @@ ${surfaceRules()}
 }
 .ds-section-head .ds-lede{margin-top:var(--s-2xs)}
 /* Educational — mechanism teaching surface: packed scrub stage, quiet valley, sparse CSS rules. */
-[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband{padding:0.25rem 0 0}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband{
+  padding:0.25rem 0 var(--s-md);
+  position:relative;z-index:calc(var(--z-raised) + 2);
+  /* Opaque claim over the hung plate — Sequence SVG labels must not bleed into the CTA. */
+  background:linear-gradient(180deg,var(--c-paper) 82%,transparent);
+  border-bottom:0;box-shadow:none;
+}
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-display{
   font-size:clamp(2rem,3.1vw,2.85rem);max-width:14ch;line-height:1.05;margin:0.2rem 0 0;
 }
@@ -648,7 +654,8 @@ ${surfaceRules()}
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-aside{display:none}
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband .ds-split{grid-template-columns:1fr}
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed{
-  margin-top:calc(var(--s-2xl) * -1.35);margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised);
+  margin-top:calc(var(--s-2xl) * -1.35);margin-bottom:calc(var(--s-lg) * -1);
+  position:relative;z-index:1;
 }
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{
   min-height:min(78vh,820px);height:min(78vh,820px);
