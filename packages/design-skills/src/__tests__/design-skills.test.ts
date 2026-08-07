@@ -64,9 +64,10 @@ describe("premium-content-custom-web engine", () => {
   it("builds an educational surface with a teaching figure", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.educational!);
     expect(spec.brief.siteKind).toBe("docs-educational");
-    expect(spec.sections.some((s) => s.kind === "figure")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "hero-mechanism")).toBe(true);
     expect(previewHtml).toContain("Signal Path");
     expect(previewHtml).toContain('data-instrument="scrub"');
+    expect(previewHtml).toContain('data-figure="mechanism-plate"');
     expect(previewHtml).toContain("<figcaption data-scrub-caption>");
   });
 

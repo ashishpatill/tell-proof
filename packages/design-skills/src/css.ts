@@ -1171,6 +1171,78 @@ ${surfaceRules()}
 .ds-hero-solidclaim .ds-hero-overclaim .ds-display{max-width:14ch;margin:0.4rem 0 0;padding:0;line-height:1.08}
 .ds-hero-solidclaim .ds-hero-overclaim .ds-lede{max-width:38ch;color:var(--c-ink);margin:0}
 .ds-hero-solidclaim .ds-hero-overclaim .ds-actions{margin-top:0.6rem}
+
+/* First-five marketing fold instruments — unreplicable DOM (not stackfold retunes). */
+.ds-hero-pipeline{position:relative;isolation:isolate;padding:0;min-height:min(100vh,920px);display:flex;flex-direction:column}
+.ds-stage-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background:var(--c-paper);border-bottom:1px solid var(--c-border)}
+.ds-stage-rail ol{list-style:none;margin:0;padding:0 var(--gutter);display:flex;min-height:3.25rem}
+.ds-stage-rail li{flex:1;display:flex}
+.ds-stage-chip{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0.15rem;padding:0.55rem 0.75rem;border-left:1px solid var(--c-border);color:var(--c-ink-tertiary);text-decoration:none;font-size:11px}
+.ds-stage-rail li:first-child .ds-stage-chip{border-left:0}
+.ds-stage-chip.is-live,.ds-stage-chip:hover,.ds-stage-chip:focus-visible{color:var(--c-accent)}
+.ds-stage-meta,.ds-stage-label{font-family:var(--f-mono);letter-spacing:0.1em}
+.ds-stage-label{text-transform:uppercase}
+.ds-pipeline-claim{padding:var(--s-lg) 0 var(--s-md)}
+.ds-pipeline-claim .ds-display{max-width:18ch;font-size:clamp(2rem,3.6vw,3.25rem);line-height:1.05}
+.ds-pipeline-claim .ds-lede{max-width:42ch}
+.ds-pipeline-claim .ds-brand-mark{font-family:var(--f-mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase}
+.ds-pipeline-field .ds-fig{min-height:min(62vh,640px);width:100%;display:block}
+
+.ds-hero-queue{position:relative;isolation:isolate;padding:0;min-height:min(100vh,900px);display:flex;flex-direction:column;background:var(--c-ink);color:var(--c-paper)}
+.ds-hero-queue .ds-display,.ds-hero-queue .ds-lede,.ds-hero-queue .ds-brand-mark,.ds-hero-queue .ds-eyebrow{color:inherit}
+.ds-hero-queue .ds-lede{opacity:0.78}
+.ds-hero-queue .ds-btn-primary{background:var(--c-accent);color:var(--c-ink)}
+.ds-priority-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background:color-mix(in oklab,var(--c-ink) 94%,var(--c-accent));border-bottom:1px solid color-mix(in oklab,var(--c-paper) 18%,transparent)}
+.ds-priority-rail ol{list-style:none;margin:0;padding:0 var(--gutter);display:flex;min-height:3.25rem;overflow-x:auto}
+.ds-priority-rail li{flex:1;min-width:7rem;display:flex}
+.ds-priority-chip{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0.15rem;padding:0.55rem 0.75rem;border-left:1px solid color-mix(in oklab,var(--c-paper) 14%,transparent);color:color-mix(in oklab,var(--c-paper) 55%,transparent);text-decoration:none;font-size:11px}
+.ds-priority-rail li:first-child .ds-priority-chip{border-left:0}
+.ds-priority-chip.is-live,.ds-priority-chip:hover{color:var(--c-accent)}
+.ds-priority-meta,.ds-priority-label{font-family:var(--f-mono);letter-spacing:0.08em}
+.ds-queue-claim{padding:var(--s-lg) 0 var(--s-md)}
+.ds-queue-claim .ds-display{max-width:16ch;font-size:clamp(1.85rem,3.2vw,2.85rem);line-height:1.05}
+.ds-queue-field .ds-fig{min-height:min(58vh,600px);width:100%;display:block}
+
+.ds-hero-diligence{position:relative;isolation:isolate;padding:0;min-height:min(100vh,920px);display:flex;flex-direction:column}
+.ds-principle-spine{position:absolute;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-md));bottom:var(--s-xl);width:3.5rem;z-index:3;pointer-events:none;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:flex-start;border-right:1px solid var(--c-border);padding:var(--s-sm) 0}
+.ds-principle-spine ol{list-style:none;margin:0;padding:0;display:flex;gap:var(--s-md)}
+.ds-principle-spine li{font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;color:var(--c-ink-tertiary);display:flex;gap:0.35rem;align-items:center}
+.ds-principle-spine li.is-live{color:var(--c-accent)}
+.ds-principle-spine b{font-weight:500;font-family:var(--f-sans)}
+.ds-diligence-claim{padding:var(--s-xl) 0 var(--s-md);padding-left:clamp(3.5rem,6vw,5rem)}
+.ds-diligence-claim .ds-display{max-width:20ch;font-family:var(--f-serif);font-size:clamp(2.1rem,4vw,3.5rem);line-height:1.08}
+.ds-measure-rule{height:1px;background:var(--c-border);margin:0 var(--gutter)}
+.ds-diligence-field .ds-fig{min-height:min(58vh,620px);width:100%;display:block}
+
+.ds-hero-mechanism{position:relative;isolation:isolate;padding:0 0 var(--s-xl);min-height:min(100vh,900px);display:flex;flex-direction:column;gap:var(--s-lg)}
+.ds-mechanism-claim{padding:var(--s-lg) 0 0}
+.ds-mechanism-claim .ds-display{max-width:18ch;font-size:clamp(2rem,3.8vw,3.35rem);line-height:1.05}
+.ds-mechanism-grid{display:grid;grid-template-columns:minmax(14rem,0.9fr) minmax(0,1.6fr);gap:var(--s-xl);align-items:start}
+.ds-mechanism-legend .ds-figure-steps{margin-top:var(--s-sm)}
+.ds-mechanism-legend .ds-figure-steps li{cursor:pointer;padding-block:0.45rem}
+.ds-mechanism-legend .ds-figure-steps li span{color:var(--c-ink-tertiary)}
+.ds-mechanism-stage .ds-fig{min-height:min(52vh,560px);width:100%;display:block}
+.ds-mechanism-plate{display:grid;gap:var(--s-sm)}
+
+.ds-hero-wire{position:relative;isolation:isolate;padding:0;min-height:min(100vh,920px);display:flex;flex-direction:column}
+.ds-cutoff-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background:var(--c-paper);border-bottom:1px solid var(--c-border)}
+.ds-cutoff-rail ol{list-style:none;margin:0;padding:0 var(--gutter);display:flex;min-height:3.25rem}
+.ds-cutoff-rail li{flex:1;display:flex}
+.ds-cutoff-chip{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0.15rem;padding:0.55rem 0.75rem;border-left:1px solid var(--c-border);color:var(--c-ink-tertiary);text-decoration:none;font-size:11px}
+.ds-cutoff-rail li:first-child .ds-cutoff-chip{border-left:0}
+.ds-cutoff-chip.is-live,.ds-cutoff-chip:hover{color:var(--c-accent)}
+.ds-cutoff-meta,.ds-cutoff-label{font-family:var(--f-mono);letter-spacing:0.1em}
+.ds-wire-claim{padding:var(--s-lg) 0 var(--s-md)}
+.ds-wire-claim .ds-display{max-width:17ch;font-size:clamp(2rem,3.5vw,3.1rem);line-height:1.05}
+.ds-wire-field .ds-fig{min-height:min(56vh,600px);width:100%;display:block}
+.ds-tolerance-strip{display:flex;gap:var(--s-md);align-items:baseline;justify-content:flex-end;padding:0.55rem var(--gutter);border-top:1px solid var(--c-border);font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;color:var(--c-ink-tertiary);background:var(--c-paper-raised)}
+.ds-tolerance-strip b{color:var(--c-accent);font-weight:600}
+@media (max-width:900px){
+  .ds-mechanism-grid{grid-template-columns:1fr}
+  .ds-principle-spine{display:none}
+  .ds-diligence-claim{padding-left:0}
+}
+
 [data-sitekind="art-directed-studio"] .ds-hero-solidclaim .ds-hero-overclaim .ds-brand-mark{
   margin-bottom:0.75rem;
 }

@@ -34,25 +34,25 @@ Tell ships a fourteen-offering catalog under [`/showcase`](./apps/web/src/app/sh
 
 ### First five (marketing kinds — distinct folds)
 
-Plumbing + craft pass: stackfold (no claim/SVG collisions), siteKind-unique proof copy (no shared “holds under review”), distinct hero figure grammar, filled stage matter (catalogue bodies merge into flow legends), and a scrub that actually steps when you click the stage list.
+Plumbing + craft pass: each of the first five owns an unreplicable fold instrument (pipeline board, queue console, diligence posture, mechanism scrub, wire ledger) — not stackfold retunes or figure ORDER swaps.
 
 | SaaS · Northstar | Operator console · Queueboard |
 |:---:|:---:|
 | ![SaaS fold](./docs/media/showcase/saas-fold.png) | ![Dashboard fold](./docs/media/showcase/dashboard-fold.png) |
 | ![SaaS craft reel](./docs/media/showcase/saas-reel.gif) | ![Dashboard craft reel](./docs/media/showcase/dashboard-reel.gif) |
-| Interface product fold · “Why demos convert” | Flow stages → app shell · Queueboard |
+| Pipeline stage rail + pipeline board | Priority rail + queue console → app shell |
 
 | Trust narrative · Lattice | Mechanism explainer · Signal Path |
 |:---:|:---:|
 | ![Corporate fold](./docs/media/showcase/corporate-fold.png) | ![Educational fold](./docs/media/showcase/educational-fold.png) |
 | ![Corporate craft reel](./docs/media/showcase/corporate-reel.gif) | ![Educational craft reel](./docs/media/showcase/educational-reel.gif) |
-| Horizon fold + diligence proof | Scope ledger fold (not empty stage cards) · scrub instrument |
+| Principle spine + posture grid | Mechanism scrub owns the fold |
 
 | Fintech trust · Clearwire | |
 |:---:|:---:|
 | ![Fintech fold](./docs/media/showcase/fintech-fold.png) | |
 | ![Fintech craft reel](./docs/media/showcase/fintech-reel.gif) | |
-| Horizon cash timeline on the fold · treasury-specific proof (not twin SaaS interface) | |
+| Cutoff rail + wire ledger + tolerance strip | |
 
 ### Signature craft offerings
 

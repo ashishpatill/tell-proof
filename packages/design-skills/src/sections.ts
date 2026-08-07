@@ -148,6 +148,14 @@ export function buildSections(
         const isLoom = brief.siteKind === "commerce-loom";
         const isField = brief.siteKind === "field-guide";
         const isPress = brief.siteKind === "press-atelier";
+        const isPipeline = brief.siteKind === "saas-marketing";
+        const isQueue = brief.siteKind === "dashboard-webapp";
+        const isDiligence = brief.siteKind === "corporate-story";
+        const isMechanism = brief.siteKind === "docs-educational";
+        const isWire = brief.siteKind === "fintech-marketing";
+        const craftFold =
+          isDossier || isObservatory || isArchive || isLoom || isField || isPress
+          || isPipeline || isQueue || isDiligence || isMechanism || isWire;
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -156,13 +164,31 @@ export function buildSections(
             body: heroLede(brief, editorial.heroLines),
             brandLabel: brief.productName,
             ctaLabel: cta.primary,
-            secondaryLabel: isDossier || isObservatory || isArchive || isLoom || isField || isPress ? undefined : cta.secondary,
-            // Folio / chrono / register / loom / voucher / press folds leave room for the figure.
-            ctaNote: isDossier || isObservatory || isArchive || isLoom || isField || isPress ? undefined : cta.note,
-            blocks: named,
+            secondaryLabel: craftFold ? undefined : cta.secondary,
+            // Compact claim — leave the fold to the instrument plate / rail.
+            ctaNote: craftFold ? undefined : cta.note,
+            blocks: named.map((b, i) => {
+              const src = (core.length ? core : editorial.features.slice(0, 3))[i];
+              return src
+                ? block({
+                    title: src.name,
+                    body: isMechanism || isPipeline || isQueue || isDiligence || isWire
+                      ? sentence(src.claim || src.consequence || src.name)
+                      : "",
+                    emphasis: "normal",
+                  })
+                : b;
+            }),
             aside: editorial.features
               .slice(0, 4)
-              .map((c, i) => block({ title: c.name, meta: c.tier, emphasis: i === 0 ? "lead" : "normal" })),
+              .map((c, i) =>
+                block({
+                  title: c.name,
+                  body: isMechanism || isDiligence ? sentence(c.claim || c.name) : "",
+                  meta: c.tier,
+                  emphasis: i === 0 ? "lead" : "normal",
+                }),
+              ),
           }),
         );
         break;

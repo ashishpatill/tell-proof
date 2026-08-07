@@ -307,3 +307,20 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   (not twin corporate/fintech `horizon`); basics `flow-band-has-matter` + `scrub-steps-clickable`.
 - **Do not:** Assume title-only figure legends are safe inputs to band drawings. Do not ship
   affordances that look selectable without wiring paint.
+
+## 2026-08-07 — `template:order-swap-is-not-unique`
+
+- **Failure (human):** "Rarely a visual component should be reused… cheating… same template again
+  and again with minor modifications." First five still shared one conversion skeleton
+  (`nav → stackfold → metrics → features → specimen → proof → chapters → faq`) with figure ORDER
+  swaps and proof-title retunes.
+- **Root cause:** `kind-marketing-stackfold` *enforced* sameness. Craft kinds (foundry/dossier/
+  observatory/…) prove the real pattern: dedicated `hero-*` layout + dedicated SVG kind + CSS rail
+  + basics gate. Marketing kinds never got that.
+- **Fix:** Unreplicable fold instruments per siteKind — SaaS `hero-pipeline` + `pipeline-board`,
+  dashboard `hero-queue` + `queue-console`, corporate `hero-diligence` + `posture-grid`, educational
+  `hero-mechanism` + scrub-on-fold `mechanism-plate`, fintech `hero-wire` + `wire-ledger`. Basics
+  gates require the new DOM and forbid stackfold class on those kinds.
+- **Do not:** Answer "make it unique" with ORDER permutations, siteKind CSS min-height tweaks, or
+  proof-title maps. If a density slider + recolor can emit the same fold, invent an instrument.
+

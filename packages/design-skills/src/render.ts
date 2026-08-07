@@ -230,10 +230,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
      */
     const solidClaim =
       spec.brief.siteKind === "art-directed-studio" ||
-      spec.brief.siteKind === "consumer-craft" ||
-      spec.brief.siteKind === "saas-marketing" ||
-      spec.brief.siteKind === "fintech-marketing" ||
-      spec.brief.siteKind === "dashboard-webapp";
+      spec.brief.siteKind === "consumer-craft";
     if (solidClaim) {
       return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-stackfold ds-hero-solidclaim" data-surface="${section.surface}" data-section="${esc(section.id)}">
       <div class="ds-hero-overclaim ds-hero-claimband"><div class="ds-wrap-wide">${copy}</div></div>
@@ -551,6 +548,137 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       ${mast}
       <div class="ds-press-claim"><div class="ds-wrap-wide">${copy}</div></div>
       <div class="ds-bleed ds-press-field">${sheetFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Pipeline fold — SaaS-marketing signature.
+   * Sticky stage rail + compact claim + spanning pipeline board. Not stackfold.
+   */
+  if (section.layout === "hero-pipeline") {
+    const board = figures.hero
+      ? `<figure class="ds-pipeline-board" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const stages = (section.blocks.length ? section.blocks : section.aside).slice(0, 5);
+    const rail = `<nav class="ds-stage-rail" aria-label="Pipeline stages"><ol>${stages
+      .map((b, i) => {
+        const href = ["#features", "#specimen", "#proof", "#story", "#cta"][i] ?? "#features";
+        return `<li><a href="${href}" class="ds-stage-chip${i === 1 ? " is-live" : ""}"><span class="ds-stage-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-stage-label">${esc(b.title)}</span></a></li>`;
+      })
+      .join("")}</ol></nav>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-pipeline" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      <div class="ds-pipeline-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-pipeline-field">${board}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Queue fold — dashboard-webapp signature.
+   * Sticky priority rail + compact claim + spanning operator console. App shell remains below.
+   */
+  if (section.layout === "hero-queue") {
+    const consoleFig = figures.hero
+      ? `<figure class="ds-queue-console" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const ranks = (section.blocks.length ? section.blocks : section.aside).slice(0, 6);
+    const rail = `<nav class="ds-priority-rail" aria-label="Priority queue"><ol>${ranks
+      .map((b, i) => {
+        const href = i === 0 ? "#app" : ["#features", "#proof", "#figure", "#compare", "#cta"][i - 1] ?? "#app";
+        return `<li><a href="${href}" class="ds-priority-chip${i === 1 ? " is-live" : ""}"><span class="ds-priority-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-priority-label">${esc(b.title)}</span></a></li>`;
+      })
+      .join("")}</ol></nav>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-queue" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      <div class="ds-queue-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-queue-field">${consoleFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Diligence fold — corporate-story signature.
+   * Sticky principle spine + hard measure + spanning posture grid. Paper-led (not foundry inverse).
+   */
+  if (section.layout === "hero-diligence") {
+    const grid = figures.hero
+      ? `<figure class="ds-posture-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const principles = (section.aside.length ? section.aside : section.blocks).slice(0, 5);
+    const spine = `<aside class="ds-principle-spine" aria-hidden="true"><ol>${principles
+      .map((b, i) => `<li class="${i === 0 ? "is-live" : ""}"><span>${String(i + 1).padStart(2, "0")}</span><b>${esc(b.title)}</b></li>`)
+      .join("")}</ol></aside>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-diligence" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${spine}
+      <div class="ds-diligence-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-measure-rule" aria-hidden="true"></div>
+      <div class="ds-bleed ds-diligence-field">${grid}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Mechanism fold — docs-educational signature.
+   * Scrub instrument owns the fold (stage list + range + mechanism plate). Not buried mid-page.
+   */
+  if (section.layout === "hero-mechanism") {
+    const steps = (section.aside.length ? section.aside : section.blocks).slice(0, 4);
+    const mid = Math.min(1, Math.max(0, steps.length - 1));
+    const plateFig = figures.hero
+      ? `<figure class="ds-mechanism-plate" data-instrument="scrub" aria-label="${esc(caption)}">${figures.hero}
+          <label class="ds-scrub"><span class="ds-caption">Step through the mechanism</span>
+            <input type="range" min="0" max="${Math.max(0, steps.length - 1)}" value="${mid}" data-scrub aria-label="Step through the mechanism" />
+          </label>
+          <figcaption data-scrub-caption>${esc(steps[mid]?.title ?? caption)}</figcaption>
+        </figure>`
+      : "";
+    const list = `<ol class="ds-figure-steps ds-mechanism-steps">${steps
+      .map(
+        (s, i) =>
+          `<li data-step="${i}" class="${i === mid ? "is-active" : ""}" role="button" tabindex="0"><strong>${esc(s.title)}</strong>${
+            s.body ? `<span> — ${esc(s.body)}</span>` : ""
+          }</li>`,
+      )
+      .join("")}</ol>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-mechanism" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      <div class="ds-mechanism-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-wrap-wide ds-mechanism-grid">
+        <div class="ds-mechanism-legend">
+          <p class="ds-eyebrow">The scrub</p>
+          ${list}
+        </div>
+        <div class="ds-mechanism-stage">${plateFig}</div>
+      </div>
+    </section>`;
+  }
+
+  /*
+   * Wire fold — fintech-marketing signature.
+   * Sticky cutoff rail + spanning wire ledger + tolerance strip. Not SaaS stackfold.
+   */
+  if (section.layout === "hero-wire") {
+    const ledger = figures.hero
+      ? `<figure class="ds-wire-ledger" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const windows = [
+      { id: "am", label: "09:00", href: "#features" },
+      { id: "noon", label: "12:00", href: "#specimen" },
+      { id: "pm", label: "15:00", href: "#proof" },
+      { id: "eod", label: "17:00", href: "#cta" },
+    ];
+    const rail = `<nav class="ds-cutoff-rail" aria-label="Wire cutoffs"><ol>${windows
+      .map(
+        (w, i) =>
+          `<li><a href="${w.href}" class="ds-cutoff-chip${i === 1 ? " is-live" : ""}" data-cutoff="${w.id}"><span class="ds-cutoff-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-cutoff-label">${esc(w.label)}</span></a></li>`,
+      )
+      .join("")}</ol></nav>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-wire" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      <div class="ds-wire-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-wire-field">${ledger}</div>
+      <div class="ds-tolerance-strip" aria-hidden="true"><span>Tolerance floor</span><b>±0.4%</b><span>illustrative</span></div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
@@ -1681,6 +1809,11 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-loom":
     case "hero-voucher":
     case "hero-press":
+    case "hero-pipeline":
+    case "hero-queue":
+    case "hero-diligence":
+    case "hero-mechanism":
+    case "hero-wire":
       return wrapped(renderHero(section, spec, figures));
     case "metric-band":
       return wrapped(renderMetricBand(section, figures, spec));

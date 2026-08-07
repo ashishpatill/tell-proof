@@ -111,27 +111,60 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "kind-figure",
       spec.brief.siteKind !== "docs-educational"
         || (
-          spec.sections.some((s) => s.kind === "figure")
+          /ds-hero-mechanism/.test(html)
           && /data-instrument="scrub"/.test(html)
-          && /ds-hero-stackfold/.test(html)
-          && /ds-hero-claimband/.test(html)
+          && /data-figure="mechanism-plate"/.test(html)
+          && !/class="[^"]*ds-hero-stackfold/.test(html)
           && !/class="[^"]*ds-hero-overfigure/.test(html)
         ),
-      "Educational offerings use stack fold + scrub figure — never absolute overfigure (CTA/label collisions).",
+      "Educational offerings use mechanism fold + scrub on the fold — never shared stackfold skeleton.",
     ),
     check(
-      "kind-marketing-stackfold",
-      !(
-        spec.brief.siteKind === "saas-marketing" ||
-        spec.brief.siteKind === "fintech-marketing" ||
-        spec.brief.siteKind === "dashboard-webapp" ||
-        spec.brief.siteKind === "corporate-story"
-      ) || (
-        /ds-hero-stackfold/.test(html) &&
-        /ds-hero-claimband/.test(html) &&
-        !/class="[^"]*ds-hero-overfigure/.test(html)
-      ),
-      "SaaS/fintech/dashboard/corporate use stack fold + solid claim — never absolute overfigure over labeled product SVG.",
+      "kind-saas-pipeline",
+      spec.brief.siteKind !== "saas-marketing"
+        || (
+          /ds-hero-pipeline/.test(html)
+          && /ds-stage-rail/.test(html)
+          && /data-figure="pipeline-board"/.test(html)
+          && !/class="[^"]*ds-hero-stackfold/.test(html)
+        ),
+      "SaaS owns a pipeline fold (stage rail + pipeline board) — not the shared stackfold skeleton.",
+    ),
+    check(
+      "kind-fintech-wire",
+      spec.brief.siteKind !== "fintech-marketing"
+        || (
+          /ds-hero-wire/.test(html)
+          && /ds-cutoff-rail/.test(html)
+          && /data-figure="wire-ledger"/.test(html)
+          && /ds-tolerance-strip/.test(html)
+          && !/class="[^"]*ds-hero-stackfold/.test(html)
+        ),
+      "Fintech owns a wire fold (cutoff rail + wire ledger) — not SaaS stackfold with extra inverse bands.",
+    ),
+    check(
+      "kind-dashboard-queue",
+      spec.brief.siteKind !== "dashboard-webapp"
+        || (
+          /ds-hero-queue/.test(html)
+          && /ds-priority-rail/.test(html)
+          && /data-figure="queue-console"/.test(html)
+          && /id="app"/.test(html)
+          && !/class="[^"]*ds-hero-stackfold/.test(html)
+        ),
+      "Dashboard owns a queue fold + app shell — not stackfold flow cards pretending to be unique.",
+    ),
+    check(
+      "kind-corporate-diligence",
+      spec.brief.siteKind !== "corporate-story"
+        || (
+          /ds-hero-diligence/.test(html)
+          && /ds-principle-spine/.test(html)
+          && /data-figure="posture-grid"/.test(html)
+          && /ds-measure-rule/.test(html)
+          && !/class="[^"]*ds-hero-stackfold/.test(html)
+        ),
+      "Corporate owns a diligence fold (principle spine + posture grid) — not editorial stackfold.",
     ),
     check(
       "kind-app-id",
@@ -369,6 +402,21 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         }
         if (kind === "field-guide") {
           return /ds-press-plate/.test(html) && /ds-hero-glassine/.test(html);
+        }
+        if (kind === "saas-marketing") {
+          return /ds-pipeline-field/.test(html) && /ds-hero-pipeline/.test(html);
+        }
+        if (kind === "dashboard-webapp") {
+          return /ds-queue-field/.test(html) && /ds-hero-queue/.test(html);
+        }
+        if (kind === "corporate-story") {
+          return /ds-diligence-field/.test(html) && /ds-hero-diligence/.test(html);
+        }
+        if (kind === "docs-educational") {
+          return /ds-mechanism-stage/.test(html) && /ds-hero-mechanism/.test(html);
+        }
+        if (kind === "fintech-marketing") {
+          return /ds-wire-field/.test(html) && /ds-hero-wire/.test(html);
         }
         return true;
       })(),
