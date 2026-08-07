@@ -1105,13 +1105,13 @@ export function dossierPlate(
   for (let i = 0; i < cols; i += 1) {
     const x = padX + cellW * (i + 0.5);
     parts.push(
-      `<text class="ds-fig-mono" x="${round(x)}" y="${round(padY - 8)}" font-size="9" fill="var(--surface-quiet)" text-anchor="middle">${letters[i]}</text>`,
+      `<text class="ds-fig-mono" x="${round(x)}" y="${round(padY - 8)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">${letters[i]}</text>`,
     );
   }
   for (let j = 0; j < rows; j += 1) {
     const y = padY + cellH * (j + 0.5);
     parts.push(
-      `<text class="ds-fig-mono" x="${round(padX - 10)}" y="${round(y + 3)}" font-size="9" fill="var(--surface-quiet)" text-anchor="end">${j + 1}</text>`,
+      `<text class="ds-fig-mono" x="${round(padX - 10)}" y="${round(y + 3)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${j + 1}</text>`,
     );
   }
 
@@ -1147,13 +1147,13 @@ export function dossierPlate(
     const lx = x + cellW * 0.9;
     const ly = y - cellH * 0.6;
     parts.push(
-      `<text class="ds-fig-mono" x="${round(lx)}" y="${round(ly)}" font-size="10" fill="var(--surface-muted)">${esc(coord)}</text>`,
+      `<text class="ds-fig-mono" x="${round(lx)}" y="${round(ly)}" font-size="11" fill="var(--surface-muted)">${esc(coord)}</text>`,
     );
     parts.push(
-      `<text class="ds-fig-mono" x="${round(lx)}" y="${round(ly + 13)}" font-size="10" fill="var(--surface-quiet)">${esc(clip(f.title, 18))}</text>`,
+      `<text class="ds-fig-mono" x="${round(lx)}" y="${round(ly + 14)}" font-size="11" fill="var(--surface-quiet)">${esc(clip(f.title, 18))}</text>`,
     );
     parts.push(
-      `<text class="ds-fig-mono" x="${round(x)}" y="${round(y + 18)}" font-size="9" fill="var(--surface-quiet)" text-anchor="middle">${String(i + 1).padStart(2, "0")}</text>`,
+      `<text class="ds-fig-mono" x="${round(x)}" y="${round(y + 18)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">${String(i + 1).padStart(2, "0")}</text>`,
     );
   });
 
@@ -1169,10 +1169,10 @@ export function dossierPlate(
     `<line x1="${round(scaleX + cellW * 1.5)}" y1="${round(scaleY - 4)}" x2="${round(scaleX + cellW * 1.5)}" y2="${round(scaleY + 4)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
   parts.push(
-    `<text class="ds-fig-mono" x="${round(scaleX + cellW * 1.65)}" y="${round(scaleY + 3)}" font-size="9" fill="var(--surface-quiet)">1 briefing unit</text>`,
+    `<text class="ds-fig-mono" x="${round(scaleX + cellW * 1.65)}" y="${round(scaleY + 3)}" font-size="11" fill="var(--surface-quiet)">1 briefing unit</text>`,
   );
   parts.push(
-    `<text class="ds-fig-mono" x="${round(W - padX)}" y="${round(scaleY + 3)}" font-size="10" fill="var(--surface-quiet)" text-anchor="end">${esc(clip(productName, 28))} · dossier plate</text>`,
+    `<text class="ds-fig-mono" x="${round(W - padX)}" y="${round(scaleY + 3)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${esc(clip(productName, 28))} · dossier plate</text>`,
   );
 
   return frame(parts.join(""), {
@@ -1347,8 +1347,8 @@ const ORDER: Record<string, Kind[]> = {
   "consumer-craft": ["interface", "horizon", "flow", "stack"],
   // Foundry: optical-size ladder owns the fold; horizon/stack keep scroll beats distinct.
   "editorial-foundry": ["type-ladder", "horizon", "stack", "flow"],
-  // Dossier: cartographic plate owns the fold; horizon/stack keep scroll beats distinct.
-  "research-dossier": ["dossier-plate", "horizon", "stack", "flow"],
+  // Dossier: cartographic plate owns the fold; denser stack specimen keeps ink-variation honest.
+  "research-dossier": ["dossier-plate", "stack", "horizon", "flow"],
 };
 
 export function planFigures(input: {

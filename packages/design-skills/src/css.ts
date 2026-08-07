@@ -303,9 +303,24 @@ body[data-sitekind="research-dossier"]{
   font-family:var(--f-display);
 }
 [data-sitekind="research-dossier"] .ds-hero-folio .ds-display{
-  font-size:clamp(2rem,3.1vw,2.85rem);max-width:16ch;line-height:1.1;letter-spacing:-0.028em;
+  font-size:clamp(2rem,3.35vw,2.95rem);max-width:15ch;line-height:1.08;letter-spacing:-0.028em;
+  margin:0.25rem 0 0;
 }
-[data-sitekind="research-dossier"] .ds-hero-folio .ds-lede{max-width:38ch}
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-lede{max-width:36ch;margin:0.35rem 0 0}
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-brand-mark{margin:0 0 0.35rem}
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-eyebrow{margin:0}
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-actions{margin-top:0.55rem}
+[data-sitekind="research-dossier"] .ds-folio-masthead{
+  padding-top:calc(var(--nav-h,4.5rem) + var(--s-sm));padding-bottom:0.45rem;
+}
+[data-sitekind="research-dossier"] .ds-folio-claim{padding:var(--s-sm) 0 var(--s-xs,0.35rem)}
+[data-sitekind="research-dossier"] .ds-folio-field{margin-top:calc(var(--s-2xl) * -1);position:relative;z-index:1}
+[data-sitekind="research-dossier"] .ds-folio-claim{position:relative;z-index:2;background:linear-gradient(180deg,var(--c-paper) 70%,transparent)}
+[data-sitekind="research-dossier"] .ds-folio-plate .ds-fig{min-height:min(84vh,880px)}
+[data-sitekind="research-dossier"] .ds-hero-folio{min-height:min(100vh,900px)}
+/* Hide the fold reassurance note — it steals fold height from the plate. */
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-cta-note{display:none}
+[data-sitekind="research-dossier"] .ds-fn-ref{font-size:11px;line-height:1}
 [data-sitekind="research-dossier"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="research-dossier"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
 [data-sitekind="research-dossier"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
@@ -324,7 +339,7 @@ body[data-sitekind="research-dossier"]{
 [data-sitekind="research-dossier"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="research-dossier"] .ds-spread-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="research-dossier"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="research-dossier"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(64vh,660px)}
+[data-sitekind="research-dossier"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(70vh,720px)}
 [data-sitekind="research-dossier"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
 `;
 }
@@ -684,7 +699,7 @@ ${surfaceRules()}
   display:flex;flex-direction:column;
 }
 .ds-folio-masthead{
-  display:flex;flex-wrap:wrap;gap:0.75rem 1.5rem;align-items:baseline;
+  display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
   padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
   padding-right:calc(var(--gutter) + var(--chapter-rail,0px));
   border-bottom:1px solid var(--c-border);
@@ -693,13 +708,13 @@ ${surfaceRules()}
 }
 .ds-folio-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
 .ds-folio-claim{
-  padding:var(--s-xl) 0 var(--s-lg);
+  padding:var(--s-lg) 0 var(--s-md);
   padding-right:var(--chapter-rail,0px);
 }
-.ds-folio-claim .ds-hero-copy{max-width:36rem}
+.ds-folio-claim .ds-hero-copy{max-width:34rem;gap:0.65rem}
 .ds-folio-field{margin-top:0}
 .ds-folio-plate{margin:0;width:100%;display:block}
-.ds-folio-plate .ds-fig{width:100%;min-height:min(72vh,780px);display:block}
+.ds-folio-plate .ds-fig{width:100%;min-height:min(78vh,820px);display:block}
 .ds-bleed-rule{
   width:100vw;margin-left:calc(50% - 50vw);height:3px;background:var(--c-accent);
   border:0;padding:0;
@@ -715,10 +730,10 @@ ${surfaceRules()}
   color:var(--c-ink-tertiary);min-height:44px;min-width:44px;
 }
 .ds-chapter-rail a:hover,.ds-chapter-rail a:focus-visible{color:var(--c-accent)}
-.ds-chapter-rail-num{font-family:var(--f-mono);font-size:10px;letter-spacing:0.16em}
+.ds-chapter-rail-num{font-family:var(--f-mono);font-size:11px;letter-spacing:0.16em}
 .ds-chapter-rail-label{
   writing-mode:vertical-rl;transform:rotate(180deg);
-  font-family:var(--f-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
   max-height:7rem;overflow:hidden;
 }
 @media (max-width:800px){
@@ -735,7 +750,7 @@ ${surfaceRules()}
 .ds-spread-page{display:flex;flex-direction:column;gap:var(--s-xl);padding-inline:var(--s-sm)}
 .ds-spread-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-spread-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
-.ds-fn-ref{font-family:var(--f-mono);font-size:0.7em;margin-left:0.15em}
+.ds-fn-ref{font-family:var(--f-mono);font-size:11px;margin-left:0.15em;vertical-align:super;line-height:1}
 .ds-fn-ref a{color:var(--c-accent);text-decoration:none}
 .ds-footnote-register{
   list-style:none;margin:var(--s-2xl) 0 0;padding:var(--s-lg) 0 0;
@@ -748,7 +763,7 @@ ${surfaceRules()}
   min-width:1.25rem;
 }
 .ds-fn-meta{
-  font-family:var(--f-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-ink-tertiary);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-ink-tertiary);
 }
 .ds-fn-body{font-size:var(--t-small-size,0.85rem);line-height:1.35;color:var(--c-ink-secondary);max-width:28ch}
 @media (max-width:800px){

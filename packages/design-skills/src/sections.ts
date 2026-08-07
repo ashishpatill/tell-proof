@@ -139,6 +139,7 @@ export function buildSections(
         const named = (core.length ? core : editorial.features.slice(0, 3)).map((c) =>
           block({ title: c.name, emphasis: "normal" }),
         );
+        const isDossier = brief.siteKind === "research-dossier";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -148,7 +149,8 @@ export function buildSections(
             brandLabel: brief.productName,
             ctaLabel: cta.primary,
             secondaryLabel: cta.secondary,
-            ctaNote: cta.note,
+            // Folio fold must leave room for the dossier plate — skip the reassurance line.
+            ctaNote: isDossier ? undefined : cta.note,
             blocks: named,
             aside: editorial.features
               .slice(0, 4)

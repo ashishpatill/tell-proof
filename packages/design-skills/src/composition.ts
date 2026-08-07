@@ -397,7 +397,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       surface: "raised",
       columns: split.wide,
     });
-    // Quiet sunken valley — honest weight variation.
+    // Quiet sunken valley — third surface + honest weight variation.
     plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
     // Verso/recto spread with footnote register (dossier signature essay).
     plans.push({
@@ -530,7 +530,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   // Foundry display is restrained (~3.3vw / ~48px) — the ladder and seam own the fold, not a shout.
   if (siteKind === "editorial-foundry") px = 48;
   // Quiet display — capital/research editorial refs sit ~1.2–3.5vw, not SaaS shout.
-  if (siteKind === "research-dossier") px = 44;
+  // Floor at band p10 (3.16vw @1440 ≈ 45.5px); 48 keeps room without shouting.
+  if (siteKind === "research-dossier") px = 48;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -538,7 +539,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (density === "sparse") px += 4;
   // Foundry clamps to the low corridor; studio may sit slightly above the general ceiling.
   if (siteKind === "editorial-foundry") return Math.max(44, Math.min(54, px));
-  if (siteKind === "research-dossier") return Math.max(40, Math.min(50, px));
+  if (siteKind === "research-dossier") return Math.max(46, Math.min(54, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

@@ -32,6 +32,14 @@ Pattern keys match `tell-recursive-improve`.
 - **Fix:** Draw optical sizes as `constructedGlyph` strokes; keep only 10–11px mono labels in SVG.
 - **Do not:** Put large SVG text on the fold and expect type bands to stay honest.
 
+## 2026-08-07 — `template:folio-claim-starves-plate`
+
+- **Failure:** Research-dossier folio put masthead + full claim + CTAs above the dossier plate, so
+  fold-figure sat at 0.20 (band ≥0.34) — the unique craft was below the fold.
+- **Fix:** Compact claim (drop fold cta-note, tighten padding), hang `.ds-folio-field` up under a
+  soft paper fade, raise plate min-height so pins enter the first viewport.
+- **Do not:** Treat a unique figure as shipped if the fold shot is only type chrome.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.
