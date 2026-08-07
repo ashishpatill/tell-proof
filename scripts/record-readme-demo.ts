@@ -108,9 +108,9 @@ async function main() {
   if (!files.length) throw new Error("No Playwright video produced");
   const raw = path.join(TMP_DIR, files[0]!);
   const mp4Out = path.join(OUT_DIR, "tell-proof-demo.mp4");
-  const gifOut = path.join(OUT_DIR, "tell-proof-demo.gif");
+  const posterOut = path.join(OUT_DIR, "tell-proof-demo-poster.webp");
 
-  // Normalize to H.264 mp4 + compact gif for README
+  // Normalize to H.264 mp4 + lightweight WebP poster for README (full anim WebP is heavier than GIF).
   const mp4 = spawnSync(
     "ffmpeg",
     [
@@ -135,31 +135,39 @@ async function main() {
     throw new Error("ffmpeg mp4 failed");
   }
 
-  const gif = spawnSync(
+  const poster = spawnSync(
     "ffmpeg",
     [
       "-y",
+      "-ss",
+      "2",
       "-i",
       mp4Out,
+      "-frames:v",
+      "1",
       "-vf",
-      "fps=10,scale=880:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=96:stats_mode=diff[p];[s1][p]paletteuse=dither=bayer:bayer_scale=4",
-      "-loop",
-      "0",
-      gifOut,
+      "scale=1100:-2:flags=lanczos",
+      "-c:v",
+      "libwebp",
+      "-quality",
+      "82",
+      "-compression_level",
+      "6",
+      posterOut,
     ],
     { encoding: "utf8" },
   );
-  if (gif.status !== 0) {
-    console.error(gif.stderr);
-    throw new Error("ffmpeg gif failed");
+  if (poster.status !== 0) {
+    console.error(poster.stderr);
+    throw new Error("ffmpeg poster webp failed");
   }
 
   await mkdir(ARTIFACTS_DIR, { recursive: true });
   spawnSync("cp", ["-f", mp4Out, path.join(ARTIFACTS_DIR, "tell-proof-demo.mp4")]);
-  spawnSync("cp", ["-f", gifOut, path.join(ARTIFACTS_DIR, "tell-proof-demo.gif")]);
+  spawnSync("cp", ["-f", posterOut, path.join(ARTIFACTS_DIR, "tell-proof-demo-poster.webp")]);
 
   console.log("Wrote", mp4Out);
-  console.log("Wrote", gifOut);
+  console.log("Wrote", posterOut);
 }
 
 main().catch((err) => {

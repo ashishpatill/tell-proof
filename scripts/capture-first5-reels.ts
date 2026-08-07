@@ -1,6 +1,6 @@
 /**
- * Craft-reel GIFs for the first five marketing templates (fold → mid beat → proof/features).
- * Usage: pnpm -F @tell/core exec tsx ../../scripts/capture-first5-reels.ts
+ * Craft-reel animated WebPs for the first five marketing templates (fold → mid beat → proof/features).
+ * Encodes at 480w for README table cells. Usage: pnpm -F @tell/core exec tsx ../../scripts/capture-first5-reels.ts
  */
 import { createServer } from "node:http";
 import { mkdirSync, existsSync, copyFileSync } from "node:fs";
@@ -77,10 +77,10 @@ async function main(): Promise<void> {
         frame += 1;
       }
     }
-    const palette = join(dir, "palette.png");
-    const gif = join(OUT, `${t.key}-reel.gif`);
     const pattern = join(dir, "f%03d.png");
-    let r = spawnSync(
+    // README table cells ~400px; 480w animated WebP is the delivery asset.
+    const webp = join(OUT, `${t.key}-reel.webp`);
+    const r = spawnSync(
       "ffmpeg",
       [
         "-y",
@@ -89,31 +89,22 @@ async function main(): Promise<void> {
         "-i",
         pattern,
         "-vf",
-        "fps=6,scale=720:-1:flags=lanczos,palettegen=max_colors=96",
-        palette,
-      ],
-      { encoding: "utf8" },
-    );
-    if (r.status !== 0) throw new Error(r.stderr || `palettegen ${t.key}`);
-    r = spawnSync(
-      "ffmpeg",
-      [
-        "-y",
-        "-framerate",
+        "fps=6,scale=480:-2:flags=lanczos",
+        "-c:v",
+        "libwebp",
+        "-quality",
+        "68",
+        "-compression_level",
         "6",
-        "-i",
-        pattern,
-        "-i",
-        palette,
-        "-lavfi",
-        "fps=6,scale=720:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=3",
-        gif,
+        "-loop",
+        "0",
+        webp,
       ],
       { encoding: "utf8" },
     );
-    if (r.status !== 0) throw new Error(r.stderr || `gif ${t.key}`);
-    if (existsSync(ARTIFACTS)) copyFileSync(gif, join(ARTIFACTS, `${t.key}-reel.gif`));
-    console.log(`[first5-reels] ${t.key}`);
+    if (r.status !== 0) throw new Error(r.stderr || `webp ${t.key}`);
+    if (existsSync(ARTIFACTS)) copyFileSync(webp, join(ARTIFACTS, `${t.key}-reel.webp`));
+    console.log(`[first5-reels] ${t.key} → ${webp}`);
   }
 
   await browser.close();

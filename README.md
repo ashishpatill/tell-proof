@@ -16,7 +16,7 @@
 
 <br/>
 
-![Tell Proof end-to-end: capture rendered UI, name genericness and drift, art-direct reconciliation, then generate premium layouts in Tell Studio](./docs/media/tell-proof-demo.gif)
+[![Tell Proof end-to-end: capture rendered UI, name genericness and drift, art-direct reconciliation, then generate premium layouts in Tell Studio](./docs/media/tell-proof-demo-poster.webp)](./docs/media/tell-proof-demo.mp4)
 
 <p><a href="./docs/media/tell-proof-demo.mp4">Watch the MP4</a> · ~40s · Report loop + Studio create/redesign + showcases</p>
 
@@ -28,9 +28,9 @@
 
 Tell ships a fourteen-offering catalog under [`/showcase`](./apps/web/src/app/showcase). The hero stage **slowly tours** the best craft beat from each specimen. Filmstrip cells stay still until **hover** — then that offering’s reel plays. Not a cropped nav strip and not a one-size card grid restyled with new colors.
 
-![Tell Specimens — featured craft reel](./docs/media/showcase/01-showcase-featured.png)
+![Tell Specimens — featured craft reel](./docs/media/showcase/01-showcase-featured.webp)
 
-![Tell Specimens — filmstrip of research-backed offerings](./docs/media/showcase/02-showcase-gallery.png)
+![Tell Specimens — filmstrip of research-backed offerings](./docs/media/showcase/02-showcase-gallery.webp)
 
 ### First five (marketing kinds — distinct folds)
 
@@ -38,20 +38,20 @@ Plumbing + craft pass: each of the first five owns an unreplicable fold instrume
 
 | SaaS · Northstar | Operator console · Queueboard |
 |:---:|:---:|
-| ![SaaS fold](./docs/media/showcase/saas-fold.png) | ![Dashboard fold](./docs/media/showcase/dashboard-fold.png) |
-| ![SaaS craft reel](./docs/media/showcase/saas-reel.gif) | ![Dashboard craft reel](./docs/media/showcase/dashboard-reel.gif) |
+| ![SaaS fold](./docs/media/showcase/saas-fold.webp) | ![Dashboard fold](./docs/media/showcase/dashboard-fold.webp) |
+| ![SaaS craft reel](./docs/media/showcase/saas-reel.webp) | ![Dashboard craft reel](./docs/media/showcase/dashboard-reel.webp) |
 | Pipeline stage rail + pipeline board | Priority rail + queue console → app shell |
 
 | Trust narrative · Lattice | Mechanism explainer · Signal Path |
 |:---:|:---:|
-| ![Corporate fold](./docs/media/showcase/corporate-fold.png) | ![Educational fold](./docs/media/showcase/educational-fold.png) |
-| ![Corporate craft reel](./docs/media/showcase/corporate-reel.gif) | ![Educational craft reel](./docs/media/showcase/educational-reel.gif) |
+| ![Corporate fold](./docs/media/showcase/corporate-fold.webp) | ![Educational fold](./docs/media/showcase/educational-fold.webp) |
+| ![Corporate craft reel](./docs/media/showcase/corporate-reel.webp) | ![Educational craft reel](./docs/media/showcase/educational-reel.webp) |
 | Principle spine + posture grid | Mechanism scrub owns the fold |
 
 | Fintech trust · Clearwire | |
 |:---:|:---:|
-| ![Fintech fold](./docs/media/showcase/fintech-fold.png) | |
-| ![Fintech craft reel](./docs/media/showcase/fintech-reel.gif) | |
+| ![Fintech fold](./docs/media/showcase/fintech-fold.webp) | |
+| ![Fintech craft reel](./docs/media/showcase/fintech-reel.webp) | |
 | Cutoff rail + wire ledger + tolerance strip | |
 
 ### Signature craft offerings
@@ -60,19 +60,20 @@ These are not “SaaS with a different accent.” Each `siteKind` owns unreplica
 
 | Archive index · Stamp Roll | Signal observatory · Nightglass |
 |:---:|:---:|
-| ![Archive index fold — A–Z rail + ruled ledger](./docs/media/showcase/archive-fold.png) | ![Signal observatory fold — LIVE window + signal lattice](./docs/media/showcase/observatory-fold.png) |
+| ![Archive index fold — A–Z rail + ruled ledger](./docs/media/showcase/archive-fold.webp) | ![Signal observatory fold — LIVE window + signal lattice](./docs/media/showcase/observatory-fold.webp) |
 | Quiet register, sticky alpha rail, multi-column ledger | Chronometer fold, scrub rail, channel lattice |
 
 | Research dossier · Meridian Atlas | Editorial foundry · Glyph Press |
 |:---:|:---:|
-| ![Research dossier fold — cartographic plate with pin callouts](./docs/media/showcase/dossier-fold.png) | ![Editorial foundry fold — optical-size ladder seam](./docs/media/showcase/foundry-fold.png) |
+| ![Research dossier fold — cartographic plate with pin callouts](./docs/media/showcase/dossier-fold.webp) | ![Editorial foundry fold — optical-size ladder seam](./docs/media/showcase/foundry-fold.webp) |
 | Folio masthead, chapter rail, dossier plate, imprint | Hard-seam fold, type ladder, marginalia, colophon |
 
-Regenerate README frames + first-five reels (web on `:3000`):
+Regenerate README frames + first-five reels (web on `:3000`), then optimize to WebP:
 
 ```bash
 pnpm capture:readme-showcase
 pnpm -F @tell/core exec tsx ../../scripts/capture-first5-reels.ts
+pnpm media:webp
 ```
 
 ---
@@ -234,7 +235,8 @@ pnpm e2e:studio
 pnpm auth:fixture        # mint Playwright storageState for /account (fixture must be up)
 pnpm capture:matrix      # live scenario matrix (set TELL_MATRIX_URL)
 pnpm verify:directions   # screenshot all 6 reconcile directions (requires Playwright)
-pnpm record:readme-demo  # regenerate docs/media/tell-proof-demo.{gif,mp4}
+pnpm record:readme-demo  # regenerate docs/media/tell-proof-demo.{mp4,poster.webp}
+pnpm media:webp          # PNG/GIF → display-sized WebP (prunes sources)
 ```
 
 Optional environment variables live in `.env.example`:

@@ -3,14 +3,16 @@
  *
  * - Showcase routes: real Tell Specimens UI (featured cinema + filmstrip).
  * - Template folds: full-bleed HTML from designFromFeatures at 1440×900 (no chrome).
+ * - Writes display-sized WebP (hero 1100w, beats 720w).
  *
  * Requires `@tell/web` on :3000 for showcase frames.
  *
- * Usage: pnpm -F @tell/core exec tsx ../../scripts/capture-readme-showcase.ts
+ * Usage: pnpm capture:readme-showcase
  */
 import { createServer } from "node:http";
-import { existsSync, mkdirSync, copyFileSync } from "node:fs";
+import { existsSync, mkdirSync, copyFileSync, unlinkSync } from "node:fs";
 import { resolve } from "node:path";
+import { spawnSync } from "node:child_process";
 import { chromium, type Page } from "playwright";
 import { designFromFeatures, getTemplate } from "../packages/design-skills/src/index";
 
@@ -19,6 +21,11 @@ const OUT = resolve(ROOT, "docs/media/showcase");
 const ARTIFACTS = "/opt/cursor/artifacts/screenshots";
 const BASE = process.env.TELL_WEB_URL ?? "http://127.0.0.1:3000";
 const VIEWPORT = { width: 1440, height: 900 };
+
+function webpWidthFor(name: string): number {
+  if (name === "01-showcase-featured" || name === "02-showcase-gallery") return 1100;
+  return 720;
+}
 
 /** Newest / most distinctive offerings featured on the README — plus fixed first-five marketing kinds. */
 const TEMPLATES: Array<{
@@ -99,16 +106,41 @@ const TEMPLATES: Array<{
 ];
 
 async function shot(page: Page, name: string): Promise<void> {
-  const path = resolve(OUT, `${name}.png`);
-  await page.screenshot({ path, type: "png" });
+  const png = resolve(OUT, `${name}.png`);
+  const webp = resolve(OUT, `${name}.webp`);
+  await page.screenshot({ path: png, type: "png" });
+  const maxw = webpWidthFor(name);
+  const r = spawnSync(
+    "ffmpeg",
+    [
+      "-y",
+      "-hide_banner",
+      "-loglevel",
+      "error",
+      "-i",
+      png,
+      "-vf",
+      `scale='min(${maxw},iw)':-2:flags=lanczos`,
+      "-c:v",
+      "libwebp",
+      "-quality",
+      "78",
+      "-compression_level",
+      "6",
+      webp,
+    ],
+    { encoding: "utf8" },
+  );
+  if (r.status !== 0) throw new Error(r.stderr || `webp ${name}`);
+  unlinkSync(png);
   if (existsSync(ARTIFACTS)) {
     try {
-      copyFileSync(path, resolve(ARTIFACTS, `readme-${name}.png`));
+      copyFileSync(webp, resolve(ARTIFACTS, `readme-${name}.webp`));
     } catch {
       /* best-effort */
     }
   }
-  console.log(`[readme-shots] ${name}`);
+  console.log(`[readme-shots] ${name}.webp @${maxw}w`);
 }
 
 async function scrollTo(page: Page, sel: string, yPad: number): Promise<boolean> {
