@@ -94,6 +94,19 @@ Pattern keys match `tell-recursive-improve`.
   Rules **9.94 → 4.29**; craft **91.3 → 97.6**.
 - **Do not:** Equate “dense index grammar” with hundreds of SVG hairlines per page.
 
+## 2026-08-07 — `template:dashboard-shell-smears-bands`
+
+- **Failure:** Dashboard band-variation sat at ~0.235 (corridor 0.422–0.896). The app shell’s character
+  mass spanned two equal-height probe bands, and the late inverse specimen used a stack ledger with
+  body prose — so every strip read as medium-dense. Empty 140vh statement voids (Loop 6) are not an
+  allowed recovery.
+- **Fix:** Sunken horizon specimen (titles only) between metrics and shell; pack the shell under
+  ~1vh; stretch the drawn plate so the shell aligns into one measured band; quiet metric chrome;
+  keep proof-claim at body measure so it does not steal the prose corridor. Score **97.8 → 99.9**;
+  band-variation **0.235 → 0.474**.
+- **Do not:** Recover band-variation with empty height, or leave a prose-heavy stack drawing in the
+  quiet valley before a dense app shell.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.
