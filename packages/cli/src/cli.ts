@@ -76,10 +76,10 @@ async function cmdDiagnose(args: string[]) {
       verdicts,
       score: {
         total: base.findings.length,
-        generic: verdicts.filter((v) => v.verdict === "generic").length,
-        drift: verdicts.filter((v) => v.verdict === "drift").length,
-        intentional: verdicts.filter((v) => v.verdict === "intentional").length,
-        uncertain: verdicts.filter((v) => v.verdict === "uncertain").length,
+        generic: verdicts.filter((v: { verdict: string }) => v.verdict === "generic").length,
+        drift: verdicts.filter((v: { verdict: string }) => v.verdict === "drift").length,
+        intentional: verdicts.filter((v: { verdict: string }) => v.verdict === "intentional").length,
+        uncertain: verdicts.filter((v: { verdict: string }) => v.verdict === "uncertain").length,
       },
     });
     const text = JSON.stringify(report, null, 2);
