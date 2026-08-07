@@ -415,45 +415,89 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** archive ink-variation; docs rule density; deepen register uniqueness
   (section tabs, stamp marks) without score-gaming.
 
-## Loop 20 — fix empty/overlap bugs (RSI dogfood, human-named)
+## Loop 20 — twelfth offering: press atelier (RSI)
 
-- **Goal:** clear human-named failures — educational label/CTA overlaps, Stamp Roll empty cells,
-  Tell Specimens proof pages reading as empty (dark gutters).
-- **Failure named (champion):** score-green templates still shipped absolute overfigure collisions,
-  sparse ledger cells, and CSS class collision between gallery `.sx-stage` and specimen chrome.
+- **Goal:** fill the brand-agency / brand-product-agency / editorial-longform demand gap with a
+  template structurally hard to replicate from a theme pack — registration-framed fold, sticky
+  signature rail, press-sheet imposition figure, gather essay, Pressroom close — and dogfood the
+  engine until critique + eye pass. Peer builder study (local plumbing + template eye only) showed
+  cream/terracotta magazine posters, Inter-led landings, and document runbooks — none invent a
+  pressroom forme grammar.
+- **Failure named (champion):** eleven offerings still lacked a print-production / forme grammar;
+  nothing forced registration marks, densitometer strips, Sig A–H rails, or imposition grids.
+  Theme packs restyle SaaS/editorial shells; they do not invent press sheets.
+- **Goal prompt:** Raise fold ownership so the press sheet is the first craft beat; keep
+  display/type-steps in band; accept ink-variation above ceiling for a forme-owned fold (same
+  class as archive ledger).
+- **Loop prompt (iteration):** Fold shot claimed-starved → compact + hang → type-steps 16→14 →
+  display 3.1→3.4vw → re-critique.
+- **Challenger:** new `press-atelier` siteKind + `press` template (`Forme Desk`) with craft prior
+  kinds do not emit:
+  - `hero-press` — registration/crop marks + compact claim + spanning press sheet
+  - sticky `ds-sig-rail` — Sig A–H
+  - `press-sheet` figure (imposition grid + densitometer; mono ≤11px)
+  - `story-gather` — fold ticks + outer plate index
+  - paper Pressroom close with plate numbers — no pricing/metrics/inverse
+- **Score:** matrix **99.1**; press-atelier **96.3 → 97.6** after fold hang + type consolidation;
+  holdout **98.4** (gap 0.6 — generalises). No regression on locked SaaS/studio/consumer/foundry/
+  dossier/observatory/archive.
+- **Closed:** `template:press-claim-starves-forme`; basics gate `kind-press`; showcase
+  `/showcase/press` featured on gallery cinema; beat discovery for press-sheet/gather.
+- **Side effects:** press ink-variation above corridor (1.28 vs 0.96) — accepted for a forme-owned
+  fold; do not empty the press sheet to game the band.
+- **Qualitative:** fold reads as a pressroom forme, not a recolored archive/dossier page.
+  Registration marks + signature rail + densitometer + gather ticks are craft theme packs will not
+  invent from taste controls.
+- **Next weakest:** press ink-variation; docs rule density; deepen Pressroom uniqueness
+  (ink patch legends, forme custody marks) without score-gaming.
+
+## Loop 21 — densify press forme + fix Specimens stage
+
+- **Goal:** Human named empty proof/template screenshots and a too-basic Specimens gallery —
+  SIG cells were blank voids; featured cinema missed the forme; gallery mast|reel CSS never
+  applied (wrong parent selector) and fought proof chrome.
+- **Challenger:** filled 2×2 mini pages in every SIG cell; densitometer patches; SpecimenPreview
+  locks figure→spread→proof and skips specimen/instruments when craft figure exists; press still
+  lands at y≥360; `FT.micro` 10→11; scoped `.sx-shell > .sx-stage` vs `.sx-chrome .sx-stage`.
+- **Score:** matrix **99.1**; press-atelier **97.6** (type-steps 14, rules 3.89, fold-figure 0.69);
+  holdout gap **0.1**. No regression on locked kinds.
+- **Closed:** `template:empty-sig-voids`; `showcase:stage-selector-miss`.
+- **Side effects:** ink-variation still above corridor for a forme-owned fold — accepted.
+- **Qualitative:** gallery fold shows Tell Specimens mast beside a filled press sheet on FORME
+  reel; proof iframe is full-bleed again; SIG cells read as pages, not empty paper.
+- **Next weakest:** press ink-variation; deepen gather/Pressroom without starving the forme.
+
+## Loop 22 — encode empty-void + craft-first into the engine
+
+- **Goal:** Improve the design engine itself — reusable densify helpers, basics gates, craft-first
+  cinema policy — so the next siteKind cannot regress into empty SIG voids / specimen-first reels.
+- **Challenger:** `miniPageMatter` + `densitometerStrip` + `FIG_MONO_PX` clamp; `data-dense="ink"`;
+  assertBasics `fig-mono-floor` / `craft-figure-dense` / `fold-owns-craft`; shared fold-owns CTA
+  hide; `specimenBeats` module + tests.
+- **Score:** matrix **99.1**; press **97.6**; holdout gap **0.1**. No regression.
+- **Closed:** `engine:encode-empty-void-gates`.
+- **Side effects:** none measured; gates are structural.
+- **Qualitative:** engine now refuses empty press sheets and sub-11 SVG mono at preflight.
+- **Next weakest:** press ink-variation; deepen densify helpers into other cell-grid figures when
+  a new kind needs them.
+
+## Loop 23 — empty/overlap dogfood + ruleDensity / band valley (parallel RSI)
+
+- **Goal:** clear human-named failures (educational overlaps, Stamp Roll empty cells, Specimens
+  gutters) then bring archive/educational rules/screen into band and raise educational
+  section-weight variation — without empty-height gaming.
 - **Challenger:**
-  - Educational → stackfold + solid claim; denser scrub; chapter-index size floor; no chapter
-    negative-margin on docs-educational; basics `kind-figure` requires stackfold.
-  - Archive ledger → dual-line cell ink + stamps without rule flood; compact claim.
-  - Showcase → scope gallery stage under `.sx-root`; full-bleed `.sx-chrome .sx-stage`; deeper
-    cinema beat nudge into figure ink.
-- **Score:** matrix **99.0**; docs-educational **98.4**; archive-index **97.4**; holdout **98.4**.
+  - Educational → stackfold + solid opaque claim; quiet titles-only horizon specimen valley;
+    hang mechanism figure into fold; thin CSS bordered rows / matrix cells; drop band-flow
+    chrome micro-label under claim.
+  - Archive ledger → dual-line cell ink + stamps; restore tall plate; CSS rule thinning last
+    (do not confuse SVG strokes with `ruleDensity`).
+  - Showcase → `.sx-shell > .sx-stage` gallery vs `.sx-chrome .sx-stage` proof; desktop mast|reel;
+    craft-first cinema via `specimenBeats`.
+- **Score:** matrix **99.1**; docs-educational **98.4 → 99.9**; archive-index **97.4 → 97.6**;
+  educational rules **5.27 → 4.28**; archive rules **4.77 → 4.21**; band-variation **~0.34 → 0.485**.
 - **Closed:** `template:overfigure-collides-with-labels`, `template:ledger-cell-void`,
-  `showcase:stage-class-collision`.
-- **Eye:** Playwright + computer-use — educational fold no longer parks CTAs on stages; specimen
-  pages full-bleed at 1600; archive cells show title+meta.
-- **Next weakest:** archive rules/screen ~4.51 (band ≤4.33); educational section-weight variation;
-  continue deepening unreplicable craft without score-gaming empties.
-
-## Loop 21 — ruleDensity + band valley + showcase stage (RSI)
-
-- **Goal:** bring archive/educational rules/screen into band; raise educational section-weight
-  variation; deepen craft without empty-height gaming; fix showcase featured composition void.
-- **Failure named (champion):** Loop 20 left archive rules ~4.5–4.8 and educational band-variation
-  ~0.34–0.41; thinning SVG ledger hairlines and shortening the plate did not move `ruleDensity`
-  (and sometimes raised it). Showcase featured stage still read as a single tall stack.
-- **Challenger:**
-  - Lesson `template:css-rule-density-not-svg` — thin CSS bordered rows / matrix cells; restore tall
-    ledger with dual-ink cells; fix archive `border-color` override that undid thinning.
-  - Educational dedicated plan: scrub → quiet titles-only horizon specimen → packed chapters/compare;
-    hang large bands for layering; compact stackfold claim so the mechanism figure owns the fold.
-  - Showcase desktop 2-col stage (mast | reel); SpecimenPreview prefers figure/ledger beats.
-- **Score:** matrix **99.1**; docs-educational **98.4 → 99.8**; archive-index **97.4 → 97.6**;
-  holdout **98.4**. Rules: educational **5.27 → 4.16**, archive **4.77 → 4.21**. Band-variation
-  educational **0.321 → 0.496**.
-- **Closed:** `template:css-rule-density-not-svg`.
-- **Side effects:** archive ink-variation still above corridor — accepted for ledger-owned fold;
-  educational fold-figure ~0.32 (tolerance green) — keep hanging the mechanism plate, do not return
-  to absolute overfigure.
-- **Next weakest:** archive ink-variation ceiling; educational fold-figure floor; deepen
-  unreplicable craft (register stamps, scrub legends) without score-gaming.
+  `showcase:stage-class-collision`, `template:css-rule-density-not-svg`.
+- **Side effects:** archive ink-variation still above corridor — accepted for ledger-owned fold.
+- **Next weakest:** archive/press ink-variation ceilings; deepen unreplicable craft without
+  score-gaming.

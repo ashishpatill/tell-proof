@@ -103,7 +103,8 @@ export type FigureKind =
   | "type-ladder"
   | "dossier-plate"
   | "signal-lattice"
-  | "index-ledger";
+  | "index-ledger"
+  | "press-sheet";
 
 interface FrameOptions {
   /** Named for a screen reader; omit to mark the figure decorative. */
@@ -123,6 +124,11 @@ interface FrameOptions {
    * of three.
    */
   inset?: number;
+  /**
+   * Marks figures whose cells carry drawn page matter (not empty stroked rects).
+   * Basics gate + showcase eye rely on this so empty SIG voids cannot ship again.
+   */
+  dense?: boolean;
 }
 
 /**
@@ -136,7 +142,8 @@ function frame(body: string, o: FrameOptions): string {
   const par = o.stretch ? "none" : "xMidYMid meet";
   const pad = round((o.inset ?? 0) * o.width);
   const box = `${round(-pad)} 0 ${round(o.width + pad * 2)} ${o.height}`;
-  return `<svg class="ds-fig" data-figure="${o.kind}" viewBox="${box}" preserveAspectRatio="${par}"${a11y}>${body}</svg>`;
+  const dense = o.dense ? ` data-dense="ink"` : "";
+  return `<svg class="ds-fig" data-figure="${o.kind}"${dense} viewBox="${box}" preserveAspectRatio="${par}"${a11y}>${body}</svg>`;
 }
 
 /**
@@ -210,7 +217,10 @@ export function isReading(value: string): boolean {
  * fold: at 58 the stage numerals in a spanning hero were bigger than the headline beside them, and
  * both the eye and the probe read the numeral as the page's display voice.
  */
-const FT = { micro: 10, small: 12, body: 15, title: 19, lead: 26, ordinal: 40 } as const;
+const FT = { micro: 11, small: 12, body: 15, title: 19, lead: 26, ordinal: 40 } as const;
+
+/** Floor for every SVG mono label — below this invents an invisible type-step the probe still counts. */
+export const FIG_MONO_PX = FT.micro;
 
 const INK = "var(--surface-ink)";
 const BODY = "var(--surface-body)";
@@ -226,10 +236,14 @@ function text(
   y: number,
   opts: { size?: number; fill?: string; weight?: number; anchor?: string; mono?: boolean; track?: number } = {},
 ): string {
+  // Mono labels share one step on the page ladder. Anything below FIG_MONO_PX is invisible craft
+  // that still burns a distinctSizes slot (press atelier FT.micro=10 → type-steps 15).
+  const raw = opts.size ?? FT.small;
+  const size = opts.mono ? Math.max(FIG_MONO_PX, raw) : raw;
   const attrs = [
     `x="${round(x)}"`,
     `y="${round(y)}"`,
-    `font-size="${opts.size ?? FT.small}"`,
+    `font-size="${size}"`,
     `fill="${opts.fill ?? BODY}"`,
   ];
   if (opts.weight) attrs.push(`font-weight="${opts.weight}"`);
@@ -1046,7 +1060,7 @@ export function typeLadder(
     );
     if (cut) {
       parts.push(
-        `<text class="ds-fig-mono" x="${round(W - padX)}" y="${round(labelY + 14)}" font-size="10" fill="var(--surface-muted)" text-anchor="end">${esc(clip(cut.title, 22))}</text>`,
+        `<text class="ds-fig-mono" x="${round(W - padX)}" y="${round(labelY + 14)}" font-size="11" fill="var(--surface-muted)" text-anchor="end">${esc(clip(cut.title, 22))}</text>`,
       );
     }
     if (i < steps.length - 1) {
@@ -1059,7 +1073,7 @@ export function typeLadder(
   }
 
   parts.push(
-    `<text class="ds-fig-mono" x="${round(padX + 28)}" y="${round(H - padY + 4)}" font-size="10" fill="var(--surface-quiet)">${esc(clip(productName, 28))} · optical sizes</text>`,
+    `<text class="ds-fig-mono" x="${round(padX + 28)}" y="${round(H - padY + 4)}" font-size="11" fill="var(--surface-quiet)">${esc(clip(productName, 28))} · optical sizes</text>`,
   );
 
   return frame(parts.join(""), {
@@ -1453,7 +1467,7 @@ export function indexLedger(
         role === "band" ? 22 : 16,
       );
       parts.push(
-        `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.72)}" font-size="10" fill="var(--surface-quiet)">${esc(sub)}</text>`,
+        `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.72)}" font-size="11" fill="var(--surface-quiet)">${esc(sub)}</text>`,
       );
       // Accent stamp — filled mark, not an extra rule.
       if (row % 2 === 0) {
@@ -1483,6 +1497,288 @@ export function indexLedger(
     kind: "index-ledger",
     label: `${productName} index ledger`,
     inset: role === "band" ? BLEED_INSET : 0,
+  });
+}
+
+/**
+ * Press sheet — press-atelier signature figure.
+ *
+ * Imposition grid where EVERY signature cell holds drawn page matter (mini layouts),
+ * not empty ruled boxes. Crop marks, registration targets, densitometer strip.
+ * Mono labels only (≤11px) — foundry SVG-text lesson. Theme packs restyle SaaS cards; they do
+ * not invent filled press formes from a density slider.
+ */
+/**
+ * Drawn page matter for a cell — title bar, media/prose, folio.
+ * Shared so imposition grids and future cell figures cannot ship empty stroked voids
+ * (`template:empty-sig-voids`). Prefer filled rects over rules to keep rule-structure in band.
+ */
+export function miniPageMatter(
+  px: number,
+  py: number,
+  pw: number,
+  ph: number,
+  variant: number,
+  folio: string,
+  rnd: () => number = Math.random,
+): string {
+  const parts: string[] = [];
+  parts.push(
+    `<rect x="${round(px)}" y="${round(py)}" width="${round(pw)}" height="${round(ph)}" fill="var(--c-paper)" stroke="${LINE}" stroke-width="1" opacity="0.98" vector-effect="non-scaling-stroke"/>`,
+  );
+  const inset = 4;
+  const ix = px + inset;
+  const iy = py + inset;
+  const iw = pw - inset * 2;
+  parts.push(
+    `<rect x="${round(ix)}" y="${round(iy)}" width="${round(iw * (0.62 + (variant % 3) * 0.1))}" height="3.5" fill="var(--surface-muted)" opacity="0.95"/>`,
+  );
+  parts.push(
+    `<rect x="${round(ix)}" y="${round(iy + 6)}" width="${round(iw * 0.42)}" height="2" fill="var(--surface-quiet)" opacity="0.75"/>`,
+  );
+  const mediaH = Math.max(14, ph * (0.32 + (variant % 2) * 0.1));
+  const mediaY = iy + 12;
+  if (variant % 3 === 0) {
+    parts.push(
+      `<rect x="${round(ix)}" y="${round(mediaY)}" width="${round(iw)}" height="${round(mediaH)}" fill="${ACCENT_FIELD}" stroke="${LINE}" stroke-width="1" opacity="0.95" vector-effect="non-scaling-stroke"/>`,
+    );
+    for (let k = 0; k < 2; k += 1) {
+      const ly = mediaY + mediaH * (0.3 + k * 0.28);
+      parts.push(
+        `<line x1="${round(ix + 3)}" y1="${round(ly)}" x2="${round(ix + iw - 3)}" y2="${round(ly)}" stroke="${ACCENT}" stroke-width="1" opacity="${round(0.35 + k * 0.15)}" vector-effect="non-scaling-stroke"/>`,
+      );
+    }
+    parts.push(
+      `<rect x="${round(ix + iw - 10)}" y="${round(mediaY + 3)}" width="7" height="7" fill="${ACCENT}" opacity="0.55"/>`,
+    );
+  } else if (variant % 3 === 1) {
+    const colW = iw * 0.44;
+    parts.push(
+      `<rect x="${round(ix + iw - colW)}" y="${round(mediaY)}" width="${round(colW)}" height="${round(mediaH)}" fill="${ACCENT_FIELD}" stroke="${LINE}" stroke-width="1" opacity="0.85" vector-effect="non-scaling-stroke"/>`,
+    );
+    const proseRows = Math.max(4, Math.floor(mediaH / 4.5));
+    for (let row = 0; row < proseRows; row += 1) {
+      parts.push(
+        `<rect x="${round(ix)}" y="${round(mediaY + row * 4.5)}" width="${round(iw * 0.48 * (0.65 + rnd() * 0.35))}" height="2.2" fill="var(--surface-quiet)" opacity="0.65"/>`,
+      );
+    }
+  } else {
+    const colGap = 3;
+    const colW = (iw - colGap) / 2;
+    for (let c = 0; c < 2; c += 1) {
+      for (let row = 0; row < 8; row += 1) {
+        const wMul = row === 0 ? 0.85 : 0.55 + rnd() * 0.4;
+        parts.push(
+          `<rect x="${round(ix + c * (colW + colGap))}" y="${round(mediaY + row * 4)}" width="${round(colW * wMul)}" height="2" fill="var(--surface-quiet)" opacity="${round(0.5 + (row % 3) * 0.12)}"/>`,
+        );
+      }
+    }
+  }
+  const bodyY = mediaY + mediaH + 5;
+  const bodyRows = Math.max(3, Math.floor((py + ph - inset - bodyY - 12) / 3.8));
+  for (let row = 0; row < bodyRows; row += 1) {
+    parts.push(
+      `<rect x="${round(ix)}" y="${round(bodyY + row * 3.8)}" width="${round(iw * (0.55 + rnd() * 0.4))}" height="2" fill="var(--surface-quiet)" opacity="0.5"/>`,
+    );
+  }
+  parts.push(
+    `<rect x="${round(ix)}" y="${round(py + ph - 9)}" width="${round(iw * 0.35)}" height="1.5" fill="var(--surface-quiet)" opacity="0.45"/>`,
+  );
+  parts.push(
+    text(folio, px + pw - 4, py + ph - 3, { size: FIG_MONO_PX, fill: QUIET, mono: true, anchor: "end" }),
+  );
+  return parts.join("");
+}
+
+/** Filled density patches (not tick rules) — reads as a densitometer without flooding rule-structure. */
+export function densitometerStrip(
+  x0: number,
+  y0: number,
+  width: number,
+  patches = 8,
+  labelLeft = "DENS",
+): string {
+  const parts: string[] = [];
+  parts.push(text(labelLeft, x0, y0 + 6, { size: FIG_MONO_PX, fill: QUIET, mono: true }));
+  parts.push(text("GRIP", x0, y0 + 18, { size: FIG_MONO_PX, fill: QUIET, mono: true }));
+  const densStart = x0 + 42;
+  const densSpan = Math.max(40, width - 42);
+  for (let i = 0; i < patches; i += 1) {
+    const px = densStart + (i / patches) * densSpan;
+    const pw = densSpan / patches - 4;
+    const op = round(0.12 + (i / Math.max(1, patches - 1)) * 0.8);
+    parts.push(
+      `<rect x="${round(px)}" y="${round(y0)}" width="${round(pw)}" height="12" fill="${ACCENT}" opacity="${op}"/>`,
+    );
+  }
+  return parts.join("");
+}
+
+export function pressSheet(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:press-sheet:${role}`);
+  const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
+  const H = role === "band" ? 860 : role === "column" ? 560 : 520;
+  const padX = role === "band" ? 48 : 28;
+  const padY = role === "band" ? 40 : 28;
+  const parts: string[] = [];
+
+  // Soft paper wash behind the forme — kills the empty white void look.
+  parts.push(
+    `<rect x="0" y="0" width="${W}" height="${H}" fill="var(--c-paper-raised, var(--surface-raised))" opacity="0.55"/>`,
+  );
+
+  const crop = (x: number, y: number, dx: number, dy: number) => {
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(y)}" x2="${round(x + dx)}" y2="${round(y)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(y)}" x2="${round(x)}" y2="${round(y + dy)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+  };
+  const cLen = 16;
+  crop(padX - 20, padY - 20, cLen, 0);
+  crop(padX - 20, padY - 20, 0, cLen);
+  crop(W - padX + 20, padY - 20, -cLen, 0);
+  crop(W - padX + 20, padY - 20, 0, cLen);
+  crop(padX - 20, H - padY + 20, cLen, 0);
+  crop(padX - 20, H - padY + 20, 0, -cLen);
+  crop(W - padX + 20, H - padY + 20, -cLen, 0);
+  crop(W - padX + 20, H - padY + 20, 0, -cLen);
+
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="var(--c-paper)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  const headY = padY + 16;
+  parts.push(text("PRESS SHEET", padX + 12, headY, { size: FIG_MONO_PX, fill: QUIET, mono: true }));
+  parts.push(
+    text(clip(productName, 28), W / 2, headY, {
+      size: FIG_MONO_PX,
+      fill: "var(--surface-muted)",
+      mono: true,
+      anchor: "middle",
+    }),
+  );
+  parts.push(
+    text("SIG A–H · FORME 16", W - padX - 12, headY, {
+      size: FIG_MONO_PX,
+      fill: QUIET,
+      mono: true,
+      anchor: "end",
+    }),
+  );
+  parts.push(
+    `<line x1="${round(padX)}" y1="${round(headY + 8)}" x2="${round(W - padX)}" y2="${round(headY + 8)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  const reg = (cx: number, cy: number) => {
+    parts.push(
+      `<circle cx="${round(cx)}" cy="${round(cy)}" r="6" fill="none" stroke="${ACCENT}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      `<circle cx="${round(cx)}" cy="${round(cy)}" r="1.8" fill="${ACCENT}" opacity="0.9"/>`,
+    );
+    parts.push(
+      `<line x1="${round(cx - 11)}" y1="${round(cy)}" x2="${round(cx + 11)}" y2="${round(cy)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      `<line x1="${round(cx)}" y1="${round(cy - 11)}" x2="${round(cx)}" y2="${round(cy + 11)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+  };
+  reg(W / 2, padY + 30);
+  reg(padX + 22, H / 2);
+  reg(W - padX - 22, H / 2);
+
+  const base = features.length ? features : [{ title: "Signature", body: "", meta: "A" } as Block];
+  const cols = role === "band" ? 4 : 3;
+  const rows = 2;
+  const gridTop = padY + 42;
+  const densitometerH = 32;
+  const gridBottom = H - padY - densitometerH - 14;
+  const gridW = W - padX * 2 - 36;
+  const gridH = gridBottom - gridTop;
+  const cellW = gridW / cols;
+  const cellH = gridH / rows;
+  const gridX = padX + 18;
+  const sigs = "ABCDEFGH".split("");
+
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      const i = row * cols + col;
+      const x = gridX + col * cellW;
+      const y = gridTop + row * cellH;
+      const f = base[i % base.length]!;
+      const sig = sigs[i] ?? String(i + 1);
+      const cellPad = 5;
+      const cx = x + cellPad;
+      const cy = y + cellPad;
+      const cw = cellW - cellPad * 2;
+      const ch = cellH - cellPad * 2;
+
+      parts.push(
+        `<rect x="${round(cx)}" y="${round(cy)}" width="${round(cw)}" height="${round(ch)}" fill="color-mix(in srgb, var(--c-paper) 88%, var(--c-accent) 12%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      );
+      parts.push(
+        `<rect x="${round(cx)}" y="${round(cy)}" width="${round(cw)}" height="20" fill="color-mix(in srgb, var(--c-accent) 16%, var(--c-paper))" opacity="0.98"/>`,
+      );
+      parts.push(text(`SIG ${sig}`, cx + 6, cy + 13, { size: FIG_MONO_PX, fill: ACCENT, mono: true }));
+      parts.push(
+        text(clip(f.title ?? `Plate ${sig}`, 14), cx + cw - 6, cy + 13, {
+          size: FIG_MONO_PX,
+          fill: QUIET,
+          mono: true,
+          anchor: "end",
+        }),
+      );
+
+      const pageTop = cy + 24;
+      const pageAreaH = ch - 30;
+      const gap = 4;
+      const pageW = (cw - 12 - gap) / 2;
+      const pageH = (pageAreaH - gap) / 2;
+      const pageX0 = cx + 6;
+      for (let pr = 0; pr < 2; pr += 1) {
+        for (let pc = 0; pc < 2; pc += 1) {
+          const pi = pr * 2 + pc;
+          const folio = String(i * 4 + pi + 1).padStart(2, "0");
+          parts.push(
+            miniPageMatter(
+              pageX0 + pc * (pageW + gap),
+              pageTop + pr * (pageH + gap),
+              pageW,
+              pageH,
+              (i * 3 + pi + Math.floor(r() * 3)) % 6,
+              folio,
+              r,
+            ),
+          );
+        }
+      }
+      // Soft fold cue — one accent tick only (not a full cross) to keep rule density in band.
+      parts.push(
+        `<rect x="${round(cx + cw / 2 - 4)}" y="${round(cy + 22)}" width="8" height="2" fill="${ACCENT}" opacity="0.4"/>`,
+      );
+    }
+  }
+
+  const densY = H - padY - densitometerH;
+  parts.push(
+    `<line x1="${round(padX)}" y1="${round(densY)}" x2="${round(W - padX)}" y2="${round(densY)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(densitometerStrip(padX + 10, densY + 8, W - padX * 2 - 20, 8));
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "press-sheet",
+    label: `${productName} press sheet`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
   });
 }
 
@@ -1624,7 +1920,7 @@ export interface FigurePlan {
   sparks: string[];
 }
 
-type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder" | "dossier-plate" | "signal-lattice" | "index-ledger";
+type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder" | "dossier-plate" | "signal-lattice" | "index-ledger" | "press-sheet";
 
 /**
  * Which drawing goes where.
@@ -1653,9 +1949,10 @@ const ORDER: Record<string, Kind[]> = {
   "research-dossier": ["dossier-plate", "stack", "horizon", "flow"],
   // Observatory: signal lattice owns the fold; denser stack specimen keeps ink-variation honest.
   "signal-observatory": ["signal-lattice", "stack", "horizon", "flow"],
-  // Archive: index ledger owns the fold; denser stack specimen keeps ink-variation honest.
   // Archive: ledger owns the fold; horizon specimen stays rule-light (stack was flooding rules/screen).
   "archive-index": ["index-ledger", "horizon", "flow", "stack"],
+  // Press: press sheet owns the fold; denser flow specimen (horizon was an empty valley in the reel).
+  "press-atelier": ["press-sheet", "flow", "stack", "horizon"],
 };
 
 export function planFigures(input: {
@@ -1693,6 +1990,8 @@ export function planFigures(input: {
         return signalLattice(input.productName, input.features, seed, role);
       case "index-ledger":
         return indexLedger(input.productName, input.features, seed, role);
+      case "press-sheet":
+        return pressSheet(input.productName, input.features, seed, role);
       default:
         return "";
     }
@@ -1704,8 +2003,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["press-sheet", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["press-sheet", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -1729,6 +2028,7 @@ export function planFigures(input: {
   // Dossier folio fold: the cartographic plate always owns the spanning field.
   // Observatory chrono fold: the signal lattice always owns the spanning field.
   // Archive register fold: the index ledger always owns the spanning field.
+  // Press fold: the press sheet always owns the spanning field.
   const heroKind =
     input.siteKind === "editorial-foundry"
       ? ("type-ladder" as Kind)
@@ -1738,6 +2038,8 @@ export function planFigures(input: {
           ? ("signal-lattice" as Kind)
           : input.siteKind === "archive-index"
             ? ("index-ledger" as Kind)
+            : input.siteKind === "press-atelier"
+              ? ("press-sheet" as Kind)
       : shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;
   const afterHero = order.filter((k) => k !== heroKind);
   const bandKind = shaped(SPANNING, afterHero);

@@ -200,6 +200,22 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 /** Site-kind art direction — always applied (must not live inside a lean branch). */
 function siteKindCss(): string {
   return `
+/* Fold-owns-figure recipe — compact claim chrome so unique craft figures own the first viewport.
+ * Per-kind hang fields (+*-field) still set the geometry; this shared block keeps secondary CTAs
+ * and fold notes from re-starving the plate/forme/ledger/lattice. */
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-cta-note,
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-actions .ds-btn-ghost,
+[data-sitekind="research-dossier"] .ds-hero-folio .ds-actions .ds-btn-secondary,
+[data-sitekind="observatory-signal"] .ds-hero-chrono .ds-cta-note,
+[data-sitekind="observatory-signal"] .ds-hero-chrono .ds-actions .ds-btn-ghost,
+[data-sitekind="observatory-signal"] .ds-hero-chrono .ds-actions .ds-btn-secondary,
+[data-sitekind="archive-index"] .ds-hero-register .ds-cta-note,
+[data-sitekind="archive-index"] .ds-hero-register .ds-actions .ds-btn-ghost,
+[data-sitekind="archive-index"] .ds-hero-register .ds-actions .ds-btn-secondary,
+[data-sitekind="press-atelier"] .ds-hero-press .ds-cta-note,
+[data-sitekind="press-atelier"] .ds-hero-press .ds-actions .ds-btn-ghost,
+[data-sitekind="press-atelier"] .ds-hero-press .ds-actions .ds-btn-secondary{display:none}
+
 /* Fintech: inverse specimen is a stage; product drawing sits on a lit paper plate (readable contrast). */
 [data-sitekind="fintech-marketing"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
 [data-sitekind="fintech-marketing"] .ds-specimen-head .ds-heading{color:var(--surface-ink)}
@@ -507,6 +523,87 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-chapter{border-bottom-color:transparent}
 [data-sitekind="archive-index"] .ds-chapter:nth-child(3n+1){border-bottom:1px solid var(--surface-border)}
 [data-sitekind="archive-index"] .ds-bleed-rule{height:0;background:transparent}
+/* Press atelier — registration fold, signature rail, press sheet, gather essay, Pressroom. */
+[data-sitekind="press-atelier"]{
+  --sig-rail:3.25rem;
+}
+body[data-sitekind="press-atelier"]{
+  background-image:
+    linear-gradient(90deg,color-mix(in srgb,var(--c-border) 40%,transparent) 0,transparent 1px),
+    linear-gradient(90deg,transparent 0,transparent var(--sig-rail),color-mix(in srgb,var(--c-border) 35%,transparent) var(--sig-rail),transparent calc(var(--sig-rail) + 1px));
+  background-size:100% 100%;
+  background-attachment:fixed;
+}
+[data-sitekind="press-atelier"] .ds-brand-mark{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+}
+/* Thin claim strip — forme owns the fold. Quiet display stays in band (≥3.16vw). */
+[data-sitekind="press-atelier"] .ds-hero-press .ds-display{
+  font-size:clamp(2.45rem,3.2vw,3.0rem);
+  letter-spacing:-0.03em;max-width:15ch;line-height:1.05;
+}
+[data-sitekind="press-atelier"] .ds-hero-press .ds-lede{display:none}
+[data-sitekind="press-atelier"] .ds-hero-press .ds-eyebrow{display:none}
+[data-sitekind="press-atelier"] .ds-hero-press .ds-brand-mark{
+  margin:0 0 0.1rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+}
+[data-sitekind="press-atelier"] .ds-hero-press .ds-cta-note{display:none}
+[data-sitekind="press-atelier"] .ds-hero-press .ds-actions .ds-btn-ghost,
+[data-sitekind="press-atelier"] .ds-hero-press .ds-actions .ds-btn-secondary{display:none}
+[data-sitekind="press-atelier"] .ds-gather-beat .ds-chapter-index,
+[data-sitekind="press-atelier"] .ds-gather-tick,
+[data-sitekind="press-atelier"] .ds-gather-aside-sig,
+[data-sitekind="press-atelier"] .ds-sig-letter,
+[data-sitekind="press-atelier"] .ds-press-masthead,
+[data-sitekind="press-atelier"] .ds-cal-tol,
+[data-sitekind="press-atelier"] .ds-cal-ch{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;line-height:1.2;
+  opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
+}
+[data-sitekind="press-atelier"] .ds-press-claim{
+  padding:0.15rem 0 0;
+  padding-left:var(--sig-rail);
+  position:relative;z-index:2;
+  background:linear-gradient(180deg,var(--c-paper) 55%,transparent);
+}
+[data-sitekind="press-atelier"] .ds-press-claim .ds-actions{margin-top:0.2rem}
+[data-sitekind="press-atelier"] .ds-press-claim .ds-actions .ds-btn{padding:0.45rem 0.95rem}
+[data-sitekind="press-atelier"] .ds-press-claim .ds-hero-chips,
+[data-sitekind="press-atelier"] .ds-press-claim .ds-capability-list,
+[data-sitekind="press-atelier"] .ds-press-claim .ds-hero-aside,
+[data-sitekind="press-atelier"] .ds-press-claim .ds-hero-facts{display:none}
+[data-sitekind="press-atelier"] .ds-press-field{
+  margin-top:calc(var(--s-3xl, 3rem) * -1.35);position:relative;z-index:1;
+  padding-left:var(--sig-rail);
+}
+[data-sitekind="press-atelier"] .ds-press-sheet .ds-fig{min-height:min(92vh,960px)}
+[data-sitekind="press-atelier"] .ds-hero-press{min-height:min(100vh,920px)}
+[data-sitekind="press-atelier"] .ds-press-masthead{
+  padding-top:calc(var(--nav-h,4.5rem) + 0.25rem);
+  padding-bottom:0.25rem;
+  color:var(--c-ink-tertiary);
+}
+[data-sitekind="press-atelier"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="press-atelier"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
+[data-sitekind="press-atelier"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
+[data-sitekind="press-atelier"] .ds-section-head,
+[data-sitekind="press-atelier"] .ds-index-row,
+[data-sitekind="press-atelier"] .ds-gather-essay,
+[data-sitekind="press-atelier"] .ds-chapter{padding-left:0;margin-left:var(--sig-rail)}
+[data-sitekind="press-atelier"] .ds-closing-colophon{
+  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
+}
+[data-sitekind="press-atelier"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
+[data-sitekind="press-atelier"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
+[data-sitekind="press-atelier"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="press-atelier"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="press-atelier"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="press-atelier"] .ds-gather-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="press-atelier"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="press-atelier"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
+[data-sitekind="press-atelier"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
+[data-sitekind="press-atelier"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
+[data-sitekind="press-atelier"] .ds-press-plates .ds-cal-tol{letter-spacing:0.12em}
 `;
 }
 
@@ -1239,6 +1336,105 @@ ${surfaceRules()}
   .ds-entry-aside{order:-1}
   .ds-entry-beat{padding-left:0}
   .ds-entry-folio{position:static;writing-mode:horizontal-tb;transform:none;height:auto;display:block;margin-bottom:0.35rem}
+}
+
+/* Press fold + signature rail (press atelier). */
+.ds-hero-press{
+  position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
+  display:flex;flex-direction:column;
+}
+.ds-press-masthead{
+  display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
+  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding-left:calc(var(--gutter) + var(--sig-rail,3.25rem));
+  border-bottom:1px solid var(--c-border);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+.ds-press-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
+.ds-press-claim{
+  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding-left:var(--sig-rail,3.25rem);
+}
+.ds-press-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
+.ds-press-field{margin-top:0;padding-left:var(--sig-rail,3.25rem)}
+.ds-press-sheet{margin:0;width:100%;display:block}
+.ds-press-sheet .ds-fig{width:100%;min-height:min(80vh,840px);display:block}
+.ds-press-regs{
+  position:absolute;inset:calc(var(--nav-h,4.5rem) + 0.5rem) 0.75rem 0.75rem;
+  pointer-events:none;z-index:3;
+}
+.ds-press-regs span{
+  position:absolute;width:14px;height:14px;
+  border:1px solid var(--c-accent);border-radius:50%;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--c-paper) 70%,transparent);
+}
+.ds-press-regs span::before,.ds-press-regs span::after{
+  content:"";position:absolute;background:var(--c-border);
+}
+.ds-press-regs span::before{width:1px;height:18px;left:50%;top:50%;transform:translate(-50%,-50%)}
+.ds-press-regs span::after{height:1px;width:18px;left:50%;top:50%;transform:translate(-50%,-50%)}
+.ds-press-regs span:nth-child(1){top:0;left:var(--sig-rail,3.25rem)}
+.ds-press-regs span:nth-child(2){top:0;right:0}
+.ds-press-regs span:nth-child(3){bottom:0;left:var(--sig-rail,3.25rem)}
+.ds-press-regs span:nth-child(4){bottom:0;right:0}
+.ds-sig-rail{
+  position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
+  width:var(--sig-rail,3.25rem);z-index:var(--z-nav);pointer-events:none;
+  display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
+}
+.ds-sig-rail ol{
+  list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;
+  justify-content:space-between;align-items:center;pointer-events:auto;width:100%;
+}
+.ds-sig-letter{
+  display:flex;align-items:center;justify-content:center;text-decoration:none;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);min-width:36px;min-height:28px;line-height:1;writing-mode:vertical-rl;
+  transform:rotate(180deg);
+}
+.ds-sig-letter:hover,.ds-sig-letter:focus-visible,.ds-sig-letter.is-active{color:var(--c-accent)}
+@media (max-width:800px){
+  .ds-sig-rail{display:none}
+  .ds-press-masthead,.ds-press-claim,.ds-press-field{padding-left:var(--gutter)}
+  .ds-press-sheet .ds-fig{min-height:min(58vh,560px)}
+  .ds-press-regs{display:none}
+}
+/* Gather essay — fold ticks + plate index. */
+.ds-gather-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
+.ds-gather-essay{display:flex;flex-direction:column;gap:var(--s-2xl);max-width:40rem}
+.ds-gather-beat{
+  position:relative;padding-left:3.5rem;
+  border-top:1px solid var(--c-border);padding-top:var(--s-lg);
+}
+.ds-gather-tick{
+  position:absolute;left:0;top:var(--s-lg);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.16em;color:var(--c-accent);
+  writing-mode:vertical-rl;transform:rotate(180deg);height:5rem;
+}
+.ds-gather-measure{
+  border-left:1px solid var(--c-border);padding-left:var(--s-lg);max-width:36rem;
+}
+.ds-gather-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
+.ds-gather-note{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+}
+.ds-gather-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-gather-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-md)}
+.ds-gather-aside-item{
+  display:flex;flex-direction:column;gap:0.2rem;
+  border-bottom:1px solid var(--c-border);padding-bottom:var(--s-sm);
+}
+.ds-gather-aside-sig{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-accent);
+}
+.ds-gather-aside-title{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:22ch}
+@media (max-width:800px){
+  .ds-gather-grid{grid-template-columns:1fr!important}
+  .ds-gather-aside{order:-1}
+  .ds-gather-beat{padding-left:0}
+  .ds-gather-tick{position:static;writing-mode:horizontal-tb;transform:none;height:auto;display:block;margin-bottom:0.35rem}
 }
 .ds-marginalia-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
 .ds-marginalia-essay{display:flex;flex-direction:column;gap:var(--s-xl);max-width:42rem}

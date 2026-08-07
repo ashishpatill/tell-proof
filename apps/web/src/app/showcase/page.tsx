@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export const metadata = {
   title: "Tell Specimens — Craft reels, not theme packs",
   description:
-    "Eleven research-backed site kinds — each gallery cell is a GIF-like craft reel of the best beats, not a cropped nav strip.",
+    "Twelve research-backed site kinds — each gallery cell is a GIF-like craft reel of the best beats, not a cropped nav strip.",
 };
 
 type OfferingPreview = DesignTemplate & { previewHtml: string; index: string };
@@ -28,6 +28,7 @@ function buildOfferings(): OfferingPreview[] {
 export default function ShowcaseGalleryPage() {
   const offerings = buildOfferings();
   const featured =
+    offerings.find((o) => o.key === "press") ??
     offerings.find((o) => o.key === "archive") ??
     offerings.find((o) => o.key === "observatory") ??
     offerings.find((o) => o.key === "dossier") ??
@@ -97,7 +98,7 @@ export default function ShowcaseGalleryPage() {
                 title={`${featured.label} craft reel`}
                 html={featured.previewHtml}
                 designWidth={1440}
-                designHeight={1100}
+                designHeight={1200}
                 mode="cinema"
                 prefer="figure"
                 autoplayInView

@@ -123,35 +123,43 @@
   transform: translateY(1px);
 }
 
-/* ── Stage: one composition — brand + dominant craft cinema ──── */
+/* ── Gallery stage only (never collide with `.sx-chrome .sx-stage` proof iframe) ──── */
+/* CONTRACT: do not reintroduce unscoped `.sx-stage { … }` rules — gallery is `.sx-shell > .sx-stage`,
+ * proof is `.sx-chrome .sx-stage`. Shared class without a parent scope caused empty proof + dead mast. */
 
-.sx-root .sx-stage {
+.sx-shell > .sx-stage {
   display: grid;
-  gap: 1.5rem;
-  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3rem) 2rem;
+  grid-template-columns: minmax(15rem, 0.88fr) minmax(0, 1.6fr);
+  gap: clamp(1rem, 2.5vw, 2rem);
+  align-items: stretch;
+  padding: clamp(1.5rem, 4vw, 2.75rem) clamp(1.25rem, 4vw, 3rem) 2rem;
   max-width: 1440px;
   margin-inline: auto;
+  border-bottom: 1px solid rgb(var(--border) / 0.55);
+  background:
+    radial-gradient(ellipse 50% 45% at 78% 12%, rgb(var(--accent) / 0.08), transparent 65%),
+    linear-gradient(180deg, rgb(var(--bg)), rgb(34 31 28));
 }
 
 @media (min-width: 960px) {
-  .sx-root .sx-stage {
+  .sx-shell > .sx-stage {
     grid-template-columns: minmax(16rem, 0.78fr) minmax(0, 1.42fr);
     align-items: end;
     gap: 1.75rem 2rem;
     min-height: min(78vh, 820px);
     padding-bottom: 2.25rem;
   }
-  .sx-root .sx-stage-mast {
+  .sx-shell > .sx-stage .sx-stage-mast {
     align-self: end;
     padding-bottom: 0.5rem;
   }
-  .sx-root .sx-stage-reel {
+  .sx-shell > .sx-stage .sx-stage-reel {
     align-self: stretch;
     display: flex;
     flex-direction: column;
     min-height: 0;
   }
-  .sx-root .sx-plate-stage .sx-plate-frame {
+  .sx-shell > .sx-stage .sx-plate-stage .sx-plate-frame {
     flex: 1;
     min-height: min(52vh, 28rem);
     aspect-ratio: auto;
@@ -161,12 +169,27 @@
 .sx-stage-mast {
   display: grid;
   gap: 0.85rem;
-  max-width: 36rem;
+  max-width: 26rem;
+  align-content: center;
+  padding: 0.75rem 0.5rem 0.75rem 0;
 }
 
 .sx-stage-reel {
   position: relative;
   isolation: isolate;
+  min-width: 0;
+  align-self: stretch;
+}
+
+@media (max-width: 960px) {
+  .sx-shell > .sx-stage {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+  .sx-stage-mast {
+    max-width: 36rem;
+    padding-right: 0;
+  }
 }
 
 .sx-reel-chrome {
@@ -193,8 +216,8 @@
 }
 
 .sx-plate-stage .sx-plate-frame {
-  aspect-ratio: 16 / 9;
-  min-height: min(58vh, 34rem);
+  aspect-ratio: 16 / 10;
+  min-height: min(62vh, 38rem);
 }
 
 .sx-kicker {
@@ -825,12 +848,16 @@
   font-size: 0.8rem;
 }
 
-.sx-stage {
+/* Proof offering frame — full-bleed iframe stage (scoped so gallery grid never leaks here) */
+.sx-chrome .sx-stage {
   position: relative;
   display: block;
   max-width: none;
+  margin: 0;
   margin-inline: 0;
+  align-items: initial;
   gap: 0;
+  border-bottom: 0;
   background:
     linear-gradient(90deg, transparent 0, transparent calc(50% - 0.5px), rgb(var(--border) / 0.35) calc(50% - 0.5px), rgb(var(--border) / 0.35) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
     linear-gradient(rgb(var(--bg)), rgb(28 25 22));

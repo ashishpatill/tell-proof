@@ -147,6 +147,47 @@ Pattern keys match `tell-recursive-improve`.
   widen educational body measure so scrub/aside columns cannot steal the body candidate.
 - **Do not:** Confuse SVG strokes with `ruleDensity`, or shrink page height to "fix" empty cells.
 
+## 2026-08-07 — `template:press-claim-starves-forme`
+
+- **Failure class:** Same as folio-claim-starves-plate / chrono-claim-starves-lattice /
+  index-must-own-fold — press-atelier first fold put full claim + dual CTAs above the
+  press sheet, so the unique imposition grid only peeked at the bottom of the viewport.
+- **Fix:** Compact claim (hide eyebrow, quiet display clamp, hang `.ds-press-field` under a
+  soft paper fade), raise press-sheet min-height so SIG panels enter the first desktop
+  viewport. Consolidate mono chrome to 11px so type-steps stay ≤14.
+- **Do not:** Treat a unique forme as shipped if the fold shot is only type + sticky rail.
+
+## 2026-08-07 — `template:empty-sig-voids`
+
+- **Failure:** Press-sheet SIG cells were empty white rectangles — showcase + proof screenshots
+  read as a sparse wireframe, not an imposition forme. Featured cinema also drifted onto
+  specimen/horizon beats that looked basic.
+- **Fix:** Draw 2×2 mini pages (text bars, media blocks, folios) inside every SIG cell; densitometer
+  as filled patches not rule ticks; lock SpecimenPreview reel to figure→spread→proof when a craft
+  figure exists; skip instruments/specimen in discovery; land press still at y≥360 into filled
+  matter. Keep SVG mono at 11px (`FT.micro`) so type-steps stay ≤14; prefer filled rects over
+  dashed fold crosses so rule-structure stays in band.
+- **Do not:** Ship an imposition grid whose cells are blank paper and call it craft.
+
+## 2026-08-07 — `showcase:stage-selector-miss`
+
+- **Failure:** Gallery 2-column mast|reel used `.sx-root > .sx-stage`, but the stage lives under
+  `.sx-shell` — the rule never matched. A later unscoped `.sx-stage` chrome rule also fought the
+  gallery grid and left proof iframes looking empty.
+- **Fix:** Scope gallery as `.sx-shell > .sx-stage` and proof as `.sx-chrome .sx-stage` (display
+  block, full-bleed iframe). Verify with getComputedStyle grid columns before claiming the fold.
+- **Do not:** Style shared classnames across gallery and proof without a parent scope.
+
+## 2026-08-07 — `engine:encode-empty-void-gates`
+
+- **Failure class:** Press densify + showcase craft-first were one-off patches; the next cell-grid
+  figure could ship empty stroked voids and the next cinema could reopen on specimen.
+- **Fix (engine):** Export `miniPageMatter` / `densitometerStrip` / `FIG_MONO_PX`; clamp mono in
+  `text()`; `data-dense="ink"` on densified frames; `assertBasics` gates `fig-mono-floor`,
+  `craft-figure-dense`, `fold-owns-craft`; shared fold-owns secondary-CTA hide across dossier /
+  chrono / archive / press; extract `specimenBeats` with craft-first cinema + unit tests.
+- **Do not:** Patch one siteKind's empty cells without leaving a reusable helper + basics gate.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.

@@ -32,6 +32,9 @@ export function inferSiteKind(brief: DesignBrief): SiteKind {
   if (/\b(archive|alphabetical index|index register|stamp catalog|registry close|alpha.?rail|entry folio|award.?index)\b/.test(blob)) {
     return "archive-index";
   }
+  if (/\b(press.?room|press.?sheet|imposition|signature rail|densitometer|forme desk|gather essay|registration mark|crop mark|press atelier)\b/.test(blob)) {
+    return "press-atelier";
+  }
   if (/\b(fintech|treasury|payments?|banking|ledger|payroll|expense|card|wire|ach|fx|currency)\b/.test(blob)) {
     return "fintech-marketing";
   }
@@ -82,6 +85,8 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
                       ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                       : siteKind === "archive-index"
                         ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
+                        : siteKind === "press-atelier"
+                          ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                 : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
 
   const goals = [

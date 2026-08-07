@@ -372,6 +372,43 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     </section>`;
   }
 
+
+  /*
+   * Press fold — the press-atelier signature.
+   *
+   * Quiet masthead + compact claim, then a spanning press-sheet that OWNS the fold
+   * (the forme IS the figure). Sticky Sig A–H rail on the left edge. Not register, folio,
+   * chrono, seam, or SaaS — a pressroom grammar.
+   */
+  if (section.layout === "hero-press") {
+    const sheetFig = figures.hero
+      ? `<figure class="ds-press-sheet" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const sigs = "ABCDEFGH".split("");
+    const rail = `<nav class="ds-sig-rail" aria-label="Signature index"><ol>${sigs
+      .map((S, i) => {
+        const href = i < 6 ? ["#features", "#figure", "#specimen", "#story", "#proof", "#cta"][i] : "#features";
+        return `<li><a href="${href}" class="ds-sig-letter${i === 0 ? " is-active" : ""}" data-sig="${S}"><span>Sig ${S}</span></a></li>`;
+      })
+      .join("")}</ol></nav>`;
+    const mast = `<header class="ds-press-masthead" aria-label="Press masthead">
+      <span class="ds-press-vol">Forme</span>
+      <span class="ds-press-issue">Sig A–H</span>
+      <span class="ds-press-date">Press sheet</span>
+      <span class="ds-press-mark">${esc(spec.brief.productName)}</span>
+    </header>`;
+    // Registration corner marks in the DOM — reinforce the figure craft (decorative).
+    const regs = `<div class="ds-press-regs" aria-hidden="true"><span></span><span></span><span></span><span></span></div>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-press" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      ${regs}
+      ${mast}
+      <div class="ds-press-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-press-field">${sheetFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
   if (section.layout === "hero-editorial") {
     /*
      * Stack fold — opaque claim + aside, then the mechanism figure.
@@ -675,9 +712,9 @@ function renderFigure(section: SectionSpec): string {
 
   const grid = [0, 1, 2, 3, 4]
     .map((g) => {
-      const y = top + ((floor - top) / 4) * g;
-      return `<line x1="${left}" y1="${y.toFixed(1)}" x2="${right}" y2="${y.toFixed(1)}" stroke="var(--surface-border)" stroke-width="1" opacity="${g === 4 ? 1 : 0.55}"/>
-        <text class="ds-fig-mono" x="${left - 10}" y="${(y + 4).toFixed(1)}" font-size="10" fill="var(--surface-quiet)" text-anchor="end">${100 - g * 25}</text>`;
+      const y = top + ((floor - top) / 3) * g;
+      return `<line x1="${left}" y1="${y.toFixed(1)}" x2="${right}" y2="${y.toFixed(1)}" stroke="var(--surface-border)" stroke-width="1"/>
+        <text class="ds-fig-mono" x="${left - 12}" y="${(y + 4).toFixed(1)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${100 - g * 30}</text>`;
     })
     .join("");
 
@@ -686,7 +723,7 @@ function renderFigure(section: SectionSpec): string {
     .map(
       (p, i) =>
         `<line x1="${p.x.toFixed(1)}" y1="${top}" x2="${p.x.toFixed(1)}" y2="${floor}" stroke="var(--surface-border)" stroke-width="1" opacity="0.35" stroke-dasharray="2 4"/>
-         <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(top - 12).toFixed(1)}" font-size="10" fill="${i === mid ? "var(--c-accent)" : "var(--surface-quiet)"}" text-anchor="middle">${esc(clip(p.title, 14))}</text>`,
+         <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(top - 12).toFixed(1)}" font-size="11" fill="${i === mid ? "var(--c-accent)" : "var(--surface-quiet)"}" text-anchor="middle">${esc(clip(p.title, 14))}</text>`,
     )
     .join("");
 
@@ -715,12 +752,12 @@ function renderFigure(section: SectionSpec): string {
             ${points
               .map(
                 (p, i) =>
-                  `<line class="ds-scrub-stem" data-step="${i}" x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${p.x.toFixed(1)}" y2="${floor}" stroke="var(--c-accent)" stroke-width="1" opacity="${i === mid ? 0.85 : 0.2}"/>
-                   <circle class="ds-scrub-node" data-step="${i}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${i === mid ? 7 : 4.5}" fill="${i === mid ? "var(--surface-bg)" : "var(--c-accent)"}" stroke="var(--c-accent)" stroke-width="2" opacity="${i === mid ? 1 : 0.55}"/>
-                   <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(floor + 22).toFixed(1)}" font-size="11" fill="${i === mid ? "var(--c-accent)" : "var(--surface-quiet)"}" text-anchor="middle">${String(i + 1).padStart(2, "0")}</text>`,
+                  `<line class="ds-scrub-stem" data-step="${i}" x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${p.x.toFixed(1)}" y2="${floor}" stroke="var(--surface-border)" stroke-width="1" opacity="${i === mid ? 1 : 0}"/>
+                   <circle class="ds-scrub-node" data-step="${i}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${i === mid ? 6 : 4}" fill="${i === mid ? "var(--surface-bg)" : "var(--c-accent)"}" stroke="var(--c-accent)" stroke-width="2" opacity="${i === mid ? 1 : 0.45}"/>
+                   <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(floor + 20).toFixed(1)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">${String(i + 1).padStart(2, "0")}</text>`,
               )
               .join("")}
-            <text class="ds-fig-mono" x="${left + 8}" y="${(floor - 10).toFixed(1)}" font-size="10" fill="var(--surface-quiet)">cost · cumulative</text>
+            <text class="ds-fig-mono" x="${left + 8}" y="${(floor - 10).toFixed(1)}" font-size="11" fill="var(--surface-quiet)">cost · cumulative</text>
           </svg>
           <label class="ds-scrub">
             <span class="ds-caption">Step through the mechanism</span>
@@ -963,6 +1000,56 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
   </section>`;
 }
 
+/**
+ * Gather essay with fold ticks + outer plate index — press-atelier signature.
+ *
+ * Not entry folios, chrono beads, verso/recto, or marginalia — signatures gathered in order
+ * with fold ticks hanging in the margin.
+ */
+function renderGather(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const count = blocks.length || 1;
+  const sigs = "ABCDEFGH".split("");
+  const essay = blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-gather-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const sig = esc(b.meta ?? `Sig ${sigs[i] ?? String(i + 1)}`);
+      return `<article class="ds-gather-beat" style="--i:${i}">
+        <span class="ds-gather-tick" aria-hidden="true">${sig}</span>
+        <div class="ds-gather-measure">
+          <p class="ds-chapter-index">${sig}</p>
+          <h3>${esc(b.title)}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${b.kicker ? `<p class="ds-gather-note">${esc(b.kicker)}</p>` : ""}
+          ${mark}
+        </div>
+      </article>`;
+    })
+    .join("");
+  const aside = blocks
+    .map((b, i) => {
+      const sig = esc(b.meta ?? `Sig ${sigs[i] ?? String(i + 1)}`);
+      return `<li class="ds-gather-aside-item">
+        <span class="ds-gather-aside-sig">${sig}</span>
+        <span class="ds-gather-aside-title">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-gather" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
+    <div class="ds-wrap-wide">
+      ${secMeta("Gather", `${count} signatures · fold ticks`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-gather-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
+        <div class="ds-gather-essay">${essay}</div>
+        <aside class="ds-gather-aside" aria-label="Plate index">
+          <ol class="ds-gather-aside-list">${aside}</ol>
+        </aside>
+      </div>
+    </div>
+  </section>`;
+}
+
 function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
   const cells = section.blocks.slice(0, 5);
   const board = cells.length
@@ -1092,26 +1179,32 @@ function renderFaq(section: SectionSpec): string {
  * as tall as what is in it, and the composition reads across rather than down.
  */
 function renderCtaBand(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
-  const isColophon = /Colophon|Imprint|Calibration|Registry/i.test(section.eyebrow ?? "");
+  const isColophon = /Colophon|Imprint|Calibration|Registry|Pressroom/i.test(section.eyebrow ?? "");
   const colophonClass = isColophon ? " ds-closing-colophon" : "";
   // Observatory calibration close — paper strip of tolerance numerals (not metrics theatre).
   const isObservatoryCal =
     Boolean(spec && spec.brief.siteKind === "signal-observatory") &&
     /Calibration/i.test(section.eyebrow ?? "");
+  // Pressroom close — plate number strip (not metrics theatre).
+  const isPressroom =
+    Boolean(spec && spec.brief.siteKind === "press-atelier") &&
+    /Pressroom/i.test(section.eyebrow ?? "");
   const tolLadder = ["±0.5", "±1.0", "±1.5", "±2.0"];
-  const fromCatalogue = isObservatoryCal && spec ? catalogue(spec).slice(0, 4) : [];
+  const plateLadder = ["P-01", "P-02", "P-03", "P-04"];
+  const fromCatalogue =
+    (isObservatoryCal || isPressroom) && spec ? catalogue(spec).slice(0, 4) : [];
   const calLabels =
     fromCatalogue.length > 0
       ? fromCatalogue.map((b) => b.title)
-      : isObservatoryCal && spec
+      : (isObservatoryCal || isPressroom) && spec
         ? spec.brief.features.slice(0, 4).map((f) => f.name)
         : [];
   const calStrip =
     calLabels.length > 0
-      ? `<ol class="ds-cal-strip" aria-label="Tolerance marks">${calLabels
+      ? `<ol class="ds-cal-strip${isPressroom ? " ds-press-plates" : ""}" aria-label="${isPressroom ? "Plate numbers" : "Tolerance marks"}">${calLabels
           .map(
             (name, i) =>
-              `<li class="ds-cal-mark"><span class="ds-cal-tol">${tolLadder[i % tolLadder.length]}</span><span class="ds-cal-ch">${esc(name.slice(0, 14))}</span></li>`,
+              `<li class="ds-cal-mark"><span class="ds-cal-tol">${isPressroom ? plateLadder[i % plateLadder.length] : tolLadder[i % tolLadder.length]}</span><span class="ds-cal-ch">${esc(name.slice(0, 14))}</span></li>`,
           )
           .join("")}</ol>`
       : "";
@@ -1278,6 +1371,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-folio":
     case "hero-chrono":
     case "hero-register":
+    case "hero-press":
       return wrapped(renderHero(section, spec, figures));
     case "metric-band":
       return wrapped(renderMetricBand(section, figures, spec));
@@ -1300,6 +1394,8 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderChrono(section, figures));
     case "story-entry":
       return wrapped(renderEntry(section, figures));
+    case "story-gather":
+      return wrapped(renderGather(section, figures));
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));

@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-07T12:04:28.595Z",
-  "overall": 0.9913,
+  "generatedAt": "2026-08-07T12:09:06.550Z",
+  "overall": 0.991,
   "holdout": {
     "id": "holdout-commerce",
-    "total": 0.9847,
-    "gap": 0.0066
+    "total": 0.9907,
+    "gap": 0.0003
   },
   "pages": [
     {
@@ -15,7 +15,7 @@
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 7,
+          "value": 6.364,
           "band": [
             3.833,
             8.8
@@ -484,7 +484,7 @@
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 5.6,
+          "value": 5.091,
           "band": [
             3.833,
             8.8
@@ -495,7 +495,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 12,
+          "value": 11,
           "band": [
             6,
             14
@@ -682,7 +682,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.485,
+          "value": 0.486,
           "band": [
             0.422,
             0.896
@@ -947,13 +947,13 @@
     },
     {
       "id": "corporate-story",
-      "total": 0.9949,
+      "total": 0.9948,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 8.6,
+          "value": 7.818,
           "band": [
             3.833,
             8.8
@@ -1151,12 +1151,12 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.371,
+          "value": 0.37,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.785,
+          "score": 0.781,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
@@ -1422,7 +1422,7 @@
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 4.46,
+          "value": 4.055,
           "band": [
             3.833,
             8.8
@@ -1433,7 +1433,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 12,
+          "value": 11,
           "band": [
             6,
             14
@@ -1620,7 +1620,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.487,
+          "value": 0.485,
           "band": [
             0.422,
             0.896
@@ -1869,7 +1869,7 @@
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 7.2,
+          "value": 6.545,
           "band": [
             3.833,
             8.8
@@ -2078,7 +2078,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.527,
+          "value": 0.526,
           "band": [
             0.447,
             0.96
@@ -2332,13 +2332,13 @@
     },
     {
       "id": "studio-selected",
-      "total": 0.9918,
+      "total": 0.9977,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 6.62,
+          "value": 6.018,
           "band": [
             3.833,
             8.8
@@ -2349,12 +2349,12 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 15,
+          "value": 14,
           "band": [
             6,
             14
           ],
-          "score": 0.75,
+          "score": 1,
           "why": "Too few steps reads as a template; too many reads as unmanaged."
         },
         {
@@ -2734,7 +2734,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.333,
+          "value": 0.444,
           "band": [
             0,
             0.5
@@ -2807,7 +2807,7 @@
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 5.76,
+          "value": 5.236,
           "band": [
             3.833,
             8.8
@@ -2818,7 +2818,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 12,
+          "value": 11,
           "band": [
             6,
             14
@@ -3270,13 +3270,13 @@
     },
     {
       "id": "foundry-editorial",
-      "total": 0.9831,
+      "total": 0.9832,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 4.75,
+          "value": 4.318,
           "band": [
             3.833,
             8.8
@@ -3287,7 +3287,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 14,
+          "value": 13,
           "band": [
             6,
             14
@@ -3474,7 +3474,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.583,
+          "value": 0.581,
           "band": [
             0.422,
             0.896
@@ -3485,12 +3485,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.142,
+          "value": 1.141,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.289,
+          "score": 0.293,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -3739,13 +3739,13 @@
     },
     {
       "id": "dossier-research",
-      "total": 0.9799,
+      "total": 0.9858,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 4.72,
+          "value": 4.291,
           "band": [
             3.833,
             8.8
@@ -3756,12 +3756,12 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 15,
+          "value": 14,
           "band": [
             6,
             14
           ],
-          "score": 0.75,
+          "score": 1,
           "why": "Too few steps reads as a template; too many reads as unmanaged."
         },
         {
@@ -3899,7 +3899,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.772,
+          "value": 0.769,
           "band": [
             0.611,
             1
@@ -3943,7 +3943,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.423,
+          "value": 0.424,
           "band": [
             0.422,
             0.896
@@ -3954,12 +3954,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.112,
+          "value": 1.113,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.406,
+          "score": 0.402,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -3998,7 +3998,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.079,
+          "value": 0.077,
           "band": [
             0.021,
             0.154
@@ -4042,7 +4042,7 @@
         {
           "id": "cta-discipline",
           "label": "Above-fold CTAs",
-          "value": 3,
+          "value": 2,
           "band": [
             0,
             7
@@ -4053,7 +4053,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 498,
+          "value": 483,
           "band": [
             242,
             1139
@@ -4208,13 +4208,13 @@
     },
     {
       "id": "observatory-signal",
-      "total": 0.9862,
+      "total": 0.9863,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 4.56,
+          "value": 4.145,
           "band": [
             3.833,
             8.8
@@ -4225,7 +4225,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 14,
+          "value": 13,
           "band": [
             6,
             14
@@ -4423,12 +4423,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.099,
+          "value": 1.098,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.457,
+          "score": 0.461,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -4522,7 +4522,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 522,
+          "value": 509,
           "band": [
             242,
             1139
@@ -4683,7 +4683,7 @@
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 4.9,
+          "value": 4.455,
           "band": [
             3.833,
             8.8
@@ -4694,7 +4694,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 12,
+          "value": 11,
           "band": [
             6,
             14
@@ -4881,7 +4881,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.551,
+          "value": 0.55,
           "band": [
             0.422,
             0.896
@@ -4892,7 +4892,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.303,
+          "value": 1.302,
           "band": [
             0.447,
             0.96
@@ -5145,14 +5145,14 @@
       ]
     },
     {
-      "id": "holdout-commerce",
-      "total": 0.9847,
-      "holdout": true,
+      "id": "press-atelier",
+      "total": 0.9762,
+      "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 6.2,
+          "value": 4.191,
           "band": [
             3.833,
             8.8
@@ -5163,12 +5163,481 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 15,
+          "value": 14,
           "band": [
             6,
             14
           ],
-          "score": 0.75,
+          "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 3.2,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 1.05,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 17.6,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 56,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 5,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 4,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 6,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 2,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 15.46,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 76,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.822,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.806,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.889,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 10.3,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.509,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 1,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 1.273,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 0,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 6,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.005,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.025,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 128,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 13,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 2,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 468,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 33,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 22,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 6,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 3,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0.222,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 1,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 3.7,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 4,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.222,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2559,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.6906,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 17,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.0018,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 4.08,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 1,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
+      "id": "holdout-commerce",
+      "total": 0.9907,
+      "holdout": true,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 5.636,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 14,
+          "band": [
+            6,
+            14
+          ],
+          "score": 1,
           "why": "Too few steps reads as a template; too many reads as unmanaged."
         },
         {
@@ -5361,7 +5830,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.52,
+          "value": 0.519,
           "band": [
             0.447,
             0.96
@@ -5622,8 +6091,8 @@
         0.447,
         0.96
       ],
-      "mean": 0.752,
-      "scoredOn": 12,
+      "mean": 0.694,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -5643,7 +6112,7 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.527
+          "value": 0.526
         },
         {
           "page": "studio-selected",
@@ -5655,83 +6124,27 @@
         },
         {
           "page": "foundry-editorial",
-          "value": 1.142
+          "value": 1.141
         },
         {
           "page": "dossier-research",
-          "value": 1.112
+          "value": 1.113
         },
         {
           "page": "observatory-signal",
-          "value": 1.099
+          "value": 1.098
         },
         {
           "page": "archive-index",
-          "value": 1.303
+          "value": 1.302
+        },
+        {
+          "page": "press-atelier",
+          "value": 1.273
         },
         {
           "page": "holdout-commerce",
-          "value": 0.52
-        }
-      ]
-    },
-    {
-      "id": "type-steps",
-      "label": "Distinct type sizes",
-      "band": [
-        6,
-        14
-      ],
-      "mean": 0.938,
-      "scoredOn": 12,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 13
-        },
-        {
-          "page": "dashboard-app",
-          "value": 12
-        },
-        {
-          "page": "corporate-story",
-          "value": 14
-        },
-        {
-          "page": "docs-educational",
-          "value": 12
-        },
-        {
-          "page": "fintech-trust",
-          "value": 13
-        },
-        {
-          "page": "studio-selected",
-          "value": 15
-        },
-        {
-          "page": "consumer-craft",
-          "value": 12
-        },
-        {
-          "page": "foundry-editorial",
-          "value": 14
-        },
-        {
-          "page": "dossier-research",
-          "value": 15
-        },
-        {
-          "page": "observatory-signal",
-          "value": 14
-        },
-        {
-          "page": "archive-index",
-          "value": 12
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 15
+          "value": 0.519
         }
       ]
     },
@@ -5742,8 +6155,8 @@
         0.422,
         0.896
       ],
-      "mean": 0.957,
-      "scoredOn": 12,
+      "mean": 0.96,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -5751,15 +6164,15 @@
         },
         {
           "page": "dashboard-app",
-          "value": 0.485
+          "value": 0.486
         },
         {
           "page": "corporate-story",
-          "value": 0.371
+          "value": 0.37
         },
         {
           "page": "docs-educational",
-          "value": 0.487
+          "value": 0.485
         },
         {
           "page": "fintech-trust",
@@ -5775,11 +6188,11 @@
         },
         {
           "page": "foundry-editorial",
-          "value": 0.583
+          "value": 0.581
         },
         {
           "page": "dossier-research",
-          "value": 0.423
+          "value": 0.424
         },
         {
           "page": "observatory-signal",
@@ -5787,7 +6200,11 @@
         },
         {
           "page": "archive-index",
-          "value": 0.551
+          "value": 0.55
+        },
+        {
+          "page": "press-atelier",
+          "value": 0.509
         },
         {
           "page": "holdout-commerce",
@@ -5802,8 +6219,8 @@
         0.42,
         4.33
       ],
-      "mean": 0.977,
-      "scoredOn": 12,
+      "mean": 0.978,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -5850,6 +6267,10 @@
           "value": 4.21
         },
         {
+          "page": "press-atelier",
+          "value": 4.08
+        },
+        {
           "page": "holdout-commerce",
           "value": 4.51
         }
@@ -5862,8 +6283,8 @@
         36,
         120
       ],
-      "mean": 0.992,
-      "scoredOn": 12,
+      "mean": 0.993,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -5910,6 +6331,10 @@
           "value": 65
         },
         {
+          "page": "press-atelier",
+          "value": 76
+        },
+        {
           "page": "holdout-commerce",
           "value": 77
         }
@@ -5923,7 +6348,7 @@
         6.11
       ],
       "mean": 0.997,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -5970,6 +6395,10 @@
           "value": 3.4
         },
         {
+          "page": "press-atelier",
+          "value": 3.2
+        },
+        {
           "page": "holdout-commerce",
           "value": 4.31
         }
@@ -5983,55 +6412,123 @@
         8.8
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 7
+          "value": 6.364
         },
         {
           "page": "dashboard-app",
-          "value": 5.6
+          "value": 5.091
         },
         {
           "page": "corporate-story",
-          "value": 8.6
+          "value": 7.818
         },
         {
           "page": "docs-educational",
-          "value": 4.46
+          "value": 4.055
         },
         {
           "page": "fintech-trust",
-          "value": 7.2
+          "value": 6.545
         },
         {
           "page": "studio-selected",
-          "value": 6.62
+          "value": 6.018
         },
         {
           "page": "consumer-craft",
-          "value": 5.76
+          "value": 5.236
         },
         {
           "page": "foundry-editorial",
-          "value": 4.75
+          "value": 4.318
         },
         {
           "page": "dossier-research",
-          "value": 4.72
+          "value": 4.291
         },
         {
           "page": "observatory-signal",
-          "value": 4.56
+          "value": 4.145
         },
         {
           "page": "archive-index",
-          "value": 4.9
+          "value": 4.455
+        },
+        {
+          "page": "press-atelier",
+          "value": 4.191
         },
         {
           "page": "holdout-commerce",
-          "value": 6.2
+          "value": 5.636
+        }
+      ]
+    },
+    {
+      "id": "type-steps",
+      "label": "Distinct type sizes",
+      "band": [
+        6,
+        14
+      ],
+      "mean": 1,
+      "scoredOn": 13,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 13
+        },
+        {
+          "page": "dashboard-app",
+          "value": 11
+        },
+        {
+          "page": "corporate-story",
+          "value": 14
+        },
+        {
+          "page": "docs-educational",
+          "value": 11
+        },
+        {
+          "page": "fintech-trust",
+          "value": 13
+        },
+        {
+          "page": "studio-selected",
+          "value": 14
+        },
+        {
+          "page": "consumer-craft",
+          "value": 11
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 13
+        },
+        {
+          "page": "dossier-research",
+          "value": 14
+        },
+        {
+          "page": "observatory-signal",
+          "value": 13
+        },
+        {
+          "page": "archive-index",
+          "value": 11
+        },
+        {
+          "page": "press-atelier",
+          "value": 14
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 14
         }
       ]
     },
@@ -6043,7 +6540,7 @@
         1.15
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6090,6 +6587,10 @@
           "value": 1.08
         },
         {
+          "page": "press-atelier",
+          "value": 1.05
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.98
         }
@@ -6103,7 +6604,7 @@
         32.9
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6150,6 +6651,10 @@
           "value": 16.6
         },
         {
+          "page": "press-atelier",
+          "value": 17.6
+        },
+        {
           "page": "holdout-commerce",
           "value": 18.6
         }
@@ -6163,7 +6668,7 @@
         82.5
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6210,6 +6715,10 @@
           "value": 56
         },
         {
+          "page": "press-atelier",
+          "value": 56
+        },
+        {
           "page": "holdout-commerce",
           "value": 72
         }
@@ -6223,7 +6732,7 @@
         1.5
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6270,6 +6779,10 @@
           "value": 1.48
         },
         {
+          "page": "press-atelier",
+          "value": 1.48
+        },
+        {
           "page": "holdout-commerce",
           "value": 1.48
         }
@@ -6283,7 +6796,7 @@
         8
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6330,6 +6843,10 @@
           "value": 4
         },
         {
+          "page": "press-atelier",
+          "value": 5
+        },
+        {
           "page": "holdout-commerce",
           "value": 5
         }
@@ -6343,7 +6860,7 @@
         26
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6387,6 +6904,10 @@
         },
         {
           "page": "archive-index",
+          "value": 4
+        },
+        {
+          "page": "press-atelier",
           "value": 4
         },
         {
@@ -6403,7 +6924,7 @@
         28
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6450,6 +6971,10 @@
           "value": 6
         },
         {
+          "page": "press-atelier",
+          "value": 6
+        },
+        {
           "page": "holdout-commerce",
           "value": 9
         }
@@ -6463,7 +6988,7 @@
         5
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6510,6 +7035,10 @@
           "value": 2
         },
         {
+          "page": "press-atelier",
+          "value": 2
+        },
+        {
           "page": "holdout-commerce",
           "value": 3
         }
@@ -6523,7 +7052,7 @@
         2.5
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6570,6 +7099,10 @@
           "value": 0
         },
         {
+          "page": "press-atelier",
+          "value": 0
+        },
+        {
           "page": "holdout-commerce",
           "value": 0
         }
@@ -6583,7 +7116,7 @@
         21
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6630,6 +7163,10 @@
           "value": 15.46
         },
         {
+          "page": "press-atelier",
+          "value": 15.46
+        },
+        {
           "page": "holdout-commerce",
           "value": 15.13
         }
@@ -6643,7 +7180,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6679,7 +7216,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 0.772
+          "value": 0.769
         },
         {
           "page": "observatory-signal",
@@ -6688,6 +7225,10 @@
         {
           "page": "archive-index",
           "value": 0.845
+        },
+        {
+          "page": "press-atelier",
+          "value": 0.822
         },
         {
           "page": "holdout-commerce",
@@ -6703,7 +7244,7 @@
         0.854
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6750,6 +7291,10 @@
           "value": 0.806
         },
         {
+          "page": "press-atelier",
+          "value": 0.806
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.833
         }
@@ -6763,7 +7308,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6810,6 +7355,10 @@
           "value": 0.889
         },
         {
+          "page": "press-atelier",
+          "value": 0.889
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.88
         }
@@ -6823,7 +7372,7 @@
         12.6
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6870,6 +7419,10 @@
           "value": 10.21
         },
         {
+          "page": "press-atelier",
+          "value": 10.3
+        },
+        {
           "page": "holdout-commerce",
           "value": 9.32
         }
@@ -6883,7 +7436,7 @@
         20
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6930,6 +7483,10 @@
           "value": 5
         },
         {
+          "page": "press-atelier",
+          "value": 6
+        },
+        {
           "page": "holdout-commerce",
           "value": 6
         }
@@ -6943,7 +7500,7 @@
         0.014
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -6990,6 +7547,10 @@
           "value": 0.006
         },
         {
+          "page": "press-atelier",
+          "value": 0.005
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.006
         }
@@ -7003,7 +7564,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7050,6 +7611,10 @@
           "value": 1
         },
         {
+          "page": "press-atelier",
+          "value": 1
+        },
+        {
           "page": "holdout-commerce",
           "value": 1
         }
@@ -7063,7 +7628,7 @@
         0.154
       ],
       "mean": 1,
-      "scoredOn": 11,
+      "scoredOn": 12,
       "values": [
         {
           "page": "saas-conversion",
@@ -7099,7 +7664,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 0.079
+          "value": 0.077
         },
         {
           "page": "observatory-signal",
@@ -7108,6 +7673,10 @@
         {
           "page": "archive-index",
           "value": 0.087
+        },
+        {
+          "page": "press-atelier",
+          "value": 0.025
         },
         {
           "page": "holdout-commerce",
@@ -7123,7 +7692,7 @@
         300
       ],
       "mean": 1,
-      "scoredOn": 11,
+      "scoredOn": 12,
       "values": [
         {
           "page": "saas-conversion",
@@ -7170,6 +7739,10 @@
           "value": 180
         },
         {
+          "page": "press-atelier",
+          "value": 180
+        },
+        {
           "page": "holdout-commerce",
           "value": 180
         }
@@ -7183,7 +7756,7 @@
         1983
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7230,6 +7803,10 @@
           "value": 128
         },
         {
+          "page": "press-atelier",
+          "value": 128
+        },
+        {
           "page": "holdout-commerce",
           "value": 128
         }
@@ -7243,7 +7820,7 @@
         55
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7290,6 +7867,10 @@
           "value": 31
         },
         {
+          "page": "press-atelier",
+          "value": 13
+        },
+        {
           "page": "holdout-commerce",
           "value": 5
         }
@@ -7303,7 +7884,7 @@
         7
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7339,7 +7920,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 3
+          "value": 2
         },
         {
           "page": "observatory-signal",
@@ -7347,6 +7928,10 @@
         },
         {
           "page": "archive-index",
+          "value": 2
+        },
+        {
+          "page": "press-atelier",
           "value": 2
         },
         {
@@ -7363,7 +7948,7 @@
         1139
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7399,15 +7984,19 @@
         },
         {
           "page": "dossier-research",
-          "value": 498
+          "value": 483
         },
         {
           "page": "observatory-signal",
-          "value": 522
+          "value": 509
         },
         {
           "page": "archive-index",
           "value": 550
+        },
+        {
+          "page": "press-atelier",
+          "value": 468
         },
         {
           "page": "holdout-commerce",
@@ -7423,7 +8012,7 @@
         115
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7470,6 +8059,10 @@
           "value": 33
         },
         {
+          "page": "press-atelier",
+          "value": 33
+        },
+        {
           "page": "holdout-commerce",
           "value": 38
         }
@@ -7483,7 +8076,7 @@
         28
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7530,6 +8123,10 @@
           "value": 14
         },
         {
+          "page": "press-atelier",
+          "value": 22
+        },
+        {
           "page": "holdout-commerce",
           "value": 14
         }
@@ -7543,7 +8140,7 @@
         10
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7590,6 +8187,10 @@
           "value": 9
         },
         {
+          "page": "press-atelier",
+          "value": 6
+        },
+        {
           "page": "holdout-commerce",
           "value": 8
         }
@@ -7603,7 +8204,7 @@
         6
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7650,6 +8251,10 @@
           "value": 3
         },
         {
+          "page": "press-atelier",
+          "value": 3
+        },
+        {
           "page": "holdout-commerce",
           "value": 3
         }
@@ -7663,7 +8268,7 @@
         1.375
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7710,6 +8315,10 @@
           "value": 0.25
         },
         {
+          "page": "press-atelier",
+          "value": 0.222
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.643
         }
@@ -7723,7 +8332,7 @@
         100
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7770,6 +8379,10 @@
           "value": 3.7
         },
         {
+          "page": "press-atelier",
+          "value": 3.7
+        },
+        {
           "page": "holdout-commerce",
           "value": 89.2
         }
@@ -7783,7 +8396,7 @@
         7
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7830,6 +8443,10 @@
           "value": 4
         },
         {
+          "page": "press-atelier",
+          "value": 4
+        },
+        {
           "page": "holdout-commerce",
           "value": 5
         }
@@ -7843,7 +8460,7 @@
         0.5
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7867,7 +8484,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 0.333
+          "value": 0.444
         },
         {
           "page": "consumer-craft",
@@ -7890,6 +8507,10 @@
           "value": 0.25
         },
         {
+          "page": "press-atelier",
+          "value": 0.222
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.214
         }
@@ -7903,7 +8524,7 @@
         0.778
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -7950,6 +8571,10 @@
           "value": 0.2518
         },
         {
+          "page": "press-atelier",
+          "value": 0.2559
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.2111
         }
@@ -7963,7 +8588,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -8010,6 +8635,10 @@
           "value": 0.4262
         },
         {
+          "page": "press-atelier",
+          "value": 0.6906
+        },
+        {
           "page": "holdout-commerce",
           "value": 0.92
         }
@@ -8023,7 +8652,7 @@
         157
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -8070,6 +8699,10 @@
           "value": 16
         },
         {
+          "page": "press-atelier",
+          "value": 17
+        },
+        {
           "page": "holdout-commerce",
           "value": 19
         }
@@ -8083,7 +8716,7 @@
         0.469
       ],
       "mean": 1,
-      "scoredOn": 12,
+      "scoredOn": 13,
       "values": [
         {
           "page": "saas-conversion",
@@ -8128,6 +8761,10 @@
         {
           "page": "archive-index",
           "value": 0.0017
+        },
+        {
+          "page": "press-atelier",
+          "value": 0.0018
         },
         {
           "page": "holdout-commerce",
