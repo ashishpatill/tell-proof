@@ -339,3 +339,17 @@ buckets, never names, hosts, or URLs.
   from taste controls.
 - **Next weakest:** dashboard band-variation; dossier type-steps ceiling; deepen dossier uniqueness
   (richer pin legend, imprint edition marks) without score-gaming.
+
+## Loop 17 — showcase craft-reel filmstrip (RSI)
+
+- **Goal:** finish the earlier cinema/GIF showcase intent — gallery must show best craft beats as
+  live reels, with Research Dossier featured, not a text list of hover thumbs.
+- **Failure named (champion):** `SpecimenPreview` cinema existed, but `/showcase` still presented as
+  a spine register list; beat discovery skipped spread/imprint; thumbs only scrubbed on hover.
+- **Challenger:** redesign gallery as craft stage + filmstrip; enrich beats; autoplay in view.
+- **Eval:** Playwright eye — featured `NOW PLAYING · RESEARCH DOSSIER`, `data-playing=true`,
+  craft beat ≠ nav; filmstrip cells show REEL chrome; typecheck green.
+- **Closed:** `/showcase` stage + sprocket filmstrip; dossier featured; beat discovery for
+  folio/seam/spread/imprint; chapter-rail hidden in preview chrome; learning `showcase:list-not-reel`.
+- **Side effects:** featured is excluded from the strip (8 cells) — intentional so the stage owns it.
+- **Qualitative:** gallery reads as a specimen cinema, not a sitemap of offerings.

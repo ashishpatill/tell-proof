@@ -40,6 +40,15 @@ Pattern keys match `tell-recursive-improve`.
   soft paper fade, raise plate min-height so pins enter the first viewport.
 - **Do not:** Treat a unique figure as shipped if the fold shot is only type chrome.
 
+## 2026-08-07 — `showcase:list-not-reel`
+
+- **Failure:** Cinema reel existed as a GIF substitute, but `/showcase` still read as a text index
+  with hover thumbs; beat discovery missed dossier spread/imprint; reels did not autoplay in view.
+- **Fix:** Gallery becomes a craft stage (featured dossier cinema) + filmstrip of sprocket-framed
+  cells; `discoverBeats` includes plate/ladder/spread/imprint; `autoplayInView` IntersectionObserver;
+  hide chapter rail in preview chrome like sticky nav.
+- **Do not:** Ship a gallery of nav-crop stills and call the earlier cinema commit "done".
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.
