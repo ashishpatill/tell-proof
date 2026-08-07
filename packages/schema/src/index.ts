@@ -383,3 +383,4 @@ export const TellReport = z.object({
 export type TellReport = z.infer<typeof TellReport>;
 
 export * from "./install-info.js";
+export * from "./resolve-intent.js";

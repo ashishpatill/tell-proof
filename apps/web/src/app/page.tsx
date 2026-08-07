@@ -31,6 +31,7 @@ import { DIRECTION_PRESETS, parseDirectionPlan, type DirectionPlan } from "@tell
 import { RECONCILE_DIRECTIONS, buildOverridesPatch, learnBrandDNA, reconcile, resolveDirection } from "@tell/redesign";
 import { demoReport } from "@/lib/demo-report";
 import { BeforeAfterSeam } from "@/components/BeforeAfterSeam";
+import { ConnectAgent } from "@/components/ConnectAgent";
 import { useLlmRestyle } from "@/lib/use-llm-restyle";
 import { useVoice } from "@/lib/use-voice";
 import { SETUP_ACTIVE_STATES, type SetupJob } from "@/lib/setup-types";
@@ -927,6 +928,10 @@ export default function HomePage() {
         patchReady={Boolean(proposal)}
         proofState={proofState}
       />
+
+      <div className="mt-4">
+        <ConnectAgent />
+      </div>
 
       {isRepo && !setupJob ? (
         <p className="mt-3 flex items-center gap-2 font-mono text-meta text-secondary">

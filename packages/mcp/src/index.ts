@@ -13,7 +13,13 @@ import {
   verifyProofPatch,
   revertProofPatch,
 } from "@tell/core";
-import { CapturePayload, TellReport, buildInstallInfo, MCP_TOOL_NAMES } from "@tell/schema";
+import {
+  CapturePayload,
+  TellReport,
+  buildInstallInfo,
+  MCP_TOOL_NAMES,
+  resolveIntent,
+} from "@tell/schema";
 import { OfflineRedesignGenerator, type SourceFile } from "@tell/redesign";
 import { classifyWithTaste, parseDirection, parseDirectionPlan, parseDirectionWithGemini } from "@tell/taste";
 import { DesignBrief, designFromFeatures } from "@tell/design-skills";
@@ -291,6 +297,18 @@ server.tool(
   },
   async ({ launch }) => {
     return asJson(buildInstallInfo({ launch: launch ?? "pnpm" }));
+  },
+);
+
+server.tool(
+  "tell_resolve_intent",
+  "Map free-text input to a Tell scenario with defaults (deterministic heuristics, no LLM). Use before capture, voice, matrix, or MCP setup.",
+  {
+    text: z.string(),
+    fixtureUrl: z.string().url().optional(),
+  },
+  async ({ text, fixtureUrl }) => {
+    return asJson(resolveIntent(text, { fixtureUrl }));
   },
 );
 

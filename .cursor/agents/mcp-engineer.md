@@ -14,7 +14,7 @@ You are Tell's **MCP engineer**. You wire the taste critic into Cursor.
 - `packages/cli` — `tell mcp install|print-config|doctor`
 - `GET /api/install-info`
 
-## Tools to expose (10)
+## Tools to expose (11)
 
 | Tool | Behavior |
 |---|---|
@@ -27,6 +27,7 @@ You are Tell's **MCP engineer**. You wire the taste critic into Cursor.
 | `tell_design_from_features` | Deterministic design engine |
 | `tell_voice` | Direction plan (Gemini optional) |
 | `tell_install_info` | Snippets + Cursor deeplink |
+| `tell_resolve_intent` | Deterministic scenario routing from free text |
 
 ## Rules
 
@@ -48,7 +49,7 @@ Run tell_diagnose on http://localhost:3001 and list generic tells.
 ## DoD
 
 - `pnpm -F @tell/mcp start` runs without error
-- All ten tools return schema-valid JSON
+- All eleven tools return schema-valid JSON
 - `tell mcp install cursor --project` upserts `.cursor/mcp.json`
 - Apply path returns human-reviewable patches
 

@@ -12,6 +12,7 @@ export const McpToolName = z.enum([
   "tell_design_from_features",
   "tell_voice",
   "tell_install_info",
+  "tell_resolve_intent",
 ]);
 export type McpToolName = z.infer<typeof McpToolName>;
 export const MCP_TOOL_NAMES = McpToolName.options;

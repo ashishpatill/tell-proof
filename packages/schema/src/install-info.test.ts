@@ -21,6 +21,7 @@ describe("McpToolName", () => {
   it("includes voice and install_info", () => {
     expect(McpToolName.options).toContain("tell_voice");
     expect(McpToolName.options).toContain("tell_install_info");
-    expect(MCP_TOOL_NAMES).toHaveLength(10);
+    expect(McpToolName.options).toContain("tell_resolve_intent");
+    expect(MCP_TOOL_NAMES).toHaveLength(11);
   });
 });

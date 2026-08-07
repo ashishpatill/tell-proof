@@ -26,6 +26,7 @@ description: Implements and uses Tell MCP tools for Cursor integration. Use when
 | `tell_design_from_features` | brief fields | `DesignSpec` (+ HTML) |
 | `tell_voice` | `{ transcript }` | direction plan + source |
 | `tell_install_info` | `{ launch? }` | `InstallInfo` |
+| `tell_resolve_intent` | `{ text, fixtureUrl? }` | `ResolvedIntent` |
 
 Web-only today: `/api/setup/*`, share links (see `docs/11`).
 
@@ -63,7 +64,7 @@ pnpm -F @tell/mcp start
 
 ## DoD
 
-- All ten tools return schema-valid JSON
+- All eleven tools return schema-valid JSON
 - Offline artifact fallback works without live capture
 - Apply instructions are explicit for human review
 - install-info + Cursor install path work without hand-edited JSON

@@ -6,6 +6,7 @@ import {
   buildInstallInfo,
   type InstallInfo,
   type McpStdioServerConfig,
+  resolveIntent,
   TellReport,
 } from "@tell/schema";
 
@@ -31,6 +32,7 @@ function usage(): never {
 Usage:
   tell diagnose [--url <url>] [--out <file>]
   tell voice --text <direction>
+  tell resolve --text <input>
   tell install-info [--json]
   tell mcp print-config
   tell mcp install cursor [--project|--user]
@@ -102,6 +104,16 @@ async function cmdVoice(args: string[]) {
     process.exit(1);
   }
   console.log(JSON.stringify({ ...parseDirectionPlan(text), source: "local" }, null, 2));
+}
+
+function cmdResolve(args: string[]) {
+  const text = argValue(args, "--text");
+  if (!text) {
+    console.error("tell resolve requires --text <input>");
+    process.exit(1);
+  }
+  const fixtureUrl = argValue(args, "--fixture-url") ?? process.env.TELL_FIXTURE_URL ?? "http://localhost:3001";
+  console.log(JSON.stringify(resolveIntent(text, { fixtureUrl }), null, 2));
 }
 
 function cmdInstallInfo(args: string[]) {
@@ -265,6 +277,7 @@ async function main() {
   if (!cmd || cmd === "help" || cmd === "--help" || cmd === "-h") usage();
   if (cmd === "diagnose") return cmdDiagnose(rest);
   if (cmd === "voice") return cmdVoice(rest);
+  if (cmd === "resolve") return cmdResolve(rest);
   if (cmd === "install-info") return cmdInstallInfo(rest);
   if (cmd === "mcp") return cmdMcp(rest);
   if (cmd === "doctor") return cmdDoctor();

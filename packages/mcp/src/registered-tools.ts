@@ -13,6 +13,7 @@ export const REGISTERED_MCP_TOOLS = [
   "tell_design_from_features",
   "tell_voice",
   "tell_install_info",
+  "tell_resolve_intent",
 ] as const;
 
 export type RegisteredMcpTool = (typeof REGISTERED_MCP_TOOLS)[number];
