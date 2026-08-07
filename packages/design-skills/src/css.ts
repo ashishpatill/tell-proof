@@ -484,56 +484,42 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
 [data-sitekind="archive-index"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
 
-/* Commerce loom — size tape, warp/weft fold, hangtag, Care label. Cool ink stock — not soft purple glass. */
+/* Commerce loom — drawloom fold: claim-as-weft, cloth below, treadles. Not soft purple glass. */
 [data-sitekind="commerce-loom"]{
-  --tape-rail:2.85rem;
+  --tape-rail:0;
+  --treadle-h:3.25rem;
 }
 body[data-sitekind="commerce-loom"]{
   background-color:var(--c-paper);
   background-image:
     linear-gradient(180deg,color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface)) 0%,var(--c-paper) 42%,var(--c-paper) 100%),
-    radial-gradient(120% 80% at 100% 0%,color-mix(in srgb,var(--c-accent-surface) 55%,transparent),transparent 55%);
+    repeating-linear-gradient(90deg,transparent 0 47px,color-mix(in srgb,var(--c-border) 35%,transparent) 47px 48px);
 }
 [data-sitekind="commerce-loom"] .ds-brand-mark{
   font-family:var(--f-display);letter-spacing:-0.02em;
 }
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-display{
-  font-size:clamp(2.6rem,3.5vw,3.25rem);line-height:1.06;max-width:16ch;letter-spacing:-0.03em;
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-weft-display{
+  font-size:clamp(2.35rem,3.4vw,3.15rem);line-height:1.02;letter-spacing:-0.035em;
+  display:flex;flex-direction:column;gap:0.35rem;margin:0;max-width:22ch;
 }
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-lede{max-width:34ch;margin:0.25rem 0 0}
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-brand-mark{margin:0 0 0.25rem}
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-eyebrow{margin:0}
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions{margin-top:0.4rem}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-lede{max-width:36ch;margin:0.35rem 0 0;font-size:var(--t-small-size,0.95rem)}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-brand-mark{margin:0 0 0.15rem}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-eyebrow{margin:0}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-actions{margin-top:0.55rem}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-cta-note{display:none}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-actions .ds-btn-ghost,
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-actions a:nth-child(2){display:none}
 [data-sitekind="commerce-loom"] .ds-hang-size,
 [data-sitekind="commerce-loom"] .ds-hang-aside-size{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;color:var(--c-accent);
 }
-[data-sitekind="commerce-loom"] .ds-loom-claim{
-  padding:0.15rem 0 0;
-  padding-left:var(--tape-rail);
-}
-[data-sitekind="commerce-loom"] .ds-loom-field{
-  margin-top:-2.75rem;
-  mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 100%);
-  padding-left:var(--tape-rail);
-}
-[data-sitekind="commerce-loom"] .ds-loom-plate .ds-fig{min-height:min(90vh,960px)}
-[data-sitekind="commerce-loom"] .ds-hero-loom{min-height:min(100vh,900px)}
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-cta-note{display:none}
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions .ds-btn-ghost,
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions a:nth-child(2){display:none}
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-display{
-  font-size:clamp(2.4rem,3.2vw,3rem);line-height:1.06;max-width:15ch;letter-spacing:-0.03em;
-}
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-lede{max-width:32ch;margin:0.15rem 0 0;font-size:var(--t-small-size,0.95rem)}
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions{margin-top:0.25rem}
-[data-sitekind="commerce-loom"] .ds-loom-masthead{padding-top:calc(var(--nav-h,4.5rem) + var(--s-xs));padding-bottom:0.2rem}
+[data-sitekind="commerce-loom"] .ds-hang-aside-title{font-size:14px;line-height:1.3}
+[data-sitekind="commerce-loom"] .ds-fig text.ds-fig-mono,
+[data-sitekind="commerce-loom"] text.ds-fig-mono{font-size:11px!important}
+[data-sitekind="commerce-loom"] .ds-loom-plate .ds-fig{min-height:min(52vh,520px)}
+[data-sitekind="commerce-loom"] .ds-hero-loom{min-height:min(100vh,960px);padding-bottom:var(--treadle-h)}
 [data-sitekind="commerce-loom"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="commerce-loom"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
-[data-sitekind="commerce-loom"] .ds-section-head,
-[data-sitekind="commerce-loom"] .ds-index-row,
-[data-sitekind="commerce-loom"] .ds-hang-essay,
-[data-sitekind="commerce-loom"] .ds-chapter{padding-left:0;margin-left:var(--tape-rail)}
 [data-sitekind="commerce-loom"] .ds-closing-colophon{
   border-top:1px solid var(--c-border);padding-top:var(--s-xl);
 }
@@ -547,64 +533,40 @@ body[data-sitekind="commerce-loom"]{
 [data-sitekind="commerce-loom"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
 [data-sitekind="commerce-loom"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
 
-/* Field guide — taxon rail, specimen plate, range essay, Voucher. Paper-led, not glass collage. */
+/* Field guide — glassine press fold: plate under sheet, museum label, binomial strip. */
 [data-sitekind="field-guide"]{
-  --taxon-rail:3.1rem;
+  --taxon-rail:0;
+  --binomial-h:3.1rem;
 }
 body[data-sitekind="field-guide"]{
   background-color:var(--c-paper);
   background-image:
-    linear-gradient(180deg,color-mix(in srgb,var(--c-paper) 90%,var(--c-accent-surface)) 0%,var(--c-paper) 38%,var(--c-paper) 100%),
-    radial-gradient(90% 70% at 0% 0%,color-mix(in srgb,var(--c-accent-surface) 40%,transparent),transparent 50%);
+    linear-gradient(180deg,color-mix(in srgb,var(--c-paper) 88%,var(--c-accent-surface)) 0%,var(--c-paper) 40%,var(--c-paper) 100%),
+    radial-gradient(70% 55% at 70% 20%,color-mix(in srgb,var(--c-accent-surface) 45%,transparent),transparent 60%);
 }
 [data-sitekind="field-guide"] .ds-brand-mark{
   font-family:var(--f-display);letter-spacing:-0.02em;
 }
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-display{
-  font-size:clamp(2.55rem,3.35vw,3.15rem);line-height:1.07;max-width:15ch;letter-spacing:-0.03em;
+[data-sitekind="field-guide"] .ds-press-label .ds-display{
+  font-size:clamp(2.2rem,3.15vw,2.95rem);line-height:1.06;max-width:16ch;letter-spacing:-0.03em;
 }
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-lede{max-width:34ch;margin:0.25rem 0 0}
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-brand-mark{margin:0 0 0.25rem}
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-eyebrow{margin:0}
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-actions{margin-top:0.4rem}
+[data-sitekind="field-guide"] .ds-press-label .ds-lede{max-width:32ch;margin:0.25rem 0 0;font-size:var(--t-small-size,0.95rem)}
+[data-sitekind="field-guide"] .ds-press-label .ds-brand-mark{margin:0 0 0.15rem}
+[data-sitekind="field-guide"] .ds-press-label .ds-eyebrow{margin:0}
+[data-sitekind="field-guide"] .ds-press-label .ds-actions{margin-top:0.45rem}
+[data-sitekind="field-guide"] .ds-hero-glassine .ds-cta-note{display:none}
+[data-sitekind="field-guide"] .ds-hero-glassine .ds-actions .ds-btn-ghost,
+[data-sitekind="field-guide"] .ds-hero-glassine .ds-actions a:nth-child(2){display:none}
 [data-sitekind="field-guide"] .ds-range-rank,
 [data-sitekind="field-guide"] .ds-range-aside-rank{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;color:var(--c-accent);
 }
-[data-sitekind="field-guide"] .ds-voucher-claim{
-  padding:0.15rem 0 0;
-  padding-left:var(--taxon-rail);
-}
-[data-sitekind="field-guide"] .ds-voucher-field{
-  margin-top:-2.75rem;
-  mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 100%);
-  padding-left:var(--taxon-rail);
-}
-[data-sitekind="field-guide"] .ds-voucher-plate .ds-fig{min-height:min(90vh,960px)}
-[data-sitekind="field-guide"] .ds-hero-voucher{min-height:min(100vh,900px)}
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-cta-note{display:none}
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-actions .ds-btn-ghost,
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-actions a:nth-child(2){display:none}
-[data-sitekind="commerce-loom"] .ds-hang-aside-title{font-size:14px;line-height:1.3}
-[data-sitekind="commerce-loom"] .ds-fig text.ds-fig-mono,
-[data-sitekind="commerce-loom"] text.ds-fig-mono{font-size:11px!important}
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-display{
-  font-size:clamp(2.5rem,3.25vw,3.05rem);line-height:1.07;max-width:14ch;letter-spacing:-0.03em;
-}
 [data-sitekind="field-guide"] .ds-fig text.ds-fig-mono,
 [data-sitekind="field-guide"] text.ds-fig-mono{font-size:11px!important}
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-lede{max-width:32ch;margin:0.15rem 0 0;font-size:var(--t-small-size,0.95rem)}
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-actions{margin-top:0.25rem}
-[data-sitekind="field-guide"] .ds-voucher-masthead{padding-top:calc(var(--nav-h,4.5rem) + var(--s-xs));padding-bottom:0.2rem}
-/* Drop uppercase on taxon chips — micro-label ceiling; ranks stay readable as title case. */
-[data-sitekind="field-guide"] .ds-taxon-label{text-transform:none;letter-spacing:0.02em;font-size:11px}
-[data-sitekind="field-guide"] .ds-range-note{text-transform:none}
+[data-sitekind="field-guide"] .ds-voucher-plate .ds-fig{min-height:min(62vh,640px)}
+[data-sitekind="field-guide"] .ds-hero-voucher{min-height:min(100vh,960px);padding-bottom:var(--binomial-h)}
 [data-sitekind="field-guide"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="field-guide"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
-[data-sitekind="field-guide"] .ds-section-head,
-[data-sitekind="field-guide"] .ds-index-row,
-[data-sitekind="field-guide"] .ds-range-essay,
-[data-sitekind="field-guide"] .ds-chapter{padding-left:0;margin-left:var(--taxon-rail)}
 [data-sitekind="field-guide"] .ds-closing-colophon{
   border-top:1px solid var(--c-border);padding-top:var(--s-xl);
 }
@@ -1224,43 +1186,102 @@ ${surfaceRules()}
   .ds-entry-folio{position:static;writing-mode:horizontal-tb;transform:none;height:auto;display:block;margin-bottom:0.35rem}
 }
 
-/* Loom fold + size-tape rail (commerce loom). */
+/* Drawloom fold — claim woven as weft picks through warp; cloth below; treadles. */
 .ds-hero-loom{
   position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
   display:flex;flex-direction:column;
 }
-.ds-loom-masthead{
+.ds-drawloom{display:flex;flex-direction:column;flex:1;min-height:inherit;position:relative}
+.ds-loom-beam{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
-  padding-left:calc(var(--gutter) + var(--tape-rail,2.85rem));
+  padding:calc(var(--nav-h,4.5rem) + var(--s-xs)) var(--gutter) var(--s-xs);
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;
   color:var(--c-ink-tertiary);
 }
-.ds-loom-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
-.ds-loom-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
+.ds-loom-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.12em}
+.ds-reed{
+  display:flex;height:0.85rem;border-bottom:1px solid var(--c-border);
+  padding:0 var(--gutter);gap:0;background:color-mix(in srgb,var(--c-paper) 85%,var(--c-accent-surface));
+}
+.ds-reed-tooth{
+  flex:1;border-left:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+  height:100%;
+}
+.ds-reed-tooth:first-child{border-left:0}
+.ds-drawloom-stage{
+  position:relative;flex:1;display:grid;
+  grid-template-rows:auto minmax(42vh,1fr);
+  padding:0 var(--gutter) calc(var(--treadle-h,3.25rem) + var(--s-sm));
+  min-height:0;
+}
+.ds-warp-field{
+  pointer-events:none;position:absolute;inset:0 var(--gutter) var(--treadle-h,3.25rem);
+  background:repeating-linear-gradient(90deg,
+    transparent 0 22px,
+    color-mix(in srgb,var(--c-border) 55%,transparent) 22px 23px);
+  opacity:0.55;z-index:0;
+}
+.ds-weft-claim{
+  position:relative;z-index:2;padding:var(--s-md) 0 var(--s-sm);
+  max-width:40rem;
+}
+.ds-weft-pick{
+  position:relative;display:block;
+  background:color-mix(in srgb,var(--c-paper) 88%,transparent);
+  padding:0.12rem 0.35rem 0.12rem 0;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  animation:ds-weft-settle 900ms calc(var(--pick,0) * 70ms) both;
+}
+@keyframes ds-weft-settle{
+  from{opacity:0;transform:translateX(-0.6rem)}
+  to{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .ds-weft-pick{animation:none}
+}
+.ds-weft-pick::before,
+.ds-weft-pick::after{
+  content:"";position:absolute;top:50%;width:100vw;height:1px;
+  background:color-mix(in srgb,var(--c-accent) 55%,var(--c-border));
+  pointer-events:none;
+}
+.ds-weft-pick::before{right:100%;margin-right:0.35rem}
+.ds-weft-pick::after{left:100%;margin-left:0.35rem}
+.ds-weft-ink{position:relative;z-index:1}
+.ds-drawloom-cloth{
+  position:relative;z-index:1;margin-top:var(--s-sm);
+  mask-image:linear-gradient(180deg,transparent 0%,#000 8%,#000 100%);
+}
 .ds-loom-plate{margin:0;width:100%;display:block}
-.ds-tape-rail{
-  position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
-  width:var(--tape-rail,2.85rem);z-index:var(--z-nav);pointer-events:none;
-  display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
+/* Treadles — size tape as bottom instrument, not left sticky rail. */
+.ds-treadles.ds-tape-rail{
+  position:absolute;left:0;right:0;bottom:0;top:auto;width:100%;height:var(--treadle-h,3.25rem);
+  display:flex;align-items:stretch;justify-content:stretch;padding:0;z-index:var(--z-nav);
+  pointer-events:none;border-top:1px solid var(--c-border);
+  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
 }
-.ds-tape-rail ol{
-  list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;
-  justify-content:space-between;align-items:center;pointer-events:auto;width:100%;
+.ds-treadles.ds-tape-rail ol{
+  list-style:none;margin:0;padding:0 var(--gutter);flex:1;display:flex;flex-direction:row;
+  justify-content:space-between;align-items:stretch;pointer-events:auto;width:100%;
 }
-.ds-tape-chip{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.04em;
-  color:var(--c-ink-tertiary);min-width:28px;min-height:36px;line-height:1.1;gap:0.15rem;
-  border-left:1px solid transparent;padding-left:0.15rem;
+.ds-treadles .ds-tape-chip{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-decoration:none;font-family:var(--f-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--c-ink-tertiary);min-height:44px;line-height:1.1;gap:0.15rem;
+  border-left:1px solid color-mix(in srgb,var(--c-border) 60%,transparent);
+  border-top:3px solid transparent;padding:0.25rem;
 }
-.ds-tape-meta{font-size:11px;opacity:0.7}
-.ds-tape-chip:hover,.ds-tape-chip:focus-visible,.ds-tape-chip.is-active{color:var(--c-accent);border-left-color:var(--c-accent)}
+.ds-treadles .ds-tape-chip:first-child{border-left:0}
+.ds-treadles .ds-tape-meta{font-size:11px;opacity:0.7}
+.ds-treadles .ds-tape-chip:hover,.ds-treadles .ds-tape-chip:focus-visible,.ds-treadles .ds-tape-chip.is-active{
+  color:var(--c-accent);border-top-color:var(--c-accent);background:color-mix(in srgb,var(--c-accent-surface) 40%,transparent);
+}
 @media (max-width:800px){
-  .ds-tape-rail{display:none}
-  .ds-loom-masthead,.ds-loom-claim,.ds-loom-field{padding-left:var(--gutter)}
-  .ds-loom-plate .ds-fig{min-height:min(58vh,560px)}
+  .ds-warp-field{opacity:0.3}
+  .ds-weft-pick::before,.ds-weft-pick::after{display:none}
+  .ds-loom-plate .ds-fig{min-height:min(42vh,420px)}
+  .ds-treadles .ds-tape-label{font-size:10px}
 }
 /* Hangtag essay. */
 .ds-hang-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
@@ -1292,45 +1313,138 @@ ${surfaceRules()}
   .ds-hang-aside{order:-1}
 }
 
-/* Voucher fold + taxon rail (field guide). */
+/* Glassine press fold — specimen under translucent sheet; museum label; binomial strip. */
 .ds-hero-voucher{
   position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
   display:flex;flex-direction:column;
 }
+.ds-glassine-press{display:flex;flex-direction:column;flex:1;min-height:inherit;position:relative}
 .ds-voucher-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
-  padding-left:calc(var(--gutter) + var(--taxon-rail,3.1rem));
+  padding:calc(var(--nav-h,4.5rem) + var(--s-xs)) var(--gutter) var(--s-xs);
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;
   color:var(--c-ink-tertiary);
 }
 .ds-voucher-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
-.ds-voucher-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
+.ds-press-stage{
+  position:relative;flex:1;display:grid;place-items:stretch;
+  padding:var(--s-md) var(--gutter) calc(var(--binomial-h,3.1rem) + var(--s-sm));
+  min-height:min(58vh,620px);
+}
+.ds-press-plate{
+  position:relative;z-index:1;margin:0;
+  filter:saturate(0.92) contrast(1.04);
+}
 .ds-voucher-plate{margin:0;width:100%;display:block}
-.ds-taxon-rail{
-  position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
-  width:var(--taxon-rail,3.1rem);z-index:var(--z-nav);pointer-events:none;
-  display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
+.ds-glassine-sheet{
+  position:absolute;inset:var(--s-md) var(--gutter) calc(var(--binomial-h,3.1rem) + var(--s-sm));
+  z-index:2;pointer-events:none;
+  background:
+    linear-gradient(135deg,color-mix(in srgb,var(--c-paper) 55%,transparent) 0%,color-mix(in srgb,var(--c-accent-surface) 28%,transparent) 42%,color-mix(in srgb,var(--c-paper) 40%,transparent) 100%),
+    repeating-linear-gradient(0deg,transparent 0 3px,color-mix(in srgb,var(--c-border) 18%,transparent) 3px 4px);
+  border:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 4.5rem),calc(100% - 5.5rem) 100%,0 100%);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c-paper) 35%,transparent);
 }
-.ds-taxon-rail ol{
-  list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;
-  justify-content:space-between;align-items:center;pointer-events:auto;width:100%;
+.ds-glassine-sheet::after{
+  content:"";position:absolute;right:0;bottom:0;width:5.5rem;height:4.5rem;
+  background:
+    linear-gradient(225deg,transparent 48%,color-mix(in srgb,var(--c-paper) 70%,var(--c-accent-surface)) 49%,color-mix(in srgb,var(--c-paper) 85%,transparent) 100%);
+  border-left:1px solid color-mix(in srgb,var(--c-border) 55%,transparent);
+  border-top:1px solid color-mix(in srgb,var(--c-border) 55%,transparent);
+  transform-origin:100% 100%;
+  box-shadow:-6px -6px 18px color-mix(in srgb,#000 8%,transparent);
+  animation:ds-glassine-peel 1.4s ease both;
 }
-.ds-taxon-chip{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.04em;
-  color:var(--c-ink-tertiary);min-width:28px;min-height:40px;line-height:1.1;gap:0.1rem;
-  writing-mode:horizontal-tb;
+@keyframes ds-glassine-peel{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(-2deg)}
 }
-.ds-taxon-meta{font-size:11px;color:var(--c-accent)}
-.ds-taxon-label{font-size:11px;letter-spacing:0.02em;text-transform:none;max-width:2.8rem;text-align:center;opacity:0.75}
-.ds-taxon-chip:hover,.ds-taxon-chip:focus-visible,.ds-taxon-chip.is-active{color:var(--c-accent)}
-.ds-taxon-chip.is-active .ds-taxon-meta{text-decoration:underline}
+.ds-press-label{
+  position:absolute;z-index:3;left:calc(var(--gutter) + 1.25rem);top:calc(var(--s-md) + 1.5rem);
+  max-width:min(28rem,52%);
+  padding:var(--s-md) var(--s-lg);
+  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
+  border:1px solid var(--c-border);
+  box-shadow:1px 2px 0 color-mix(in srgb,var(--c-border) 55%,transparent);
+  transform:rotate(-1.1deg);
+  animation:ds-label-settle 1s 180ms both;
+}
+@keyframes ds-label-settle{
+  from{opacity:0;transform:rotate(-1.1deg) translateY(0.5rem)}
+  to{opacity:1;transform:rotate(-1.1deg)}
+}
+@media (prefers-reduced-motion:reduce){
+  .ds-glassine-sheet::after,.ds-press-label{animation:none}
+}
+.ds-press-pins{
+  position:absolute;inset:calc(var(--s-md) + 0.35rem) calc(var(--gutter) + 0.35rem) calc(var(--binomial-h,3.1rem) + var(--s-sm) + 0.35rem);
+  z-index:4;pointer-events:none;
+}
+.ds-press-pins span{
+  position:absolute;width:0.7rem;height:0.7rem;border-radius:50%;
+  border:1px solid var(--c-accent);
+  background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--c-paper) 90%,var(--c-accent)),var(--c-accent-surface));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--c-paper) 70%,transparent);
+}
+.ds-press-pins span:nth-child(1){top:0;left:0}
+.ds-press-pins span:nth-child(2){top:0;right:0}
+.ds-press-pins span:nth-child(3){bottom:0;left:0}
+.ds-press-pins span:nth-child(4){bottom:0;right:0}
+.ds-press-label .ds-display{margin:0}
+.ds-lucida{
+  position:absolute;z-index:3;right:calc(var(--gutter) + 1.5rem);bottom:calc(var(--binomial-h,3.1rem) + var(--s-xl));
+  width:5.5rem;height:5.5rem;pointer-events:none;
+}
+.ds-lucida-arm{
+  position:absolute;left:50%;top:-1.75rem;width:1px;height:2.1rem;
+  background:var(--c-border);transform:translateX(-50%);
+}
+.ds-lucida-prism{
+  position:absolute;inset:0;border-radius:50%;
+  border:1px solid var(--c-accent);
+  background:
+    radial-gradient(circle at 40% 35%,color-mix(in srgb,var(--c-paper) 70%,transparent),color-mix(in srgb,var(--c-accent-surface) 35%,transparent) 55%,transparent 72%),
+    color-mix(in srgb,var(--c-paper) 25%,transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c-paper) 40%,transparent);
+}
+.ds-lucida-meta{
+  position:absolute;left:50%;bottom:-1.1rem;transform:translateX(-50%);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-ink-tertiary);
+}
+/* Binomial strip — taxon as bottom instrument, not left sticky rail. */
+.ds-binomial-strip.ds-taxon-rail{
+  position:absolute;left:0;right:0;bottom:0;top:auto;width:100%;height:var(--binomial-h,3.1rem);
+  display:flex;align-items:stretch;justify-content:stretch;padding:0;z-index:var(--z-nav);
+  pointer-events:none;border-top:1px solid var(--c-border);
+  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
+}
+.ds-binomial-strip.ds-taxon-rail ol{
+  list-style:none;margin:0;padding:0 var(--gutter);flex:1;display:flex;flex-direction:row;
+  justify-content:space-between;align-items:stretch;pointer-events:auto;width:100%;
+}
+.ds-binomial-strip .ds-taxon-chip{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-decoration:none;font-family:var(--f-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--c-ink-tertiary);min-height:44px;line-height:1.1;gap:0.1rem;
+  border-left:1px solid color-mix(in srgb,var(--c-border) 60%,transparent);
+  border-top:3px solid transparent;padding:0.2rem;writing-mode:horizontal-tb;
+}
+.ds-binomial-strip .ds-taxon-chip:first-child{border-left:0}
+.ds-binomial-strip .ds-taxon-meta{font-size:11px;color:var(--c-accent)}
+.ds-binomial-strip .ds-taxon-label{font-size:11px;letter-spacing:0.02em;text-transform:none;opacity:0.75;max-width:none}
+.ds-binomial-strip .ds-taxon-chip:hover,.ds-binomial-strip .ds-taxon-chip:focus-visible,.ds-binomial-strip .ds-taxon-chip.is-active{
+  color:var(--c-accent);border-top-color:var(--c-accent);background:color-mix(in srgb,var(--c-accent-surface) 40%,transparent);
+}
+.ds-binomial-strip .ds-taxon-chip.is-active .ds-taxon-meta{text-decoration:underline}
 @media (max-width:800px){
-  .ds-taxon-rail{display:none}
-  .ds-voucher-masthead,.ds-voucher-claim,.ds-voucher-field{padding-left:var(--gutter)}
-  .ds-voucher-plate .ds-fig{min-height:min(58vh,560px)}
+  .ds-press-label{max-width:calc(100% - 2rem);left:var(--gutter);right:var(--gutter);transform:none;top:calc(var(--s-md) + 0.75rem)}
+  .ds-lucida{display:none}
+  .ds-glassine-sheet{clip-path:none}
+  .ds-glassine-sheet::after{display:none}
+  .ds-voucher-plate .ds-fig{min-height:min(42vh,420px)}
+  .ds-binomial-strip .ds-taxon-label{font-size:10px}
 }
 /* Range essay. */
 .ds-range-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}

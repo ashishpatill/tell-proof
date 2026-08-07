@@ -427,7 +427,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).not.toContain('class="ds-chronometer"');
   });
 
-  it("gives commerce loom a tape + weave + hangtag plan distinct from soft card grids", () => {
+  it("gives commerce loom a drawloom weft + treadles + hangtag plan distinct from soft card grids", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.loom!);
     expect(spec.brief.siteKind).toBe("commerce-loom");
     expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
@@ -437,19 +437,19 @@ describe("research-backed offerings + implementation basics", () => {
     const inverse = spec.sections.filter((s) => s.surface === "inverse");
     expect(inverse.length).toBe(0);
     expect(previewHtml).toContain('data-sitekind="commerce-loom"');
-    expect(previewHtml).toContain("ds-hero-loom");
-    expect(previewHtml).toContain("ds-loom-masthead");
-    expect(previewHtml).toContain("ds-tape-rail");
+    expect(previewHtml).toContain("ds-hero-drawloom");
+    expect(previewHtml).toContain("ds-weft-pick");
+    expect(previewHtml).toContain("ds-treadles");
     expect(previewHtml).toContain('data-figure="loom-weave"');
     expect(previewHtml).toContain("ds-hangtag");
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Care label");
     expect(previewHtml).toContain("The lines");
     expect(previewHtml).not.toContain('class="ds-alpha-rail"');
-    expect(previewHtml).not.toContain('class="ds-taxon-rail"');
+    expect(previewHtml).not.toContain('aria-label="Taxonomic ranks"');
   });
 
-  it("gives field guide a taxon + specimen + range plan distinct from glass hero collages", () => {
+  it("gives field guide a glassine press + binomial + range plan distinct from glass hero collages", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.herbarium!);
     expect(spec.brief.siteKind).toBe("field-guide");
     expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
@@ -459,15 +459,16 @@ describe("research-backed offerings + implementation basics", () => {
     const inverse = spec.sections.filter((s) => s.surface === "inverse");
     expect(inverse.length).toBe(0);
     expect(previewHtml).toContain('data-sitekind="field-guide"');
-    expect(previewHtml).toContain("ds-hero-voucher");
-    expect(previewHtml).toContain("ds-voucher-masthead");
-    expect(previewHtml).toContain("ds-taxon-rail");
+    expect(previewHtml).toContain("ds-hero-glassine");
+    expect(previewHtml).toContain("ds-glassine-sheet");
+    expect(previewHtml).toContain("ds-press-label");
+    expect(previewHtml).toContain("ds-binomial-strip");
     expect(previewHtml).toContain('data-figure="specimen-plate"');
     expect(previewHtml).toContain("ds-range");
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Voucher");
     expect(previewHtml).toContain("The traits");
-    expect(previewHtml).not.toContain('class="ds-tape-rail"');
+    expect(previewHtml).not.toContain('aria-label="Size treadles"');
     expect(previewHtml).not.toContain('class="ds-alpha-rail"');
   });
 

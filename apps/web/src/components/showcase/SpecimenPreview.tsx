@@ -38,15 +38,15 @@ function discoverBeats(doc: Document): Beat[] {
 
   const beats: Beat[] = [];
   const hero =
-    pick(".ds-hero .ds-display", "hero", "Claim") ||
+    pick(".ds-press-label .ds-display, .ds-weft-display, .ds-hero .ds-display", "hero", "Claim") ||
     pick(".ds-hero", "hero", "Claim") ||
     pick("h1", "hero", "Claim");
   if (hero) beats.push(hero);
 
-  // Prefer the unique craft figure for each kind — lattice, folio plate, seam ladder, then product.
+  // Prefer the unique craft figure for each kind — glassine plate, drawloom cloth, lattice, folio, seam, then product.
   const figureRaw =
-    pick(".ds-hero .ds-voucher-plate .ds-fig, .ds-voucher-plate", "figure", "Specimen") ||
-    pick(".ds-hero .ds-loom-plate .ds-fig, .ds-loom-plate", "figure", "Loom") ||
+    pick(".ds-hero .ds-press-plate .ds-fig, .ds-press-plate, .ds-voucher-plate", "figure", "Specimen") ||
+    pick(".ds-hero .ds-drawloom-cloth .ds-fig, .ds-drawloom-cloth, .ds-loom-plate", "figure", "Loom") ||
     pick(".ds-hero .ds-register-ledger .ds-fig, .ds-register-ledger", "figure", "Ledger") ||
     pick(".ds-hero .ds-chrono-lattice .ds-fig, .ds-chrono-lattice", "figure", "Lattice") ||
     pick(".ds-hero .ds-folio-plate .ds-fig, .ds-folio-plate", "figure", "Plate") ||

@@ -367,42 +367,72 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
   }
 
   /*
-   * Loom fold — commerce-loom signature.
+   * Drawloom fold — commerce-loom marvel craft.
    *
-   * Compact claim + spanning warp/weft loom owning the fold. Sticky size-tape rail on the left.
-   * Not soft glass card collages — a merchandising press grammar.
+   * Breaks the sticky-rail recipe: the headline is woven as weft picks through visible warp
+   * threads, the cloth (photo loom) owns the lower fold, and size tape becomes treadles at the
+   * bottom — not a left chrome rail. Theme packs invent card grids; they do not invent a drawloom.
    */
   if (section.layout === "hero-loom") {
     const loomFig = figures.hero
       ? `<figure class="ds-loom-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
       : "";
+    const words = section.title.trim().split(/\s+/).filter(Boolean);
+    const picks: string[] = [];
+    let line = "";
+    for (const w of words) {
+      const next = line ? `${line} ${w}` : w;
+      if (next.length > 18 && line) {
+        picks.push(line);
+        line = w;
+      } else {
+        line = next;
+      }
+    }
+    if (line) picks.push(line);
+    const weftPicks = picks
+      .map((p, i) => `<span class="ds-weft-pick" style="--pick:${i}"><span class="ds-weft-ink">${esc(p)}</span></span>`)
+      .join("");
     const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
-    const tape = `<nav class="ds-tape-rail" aria-label="Size tape"><ol>${sizes
+    const treadles = `<nav class="ds-tape-rail ds-treadles" aria-label="Size treadles"><ol>${sizes
       .map((S, i) => {
         const href = i < 6 ? ["#features", "#figure", "#specimen", "#story", "#proof", "#cta"][i] : "#features";
         return `<li><a href="${href}" class="ds-tape-chip${i === 2 ? " is-active" : ""}" data-size="${S}"><span class="ds-tape-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-tape-label">${S}</span></a></li>`;
       })
       .join("")}</ol></nav>`;
-    const mast = `<header class="ds-loom-masthead" aria-label="Loom masthead">
-      <span class="ds-loom-vol">Press</span>
-      <span class="ds-loom-issue">Warp × Weft</span>
-      <span class="ds-loom-date">Merchandising loom</span>
-      <span class="ds-loom-mark">${esc(spec.brief.productName)}</span>
-    </header>`;
-    return `<section id="top" class="ds-section ds-hero ds-hero-loom" data-surface="${section.surface}" data-section="${esc(section.id)}">
-      ${tape}
-      ${mast}
-      <div class="ds-loom-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-bleed ds-loom-field">${loomFig}</div>
+    const reed = `<div class="ds-reed" aria-hidden="true">${Array.from({ length: 24 }, (_, i) => `<span class="ds-reed-tooth" style="--i:${i}"></span>`).join("")}</div>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-loom ds-hero-drawloom" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      <div class="ds-drawloom">
+        <header class="ds-loom-beam" aria-label="Loom beam">
+          <span class="ds-loom-vol">Drawloom</span>
+          <span class="ds-loom-issue">Warp × weft</span>
+          <span class="ds-loom-mark">${esc(spec.brief.productName)}</span>
+        </header>
+        ${reed}
+        <div class="ds-drawloom-stage">
+          <div class="ds-warp-field" aria-hidden="true"></div>
+          <div class="ds-weft-claim">
+            <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
+            ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+            <h1 class="ds-display ds-weft-display">${weftPicks}</h1>
+            <p class="ds-lede">${esc(section.body)}</p>
+            ${actions(section)}
+          </div>
+          <div class="ds-drawloom-cloth">${loomFig}</div>
+        </div>
+        ${treadles}
+      </div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
 
   /*
-   * Voucher fold — field-guide signature.
+   * Glassine press fold — field-guide marvel craft.
    *
-   * Compact claim + spanning specimen plate owning the fold. Sticky taxon rail on the left.
-   * Not floating glass heroes — a herbarium voucher grammar.
+   * Breaks the sticky-rail recipe: the specimen plate sits under a translucent glassine sheet with
+   * corner press pins; the claim is a museum label stuck on the glassine; taxon ranks become a
+   * horizontal binomial strip under the press — not a left chrome rail. Theme packs invent glass
+   * card collages; they do not invent a herbarium press under glassine.
    */
   if (section.layout === "hero-voucher") {
     const plateFig = figures.hero
@@ -417,23 +447,37 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       { id: "G", label: "Genus" },
       { id: "S", label: "Species" },
     ];
-    const rail = `<nav class="ds-taxon-rail" aria-label="Taxonomic ranks"><ol>${ranks
+    const binomial = `<nav class="ds-taxon-rail ds-binomial-strip" aria-label="Taxonomic ranks"><ol>${ranks
       .map((R, i) => {
         const href = i < 6 ? ["#features", "#figure", "#specimen", "#story", "#proof", "#cta"][i] : "#features";
         return `<li><a href="${href}" class="ds-taxon-chip${i === 5 ? " is-active" : ""}" data-rank="${R.id}"><span class="ds-taxon-meta">${R.id}</span><span class="ds-taxon-label">${esc(R.label)}</span></a></li>`;
       })
       .join("")}</ol></nav>`;
-    const mast = `<header class="ds-voucher-masthead" aria-label="Voucher masthead">
-      <span class="ds-voucher-vol">Field</span>
-      <span class="ds-voucher-issue">Voucher</span>
-      <span class="ds-voucher-date">Herbarium plate</span>
-      <span class="ds-voucher-mark">${esc(spec.brief.productName)}</span>
-    </header>`;
-    return `<section id="top" class="ds-section ds-hero ds-hero-voucher" data-surface="${section.surface}" data-section="${esc(section.id)}">
-      ${rail}
-      ${mast}
-      <div class="ds-voucher-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-bleed ds-voucher-field">${plateFig}</div>
+    const pins = `<div class="ds-press-pins" aria-hidden="true"><span></span><span></span><span></span><span></span></div>`;
+    const lucida = `<div class="ds-lucida" aria-hidden="true"><span class="ds-lucida-arm"></span><span class="ds-lucida-prism"></span><span class="ds-lucida-meta">Lucida</span></div>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-voucher ds-hero-glassine" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      <div class="ds-glassine-press">
+        <header class="ds-voucher-masthead" aria-label="Voucher masthead">
+          <span class="ds-voucher-vol">Press</span>
+          <span class="ds-voucher-issue">Glassine</span>
+          <span class="ds-voucher-date">Herbarium plate</span>
+          <span class="ds-voucher-mark">${esc(spec.brief.productName)}</span>
+        </header>
+        <div class="ds-press-stage">
+          ${pins}
+          <div class="ds-press-plate">${plateFig}</div>
+          <div class="ds-glassine-sheet" aria-hidden="true"></div>
+          <div class="ds-press-label">
+            <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
+            ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+            <h1 class="ds-display">${esc(section.title)}</h1>
+            <p class="ds-lede">${esc(section.body)}</p>
+            ${actions(section)}
+          </div>
+          ${lucida}
+        </div>
+        ${binomial}
+      </div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
