@@ -271,5 +271,14 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Do not:** Document MCP tools only in prose — gate names with schema + a test that reads
   `packages/mcp/src/index.ts`.
 
+## 2026-08-07 — `platform:next-js-extension-reexports`
+
+- **Failure:** After splitting `@tell/schema` into `install-info.ts` / `resolve-intent.ts`, Next
+  `transpilePackages` failed with `Can't resolve './install-info.js'` on every API route.
+- **Fix:** Re-export with extensionless paths (`./install-info`) like `@tell/taste` — webpack maps
+  them to `.ts` under transpilePackages; tsup still bundles fine.
+- **Do not:** Use NodeNext `.js` suffixes in packages that Next transpiles from source.
+
+
 
 

@@ -26,7 +26,7 @@ import { DesignBrief, designFromFeatures } from "@tell/design-skills";
 import type { Finding, TasteVerdict } from "@tell/schema";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
-import { REGISTERED_MCP_TOOLS } from "./registered-tools.js";
+import { REGISTERED_MCP_TOOLS } from "./registered-tools";
 
 if (REGISTERED_MCP_TOOLS.join("\0") !== MCP_TOOL_NAMES.join("\0")) {
   throw new Error("MCP registered tools drifted from @tell/schema MCP_TOOL_NAMES");
