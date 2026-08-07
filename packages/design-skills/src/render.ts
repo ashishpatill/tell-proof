@@ -398,14 +398,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     }
     if (line) picks.push(line);
     const weftPicks = picks
-      .map((p, i) => {
-        const letters = [...p].map((ch, j) => {
-          const under = (i + j) % 2 === 1;
-          const glyph = ch === " " ? "&nbsp;" : esc(ch);
-          return `<span class="ds-shed-glyph${under ? " is-under" : " is-over"}">${glyph}</span>`;
-        }).join("");
-        return `<span class="ds-weft-pick" style="--pick:${i}"><span class="ds-weft-thread" aria-hidden="true"></span><span class="ds-weft-ink">${letters}</span></span>`;
-      })
+      .map((p, i) => `<span class="ds-weft-pick" style="--pick:${i}"><span class="ds-weft-thread" aria-hidden="true"></span><span class="ds-weft-ink">${esc(p)}</span></span>`)
       .join("");
     const warpCount = 28;
     const warpEnds = Array.from({ length: warpCount }, (_, i) => {

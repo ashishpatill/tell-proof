@@ -220,7 +220,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && !spec.sections.some((s) => s.kind === "metrics")
           && /ds-hero-drawloom/.test(html)
           && /ds-shed/.test(html)
-          && /ds-shed-glyph/.test(html)
+          && /ds-weft-pick/.test(html)
           && /ds-shuttle/.test(html)
           && /ds-fell/.test(html)
           && /ds-treadles/.test(html)

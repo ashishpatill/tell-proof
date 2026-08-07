@@ -442,7 +442,6 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain('data-sitekind="commerce-loom"');
     expect(previewHtml).toContain("ds-hero-drawloom");
     expect(previewHtml).toContain("ds-shed");
-    expect(previewHtml).toContain("ds-shed-glyph");
     expect(previewHtml).toContain("ds-shuttle");
     expect(previewHtml).toContain("ds-fell");
     expect(previewHtml).toContain("ds-weft-pick");

@@ -1494,16 +1494,17 @@ ${surfaceRules()}
   pointer-events:none;z-index:0;
 }
 .ds-weft-ink{
-  position:relative;z-index:2;display:inline-flex;flex-wrap:wrap;
+  position:relative;z-index:2;display:inline;
   background:color-mix(in srgb,var(--c-paper) 82%,transparent);
   padding:0.05rem 0.2rem;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  /* Shed weave: alternate over/under bars without splitting display glyphs (probe-safe). */
+  background-image:
+    linear-gradient(90deg,
+      color-mix(in srgb,var(--c-paper) 88%,transparent) 0 10px,
+      transparent 10px 14px);
+  background-size:14px 100%;
 }
-.ds-shed-glyph{
-  display:inline-block;position:relative;
-  padding:0 0.01em;
-}
-.ds-shed-glyph.is-under{z-index:0;opacity:0.88}
-.ds-shed-glyph.is-over{z-index:3}
 .ds-shuttle{
   position:absolute;right:8%;top:42%;z-index:4;pointer-events:none;
   display:flex;align-items:center;gap:0.35rem;
