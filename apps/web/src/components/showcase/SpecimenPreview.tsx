@@ -39,6 +39,8 @@ function discoverBeats(doc: Document): Beat[] {
   if (hero) beats.push(hero);
 
   const figureRaw =
+    pick(".ds-hero .ds-folio-plate", "figure", "Figure") ||
+    pick(".ds-hero .ds-seam-figure", "figure", "Figure") ||
     pick(".ds-hero .ds-plate-bleed", "figure", "Figure") ||
     pick(".ds-plate-bleed .ds-fig", "figure", "Figure") ||
     pick(".ds-alt-figure, [data-section='features'] .ds-plate", "figure", "Figure");

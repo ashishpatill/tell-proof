@@ -195,6 +195,7 @@ export function buildSections(
         const isStudio = brief.siteKind === "art-directed-studio";
         const isConsumer = brief.siteKind === "consumer-craft";
         const isFoundry = brief.siteKind === "editorial-foundry";
+        const isDossier = brief.siteKind === "research-dossier";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -205,6 +206,8 @@ export function buildSections(
                   ? "Also in the bag"
                   : isFoundry
                     ? "Also cut"
+                    : isDossier
+                      ? "Also in the brief"
                     : "Also included"
               : isStudio
                 ? "Selected work"
@@ -212,6 +215,8 @@ export function buildSections(
                   ? "In hand"
                   : isFoundry
                     ? "The cuts"
+                    : isDossier
+                      ? "The instruments"
                     : eyebrow.features,
             title: isSecond
               ? isStudio
@@ -220,6 +225,8 @@ export function buildSections(
                   ? sentence(`The details you notice on week three`)
                   : isFoundry
                     ? sentence(`The quieter cuts that keep the system honest`)
+                  : isDossier
+                    ? sentence(`The quieter instruments that keep a brief honest`)
                   : sentence(`The rest of what ships with ${brief.productName}`)
               : isStudio
                 ? sentence(`Work that still holds after the launch week`)
@@ -227,6 +234,8 @@ export function buildSections(
                   ? sentence(`Built for the day you actually have`)
                   : isFoundry
                     ? sentence(`Cuts drawn for real reading sizes`)
+                  : isDossier
+                    ? sentence(`Instruments a capital brief actually uses`)
                   : featuresTitle(brief, features),
             body: isSecond
               ? isStudio
@@ -235,6 +244,8 @@ export function buildSections(
                   ? sentence(`Repair, modes, and the pockets that keep unpacking honest`)
                   : isFoundry
                     ? sentence(`Italics, numerals, and the marks that stop a layout from inventing a second face`)
+                  : isDossier
+                    ? sentence(`Sources, caveats, and the rails that stop a memo from inventing conviction`)
                   : sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
               : isStudio
                 ? sentence(`Each engagement is a composed surface — identity, product, and motion under one grid`)
@@ -242,6 +253,8 @@ export function buildSections(
                   ? sentence(`Each capability is something you can point at on the product — not a lifestyle claim`)
                   : isFoundry
                     ? sentence(`Each cut is a size and a job — not a style picker dressed as a product`)
+                  : isDossier
+                    ? sentence(`Each instrument is a named reading — not a dashboard dressed as research`)
                   : featuresLede(brief, features),
             blocks: slice,
           }),
@@ -263,6 +276,8 @@ export function buildSections(
                 ? brief.productName.split(/\s+/)[0] ?? brief.productName
                 : brief.siteKind === "editorial-foundry"
                   ? sentence(`${brief.productName} at reading size`)
+                : brief.siteKind === "research-dossier"
+                  ? sentence(`${brief.productName} field plate`)
                 : sentence(brief.productName),
             body: "",
           }),
@@ -273,15 +288,20 @@ export function buildSections(
       case "figure": {
         const focal = editorial.features[0];
         const isFoundry = brief.siteKind === "editorial-foundry";
+        const isDossier = brief.siteKind === "research-dossier";
         sections.push(
           SectionSpec.parse({
             ...base,
-            eyebrow: isFoundry ? "Optical sizes" : eyebrow.figure,
+            eyebrow: isFoundry ? "Optical sizes" : isDossier ? "Plate legend" : eyebrow.figure,
             title: isFoundry
               ? sentence(`How ${brief.productName} changes with size`)
+              : isDossier
+                ? sentence(`How ${brief.productName} maps a briefing`)
               : sentence(`${focal?.name ?? brief.productName}, step by step`),
             body: isFoundry
               ? sentence(`The same face at display, title, deck, text, and caption — drawn, not described`)
+              : isDossier
+                ? sentence(`Pins, coordinates, and regions — the instruments drawn rather than claimed`)
               : sentence(
                   `The path work takes through ${brief.productName}, drawn rather than described`,
                 ),
@@ -292,6 +312,8 @@ export function buildSections(
             ),
             figureCaption: isFoundry
               ? sentence(`Step through the optical sizes ${brief.productName} is cut for`)
+              : isDossier
+                ? sentence(`Read the pins that mark each instrument on the dossier plate`)
               : sentence(
                   `Drag to step through how ${brief.productName} moves work from ${
                     features[0]?.name.toLowerCase() ?? "input"
@@ -313,6 +335,8 @@ export function buildSections(
                   ? "In use"
                   : brief.siteKind === "editorial-foundry"
                     ? "Composition notes"
+                  : brief.siteKind === "research-dossier"
+                    ? "Reading notes"
                   : eyebrow.story,
             title:
               brief.siteKind === "art-directed-studio"
@@ -321,6 +345,8 @@ export function buildSections(
                   ? sentence(`A day with ${brief.productName}`)
                   : brief.siteKind === "editorial-foundry"
                     ? sentence(`How the face is set on a real page`)
+                  : brief.siteKind === "research-dossier"
+                    ? sentence(`How a brief is actually read`)
                   : sentence(`The order things happen in`),
             body:
               brief.siteKind === "art-directed-studio"
@@ -329,14 +355,19 @@ export function buildSections(
                   ? sentence(`From morning pack to evening empty — what you actually do with it`)
                   : brief.siteKind === "editorial-foundry"
                     ? sentence(`Measure, hierarchy, and the notes that keep a layout from drifting`)
+                  : brief.siteKind === "research-dossier"
+                    ? sentence(`Verso claim, recto evidence, footnotes that keep conviction honest`)
                   : sentence(`The sequence ${brief.audience} actually meet, in order`),
             blocks: chapters(editorial.features).map((c, i) =>
               block({
                 title: c.title,
                 body: c.body,
                 meta: c.meta,
-                // Marginalia hang these kickers in the outer column on foundry pages.
-                kicker: brief.siteKind === "editorial-foundry" ? `Note ${String(i + 1).padStart(2, "0")}` : undefined,
+                // Marginalia / footnotes hang these kickers beside the essay.
+                kicker:
+                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier"
+                    ? `Note ${String(i + 1).padStart(2, "0")}`
+                    : undefined,
               }),
             ),
           }),
@@ -425,10 +456,17 @@ export function buildSections(
         sections.push(
           SectionSpec.parse({
             ...base,
-            eyebrow: brief.siteKind === "editorial-foundry" ? "Colophon" : eyebrow.cta,
+            eyebrow:
+              brief.siteKind === "editorial-foundry"
+                ? "Colophon"
+                : brief.siteKind === "research-dossier"
+                  ? "Imprint"
+                  : eyebrow.cta,
             title: sentence(
               brief.siteKind === "editorial-foundry"
                 ? `Request a specimen of ${brief.productName}`
+                : brief.siteKind === "research-dossier"
+                  ? `Request the next ${brief.productName} folio`
                 : brief.businessGoal === "trust"
                   ? `See it against your own material`
                   : `Put ${brief.productName} in front of your ${brief.audience.split(" ").slice(-1)[0] ?? "team"}`,
@@ -438,6 +476,8 @@ export function buildSections(
             body: sentence(
               brief.siteKind === "editorial-foundry"
                 ? `Edition notes, trial files, and the cuts ${brief.audience} actually set`
+                : brief.siteKind === "research-dossier"
+                  ? `Numbered folios, source notes, and the instruments ${brief.audience} actually open`
                 : `${count(features.length)[0]!.toUpperCase()}${count(features.length).slice(1)} capabilities, one conversation`,
             ),
             ctaLabel: cta.primary,

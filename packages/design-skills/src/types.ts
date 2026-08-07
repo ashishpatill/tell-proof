@@ -63,6 +63,14 @@ export const SiteKind = z.enum([
    * display ~3.3vw, alignment axes ~6). Not a recolored SaaS/studio skeleton.
    */
   "editorial-foundry",
+  /**
+   * Research dossier / capital briefing — folio masthead, chapter rail, dossier plate,
+   * verso/recto spread with footnote register, bleed rules, imprint close.
+   * Calibrated to capital-brand + research-editorial + editorial-brand
+   * (alignment axes ~6–8, spineConformity ~0.5–0.75, quiet display, dense bleeds,
+   * layered matter). Not a recolored SaaS, foundry, or studio skeleton.
+   */
+  "research-dossier",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 
@@ -197,6 +205,11 @@ export const LayoutVariant = z.enum([
   "hero-statement",
   /** Hard vertical seam: paper claim | inverse type ladder — foundry signature fold. */
   "hero-seam",
+  /**
+   * Folio masthead + quiet claim + spanning dossier plate — research-dossier signature fold.
+   * Magazine volume/issue running head; not overfigure, not seam, not SaaS split.
+   */
+  "hero-folio",
   "metric-band",
   "specimen-band",
   "marquee-proof",
@@ -208,6 +221,11 @@ export const LayoutVariant = z.enum([
   "story-chapters",
   /** Essay register with outer-margin annotations — editorial-longform craft. */
   "story-marginalia",
+  /**
+   * Verso/recto book opening with center gutter + footnote register — dossier craft.
+   * Hard for a theme pack to invent: paired pages, superscript refs, bottom register.
+   */
+  "story-spread",
   "pullquote",
   "pricing-lanes",
   "compare-matrix",

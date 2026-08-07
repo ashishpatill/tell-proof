@@ -223,6 +223,11 @@ export default function StudioPage() {
       nextLean = "refined-story";
       nextDensity = "sparse";
     }
+    if (/dossier|briefing|folio|capital brief|research desk|imprint|memo/.test(text)) {
+      nextKind = "research-dossier";
+      nextLean = "refined-story";
+      nextDensity = "sparse";
+    }
     if (/story|editorial|refined|corporate/.test(text)) {
       nextLean = "refined-story";
       nextDensity = "sparse";
@@ -351,6 +356,7 @@ export default function StudioPage() {
               "art-directed-studio",
               "consumer-craft",
               "editorial-foundry",
+              "research-dossier",
             ]}
             testId="input-sitekind"
           />

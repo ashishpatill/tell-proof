@@ -15,25 +15,40 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
   const leanDefault =
     siteKind === "dashboard-webapp"
       ? "system-crafted"
-      : siteKind === "corporate-story" || siteKind === "docs-educational" || siteKind === "editorial-foundry"
+      : siteKind === "corporate-story" ||
+          siteKind === "docs-educational" ||
+          siteKind === "editorial-foundry" ||
+          siteKind === "research-dossier"
         ? "refined-story"
         : "conversion-sharp";
 
   return TasteControls.parse({
     density:
       brief.taste?.density ??
-      (siteKind === "docs-educational" || siteKind === "editorial-foundry"
+      (siteKind === "docs-educational" || siteKind === "editorial-foundry" || siteKind === "research-dossier"
         ? "sparse"
         : siteKind === "dashboard-webapp"
           ? "information-rich"
           : "balanced"),
     motion:
       brief.taste?.motion ??
-      (siteKind === "editorial-foundry" ? "light-scroll-reveals" : siteKind === "dashboard-webapp" ? "subtle-micro" : "subtle-micro"),
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier"
+        ? "light-scroll-reveals"
+        : siteKind === "dashboard-webapp"
+          ? "subtle-micro"
+          : "subtle-micro"),
     aestheticLean: brief.taste?.aestheticLean ?? leanDefault,
-    colorMood: brief.taste?.colorMood ?? (siteKind === "editorial-foundry" ? "light-airy" : "neutral-professional"),
-    typographyWeight: brief.taste?.typographyWeight ?? (siteKind === "editorial-foundry" ? "light-elegant" : "medium-modern"),
-    roundingDepth: brief.taste?.roundingDepth ?? (siteKind === "dashboard-webapp" || siteKind === "editorial-foundry" ? "sharp" : "soft"),
+    colorMood:
+      brief.taste?.colorMood ??
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" ? "light-airy" : "neutral-professional"),
+    typographyWeight:
+      brief.taste?.typographyWeight ??
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" ? "light-elegant" : "medium-modern"),
+    roundingDepth:
+      brief.taste?.roundingDepth ??
+      (siteKind === "dashboard-webapp" || siteKind === "editorial-foundry" || siteKind === "research-dossier"
+        ? "sharp"
+        : "soft"),
   });
 }
 

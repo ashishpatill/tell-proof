@@ -259,6 +259,42 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     </section>`;
   }
 
+  /*
+   * Folio fold — the research-dossier signature.
+   *
+   * Masthead (volume / issue / date) + quiet claim on paper, then a spanning dossier plate.
+   * A sticky chapter rail marks the argument on the right edge. Bleed rule seals the fold.
+   * Not overfigure, not hard-seam, not SaaS split — a magazine briefing grammar.
+   */
+  if (section.layout === "hero-folio") {
+    const plateFig = figures.hero
+      ? `<figure class="ds-folio-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const chapterHrefs = ["#features", "#figure", "#story", "#proof", "#cta"];
+    const chapters = (section.aside.length ? section.aside : section.blocks.slice(0, 5))
+      .map((b, i) => {
+        const href = chapterHrefs[i] ?? "#features";
+        return `<li><a href="${href}"><span class="ds-chapter-rail-num">${String(i + 1).padStart(2, "0")}</span><span class="ds-chapter-rail-label">${esc(b.title)}</span></a></li>`;
+      })
+      .join("");
+    const rail = chapters
+      ? `<nav class="ds-chapter-rail" aria-label="Briefing chapters"><ol>${chapters}</ol></nav>`
+      : "";
+    const mast = `<header class="ds-folio-masthead" aria-label="Folio masthead">
+      <span class="ds-folio-vol">Vol. XII</span>
+      <span class="ds-folio-issue">Issue 03</span>
+      <span class="ds-folio-date">Briefing folio</span>
+      <span class="ds-folio-mark">${esc(spec.brief.productName)}</span>
+    </header>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-folio" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      ${mast}
+      <div class="ds-folio-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-folio-field">${plateFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
   if (section.layout === "hero-editorial") {
     return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-overfigure" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${spanning}
@@ -643,6 +679,59 @@ function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
+ * Verso/recto spread with footnote register — research-dossier signature essay.
+ *
+ * Two facing pages with a center gutter rule; superscript markers in the prose resolve to a
+ * footnote strip under the spread. Theme packs do not invent book openings + footnote registers
+ * from a density slider.
+ */
+function renderSpread(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const mid = Math.ceil(blocks.length / 2) || 1;
+  const verso = blocks.slice(0, mid);
+  const recto = blocks.slice(mid);
+  const renderPage = (page: typeof blocks, side: "verso" | "recto") =>
+    page
+      .map((b, i) => {
+        const globalIndex = side === "verso" ? i : mid + i;
+        const mark = figures.marks[globalIndex]
+          ? `<div class="ds-spread-mark" aria-hidden="true">${figures.marks[globalIndex]}</div>`
+          : "";
+        const ref = `<sup class="ds-fn-ref" id="fnref-${globalIndex + 1}"><a href="#fn-${globalIndex + 1}">${globalIndex + 1}</a></sup>`;
+        return `<article class="ds-spread-beat">
+          <p class="ds-chapter-index">${esc(b.meta ?? String(globalIndex + 1).padStart(2, "0"))}</p>
+          <h3>${esc(b.title)}${ref}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${mark}
+        </article>`;
+      })
+      .join("");
+  const footnotes = blocks
+    .map((b, i) => {
+      const note = b.kicker || b.meta || `Note ${String(i + 1).padStart(2, "0")}`;
+      return `<li class="ds-fn-item" id="fn-${i + 1}">
+        <a class="ds-fn-back" href="#fnref-${i + 1}" aria-label="Back to reference ${i + 1}">${i + 1}</a>
+        <span class="ds-fn-meta">${esc(note)}</span>
+        <span class="ds-fn-body">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-spread" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
+    <div class="ds-wrap-wide">
+      ${secMeta("Spread", `${blocks.length} notes · verso / recto`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-spread-grid">
+        <div class="ds-spread-page ds-spread-verso">${renderPage(verso, "verso")}</div>
+        <div class="ds-spread-gutter" aria-hidden="true"></div>
+        <div class="ds-spread-page ds-spread-recto">${renderPage(recto, "recto")}</div>
+      </div>
+      <ol class="ds-footnote-register" aria-label="Footnotes">${footnotes}</ol>
+    </div>
+  </section>`;
+}
+
+/**
  * Proof band — a filled board, not a lonely quote on black.
  *
  * The pullquote layout left a dark void with one paragraph of type: the exact toy look buyers
@@ -778,7 +867,7 @@ function renderFaq(section: SectionSpec): string {
  * as tall as what is in it, and the composition reads across rather than down.
  */
 function renderCtaBand(section: SectionSpec, figures: FigurePlan): string {
-  const isColophon = /Colophon/i.test(section.eyebrow ?? "");
+  const isColophon = /Colophon|Imprint/i.test(section.eyebrow ?? "");
   const colophonClass = isColophon ? " ds-closing-colophon" : "";
   return `<section class="ds-section ds-closing${colophonClass}" data-surface="${section.surface}" data-section="${esc(section.id)}" id="cta">
     <div class="ds-wrap-wide ds-closing-grid">
@@ -928,6 +1017,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-split":
     case "hero-statement":
     case "hero-seam":
+    case "hero-folio":
       return wrapped(renderHero(section, spec, figures));
     case "metric-band":
       return wrapped(renderMetricBand(section, figures));
@@ -944,6 +1034,8 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderChapters(section, figures));
     case "story-marginalia":
       return wrapped(renderMarginalia(section, figures));
+    case "story-spread":
+      return wrapped(renderSpread(section, figures));
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));

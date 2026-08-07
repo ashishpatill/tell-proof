@@ -265,11 +265,12 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(8);
+    expect(templates).toHaveLength(9);
     expect(templates.map((t) => t.key).sort()).toEqual([
       "consumer",
       "corporate",
       "dashboard",
+      "dossier",
       "educational",
       "fintech",
       "foundry",
@@ -288,6 +289,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(consumer.siteKind).toBe("consumer-craft");
     const foundry = templates.find((t) => t.key === "foundry")!;
     expect(foundry.siteKind).toBe("editorial-foundry");
+    const dossier = templates.find((t) => t.key === "dossier")!;
+    expect(dossier.siteKind).toBe("research-dossier");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -346,6 +349,27 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-marginalia");
     expect(previewHtml).toContain("Colophon");
     expect(previewHtml).toContain("The cuts");
+  });
+
+  it("gives research dossier a folio + plate + spread plan distinct from foundry and SaaS", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.dossier!);
+    expect(spec.brief.siteKind).toBe("research-dossier");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-folio")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-spread")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="research-dossier"');
+    expect(previewHtml).toContain("ds-hero-folio");
+    expect(previewHtml).toContain("ds-folio-masthead");
+    expect(previewHtml).toContain("ds-chapter-rail");
+    expect(previewHtml).toContain('data-figure="dossier-plate"');
+    expect(previewHtml).toContain("ds-spread");
+    expect(previewHtml).toContain("ds-footnote-register");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Imprint");
+    expect(previewHtml).toContain("The instruments");
   });
 
   it("clears the implementation basics gate on every offering", () => {

@@ -25,7 +25,8 @@ export type TemplateKey =
   | "fintech"
   | "studio"
   | "consumer"
-  | "foundry";
+  | "foundry"
+  | "dossier";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -487,6 +488,71 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
           id: "g6",
           name: "Language coverage",
           description: "Latin extended with the marks editorial work actually needs, not a checkbox dump",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "dossier",
+    label: "Research dossier",
+    marketJob:
+      "Capital / research briefing landing — folio masthead, chapter rail, dossier plate, verso/recto footnotes, imprint.",
+    siteKind: "research-dossier",
+    researchBasis:
+      "Calibrated against capital-brand + research-editorial + editorial-brand corridors (alignment axes ~6–8, spineConformity ~0.5–0.75, quiet display, dense bleeds, layered matter). Distinct craft theme packs miss: folio volume/issue masthead, sticky chapter rail, dossier-plate cartographic figure with pin callouts, verso/recto spread with footnote register, full-bleed accent rules, paper imprint — no pricing, no metrics theatre, zero inverse bands.",
+    brief: DesignBrief.parse({
+      productName: "Meridian Atlas",
+      tagline: "Briefings that map conviction before the room decides",
+      audience: "partners and principals at capital research desks",
+      businessGoal: "trust",
+      siteKind: "research-dossier",
+      lockSiteKind: true,
+      // Cool ink-led stock — escapes cream/terracotta and violet AI clusters.
+      brandAccent: "#243B55",
+      features: [
+        {
+          id: "m1",
+          name: "Thesis map",
+          description: "A single plate that places every claim on a shared coordinate so the room argues the same terrain",
+          priority: "p0",
+        },
+        {
+          id: "m2",
+          name: "Source rails",
+          description: "Primary sources pinned to the claim they support, not buried in an appendix nobody opens",
+          priority: "p0",
+        },
+        {
+          id: "m3",
+          name: "Caveat register",
+          description: "Footnotes that travel with the reading — the limits of the brief stay visible while you decide",
+          priority: "p0",
+        },
+        {
+          id: "m4",
+          name: "Scenario forks",
+          description: "Two or three paths drawn on the same plate so a bull case cannot pretend the base case does not exist",
+          priority: "p1",
+        },
+        {
+          id: "m5",
+          name: "Imprint trail",
+          description: "Edition, authors, and revision stamped so a reused slide cannot orphan its provenance",
+          priority: "p1",
+        },
+        {
+          id: "m6",
+          name: "Desk handoff",
+          description: "A folio that survives the jump from analyst to partner without becoming a deck of orphan charts",
           priority: "p2",
         },
       ],

@@ -103,6 +103,7 @@ function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
   if (siteKind === "consumer-craft") return "hero-statement";
   // Foundry: hard vertical seam — paper claim | inverse type ladder. Not a stack or overfigure.
   if (siteKind === "editorial-foundry") return "hero-seam";
+  if (siteKind === "research-dossier") return "hero-folio";
   if (lean === "minimal-clean") return "hero-statement";
   if (lean === "refined-story") return "hero-editorial";
   return "hero-split";
@@ -369,6 +370,69 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     return plans;
   }
 
+  /*
+   * Research dossier — capital briefing / research-editorial craft.
+   *
+   * Measured capital-brand + research-editorial + editorial-brand pages sit at high alignment
+   * axes (~6–8), strong spine conformity, quiet display, and dense bleed rhythm — not SaaS
+   * conversion ladders, foundry seams, or studio selected-work grids. Folio masthead + dossier
+   * plate + chapter rail + verso/recto footnotes + imprint are the craft a theme pack will not
+   * invent from taste controls.
+   */
+  if (siteKind === "research-dossier") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-folio", surface: "paper", columns: split.wide });
+    // Briefing index — catalog of instruments, not metric theatre.
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    // Teaching figure: the dossier plate redrawn with pin callouts (body slot).
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    // Quiet sunken valley — honest weight variation.
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    // Verso/recto spread with footnote register (dossier signature essay).
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-spread",
+      surface: "paper",
+      bond: true,
+      columns: "1fr 1fr",
+    });
+    if (featureCount >= 4) {
+      plans.push({
+        id: "features-2",
+        kind: "features",
+        layout: "feature-rows",
+        surface: "paper",
+        columns: split.wide,
+      });
+    }
+    // Proof on raised paper — capital/research refs rarely flood inverse.
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "raised",
+      bond: true,
+      columns: split.feature,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    // Imprint close on paper — not inverse demo theatre.
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
   plans.push({ id: "hero", kind: "hero", layout: heroLayout(siteKind, lean), surface: "paper", columns: split.hero });
 
   // A metric band immediately after the fold is how premium pages state the stakes without
@@ -465,6 +529,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "consumer-craft") px = 56;
   // Foundry display is restrained (~3.3vw / ~48px) — the ladder and seam own the fold, not a shout.
   if (siteKind === "editorial-foundry") px = 48;
+  // Quiet display — capital/research editorial refs sit ~1.2–3.5vw, not SaaS shout.
+  if (siteKind === "research-dossier") px = 44;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -472,6 +538,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (density === "sparse") px += 4;
   // Foundry clamps to the low corridor; studio may sit slightly above the general ceiling.
   if (siteKind === "editorial-foundry") return Math.max(44, Math.min(54, px));
+  if (siteKind === "research-dossier") return Math.max(40, Math.min(50, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

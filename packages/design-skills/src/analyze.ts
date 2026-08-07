@@ -41,6 +41,9 @@ export function inferSiteKind(brief: DesignBrief): SiteKind {
   if (/\b(foundry|typeface|type.?specimen|optical size|glyph|typography studio|editorial foundry)\b/.test(blob)) {
     return "editorial-foundry";
   }
+  if (/\b(dossier|briefing|research desk|capital brief|memo|imprint|folio|thesis desk)\b/.test(blob)) {
+    return "research-dossier";
+  }
   if (brief.siteKind !== "saas-marketing") return brief.siteKind;
   return "saas-marketing";
 }
@@ -67,6 +70,8 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
                 ? ["nav", "hero", "metrics", "features", "specimen", "proof", "story", "cta", "footer"]
                 : siteKind === "editorial-foundry"
                   ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
+                  : siteKind === "research-dossier"
+                    ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                 : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
 
   const goals = [

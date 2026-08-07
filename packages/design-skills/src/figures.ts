@@ -100,7 +100,8 @@ export type FigureKind =
   | "mark"
   | "spark"
   | "signature"
-  | "type-ladder";
+  | "type-ladder"
+  | "dossier-plate";
 
 interface FrameOptions {
   /** Named for a screen reader; omit to mark the figure decorative. */
@@ -1058,6 +1059,132 @@ export function typeLadder(
 }
 
 /**
+ * Dossier plate — cartographic schematic for capital/research briefings.
+ *
+ * A coordinate grid, region contours, and pin callouts derived from the brief's capabilities.
+ * Labels stay mono and tiny so the type probe does not treat them as display (foundry lesson).
+ * Generic engines emit SaaS UI plates; they do not invent a folio map with pinned instruments.
+ */
+export function dossierPlate(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:dossier`);
+  const W = role === "band" ? 1440 : role === "column" ? 640 : 920;
+  const H = role === "band" ? 820 : role === "column" ? 720 : 560;
+  const padX = role === "band" ? W * 0.06 : W * 0.08;
+  const padY = role === "band" ? H * 0.08 : H * 0.09;
+  const parts: string[] = [];
+
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  const cols = 10;
+  const rows = 7;
+  const gridW = W - padX * 2;
+  const gridH = H - padY * 2;
+  const cellW = gridW / cols;
+  const cellH = gridH / rows;
+  for (let i = 1; i < cols; i += 1) {
+    const x = padX + cellW * i;
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(padY)}" x2="${round(x)}" y2="${round(H - padY)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.22 + r() * 0.2)}" vector-effect="non-scaling-stroke"/>`,
+    );
+  }
+  for (let j = 1; j < rows; j += 1) {
+    const y = padY + cellH * j;
+    parts.push(
+      `<line x1="${round(padX)}" y1="${round(y)}" x2="${round(W - padX)}" y2="${round(y)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.18 + r() * 0.18)}" vector-effect="non-scaling-stroke"/>`,
+    );
+  }
+
+  const letters = "ABCDEFGHIJ";
+  for (let i = 0; i < cols; i += 1) {
+    const x = padX + cellW * (i + 0.5);
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(x)}" y="${round(padY - 8)}" font-size="9" fill="var(--surface-quiet)" text-anchor="middle">${letters[i]}</text>`,
+    );
+  }
+  for (let j = 0; j < rows; j += 1) {
+    const y = padY + cellH * (j + 0.5);
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(padX - 10)}" y="${round(y + 3)}" font-size="9" fill="var(--surface-quiet)" text-anchor="end">${j + 1}</text>`,
+    );
+  }
+
+  const regions = Math.min(4, Math.max(2, features.length - 1));
+  for (let i = 0; i < regions; i += 1) {
+    const cx = padX + gridW * (0.22 + r() * 0.56);
+    const cy = padY + gridH * (0.25 + r() * 0.5);
+    const rx = cellW * (1.4 + r() * 1.8);
+    const ry = cellH * (1.1 + r() * 1.4);
+    const pts: string[] = [];
+    const n = 6 + Math.floor(r() * 3);
+    for (let k = 0; k < n; k += 1) {
+      const a = (Math.PI * 2 * k) / n + r() * 0.25;
+      const jitter = 0.72 + r() * 0.35;
+      pts.push(`${round(cx + Math.cos(a) * rx * jitter)},${round(cy + Math.sin(a) * ry * jitter)}`);
+    }
+    parts.push(
+      `<polygon points="${pts.join(" ")}" fill="${ACCENT_FIELD}" stroke="${ACCENT}" stroke-width="1" opacity="${round(0.35 + r() * 0.25)}" vector-effect="non-scaling-stroke"/>`,
+    );
+  }
+
+  const pins = features.slice(0, Math.min(5, features.length));
+  pins.forEach((f, i) => {
+    const col = 1 + Math.floor(r() * (cols - 2));
+    const row = 1 + Math.floor(r() * (rows - 2));
+    const x = padX + cellW * (col + 0.5);
+    const y = padY + cellH * (row + 0.5);
+    const coord = `${letters[col]}${row + 1}`;
+    parts.push(`<circle cx="${round(x)}" cy="${round(y)}" r="5" fill="${ACCENT}" stroke="var(--surface-bg)" stroke-width="1.5"/>`);
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(y)}" x2="${round(x + cellW * 0.85)}" y2="${round(y - cellH * 0.55)}" stroke="${ACCENT}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    const lx = x + cellW * 0.9;
+    const ly = y - cellH * 0.6;
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(lx)}" y="${round(ly)}" font-size="10" fill="var(--surface-muted)">${esc(coord)}</text>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(lx)}" y="${round(ly + 13)}" font-size="10" fill="var(--surface-quiet)">${esc(clip(f.title, 18))}</text>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(x)}" y="${round(y + 18)}" font-size="9" fill="var(--surface-quiet)" text-anchor="middle">${String(i + 1).padStart(2, "0")}</text>`,
+    );
+  });
+
+  const scaleX = padX + 12;
+  const scaleY = H - padY + 4;
+  parts.push(
+    `<line x1="${round(scaleX)}" y1="${round(scaleY)}" x2="${round(scaleX + cellW * 1.5)}" y2="${round(scaleY)}" stroke="${LINE}" stroke-width="1.5" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<line x1="${round(scaleX)}" y1="${round(scaleY - 4)}" x2="${round(scaleX)}" y2="${round(scaleY + 4)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<line x1="${round(scaleX + cellW * 1.5)}" y1="${round(scaleY - 4)}" x2="${round(scaleX + cellW * 1.5)}" y2="${round(scaleY + 4)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(scaleX + cellW * 1.65)}" y="${round(scaleY + 3)}" font-size="9" fill="var(--surface-quiet)">1 briefing unit</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX)}" y="${round(scaleY + 3)}" font-size="10" fill="var(--surface-quiet)" text-anchor="end">${esc(clip(productName, 28))} · dossier plate</text>`,
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "dossier-plate",
+    label: `${productName} dossier plate`,
+    inset: role === "band" ? BLEED_INSET : 0,
+  });
+}
+
+/**
  * One letterform drawn as strokes rather than typeset. Not a typeface — a construction, the way a
  * mark is drawn before it is drawn properly: stems on the vertical, a shoulder or a bowl where the
  * letter needs one, a diagonal where it needs that instead.
@@ -1195,7 +1322,7 @@ export interface FigurePlan {
   sparks: string[];
 }
 
-type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder";
+type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder" | "dossier-plate";
 
 /**
  * Which drawing goes where.
@@ -1220,6 +1347,8 @@ const ORDER: Record<string, Kind[]> = {
   "consumer-craft": ["interface", "horizon", "flow", "stack"],
   // Foundry: optical-size ladder owns the fold; horizon/stack keep scroll beats distinct.
   "editorial-foundry": ["type-ladder", "horizon", "stack", "flow"],
+  // Dossier: cartographic plate owns the fold; horizon/stack keep scroll beats distinct.
+  "research-dossier": ["dossier-plate", "horizon", "stack", "flow"],
 };
 
 export function planFigures(input: {
@@ -1251,6 +1380,8 @@ export function planFigures(input: {
         return horizonPlot(sequence, seed, role);
       case "type-ladder":
         return typeLadder(input.productName, input.features, seed, role);
+      case "dossier-plate":
+        return dossierPlate(input.productName, input.features, seed, role);
       default:
         return "";
     }
@@ -1262,8 +1393,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["type-ladder", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["type-ladder", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["dossier-plate", "type-ladder", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -1284,9 +1415,12 @@ export function planFigures(input: {
   const shaped = (pool: Kind[], from: Kind[]): Kind | undefined => from.find((k) => pool.includes(k));
 
   // Foundry hard-seam fold: the ladder always owns the inverse column — never fall through to a plate.
+  // Dossier folio fold: the cartographic plate always owns the spanning field.
   const heroKind =
     input.siteKind === "editorial-foundry"
       ? ("type-ladder" as Kind)
+      : input.siteKind === "research-dossier"
+        ? ("dossier-plate" as Kind)
       : shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;
   const afterHero = order.filter((k) => k !== heroKind);
   const bandKind = shaped(SPANNING, afterHero);
