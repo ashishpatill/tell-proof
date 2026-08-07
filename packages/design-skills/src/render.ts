@@ -417,17 +417,23 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
  */
 function renderSpecimen(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
   let drawing = figures.band;
-  if (spec?.brief.siteKind === "dashboard-webapp") {
-    const marks = catalogue(spec).slice(0, 4);
+  const siteKind = spec?.brief.siteKind;
+  /*
+   * Quiet valley for band-variation: titles-only horizon beats a prose-heavy flow/stack drawing.
+   * Dashboard and educational both need a real character dip before dense peaks.
+   */
+  if (siteKind === "dashboard-webapp" || siteKind === "docs-educational") {
+    const marks = catalogue(spec!).slice(0, 4);
     if (marks.length >= 2) {
-      drawing = horizonPlot(marks, spec.brief.productName, "band");
+      drawing = horizonPlot(marks, spec!.brief.productName, "band");
     }
   }
   if (!drawing) return "";
+  const quietHead = siteKind === "docs-educational";
   return `<section class="ds-section ds-specimen" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide ds-specimen-head">
       <h2 class="ds-heading">${esc(section.title)}</h2>
-      ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+      ${!quietHead && section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
     </div>
     <div class="ds-bleed">
       <figure class="ds-plate ds-plate-bleed">

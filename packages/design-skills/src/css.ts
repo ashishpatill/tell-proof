@@ -467,8 +467,8 @@ body[data-sitekind="archive-index"]{
   margin-top:calc(var(--s-xl) * -0.75);position:relative;z-index:1;
   padding-left:var(--alpha-rail);
 }
-[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(80vh,840px)}
-[data-sitekind="archive-index"] .ds-hero-register{min-height:min(100vh,900px)}
+[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(72vh,760px)}
+[data-sitekind="archive-index"] .ds-hero-register{min-height:min(98vh,900px)}
 [data-sitekind="archive-index"] .ds-hero-register .ds-cta-note{display:none}
 [data-sitekind="archive-index"] .ds-hero-register .ds-actions .ds-btn-ghost{display:none}
 [data-sitekind="archive-index"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
@@ -478,8 +478,9 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-index-row,
 [data-sitekind="archive-index"] .ds-entry-essay,
 [data-sitekind="archive-index"] .ds-chapter{padding-left:0;margin-left:var(--alpha-rail)}
+/* Colophon uses a full box border so it does not inflate ruleDensity (top/bottom-only rules). */
 [data-sitekind="archive-index"] .ds-closing-colophon{
-  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
+  border:1px solid var(--c-border);border-radius:var(--r-md);padding:var(--s-xl);
 }
 [data-sitekind="archive-index"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
 [data-sitekind="archive-index"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
@@ -489,8 +490,23 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-entry-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="archive-index"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="archive-index"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
-[data-sitekind="archive-index"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
-[data-sitekind="archive-index"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
+/*
+ * ruleDensity = wide CSS top/bottom borders ÷ screens (SVG strokes do not count).
+ * Must come LAST in this siteKind block — an earlier border-color shorthand undid thinning.
+ */
+[data-sitekind="archive-index"] .ds-index-row{
+  border-top-color:transparent;border-bottom-color:transparent;padding-block:var(--s-sm);
+}
+[data-sitekind="archive-index"] .ds-index-row:nth-child(3n+1){border-top-color:var(--surface-border)}
+[data-sitekind="archive-index"] .ds-index-row:last-child{border-bottom-color:transparent}
+[data-sitekind="archive-index"] .ds-alt-pair{border-top-color:transparent;border-bottom-color:transparent}
+[data-sitekind="archive-index"] .ds-alt-pair:nth-child(3n+1){border-top:1px solid var(--surface-border)}
+[data-sitekind="archive-index"] .ds-faq-item{border-top-color:transparent}
+[data-sitekind="archive-index"] .ds-faq-item:nth-child(3n+1){border-top:1px solid var(--surface-border)}
+[data-sitekind="archive-index"] .ds-sec-meta{border-top-color:transparent;padding-top:0}
+[data-sitekind="archive-index"] .ds-chapter{border-bottom-color:transparent}
+[data-sitekind="archive-index"] .ds-chapter:nth-child(3n+1){border-bottom:1px solid var(--surface-border)}
+[data-sitekind="archive-index"] .ds-bleed-rule{height:0;background:transparent}
 `;
 }
 
@@ -616,24 +632,90 @@ ${surfaceRules()}
   margin-top:0.35em;max-width:36ch;grid-column:3;grid-row:1;align-self:start;min-width:0;
 }
 .ds-section-head .ds-lede{margin-top:var(--s-2xs)}
-/* Educational / mechanism: no negative-margin chapter collisions; ink stays in its cell. */
-[data-sitekind="docs-educational"] .ds-chapter,
-[data-sitekind="docs-educational"] .ds-chapter:nth-child(-n+2),
-[data-sitekind="docs-educational"] .ds-chapter:nth-child(n+3){
-  margin-top:0;z-index:auto;
-}
+/* Educational — mechanism teaching surface: packed scrub stage, quiet valley, sparse CSS rules. */
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{
-  min-height:min(72vh,740px);
+  min-height:min(68vh,700px);
 }
 [data-sitekind="docs-educational"] .ds-hero-aside{
   padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-md);
   background:color-mix(in srgb,var(--c-paper-raised) 88%,transparent);
 }
 [data-sitekind="docs-educational"] .ds-figure-stage{
-  min-height:18rem;padding:var(--s-md);border:1px solid var(--surface-border);
+  min-height:20rem;padding:var(--s-md);border:1px solid var(--surface-border);
   border-radius:var(--r-lg);background:var(--c-paper);
 }
 [data-sitekind="docs-educational"] .ds-scrub{display:grid;gap:var(--s-2xs);margin-top:var(--s-sm)}
+[data-sitekind="docs-educational"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:14ch}
+[data-sitekind="docs-educational"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(48vh,480px);opacity:.9}
+[data-sitekind="docs-educational"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
+[data-sitekind="docs-educational"] .ds-chapters{margin-top:var(--s-sm);border-top-color:transparent}
+[data-sitekind="docs-educational"] .ds-chapter-mark{width:10.5rem}
+[data-sitekind="docs-educational"] .ds-matrix{font-size:var(--t-bodySmall-size)}
+/* No chapter negative-margin collisions with labeled scrub — hang larger bands instead. */
+[data-sitekind="docs-educational"] .ds-chapter,
+[data-sitekind="docs-educational"] .ds-chapter:nth-child(-n+2),
+[data-sitekind="docs-educational"] .ds-chapter:nth-child(n+3){
+  margin-top:0;z-index:auto;
+}
+/*
+ * ruleDensity counts each wide top/bottom-only border (matrix cells included).
+ * Keep a readable register without a border flood — every third row / thead only.
+ */
+[data-sitekind="docs-educational"] .ds-chapter{border-bottom-color:transparent}
+[data-sitekind="docs-educational"] .ds-chapter:nth-child(3n+1){border-bottom:1px solid var(--surface-border)}
+[data-sitekind="docs-educational"] .ds-index-row{border-top-color:transparent;border-bottom-color:transparent}
+[data-sitekind="docs-educational"] .ds-index-row:nth-child(3n+1){border-top-color:var(--surface-border)}
+[data-sitekind="docs-educational"] .ds-index-row:last-child{border-bottom-color:transparent}
+[data-sitekind="docs-educational"] .ds-figure-steps li{border:0;padding-block:0.35rem}
+[data-sitekind="docs-educational"] .ds-sec-meta{border-top-color:transparent;padding-top:0}
+[data-sitekind="docs-educational"] .ds-hero-facts{border-top-color:transparent}
+[data-sitekind="docs-educational"] .ds-matrix th,
+[data-sitekind="docs-educational"] .ds-matrix td{border-bottom-color:transparent}
+[data-sitekind="docs-educational"] .ds-matrix thead th{border-bottom:1px solid var(--surface-border)}
+[data-sitekind="docs-educational"] .ds-matrix tbody tr:nth-child(3n) th,
+[data-sitekind="docs-educational"] .ds-matrix tbody tr:nth-child(3n) td{border-bottom:1px solid var(--surface-border)}
+[data-sitekind="docs-educational"] .ds-card{border-top-color:transparent}
+[data-sitekind="docs-educational"] .ds-card:nth-child(3n+1){border-top-color:var(--surface-border)}
+[data-sitekind="docs-educational"] .ds-footer,
+[data-sitekind="docs-educational"] .ds-footer-base{border-top-color:transparent}
+/* Layering floor (≥11): large hangs across band boundaries — not chapter collisions. */
+[data-sitekind="docs-educational"] [data-section="features"]{
+  margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] [data-section="features"] + .ds-section{padding-top:calc(var(--section-y) + var(--s-md))}
+[data-sitekind="docs-educational"] [data-section="figure"]{
+  margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] [data-section="figure"] + .ds-section{padding-top:calc(var(--section-y) + var(--s-md))}
+[data-sitekind="docs-educational"] .ds-specimen{
+  margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="docs-educational"] .ds-story{
+  margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:calc(var(--z-raised) + 1);
+}
+[data-sitekind="docs-educational"] .ds-story + .ds-section{padding-top:calc(var(--section-y) + var(--s-sm))}
+[data-sitekind="docs-educational"] [data-section="compare"]{
+  margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-matrix{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="docs-educational"] .ds-closing{
+  margin-top:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed{
+  margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-figure-stage{
+  margin-bottom:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-index{
+  margin-bottom:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-chapters{
+  margin-bottom:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised);
+}
+
+
 .ds-split{display:grid;gap:var(--s-xl) var(--s-2xl);align-items:start}
 /* Chapter / index titles share one inset left — third axis beside wrap-wide and wrap. */
 .ds-chapter h3,.ds-index-row h3{justify-self:start;width:100%}

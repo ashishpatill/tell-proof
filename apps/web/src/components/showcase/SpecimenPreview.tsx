@@ -72,9 +72,12 @@ function discoverBeats(doc: Document): Beat[] {
   const specimen = pick(".ds-specimen, [data-section='specimen']", "specimen", "Specimen");
   if (specimen) beats.push(specimen);
 
-  // Dossier / foundry / observatory signature essays — the craft theme packs miss.
-  const spread = pick(".ds-spread, .ds-marginalia, .ds-chrono, .ds-entry, [data-section='story']", "spread", "Spread");
+  // Prefer ledger/figure ink; skip sparse entry essays in the first cinema cycle.
+  const spread = pick(".ds-spread, .ds-marginalia, .ds-chrono, [data-section='story']", "spread", "Spread");
+  // Entry essays are quieter — only add when we lack a strong figure beat.
+  const entry = pick(".ds-entry, .ds-entry-essay", "entry", "Entry");
   if (spread) beats.push(spread);
+  else if (entry) beats.push(entry);
 
   const proof =
     pick(".ds-proof-board, .ds-proof", "proof", "Proof") ||

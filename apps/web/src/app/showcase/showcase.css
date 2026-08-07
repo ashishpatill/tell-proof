@@ -133,6 +133,31 @@
   margin-inline: auto;
 }
 
+@media (min-width: 960px) {
+  .sx-root .sx-stage {
+    grid-template-columns: minmax(16rem, 0.78fr) minmax(0, 1.42fr);
+    align-items: end;
+    gap: 1.75rem 2rem;
+    min-height: min(78vh, 820px);
+    padding-bottom: 2.25rem;
+  }
+  .sx-root .sx-stage-mast {
+    align-self: end;
+    padding-bottom: 0.5rem;
+  }
+  .sx-root .sx-stage-reel {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .sx-root .sx-plate-stage .sx-plate-frame {
+    flex: 1;
+    min-height: min(52vh, 28rem);
+    aspect-ratio: auto;
+  }
+}
+
 .sx-stage-mast {
   display: grid;
   gap: 0.85rem;

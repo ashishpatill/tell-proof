@@ -558,6 +558,47 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     return plans;
   }
 
+  /*
+   * Docs / mechanism explainer — teaching surface with a real weight valley.
+   *
+   * Generic path stacked medium-density bands (metrics + features + chapters + compare) so
+   * section-weight variation collapsed (~0.34). Dedicated plan: stackfold figure, scrub instrument,
+   * catalogue, quiet sunken specimen, dense chapter register, dense compare, inverse close.
+   * No metric theatre — the scrub owns the stakes.
+   */
+  if (siteKind === "docs-educational") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-editorial", surface: "paper", columns: split.hero });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    // Quiet valley — titles-only horizon so compare/chapters read as peaks.
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-chapters",
+      surface: "raised",
+      bond: true,
+      columns: split.wide,
+    });
+    plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "raised", bond: true });
+    // Inverse close is the dense peak against the sunken specimen valley.
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "inverse" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
   plans.push({ id: "hero", kind: "hero", layout: heroLayout(siteKind, lean), surface: "paper", columns: split.hero });
 
   // A metric band immediately after the fold is how premium pages state the stakes without

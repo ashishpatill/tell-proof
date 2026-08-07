@@ -1362,9 +1362,13 @@ export function indexLedger(
 ): string {
   const r = rng(`${seed}:index-ledger:${role}`);
   const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
-  const H = role === "band" ? 720 : role === "column" ? 520 : 480;
-  const padX = role === "band" ? 48 : 28;
-  const padY = role === "band" ? 40 : 28;
+  /*
+   * Tall plate dilutes CSS ruleDensity (rules ÷ screens). SVG strokes do not count — pack cells
+   * with dual ink + stamps, keep hairlines sparse. Shrinking H to "fill voids" raised rules/screen.
+   */
+  const H = role === "band" ? 640 : role === "column" ? 520 : 480;
+  const padX = role === "band" ? 44 : 28;
+  const padY = role === "band" ? 36 : 28;
   const parts: string[] = [];
 
   // Outer rule — hairline only.
@@ -1397,23 +1401,21 @@ export function indexLedger(
   const colGap = 22;
   const colW = (W - padX * 2 - colGap * (cols - 1)) / cols;
   /*
-   * Density without rule flood: 2 cols × 5 rows (rules/screen ≤4.33) with TWO ink lines
-   * per cell so voids never read empty. Extra stamps/watermarks add ink without hairlines.
+   * 2×6 packed cells: dual ink lines + stamps fill voids; hairline only on odd rows so the SVG
+   * stays sparse. CSS bordered rows elsewhere own the ruleDensity budget — not this drawing.
    */
-  const rowsPerCol = role === "band" ? 5 : 4;
+  const rowsPerCol = role === "band" ? 6 : 5;
   const rowH = gridH / rowsPerCol;
 
   for (let c = 0; c < cols; c += 1) {
     const x0 = padX + c * (colW + colGap);
-    // Column letter marker
     const letter = letters[Math.min(c * 8, letters.length - 1)] ?? letters[c]!;
     parts.push(
       `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(gridTop - 4)}" font-size="11" fill="var(--c-accent)">${letter}</text>`,
     );
-    // Vertical column rule (except first)
     if (c > 0) {
       parts.push(
-        `<line x1="${round(x0 - colGap / 2)}" y1="${round(gridTop)}" x2="${round(x0 - colGap / 2)}" y2="${round(gridBottom)}" stroke="${LINE}" stroke-width="1" opacity="0.45" vector-effect="non-scaling-stroke"/>`,
+        `<line x1="${round(x0 - colGap / 2)}" y1="${round(gridTop)}" x2="${round(x0 - colGap / 2)}" y2="${round(gridBottom)}" stroke="${LINE}" stroke-width="1" opacity="0.4" vector-effect="non-scaling-stroke"/>`,
       );
     }
 
@@ -1422,10 +1424,12 @@ export function indexLedger(
       const entryIdx = c * rowsPerCol + row;
       const f = baseEntries[entryIdx % baseEntries.length]!;
       const ordinal = String(entryIdx + 1).padStart(3, "0");
-      // Ruled row — one hairline per entry (no double underlines).
-      parts.push(
-        `<line x1="${round(x0)}" y1="${round(y + rowH)}" x2="${round(x0 + colW)}" y2="${round(y + rowH)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.32 + (row % 3) * 0.1)}" vector-effect="non-scaling-stroke"/>`,
-      );
+      // Sparse SVG hairlines — do not flood; CSS ruleDensity ignores these strokes anyway.
+      if (row % 2 === 1 || row === rowsPerCol - 1) {
+        parts.push(
+          `<line x1="${round(x0)}" y1="${round(y + rowH)}" x2="${round(x0 + colW)}" y2="${round(y + rowH)}" stroke="${LINE}" stroke-width="1" opacity="0.38" vector-effect="non-scaling-stroke"/>`,
+        );
+      }
       parts.push(
         `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(y + rowH * 0.38)}" font-size="11" fill="var(--surface-quiet)">${ordinal}</text>`,
       );
@@ -1433,21 +1437,17 @@ export function indexLedger(
       parts.push(
         `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.38)}" font-size="11" fill="var(--surface-muted)">${esc(title)}</text>`,
       );
-      // Second ink line — short meta only (never long body → mid-word ellipsis debris).
-      const sub = clip(
-        f.meta || f.kicker || `${letter}${row + 1} · ${ordinal}`,
-        role === "band" ? 22 : 16,
-      );
+      const sub = clip(f.meta || f.kicker || `${letter}${row + 1} · ${ordinal}`, role === "band" ? 22 : 16);
       parts.push(
         `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.72)}" font-size="10" fill="var(--surface-quiet)">${esc(sub)}</text>`,
       );
-      // Accent stamp — small filled mark, not an extra rule.
+      // Accent stamp — filled mark, not an extra rule.
       if (row % 2 === 0) {
         parts.push(
           `<rect x="${round(x0 + colW - 10)}" y="${round(y + rowH * 0.28)}" width="5" height="5" fill="${ACCENT}" opacity="0.75"/>`,
         );
       }
-      // Pale letter watermark in the cell — ink without hairline flood.
+      // Pale letter watermark — ink without hairline flood.
       if (row % 3 === 1) {
         parts.push(
           `<text class="ds-fig-mono" x="${round(x0 + colW - 14)}" y="${round(y + rowH * 0.78)}" font-size="11" fill="var(--surface-quiet)" opacity="0.35" text-anchor="end">${letter}</text>`,
