@@ -88,6 +88,20 @@ export const SiteKind = z.enum([
    * Not SaaS, foundry, dossier, or observatory.
    */
   "archive-index",
+  /**
+   * Commerce loom / merchandising press — warp/weft SKU loom owning the fold, sticky size-tape
+   * rail, free textile photo cells, hangtag essay, Care label close.
+   * Calibrated to commerce-platform + brand-product-agency (figure-forward, quiet-to-moderate
+   * display, dense product matter, low inverse). Not SaaS conversion, not soft card grids.
+   */
+  "commerce-loom",
+  /**
+   * Field guide / herbarium craft — voucher masthead, sticky taxon rail, specimen plate with
+   * pressed silhouette + free botanical photo inset, range essay, Voucher close.
+   * Calibrated to personal-craft + brand-agency + consumer-craft (figureArea high, quiet display,
+   * paper-led, layered specimen matter). Not soft glass hero collages or theme-pack card stacks.
+   */
+  "field-guide",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 
@@ -264,6 +278,26 @@ export const LayoutVariant = z.enum([
    * Not chapters, marginalia, verso/recto, or chrono beads.
    */
   "story-entry",
+  /**
+   * Loom fold — size-tape rail + compact claim + spanning warp/weft SKU loom with photo cells.
+   * Commerce-loom signature; not register, chrono, folio, or soft card collage.
+   */
+  "hero-loom",
+  /**
+   * Voucher fold — taxon rail + voucher masthead + spanning specimen plate with photo inset.
+   * Field-guide signature; not loom, register, or glassmorphism hero.
+   */
+  "hero-voucher",
+  /**
+   * Hangtag essay — string/eyelet mark + ruled hangtag body + outer size index.
+   * Commerce-loom craft; not entry folio or chrono beads.
+   */
+  "story-hangtag",
+  /**
+   * Range essay — distribution beads + outer taxon index + voucher footnotes.
+   * Field-guide craft; not hangtag, entry, or verso/recto.
+   */
+  "story-range",
   "pullquote",
   "pricing-lanes",
   "compare-matrix",

@@ -106,6 +106,8 @@ function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
   if (siteKind === "research-dossier") return "hero-folio";
   if (siteKind === "signal-observatory") return "hero-chrono";
   if (siteKind === "archive-index") return "hero-register";
+  if (siteKind === "commerce-loom") return "hero-loom";
+  if (siteKind === "field-guide") return "hero-voucher";
   if (lean === "minimal-clean") return "hero-statement";
   if (lean === "refined-story") return "hero-editorial";
   return "hero-split";
@@ -558,6 +560,118 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     return plans;
   }
 
+  /*
+   * Commerce loom — merchandising press craft.
+   *
+   * Measured commerce-platform / brand-product-agency pages are figure-forward with quiet-to-
+   * moderate display and almost no inverse theatre. Soft theme packs answer with card grids and
+   * glass heroes. This offering invents unreplicable loom grammar: size-tape rail, warp/weft SKU
+   * loom owning the fold (with free textile photos), hangtag essay, Care label close.
+   */
+  if (siteKind === "commerce-loom") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-loom", surface: "paper", columns: split.wide });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-hangtag",
+      surface: "paper",
+      bond: true,
+      columns: "7fr 5fr",
+    });
+    if (featureCount >= 4) {
+      plans.push({
+        id: "features-2",
+        kind: "features",
+        layout: "feature-rows",
+        surface: "paper",
+        columns: split.wide,
+      });
+    }
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "raised",
+      bond: true,
+      columns: split.feature,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
+  /*
+   * Field guide — herbarium / voucher craft.
+   *
+   * Personal-craft + brand-agency corridors favour figure-dense paper surfaces and quiet display.
+   * Soft theme packs answer with floating glass card collages. This offering invents unreplicable
+   * voucher grammar: taxon rail, specimen plate (pressed silhouette + free botanical photo),
+   * range essay, Voucher close.
+   */
+  if (siteKind === "field-guide") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-voucher", surface: "paper", columns: split.wide });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-range",
+      surface: "paper",
+      bond: true,
+      columns: "7fr 5fr",
+    });
+    if (featureCount >= 4) {
+      plans.push({
+        id: "features-2",
+        kind: "features",
+        layout: "feature-rows",
+        surface: "paper",
+        columns: split.wide,
+      });
+    }
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "raised",
+      bond: true,
+      columns: split.feature,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
   plans.push({ id: "hero", kind: "hero", layout: heroLayout(siteKind, lean), surface: "paper", columns: split.hero });
 
   // A metric band immediately after the fold is how premium pages state the stakes without
@@ -661,6 +775,10 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "signal-observatory") px = 52;
   // Archive index: VERY quiet display — award-index corridor; ledger owns the fold.
   if (siteKind === "archive-index") px = 48;
+  // Commerce loom: quiet-moderate display — weave owns the fold, not a shout.
+  if (siteKind === "commerce-loom") px = 50;
+  // Field guide: quiet display — specimen plate owns the fold.
+  if (siteKind === "field-guide") px = 48;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -671,6 +789,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "research-dossier") return Math.max(46, Math.min(54, px));
   if (siteKind === "signal-observatory") return Math.max(48, Math.min(58, px));
   if (siteKind === "archive-index") return Math.max(45, Math.min(52, px));
+  if (siteKind === "commerce-loom") return Math.max(46, Math.min(56, px));
+  if (siteKind === "field-guide") return Math.max(45, Math.min(54, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

@@ -142,6 +142,8 @@ export function buildSections(
         const isDossier = brief.siteKind === "research-dossier";
         const isObservatory = brief.siteKind === "signal-observatory";
         const isArchive = brief.siteKind === "archive-index";
+        const isLoom = brief.siteKind === "commerce-loom";
+        const isField = brief.siteKind === "field-guide";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -151,8 +153,8 @@ export function buildSections(
             brandLabel: brief.productName,
             ctaLabel: cta.primary,
             secondaryLabel: cta.secondary,
-            // Folio / chrono / register folds must leave room for the plate — skip the reassurance line.
-            ctaNote: isDossier || isObservatory || isArchive ? undefined : cta.note,
+            // Folio / chrono / register / loom / voucher folds leave room for the figure.
+            ctaNote: isDossier || isObservatory || isArchive || isLoom || isField ? undefined : cta.note,
             blocks: named,
             aside: editorial.features
               .slice(0, 4)
@@ -202,6 +204,8 @@ export function buildSections(
         const isDossier = brief.siteKind === "research-dossier";
         const isObservatory = brief.siteKind === "signal-observatory";
         const isArchive = brief.siteKind === "archive-index";
+        const isLoom = brief.siteKind === "commerce-loom";
+        const isField = brief.siteKind === "field-guide";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -218,6 +222,10 @@ export function buildSections(
                         ? "Also on the desk"
                         : isArchive
                           ? "Also in the roll"
+                          : isLoom
+                            ? "Also on the loom"
+                            : isField
+                              ? "Also on the plate"
                     : "Also included"
               : isStudio
                 ? "Selected work"
@@ -231,6 +239,10 @@ export function buildSections(
                         ? "The channels"
                         : isArchive
                           ? "The entries"
+                          : isLoom
+                            ? "The lines"
+                            : isField
+                              ? "The traits"
                     : eyebrow.features,
             title: isSecond
               ? isStudio
@@ -245,6 +257,10 @@ export function buildSections(
                       ? sentence(`The quieter channels that keep a desk honest`)
                       : isArchive
                         ? sentence(`The quieter entries that keep a registry honest`)
+                        : isLoom
+                          ? sentence(`The quieter lines that keep a loom honest`)
+                          : isField
+                            ? sentence(`The quieter traits that keep a voucher honest`)
                   : sentence(`The rest of what ships with ${brief.productName}`)
               : isStudio
                 ? sentence(`Work that still holds after the launch week`)
@@ -258,6 +274,10 @@ export function buildSections(
                       ? sentence(`Channels an on-call desk actually watches`)
                       : isArchive
                         ? sentence(`Entries an archive index actually keeps`)
+                        : isLoom
+                          ? sentence(`Lines a merchandising loom actually cuts`)
+                          : isField
+                            ? sentence(`Traits a field voucher actually keeps`)
                   : featuresTitle(brief, features),
             body: isSecond
               ? isStudio
@@ -272,6 +292,10 @@ export function buildSections(
                       ? sentence(`Thresholds, handoffs, and the rails that stop a page from inventing calm`)
                       : isArchive
                         ? sentence(`Cross-refs, stamps, and the rails that stop a catalog from inventing completeness`)
+                        : isLoom
+                          ? sentence(`Fit notes, swaps, and the rails that stop a cut from inventing completeness`)
+                          : isField
+                            ? sentence(`Range marks, synonyms, and the rails that stop a plate from inventing completeness`)
                   : sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
               : isStudio
                 ? sentence(`Each engagement is a composed surface — identity, product, and motion under one grid`)
@@ -285,6 +309,10 @@ export function buildSections(
                       ? sentence(`Each channel is a named signal — not a chart dressed as a product`)
                       : isArchive
                         ? sentence(`Each entry is a numbered stamp — not a search box dressed as an archive`)
+                        : isLoom
+                          ? sentence(`Each line is a woven SKU — not a product card dressed as merchandising`)
+                          : isField
+                            ? sentence(`Each trait is a pressed voucher — not a nature photo dressed as science`)
                   : featuresLede(brief, features),
             blocks: slice,
           }),
@@ -312,6 +340,10 @@ export function buildSections(
                   ? sentence(`${brief.productName} channel field`)
                 : brief.siteKind === "archive-index"
                   ? sentence(`${brief.productName} register field`)
+                : brief.siteKind === "commerce-loom"
+                  ? sentence(`${brief.productName} loom field`)
+                : brief.siteKind === "field-guide"
+                  ? sentence(`${brief.productName} specimen field`)
                 // Dashboard specimen is the quiet valley before the shell — short mark, not a claim.
                 : brief.siteKind === "dashboard-webapp"
                   ? brief.productName.split(/\s+/)[0] ?? brief.productName
@@ -328,6 +360,8 @@ export function buildSections(
         const isDossier = brief.siteKind === "research-dossier";
         const isObservatory = brief.siteKind === "signal-observatory";
         const isArchive = brief.siteKind === "archive-index";
+        const isLoom = brief.siteKind === "commerce-loom";
+        const isField = brief.siteKind === "field-guide";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -339,6 +373,10 @@ export function buildSections(
                   ? "Channel legend"
                   : isArchive
                     ? "Entry legend"
+                    : isLoom
+                      ? "SKU legend"
+                      : isField
+                        ? "Trait legend"
                   : eyebrow.figure,
             title: isFoundry
               ? sentence(`How ${brief.productName} changes with size`)
@@ -348,6 +386,10 @@ export function buildSections(
                   ? sentence(`How ${brief.productName} reads a window`)
                   : isArchive
                     ? sentence(`How ${brief.productName} keeps the roll`)
+                    : isLoom
+                      ? sentence(`How ${brief.productName} weaves a cut`)
+                      : isField
+                        ? sentence(`How ${brief.productName} presses a voucher`)
               : sentence(`${focal?.name ?? brief.productName}, step by step`),
             body: isFoundry
               ? sentence(`The same face at display, title, deck, text, and caption — drawn, not described`)
@@ -357,6 +399,10 @@ export function buildSections(
                   ? sentence(`Amplitudes, live brackets, and channel ids — the lattice drawn rather than claimed`)
                   : isArchive
                     ? sentence(`Ordinals, letter columns, and ruled rows — the index drawn rather than claimed`)
+                    : isLoom
+                      ? sentence(`Warp, weft, and photo cells — the loom drawn rather than claimed`)
+                      : isField
+                        ? sentence(`Pressed silhouette, plate inset, and range ticks — the voucher drawn rather than claimed`)
               : sentence(
                   `The path work takes through ${brief.productName}, drawn rather than described`,
                 ),
@@ -373,6 +419,10 @@ export function buildSections(
                   ? sentence(`Read the channels that mark each signal on the lattice`)
                   : isArchive
                     ? sentence(`Read the ordinals that mark each stamp on the ledger`)
+                    : isLoom
+                      ? sentence(`Read the SKU cells that mark each line on the loom`)
+                      : isField
+                        ? sentence(`Read the traits that mark each voucher on the plate`)
               : sentence(
                   `Drag to step through how ${brief.productName} moves work from ${
                     features[0]?.name.toLowerCase() ?? "input"
@@ -400,6 +450,10 @@ export function buildSections(
                       ? "Incident time"
                       : brief.siteKind === "archive-index"
                         ? "Entry notes"
+                        : brief.siteKind === "commerce-loom"
+                          ? "Hangtag notes"
+                          : brief.siteKind === "field-guide"
+                            ? "Range notes"
                   : eyebrow.story,
             title:
               brief.siteKind === "art-directed-studio"
@@ -414,6 +468,10 @@ export function buildSections(
                       ? sentence(`How a window is actually walked`)
                       : brief.siteKind === "archive-index"
                         ? sentence(`How a single entry is actually read`)
+                        : brief.siteKind === "commerce-loom"
+                          ? sentence(`How a hangtag is actually cut`)
+                          : brief.siteKind === "field-guide"
+                            ? sentence(`How a voucher is actually read`)
                   : sentence(`The order things happen in`),
             body:
               brief.siteKind === "art-directed-studio"
@@ -428,6 +486,10 @@ export function buildSections(
                       ? sentence(`Tick beads, channel notes, and the handoffs that keep calm honest`)
                       : brief.siteKind === "archive-index"
                         ? sentence(`Hanging folio, ruled measure, and the cross-refs that keep the roll honest`)
+                        : brief.siteKind === "commerce-loom"
+                          ? sentence(`Eyelet, size tape, and the notes that keep a cut honest`)
+                          : brief.siteKind === "field-guide"
+                            ? sentence(`Range beads, taxon ranks, and the notes that keep a voucher honest`)
                   : sentence(`The sequence ${brief.audience} actually meet, in order`),
             blocks: chapters(editorial.features).map((c, i) =>
               block({
@@ -437,10 +499,14 @@ export function buildSections(
                   ? `T+${String(i * 6).padStart(2, "0")}h`
                   : brief.siteKind === "archive-index"
                     ? String(i + 1).padStart(3, "0")
+                    : brief.siteKind === "commerce-loom"
+                      ? ["XS", "S", "M", "L", "XL", "XXL"][i % 6]
+                      : brief.siteKind === "field-guide"
+                        ? ["K", "P", "C", "O", "F", "G"][i % 6]
                   : c.meta,
-                // Marginalia / footnotes / chrono / entry notes hang these kickers beside the essay.
+                // Marginalia / footnotes / chrono / entry / hangtag / range notes hang these kickers.
                 kicker:
-                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier" || brief.siteKind === "signal-observatory" || brief.siteKind === "archive-index"
+                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier" || brief.siteKind === "signal-observatory" || brief.siteKind === "archive-index" || brief.siteKind === "commerce-loom" || brief.siteKind === "field-guide"
                     ? `Note ${String(i + 1).padStart(2, "0")}`
                     : undefined,
               }),
@@ -540,6 +606,10 @@ export function buildSections(
                     ? "Calibration"
                     : brief.siteKind === "archive-index"
                       ? "Registry"
+                      : brief.siteKind === "commerce-loom"
+                        ? "Care label"
+                        : brief.siteKind === "field-guide"
+                          ? "Voucher"
                   : eyebrow.cta,
             title: sentence(
               brief.siteKind === "editorial-foundry"
@@ -550,6 +620,10 @@ export function buildSections(
                     ? `Calibrate a ${brief.productName} window`
                     : brief.siteKind === "archive-index"
                       ? `Request an entry in ${brief.productName}`
+                      : brief.siteKind === "commerce-loom"
+                        ? `Cut a sample from ${brief.productName}`
+                        : brief.siteKind === "field-guide"
+                          ? `Request a voucher of ${brief.productName}`
                 : brief.businessGoal === "trust"
                   ? `See it against your own material`
                   : `Put ${brief.productName} in front of your ${brief.audience.split(" ").slice(-1)[0] ?? "team"}`,
@@ -565,6 +639,10 @@ export function buildSections(
                     ? `Tolerance marks, channel maps, and the windows ${brief.audience} actually watch`
                     : brief.siteKind === "archive-index"
                       ? `Numbered stamps, cross-refs, and the entries ${brief.audience} actually keep`
+                      : brief.siteKind === "commerce-loom"
+                        ? `Size tapes, SKU cells, and the lines ${brief.audience} actually cut`
+                        : brief.siteKind === "field-guide"
+                          ? `Pressed plates, range notes, and the vouchers ${brief.audience} actually keep`
                 : `${count(features.length)[0]!.toUpperCase()}${count(features.length).slice(1)} capabilities, one conversation`,
             ),
             ctaLabel: cta.primary,

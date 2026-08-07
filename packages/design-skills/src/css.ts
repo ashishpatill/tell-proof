@@ -483,6 +483,118 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
 [data-sitekind="archive-index"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
 [data-sitekind="archive-index"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
+
+/* Commerce loom — size tape, warp/weft fold, hangtag, Care label. Cool ink stock — not soft purple glass. */
+[data-sitekind="commerce-loom"]{
+  --tape-rail:2.85rem;
+}
+body[data-sitekind="commerce-loom"]{
+  background-color:var(--c-paper);
+  background-image:
+    linear-gradient(180deg,color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface)) 0%,var(--c-paper) 42%,var(--c-paper) 100%),
+    radial-gradient(120% 80% at 100% 0%,color-mix(in srgb,var(--c-accent-surface) 55%,transparent),transparent 55%);
+}
+[data-sitekind="commerce-loom"] .ds-brand-mark{
+  font-family:var(--f-display);letter-spacing:-0.02em;
+}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-display{
+  font-size:clamp(2.6rem,3.5vw,3.25rem);line-height:1.06;max-width:16ch;letter-spacing:-0.03em;
+}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-lede{max-width:34ch;margin:0.25rem 0 0}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-brand-mark{margin:0 0 0.25rem}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-eyebrow{margin:0}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions{margin-top:0.4rem}
+[data-sitekind="commerce-loom"] .ds-hang-size,
+[data-sitekind="commerce-loom"] .ds-hang-aside-size{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent);
+}
+[data-sitekind="commerce-loom"] .ds-loom-claim{
+  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding-left:var(--tape-rail);
+}
+[data-sitekind="commerce-loom"] .ds-loom-field{
+  margin-top:-1.25rem;
+  mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 100%);
+  padding-left:var(--tape-rail);
+}
+[data-sitekind="commerce-loom"] .ds-loom-plate .ds-fig{min-height:min(86vh,900px)}
+[data-sitekind="commerce-loom"] .ds-hero-loom{min-height:min(100vh,900px)}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-cta-note{display:none}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions .ds-btn-ghost{display:none}
+[data-sitekind="commerce-loom"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="commerce-loom"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
+[data-sitekind="commerce-loom"] .ds-section-head,
+[data-sitekind="commerce-loom"] .ds-index-row,
+[data-sitekind="commerce-loom"] .ds-hang-essay,
+[data-sitekind="commerce-loom"] .ds-chapter{padding-left:0;margin-left:var(--tape-rail)}
+[data-sitekind="commerce-loom"] .ds-closing-colophon{
+  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
+}
+[data-sitekind="commerce-loom"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
+[data-sitekind="commerce-loom"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
+[data-sitekind="commerce-loom"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="commerce-loom"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="commerce-loom"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="commerce-loom"] .ds-hang-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="commerce-loom"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="commerce-loom"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
+[data-sitekind="commerce-loom"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
+
+/* Field guide — taxon rail, specimen plate, range essay, Voucher. Paper-led, not glass collage. */
+[data-sitekind="field-guide"]{
+  --taxon-rail:3.1rem;
+}
+body[data-sitekind="field-guide"]{
+  background-color:var(--c-paper);
+  background-image:
+    linear-gradient(180deg,color-mix(in srgb,var(--c-paper) 90%,var(--c-accent-surface)) 0%,var(--c-paper) 38%,var(--c-paper) 100%),
+    radial-gradient(90% 70% at 0% 0%,color-mix(in srgb,var(--c-accent-surface) 40%,transparent),transparent 50%);
+}
+[data-sitekind="field-guide"] .ds-brand-mark{
+  font-family:var(--f-display);letter-spacing:-0.02em;
+}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-display{
+  font-size:clamp(2.55rem,3.35vw,3.15rem);line-height:1.07;max-width:15ch;letter-spacing:-0.03em;
+}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-lede{max-width:34ch;margin:0.25rem 0 0}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-brand-mark{margin:0 0 0.25rem}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-eyebrow{margin:0}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-actions{margin-top:0.4rem}
+[data-sitekind="field-guide"] .ds-range-rank,
+[data-sitekind="field-guide"] .ds-range-aside-rank{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent);
+}
+[data-sitekind="field-guide"] .ds-voucher-claim{
+  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding-left:var(--taxon-rail);
+}
+[data-sitekind="field-guide"] .ds-voucher-field{
+  margin-top:-1.25rem;
+  mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 100%);
+  padding-left:var(--taxon-rail);
+}
+[data-sitekind="field-guide"] .ds-voucher-plate .ds-fig{min-height:min(86vh,900px)}
+[data-sitekind="field-guide"] .ds-hero-voucher{min-height:min(100vh,900px)}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-cta-note{display:none}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-actions .ds-btn-ghost{display:none}
+[data-sitekind="field-guide"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="field-guide"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
+[data-sitekind="field-guide"] .ds-section-head,
+[data-sitekind="field-guide"] .ds-index-row,
+[data-sitekind="field-guide"] .ds-range-essay,
+[data-sitekind="field-guide"] .ds-chapter{padding-left:0;margin-left:var(--taxon-rail)}
+[data-sitekind="field-guide"] .ds-closing-colophon{
+  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
+}
+[data-sitekind="field-guide"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
+[data-sitekind="field-guide"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
+[data-sitekind="field-guide"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="field-guide"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="field-guide"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="field-guide"] .ds-range-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="field-guide"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="field-guide"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
+[data-sitekind="field-guide"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
 `;
 }
 
@@ -1089,6 +1201,141 @@ ${surfaceRules()}
   .ds-entry-beat{padding-left:0}
   .ds-entry-folio{position:static;writing-mode:horizontal-tb;transform:none;height:auto;display:block;margin-bottom:0.35rem}
 }
+
+/* Loom fold + size-tape rail (commerce loom). */
+.ds-hero-loom{
+  position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
+  display:flex;flex-direction:column;
+}
+.ds-loom-masthead{
+  display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
+  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding-left:calc(var(--gutter) + var(--tape-rail,2.85rem));
+  border-bottom:1px solid var(--c-border);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+.ds-loom-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
+.ds-loom-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
+.ds-loom-plate{margin:0;width:100%;display:block}
+.ds-tape-rail{
+  position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
+  width:var(--tape-rail,2.85rem);z-index:var(--z-nav);pointer-events:none;
+  display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
+}
+.ds-tape-rail ol{
+  list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;
+  justify-content:space-between;align-items:center;pointer-events:auto;width:100%;
+}
+.ds-tape-chip{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--c-ink-tertiary);min-width:28px;min-height:36px;line-height:1.1;gap:0.15rem;
+  border-left:1px solid transparent;padding-left:0.15rem;
+}
+.ds-tape-meta{font-size:9px;opacity:0.7}
+.ds-tape-chip:hover,.ds-tape-chip:focus-visible,.ds-tape-chip.is-active{color:var(--c-accent);border-left-color:var(--c-accent)}
+@media (max-width:800px){
+  .ds-tape-rail{display:none}
+  .ds-loom-masthead,.ds-loom-claim,.ds-loom-field{padding-left:var(--gutter)}
+  .ds-loom-plate .ds-fig{min-height:min(58vh,560px)}
+}
+/* Hangtag essay. */
+.ds-hang-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
+.ds-hang-essay{display:flex;flex-direction:column;gap:var(--s-2xl);max-width:40rem}
+.ds-hang-beat{
+  position:relative;padding-left:1.75rem;
+  border:1px solid var(--c-border);padding:var(--s-lg) var(--s-lg) var(--s-lg) 2rem;
+  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
+}
+.ds-hang-eyelet{
+  position:absolute;left:0.65rem;top:0.85rem;width:0.7rem;height:0.7rem;border-radius:50%;
+  border:1px solid var(--c-accent);background:var(--c-paper);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--c-paper) 80%,transparent);
+}
+.ds-hang-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
+.ds-hang-note{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+}
+.ds-hang-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-hang-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-md)}
+.ds-hang-aside-item{
+  display:flex;flex-direction:column;gap:0.2rem;
+  border-bottom:1px solid var(--c-border);padding-bottom:var(--s-sm);
+}
+.ds-hang-aside-title{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:22ch}
+@media (max-width:800px){
+  .ds-hang-grid{grid-template-columns:1fr!important}
+  .ds-hang-aside{order:-1}
+}
+
+/* Voucher fold + taxon rail (field guide). */
+.ds-hero-voucher{
+  position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
+  display:flex;flex-direction:column;
+}
+.ds-voucher-masthead{
+  display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
+  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding-left:calc(var(--gutter) + var(--taxon-rail,3.1rem));
+  border-bottom:1px solid var(--c-border);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+.ds-voucher-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
+.ds-voucher-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
+.ds-voucher-plate{margin:0;width:100%;display:block}
+.ds-taxon-rail{
+  position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
+  width:var(--taxon-rail,3.1rem);z-index:var(--z-nav);pointer-events:none;
+  display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
+}
+.ds-taxon-rail ol{
+  list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;
+  justify-content:space-between;align-items:center;pointer-events:auto;width:100%;
+}
+.ds-taxon-chip{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;
+  font-family:var(--f-mono);font-size:10px;letter-spacing:0.04em;
+  color:var(--c-ink-tertiary);min-width:28px;min-height:40px;line-height:1.1;gap:0.1rem;
+  writing-mode:horizontal-tb;
+}
+.ds-taxon-meta{font-size:11px;color:var(--c-accent)}
+.ds-taxon-label{font-size:8px;letter-spacing:0.08em;text-transform:uppercase;max-width:2.6rem;text-align:center;opacity:0.75}
+.ds-taxon-chip:hover,.ds-taxon-chip:focus-visible,.ds-taxon-chip.is-active{color:var(--c-accent)}
+.ds-taxon-chip.is-active .ds-taxon-meta{text-decoration:underline}
+@media (max-width:800px){
+  .ds-taxon-rail{display:none}
+  .ds-voucher-masthead,.ds-voucher-claim,.ds-voucher-field{padding-left:var(--gutter)}
+  .ds-voucher-plate .ds-fig{min-height:min(58vh,560px)}
+}
+/* Range essay. */
+.ds-range-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
+.ds-range-essay{position:relative;display:flex;flex-direction:column;gap:var(--s-2xl);max-width:42rem;padding-left:1.5rem}
+.ds-range-track{
+  position:absolute;left:0.35rem;top:0.5rem;bottom:0.5rem;width:1px;
+  background:linear-gradient(180deg,var(--c-accent),var(--c-border));
+}
+.ds-range-bead{
+  position:absolute;left:-1.28rem;top:0.55rem;width:0.7rem;height:0.7rem;border-radius:50%;
+  background:var(--c-paper);border:1px solid var(--c-accent);z-index:1;
+}
+.ds-range-beat{position:relative}
+.ds-range-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
+.ds-range-note{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+}
+.ds-range-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-range-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-lg)}
+.ds-range-aside-item{display:flex;flex-direction:column;gap:0.25rem;border-left:1px solid var(--c-border);padding-left:0.75rem}
+.ds-range-aside-title{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:22ch}
+@media (max-width:800px){
+  .ds-range-grid{grid-template-columns:1fr!important}
+  .ds-range-aside{order:-1}
+}
+
 .ds-marginalia-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
 .ds-marginalia-essay{display:flex;flex-direction:column;gap:var(--s-xl);max-width:42rem}
 .ds-marginalia-beat{position:relative}

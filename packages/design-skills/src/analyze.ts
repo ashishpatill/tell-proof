@@ -80,7 +80,7 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
                     ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                     : siteKind === "signal-observatory"
                       ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
-                      : siteKind === "archive-index"
+                      : siteKind === "archive-index" || siteKind === "commerce-loom" || siteKind === "field-guide"
                         ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                 : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
 

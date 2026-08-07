@@ -366,6 +366,78 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     </section>`;
   }
 
+  /*
+   * Loom fold — commerce-loom signature.
+   *
+   * Compact claim + spanning warp/weft loom owning the fold. Sticky size-tape rail on the left.
+   * Not soft glass card collages — a merchandising press grammar.
+   */
+  if (section.layout === "hero-loom") {
+    const loomFig = figures.hero
+      ? `<figure class="ds-loom-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
+    const tape = `<nav class="ds-tape-rail" aria-label="Size tape"><ol>${sizes
+      .map((S, i) => {
+        const href = i < 6 ? ["#features", "#figure", "#specimen", "#story", "#proof", "#cta"][i] : "#features";
+        return `<li><a href="${href}" class="ds-tape-chip${i === 2 ? " is-active" : ""}" data-size="${S}"><span class="ds-tape-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-tape-label">${S}</span></a></li>`;
+      })
+      .join("")}</ol></nav>`;
+    const mast = `<header class="ds-loom-masthead" aria-label="Loom masthead">
+      <span class="ds-loom-vol">Press</span>
+      <span class="ds-loom-issue">Warp × Weft</span>
+      <span class="ds-loom-date">Merchandising loom</span>
+      <span class="ds-loom-mark">${esc(spec.brief.productName)}</span>
+    </header>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-loom" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${tape}
+      ${mast}
+      <div class="ds-loom-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-loom-field">${loomFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Voucher fold — field-guide signature.
+   *
+   * Compact claim + spanning specimen plate owning the fold. Sticky taxon rail on the left.
+   * Not floating glass heroes — a herbarium voucher grammar.
+   */
+  if (section.layout === "hero-voucher") {
+    const plateFig = figures.hero
+      ? `<figure class="ds-voucher-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const ranks = [
+      { id: "K", label: "Kingdom" },
+      { id: "P", label: "Phylum" },
+      { id: "C", label: "Class" },
+      { id: "O", label: "Order" },
+      { id: "F", label: "Family" },
+      { id: "G", label: "Genus" },
+      { id: "S", label: "Species" },
+    ];
+    const rail = `<nav class="ds-taxon-rail" aria-label="Taxonomic ranks"><ol>${ranks
+      .map((R, i) => {
+        const href = i < 6 ? ["#features", "#figure", "#specimen", "#story", "#proof", "#cta"][i] : "#features";
+        return `<li><a href="${href}" class="ds-taxon-chip${i === 5 ? " is-active" : ""}" data-rank="${R.id}"><span class="ds-taxon-meta">${R.id}</span><span class="ds-taxon-label">${esc(R.label)}</span></a></li>`;
+      })
+      .join("")}</ol></nav>`;
+    const mast = `<header class="ds-voucher-masthead" aria-label="Voucher masthead">
+      <span class="ds-voucher-vol">Field</span>
+      <span class="ds-voucher-issue">Voucher</span>
+      <span class="ds-voucher-date">Herbarium plate</span>
+      <span class="ds-voucher-mark">${esc(spec.brief.productName)}</span>
+    </header>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-voucher" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      ${mast}
+      <div class="ds-voucher-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-voucher-field">${plateFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
   if (section.layout === "hero-editorial") {
     return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-overfigure" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${spanning}
@@ -926,6 +998,103 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
   </section>`;
 }
 
+/**
+ * Hangtag essay — commerce-loom signature.
+ * String/eyelet mark + hangtag body + outer size index. Not entry folio or chrono beads.
+ */
+function renderHangtag(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const count = blocks.length || 1;
+  const essay = blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-hang-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const size = esc(b.meta ?? ["XS", "S", "M", "L", "XL", "XXL"][i % 6]!);
+      return `<article class="ds-hang-beat" style="--i:${i}">
+        <span class="ds-hang-eyelet" aria-hidden="true"></span>
+        <div class="ds-hang-body">
+          <p class="ds-hang-size">${size}</p>
+          <h3>${esc(b.title)}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${b.kicker ? `<p class="ds-hang-note">${esc(b.kicker)}</p>` : ""}
+          ${mark}
+        </div>
+      </article>`;
+    })
+    .join("");
+  const aside = blocks
+    .map((b, i) => {
+      const size = esc(b.meta ?? ["XS", "S", "M", "L", "XL", "XXL"][i % 6]!);
+      return `<li class="ds-hang-aside-item">
+        <span class="ds-hang-aside-size">${size}</span>
+        <span class="ds-hang-aside-title">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-hangtag" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
+    <div class="ds-wrap-wide">
+      ${secMeta("Hangtag", `${count} tags · size index`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-hang-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
+        <div class="ds-hang-essay">${essay}</div>
+        <aside class="ds-hang-aside" aria-label="Size index">
+          <ol class="ds-hang-aside-list">${aside}</ol>
+        </aside>
+      </div>
+    </div>
+  </section>`;
+}
+
+/**
+ * Range essay — field-guide signature.
+ * Distribution beads + outer taxon index. Not hangtag, entry, or verso/recto.
+ */
+function renderRange(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const count = blocks.length || 1;
+  const essay = blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-range-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const rank = esc(b.meta ?? ["K", "P", "C", "O", "F", "G"][i % 6]!);
+      return `<article class="ds-range-beat" style="--i:${i}">
+        <span class="ds-range-bead" aria-hidden="true"></span>
+        <div class="ds-range-body">
+          <p class="ds-range-rank">${rank}</p>
+          <h3>${esc(b.title)}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${b.kicker ? `<p class="ds-range-note">${esc(b.kicker)}</p>` : ""}
+          ${mark}
+        </div>
+      </article>`;
+    })
+    .join("");
+  const aside = blocks
+    .map((b, i) => {
+      const rank = esc(b.meta ?? ["K", "P", "C", "O", "F", "G"][i % 6]!);
+      return `<li class="ds-range-aside-item">
+        <span class="ds-range-aside-rank">${rank}</span>
+        <span class="ds-range-aside-title">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-range" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
+    <div class="ds-wrap-wide">
+      ${secMeta("Range", `${count} beads · taxon index`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-range-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
+        <div class="ds-range-essay">
+          <div class="ds-range-track" aria-hidden="true"></div>
+          ${essay}
+        </div>
+        <aside class="ds-range-aside" aria-label="Taxon index">
+          <ol class="ds-range-aside-list">${aside}</ol>
+        </aside>
+      </div>
+    </div>
+  </section>`;
+}
+
 function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
   const cells = section.blocks.slice(0, 5);
   const board = cells.length
@@ -1055,7 +1224,7 @@ function renderFaq(section: SectionSpec): string {
  * as tall as what is in it, and the composition reads across rather than down.
  */
 function renderCtaBand(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
-  const isColophon = /Colophon|Imprint|Calibration|Registry/i.test(section.eyebrow ?? "");
+  const isColophon = /Colophon|Imprint|Calibration|Registry|Care label|Voucher/i.test(section.eyebrow ?? "");
   const colophonClass = isColophon ? " ds-closing-colophon" : "";
   // Observatory calibration close — paper strip of tolerance numerals (not metrics theatre).
   const isObservatoryCal =
@@ -1241,6 +1410,8 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-folio":
     case "hero-chrono":
     case "hero-register":
+    case "hero-loom":
+    case "hero-voucher":
       return wrapped(renderHero(section, spec, figures));
     case "metric-band":
       return wrapped(renderMetricBand(section, figures, spec));
@@ -1263,6 +1434,10 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderChrono(section, figures));
     case "story-entry":
       return wrapped(renderEntry(section, figures));
+    case "story-hangtag":
+      return wrapped(renderHangtag(section, figures));
+    case "story-range":
+      return wrapped(renderRange(section, figures));
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));
