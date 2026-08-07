@@ -952,13 +952,35 @@ function renderFaq(section: SectionSpec): string {
  * page was three hundred pixels of nothing. Given its own column the mark is legible, the band is
  * as tall as what is in it, and the composition reads across rather than down.
  */
-function renderCtaBand(section: SectionSpec, figures: FigurePlan): string {
+function renderCtaBand(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
   const isColophon = /Colophon|Imprint|Calibration/i.test(section.eyebrow ?? "");
   const colophonClass = isColophon ? " ds-closing-colophon" : "";
+  // Observatory calibration close — paper strip of tolerance numerals (not metrics theatre).
+  const isObservatoryCal =
+    Boolean(spec && spec.brief.siteKind === "signal-observatory") &&
+    /Calibration/i.test(section.eyebrow ?? "");
+  const tolLadder = ["±0.5", "±1.0", "±1.5", "±2.0"];
+  const fromCatalogue = isObservatoryCal && spec ? catalogue(spec).slice(0, 4) : [];
+  const calLabels =
+    fromCatalogue.length > 0
+      ? fromCatalogue.map((b) => b.title)
+      : isObservatoryCal && spec
+        ? spec.brief.features.slice(0, 4).map((f) => f.name)
+        : [];
+  const calStrip =
+    calLabels.length > 0
+      ? `<ol class="ds-cal-strip" aria-label="Tolerance marks">${calLabels
+          .map(
+            (name, i) =>
+              `<li class="ds-cal-mark"><span class="ds-cal-tol">${tolLadder[i % tolLadder.length]}</span><span class="ds-cal-ch">${esc(name.slice(0, 14))}</span></li>`,
+          )
+          .join("")}</ol>`
+      : "";
   return `<section class="ds-section ds-closing${colophonClass}" data-surface="${section.surface}" data-section="${esc(section.id)}" id="cta">
     <div class="ds-wrap-wide ds-closing-grid">
       <div class="ds-cta">
         ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+        ${calStrip}
         <h2 class="ds-title">${esc(section.title)}</h2>
         <p class="ds-lede">${esc(section.body)}</p>
         ${actions(section, "band")}
@@ -1135,7 +1157,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "faq-columns":
       return wrapped(renderFaq(section));
     case "cta-band":
-      return wrapped(renderCtaBand(section, figures));
+      return wrapped(renderCtaBand(section, figures, spec));
     case "footer-columns":
       return renderFooter(section);
     case "app-shell":

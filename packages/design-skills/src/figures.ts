@@ -1192,6 +1192,19 @@ export function dossierPlate(
  * does not treat them as display (foundry SVG-text lesson). Theme packs do not invent instrument
  * lattices from a density slider.
  */
+/** Corner L-brackets for a live window — instrument ticks, not a full chrome box. */
+function liveWindowCorners(x: number, y: number, w: number, h: number, arm = 10): string {
+  const s = `fill="none" stroke="${ACCENT}" stroke-width="1" opacity="0.85" vector-effect="non-scaling-stroke"`;
+  const x2 = x + w;
+  const y2 = y + h;
+  return [
+    `<path d="M ${round(x)} ${round(y + arm)} V ${round(y)} H ${round(x + arm)}" ${s}/>`,
+    `<path d="M ${round(x2 - arm)} ${round(y)} H ${round(x2)} V ${round(y + arm)}" ${s}/>`,
+    `<path d="M ${round(x)} ${round(y2 - arm)} V ${round(y2)} H ${round(x + arm)}" ${s}/>`,
+    `<path d="M ${round(x2 - arm)} ${round(y2)} H ${round(x2)} V ${round(y2 - arm)}" ${s}/>`,
+  ].join("");
+}
+
 export function signalLattice(
   productName: string,
   features: Block[],
@@ -1215,15 +1228,23 @@ export function signalLattice(
     `<line x1="${round(padX + 8)}" y1="${round(chronY)}" x2="${round(W - padX - 8)}" y2="${round(chronY)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
   const hours = 12;
+  // "Now" sits mid-strip — a 1px-stroke bead, not thick chrome.
+  const nowHour = 6;
   for (let i = 0; i <= hours; i += 1) {
     const x = padX + 8 + ((W - padX * 2 - 16) * i) / hours;
     const tall = i % 3 === 0;
+    const isNow = i === nowHour;
     parts.push(
-      `<line x1="${round(x)}" y1="${round(chronY - (tall ? 8 : 4))}" x2="${round(x)}" y2="${round(chronY + (tall ? 8 : 4))}" stroke="${tall ? ACCENT : LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      `<line x1="${round(x)}" y1="${round(chronY - (tall ? 8 : 4))}" x2="${round(x)}" y2="${round(chronY + (tall ? 8 : 4))}" stroke="${tall || isNow ? ACCENT : LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
     );
     if (tall) {
       parts.push(
         `<text class="ds-fig-mono" x="${round(x)}" y="${round(chronY - 12)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">${String(i).padStart(2, "0")}</text>`,
+      );
+    }
+    if (isNow) {
+      parts.push(
+        `<circle cx="${round(x)}" cy="${round(chronY)}" r="2.5" fill="var(--surface-bg, var(--c-paper))" stroke="${ACCENT}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
       );
     }
   }
@@ -1241,6 +1262,9 @@ export function signalLattice(
   const barLeft = padX + labelW + 12;
   const barRight = W - padX - 24;
   const barW = barRight - barLeft;
+
+  // Tolerance ladder keyed to channel index — same values the calibration close echoes.
+  const tolerances = ["±0.5", "±1.0", "±0.5", "±1.5", "±1.0", "±2.0"];
 
   for (let i = 0; i < count; i += 1) {
     const f = channels[i] ?? channels[i % Math.max(1, channels.length)]!;
@@ -1274,6 +1298,15 @@ export function signalLattice(
       );
     }
 
+    // Per-channel threshold hairline across the amplitude row.
+    const thrY = mid - rowH * (0.12 + (i % 3) * 0.04);
+    parts.push(
+      `<line x1="${round(barLeft)}" y1="${round(thrY)}" x2="${round(barRight)}" y2="${round(thrY)}" stroke="${ACCENT}" stroke-width="1" opacity="0.45" stroke-dasharray="3 5" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(barLeft + 4)}" y="${round(thrY - 3)}" font-size="11" fill="var(--surface-quiet)">${tolerances[i % tolerances.length]}</text>`,
+    );
+
     // Status dot
     const status = i % 3 === 0 ? ACCENT : LINE;
     parts.push(
@@ -1281,14 +1314,20 @@ export function signalLattice(
     );
   }
 
-  // Live window bracket
+  // Live window — corner ticks + WINDOW / duration legend (not a full boxed chrome).
   const winX = barLeft + barW * 0.62;
   const winW = barW * 0.16;
-  parts.push(
-    `<rect x="${round(winX)}" y="${round(gridTop)}" width="${round(winW)}" height="${round(gridH)}" fill="none" stroke="${ACCENT}" stroke-width="1" opacity="0.7" vector-effect="non-scaling-stroke"/>`,
-  );
+  const winMin = Math.max(8, Math.round((winW / barW) * 60));
+  const duration = `00:${String(winMin).padStart(2, "0")}`;
+  parts.push(liveWindowCorners(winX, gridTop, winW, gridH, role === "band" ? 12 : 8));
   parts.push(
     `<text class="ds-fig-mono" x="${round(winX + winW / 2)}" y="${round(gridTop - 6)}" font-size="11" fill="var(--c-accent)" text-anchor="middle">LIVE</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(winX + 6)}" y="${round(gridTop + 14)}" font-size="11" fill="var(--c-accent)">WINDOW</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(winX + winW - 6)}" y="${round(gridTop + 14)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${duration}</text>`,
   );
 
   parts.push(

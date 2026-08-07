@@ -198,16 +198,14 @@ function siteKindCss(): string {
 /* Fintech: inverse specimen is a stage; product drawing sits on a lit paper plate (readable contrast). */
 [data-sitekind="fintech-marketing"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
 [data-sitekind="fintech-marketing"] .ds-specimen-head .ds-heading{color:var(--surface-ink)}
-[data-sitekind="fintech-marketing"] .ds-specimen .ds-plate,
-[data-sitekind="dashboard-webapp"] .ds-specimen[data-surface="inverse"] .ds-plate{
+[data-sitekind="fintech-marketing"] .ds-specimen .ds-plate{
   padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);
   background:var(--c-paper);color:var(--c-ink);
   box-shadow:0 28px 64px color-mix(in srgb,#000 48%,transparent);
   --surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);
   --surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);
 }
-[data-sitekind="fintech-marketing"] .ds-specimen .ds-plate-bleed .ds-fig,
-[data-sitekind="dashboard-webapp"] .ds-specimen[data-surface="inverse"] .ds-plate-bleed .ds-fig{border-radius:var(--r-lg);min-height:min(68vh,700px)}
+[data-sitekind="fintech-marketing"] .ds-specimen .ds-plate-bleed .ds-fig{border-radius:var(--r-lg);min-height:min(68vh,700px)}
 [data-sitekind="fintech-marketing"] .ds-metrics-band{box-shadow:inset 0 3px 0 var(--c-accent)}
 [data-sitekind="fintech-marketing"] .ds-metric{min-height:10.5rem}
 [data-sitekind="fintech-marketing"] .ds-proof{padding-block:var(--s-2xl) calc(var(--section-y) * 0.85)}
@@ -399,13 +397,29 @@ body[data-sitekind="signal-observatory"]{
 [data-sitekind="signal-observatory"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
 /* Observatory bleed seal stays hairline — thick accent bars tank the hairline ratio. */
 [data-sitekind="signal-observatory"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
-/* Calibration strip marks on the closing band */
-[data-sitekind="signal-observatory"] .ds-closing-colophon::before{
-  content:"";display:block;height:1px;margin:0 0 var(--s-md);
-  background:
-    repeating-linear-gradient(90deg,var(--c-accent) 0 1px,transparent 1px 10px);
-  opacity:0.7;
+/* Calibration strip — tolerance numerals on paper (replaces decorative ::before ticks). */
+[data-sitekind="signal-observatory"] .ds-cal-strip{
+  list-style:none;margin:0 0 var(--s-sm);padding:0 0 var(--s-sm);
+  display:flex;flex-wrap:wrap;gap:0.65rem 1.25rem;
+  border-bottom:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
 }
+[data-sitekind="signal-observatory"] .ds-cal-mark{
+  display:flex;flex-direction:column;gap:0.1rem;min-width:4.5rem;
+}
+[data-sitekind="signal-observatory"] .ds-cal-tol{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;color:var(--c-accent);
+}
+[data-sitekind="signal-observatory"] .ds-cal-ch{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+/* Chronometer "now" bead — 1px stroke only, mid-rail hour. */
+[data-sitekind="signal-observatory"] .ds-chrono-tick:nth-child(7)::after{
+  content:"";position:absolute;left:50%;top:calc(50% + 0.55rem);transform:translateX(-50%);
+  width:5px;height:5px;border-radius:50%;
+  border:1px solid var(--c-accent);background:var(--c-paper);box-sizing:border-box;
+}
+[data-sitekind="signal-observatory"] .ds-chrono-tick:nth-child(7){color:var(--c-accent)}
 `;
 }
 
@@ -964,6 +978,33 @@ ${surfaceRules()}
 [data-sitekind="dashboard-webapp"] .ds-faq .ds-split{grid-template-columns:minmax(12rem,3fr) minmax(36rem,9fr) !important}
 [data-sitekind="dashboard-webapp"] .ds-app-main{min-width:0}
 [data-sitekind="dashboard-webapp"] .ds-app-main .ds-lede{max-width:min(68ch,var(--w-prose));width:min(68ch,100%);font-size:var(--t-body-size);line-height:var(--t-body-leading)}
+/*
+ * Dashboard rhythm — honest band-variation without empty voids.
+ * Compact metric register → sunken type-led specimen (ink, few chars) → dense shell peak.
+ * Pack the app into one measured screen so shell density does not smear across quiet neighbours.
+ */
+[data-sitekind="dashboard-webapp"] .ds-metrics-band{padding-block:var(--section-y-tight)}
+[data-sitekind="dashboard-webapp"] .ds-metrics-band .ds-metric{min-height:8.25rem;padding:var(--s-md) var(--s-sm) var(--s-sm)}
+[data-sitekind="dashboard-webapp"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
+[data-sitekind="dashboard-webapp"] .ds-specimen-head{gap:0}
+[data-sitekind="dashboard-webapp"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:10ch;line-height:1.15}
+[data-sitekind="dashboard-webapp"] .ds-specimen .ds-plate{
+  padding:var(--s-xs);border:1px solid var(--c-border);border-radius:var(--r-xl);
+  background:var(--c-paper);color:var(--c-ink);
+  box-shadow:0 18px 48px color-mix(in srgb,#000 18%,transparent);
+  --surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);
+  --surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);
+}
+[data-sitekind="dashboard-webapp"] .ds-specimen .ds-plate-bleed .ds-fig{border-radius:var(--r-lg);min-height:min(74vh,760px)}
+[data-sitekind="dashboard-webapp"] .ds-app-grid{min-height:0}
+[data-sitekind="dashboard-webapp"] .ds-app-main{padding:var(--s-md);gap:var(--s-md)}
+[data-sitekind="dashboard-webapp"] .ds-app-side{padding:var(--s-sm) var(--s-xs);gap:var(--s-sm)}
+[data-sitekind="dashboard-webapp"] .ds-app-stats{gap:var(--s-2xs)}
+[data-sitekind="dashboard-webapp"] .ds-stat{padding:var(--s-xs)}
+[data-sitekind="dashboard-webapp"] .ds-table th,[data-sitekind="dashboard-webapp"] .ds-table td{padding:var(--s-2xs) var(--s-xs)}
+[data-sitekind="dashboard-webapp"] .ds-empty{padding:var(--s-md)}
+[data-sitekind="dashboard-webapp"] .ds-index-row{padding-block:var(--s-sm)}
+[data-sitekind="dashboard-webapp"] .ds-proof{padding-block:var(--s-2xl) calc(var(--section-y) * 0.9)}
 /* A hairline field behind the quiet band, so a nearly empty screen still reads as a surface. */
 .ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;opacity:.55}
 .ds-field .ds-fig{width:100%;height:100%}
