@@ -382,3 +382,35 @@ buckets, never names, hosts, or URLs.
   not invent from taste controls.
 - **Next weakest:** dashboard band-variation; observatory ink-variation ceiling; deepen uniqueness
   (richer LIVE bracket legends, calibration tolerance numerals) without score-gaming.
+
+## Loop 18b — deepen observatory + dashboard rhythm (parallel RSI)
+
+- **Goal:** parallel dogfood — deepen Nightglass LIVE/calibration craft; raise dashboard
+  band-variation without empty voids.
+- **Observatory:** WINDOW legend + corner ticks, per-channel threshold marks, calibration
+  tolerance strip — mono ≤11px, 1px chrome only.
+- **Dashboard:** sunken specimen valley before dense app-shell; pack shell/index/proof as peaks;
+  widen body measure out of the 33ch trap. Score **~97.8 → 99.7**; band-variation into floor.
+- **Side effects:** observatory ink-variation still slightly above ceiling — accepted.
+
+## Loop 19 — eleventh offering: archive index (RSI, parallel)
+
+- **Goal:** fill the award-index demand gap with unreplicable register craft — quiet display,
+  extreme spine, index-ledger owning the fold, A–Z alpha rail, entry essay, Registry close.
+- **Failure named (champion):** ten offerings still lacked an alphabetical archive/ledger grammar;
+  nothing forced a register fold where the index IS the figure.
+- **Challenger:** `archive-index` siteKind + `archive` template (`Stamp Roll`):
+  - `hero-register` + sticky `ds-alpha-rail`
+  - `index-ledger` figure (mono ordinals ≤11px)
+  - `story-entry` hanging folio + ruled measure
+  - paper Registry close — no pricing/metrics/inverse
+- **Score:** matrix **99.2**; archive-index **91.3 → 97.6** after display-clamp fix + ledger
+  rule sparse + horizon specimen; holdout **98.4**. Dashboard parallel pass **99.7**.
+- **Closed:** `template:display-clamp-invalid`, `template:ledger-rule-flood`; basics
+  `kind-archive`; `/showcase/archive` featured.
+- **Side effects:** archive ink-variation above corridor (1.32 vs 0.96) — accepted for a
+  ledger-owned fold; do not flood rules to game the band.
+- **Qualitative:** fold reads as an archive register, not a recolored SaaS/dossier page. Alpha
+  rail + ruled ledger + entry folios are craft theme packs will not invent from taste controls.
+- **Next weakest:** archive ink-variation; docs rule density; deepen register uniqueness
+  (section tabs, stamp marks) without score-gaming.
