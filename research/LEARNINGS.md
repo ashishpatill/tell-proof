@@ -111,3 +111,28 @@ Pattern keys match `tell-recursive-improve`.
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.
 Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) → push → green → merge.
+
+
+## 2026-08-07 — `template:soft-pack-vs-structural`
+
+- **Failure named (champion):** Soft public templates read as glass card collages + purple/system
+  gradients + floating UI panels. A recolored SaaS skeleton cannot beat that look by restyling —
+  it still reads as the same grammar.
+- **Challenger:** Two structural siteKinds that invent unreplicable press/voucher grammars —
+  `commerce-loom` (size-tape + warp/weft photo loom + hangtag + Care label) and `field-guide`
+  (taxon rail + specimen plate + range beads + Voucher) with copyright-free photo stock embedded
+  as matter, not lifestyle cards.
+- **Eval:** Critique loom/field **97.6** (only ink-variation above corridor, same class as archive);
+  matrix **98.9**; holdout gap 0.5. Playwright eye: fold shows photo cells / botanical plate, not
+  sticky-nav chrome. Soft-pack folds (card grids, glass heroes) are a different grammar entirely.
+- **Do not:** Answer soft-pack craft with more rounded cards, mesh gradients, or glass panels.
+  Invent a structure a density slider cannot emit, then hang the unique figure into the fold.
+
+## 2026-08-07 — `template:svg-scale-inflates-type-steps`
+
+- **Failure:** Loom first critique scored type-steps **15** (band ≤14). SVG mono labels at band /
+  plate / mark roles measured as 10/12/19px after viewBox scale — distinct steps even when the
+  attribute said `font-size="11"`.
+- **Fix:** Force `text.ds-fig-mono{font-size:11px!important}` on loom/field; demote hang-aside
+  titles to a shared 14px; drop 8–10px tape/taxon chips to 11px.
+- **Do not:** Assume SVG `font-size="11"` survives scaling as one type step across figure roles.

@@ -414,3 +414,31 @@ buckets, never names, hosts, or URLs.
   rail + ruled ledger + entry folios are craft theme packs will not invent from taste controls.
 - **Next weakest:** archive ink-variation; docs rule density; deepen register uniqueness
   (section tabs, stamp marks) without score-gaming.
+
+
+## Loop 20 — twelfth + thirteenth offerings: commerce loom + field guide (RSI)
+
+- **Goal:** Beat soft theme-pack craft (card grids, glass heroes, purple/system gradients) by
+  inventing two unreplicable structural grammars with copyright-free photo matter, and dogfood the
+  engine until critique + eye pass.
+- **Failure named (champion):** Eleven offerings still lacked merchandising-press and herbarium
+  voucher grammars. Soft public templates win on photography + glass collage; nothing in the catalog
+  forced a size-tape loom or a taxon-rail specimen plate.
+- **Challenger:**
+  - `commerce-loom` / `loom` (`Warp Desk`) — sticky size-tape rail, loom-weave figure with free
+    textile photo cells + flying shuttle, hangtag essay, Care label close
+  - `field-guide` / `herbarium` (`Vellum Press`) — sticky taxon rail, specimen-plate with pressed
+    silhouette + free botanical inset + blot, range essay, Voucher close
+- **Score:** matrix **98.9**; loom-commerce **97.0 → 97.6**; field-herbarium **97.3 → 97.6** after
+  fold hang, type-step consolidation, micro-label ceiling, display floor; holdout **98.4** (gap 0.5).
+  No regression on locked SaaS/studio/consumer/foundry/dossier/observatory/archive.
+- **Closed:** type-steps 15→13; micro-labels 30→in band; display floor for field; claim-starves-figure
+  hang; basics gates `kind-loom` / `kind-field`; showcase `/showcase/loom` + `/showcase/herbarium`
+  with herbarium featured cinema.
+- **Side effects:** loom/field ink-variation above corridor (1.34 / 1.28 vs 0.96) — accepted for
+  photo-owned folds (same class as archive ledger); do not empty photo cells to game the band.
+- **Qualitative:** folds read as a merchandising press and a herbarium voucher — not recolored SaaS
+  and not soft glass card collages. Size tape + shuttle weave + taxon rail + pressed blot are craft
+  a generic design engine will not invent from taste controls.
+- **Next weakest:** loom/field ink-variation ceiling; deepen shuttle/blot uniqueness without
+  score-gaming; corporate band-variation.

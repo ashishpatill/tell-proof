@@ -152,7 +152,7 @@ export function buildSections(
             body: heroLede(brief, editorial.heroLines),
             brandLabel: brief.productName,
             ctaLabel: cta.primary,
-            secondaryLabel: cta.secondary,
+            secondaryLabel: isDossier || isObservatory || isArchive || isLoom || isField ? undefined : cta.secondary,
             // Folio / chrono / register / loom / voucher folds leave room for the figure.
             ctaNote: isDossier || isObservatory || isArchive || isLoom || isField ? undefined : cta.note,
             blocks: named,

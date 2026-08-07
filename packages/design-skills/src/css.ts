@@ -506,21 +506,28 @@ body[data-sitekind="commerce-loom"]{
 [data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions{margin-top:0.4rem}
 [data-sitekind="commerce-loom"] .ds-hang-size,
 [data-sitekind="commerce-loom"] .ds-hang-aside-size{
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;color:var(--c-accent);
 }
 [data-sitekind="commerce-loom"] .ds-loom-claim{
-  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding:0.15rem 0 0;
   padding-left:var(--tape-rail);
 }
 [data-sitekind="commerce-loom"] .ds-loom-field{
-  margin-top:-1.25rem;
-  mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 100%);
+  margin-top:-2.75rem;
+  mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 100%);
   padding-left:var(--tape-rail);
 }
-[data-sitekind="commerce-loom"] .ds-loom-plate .ds-fig{min-height:min(86vh,900px)}
+[data-sitekind="commerce-loom"] .ds-loom-plate .ds-fig{min-height:min(90vh,960px)}
 [data-sitekind="commerce-loom"] .ds-hero-loom{min-height:min(100vh,900px)}
 [data-sitekind="commerce-loom"] .ds-hero-loom .ds-cta-note{display:none}
-[data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions .ds-btn-ghost{display:none}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions .ds-btn-ghost,
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions a:nth-child(2){display:none}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-display{
+  font-size:clamp(2.4rem,3.2vw,3rem);line-height:1.06;max-width:15ch;letter-spacing:-0.03em;
+}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-lede{max-width:32ch;margin:0.15rem 0 0;font-size:var(--t-small-size,0.95rem)}
+[data-sitekind="commerce-loom"] .ds-hero-loom .ds-actions{margin-top:0.25rem}
+[data-sitekind="commerce-loom"] .ds-loom-masthead{padding-top:calc(var(--nav-h,4.5rem) + var(--s-xs));padding-bottom:0.2rem}
 [data-sitekind="commerce-loom"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="commerce-loom"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
 [data-sitekind="commerce-loom"] .ds-section-head,
@@ -562,21 +569,36 @@ body[data-sitekind="field-guide"]{
 [data-sitekind="field-guide"] .ds-hero-voucher .ds-actions{margin-top:0.4rem}
 [data-sitekind="field-guide"] .ds-range-rank,
 [data-sitekind="field-guide"] .ds-range-aside-rank{
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;color:var(--c-accent);
 }
 [data-sitekind="field-guide"] .ds-voucher-claim{
-  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding:0.15rem 0 0;
   padding-left:var(--taxon-rail);
 }
 [data-sitekind="field-guide"] .ds-voucher-field{
-  margin-top:-1.25rem;
-  mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 100%);
+  margin-top:-2.75rem;
+  mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 100%);
   padding-left:var(--taxon-rail);
 }
-[data-sitekind="field-guide"] .ds-voucher-plate .ds-fig{min-height:min(86vh,900px)}
+[data-sitekind="field-guide"] .ds-voucher-plate .ds-fig{min-height:min(90vh,960px)}
 [data-sitekind="field-guide"] .ds-hero-voucher{min-height:min(100vh,900px)}
 [data-sitekind="field-guide"] .ds-hero-voucher .ds-cta-note{display:none}
-[data-sitekind="field-guide"] .ds-hero-voucher .ds-actions .ds-btn-ghost{display:none}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-actions .ds-btn-ghost,
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-actions a:nth-child(2){display:none}
+[data-sitekind="commerce-loom"] .ds-hang-aside-title{font-size:14px;line-height:1.3}
+[data-sitekind="commerce-loom"] .ds-fig text.ds-fig-mono,
+[data-sitekind="commerce-loom"] text.ds-fig-mono{font-size:11px!important}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-display{
+  font-size:clamp(2.5rem,3.25vw,3.05rem);line-height:1.07;max-width:14ch;letter-spacing:-0.03em;
+}
+[data-sitekind="field-guide"] .ds-fig text.ds-fig-mono,
+[data-sitekind="field-guide"] text.ds-fig-mono{font-size:11px!important}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-lede{max-width:32ch;margin:0.15rem 0 0;font-size:var(--t-small-size,0.95rem)}
+[data-sitekind="field-guide"] .ds-hero-voucher .ds-actions{margin-top:0.25rem}
+[data-sitekind="field-guide"] .ds-voucher-masthead{padding-top:calc(var(--nav-h,4.5rem) + var(--s-xs));padding-bottom:0.2rem}
+/* Drop uppercase on taxon chips — micro-label ceiling; ranks stay readable as title case. */
+[data-sitekind="field-guide"] .ds-taxon-label{text-transform:none;letter-spacing:0.02em;font-size:11px}
+[data-sitekind="field-guide"] .ds-range-note{text-transform:none}
 [data-sitekind="field-guide"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="field-guide"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
 [data-sitekind="field-guide"] .ds-section-head,
@@ -1212,7 +1234,7 @@ ${surfaceRules()}
   padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
   padding-left:calc(var(--gutter) + var(--tape-rail,2.85rem));
   border-bottom:1px solid var(--c-border);
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;
   color:var(--c-ink-tertiary);
 }
 .ds-loom-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
@@ -1233,7 +1255,7 @@ ${surfaceRules()}
   color:var(--c-ink-tertiary);min-width:28px;min-height:36px;line-height:1.1;gap:0.15rem;
   border-left:1px solid transparent;padding-left:0.15rem;
 }
-.ds-tape-meta{font-size:9px;opacity:0.7}
+.ds-tape-meta{font-size:11px;opacity:0.7}
 .ds-tape-chip:hover,.ds-tape-chip:focus-visible,.ds-tape-chip.is-active{color:var(--c-accent);border-left-color:var(--c-accent)}
 @media (max-width:800px){
   .ds-tape-rail{display:none}
@@ -1255,7 +1277,7 @@ ${surfaceRules()}
 }
 .ds-hang-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-hang-note{
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.06em;text-transform:none;
   color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
 }
 .ds-hang-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
@@ -1280,7 +1302,7 @@ ${surfaceRules()}
   padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
   padding-left:calc(var(--gutter) + var(--taxon-rail,3.1rem));
   border-bottom:1px solid var(--c-border);
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;
   color:var(--c-ink-tertiary);
 }
 .ds-voucher-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
@@ -1297,12 +1319,12 @@ ${surfaceRules()}
 }
 .ds-taxon-chip{
   display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;
-  font-family:var(--f-mono);font-size:10px;letter-spacing:0.04em;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.04em;
   color:var(--c-ink-tertiary);min-width:28px;min-height:40px;line-height:1.1;gap:0.1rem;
   writing-mode:horizontal-tb;
 }
 .ds-taxon-meta{font-size:11px;color:var(--c-accent)}
-.ds-taxon-label{font-size:8px;letter-spacing:0.08em;text-transform:uppercase;max-width:2.6rem;text-align:center;opacity:0.75}
+.ds-taxon-label{font-size:11px;letter-spacing:0.02em;text-transform:none;max-width:2.8rem;text-align:center;opacity:0.75}
 .ds-taxon-chip:hover,.ds-taxon-chip:focus-visible,.ds-taxon-chip.is-active{color:var(--c-accent)}
 .ds-taxon-chip.is-active .ds-taxon-meta{text-decoration:underline}
 @media (max-width:800px){
@@ -1324,7 +1346,7 @@ ${surfaceRules()}
 .ds-range-beat{position:relative}
 .ds-range-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-range-note{
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.06em;text-transform:none;
   color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
 }
 .ds-range-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}

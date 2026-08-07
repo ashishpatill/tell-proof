@@ -778,7 +778,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   // Commerce loom: quiet-moderate display — weave owns the fold, not a shout.
   if (siteKind === "commerce-loom") px = 50;
   // Field guide: quiet display — specimen plate owns the fold.
-  if (siteKind === "field-guide") px = 48;
+  if (siteKind === "field-guide") px = 50;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -790,7 +790,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "signal-observatory") return Math.max(48, Math.min(58, px));
   if (siteKind === "archive-index") return Math.max(45, Math.min(52, px));
   if (siteKind === "commerce-loom") return Math.max(46, Math.min(56, px));
-  if (siteKind === "field-guide") return Math.max(45, Math.min(54, px));
+  if (siteKind === "field-guide") return Math.max(47, Math.min(54, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

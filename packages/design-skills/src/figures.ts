@@ -1488,13 +1488,13 @@ export function loomWeave(
   // Header — LOOM + product (mono ≤11px).
   const headY = padY + 14;
   parts.push(
-    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">LOOM · WARP × WEFT</text>`,
+    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">Loom · warp × weft</text>`,
   );
   parts.push(
     `<text class="ds-fig-mono" x="${round(W / 2)}" y="${round(headY)}" font-size="11" fill="var(--surface-muted)" text-anchor="middle">${esc(clip(productName, 28))}</text>`,
   );
   parts.push(
-    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">SIZE TAPE</text>`,
+    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">Size tape</text>`,
   );
   parts.push(
     `<line x1="${round(padX)}" y1="${round(headY + 8)}" x2="${round(W - padX)}" y2="${round(headY + 8)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
@@ -1535,6 +1535,18 @@ export function loomWeave(
     );
   }
 
+  // Shuttle path — unreplicable loom craft (theme packs do not invent a flying shuttle).
+  const shuttleY = fieldY + fieldH * 0.48;
+  parts.push(
+    `<path d="M ${round(fieldX + 8)} ${round(shuttleY)} C ${round(fieldX + fieldW * 0.35)} ${round(shuttleY - 18)}, ${round(fieldX + fieldW * 0.65)} ${round(shuttleY + 18)}, ${round(fieldX + fieldW - 8)} ${round(shuttleY)}" fill="none" stroke="${ACCENT}" stroke-width="1" opacity="0.55" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<ellipse cx="${round(fieldX + fieldW * 0.62)}" cy="${round(shuttleY + 2)}" rx="14" ry="5" fill="none" stroke="${ACCENT}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(fieldX + fieldW * 0.62)}" y="${round(shuttleY - 10)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">Shuttle</text>`,
+  );
+
   for (let row = 0; row < rows; row += 1) {
     for (let col = 0; col < cols; col += 1) {
       const x = fieldX + col * (cellW + gap);
@@ -1556,7 +1568,7 @@ export function loomWeave(
       );
       const sku = String(100 + idx).padStart(3, "0");
       parts.push(
-        `<text class="ds-fig-mono" x="${round(x + 6)}" y="${round(y + cellH * 0.72 + 14)}" font-size="11" fill="var(--surface-quiet)">SKU ${sku}</text>`,
+        `<text class="ds-fig-mono" x="${round(x + 6)}" y="${round(y + cellH * 0.72 + 14)}" font-size="11" fill="var(--surface-quiet)">Sku ${sku}</text>`,
       );
       parts.push(
         `<text class="ds-fig-mono" x="${round(x + 6)}" y="${round(y + cellH - 8)}" font-size="11" fill="var(--surface-muted)">${esc(clip(f.title ?? "Line", 18))}</text>`,
@@ -1615,13 +1627,13 @@ export function specimenPlate(
 
   const headY = padY + 14;
   parts.push(
-    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">VOUCHER · HERBARIUM</text>`,
+    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">Voucher · herbarium</text>`,
   );
   parts.push(
     `<text class="ds-fig-mono" x="${round(W / 2)}" y="${round(headY)}" font-size="11" fill="var(--surface-muted)" text-anchor="middle">${esc(clip(productName, 28))}</text>`,
   );
   parts.push(
-    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">SPECIMEN</text>`,
+    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">Specimen</text>`,
   );
   parts.push(
     `<line x1="${round(padX)}" y1="${round(headY + 8)}" x2="${round(W - padX)}" y2="${round(headY + 8)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
@@ -1673,6 +1685,13 @@ export function specimenPlate(
   ] as const) {
     parts.push(`<circle cx="${round(px)}" cy="${round(py)}" r="2.5" fill="none" stroke="${ACCENT}" stroke-width="1"/>`);
   }
+  // Pressing blot — unreplicable herbarium craft (theme packs do not invent a blot + pin register).
+  parts.push(
+    `<ellipse cx="${round(midX + leafW * 0.08)}" cy="${round(midY + leafH * 0.12)}" rx="22" ry="14" fill="${ACCENT_FIELD}" opacity="0.35"/>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(midX + leafW * 0.08)}" y="${round(midY + leafH * 0.12 + 3)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">Blot</text>`,
+  );
 
   // Photo voucher window on the right.
   const winX = leafX + leafW + 16;
@@ -1688,7 +1707,7 @@ export function specimenPlate(
     `<rect x="${round(winX)}" y="${round(winY)}" width="${round(winW)}" height="${round(winH)}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
   parts.push(
-    `<text class="ds-fig-mono" x="${round(winX + 8)}" y="${round(winY + 16)}" font-size="11" fill="var(--surface-quiet)">PLATE A</text>`,
+    `<text class="ds-fig-mono" x="${round(winX + 8)}" y="${round(winY + 16)}" font-size="11" fill="var(--surface-quiet)">Plate A</text>`,
   );
 
   // Feature callouts under photo — sparse mono.
@@ -1728,7 +1747,7 @@ export function specimenPlate(
     );
   }
   parts.push(
-    `<text class="ds-fig-mono" x="${round(leafX + 20)}" y="${round(rangeY + 20)}" font-size="11" fill="var(--surface-quiet)">RANGE · W → E</text>`,
+    `<text class="ds-fig-mono" x="${round(leafX + 20)}" y="${round(rangeY + 20)}" font-size="11" fill="var(--surface-quiet)">Range · W → E</text>`,
   );
 
   parts.push(
