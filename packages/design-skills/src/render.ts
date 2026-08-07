@@ -423,7 +423,11 @@ function renderSpecimen(section: SectionSpec, figures: FigurePlan, spec?: Design
    * Dashboard and educational both need a real character dip before dense peaks.
    */
   if (siteKind === "dashboard-webapp" || siteKind === "docs-educational") {
-    const marks = catalogue(spec!).slice(0, 4);
+    const raw = catalogue(spec!).slice(0, 4);
+    const marks =
+      siteKind === "docs-educational"
+        ? raw.map((m) => ({ ...m, body: "", meta: undefined, points: [], kicker: undefined }))
+        : raw;
     if (marks.length >= 2) {
       drawing = horizonPlot(marks, spec!.brief.productName, "band");
     }
@@ -534,12 +538,13 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
         .join("")}</ul>`;
     }
     if (section.layout === "feature-index") {
+      const quietIndex = spec.brief.siteKind === "docs-educational";
       return `<ol class="ds-index">${section.blocks
         .map(
           (b, i) => `<li class="ds-index-row" data-feature="${esc(b.title)}">
             <span class="ds-index-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</span>
             <h3>${esc(b.title)}</h3>
-            ${b.body ? `<p>${esc(b.body)}</p>` : ""}
+            ${!quietIndex && b.body ? `<p>${esc(b.body)}</p>` : ""}
             <div class="ds-index-mark" aria-hidden="true">${markFor(b)}</div>
           </li>`,
         )

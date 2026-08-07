@@ -434,3 +434,26 @@ buckets, never names, hosts, or URLs.
   pages full-bleed at 1600; archive cells show title+meta.
 - **Next weakest:** archive rules/screen ~4.51 (band ≤4.33); educational section-weight variation;
   continue deepening unreplicable craft without score-gaming empties.
+
+## Loop 21 — ruleDensity + band valley + showcase stage (RSI)
+
+- **Goal:** bring archive/educational rules/screen into band; raise educational section-weight
+  variation; deepen craft without empty-height gaming; fix showcase featured composition void.
+- **Failure named (champion):** Loop 20 left archive rules ~4.5–4.8 and educational band-variation
+  ~0.34–0.41; thinning SVG ledger hairlines and shortening the plate did not move `ruleDensity`
+  (and sometimes raised it). Showcase featured stage still read as a single tall stack.
+- **Challenger:**
+  - Lesson `template:css-rule-density-not-svg` — thin CSS bordered rows / matrix cells; restore tall
+    ledger with dual-ink cells; fix archive `border-color` override that undid thinning.
+  - Educational dedicated plan: scrub → quiet titles-only horizon specimen → packed chapters/compare;
+    hang large bands for layering; compact stackfold claim so the mechanism figure owns the fold.
+  - Showcase desktop 2-col stage (mast | reel); SpecimenPreview prefers figure/ledger beats.
+- **Score:** matrix **99.1**; docs-educational **98.4 → 99.8**; archive-index **97.4 → 97.6**;
+  holdout **98.4**. Rules: educational **5.27 → 4.16**, archive **4.77 → 4.21**. Band-variation
+  educational **0.321 → 0.496**.
+- **Closed:** `template:css-rule-density-not-svg`.
+- **Side effects:** archive ink-variation still above corridor — accepted for ledger-owned fold;
+  educational fold-figure ~0.32 (tolerance green) — keep hanging the mechanism plate, do not return
+  to absolute overfigure.
+- **Next weakest:** archive ink-variation ceiling; educational fold-figure floor; deepen
+  unreplicable craft (register stamps, scrub legends) without score-gaming.

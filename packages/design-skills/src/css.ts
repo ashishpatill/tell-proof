@@ -633,9 +633,27 @@ ${surfaceRules()}
 }
 .ds-section-head .ds-lede{margin-top:var(--s-2xs)}
 /* Educational — mechanism teaching surface: packed scrub stage, quiet valley, sparse CSS rules. */
-[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{
-  min-height:min(68vh,700px);
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband{padding:0.25rem 0 0}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-display{
+  font-size:clamp(2rem,3.1vw,2.85rem);max-width:14ch;line-height:1.05;margin:0.2rem 0 0;
 }
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-lede{
+  max-width:36ch;margin:0.2rem 0 0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-actions{margin-top:0.35rem}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-btn-secondary,
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-btn-ghost,
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-cta-note{display:none}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-aside{display:none}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband .ds-split{grid-template-columns:1fr}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed{
+  margin-top:calc(var(--s-2xl) * -1.35);margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{
+  min-height:min(78vh,820px);height:min(78vh,820px);
+}
+[data-sitekind="docs-educational"] .ds-hero{min-height:min(100vh,1040px);padding-block:0.5rem 0;align-content:start}
 [data-sitekind="docs-educational"] .ds-hero-aside{
   padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-md);
   background:color-mix(in srgb,var(--c-paper-raised) 88%,transparent);
@@ -645,12 +663,28 @@ ${surfaceRules()}
   border-radius:var(--r-lg);background:var(--c-paper);
 }
 [data-sitekind="docs-educational"] .ds-scrub{display:grid;gap:var(--s-2xs);margin-top:var(--s-sm)}
-[data-sitekind="docs-educational"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:14ch}
-[data-sitekind="docs-educational"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(48vh,480px);opacity:.9}
-[data-sitekind="docs-educational"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
+[data-sitekind="docs-educational"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:10ch;line-height:1.15}
+[data-sitekind="docs-educational"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(42vh,420px);opacity:.88}
+[data-sitekind="docs-educational"] .ds-specimen{padding-block:var(--s-lg) var(--s-xl)}
 [data-sitekind="docs-educational"] .ds-chapters{margin-top:var(--s-sm);border-top-color:transparent}
 [data-sitekind="docs-educational"] .ds-chapter-mark{width:10.5rem}
 [data-sitekind="docs-educational"] .ds-matrix{font-size:var(--t-bodySmall-size)}
+/* Keep measured body voice on a full prose measure — scrub/aside columns must not steal it. */
+[data-sitekind="docs-educational"] .ds-chapter .ds-body,
+[data-sitekind="docs-educational"] .ds-lede,
+[data-sitekind="docs-educational"] .ds-cta .ds-lede,
+[data-sitekind="docs-educational"] .ds-index-row p,
+[data-sitekind="docs-educational"] .ds-figure figcaption{
+  max-width:min(68ch,var(--w-prose));width:min(68ch,100%);
+  font-size:var(--t-body-size);line-height:var(--t-body-leading);
+}
+[data-sitekind="docs-educational"] .ds-figure-steps{
+  max-width:min(52ch,100%);
+}
+[data-sitekind="docs-educational"] .ds-figure-steps li span{display:none}
+/* Soften hang compensations so median section padding stays ≤120. */
+[data-sitekind="docs-educational"] .ds-section{padding-block:calc(var(--section-y) * 0.82)}
+[data-sitekind="docs-educational"] .ds-hero{padding-block:calc(var(--section-y) * 0.9) calc(var(--section-y) * 0.75)}
 /* No chapter negative-margin collisions with labeled scrub — hang larger bands instead. */
 [data-sitekind="docs-educational"] .ds-chapter,
 [data-sitekind="docs-educational"] .ds-chapter:nth-child(-n+2),
@@ -679,31 +713,28 @@ ${surfaceRules()}
 [data-sitekind="docs-educational"] .ds-footer,
 [data-sitekind="docs-educational"] .ds-footer-base{border-top-color:transparent}
 /* Layering floor (≥11): large hangs across band boundaries — not chapter collisions. */
-[data-sitekind="docs-educational"] [data-section="features"]{
-  margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
-}
-[data-sitekind="docs-educational"] [data-section="features"] + .ds-section{padding-top:calc(var(--section-y) + var(--s-md))}
 [data-sitekind="docs-educational"] [data-section="figure"]{
   margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
 }
-[data-sitekind="docs-educational"] [data-section="figure"] + .ds-section{padding-top:calc(var(--section-y) + var(--s-md))}
+[data-sitekind="docs-educational"] [data-section="figure"] + .ds-section{padding-top:var(--section-y)}
 [data-sitekind="docs-educational"] .ds-specimen{
   margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
 }
-[data-sitekind="docs-educational"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="docs-educational"] .ds-specimen + .ds-section{padding-top:var(--section-y)}
+[data-sitekind="docs-educational"] [data-section="features"]{
+  margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised);
+}
+[data-sitekind="docs-educational"] [data-section="features"] + .ds-section{padding-top:var(--section-y)}
 [data-sitekind="docs-educational"] .ds-story{
   margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:calc(var(--z-raised) + 1);
 }
-[data-sitekind="docs-educational"] .ds-story + .ds-section{padding-top:calc(var(--section-y) + var(--s-sm))}
+[data-sitekind="docs-educational"] .ds-story + .ds-section{padding-top:var(--section-y)}
 [data-sitekind="docs-educational"] [data-section="compare"]{
   margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised);
 }
 [data-sitekind="docs-educational"] .ds-matrix{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="docs-educational"] .ds-closing{
   margin-top:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised);
-}
-[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed{
-  margin-bottom:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised);
 }
 [data-sitekind="docs-educational"] .ds-figure-stage{
   margin-bottom:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised);

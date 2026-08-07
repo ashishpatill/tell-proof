@@ -135,6 +135,18 @@ Pattern keys match `tell-recursive-improve`.
   full-bleed block. SpecimenPreview nudges cinema beats deeper into ledger/figure ink.
 - **Do not:** Reuse gallery layout class names for proof chrome without a reset.
 
+## 2026-08-07 — `template:css-rule-density-not-svg`
+
+- **Failure:** Archive/educational `ruleDensity` stayed above corridor (≤4.33) after thinning SVG
+  ledger hairlines. Shortening the ledger plate to "pack cells" made density *worse*.
+- **Cause:** `composition.ruleDensity` counts wide CSS top/bottom-only borders (and thin DOM bars /
+  `hr`) ÷ screens — **not** SVG strokes. A later `border-color:` shorthand on archive `.ds-index-row`
+  also undid transparent even-row tops. Matrix `td/th` border-bottoms each count as a rule.
+- **Fix:** Thin CSS bordered rows (every 3rd); put thinning rules last; restore tall ledger and fill
+  cells with dual ink + stamps; quiet educational specimen (titles-only horizon) for band-variation;
+  widen educational body measure so scrub/aside columns cannot steal the body candidate.
+- **Do not:** Confuse SVG strokes with `ruleDensity`, or shrink page height to "fix" empty cells.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.

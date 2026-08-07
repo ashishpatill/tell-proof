@@ -552,7 +552,7 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
   const W = band ? 1200 : 720;
   const gap = band ? 40 : 26;
   const nodeW = (W - 8 - gap * (items.length - 1)) / items.length;
-  const top = band ? 62 : 44;
+  const top = band ? 72 : 44;
   const pivot = Math.min(items.length - 1, 1);
   const parts: string[] = [];
 
@@ -560,9 +560,10 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
    * Band role is the quiet screen — titles + ordinals only. Capability bodies in stage cards
    * flattened section-weight variation by filling the specimen beat with paragraph characters.
    * Plate role stays compact: name + meta, no body prose.
+   * Tall band H fills stackfold min-height so the fold does not letterbox empty airways under stages.
    */
-  const nodeH = band ? 252 : 104;
-  const H = band ? top + nodeH + 44 : 216;
+  const nodeH = band ? 420 : 104;
+  const H = band ? top + nodeH + 56 : 216;
 
   parts.push(text("Sequence", 4, 16, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
 
@@ -579,16 +580,16 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
 
     if (band) {
       const nameLines = wrap(b.title, Math.max(9, Math.round(nodeW / 15)), 3);
-      parts.push(text(String(i + 1).padStart(2, "0"), x + 24, top + 74, { size: FT.ordinal, fill: lead ? ACCENT : "var(--c-border-strong)", weight: 300 }));
-      parts.push(rule(x + 24, top + 100, x + nodeW - 24, top + 100));
+      parts.push(text(String(i + 1).padStart(2, "0"), x + 24, top + 110, { size: FT.ordinal, fill: lead ? ACCENT : "var(--c-border-strong)", weight: 300 }));
+      parts.push(rule(x + 24, top + 140, x + nodeW - 24, top + 140));
       nameLines.forEach((ln, j) => {
-        parts.push(text(ln, x + 24, top + 140 + j * 30, { size: FT.lead, fill: INK, weight: 600 }));
+        parts.push(text(ln, x + 24, top + 190 + j * 36, { size: FT.lead, fill: INK, weight: 600 }));
       });
-      if (b.meta) parts.push(text(clip(b.meta, 24), x + 24, top + nodeH - 30, { size: FT.micro, fill: QUIET, mono: true }));
-      const meterY = top + nodeH - 18;
+      if (b.meta) parts.push(text(clip(b.meta, 24), x + 24, top + nodeH - 48, { size: FT.micro, fill: QUIET, mono: true }));
+      const meterY = top + nodeH - 28;
       const meterW = nodeW - 48;
-      parts.push(box(x + 24, meterY, meterW, 3, { r: 2, fill: LINE }));
-      parts.push(box(x + 24, meterY, meterW * ((i + 1) / items.length), 3, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
+      parts.push(box(x + 24, meterY, meterW, 4, { r: 2, fill: LINE }));
+      parts.push(box(x + 24, meterY, meterW * ((i + 1) / items.length), 4, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
     } else {
       parts.push(text(String(i + 1).padStart(2, "0"), x + 16, top + 28, { size: FT.micro, fill: lead ? ACCENT : QUIET, mono: true, track: 0.8 }));
       parts.push(text(clip(b.title, 20), x + 16, top + 56, { size: FT.small, fill: INK, weight: 600 }));
@@ -608,7 +609,15 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
   parts.push(rule(4, H - 22, W - 4, H - 22));
   parts.push(text(clip(`${items.length} stages`, 20), 4, H - 6, { size: FT.micro, fill: QUIET, mono: true, track: 0.6 }));
   void seed;
-  return frame(parts.join(""), { width: W, height: H, kind: "flow", inset: band ? BLEED_INSET : 0, label: `Sequence: ${items.map((b) => b.title).join(", ")}` });
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "flow",
+    inset: band ? BLEED_INSET : 0,
+    // Band plates are forced tall for fold coverage — stretch so stages fill the airways.
+    stretch: band,
+    label: `Sequence: ${items.map((b) => b.title).join(", ")}`,
+  });
 }
 
 /* ------------------------------------------------------------------ */
