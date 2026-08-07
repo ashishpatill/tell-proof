@@ -27,7 +27,8 @@ export type TemplateKey =
   | "consumer"
   | "foundry"
   | "dossier"
-  | "observatory";
+  | "observatory"
+  | "archive";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -632,6 +633,72 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
       },
     }),
   },
+  {
+    key: "archive",
+    label: "Archive index",
+    marketJob:
+      "Award / archive index landing — quiet register, A–Z alpha rail, index ledger, entry essay, Registry close.",
+    siteKind: "archive-index",
+    researchBasis:
+      "Calibrated against award-index corridor (foldFigure ~0.54, figureArea ~0.58, invertedShare ~0, display ~1–3vw quiet, alignment axes ~3, spineConformity ~0.82, high ink variation). Distinct craft theme packs miss: hero-register with index owning the fold, sticky ds-alpha-rail A–Z letters, index-ledger multi-column ruled rows with mono ordinals ≤11px, story-entry hanging folio + ruled measure, paper Registry close — no pricing, no metrics theatre, zero inverse bands. Not SaaS, foundry, dossier, or observatory.",
+    brief: DesignBrief.parse({
+      productName: "Stamp Roll",
+      tagline: "The index that keeps every entry under one quiet spine",
+      audience: "archivists and editors maintaining a public award index",
+      businessGoal: "trust",
+      siteKind: "archive-index",
+      lockSiteKind: true,
+      // Cool ink-led stock — escapes cream/terracotta and violet AI clusters.
+      brandAccent: "#2A3340",
+      features: [
+        {
+          id: "a1",
+          name: "Alpha jump",
+          description: "A sticky A–Z rail that lands you on the letter you need without scrolling the whole roll",
+          priority: "p0",
+        },
+        {
+          id: "a2",
+          name: "Ruled ledger",
+          description: "Multi-column entry rows with mono ordinals so density stays honest at a glance",
+          priority: "p0",
+        },
+        {
+          id: "a3",
+          name: "Entry folio",
+          description: "A single-entry reading with a hanging folio number and a ruled measure that does not drift",
+          priority: "p0",
+        },
+        {
+          id: "a4",
+          name: "Cross stamps",
+          description: "Cross-references that travel with the entry — related stamps stay visible while you read",
+          priority: "p1",
+        },
+        {
+          id: "a5",
+          name: "Registry close",
+          description: "Edition and custody stamped so a reused page cannot orphan its provenance",
+          priority: "p1",
+        },
+        {
+          id: "a6",
+          name: "Quiet spine",
+          description: "A register that survives the jump from browse to cite without becoming a search box costume",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+
 ];
 
 const BY_KEY = Object.fromEntries(DESIGN_TEMPLATES.map((t) => [t.key, t])) as Record<

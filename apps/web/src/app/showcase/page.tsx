@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export const metadata = {
   title: "Tell Specimens — Craft reels, not theme packs",
   description:
-    "Ten research-backed site kinds — each gallery cell is a GIF-like craft reel of the best beats, not a cropped nav strip.",
+    "Eleven research-backed site kinds — each gallery cell is a GIF-like craft reel of the best beats, not a cropped nav strip.",
 };
 
 type OfferingPreview = DesignTemplate & { previewHtml: string; index: string };

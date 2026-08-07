@@ -19,14 +19,15 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
           siteKind === "docs-educational" ||
           siteKind === "editorial-foundry" ||
           siteKind === "research-dossier" ||
-          siteKind === "signal-observatory"
+          siteKind === "signal-observatory" ||
+          siteKind === "archive-index"
         ? "refined-story"
         : "conversion-sharp";
 
   return TasteControls.parse({
     density:
       brief.taste?.density ??
-      (siteKind === "docs-educational" || siteKind === "editorial-foundry" || siteKind === "research-dossier"
+      (siteKind === "docs-educational" || siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "archive-index"
         ? "sparse"
         : siteKind === "signal-observatory"
           ? "balanced"
@@ -35,7 +36,7 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
           : "balanced"),
     motion:
       brief.taste?.motion ??
-      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory"
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory" || siteKind === "archive-index"
         ? "light-scroll-reveals"
         : siteKind === "dashboard-webapp"
           ? "subtle-micro"
@@ -43,12 +44,12 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
     aestheticLean: brief.taste?.aestheticLean ?? leanDefault,
     colorMood:
       brief.taste?.colorMood ??
-      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory"
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory" || siteKind === "archive-index"
         ? "light-airy"
         : "neutral-professional"),
     typographyWeight:
       brief.taste?.typographyWeight ??
-      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory"
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory" || siteKind === "archive-index"
         ? "light-elegant"
         : "medium-modern"),
     roundingDepth:
@@ -56,7 +57,8 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
       (siteKind === "dashboard-webapp" ||
         siteKind === "editorial-foundry" ||
         siteKind === "research-dossier" ||
-        siteKind === "signal-observatory"
+        siteKind === "signal-observatory" ||
+        siteKind === "archive-index"
         ? "sharp"
         : "soft"),
   });

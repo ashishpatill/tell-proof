@@ -66,6 +66,17 @@ Pattern keys match `tell-recursive-improve`.
   so amplitude channels enter the first desktop viewport (lattice top ~344px @1440×900).
 - **Do not:** Treat a unique lattice as shipped if the fold shot is only type + sticky scrub.
 
+
+## 2026-08-07 — `template:index-must-own-fold`
+
+- **Failure class:** Same as folio-claim-starves-plate / chrono-claim-starves-lattice — for award-index /
+  archive craft the **ledger is the figure**. A tall claim + CTAs above a plate leaves foldFigure
+  starved and the unique index grammar below the fold.
+- **Fix:** `hero-register` keeps a compact claim, hangs `.ds-register-field` under a soft paper fade,
+  and lets `index-ledger` own the first viewport. Quiet display clamp 45–52px; alpha-rail is chrome
+  (hidden in SpecimenPreview).
+- **Do not:** Put a product plate *below* a shouty claim and call an archive index shipped.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.

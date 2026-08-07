@@ -146,6 +146,13 @@ export function ctaFor(
       note: "Windows ship with the channels you actually watch — not a demo theatre.",
     };
   }
+  if (siteKind === "archive-index") {
+    return {
+      primary: "Request an entry",
+      secondary: "Browse the registry",
+      note: "Entries ship as numbered stamps — not a demo theatre.",
+    };
+  }
   return GOAL_CTA[goal];
 }
 

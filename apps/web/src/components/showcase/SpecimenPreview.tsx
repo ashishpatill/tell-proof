@@ -45,6 +45,7 @@ function discoverBeats(doc: Document): Beat[] {
 
   // Prefer the unique craft figure for each kind — lattice, folio plate, seam ladder, then product.
   const figureRaw =
+    pick(".ds-hero .ds-register-ledger .ds-fig, .ds-register-ledger", "figure", "Ledger") ||
     pick(".ds-hero .ds-chrono-lattice .ds-fig, .ds-chrono-lattice", "figure", "Lattice") ||
     pick(".ds-hero .ds-folio-plate .ds-fig, .ds-folio-plate", "figure", "Plate") ||
     pick(".ds-hero .ds-seam-figure .ds-fig, .ds-seam-figure", "figure", "Ladder") ||
@@ -69,7 +70,7 @@ function discoverBeats(doc: Document): Beat[] {
   if (specimen) beats.push(specimen);
 
   // Dossier / foundry / observatory signature essays — the craft theme packs miss.
-  const spread = pick(".ds-spread, .ds-marginalia, .ds-chrono, [data-section='story']", "spread", "Spread");
+  const spread = pick(".ds-spread, .ds-marginalia, .ds-chrono, .ds-entry, [data-section='story']", "spread", "Spread");
   if (spread) beats.push(spread);
 
   const proof =
@@ -180,6 +181,7 @@ export function SpecimenPreview({
           .ds-chapter-rail{display:none!important}
           .ds-scrub-rail{display:none!important}
           .ds-chronometer{display:none!important}
+          .ds-alpha-rail{display:none!important}
           html{scroll-padding-top:0!important}
         `;
         doc.head.appendChild(style);

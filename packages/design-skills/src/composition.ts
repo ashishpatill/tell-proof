@@ -105,6 +105,7 @@ function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
   if (siteKind === "editorial-foundry") return "hero-seam";
   if (siteKind === "research-dossier") return "hero-folio";
   if (siteKind === "signal-observatory") return "hero-chrono";
+  if (siteKind === "archive-index") return "hero-register";
   if (lean === "minimal-clean") return "hero-statement";
   if (lean === "refined-story") return "hero-editorial";
   return "hero-split";
@@ -133,20 +134,25 @@ export function planSections(input: CompositionInput): SectionPlan[] {
      * A product surface still opens with a claim. Leading straight into the application shell was
      * the engine's worst-scoring composition: the fold filled with navigation affordances instead
      * of a decision, the largest type on the page was a table header, and the whole document came
-     * in under five viewports. The interface is the proof, so it arrives second.
+     * in under five viewports. The interface is the proof, so it arrives after a quiet drawn beat.
+     *
+     * Band-variation lesson (Loop 6 + ledger): do not buy rhythm with empty 140vh voids. Insert a
+     * sunken type-led specimen between the metric register and the dense shell so one measured
+     * strip is ink-heavy and character-light — then pack shell + index + proof as density peaks.
      */
     plans.push({ id: "hero", kind: "hero", layout: "hero-statement", surface: "paper", columns: split.hero });
     plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "inverse" });
+    // Quiet sunken valley — titles + drawing only; honest weight contrast before the shell.
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
     plans.push({ id: "app", kind: "app", layout: "app-shell", surface: "paper", columns: "260px 1fr" });
-    // Index bonded to the shell — legend for the board above.
+    // Index bonded to the shell — legend for the board above (density peak).
     plans.push({ id: "features", kind: "features", layout: "feature-index", surface: "paper", bond: true });
-    // Quiet inverse specimen — a low-character valley between the dense shell and the dense matrix.
-    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "inverse" });
+    // Bonded inverse proof — second density peak after the quiet valley, not another quiet twin.
     plans.push({ id: "proof", kind: "proof", layout: "marquee-proof", surface: "inverse", bond: true });
     plans.push({ id: "figure", kind: "figure", layout: "figure-explainer", surface: "paper", columns: split.feature });
     /*
-     * Specification + FAQ are the densest prose peak. Kept paper/raised against the inverse valley
-     * above so section-weight variation is honest rather than empty-height.
+     * Specification + FAQ are the densest prose peak. Kept paper/raised so section-weight
+     * variation is honest rather than empty-height.
      */
     plans.push({ id: "compare", kind: "compare", layout: "compare-matrix", surface: "raised" });
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
@@ -494,6 +500,64 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     return plans;
   }
 
+
+  /*
+   * Archive index — award-index / ledger-index craft.
+   *
+   * Measured award-index pages sit at foldFigure ~0.54, figureArea ~0.58, invertedShare ~0,
+   * very quiet display (~1–3vw), ~3 alignment axes, extreme spine conformity, high ink
+   * variation — not SaaS, foundry seams, dossier folios, or observatory instruments.
+   * Quiet register + index-ledger owning the fold + A–Z rail + entry essay + Registry close
+   * are craft a theme pack will not invent from taste controls.
+   */
+  if (siteKind === "archive-index") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-register", surface: "paper", columns: split.wide });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-entry",
+      surface: "paper",
+      bond: true,
+      columns: "7fr 5fr",
+    });
+    if (featureCount >= 4) {
+      plans.push({
+        id: "features-2",
+        kind: "features",
+        layout: "feature-rows",
+        surface: "paper",
+        columns: split.wide,
+      });
+    }
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "raised",
+      bond: true,
+      columns: split.feature,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
   plans.push({ id: "hero", kind: "hero", layout: heroLayout(siteKind, lean), surface: "paper", columns: split.hero });
 
   // A metric band immediately after the fold is how premium pages state the stakes without
@@ -595,6 +659,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "research-dossier") px = 48;
   // Observatory: display ~4–5vw corridor; lattice owns the fold, not a shout.
   if (siteKind === "signal-observatory") px = 52;
+  // Archive index: VERY quiet display — award-index corridor; ledger owns the fold.
+  if (siteKind === "archive-index") px = 48;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -604,6 +670,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "editorial-foundry") return Math.max(44, Math.min(54, px));
   if (siteKind === "research-dossier") return Math.max(46, Math.min(54, px));
   if (siteKind === "signal-observatory") return Math.max(48, Math.min(58, px));
+  if (siteKind === "archive-index") return Math.max(45, Math.min(52, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

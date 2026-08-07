@@ -233,6 +233,11 @@ export default function StudioPage() {
       nextLean = "refined-story";
       nextDensity = "balanced";
     }
+    if (/archive|alphabetical|stamp roll|registry|alpha.?rail|index ledger|entry folio/.test(text)) {
+      nextKind = "archive-index";
+      nextLean = "refined-story";
+      nextDensity = "sparse";
+    }
     if (/story|editorial|refined|corporate/.test(text)) {
       nextLean = "refined-story";
       nextDensity = "sparse";
@@ -363,6 +368,7 @@ export default function StudioPage() {
               "editorial-foundry",
               "research-dossier",
               "signal-observatory",
+              "archive-index",
             ]}
             testId="input-sitekind"
           />

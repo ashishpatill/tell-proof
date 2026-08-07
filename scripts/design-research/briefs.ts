@@ -257,6 +257,35 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       },
     },
   },
+  {
+    id: "archive-index",
+    brief: {
+      productName: "Stamp Roll",
+      tagline: "The index that keeps every entry under one quiet spine",
+      audience: "archivists and editors maintaining a public award index",
+      businessGoal: "trust",
+      siteKind: "archive-index",
+      lockSiteKind: true,
+      brandAccent: "#2A3340",
+      features: [
+        { id: "a1", name: "Alpha jump", description: "A sticky A–Z rail that lands you on the letter you need without scrolling the whole roll.", priority: "p0" },
+        { id: "a2", name: "Ruled ledger", description: "Multi-column entry rows with mono ordinals so density stays honest at a glance.", priority: "p0" },
+        { id: "a3", name: "Entry folio", description: "A single-entry reading with a hanging folio number and a ruled measure that does not drift.", priority: "p0" },
+        { id: "a4", name: "Cross stamps", description: "Cross-references that travel with the entry — related stamps stay visible while you read.", priority: "p1" },
+        { id: "a5", name: "Registry close", description: "Edition and custody stamped so a reused page cannot orphan its provenance.", priority: "p1" },
+        { id: "a6", name: "Quiet spine", description: "A register that survives the jump from browse to cite without becoming a search box costume.", priority: "p2" },
+      ],
+      constraints: ["register-first", "index ledger", "entry essay", "no pricing theatre", "restrained motion"],
+      taste: {
+        aestheticLean: "refined-story",
+        motion: "light-scroll-reveals",
+        density: "sparse",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    },
+  },
 ];
 
 /**

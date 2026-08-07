@@ -420,6 +420,62 @@ body[data-sitekind="signal-observatory"]{
   border:1px solid var(--c-accent);background:var(--c-paper);box-sizing:border-box;
 }
 [data-sitekind="signal-observatory"] .ds-chrono-tick:nth-child(7){color:var(--c-accent)}
+/* Archive index — quiet register, alpha rail, index ledger, entry essay, Registry. */
+[data-sitekind="archive-index"]{
+  --alpha-rail:2.75rem;
+}
+body[data-sitekind="archive-index"]{
+  background-image:
+    linear-gradient(90deg,color-mix(in srgb,var(--c-border) 40%,transparent) 0,transparent 1px),
+    linear-gradient(90deg,transparent 0,transparent var(--alpha-rail),color-mix(in srgb,var(--c-border) 35%,transparent) var(--alpha-rail),transparent calc(var(--alpha-rail) + 1px));
+  background-size:100% 100%;
+  background-attachment:fixed;
+}
+[data-sitekind="archive-index"] .ds-brand-mark{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+}
+[data-sitekind="archive-index"] .ds-hero-register .ds-display{
+  font-size:clamp(2.5rem,calc(var(--t-display-size) * 1px),3.25rem);
+  letter-spacing:-0.02em;max-width:14ch;line-height:1.05;
+}
+[data-sitekind="archive-index"] .ds-hero-register .ds-lede{max-width:34ch;margin:0.25rem 0 0}
+[data-sitekind="archive-index"] .ds-hero-register .ds-brand-mark{margin:0 0 0.25rem}
+[data-sitekind="archive-index"] .ds-hero-register .ds-eyebrow{margin:0}
+[data-sitekind="archive-index"] .ds-hero-register .ds-actions{margin-top:0.4rem}
+[data-sitekind="archive-index"] .ds-register-claim{
+  padding:var(--s-sm) 0 var(--s-xs,0.3rem);
+  padding-left:var(--alpha-rail);
+  position:relative;z-index:2;
+  background:linear-gradient(180deg,var(--c-paper) 70%,transparent);
+}
+[data-sitekind="archive-index"] .ds-register-field{
+  margin-top:calc(var(--s-2xl) * -1);position:relative;z-index:1;
+  padding-left:var(--alpha-rail);
+}
+[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(86vh,900px)}
+[data-sitekind="archive-index"] .ds-hero-register{min-height:min(100vh,900px)}
+[data-sitekind="archive-index"] .ds-hero-register .ds-cta-note{display:none}
+[data-sitekind="archive-index"] .ds-hero-register .ds-actions .ds-btn-ghost{display:none}
+[data-sitekind="archive-index"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="archive-index"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
+[data-sitekind="archive-index"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
+[data-sitekind="archive-index"] .ds-section-head,
+[data-sitekind="archive-index"] .ds-index-row,
+[data-sitekind="archive-index"] .ds-entry-essay,
+[data-sitekind="archive-index"] .ds-chapter{padding-left:0;margin-left:var(--alpha-rail)}
+[data-sitekind="archive-index"] .ds-closing-colophon{
+  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
+}
+[data-sitekind="archive-index"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
+[data-sitekind="archive-index"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
+[data-sitekind="archive-index"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="archive-index"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="archive-index"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="archive-index"] .ds-entry-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="archive-index"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="archive-index"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
+[data-sitekind="archive-index"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
+[data-sitekind="archive-index"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
 `;
 }
 
@@ -947,6 +1003,85 @@ ${surfaceRules()}
   .ds-chrono-grid{grid-template-columns:1fr!important}
   .ds-chrono-aside{order:-1}
 }
+
+/* Register fold + alpha rail (archive index). */
+.ds-hero-register{
+  position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
+  display:flex;flex-direction:column;
+}
+.ds-register-masthead{
+  display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
+  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding-left:calc(var(--gutter) + var(--alpha-rail,2.75rem));
+  border-bottom:1px solid var(--c-border);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+.ds-register-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
+.ds-register-claim{
+  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding-left:var(--alpha-rail,2.75rem);
+}
+.ds-register-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
+.ds-register-field{margin-top:0;padding-left:var(--alpha-rail,2.75rem)}
+.ds-register-ledger{margin:0;width:100%;display:block}
+.ds-register-ledger .ds-fig{width:100%;min-height:min(80vh,840px);display:block}
+.ds-alpha-rail{
+  position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
+  width:var(--alpha-rail,2.75rem);z-index:var(--z-nav);pointer-events:none;
+  display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
+}
+.ds-alpha-rail ol{
+  list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;
+  justify-content:space-between;align-items:center;pointer-events:auto;width:100%;
+}
+.ds-alpha-letter{
+  display:flex;align-items:center;justify-content:center;text-decoration:none;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--c-ink-tertiary);min-width:28px;min-height:18px;line-height:1;
+}
+.ds-alpha-letter:hover,.ds-alpha-letter:focus-visible,.ds-alpha-letter.is-active{color:var(--c-accent)}
+@media (max-width:800px){
+  .ds-alpha-rail{display:none}
+  .ds-register-masthead,.ds-register-claim,.ds-register-field{padding-left:var(--gutter)}
+  .ds-register-ledger .ds-fig{min-height:min(58vh,560px)}
+}
+/* Entry essay — hanging folio + ruled measure. */
+.ds-entry-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
+.ds-entry-essay{display:flex;flex-direction:column;gap:var(--s-2xl);max-width:40rem}
+.ds-entry-beat{
+  position:relative;padding-left:3.5rem;
+  border-top:1px solid var(--c-border);padding-top:var(--s-lg);
+}
+.ds-entry-folio{
+  position:absolute;left:0;top:var(--s-lg);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.16em;color:var(--c-accent);
+  writing-mode:vertical-rl;transform:rotate(180deg);height:5rem;
+}
+.ds-entry-measure{
+  border-left:1px solid var(--c-border);padding-left:var(--s-lg);max-width:36rem;
+}
+.ds-entry-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
+.ds-entry-note{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+}
+.ds-entry-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-entry-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-md)}
+.ds-entry-aside-item{
+  display:flex;flex-direction:column;gap:0.2rem;
+  border-bottom:1px solid var(--c-border);padding-bottom:var(--s-sm);
+}
+.ds-entry-aside-folio{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-accent);
+}
+.ds-entry-aside-title{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:22ch}
+@media (max-width:800px){
+  .ds-entry-grid{grid-template-columns:1fr!important}
+  .ds-entry-aside{order:-1}
+  .ds-entry-beat{padding-left:0}
+  .ds-entry-folio{position:static;writing-mode:horizontal-tb;transform:none;height:auto;display:block;margin-bottom:0.35rem}
+}
 .ds-marginalia-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
 .ds-marginalia-essay{display:flex;flex-direction:column;gap:var(--s-xl);max-width:42rem}
 .ds-marginalia-beat{position:relative}
@@ -995,16 +1130,23 @@ ${surfaceRules()}
   --surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);
   --surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);
 }
-[data-sitekind="dashboard-webapp"] .ds-specimen .ds-plate-bleed .ds-fig{border-radius:var(--r-lg);min-height:min(74vh,760px)}
+[data-sitekind="dashboard-webapp"] .ds-specimen .ds-plate-bleed .ds-fig{border-radius:var(--r-lg);min-height:min(84vh,820px)}
+[data-sitekind="dashboard-webapp"] .ds-app-claim{display:grid;gap:var(--s-3xs);margin-bottom:var(--s-md)}
+[data-sitekind="dashboard-webapp"] .ds-app-claim .ds-heading{font-size:var(--t-title-size);max-width:18ch;line-height:1.15}
+[data-sitekind="dashboard-webapp"] .ds-app-band{padding-block:var(--section-y-tight) var(--section-y)}
 [data-sitekind="dashboard-webapp"] .ds-app-grid{min-height:0}
-[data-sitekind="dashboard-webapp"] .ds-app-main{padding:var(--s-md);gap:var(--s-md)}
+[data-sitekind="dashboard-webapp"] .ds-app-main{padding:var(--s-md);gap:var(--s-sm)}
 [data-sitekind="dashboard-webapp"] .ds-app-side{padding:var(--s-sm) var(--s-xs);gap:var(--s-sm)}
 [data-sitekind="dashboard-webapp"] .ds-app-stats{gap:var(--s-2xs)}
 [data-sitekind="dashboard-webapp"] .ds-stat{padding:var(--s-xs)}
 [data-sitekind="dashboard-webapp"] .ds-table th,[data-sitekind="dashboard-webapp"] .ds-table td{padding:var(--s-2xs) var(--s-xs)}
-[data-sitekind="dashboard-webapp"] .ds-empty{padding:var(--s-md)}
+[data-sitekind="dashboard-webapp"] .ds-empty{padding:var(--s-sm) var(--s-md)}
+[data-sitekind="dashboard-webapp"] .ds-app-main .ds-lede{margin:0;font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);max-width:min(62ch,var(--w-prose))}
 [data-sitekind="dashboard-webapp"] .ds-index-row{padding-block:var(--s-sm)}
+[data-sitekind="dashboard-webapp"] .ds-features .ds-index-row p{font-size:var(--t-body-size);line-height:var(--t-body-leading);max-width:58ch}
 [data-sitekind="dashboard-webapp"] .ds-proof{padding-block:var(--s-2xl) calc(var(--section-y) * 0.9)}
+[data-sitekind="dashboard-webapp"] .ds-proof-board{gap:0}
+[data-sitekind="dashboard-webapp"] .ds-proof-cell p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading)}
 /* A hairline field behind the quiet band, so a nearly empty screen still reads as a surface. */
 .ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;opacity:.55}
 .ds-field .ds-fig{width:100%;height:100%}

@@ -265,8 +265,9 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(10);
+    expect(templates).toHaveLength(11);
     expect(templates.map((t) => t.key).sort()).toEqual([
+      "archive",
       "consumer",
       "corporate",
       "dashboard",
@@ -294,6 +295,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(dossier.siteKind).toBe("research-dossier");
     const observatory = templates.find((t) => t.key === "observatory")!;
     expect(observatory.siteKind).toBe("signal-observatory");
+    const archive = templates.find((t) => t.key === "archive")!;
+    expect(archive.siteKind).toBe("archive-index");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -393,6 +396,29 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Calibration");
     expect(previewHtml).toContain("The channels");
+  });
+
+  it("gives archive index a register + ledger + entry plan distinct from dossier and observatory", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.archive!);
+    expect(spec.brief.siteKind).toBe("archive-index");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-register")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-entry")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="archive-index"');
+    expect(previewHtml).toContain("ds-hero-register");
+    expect(previewHtml).toContain("ds-register-masthead");
+    expect(previewHtml).toContain("ds-alpha-rail");
+    expect(previewHtml).toContain('data-figure="index-ledger"');
+    expect(previewHtml).toContain("ds-entry");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Registry");
+    expect(previewHtml).toContain("The entries");
+    expect(previewHtml).not.toContain('class="ds-chapter-rail"');
+    expect(previewHtml).not.toContain('class="ds-scrub-rail"');
+    expect(previewHtml).not.toContain('class="ds-chronometer"');
   });
 
   it("clears the implementation basics gate on every offering", () => {

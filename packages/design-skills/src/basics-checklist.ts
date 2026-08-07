@@ -92,7 +92,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     check(
       "asymmetric-or-statement-fold",
       (() => {
-        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam|ds-hero-folio|ds-hero-chrono/.test(html)) return true;
+        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam|ds-hero-folio|ds-hero-chrono|ds-hero-register/.test(html)) return true;
         const splits = html.match(/grid-template-columns:[^";]+/g) ?? [];
         return splits.some((s) => {
           const fr = Array.from(s.matchAll(/(\d+(?:\.\d+)?)fr/g)).map((m) => Number(m[1]));
@@ -189,7 +189,24 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         ),
       "Observatory offerings use chronometer + scrub rail + signal lattice + chrono essay + calibration — no pricing, no metrics theatre, zero inverse bands.",
     ),
-    check(
+        check(
+      "kind-archive",
+      spec.brief.siteKind !== "archive-index"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && !spec.sections.some((s) => s.kind === "metrics")
+          && /ds-hero-register/.test(html)
+          && /ds-register-masthead/.test(html)
+          && /ds-alpha-rail/.test(html)
+          && /data-figure="index-ledger"/.test(html)
+          && /ds-entry/.test(html)
+          && /Registry/.test(html)
+          && /ds-bleed-rule/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length === 0
+        ),
+      "Archive offerings use register + alpha rail + index ledger + entry essay + Registry — no pricing, no metrics theatre, zero inverse bands.",
+    ),
+check(
       "solid-claim-when-labeled-fold",
       !(
         (spec.brief.siteKind === "art-directed-studio" || spec.brief.siteKind === "consumer-craft")

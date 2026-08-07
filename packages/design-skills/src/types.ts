@@ -80,6 +80,14 @@ export const SiteKind = z.enum([
    * or SaaS conversion ladder.
    */
   "signal-observatory",
+  /**
+   * Archive index / award-index craft — quiet register masthead, sticky A–Z alpha rail,
+   * index-ledger figure owning the fold, story-entry essay with hanging folio, Registry close.
+   * Calibrated to award-index (foldFigure ~0.54, figureArea ~0.58, invertedShare ~0,
+   * display ~1–3vw quiet, alignment axes ~3, spineConformity ~0.82, high ink variation).
+   * Not SaaS, foundry, dossier, or observatory.
+   */
+  "archive-index",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 
@@ -224,6 +232,12 @@ export const LayoutVariant = z.enum([
    * Sticky scrub rail for time windows. Signal-observatory signature; not folio, seam, or SaaS.
    */
   "hero-chrono",
+  /**
+   * Quiet register masthead + dense numbered index owning the fold — archive-index signature.
+   * The index-ledger IS the figure (not a product plate below the claim). Sticky A–Z alpha rail.
+   * Not folio, chrono, seam, or SaaS split.
+   */
+  "hero-register",
   "metric-band",
   "specimen-band",
   "marquee-proof",
@@ -245,6 +259,11 @@ export const LayoutVariant = z.enum([
    * Signal-observatory signature; not chapters, marginalia, or verso/recto.
    */
   "story-chrono",
+  /**
+   * Single-entry essay with hanging folio number + ruled measure — archive-index craft.
+   * Not chapters, marginalia, verso/recto, or chrono beads.
+   */
+  "story-entry",
   "pullquote",
   "pricing-lanes",
   "compare-matrix",
