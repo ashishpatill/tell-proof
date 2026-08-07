@@ -1434,7 +1434,7 @@ ${surfaceRules()}
   .ds-entry-folio{position:static;writing-mode:horizontal-tb;transform:none;height:auto;display:block;margin-bottom:0.35rem}
 }
 
-/* Drawloom fold — claim woven as weft picks through warp; cloth below; treadles. */
+/* Drawloom fold — shed-threaded weft through SVG warps; fell; cloth; treadles. */
 .ds-hero-loom{
   position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
   display:flex;flex-direction:column;
@@ -1459,47 +1459,84 @@ ${surfaceRules()}
 .ds-reed-tooth:first-child{border-left:0}
 .ds-drawloom-stage{
   position:relative;flex:1;display:grid;
-  grid-template-rows:auto minmax(48vh,1fr);
+  grid-template-rows:auto auto minmax(46vh,1fr);
   padding:0 var(--gutter) calc(var(--treadle-h,3.25rem) + var(--s-sm));
   min-height:0;
 }
-.ds-warp-field{
-  pointer-events:none;position:absolute;inset:0 var(--gutter) var(--treadle-h,3.25rem);
-  background:repeating-linear-gradient(90deg,
-    transparent 0 22px,
-    color-mix(in srgb,var(--c-border) 55%,transparent) 22px 23px);
-  opacity:0.55;z-index:0;
+.ds-shed-stage{position:relative;isolation:isolate;padding:var(--s-xs) 0 var(--s-sm);min-height:11rem}
+.ds-shed{
+  position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;
+  overflow:visible;
+}
+.ds-warp-end{
+  stroke:color-mix(in srgb,var(--c-border) 75%,var(--c-accent));
+  stroke-width:0.35;vector-effect:non-scaling-stroke;
 }
 .ds-weft-claim{
-  position:relative;z-index:2;padding:var(--s-xs) 0 0;
+  position:relative;z-index:3;padding:var(--s-xs) 0 0;
   max-width:42rem;
 }
 .ds-weft-pick{
   position:relative;display:block;
-  background:color-mix(in srgb,var(--c-paper) 88%,transparent);
-  padding:0.08rem 0.35rem 0.08rem 0;
-  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  padding:0.1rem 0;
   animation:ds-weft-settle 900ms calc(var(--pick,0) * 70ms) both;
 }
 @keyframes ds-weft-settle{
-  from{opacity:0;transform:translateX(-0.6rem)}
+  from{opacity:0;transform:translateX(-0.55rem)}
   to{opacity:1;transform:none}
 }
 @media (prefers-reduced-motion:reduce){
-  .ds-weft-pick{animation:none}
+  .ds-weft-pick,.ds-shuttle{animation:none}
 }
-.ds-weft-pick::before,
-.ds-weft-pick::after{
-  content:"";position:absolute;top:50%;width:100vw;height:1px;
-  background:color-mix(in srgb,var(--c-accent) 55%,var(--c-border));
-  pointer-events:none;
+.ds-weft-thread{
+  position:absolute;left:-2rem;right:-40vw;top:50%;height:1px;
+  background:color-mix(in srgb,var(--c-accent) 50%,var(--c-border));
+  pointer-events:none;z-index:0;
 }
-.ds-weft-pick::before{right:100%;margin-right:0.35rem}
-.ds-weft-pick::after{left:100%;margin-left:0.35rem}
-.ds-weft-ink{position:relative;z-index:1}
+.ds-weft-ink{
+  position:relative;z-index:2;display:inline;
+  background:color-mix(in srgb,var(--c-paper) 82%,transparent);
+  padding:0.05rem 0.2rem;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  /* Shed weave: alternate over/under bars without splitting display glyphs (probe-safe). */
+  background-image:
+    linear-gradient(90deg,
+      color-mix(in srgb,var(--c-paper) 88%,transparent) 0 10px,
+      transparent 10px 14px);
+  background-size:14px 100%;
+}
+.ds-shuttle{
+  position:absolute;right:8%;top:42%;z-index:4;pointer-events:none;
+  display:flex;align-items:center;gap:0.35rem;
+  animation:ds-shuttle-fly 2.4s ease-in-out infinite alternate;
+}
+@keyframes ds-shuttle-fly{
+  from{transform:translateX(-1.5rem)}
+  to{transform:translateX(1.25rem)}
+}
+.ds-shuttle-body{
+  width:2.4rem;height:0.55rem;border:1px solid var(--c-accent);
+  background:color-mix(in srgb,var(--c-paper) 70%,var(--c-accent-surface));
+  border-radius:1px 40% 40% 1px;
+}
+.ds-shuttle-tip{
+  width:0;height:0;border-top:0.28rem solid transparent;border-bottom:0.28rem solid transparent;
+  border-left:0.45rem solid var(--c-accent);
+}
+.ds-shuttle-meta{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;color:var(--c-ink-tertiary);
+}
+.ds-fell{
+  position:relative;z-index:2;height:1px;margin:0.15rem 0 0.35rem;
+  background:var(--c-accent);
+}
+.ds-fell-label{
+  position:absolute;left:0;top:-0.95rem;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;color:var(--c-accent);
+}
 .ds-drawloom-cloth{
-  position:relative;z-index:1;margin-top:calc(var(--s-sm) * -1);
-  mask-image:linear-gradient(180deg,transparent 0%,#000 6%,#000 100%);
+  position:relative;z-index:1;margin-top:0;
+  mask-image:linear-gradient(180deg,transparent 0%,#000 5%,#000 100%);
 }
 .ds-loom-plate{margin:0;width:100%;display:block}
 .ds-loom-plate .ds-fig{min-height:min(52vh,540px)}
@@ -1527,8 +1564,8 @@ ${surfaceRules()}
   color:var(--c-accent);border-top-color:var(--c-accent);background:color-mix(in srgb,var(--c-accent-surface) 40%,transparent);
 }
 @media (max-width:800px){
-  .ds-warp-field{opacity:0.3}
-  .ds-weft-pick::before,.ds-weft-pick::after{display:none}
+  .ds-shed{opacity:0.45}
+  .ds-shuttle{display:none}
   .ds-loom-plate .ds-fig{min-height:min(42vh,420px)}
   .ds-treadles .ds-tape-label{font-size:10px}
 }
@@ -1543,7 +1580,6 @@ ${surfaceRules()}
 .ds-hang-eyelet{
   position:absolute;left:0.65rem;top:0.85rem;width:0.7rem;height:0.7rem;border-radius:50%;
   border:1px solid var(--c-accent);background:var(--c-paper);
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--c-paper) 80%,transparent);
 }
 .ds-hang-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-hang-note{
@@ -1562,12 +1598,12 @@ ${surfaceRules()}
   .ds-hang-aside{order:-1}
 }
 
-/* Glassine press fold — specimen under translucent sheet; museum label; binomial strip. */
+/* Dissecting-tray glassine — hinged lid, entomology pins, specimen tag, vernier, binomial. */
 .ds-hero-voucher{
   position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
   display:flex;flex-direction:column;
 }
-.ds-glassine-press{display:flex;flex-direction:column;flex:1;min-height:inherit;position:relative}
+.ds-glassine-press,.ds-dissecting-tray{display:flex;flex-direction:column;flex:1;min-height:inherit;position:relative}
 .ds-voucher-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
   padding:calc(var(--nav-h,4.5rem) + var(--s-xs)) var(--gutter) var(--s-xs);
@@ -1576,88 +1612,107 @@ ${surfaceRules()}
   color:var(--c-ink-tertiary);
 }
 .ds-voucher-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
-.ds-press-stage{
+.ds-press-stage,.ds-tray-well{
   position:relative;flex:1;display:grid;place-items:stretch;
   padding:var(--s-md) var(--gutter) calc(var(--binomial-h,3.1rem) + var(--s-sm));
   min-height:min(58vh,620px);
+  border:1px solid var(--c-border);
+  margin:var(--s-sm) var(--gutter) 0;
+  background:
+    radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--c-accent-surface) 35%,transparent),transparent 55%),
+    var(--c-paper);
+}
+.ds-tray-cork{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  box-shadow:inset 0 0 0 14px color-mix(in srgb,var(--c-accent-surface) 55%,var(--c-border));
+  border:1px solid color-mix(in srgb,var(--c-border) 80%,transparent);
+}
+.ds-tray-hinge{
+  position:absolute;top:0.55rem;left:50%;transform:translateX(-50%);z-index:5;
+  display:flex;gap:0.55rem;pointer-events:none;
+}
+.ds-tray-hinge span{
+  width:1.1rem;height:0.35rem;border:1px solid var(--c-border);
+  background:color-mix(in srgb,var(--c-paper) 70%,var(--c-accent-surface));
 }
 .ds-press-plate{
-  position:relative;z-index:1;margin:0;
+  position:relative;z-index:1;margin:0.85rem;
   filter:saturate(0.92) contrast(1.04);
 }
 .ds-voucher-plate{margin:0;width:100%;display:block}
-.ds-glassine-sheet{
-  position:absolute;inset:var(--s-md) var(--gutter) calc(var(--binomial-h,3.1rem) + var(--s-sm));
-  z-index:2;pointer-events:none;
+.ds-glassine-sheet,.ds-glassine-lid{
+  position:absolute;inset:0.85rem;z-index:2;pointer-events:none;
   background:
-    linear-gradient(135deg,color-mix(in srgb,var(--c-paper) 55%,transparent) 0%,color-mix(in srgb,var(--c-accent-surface) 28%,transparent) 42%,color-mix(in srgb,var(--c-paper) 40%,transparent) 100%),
-    repeating-linear-gradient(0deg,transparent 0 3px,color-mix(in srgb,var(--c-border) 18%,transparent) 3px 4px);
+    linear-gradient(145deg,color-mix(in srgb,var(--c-paper) 48%,transparent) 0%,color-mix(in srgb,var(--c-accent-surface) 22%,transparent) 46%,color-mix(in srgb,var(--c-paper) 38%,transparent) 100%),
+    repeating-linear-gradient(0deg,transparent 0 3px,color-mix(in srgb,var(--c-border) 16%,transparent) 3px 4px);
   border:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
-  clip-path:polygon(0 0,100% 0,100% calc(100% - 4.5rem),calc(100% - 5.5rem) 100%,0 100%);
+  transform-origin:50% 0%;
+  clip-path:polygon(0 0,100% 0,100% 62%,78% 100%,0 100%);
+  animation:ds-lid-lift 1.6s ease both;
 }
-.ds-glassine-sheet::after{
-  content:"";position:absolute;right:0;bottom:0;width:5.5rem;height:4.5rem;
-  background:
-    linear-gradient(225deg,transparent 48%,color-mix(in srgb,var(--c-paper) 70%,var(--c-accent-surface)) 49%,color-mix(in srgb,var(--c-paper) 85%,transparent) 100%);
+@keyframes ds-lid-lift{
+  from{transform:perspective(900px) rotateX(0deg)}
+  to{transform:perspective(900px) rotateX(-6deg)}
+}
+.ds-lid-peel{
+  position:absolute;right:0;bottom:0;width:6rem;height:5rem;
+  background:linear-gradient(225deg,transparent 46%,color-mix(in srgb,var(--c-paper) 78%,var(--c-accent-surface)) 48%,color-mix(in srgb,var(--c-paper) 90%,transparent) 100%);
   border-left:1px solid color-mix(in srgb,var(--c-border) 55%,transparent);
   border-top:1px solid color-mix(in srgb,var(--c-border) 55%,transparent);
   transform-origin:100% 100%;
-  animation:ds-glassine-peel 1.4s ease both;
+  animation:ds-peel-corner 1.5s 200ms ease both;
 }
-@keyframes ds-glassine-peel{
+@keyframes ds-peel-corner{
   from{transform:rotate(0deg)}
-  to{transform:rotate(-2deg)}
+  to{transform:rotate(-3deg)}
 }
-.ds-press-label{
-  position:absolute;z-index:3;left:calc(var(--gutter) + 1.25rem);top:calc(var(--s-md) + 1.15rem);
-  max-width:min(28rem,48%);
+.ds-epin{
+  position:absolute;z-index:4;width:0.85rem;height:0.85rem;border-radius:50%;
+  border:1px solid var(--c-accent);background:var(--c-paper);
+  display:grid;place-items:center;pointer-events:none;
+  font-family:var(--f-mono);font-size:11px;color:var(--c-accent);font-style:normal;
+}
+.ds-epin i{font-style:normal;line-height:1}
+.ds-epin[data-pin="1"]{top:18%;left:22%}
+.ds-epin[data-pin="2"]{top:28%;left:48%}
+.ds-epin[data-pin="3"]{top:46%;right:18%}
+.ds-epin[data-pin="4"]{bottom:28%;left:34%}
+.ds-vernier{
+  position:absolute;z-index:3;left:1.1rem;right:1.1rem;bottom:calc(var(--binomial-h,3.1rem) + 0.35rem);
+  pointer-events:none;display:flex;align-items:center;gap:0.5rem;
+}
+.ds-vernier-track{
+  flex:1;height:1px;background:var(--c-border);
+  background-image:repeating-linear-gradient(90deg,var(--c-accent) 0 1px,transparent 1px 12px);
+}
+.ds-vernier-meta{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;color:var(--c-ink-tertiary);white-space:nowrap;
+}
+.ds-tag-string{
+  position:absolute;z-index:4;left:calc(48% - 1rem);top:22%;width:7.5rem;height:5rem;
+  color:var(--c-border);pointer-events:none;
+}
+.ds-press-label,.ds-specimen-tag{
+  position:absolute;z-index:5;left:calc(var(--gutter) * 0.15 + 1.1rem);top:calc(var(--s-md) + 0.35rem);
+  max-width:min(26rem,44%);
   padding:var(--s-sm) var(--s-md);
-  background:color-mix(in srgb,var(--c-paper) 94%,var(--c-accent-surface));
+  background:color-mix(in srgb,var(--c-paper) 96%,var(--c-accent-surface));
   border:1px solid var(--c-border);
-  transform:rotate(-1.1deg);
-  animation:ds-label-settle 1s 180ms both;
+  transform:rotate(-1.4deg);
+  animation:ds-tag-settle 1s 160ms both;
 }
-@keyframes ds-label-settle{
-  from{opacity:0;transform:rotate(-1.1deg) translateY(0.5rem)}
-  to{opacity:1;transform:rotate(-1.1deg)}
+@keyframes ds-tag-settle{
+  from{opacity:0;transform:rotate(-1.4deg) translateY(0.45rem)}
+  to{opacity:1;transform:rotate(-1.4deg)}
 }
+.ds-tag-pinmeta{
+  margin:0 0 0.25rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;color:var(--c-accent);
+}
+.ds-press-label .ds-display,.ds-specimen-tag .ds-display{margin:0}
 @media (prefers-reduced-motion:reduce){
-  .ds-glassine-sheet::after,.ds-press-label{animation:none}
+  .ds-glassine-lid,.ds-lid-peel,.ds-specimen-tag{animation:none}
 }
-.ds-press-pins{
-  position:absolute;inset:calc(var(--s-md) + 0.35rem) calc(var(--gutter) + 0.35rem) calc(var(--binomial-h,3.1rem) + var(--s-sm) + 0.35rem);
-  z-index:4;pointer-events:none;
-}
-.ds-press-pins span{
-  position:absolute;width:0.7rem;height:0.7rem;border-radius:50%;
-  border:1px solid var(--c-accent);
-  background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--c-paper) 90%,var(--c-accent)),var(--c-accent-surface));
-}
-.ds-press-pins span:nth-child(1){top:0;left:0}
-.ds-press-pins span:nth-child(2){top:0;right:0}
-.ds-press-pins span:nth-child(3){bottom:0;left:0}
-.ds-press-pins span:nth-child(4){bottom:0;right:0}
-.ds-press-label .ds-display{margin:0}
-.ds-lucida{
-  position:absolute;z-index:3;right:calc(var(--gutter) + 1.5rem);bottom:calc(var(--binomial-h,3.1rem) + var(--s-xl));
-  width:5.5rem;height:5.5rem;pointer-events:none;
-}
-.ds-lucida-arm{
-  position:absolute;left:50%;top:-1.75rem;width:1px;height:2.1rem;
-  background:var(--c-border);transform:translateX(-50%);
-}
-.ds-lucida-prism{
-  position:absolute;inset:0;border-radius:50%;
-  border:1px solid var(--c-accent);
-  background:
-    radial-gradient(circle at 40% 35%,color-mix(in srgb,var(--c-paper) 70%,transparent),color-mix(in srgb,var(--c-accent-surface) 35%,transparent) 55%,transparent 72%),
-    color-mix(in srgb,var(--c-paper) 25%,transparent);
-}
-.ds-lucida-meta{
-  position:absolute;left:50%;bottom:-1.1rem;transform:translateX(-50%);
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-ink-tertiary);
-}
-/* Binomial strip — taxon as bottom instrument, not left sticky rail. */
+/* Binomial strip — dichotomous key as bottom instrument. */
 .ds-binomial-strip.ds-taxon-rail{
   position:absolute;left:0;right:0;bottom:0;top:auto;width:100%;height:var(--binomial-h,3.1rem);
   display:flex;align-items:stretch;justify-content:stretch;padding:0;z-index:var(--z-nav);
@@ -1683,10 +1738,11 @@ ${surfaceRules()}
 }
 .ds-binomial-strip .ds-taxon-chip.is-active .ds-taxon-meta{text-decoration:underline}
 @media (max-width:800px){
-  .ds-press-label{max-width:calc(100% - 2rem);left:var(--gutter);right:var(--gutter);transform:none;top:calc(var(--s-md) + 0.75rem)}
-  .ds-lucida{display:none}
-  .ds-glassine-sheet{clip-path:none}
-  .ds-glassine-sheet::after{display:none}
+  .ds-specimen-tag{max-width:calc(100% - 2rem);left:0.75rem;right:0.75rem;transform:none;top:0.85rem}
+  .ds-tag-string,.ds-vernier{display:none}
+  .ds-glassine-lid{clip-path:none;animation:none}
+  .ds-lid-peel{display:none}
+  .ds-tray-well{margin-inline:var(--s-sm)}
   .ds-voucher-plate .ds-fig{min-height:min(42vh,420px)}
   .ds-binomial-strip .ds-taxon-label{font-size:10px}
 }

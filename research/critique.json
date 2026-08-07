@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-07T12:13:33.578Z",
-  "overall": 0.9889,
+  "generatedAt": "2026-08-07T12:25:40.490Z",
+  "overall": 0.9897,
   "holdout": {
     "id": "holdout-commerce",
     "total": 0.9907,
-    "gap": -0.0018
+    "gap": -0.001
   },
   "pages": [
     {
@@ -4053,7 +4053,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 485,
+          "value": 483,
           "band": [
             242,
             1139
@@ -5196,7 +5196,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 18.4,
+          "value": 18.7,
           "band": [
             12.8,
             32.9
@@ -5295,7 +5295,7 @@
         {
           "id": "section-rhythm",
           "label": "Section padding",
-          "value": 84,
+          "value": 65,
           "band": [
             36,
             120
@@ -5306,7 +5306,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.763,
+          "value": 0.772,
           "band": [
             0.611,
             1
@@ -5339,7 +5339,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 10.56,
+          "value": 10.62,
           "band": [
             5.99,
             12.6
@@ -5350,7 +5350,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.605,
+          "value": 0.602,
           "band": [
             0.422,
             0.896
@@ -5361,7 +5361,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.328,
+          "value": 1.324,
           "band": [
             0.447,
             0.96
@@ -5383,7 +5383,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.013,
+          "value": 0.006,
           "band": [
             0,
             0.014
@@ -5394,7 +5394,7 @@
         {
           "id": "hairlines",
           "label": "Hairline borders",
-          "value": 1,
+          "value": 0.977,
           "band": [
             0.947,
             1
@@ -5405,7 +5405,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.058,
+          "value": 0.054,
           "band": [
             0.021,
             0.154
@@ -5460,7 +5460,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 416,
+          "value": 434,
           "band": [
             242,
             1139
@@ -5515,7 +5515,7 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.111,
+          "value": 0.125,
           "band": [
             0.1,
             1.375
@@ -5548,7 +5548,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.333,
+          "value": 0.25,
           "band": [
             0,
             0.5
@@ -5559,7 +5559,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2441,
+          "value": 0.2726,
           "band": [
             0.196,
             0.778
@@ -5570,7 +5570,7 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.4738,
+          "value": 0.7337,
           "band": [
             0.337,
             1
@@ -5581,7 +5581,7 @@
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 18,
+          "value": 17,
           "band": [
             11,
             157
@@ -5592,7 +5592,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0017,
+          "value": 0.0018,
           "band": [
             0.001,
             0.469
@@ -5603,7 +5603,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 3.88,
+          "value": 4.14,
           "band": [
             0.42,
             4.33
@@ -5615,7 +5615,7 @@
     },
     {
       "id": "field-herbarium",
-      "total": 0.976,
+      "total": 0.9871,
       "holdout": false,
       "rows": [
         {
@@ -5665,7 +5665,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 17.7,
+          "value": 16.3,
           "band": [
             12.8,
             32.9
@@ -5709,7 +5709,7 @@
         {
           "id": "surface-layers",
           "label": "Surface layers",
-          "value": 4,
+          "value": 5,
           "band": [
             4,
             26
@@ -5775,7 +5775,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.813,
+          "value": 0.805,
           "band": [
             0.611,
             1
@@ -5819,7 +5819,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.577,
+          "value": 0.575,
           "band": [
             0.422,
             0.896
@@ -5830,12 +5830,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.22,
+          "value": 1.097,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0,
+          "score": 0.465,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -5852,7 +5852,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.006,
+          "value": 0.008,
           "band": [
             0,
             0.014
@@ -5874,7 +5874,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.062,
+          "value": 0.061,
           "band": [
             0.021,
             0.154
@@ -5929,7 +5929,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 552,
+          "value": 582,
           "band": [
             242,
             1139
@@ -5962,7 +5962,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 8,
+          "value": 9,
           "band": [
             5,
             10
@@ -6006,7 +6006,7 @@
         {
           "id": "shape-variety",
           "label": "Section shape variety",
-          "value": 3,
+          "value": 4,
           "band": [
             2,
             7
@@ -6028,7 +6028,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2579,
+          "value": 0.2478,
           "band": [
             0.196,
             0.778
@@ -6039,7 +6039,7 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.7042,
+          "value": 0.6031,
           "band": [
             0.337,
             1
@@ -6061,7 +6061,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0022,
+          "value": 0.0023,
           "band": [
             0.001,
             0.469
@@ -6072,7 +6072,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 2.9,
+          "value": 3,
           "band": [
             0.42,
             4.33
@@ -7029,7 +7029,7 @@
         0.447,
         0.96
       ],
-      "mean": 0.601,
+      "mean": 0.632,
       "scoredOn": 15,
       "values": [
         {
@@ -7078,11 +7078,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 1.328
+          "value": 1.324
         },
         {
           "page": "field-herbarium",
-          "value": 1.22
+          "value": 1.097
         },
         {
           "page": "press-atelier",
@@ -7150,11 +7150,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 0.605
+          "value": 0.602
         },
         {
           "page": "field-herbarium",
-          "value": 0.577
+          "value": 0.575
         },
         {
           "page": "press-atelier",
@@ -7222,11 +7222,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 3.88
+          "value": 4.14
         },
         {
           "page": "field-herbarium",
-          "value": 2.9
+          "value": 3
         },
         {
           "page": "press-atelier",
@@ -7294,7 +7294,7 @@
         },
         {
           "page": "loom-commerce",
-          "value": 84
+          "value": 65
         },
         {
           "page": "field-herbarium",
@@ -7654,11 +7654,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 18.4
+          "value": 18.7
         },
         {
           "page": "field-herbarium",
-          "value": 17.7
+          "value": 16.3
         },
         {
           "page": "press-atelier",
@@ -7946,7 +7946,7 @@
         },
         {
           "page": "field-herbarium",
-          "value": 4
+          "value": 5
         },
         {
           "page": "press-atelier",
@@ -8302,11 +8302,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 0.763
+          "value": 0.772
         },
         {
           "page": "field-herbarium",
-          "value": 0.813
+          "value": 0.805
         },
         {
           "page": "press-atelier",
@@ -8518,7 +8518,7 @@
         },
         {
           "page": "loom-commerce",
-          "value": 10.56
+          "value": 10.62
         },
         {
           "page": "field-herbarium",
@@ -8662,11 +8662,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 0.013
+          "value": 0.006
         },
         {
           "page": "field-herbarium",
-          "value": 0.006
+          "value": 0.008
         },
         {
           "page": "press-atelier",
@@ -8734,7 +8734,7 @@
         },
         {
           "page": "loom-commerce",
-          "value": 1
+          "value": 0.977
         },
         {
           "page": "field-herbarium",
@@ -8806,11 +8806,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 0.058
+          "value": 0.054
         },
         {
           "page": "field-herbarium",
-          "value": 0.062
+          "value": 0.061
         },
         {
           "page": "press-atelier",
@@ -9154,7 +9154,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 485
+          "value": 483
         },
         {
           "page": "observatory-signal",
@@ -9166,11 +9166,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 416
+          "value": 434
         },
         {
           "page": "field-herbarium",
-          "value": 552
+          "value": 582
         },
         {
           "page": "press-atelier",
@@ -9386,7 +9386,7 @@
         },
         {
           "page": "field-herbarium",
-          "value": 8
+          "value": 9
         },
         {
           "page": "press-atelier",
@@ -9526,7 +9526,7 @@
         },
         {
           "page": "loom-commerce",
-          "value": 0.111
+          "value": 0.125
         },
         {
           "page": "field-herbarium",
@@ -9674,7 +9674,7 @@
         },
         {
           "page": "field-herbarium",
-          "value": 3
+          "value": 4
         },
         {
           "page": "press-atelier",
@@ -9742,7 +9742,7 @@
         },
         {
           "page": "loom-commerce",
-          "value": 0.333
+          "value": 0.25
         },
         {
           "page": "field-herbarium",
@@ -9814,11 +9814,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 0.2441
+          "value": 0.2726
         },
         {
           "page": "field-herbarium",
-          "value": 0.2579
+          "value": 0.2478
         },
         {
           "page": "press-atelier",
@@ -9886,11 +9886,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 0.4738
+          "value": 0.7337
         },
         {
           "page": "field-herbarium",
-          "value": 0.7042
+          "value": 0.6031
         },
         {
           "page": "press-atelier",
@@ -9958,7 +9958,7 @@
         },
         {
           "page": "loom-commerce",
-          "value": 18
+          "value": 17
         },
         {
           "page": "field-herbarium",
@@ -10030,11 +10030,11 @@
         },
         {
           "page": "loom-commerce",
-          "value": 0.0017
+          "value": 0.0018
         },
         {
           "page": "field-herbarium",
-          "value": 0.0022
+          "value": 0.0023
         },
         {
           "page": "press-atelier",

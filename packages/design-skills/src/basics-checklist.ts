@@ -219,7 +219,10 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           !spec.sections.some((s) => s.kind === "pricing")
           && !spec.sections.some((s) => s.kind === "metrics")
           && /ds-hero-drawloom/.test(html)
+          && /ds-shed/.test(html)
           && /ds-weft-pick/.test(html)
+          && /ds-shuttle/.test(html)
+          && /ds-fell/.test(html)
           && /ds-treadles/.test(html)
           && /data-figure="loom-weave"/.test(html)
           && /ds-hangtag/.test(html)
@@ -227,7 +230,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Loom offerings use drawloom weft claim + treadles + loom weave + hangtag essay + Care label — no pricing, no metrics theatre, zero inverse bands.",
+      "Loom offerings use shed-threaded weft + shuttle + fell + treadles + loom weave + hangtag + Care label — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "kind-field",
@@ -236,8 +239,10 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           !spec.sections.some((s) => s.kind === "pricing")
           && !spec.sections.some((s) => s.kind === "metrics")
           && /ds-hero-glassine/.test(html)
-          && /ds-glassine-sheet/.test(html)
-          && /ds-press-label/.test(html)
+          && /ds-dissecting-tray/.test(html)
+          && /ds-glassine-lid/.test(html)
+          && /ds-specimen-tag/.test(html)
+          && /ds-epin/.test(html)
           && /ds-binomial-strip/.test(html)
           && /data-figure="specimen-plate"/.test(html)
           && /ds-range/.test(html)
@@ -245,7 +250,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Field-guide offerings use glassine press + binomial strip + specimen plate + range essay + Voucher — no pricing, no metrics theatre, zero inverse bands.",
+      "Field-guide offerings use dissecting tray + hinged glassine + entomology pins + specimen tag + binomial strip + range + Voucher — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "kind-press",
