@@ -936,7 +936,10 @@ ${surfaceRules()}
 [data-sitekind="docs-educational"] .ds-index-row{border-top-color:transparent;border-bottom-color:transparent}
 [data-sitekind="docs-educational"] .ds-index-row:nth-child(3n+1){border-top-color:var(--surface-border)}
 [data-sitekind="docs-educational"] .ds-index-row:last-child{border-bottom-color:transparent}
-[data-sitekind="docs-educational"] .ds-figure-steps li{border:0;padding-block:0.35rem}
+[data-sitekind="docs-educational"] .ds-figure-steps li{border:0;padding-block:0.35rem;cursor:pointer}
+[data-sitekind="docs-educational"] .ds-figure-steps li:hover,
+[data-sitekind="docs-educational"] .ds-figure-steps li:focus-visible{color:var(--surface-ink)}
+[data-sitekind="docs-educational"] .ds-figure-steps li:focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
 [data-sitekind="docs-educational"] .ds-sec-meta{border-top-color:transparent;padding-top:0}
 [data-sitekind="docs-educational"] .ds-hero-facts{border-top-color:transparent}
 [data-sitekind="docs-educational"] .ds-matrix th,

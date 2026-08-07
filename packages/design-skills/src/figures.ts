@@ -593,12 +593,16 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
 
     if (band) {
       const nameLines = wrap(b.title, Math.max(9, Math.round(nodeW / 14)), 2);
+      // Title-only figure legends used to starve band cards — always prefer points/body, never
+      // leave a blank airway under the ordinal (reads as a broken non-clickable shell).
       const matter =
         (b.points?.[0] && String(b.points[0])) ||
         (b.body && String(b.body)) ||
-        (b.meta && String(b.meta)) ||
+        (b.meta && !/^0?\d+$/.test(String(b.meta)) ? String(b.meta) : "") ||
         "";
-      const bodyLines = matter ? wrap(matter, Math.max(12, Math.round(nodeW / 11)), 3) : [];
+      const bodyLines = matter
+        ? wrap(matter, Math.max(12, Math.round(nodeW / 11)), 3)
+        : wrap(`What ${b.title.toLowerCase()} covers on this path.`, Math.max(12, Math.round(nodeW / 11)), 3);
       parts.push(
         text(String(i + 1).padStart(2, "0"), x + 20, top + 36, {
           size: FT.lead,
@@ -2278,8 +2282,9 @@ const ORDER: Record<string, Kind[]> = {
   // Fintech: horizon cash timeline on the fold (always drawable); interface is the working surface in body.
   // Series is preferred when metrics carry readings, but must not fall through to twin SaaS interface hero.
   "fintech-marketing": ["horizon", "series", "interface", "flow"],
-  // Studio: quiet horizon fold (selected-work), flow method in the body — not twin educational.
-  "art-directed-studio": ["horizon", "flow", "stack", "series"],
+  // Studio: filled flow stages on the fold (selected-work method) — not twin corporate/fintech horizon
+  // or educational stack. Horizon stays available as a quieter specimen beat.
+  "art-directed-studio": ["flow", "horizon", "stack", "series"],
   // Consumer craft is product-surface first; horizon specimen stays type-quiet for rhythm.
   "consumer-craft": ["interface", "horizon", "flow", "stack"],
   // Foundry: optical-size ladder owns the fold; horizon/stack keep scroll beats distinct.
@@ -2310,7 +2315,21 @@ export function planFigures(input: {
 }): FigurePlan {
   const seed = input.productName;
   const periods = ["Q1", "Q2", "Q3", "Q4"];
-  const sequence = input.steps.length >= 2 ? input.steps : input.features;
+  /*
+   * Figure legends are often title+ordinal only (scrub labels). Flow/stack/horizon bands still need
+   * real matter under each stage — merge catalogue bodies by title so cards never ship empty.
+   */
+  const byTitle = new Map(input.features.map((b) => [b.title, b] as const));
+  const fillMatter = (steps: Block[]): Block[] =>
+    steps.map((s) => {
+      const f = byTitle.get(s.title);
+      if (!f) return s;
+      const body = (s.body && s.body.trim()) || f.body || "";
+      const points = s.points?.length ? s.points : f.points ?? [];
+      return body === s.body && points === s.points ? s : { ...s, body, points };
+    });
+  const sequence =
+    input.steps.length >= 2 ? fillMatter(input.steps) : fillMatter(input.features);
 
   const draw = (kind: Kind, role: FigureRole): string => {
     switch (kind) {

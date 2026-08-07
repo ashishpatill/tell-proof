@@ -430,10 +430,15 @@ export function buildSections(
               : sentence(
                   `The path work takes through ${brief.productName}, drawn rather than described`,
                 ),
-            // Step labels only. A diagram whose legend restates every description is a paragraph
-            // with a picture behind it.
+            // Mechanism / scrub legends need a real line of matter — title-only steps starved the
+            // educational scrub list and any flow hero that reused figure blocks (empty cards).
+            // Keep bodies short (claim only); do not reprint full catalogue paragraphs.
             blocks: editorial.features.slice(0, 4).map((c, i) =>
-              block({ title: c.name, meta: `0${i + 1}` }),
+              block({
+                title: c.name,
+                meta: `0${i + 1}`,
+                body: sentence(c.claim || c.consequence || c.name),
+              }),
             ),
             figureCaption: isFoundry
               ? sentence(`Step through the optical sizes ${brief.productName} is cut for`)

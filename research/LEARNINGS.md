@@ -294,3 +294,16 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   on snapshot text; README first-five stills + craft-reel GIFs.
 - **Do not:** Stretch empty SVG shells to fake fold coverage. Do not reuse one proof title across
   offerings. Critique score is not an eye pass for empty cards or shared copy.
+
+## 2026-08-07 — `template:figure-legend-starves-flow` + `template:scrub-dead-clicks`
+
+- **Failure (human):** Dashboard/studio flow heroes still looked like empty clickable cards; scrub
+  stage list and nodes never drove the range input ("doesn't even click").
+- **Root cause:** `sections.ts` figure blocks are title+ordinal legends; `planFigures` preferred
+  those empty steps over the catalogue bodies for flow bands. Scrub JS only listened to `<input
+  type="range">` — list items and SVG nodes were decorative.
+- **Fix:** Merge catalogue `body`/`points` into sequence steps by title before drawing; figure
+  legends carry short claim lines; scrub `go(idx)` wires steps + nodes; studio fold → filled `flow`
+  (not twin corporate/fintech `horizon`); basics `flow-band-has-matter` + `scrub-steps-clickable`.
+- **Do not:** Assume title-only figure legends are safe inputs to band drawings. Do not ship
+  affordances that look selectable without wiring paint.

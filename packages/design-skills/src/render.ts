@@ -1771,10 +1771,32 @@ function scripts(spec: DesignSpec): string {
     });
     if(caption){
       var active=steps.filter(function(li){return Number(li.getAttribute('data-step'))===idx})[0];
-      caption.textContent = active ? active.textContent : base;
+      if(active){
+        var strong=active.querySelector('strong');
+        caption.textContent = strong ? strong.textContent : active.textContent;
+      } else {
+        caption.textContent = base;
+      }
     }
   }
   scrub.addEventListener('input', function(){ paint(scrub.value); });
+  function go(idx){
+    scrub.value=String(idx);
+    paint(scrub.value);
+  }
+  steps.forEach(function(li){
+    li.setAttribute('role','button');
+    li.setAttribute('tabindex','0');
+    li.style.cursor='pointer';
+    li.addEventListener('click', function(){ go(li.getAttribute('data-step')); });
+    li.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(li.getAttribute('data-step')); }
+    });
+  });
+  nodes.forEach(function(n){
+    n.style.cursor='pointer';
+    n.addEventListener('click', function(){ go(n.getAttribute('data-step')); });
+  });
   paint(scrub.value);
 })();
 </script>`;

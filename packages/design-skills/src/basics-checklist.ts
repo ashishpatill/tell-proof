@@ -161,6 +161,34 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Flow stage cards must keep aspect ratio — stretch+empty ordinals read as broken non-clickable UI.",
     ),
     check(
+      "flow-band-has-matter",
+      !/data-figure="flow"/.test(html) ||
+        (() => {
+          // Band flows use ~1200 design width (plus bleed inset); plate flows are ~720.
+          const bands = [...html.matchAll(/<svg[^>]*data-figure="flow"[^>]*viewBox="([^"]+)"[\s\S]*?<\/svg>/g)].filter(
+            (m) => {
+              const parts = (m[1] ?? "").split(/\s+/).map(Number);
+              const w = (parts[2] ?? 0) - (parts[0] ?? 0);
+              return w >= 1000;
+            },
+          );
+          if (!bands.length) return true;
+          return bands.every((m) => {
+            const texts = [...m[0].matchAll(/>([^<]{6,})</g)]
+              .map((t) => (t[1] ?? "").replace(/&#39;/g, "'"))
+              .filter((t) => t.length >= 6 && !/^\d{2}$|stages|Sequence|Step\s/i.test(t));
+            return texts.length >= 6;
+          });
+        })(),
+      "Flow band cards must carry title + body matter — never ordinal shells with empty airways.",
+    ),
+    check(
+      "scrub-steps-clickable",
+      !/data-instrument="scrub"/.test(html) ||
+        (/data-scrub/.test(html) && /go\(li\.getAttribute\('data-step'\)\)/.test(html)),
+      "Educational scrub stage list must drive the range input — dead list items fail the human click test.",
+    ),
+    check(
       "kind-studio",
       spec.brief.siteKind !== "art-directed-studio"
         || (
