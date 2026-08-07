@@ -59,7 +59,7 @@ const TEMPLATES: Array<{
   {
     key: "saas",
     beats: [
-      { id: "fold", sel: ".ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 },
+      { id: "fold", sel: ".ds-pipeline-field, .ds-hero-pipeline, .ds-hero", yPad: 8 },
       { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
       { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
     ],
@@ -67,7 +67,7 @@ const TEMPLATES: Array<{
   {
     key: "dashboard",
     beats: [
-      { id: "fold", sel: ".ds-hero .ds-plate-bleed, .ds-hero, h1", yPad: 8 },
+      { id: "fold", sel: ".ds-queue-field, .ds-hero-queue, .ds-hero", yPad: 8 },
       { id: "shell", sel: "#app, .ds-app-band, .ds-app", yPad: 20 },
       { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
     ],
@@ -75,7 +75,7 @@ const TEMPLATES: Array<{
   {
     key: "corporate",
     beats: [
-      { id: "fold", sel: ".ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 },
+      { id: "fold", sel: ".ds-diligence-field, .ds-hero-diligence, .ds-hero", yPad: 8 },
       { id: "story", sel: "#story, [data-section='story']", yPad: 36 },
       { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
     ],
@@ -83,15 +83,15 @@ const TEMPLATES: Array<{
   {
     key: "educational",
     beats: [
-      { id: "fold", sel: ".ds-hero .ds-plate-bleed, [data-figure='stack'], .ds-hero", yPad: 8 },
-      { id: "scrub", sel: "#figure, [data-section='figure']", yPad: 28 },
+      { id: "fold", sel: ".ds-mechanism-stage, .ds-hero-mechanism, .ds-hero", yPad: 8 },
+      { id: "scrub", sel: ".ds-mechanism-grid, #features", yPad: 28 },
       { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
     ],
   },
   {
     key: "fintech",
     beats: [
-      { id: "fold", sel: ".ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 },
+      { id: "fold", sel: ".ds-wire-field, .ds-hero-wire, .ds-hero", yPad: 8 },
       { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
       { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
     ],

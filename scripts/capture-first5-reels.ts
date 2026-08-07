@@ -15,11 +15,11 @@ const TMP = resolve("/tmp/tell-first5-reels");
 const VIEWPORT = { width: 1440, height: 900 };
 
 const KEYS = [
-  { key: "saas", beats: [".ds-hero .ds-plate-bleed, .ds-hero", "#features", "#proof"] },
-  { key: "dashboard", beats: [".ds-hero .ds-plate-bleed, .ds-hero", "#app, .ds-app", "#proof"] },
-  { key: "corporate", beats: [".ds-hero .ds-plate-bleed, .ds-hero", "#story", "#proof"] },
-  { key: "educational", beats: ["[data-figure='stack'], .ds-hero", "#figure", "#features"] },
-  { key: "fintech", beats: [".ds-hero .ds-plate-bleed, .ds-hero", "#features", "#proof"] },
+  { key: "saas", beats: [".ds-pipeline-field, .ds-hero-pipeline", "#features", "#proof"] },
+  { key: "dashboard", beats: [".ds-queue-field, .ds-hero-queue", "#app, .ds-app", "#proof"] },
+  { key: "corporate", beats: [".ds-diligence-field, .ds-hero-diligence", "#story", "#proof"] },
+  { key: "educational", beats: [".ds-mechanism-stage, .ds-hero-mechanism", ".ds-mechanism-grid", "#features"] },
+  { key: "fintech", beats: [".ds-wire-field, .ds-hero-wire", "#features", "#proof"] },
 ];
 
 async function main(): Promise<void> {
