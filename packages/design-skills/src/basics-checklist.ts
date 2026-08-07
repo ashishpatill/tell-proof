@@ -172,10 +172,25 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Dashboard app shell exposes id=app so Workspace nav has a real scroll target.",
     ),
     check(
-      "kind-app-sidebar-static",
+      "kind-app-sidebar-interactive",
       spec.brief.siteKind !== "dashboard-webapp" ||
-        (!/\.ds-app-nav a href="#app"/.test(html) && /ds-app-nav-item/.test(html)),
-      "Dashboard sidebar views/filters are static labels — not faux links that all scroll to #app.",
+        (
+          /ds-app-nav-item[^>]*data-view=/.test(html) &&
+          /data-app-shell/.test(html) &&
+          /setAppView\(shell/.test(html) &&
+          !/<a[^>]*class="[^"]*ds-app-nav-item/.test(html)
+        ),
+      "Dashboard sidebar views/filters must be real buttons that filter the table — not faux #app scroll links.",
+    ),
+    check(
+      "kind-priority-rail-interactive",
+      spec.brief.siteKind !== "dashboard-webapp" ||
+        (
+          /ds-priority-chip[^>]*data-rail-step=/.test(html) &&
+          /data-rail="priority"/.test(html) &&
+          !/<a[^>]*class="[^"]*ds-priority-chip/.test(html)
+        ),
+      "Dashboard priority rail chips must be buttons that select a view — never dead hash links.",
     ),
     check(
       "no-footer-top-spam",
@@ -188,32 +203,22 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Proof titles must be siteKind-specific — never the shared 'holds under review' spam across offerings.",
     ),
     check(
-      "flow-band-no-stretch",
-      !/data-figure="flow"[^>]*preserveAspectRatio="none"/.test(html) &&
-        !/<svg[^>]*data-figure="flow"[^>]*preserveAspectRatio="none"/.test(html),
-      "Flow stage cards must keep aspect ratio — stretch+empty ordinals read as broken non-clickable UI.",
+      "flow-band-interactive",
+      !/data-figure="flow"/.test(html) ||
+        (
+          /ds-flow-card[^>]*data-step=/.test(html) &&
+          /data-flow-caption/.test(html) &&
+          /\.ds-flow-track/.test(html) &&
+          !/<svg[^>]*data-figure="flow"/.test(html)
+        ),
+      "Flow stages must be HTML buttons with live state — never dead SVG shells that invite clicks.",
     ),
     check(
       "flow-band-has-matter",
       !/data-figure="flow"/.test(html) ||
-        (() => {
-          // Band flows use ~1200 design width (plus bleed inset); plate flows are ~720.
-          const bands = [...html.matchAll(/<svg[^>]*data-figure="flow"[^>]*viewBox="([^"]+)"[\s\S]*?<\/svg>/g)].filter(
-            (m) => {
-              const parts = (m[1] ?? "").split(/\s+/).map(Number);
-              const w = (parts[2] ?? 0) - (parts[0] ?? 0);
-              return w >= 1000;
-            },
-          );
-          if (!bands.length) return true;
-          return bands.every((m) => {
-            const texts = [...m[0].matchAll(/>([^<]{6,})</g)]
-              .map((t) => (t[1] ?? "").replace(/&#39;/g, "'"))
-              .filter((t) => t.length >= 6 && !/^\d{2}$|stages|Sequence|Step\s/i.test(t));
-            return texts.length >= 6;
-          });
-        })(),
-      "Flow band cards must carry title + body matter — never ordinal shells with empty airways.",
+        ((html.match(/ds-flow-title/g) || []).length >= 2 &&
+          ((html.match(/ds-flow-body/g) || []).length >= 1 || (html.match(/ds-flow-meta/g) || []).length >= 1 || (html.match(/data-label=/g) || []).length >= 2)),
+      "Flow stage cards must carry title + body matter — never ordinal shells with empty airways.",
     ),
     check(
       "scrub-steps-clickable",

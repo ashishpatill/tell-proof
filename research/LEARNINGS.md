@@ -342,3 +342,13 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   Draw those instruments in the taller `column` figure role. Basics gate requires `ds-*-fold`.
 - **Do not:** Park unique fold instruments under a full-width claim with `max-width:18ch` type and
   call the empty right half "asymmetric luxury."
+
+## 2026-08-07 — `template:dead-clickable-affordances`
+
+- **Failure (human):** Numbered stage chips (Priority queue / Deal room / …) and flow cards looked
+  like buttons but were dead — hash `<a>` scroll links or static SVG shells. Wasted demo time.
+- **Fix:** Priority/stage rails → `<button data-rail-step>` that toggles `is-live`, updates caption,
+  and syncs `[data-app-shell]` view. Flow → HTML `.ds-flow-card` buttons + caption. App nav/filters
+  filter table rows. Proof cells → `.ds-proof-hit` with `aria-pressed`. Basics gates require buttons
+  + handlers; forbid SVG `data-figure="flow"` and `<a class="ds-priority-chip">`.
+- **Do not:** Style chrome as interactive unless click/keyboard changes visible state.

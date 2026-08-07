@@ -132,10 +132,17 @@ function figuresFor(spec: DesignSpec): FigurePlan {
 }
 
 /** A figure set against the page, with a caption that says what it is rather than repeating it. */
-function plate(svg: string, caption: string, extraClass = ""): string {
-  if (!svg) return "";
+function plate(drawing: string, caption: string, extraClass = ""): string {
+  if (!drawing) return "";
+  // Interactive HTML flow track — not an SVG plate.
+  if (drawing.includes('data-instrument="flow"')) {
+    return `<figure class="ds-figure ds-flow-figure${extraClass ? ` ${extraClass}` : ""}" data-instrument="flow">
+    ${drawing}
+    ${caption ? `<figcaption class="ds-sr">${esc(caption)}</figcaption>` : ""}
+  </figure>`;
+  }
   return `<figure class="ds-plate${extraClass ? ` ${extraClass}` : ""}">
-    ${svg}
+    ${drawing}
     ${caption ? `<figcaption>${esc(caption)}</figcaption>` : ""}
   </figure>`;
 }
@@ -562,12 +569,13 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       ? `<figure class="ds-pipeline-board" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
       : "";
     const stages = (section.blocks.length ? section.blocks : section.aside).slice(0, 5);
-    const rail = `<nav class="ds-stage-rail" aria-label="Pipeline stages"><ol>${stages
+    const rail = `<nav class="ds-stage-rail" data-rail="stage" aria-label="Pipeline stages"><ol>${stages
       .map((b, i) => {
-        const href = ["#features", "#specimen", "#proof", "#story", "#cta"][i] ?? "#features";
-        return `<li><a href="${href}" class="ds-stage-chip${i === 1 ? " is-live" : ""}"><span class="ds-stage-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-stage-label">${esc(b.title)}</span></a></li>`;
+        const live = i === 0;
+        return `<li><button type="button" class="ds-stage-chip${live ? " is-live" : ""}" data-rail-step="${i}" data-rail-label="${esc(b.title)}" aria-pressed="${live ? "true" : "false"}"><span class="ds-stage-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-stage-label">${esc(b.title)}</span></button></li>`;
       })
-      .join("")}</ol></nav>`;
+      .join("")}</ol></nav>
+      <p class="ds-rail-caption ds-wrap-wide" data-rail-caption>${esc(stages[0]?.title ?? "")}</p>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-pipeline" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${rail}
       <div class="ds-wrap-wide ds-pipeline-fold">
@@ -587,12 +595,13 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       ? `<figure class="ds-queue-console" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
       : "";
     const ranks = (section.blocks.length ? section.blocks : section.aside).slice(0, 6);
-    const rail = `<nav class="ds-priority-rail" aria-label="Priority queue"><ol>${ranks
+    const rail = `<nav class="ds-priority-rail" data-rail="priority" aria-label="Priority queue"><ol>${ranks
       .map((b, i) => {
-        const href = i === 0 ? "#app" : ["#features", "#proof", "#figure", "#compare", "#cta"][i - 1] ?? "#app";
-        return `<li><a href="${href}" class="ds-priority-chip${i === 1 ? " is-live" : ""}"><span class="ds-priority-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-priority-label">${esc(b.title)}</span></a></li>`;
+        const live = i === 0;
+        return `<li><button type="button" class="ds-priority-chip${live ? " is-live" : ""}" data-rail-step="${i}" data-rail-label="${esc(b.title)}" data-view="${esc(b.title)}" aria-pressed="${live ? "true" : "false"}"><span class="ds-priority-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-priority-label">${esc(b.title)}</span></button></li>`;
       })
-      .join("")}</ol></nav>`;
+      .join("")}</ol></nav>
+      <p class="ds-rail-caption ds-wrap-wide" data-rail-caption>${esc(ranks[0]?.title ?? "")}</p>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-queue" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${rail}
       <div class="ds-wrap-wide ds-queue-fold">
@@ -1442,14 +1451,16 @@ function renderRange(section: SectionSpec, figures: FigurePlan): string {
 function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
   const cells = section.blocks.slice(0, 5);
   const board = cells.length
-    ? `<ul class="ds-proof-board">${cells
+    ? `<ul class="ds-proof-board" data-proof-board>${cells
         .map((b, i) => {
           const mark = figures.marks[i] ?? "";
           return `<li class="ds-proof-cell${b.emphasis === "lead" ? " is-lead" : ""}">
+            <button type="button" class="ds-proof-hit" data-proof="${esc(b.title)}" aria-pressed="${b.emphasis === "lead" ? "true" : "false"}">
             ${mark ? `<div class="ds-proof-mark" aria-hidden="true">${mark}</div>` : ""}
             <p class="ds-proof-meta">${esc(b.meta ?? b.kicker ?? "")}</p>
             <h3>${esc(b.title)}</h3>
             ${b.body ? `<p>${esc(b.body)}</p>` : ""}
+            </button>
           </li>`;
         })
         .join("")}</ul>`
@@ -1726,7 +1737,7 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
   return `<section id="${esc(section.id)}" class="ds-section ds-app-band" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${head}
-      <div class="ds-app">
+      <div class="ds-app" data-app-shell>
         <div class="ds-app-top">
           <span class="ds-wordmark">${esc(section.brandLabel ?? spec.brief.productName)}</span>
           <span class="ds-app-crumbs">workspace / ${esc(section.title.toLowerCase())}</span>
@@ -1735,23 +1746,24 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
         <div class="ds-app-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "260px 1fr"))}">
           <aside class="ds-app-side" aria-label="Workspace navigation">
             <p class="ds-eyebrow">Views</p>
-            <ul class="ds-app-nav" role="list">
+            <ul class="ds-app-nav" role="list" data-app-views>
               ${section.aside
                 .map(
                   (b, i) =>
-                    `<li><span class="ds-app-nav-item"${i === 0 ? ' aria-current="page"' : ""}>${esc(b.title)}</span></li>`,
+                    `<li><button type="button" class="ds-app-nav-item${i === 0 ? " is-current" : ""}" data-view="${esc(b.title)}"${i === 0 ? ' aria-current="page"' : ""}>${esc(b.title)}</button></li>`,
                 )
                 .join("")}
             </ul>
             <p class="ds-eyebrow">Filters</p>
-            <ul class="ds-app-nav" role="list">
-              <li><span class="ds-app-nav-item">Needs a human</span></li>
-              <li><span class="ds-app-nav-item">Assigned to me</span></li>
-              <li><span class="ds-app-nav-item">Resolved today</span></li>
+            <ul class="ds-app-nav" role="list" data-app-filters>
+              <li><button type="button" class="ds-app-nav-item" data-filter="now" aria-pressed="false">Needs a human</button></li>
+              <li><button type="button" class="ds-app-nav-item" data-filter="today" aria-pressed="false">Assigned to me</button></li>
+              <li><button type="button" class="ds-app-nav-item" data-filter="queued" aria-pressed="false">Resolved today</button></li>
             </ul>
           </aside>
           <div class="ds-app-main">
             ${lede}
+            <p class="ds-app-view-label" data-app-view-label>${esc(section.aside[0]?.title ?? "All views")}</p>
             <div class="ds-app-stats">
               ${section.metrics
                 .map(
@@ -1763,12 +1775,12 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
                 )
                 .join("")}
             </div>
-            <table class="ds-table">
+            <table class="ds-table" data-app-table>
               <thead><tr><th scope="col">Item</th><th scope="col">State</th><th scope="col">Detail</th><th scope="col" class="ds-num">Age</th></tr></thead>
               <tbody>
                 ${rows
                   .map(
-                    (b) => `<tr>
+                    (b) => `<tr data-row-view="${esc(b.title)}" data-row-state="${esc((b.kicker ?? "Queued").toLowerCase())}">
                       <th scope="row">${esc(b.title)}</th>
                       <td><span class="ds-pill${b.kicker === "Now" ? " ds-pill-signal" : ""}">${esc(b.kicker ?? "Queued")}</span></td>
                       <td>${esc(b.points[0] ?? b.body ?? b.kicker ?? b.title)}</td>
@@ -1778,7 +1790,7 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
                   .join("")}
               </tbody>
             </table>
-            <div class="ds-empty">
+            <div class="ds-empty" data-app-empty hidden>
               <p class="ds-eyebrow">Nothing else needs you</p>
               <p class="ds-small">Everything outside the filters above is handled automatically. This state is the goal, not an error.</p>
               ${section.ctaLabel ? `<a class="ds-btn ds-btn-secondary" href="#cta">${esc(section.ctaLabel)}</a>` : ""}
@@ -1891,56 +1903,181 @@ function scripts(spec: DesignSpec): string {
   return `<script>
 (function(){
   ${revealJs}
+
   var scrub=document.querySelector('[data-scrub]');
-  if(!scrub) return;
-  var nodes=[].slice.call(document.querySelectorAll('.ds-scrub-node'));
-  var stems=[].slice.call(document.querySelectorAll('.ds-scrub-stem'));
-  var steps=[].slice.call(document.querySelectorAll('.ds-figure-steps [data-step]'));
-  var caption=document.querySelector('[data-scrub-caption]');
-  var base=caption?caption.textContent:'';
-  function paint(v){
-    var idx=Number(v)||0;
-    nodes.forEach(function(n){
-      var active=Number(n.getAttribute('data-step'))===idx;
-      n.setAttribute('r', active ? '6' : '4');
-      n.setAttribute('opacity', active ? '1' : '0.45');
-      n.setAttribute('fill', active ? 'var(--surface-bg)' : 'var(--c-accent)');
-    });
-    stems.forEach(function(s){
-      s.setAttribute('opacity', Number(s.getAttribute('data-step'))===idx ? '1' : '0');
-    });
-    steps.forEach(function(li){
-      li.classList.toggle('is-active', Number(li.getAttribute('data-step'))===idx);
-    });
-    if(caption){
-      var active=steps.filter(function(li){return Number(li.getAttribute('data-step'))===idx})[0];
-      if(active){
-        var strong=active.querySelector('strong');
-        caption.textContent = strong ? strong.textContent : active.textContent;
-      } else {
-        caption.textContent = base;
+  if(scrub){
+    var nodes=[].slice.call(document.querySelectorAll('.ds-scrub-node'));
+    var stems=[].slice.call(document.querySelectorAll('.ds-scrub-stem'));
+    var steps=[].slice.call(document.querySelectorAll('.ds-figure-steps [data-step]'));
+    var caption=document.querySelector('[data-scrub-caption]');
+    var base=caption?caption.textContent:'';
+    function paint(v){
+      var idx=Number(v)||0;
+      nodes.forEach(function(n){
+        var active=Number(n.getAttribute('data-step'))===idx;
+        n.setAttribute('r', active ? '6' : '4');
+        n.setAttribute('opacity', active ? '1' : '0.45');
+        n.setAttribute('fill', active ? 'var(--surface-bg)' : 'var(--c-accent)');
+      });
+      stems.forEach(function(s){
+        s.setAttribute('opacity', Number(s.getAttribute('data-step'))===idx ? '1' : '0');
+      });
+      steps.forEach(function(li){
+        li.classList.toggle('is-active', Number(li.getAttribute('data-step'))===idx);
+      });
+      if(caption){
+        var active=steps.filter(function(li){return Number(li.getAttribute('data-step'))===idx})[0];
+        if(active){
+          var strong=active.querySelector('strong');
+          caption.textContent = strong ? strong.textContent : active.textContent;
+        } else {
+          caption.textContent = base;
+        }
       }
     }
-  }
-  scrub.addEventListener('input', function(){ paint(scrub.value); });
-  function go(idx){
-    scrub.value=String(idx);
+    scrub.addEventListener('input', function(){ paint(scrub.value); });
+    function go(idx){
+      scrub.value=String(idx);
+      paint(scrub.value);
+    }
+    steps.forEach(function(li){
+      li.setAttribute('role','button');
+      li.setAttribute('tabindex','0');
+      li.style.cursor='pointer';
+      li.addEventListener('click', function(){ go(li.getAttribute('data-step')); });
+      li.addEventListener('keydown', function(e){
+        if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(li.getAttribute('data-step')); }
+      });
+    });
+    nodes.forEach(function(n){
+      n.style.cursor='pointer';
+      n.addEventListener('click', function(){ go(n.getAttribute('data-step')); });
+    });
     paint(scrub.value);
   }
-  steps.forEach(function(li){
-    li.setAttribute('role','button');
-    li.setAttribute('tabindex','0');
-    li.style.cursor='pointer';
-    li.addEventListener('click', function(){ go(li.getAttribute('data-step')); });
-    li.addEventListener('keydown', function(e){
-      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(li.getAttribute('data-step')); }
+
+  [].slice.call(document.querySelectorAll('.ds-flow-track')).forEach(function(root){
+    var cards=[].slice.call(root.querySelectorAll('.ds-flow-card[data-step]'));
+    var caption=root.querySelector('[data-flow-caption]');
+    function activate(i){
+      cards.forEach(function(el, idx){
+        var on=idx===i;
+        el.classList.toggle('is-live', on);
+        el.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      if(caption){
+        var live=cards[i];
+        caption.textContent=live ? (live.getAttribute('data-label') || (live.querySelector('.ds-flow-title')||{}).textContent || '') : '';
+      }
+    }
+    cards.forEach(function(el, i){
+      el.addEventListener('click', function(){ activate(i); });
+    });
+    var initial=cards.findIndex(function(el){ return el.classList.contains('is-live'); });
+    activate(initial >= 0 ? initial : 0);
+  });
+
+  function setAppView(shell, view){
+    if(!shell || !view) return;
+    var nav=[].slice.call(shell.querySelectorAll('[data-app-views] [data-view]'));
+    var filters=[].slice.call(shell.querySelectorAll('[data-app-filters] [data-filter]'));
+    var rows=[].slice.call(shell.querySelectorAll('[data-row-view]'));
+    var label=shell.querySelector('[data-app-view-label]');
+    var empty=shell.querySelector('[data-app-empty]');
+    var activeFilter='all';
+    filters.forEach(function(el){
+      if(el.getAttribute('aria-pressed')==='true') activeFilter=el.getAttribute('data-filter')||'all';
+    });
+    nav.forEach(function(el){
+      var on=el.getAttribute('data-view')===view;
+      el.classList.toggle('is-current', on);
+      if(on) el.setAttribute('aria-current','page');
+      else el.removeAttribute('aria-current');
+    });
+    var visible=0;
+    rows.forEach(function(el){
+      var viewOk=el.getAttribute('data-row-view')===view;
+      var state=(el.getAttribute('data-row-state')||'');
+      var filterOk=activeFilter==='all' || state===activeFilter;
+      var show=viewOk && filterOk;
+      el.hidden=!show;
+      if(show) visible+=1;
+    });
+    if(label) label.textContent=view;
+    if(empty) empty.hidden=visible>0;
+  }
+
+  [].slice.call(document.querySelectorAll('[data-app-shell]')).forEach(function(shell){
+    var nav=[].slice.call(shell.querySelectorAll('[data-app-views] [data-view]'));
+    var filters=[].slice.call(shell.querySelectorAll('[data-app-filters] [data-filter]'));
+    function activeView(){
+      var cur=nav.filter(function(el){ return el.getAttribute('aria-current')==='page'; })[0];
+      return cur ? cur.getAttribute('data-view') : (nav[0] && nav[0].getAttribute('data-view'));
+    }
+    nav.forEach(function(el){
+      el.addEventListener('click', function(){
+        filters.forEach(function(f){ f.classList.remove('is-current'); f.setAttribute('aria-pressed','false'); });
+        setAppView(shell, el.getAttribute('data-view'));
+      });
+    });
+    filters.forEach(function(el){
+      el.addEventListener('click', function(){
+        var on=el.getAttribute('aria-pressed')!=='true';
+        filters.forEach(function(f){
+          var active=on && f===el;
+          f.classList.toggle('is-current', active);
+          f.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+        setAppView(shell, activeView());
+      });
+    });
+    setAppView(shell, activeView());
+  });
+
+  [].slice.call(document.querySelectorAll('[data-rail]')).forEach(function(rail){
+    var chips=[].slice.call(rail.querySelectorAll('[data-rail-step]'));
+    var caption=rail.parentElement && rail.parentElement.querySelector('[data-rail-caption]');
+    chips.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        chips.forEach(function(other){
+          var on=other===chip;
+          other.classList.toggle('is-live', on);
+          other.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        var label=chip.getAttribute('data-rail-label') || '';
+        if(caption) caption.textContent=label;
+        var view=chip.getAttribute('data-view');
+        if(view){
+          var shell=document.querySelector('[data-app-shell]');
+          if(shell){
+            var filters=[].slice.call(shell.querySelectorAll('[data-app-filters] [data-filter]'));
+            filters.forEach(function(f){ f.classList.remove('is-current'); f.setAttribute('aria-pressed','false'); });
+            setAppView(shell, view);
+            var app=document.getElementById('app');
+            if(app && app.scrollIntoView) app.scrollIntoView({ behavior:'smooth', block:'nearest' });
+          }
+        }
+      });
     });
   });
-  nodes.forEach(function(n){
-    n.style.cursor='pointer';
-    n.addEventListener('click', function(){ go(n.getAttribute('data-step')); });
+
+  [].slice.call(document.querySelectorAll('[data-proof-board]')).forEach(function(board){
+    var hits=[].slice.call(board.querySelectorAll('[data-proof]'));
+    hits.forEach(function(el){
+      el.addEventListener('click', function(){
+        hits.forEach(function(other){
+          var on=other===el;
+          other.classList.toggle('is-live', on);
+          other.setAttribute('aria-pressed', on ? 'true' : 'false');
+          var cell=other.closest('.ds-proof-cell');
+          if(cell) cell.classList.toggle('is-lead', on);
+        });
+        var target=el.getAttribute('data-proof');
+        var feature=document.querySelector('[data-feature="'+target+'"], [data-feature-id="'+target+'"]');
+        if(feature && feature.scrollIntoView) feature.scrollIntoView({ behavior:'smooth', block:'nearest' });
+      });
+    });
   });
-  paint(scrub.value);
 })();
 </script>`;
 }

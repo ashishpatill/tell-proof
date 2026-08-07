@@ -562,115 +562,47 @@ export function seriesChart(label: string, periods: string[], seed: string, role
 /**
  * The steps of the argument as connected stages, numbered, with the pivot marked.
  *
- * Band role is the fold figure: each stage must carry title + a real line of matter — empty
- * ordinal shells (title-only in a 420px card stretched to 760px) read as broken UI and invite
- * clicks that never come. Plate role stays compact.
+ * HTML buttons — never dead SVG shells that invite clicks. Selecting a stage updates
+ * aria-pressed + caption via the shared preview script.
  */
 export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "plate"): string {
   const items = steps.slice(0, 4);
   if (items.length < 2) return "";
   const band = role === "band";
-  const W = band ? 1200 : 720;
-  const gap = band ? 40 : 26;
-  const nodeW = (W - 8 - gap * (items.length - 1)) / items.length;
-  const top = band ? 48 : 44;
   const pivot = Math.min(items.length - 1, 1);
-  const parts: string[] = [];
+  void seed;
 
-  // Content-sized cards — never stretch empty airways to fake fold coverage.
-  const nodeH = band ? 248 : 104;
-  const H = band ? top + nodeH + 48 : 216;
-
-  if (!band) {
-    parts.push(text("Sequence", 4, 16, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
-  }
-
-  items.forEach((b, i) => {
-    const x = 4 + i * (nodeW + gap);
-    const lead = i === pivot;
-    parts.push(
-      box(x + 0.5, top + 0.5, nodeW - 1, nodeH - 1, {
-        r: 8,
-        fill: lead ? ACCENT_FIELD : PAPER,
-        stroke: lead ? "var(--c-accent-border)" : LINE,
-      }),
-    );
-
-    if (band) {
-      const nameLines = wrap(b.title, Math.max(9, Math.round(nodeW / 14)), 2);
-      // Title-only figure legends used to starve band cards — always prefer points/body, never
-      // leave a blank airway under the ordinal (reads as a broken non-clickable shell).
+  const cards = items
+    .map((b, i) => {
+      const lead = i === pivot;
       const matter =
         (b.points?.[0] && String(b.points[0])) ||
         (b.body && String(b.body)) ||
         (b.meta && !/^0?\d+$/.test(String(b.meta)) ? String(b.meta) : "") ||
-        "";
-      const bodyLines = matter
-        ? wrap(matter, Math.max(12, Math.round(nodeW / 11)), 3)
-        : wrap(`What ${b.title.toLowerCase()} covers on this path.`, Math.max(12, Math.round(nodeW / 11)), 3);
-      parts.push(
-        text(String(i + 1).padStart(2, "0"), x + 20, top + 36, {
-          size: FT.lead,
-          fill: lead ? ACCENT : "var(--c-border-strong)",
-          weight: 500,
-          mono: true,
-          track: 0.6,
-        }),
-      );
-      nameLines.forEach((ln, j) => {
-        parts.push(text(ln, x + 20, top + 72 + j * 28, { size: FT.small, fill: INK, weight: 600 }));
-      });
-      const bodyTop = top + 72 + nameLines.length * 28 + 16;
-      parts.push(rule(x + 20, bodyTop - 8, x + nodeW - 20, bodyTop - 8));
-      bodyLines.forEach((ln, j) => {
-        parts.push(text(ln, x + 20, bodyTop + 8 + j * 22, { size: FT.micro, fill: BODY }));
-      });
-      if (b.meta && !matter.includes(String(b.meta))) {
-        parts.push(
-          text(clip(b.meta, 28), x + 20, top + nodeH - 36, {
-            size: FT.micro,
-            fill: QUIET,
-            mono: true,
-          }),
-        );
-      }
-      const meterY = top + nodeH - 20;
-      const meterW = nodeW - 40;
-      parts.push(box(x + 20, meterY, meterW, 3, { r: 2, fill: LINE }));
-      parts.push(
-        box(x + 20, meterY, meterW * ((i + 1) / items.length), 3, {
-          r: 2,
-          fill: lead ? ACCENT : "var(--c-border-strong)",
-        }),
-      );
-    } else {
-      parts.push(text(String(i + 1).padStart(2, "0"), x + 16, top + 28, { size: FT.micro, fill: lead ? ACCENT : QUIET, mono: true, track: 0.8 }));
-      parts.push(text(clip(b.title, 20), x + 16, top + 56, { size: FT.small, fill: INK, weight: 600 }));
-      if (b.meta) parts.push(text(clip(b.meta, 24), x + 16, top + 80, { size: FT.micro, fill: QUIET, mono: true }));
-    }
+        `What ${b.title.toLowerCase()} covers on this path.`;
+      const body = band
+        ? `<span class="ds-flow-body">${esc(clip(matter, 110))}</span>`
+        : b.meta && !/^0?\d+$/.test(String(b.meta))
+          ? `<span class="ds-flow-meta">${esc(clip(String(b.meta), 28))}</span>`
+          : "";
+      const label = clip(b.body || matter || b.title, 140);
+      return `<li class="ds-flow-item">
+        <button type="button" class="ds-flow-card${lead ? " is-live" : ""}" data-step="${i}" data-label="${esc(label)}" aria-pressed="${lead ? "true" : "false"}">
+          <span class="ds-flow-num">${String(i + 1).padStart(2, "0")}</span>
+          <span class="ds-flow-rule" aria-hidden="true"></span>
+          <strong class="ds-flow-title">${esc(b.title)}</strong>
+          ${body}
+          <span class="ds-flow-meter" aria-hidden="true"><i style="width:${Math.round(((i + 1) / items.length) * 100)}%"></i></span>
+        </button>
+      </li>`;
+    })
+    .join(`<li class="ds-flow-arrow" aria-hidden="true"><span></span></li>`);
 
-    if (i < items.length - 1) {
-      const cx = x + nodeW;
-      const cy = top + nodeH / 2;
-      parts.push(rule(cx + 5, cy, cx + gap - 11, cy, LINE));
-      parts.push(
-        `<path d="M${round(cx + gap - 13)} ${cy - 3.5} L${round(cx + gap - 7)} ${cy} L${round(cx + gap - 13)} ${cy + 3.5}" fill="none" stroke="${LINE}" stroke-width="1"/>`,
-      );
-    }
-  });
-
-  parts.push(rule(4, H - 22, W - 4, H - 22));
-  parts.push(text(clip(`${items.length} stages`, 20), 4, H - 6, { size: FT.micro, fill: QUIET, mono: true, track: 0.6 }));
-  void seed;
-  return frame(parts.join(""), {
-    width: W,
-    height: H,
-    kind: "flow",
-    inset: band ? BLEED_INSET : 0,
-    // Never stretch band flow — empty ordinal shells + preserveAspectRatio=none = broken cards.
-    stretch: false,
-    label: `Sequence: ${items.map((b) => b.title).join(", ")}`,
-  });
+  const caption = items[pivot]?.body || items[pivot]?.title || "";
+  return `<div class="ds-flow-track" data-figure="flow" data-dense="ink" data-role="${role}" data-instrument="flow" role="group" aria-label="Sequence: ${esc(items.map((b) => b.title).join(", "))}">
+    <ol class="ds-flow-list">${cards}</ol>
+    <p class="ds-flow-caption"><span class="ds-flow-caption-meta">${items.length} stages</span><span data-flow-caption>${esc(clip(caption, 140))}</span></p>
+  </div>`;
 }
 
 /* ------------------------------------------------------------------ */

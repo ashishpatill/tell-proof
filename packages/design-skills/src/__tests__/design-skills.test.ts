@@ -47,6 +47,11 @@ describe("premium-content-custom-web engine", () => {
     expect(previewHtml).toContain("Priority queue");
     expect(previewHtml).toContain("ds-app-side");
     expect(previewHtml).toContain('aria-current="page"');
+    expect(previewHtml).toContain('data-app-shell');
+    expect(previewHtml).toContain('data-rail="priority"');
+    expect(previewHtml).toContain('ds-priority-chip');
+    expect(previewHtml).toMatch(/<button[^>]*class="[^"]*ds-priority-chip/);
+    expect(previewHtml).toMatch(/<button[^>]*class="[^"]*ds-app-nav-item[^"]*"[^>]*data-view=/);
     // Dense product surfaces still need an empty state, not just a happy path.
     expect(previewHtml).toContain("ds-empty");
   });
