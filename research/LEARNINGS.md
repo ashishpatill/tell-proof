@@ -77,6 +77,23 @@ Pattern keys match `tell-recursive-improve`.
   (hidden in SpecimenPreview).
 - **Do not:** Put a product plate *below* a shouty claim and call an archive index shipped.
 
+## 2026-08-07 — `template:display-clamp-invalid`
+
+- **Failure:** Archive override used `font-size: clamp(2.5rem, calc(var(--t-display-size) * 1px), …)`
+  but `--t-display-size` is already a `clamp(...)` → invalid CSS → probe measured a mid-size
+  title (1.6vw / leading 1.36) as display → craft **91.3**.
+- **Fix:** Set archive display with literal `clamp(2.6rem, 3.4vw, 3.2rem)` + `line-height: 1.08`;
+  demote entry `.ds-chapter-index` folios to 11px mono so they cannot steal the display metric.
+- **Do not:** Multiply a token that is already a full `font-size` expression by `1px`.
+
+## 2026-08-07 — `template:ledger-rule-flood`
+
+- **Failure:** Index-ledger drew 3×18 ruled rows (+ random underlines) → rules/screen **9.94**
+  (band ≤4.33). Stack specimen compounded the flood.
+- **Fix:** Sparse 2×5 ledger; specimen figure order prefers horizon over stack for archive.
+  Rules **9.94 → 4.29**; craft **91.3 → 97.6**.
+- **Do not:** Equate “dense index grammar” with hundreds of SVG hairlines per page.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.
