@@ -87,19 +87,18 @@ const SPLIT: Record<AestheticLean, { hero: string; feature: string; wide: string
 };
 
 function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
-  if (siteKind === "corporate-story") return lean === "conversion-sharp" ? "hero-editorial" : "hero-statement";
+  // Corporate always stack-folds (editorial). refined-story previously fell through to
+  // hero-statement → absolute overfigure → claim/SVG label collisions.
+  if (siteKind === "corporate-story") return "hero-editorial";
   if (siteKind === "docs-educational") return "hero-editorial";
   /*
-   * Every SaaS / fintech marketing fold: short claim, then the product surface owns the screen.
-   *
-   * Measured premium-b2b, fintech-product, and art-directed references put roughly 0.7–1.0 of the
-   * first viewport into drawn matter. Spanning is the default; lean changes type and density, not
-   * whether the product appears.
+   * SaaS / fintech / dashboard: hero-statement still means spanning product fold, but render.ts
+   * emits stackfold (opaque claim → figure) — never absolute overfigure over labeled SVG chrome.
+   * Measured corridors still want ~0.7–1.0 fold figure; stackfold preserves that without collisions.
    */
   if (siteKind === "saas-marketing" || siteKind === "fintech-marketing") return "hero-statement";
-  // Studio folds are claim-over-figure — short brand event on a full composed surface.
+  // Studio / consumer: short claim then labeled figure (stackfold in render).
   if (siteKind === "art-directed-studio") return "hero-statement";
-  // Consumer craft leads with the product surface under a short voice claim.
   if (siteKind === "consumer-craft") return "hero-statement";
   // Foundry: hard vertical seam — paper claim | inverse type ladder. Not a stack or overfigure.
   if (siteKind === "editorial-foundry") return "hero-seam";

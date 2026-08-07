@@ -77,9 +77,12 @@ function sectionHead(section: SectionSpec, headingLevel: 2 | 3 = 2, spread = fal
 
 function actions(section: SectionSpec, variant: "hero" | "band" = "hero"): string {
   if (!section.ctaLabel) return "";
+  // Prefer #features (always on marketing skeletons). Mechanism pages that expose a figure section
+  // use nav "How it works" → #figure; secondary still lands on a real id.
+  const secondary = "#features";
   return `<div class="ds-actions${variant === "hero" ? " ds-hero-actions" : ""}">
     <a class="ds-btn ds-btn-primary" href="#cta">${esc(section.ctaLabel)}</a>
-    ${section.secondaryLabel ? `<a class="ds-btn ds-btn-secondary" href="#features">${esc(section.secondaryLabel)}</a>` : ""}
+    ${section.secondaryLabel ? `<a class="ds-btn ds-btn-secondary" href="${secondary}">${esc(section.secondaryLabel)}</a>` : ""}
     ${section.ctaNote ? `<span class="ds-cta-note">${esc(section.ctaNote)}</span>` : ""}
   </div>`;
 }
@@ -219,13 +222,18 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
 
   if (section.layout === "hero-statement") {
     /*
-     * SaaS/fintech: figure first, claim overlaid on a soft gradient.
-     * Studio/consumer: *stack fold* — opaque claim band in document flow, then the labeled
-     * figure. Never absolutely park stage labels under readable type (Fieldmark collision).
-     * Plumbing matches opaque sticky nav: underlayer ink must not share the type's box.
+     * Stack fold is the default for labeled product figures (saas/fintech/dashboard/studio/
+     * consumer). Absolute overfigure parked display + CTAs on top of SVG chrome (Fieldmark-class
+     * collision) — 100k+ px of measured overlap on Northstar alone. Opaque claim band in document
+     * flow, then the figure. Soft-gradient overclaim is reserved only when the underlayer has no
+     * competing ink (rare).
      */
     const solidClaim =
-      spec.brief.siteKind === "art-directed-studio" || spec.brief.siteKind === "consumer-craft";
+      spec.brief.siteKind === "art-directed-studio" ||
+      spec.brief.siteKind === "consumer-craft" ||
+      spec.brief.siteKind === "saas-marketing" ||
+      spec.brief.siteKind === "fintech-marketing" ||
+      spec.brief.siteKind === "dashboard-webapp";
     if (solidClaim) {
       return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-stackfold ds-hero-solidclaim" data-surface="${section.surface}" data-section="${esc(section.id)}">
       <div class="ds-hero-overclaim ds-hero-claimband"><div class="ds-wrap-wide">${copy}</div></div>
@@ -554,6 +562,11 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
      * (Fieldmark-class collision). Educational figures carry readable stage titles;
      * they must not share the type box.
      */
+    const stepTarget = spec.sections.some((s) => s.id === "figure")
+      ? "#figure"
+      : spec.sections.some((s) => s.id === "story")
+        ? "#story"
+        : "#features";
     return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-stackfold ds-hero-solidclaim" data-surface="${section.surface}" data-section="${esc(section.id)}">
       <div class="ds-hero-overclaim ds-hero-claimband">
         <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "8fr 4fr"))}">
@@ -561,7 +574,10 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
           <aside class="ds-hero-aside">
             <p class="ds-eyebrow">In this page</p>
             <ol class="ds-figure-steps">${section.aside
-              .map((b, i) => `<li${i === 0 ? ' class="is-active"' : ""}>${esc(b.title)}</li>`)
+              .map(
+                (b, i) =>
+                  `<li${i === 0 ? ' class="is-active"' : ""}><a href="${stepTarget}" data-step="${i}">${esc(b.title)}</a></li>`,
+              )
               .join("")}</ol>
           </aside>
         </div>
@@ -1335,7 +1351,13 @@ function renderPlans(section: SectionSpec): string {
               <p class="ds-plan-meta">${esc(b.meta ?? "")}</p>
               <p class="ds-small">${esc(b.body)}</p>
               <ul class="ds-card-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
-              ${b.emphasis === "lead" && section.ctaLabel ? `<a class="ds-btn ds-btn-primary" href="#cta">${esc(section.ctaLabel)}</a>` : ""}
+              ${
+                section.ctaLabel
+                  ? `<a class="ds-btn ${b.emphasis === "lead" ? "ds-btn-primary" : "ds-btn-secondary"}" href="#cta">${esc(
+                      b.emphasis === "lead" ? section.ctaLabel : "Compare plans",
+                    )}</a>`
+                  : ""
+              }
             </li>`,
           )
           .join("")}
@@ -1460,8 +1482,57 @@ function renderCtaBand(section: SectionSpec, figures: FigurePlan, spec?: DesignS
  * The stub version here was three columns of three links, which made the last screen of every
  * generated page weigh about the same as the middle of it.
  */
-function renderFooter(section: SectionSpec): string {
+/**
+ * Footer columns must not look like site links that only jump to #top.
+ * Map evaluate/nav labels to real section ids; company/trust labels stay non-interactive text.
+ */
+function footerPointHref(label: string, knownIds: Set<string>, columnTitle: string): string | null {
+  const key = label.trim().toLowerCase();
+  const companyTrust = new Set([
+    "about",
+    "customers",
+    "careers",
+    "press",
+    "contact",
+    "security",
+    "availability",
+    "data handling",
+    "subprocessors",
+    "status",
+  ]);
+  if (companyTrust.has(key)) return null;
+
+  const prefer = (id: string, fallback?: string): string | null => {
+    if (knownIds.has(id)) return `#${id}`;
+    if (fallback && knownIds.has(fallback)) return `#${fallback}`;
+    return null;
+  };
+
+  const map: Record<string, () => string | null> = {
+    "how it works": () => prefer("figure", "features"),
+    "what is included": () => prefer("compare", "features"),
+    questions: () => prefer("faq", "cta"),
+    "security review": () => prefer("proof", "cta"),
+    "talk to us": () => prefer("cta"),
+    sequence: () => prefer("figure", "story"),
+    "why it holds": () => prefer("proof"),
+    workspace: () => prefer("app"),
+    plans: () => prefer("pricing"),
+    included: () => prefer("compare"),
+  };
+  if (map[key]) return map[key]!();
+
+  // Capabilities column: feature names → catalogue
+  if (/^capabilities$/i.test(columnTitle)) return prefer("features");
+  return null;
+}
+
+function renderFooter(section: SectionSpec, spec: DesignSpec): string {
   const year = 2026;
+  const knownIds = new Set(spec.sections.map((s) => s.id));
+  // Closing band always exposes id="cta" even when section.id differs.
+  knownIds.add("cta");
+  knownIds.add("top");
   return `<footer class="ds-footer" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide">
       <div class="ds-footer-grid">
@@ -1474,7 +1545,14 @@ function renderFooter(section: SectionSpec): string {
           .map(
             (b) => `<div class="ds-footer-col">
               <h4>${esc(b.title)}</h4>
-              ${b.points.map((p) => `<a href="#top">${esc(p)}</a>`).join("")}
+              ${b.points
+                .map((p) => {
+                  const href = footerPointHref(p, knownIds, b.title);
+                  return href
+                    ? `<a href="${href}">${esc(p)}</a>`
+                    : `<span class="ds-footer-item">${esc(p)}</span>`;
+                })
+                .join("")}
             </div>`,
           )
           .join("")}
@@ -1507,7 +1585,7 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
     : section.body
       ? `<p class="ds-lede">${esc(section.body)} Each row is a live decision for ${esc(spec.brief.audience)} — state, detail, and age — so this surface stays the source of truth rather than a report you refresh.</p>`
       : "";
-  return `<section class="ds-section ds-app-band" data-surface="${section.surface}" data-section="${esc(section.id)}">
+  return `<section id="${esc(section.id)}" class="ds-section ds-app-band" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${head}
       <div class="ds-app">
@@ -1519,19 +1597,19 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
         <div class="ds-app-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "260px 1fr"))}">
           <aside class="ds-app-side" aria-label="Workspace navigation">
             <p class="ds-eyebrow">Views</p>
-            <ul class="ds-app-nav">
+            <ul class="ds-app-nav" role="list">
               ${section.aside
                 .map(
                   (b, i) =>
-                    `<li><a href="#${esc(section.id)}"${i === 0 ? ' aria-current="page"' : ""}>${esc(b.title)}</a></li>`,
+                    `<li><span class="ds-app-nav-item"${i === 0 ? ' aria-current="page"' : ""}>${esc(b.title)}</span></li>`,
                 )
                 .join("")}
             </ul>
             <p class="ds-eyebrow">Filters</p>
-            <ul class="ds-app-nav">
-              <li><a href="#${esc(section.id)}">Needs a human</a></li>
-              <li><a href="#${esc(section.id)}">Assigned to me</a></li>
-              <li><a href="#${esc(section.id)}">Resolved today</a></li>
+            <ul class="ds-app-nav" role="list">
+              <li><span class="ds-app-nav-item">Needs a human</span></li>
+              <li><span class="ds-app-nav-item">Assigned to me</span></li>
+              <li><span class="ds-app-nav-item">Resolved today</span></li>
             </ul>
           </aside>
           <div class="ds-app-main">
@@ -1643,7 +1721,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "cta-band":
       return wrapped(renderCtaBand(section, figures, spec));
     case "footer-columns":
-      return renderFooter(section);
+      return renderFooter(section, spec);
     case "app-shell":
       return wrapped(renderAppShell(section, spec, figures));
     default:

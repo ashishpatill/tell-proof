@@ -120,6 +120,36 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Educational offerings use stack fold + scrub figure — never absolute overfigure (CTA/label collisions).",
     ),
     check(
+      "kind-marketing-stackfold",
+      !(
+        spec.brief.siteKind === "saas-marketing" ||
+        spec.brief.siteKind === "fintech-marketing" ||
+        spec.brief.siteKind === "dashboard-webapp" ||
+        spec.brief.siteKind === "corporate-story"
+      ) || (
+        /ds-hero-stackfold/.test(html) &&
+        /ds-hero-claimband/.test(html) &&
+        !/class="[^"]*ds-hero-overfigure/.test(html)
+      ),
+      "SaaS/fintech/dashboard/corporate use stack fold + solid claim — never absolute overfigure over labeled product SVG.",
+    ),
+    check(
+      "kind-app-id",
+      spec.brief.siteKind !== "dashboard-webapp" || /id="app"/.test(html),
+      "Dashboard app shell exposes id=app so Workspace nav has a real scroll target.",
+    ),
+    check(
+      "kind-app-sidebar-static",
+      spec.brief.siteKind !== "dashboard-webapp" ||
+        (!/\.ds-app-nav a href="#app"/.test(html) && /ds-app-nav-item/.test(html)),
+      "Dashboard sidebar views/filters are static labels — not faux links that all scroll to #app.",
+    ),
+    check(
+      "no-footer-top-spam",
+      !/<footer[\s\S]*?<a href="#top">/.test(html),
+      "Footer links must target real sections (or be plain text) — never mass-link to #top. Brand wordmark → #top is fine.",
+    ),
+    check(
       "kind-studio",
       spec.brief.siteKind !== "art-directed-studio"
         || (

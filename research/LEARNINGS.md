@@ -262,3 +262,20 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   demote the headline.
 
 
+
+## 2026-08-07 — `template:overfigure-claim-collision` + `template:dead-affordance`
+
+- **Failure (human):** First five offerings (saas/dashboard/corporate/educational/fintech) shipped with
+  claim text painted over labeled SVG chrome (100k+ px measured overlap on Northstar), footer links
+  that all scrolled to `#top`, dashboard `#app` missing, pricing cards that hovered like links
+  without CTAs, and three products all named Northstar.
+- **Root cause:** `ds-hero-overfigure` absolute claim over `interfaceBand`/`flowDiagram`/`horizonPlot`
+  labels; footer `href="#top"` spam; app shell without `id`; `.ds-plan` in interactive selectors;
+  educational negative-margin pull-up recreated overfigure collisions despite stackfold.
+- **Fix:** Stackfold + solid claim for saas/fintech/dashboard/corporate; zero educational plate
+  pull-up; footer maps to real section ids or `<span>`; `id="app"` + static sidebar labels;
+  plan CTAs on every lane; remove plan hover affordance; distinct Queueboard/Lattice names;
+  basics gates `kind-marketing-stackfold`, `kind-app-id`, `no-footer-top-spam`.
+- **Do not:** Treat critique score as an eye pass. Absolute overfigure over labeled product SVG is
+  never "premium fold figure." Fake interactive chrome (hover without action, links to `#top`)
+  fails the human test even when anchors "work."

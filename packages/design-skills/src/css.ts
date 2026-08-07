@@ -113,11 +113,11 @@ function motionCss(motion: MotionLevel): string {
   }
 
   const interactive = `
-a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-plan,.ds-tab{
+a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-tab{
   transition:color var(--m-base) var(--m-ease),background-color var(--m-base) var(--m-ease),border-color var(--m-base) var(--m-ease),transform var(--m-fast) var(--m-ease),opacity var(--m-base) var(--m-ease);
 }
 .ds-btn-primary:hover{background:var(--c-accent-hover)}
-.ds-card-link:hover,.ds-plan:hover{border-color:var(--c-border-strong)}
+.ds-card-link:hover{border-color:var(--c-border-strong)}
 .ds-row-link:hover{background:var(--c-paper-raised)}
 `;
 
@@ -134,7 +134,7 @@ a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-plan,.ds-tab{
   return `${interactive}
 .ds-reveal{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){
-  a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-plan,.ds-tab{transition-duration:0s}
+  a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-tab{transition-duration:0s}
 }
 `;
 }
@@ -188,7 +188,8 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-lean="system-crafted"] .ds-index-row:hover{background:var(--c-paper-raised)}
 [data-lean="system-crafted"] .ds-app-top{border-bottom-color:var(--c-accent-border);box-shadow:inset 0 -2px 0 var(--c-accent)}
 [data-lean="system-crafted"] .ds-stat:first-child{border-color:var(--c-accent-border);background:var(--c-accent-surface)}
-[data-lean="system-crafted"] .ds-app-nav a[aria-current="page"]{box-shadow:inset 3px 0 0 var(--c-accent)}
+[data-lean="system-crafted"] .ds-app-nav a[aria-current="page"],
+[data-lean="system-crafted"] .ds-app-nav-item[aria-current="page"]{box-shadow:inset 3px 0 0 var(--c-accent)}
 [data-mood="dark-premium"] .ds-metric:first-child{border-color:var(--c-accent-border);background:var(--accent-soft)}
 [data-mood="dark-premium"] .ds-brand-mark{color:var(--c-accent)}
 [data-mood="dark-premium"] .ds-nav{border-bottom:2px solid var(--c-accent)}
@@ -230,7 +231,38 @@ function siteKindCss(): string {
 [data-sitekind="fintech-marketing"] .ds-metrics-band{box-shadow:inset 0 3px 0 var(--c-accent)}
 [data-sitekind="fintech-marketing"] .ds-metric{min-height:10.5rem}
 [data-sitekind="fintech-marketing"] .ds-proof{padding-block:var(--s-2xl) calc(var(--section-y) * 0.85)}
-[data-sitekind="fintech-marketing"] .ds-hero-overfigure .ds-plate-bleed .ds-fig{min-height:min(94vh,940px)}
+/* Stackfold product surface — was overfigure 94vh that collided with claim type. */
+[data-sitekind="fintech-marketing"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(82vh,860px)}
+[data-sitekind="fintech-marketing"] .ds-hero-stackfold .ds-hero-claimband{padding:var(--s-lg) 0 var(--s-md)}
+[data-sitekind="fintech-marketing"] .ds-hero-stackfold .ds-display{max-width:15ch}
+
+/* SaaS conversion — stackfold product fold; conversion-sharp accent spine; distinct from fintech inverse. */
+[data-sitekind="saas-marketing"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(80vh,840px)}
+[data-sitekind="saas-marketing"] .ds-hero-stackfold .ds-hero-claimband{
+  padding:var(--s-lg) 0 var(--s-md);
+  border-bottom:1px solid color-mix(in srgb,var(--c-accent) 28%,var(--surface-border));
+}
+[data-sitekind="saas-marketing"] .ds-hero-stackfold .ds-display{max-width:16ch;line-height:1.05}
+[data-sitekind="saas-marketing"] .ds-metrics-band{box-shadow:inset 0 2px 0 var(--c-accent)}
+[data-sitekind="saas-marketing"] .ds-proof-board{gap:0}
+[data-sitekind="saas-marketing"] .ds-plan{border-radius:var(--r-md)}
+
+/* Corporate story — editorial stackfold (serif claim), horizon figure below — no overfigure wash. */
+[data-sitekind="corporate-story"] .ds-hero-stackfold .ds-hero-claimband{
+  padding:var(--s-xl) 0 var(--s-lg);
+  background:var(--c-paper);
+}
+[data-sitekind="corporate-story"] .ds-hero-stackfold .ds-display{
+  font-size:clamp(2.4rem,4.2vw,3.75rem);max-width:14ch;line-height:1.08;
+}
+[data-sitekind="corporate-story"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(70vh,720px)}
+[data-sitekind="corporate-story"] .ds-metrics-band{background:var(--c-paper-raised)}
+[data-sitekind="corporate-story"] .ds-hero-aside{border-left:1px solid var(--surface-border);padding-left:var(--s-md)}
+
+/* Dashboard — stackfold claim then flow figure; shell owns mid-page density. */
+[data-sitekind="dashboard-webapp"] .ds-hero-stackfold .ds-hero-claimband{padding:var(--s-lg) 0 var(--s-md)}
+[data-sitekind="dashboard-webapp"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(76vh,780px)}
+[data-sitekind="dashboard-webapp"] .ds-hero-stackfold .ds-display{max-width:12ch}
 /* Studio — stack fold (claim then figure); cool stock, not cream wash. */
 [data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(88vh,900px)}
 /* Compact claim so labeled figure still enters the fold (drawn-matter band). */
@@ -846,12 +878,13 @@ ${surfaceRules()}
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-cta-note{display:none}
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-aside{display:none}
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband .ds-split{grid-template-columns:1fr}
+/* Stackfold stays in document flow — never pull labeled stages under the claim (overlap regression). */
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed{
-  margin-top:calc(var(--s-2xl) * -1.35);margin-bottom:calc(var(--s-lg) * -1);
+  margin-top:0;margin-bottom:0;
   position:relative;z-index:1;
 }
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{
-  min-height:min(78vh,820px);height:min(78vh,820px);
+  min-height:min(72vh,760px);height:min(72vh,760px);
 }
 [data-sitekind="docs-educational"] .ds-hero{min-height:min(100vh,1040px);padding-block:0.5rem 0;align-content:start}
 [data-sitekind="docs-educational"] .ds-hero-aside{
@@ -2162,6 +2195,7 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-footer-col h4{font-size:var(--t-micro-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--c-ink-tertiary);font-weight:600}
 .ds-footer-col a{color:var(--c-ink-body)}
 .ds-footer-col a:hover{color:var(--c-ink)}
+.ds-footer-item{color:var(--c-ink-body);display:block}
 .ds-footer-base{display:flex;justify-content:flex-start;flex-wrap:wrap;gap:var(--s-lg);margin-top:var(--s-xl);padding-top:var(--s-sm);border-top:1px solid var(--c-border);font-size:var(--t-caption-size);color:var(--c-ink-tertiary)}
 
 /* Figure */
@@ -2174,6 +2208,9 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-figure-steps{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-2xs)}
 .ds-figure-steps li{border-radius:var(--r-xs);font-size:var(--t-bodySmall-size);color:var(--surface-body);padding-left:var(--s-md);border-left:1px solid var(--surface-border)}
 .ds-figure-steps li.is-active{color:var(--surface-ink);border-left-color:var(--c-accent)}
+.ds-figure-steps a{color:inherit;text-decoration:none}
+.ds-figure-steps a:hover{color:var(--surface-ink)}
+.ds-figure-steps a:focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
 
 /* App shell */
 .ds-app{display:grid;gap:0;border:1px solid var(--c-border);border-radius:var(--r-xl);overflow:hidden;background:var(--c-paper)}
@@ -2185,8 +2222,8 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-app-grid{display:grid;align-items:stretch;min-height:26rem}
 .ds-app-side{border-right:1px solid var(--c-border);background:var(--c-paper-raised);padding:var(--s-md) var(--s-sm);display:grid;gap:var(--s-md);align-content:start}
 .ds-app-nav{display:grid;gap:2px;list-style:none;margin:0;padding:0}
-.ds-app-nav a{display:block;padding:var(--s-2xs) var(--s-xs);border-radius:var(--r-sm);font-size:var(--t-bodySmall-size);color:var(--c-ink-body)}
-.ds-app-nav a[aria-current="page"]{background:var(--c-accent-surface);color:var(--c-ink);font-weight:600}
+.ds-app-nav a,.ds-app-nav-item{display:block;padding:var(--s-2xs) var(--s-xs);border-radius:var(--r-sm);font-size:var(--t-bodySmall-size);color:var(--c-ink-body)}
+.ds-app-nav a[aria-current="page"],.ds-app-nav-item[aria-current="page"]{background:var(--c-accent-surface);color:var(--c-ink);font-weight:600}
 .ds-app-main{padding:var(--s-lg) var(--s-md);display:grid;gap:var(--s-lg);align-content:start}
 .ds-app-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:var(--s-sm)}
 .ds-stat{border:1px solid var(--c-border);border-radius:var(--r-md);padding:var(--s-sm);display:grid;gap:var(--s-3xs)}
