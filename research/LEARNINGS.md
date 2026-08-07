@@ -107,6 +107,16 @@ Pattern keys match `tell-recursive-improve`.
 - **Do not:** Recover band-variation with empty height, or leave a prose-heavy stack drawing in the
   quiet valley before a dense app shell.
 
+## 2026-08-07 — `template:press-claim-starves-forme`
+
+- **Failure class:** Same as folio-claim-starves-plate / chrono-claim-starves-lattice /
+  index-must-own-fold — press-atelier first fold put full claim + dual CTAs above the
+  press sheet, so the unique imposition grid only peeked at the bottom of the viewport.
+- **Fix:** Compact claim (hide eyebrow, quiet display clamp, hang `.ds-press-field` under a
+  soft paper fade), raise press-sheet min-height so SIG panels enter the first desktop
+  viewport. Consolidate mono chrome to 11px so type-steps stay ≤14.
+- **Do not:** Treat a unique forme as shipped if the fold shot is only type + sticky rail.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.

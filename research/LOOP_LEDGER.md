@@ -414,3 +414,39 @@ buckets, never names, hosts, or URLs.
   rail + ruled ledger + entry folios are craft theme packs will not invent from taste controls.
 - **Next weakest:** archive ink-variation; docs rule density; deepen register uniqueness
   (section tabs, stamp marks) without score-gaming.
+
+## Loop 20 — twelfth offering: press atelier (RSI)
+
+- **Goal:** fill the brand-agency / brand-product-agency / editorial-longform demand gap with a
+  template structurally hard to replicate from a theme pack — registration-framed fold, sticky
+  signature rail, press-sheet imposition figure, gather essay, Pressroom close — and dogfood the
+  engine until critique + eye pass. Peer builder study (local plumbing + template eye only) showed
+  cream/terracotta magazine posters, Inter-led landings, and document runbooks — none invent a
+  pressroom forme grammar.
+- **Failure named (champion):** eleven offerings still lacked a print-production / forme grammar;
+  nothing forced registration marks, densitometer strips, Sig A–H rails, or imposition grids.
+  Theme packs restyle SaaS/editorial shells; they do not invent press sheets.
+- **Goal prompt:** Raise fold ownership so the press sheet is the first craft beat; keep
+  display/type-steps in band; accept ink-variation above ceiling for a forme-owned fold (same
+  class as archive ledger).
+- **Loop prompt (iteration):** Fold shot claimed-starved → compact + hang → type-steps 16→14 →
+  display 3.1→3.4vw → re-critique.
+- **Challenger:** new `press-atelier` siteKind + `press` template (`Forme Desk`) with craft prior
+  kinds do not emit:
+  - `hero-press` — registration/crop marks + compact claim + spanning press sheet
+  - sticky `ds-sig-rail` — Sig A–H
+  - `press-sheet` figure (imposition grid + densitometer; mono ≤11px)
+  - `story-gather` — fold ticks + outer plate index
+  - paper Pressroom close with plate numbers — no pricing/metrics/inverse
+- **Score:** matrix **99.1**; press-atelier **96.3 → 97.6** after fold hang + type consolidation;
+  holdout **98.4** (gap 0.6 — generalises). No regression on locked SaaS/studio/consumer/foundry/
+  dossier/observatory/archive.
+- **Closed:** `template:press-claim-starves-forme`; basics gate `kind-press`; showcase
+  `/showcase/press` featured on gallery cinema; beat discovery for press-sheet/gather.
+- **Side effects:** press ink-variation above corridor (1.28 vs 0.96) — accepted for a forme-owned
+  fold; do not empty the press sheet to game the band.
+- **Qualitative:** fold reads as a pressroom forme, not a recolored archive/dossier page.
+  Registration marks + signature rail + densitometer + gather ticks are craft theme packs will not
+  invent from taste controls.
+- **Next weakest:** press ink-variation; docs rule density; deepen Pressroom uniqueness
+  (ink patch legends, forme custody marks) without score-gaming.

@@ -92,7 +92,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     check(
       "asymmetric-or-statement-fold",
       (() => {
-        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam|ds-hero-folio|ds-hero-chrono|ds-hero-register/.test(html)) return true;
+        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam|ds-hero-folio|ds-hero-chrono|ds-hero-register|ds-hero-press/.test(html)) return true;
         const splits = html.match(/grid-template-columns:[^";]+/g) ?? [];
         return splits.some((s) => {
           const fr = Array.from(s.matchAll(/(\d+(?:\.\d+)?)fr/g)).map((m) => Number(m[1]));
@@ -205,6 +205,23 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
       "Archive offerings use register + alpha rail + index ledger + entry essay + Registry — no pricing, no metrics theatre, zero inverse bands.",
+    ),
+    check(
+      "kind-press",
+      spec.brief.siteKind !== "press-atelier"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && !spec.sections.some((s) => s.kind === "metrics")
+          && /ds-hero-press/.test(html)
+          && /ds-press-masthead/.test(html)
+          && /ds-sig-rail/.test(html)
+          && /data-figure="press-sheet"/.test(html)
+          && /ds-gather/.test(html)
+          && /Pressroom/.test(html)
+          && /ds-bleed-rule/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length === 0
+        ),
+      "Press offerings use press fold + signature rail + press sheet + gather essay + Pressroom — no pricing, no metrics theatre, zero inverse bands.",
     ),
 check(
       "solid-claim-when-labeled-fold",
