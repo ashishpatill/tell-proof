@@ -323,5 +323,6 @@ Done when Wave DoD is met and tests stay green.
 ## 7. Status log
 
 ```
+[2026-08-07] Wave C0 partial: tell_voice MCP + CLI; report id on diagnose for redesign chain. Intent resolver still open.
 [2026-08-07] Plan authored. Core loop strong; gaps: voice MCP, intent resolver, run staging, preview edit contract.
 ```

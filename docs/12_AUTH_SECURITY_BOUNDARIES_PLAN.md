@@ -219,5 +219,6 @@ Done when Wave DoD is met and docs/.env.example updated.
 ## 9. Status log
 
 ```
+[2026-08-07] Wave A0 shipped: TELL_CAPTURE_API_TOKEN + assertCaptureApiAuthorized on /api/diagnose; remote-api forwards token.
 [2026-08-07] Plan authored. Baseline: storageState harness + setup token; capture remote URL lacks API token.
 ```
