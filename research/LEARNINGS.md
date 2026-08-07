@@ -138,6 +138,16 @@ Pattern keys match `tell-recursive-improve`.
   block, full-bleed iframe). Verify with getComputedStyle grid columns before claiming the fold.
 - **Do not:** Style shared classnames across gallery and proof without a parent scope.
 
+## 2026-08-07 — `engine:encode-empty-void-gates`
+
+- **Failure class:** Press densify + showcase craft-first were one-off patches; the next cell-grid
+  figure could ship empty stroked voids and the next cinema could reopen on specimen.
+- **Fix (engine):** Export `miniPageMatter` / `densitometerStrip` / `FIG_MONO_PX`; clamp mono in
+  `text()`; `data-dense="ink"` on densified frames; `assertBasics` gates `fig-mono-floor`,
+  `craft-figure-dense`, `fold-owns-craft`; shared fold-owns secondary-CTA hide across dossier /
+  chrono / archive / press; extract `specimenBeats` with craft-first cinema + unit tests.
+- **Do not:** Patch one siteKind's empty cells without leaving a reusable helper + basics gate.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.

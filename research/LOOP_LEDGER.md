@@ -466,3 +466,17 @@ buckets, never names, hosts, or URLs.
 - **Qualitative:** gallery fold shows Tell Specimens mast beside a filled press sheet on FORME
   reel; proof iframe is full-bleed again; SIG cells read as pages, not empty paper.
 - **Next weakest:** press ink-variation; deepen gather/Pressroom without starving the forme.
+
+## Loop 22 — encode empty-void + craft-first into the engine
+
+- **Goal:** Improve the design engine itself — reusable densify helpers, basics gates, craft-first
+  cinema policy — so the next siteKind cannot regress into empty SIG voids / specimen-first reels.
+- **Challenger:** `miniPageMatter` + `densitometerStrip` + `FIG_MONO_PX` clamp; `data-dense="ink"`;
+  assertBasics `fig-mono-floor` / `craft-figure-dense` / `fold-owns-craft`; shared fold-owns CTA
+  hide; `specimenBeats` module + tests.
+- **Score:** matrix **99.1**; press **97.6**; holdout gap **0.1**. No regression.
+- **Closed:** `engine:encode-empty-void-gates`.
+- **Side effects:** none measured; gates are structural.
+- **Qualitative:** engine now refuses empty press sheets and sub-11 SVG mono at preflight.
+- **Next weakest:** press ink-variation; deepen densify helpers into other cell-grid figures when
+  a new kind needs them.
