@@ -25,7 +25,8 @@ Capture rendered UI → deterministic fingerprint → detect tells + drift → t
 | `packages/taste` | Gemini taste + deterministic/Gemini voice direction parsing |
 | `packages/redesign` | Contrast-grounded reconciliation + diff generation |
 | `packages/mcp` | Cursor MCP server |
-| `apps/web` | Priya-facing UI + `/api/diagnose`, `/api/setup/*`, `/api/voice`, `/api/redesign` |
+| `packages/cli` | `tell` CLI — diagnose, voice, mcp install, doctor, install-info |
+| `apps/web` | Priya-facing UI + `/api/diagnose`, `/api/setup/*`, `/api/voice`, `/api/redesign`, `/api/install-info` |
 | `apps/web/src/lib/cursor-redesign.ts` | Cursor-SDK-backed patch drafting with deterministic fallback |
 | `apps/web/src/lib/repo-runner.ts` | GitHub clone → install → reachable dev server (local only) |
 | `apps/web/src/lib/discover-routes.ts` | Multi-page route discovery from snapshot HTML |

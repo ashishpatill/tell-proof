@@ -166,11 +166,12 @@ or never-auto-apply. Full checklists: `docs/11`, `docs/12`, `docs/13`.
 
 ### Checklist (DoD) — open
 
-- [ ] Wave 0: MCP tool docs ≡ code (8 tools) + schema enum + CI drift guard
-- [ ] Wave 1: `GET /api/install-info` + `InstallInfo` zod + print-config
-- [ ] Wave 2: `tell mcp install` for Cursor (project json + deeplink); other agents print-config
-- [ ] Wave A0: `TELL_CAPTURE_API_TOKEN` when capture host is non-loopback
-- [ ] Wave C0: `tell_voice` MCP + intent resolver sketch
+- [x] Wave 0: MCP tool docs ≡ code (10 tools) + schema enum + CI drift guard
+- [x] Wave 1: `GET /api/install-info` + `InstallInfo` zod + print-config
+- [x] Wave 2: `tell mcp install` for Cursor (project json + deeplink); other agents print-config
+- [x] Wave A0: `TELL_CAPTURE_API_TOKEN` when capture host requires auth
+- [x] Wave C0: `tell_voice` MCP + report `id` persistence for redesign chain
+- [ ] Stretch: intent resolver MCP tool + Settings Connect Agent UI panel
 
 ### Goal prompt (Phase 8)
 
@@ -210,6 +211,7 @@ no "Next" blockers for matrix/auth.
 ## Status log
 
 ```
+[2026-08-07] Phase 8 Waves 0–2/A0/C0 implemented — install-info, Cursor mcp install, tell CLI, tell_voice, capture token, MCP drift guard (10 tools).
 [2026-08-07] Opened Phase 8 — agent platform distribution plans (docs/11–13) + plumbing reference memory (gitignored local pointer).
 [2026-08-03] Phase 7 closed — craft floor in render/sections, Studio viewport+copy HTML, educational scrub figure, e2e craft assertions green.
 [2026-08-03] Opened Phase 7 — premium design craft (hero/atmosphere, lean layouts, dash shell, no filler, edu figure, Studio craft, e2e).

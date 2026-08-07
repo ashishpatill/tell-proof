@@ -363,5 +363,6 @@ web typecheck stay green.
 ## 10. Status log
 
 ```
+[2026-08-07] Waves 0–2 + voice + install_info tools shipped in code (see PLAN Phase 8).
 [2026-08-07] Plan authored from peer plumbing study (anonymised). Baseline: stdio MCP 8 tools, Cursor-only install, no install-info/CLI/deeplink.
 ```

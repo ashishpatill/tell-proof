@@ -30,6 +30,10 @@ research/raw/
 # anonymised in docs/11–13; never commit this file.
 research/plumbing-reference.local.json
 
+# Local MCP install backups
+.cursor/mcp.json.bak
+**/.cursor/mcp.json.bak
+
 # Internal planning notes (kept local, not shipped)
 docs/03_CLAUDE_DESIGN_BRIEF.md
 docs/04_CLAUDE_PROJECT.md

@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+import { randomUUID } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -13,21 +13,39 @@ import {
   verifyProofPatch,
   revertProofPatch,
 } from "@tell/core";
-import { CapturePayload, TellReport } from "@tell/schema";
+import { CapturePayload, TellReport, buildInstallInfo, MCP_TOOL_NAMES } from "@tell/schema";
 import { OfflineRedesignGenerator, type SourceFile } from "@tell/redesign";
-import { classifyWithTaste, parseDirection } from "@tell/taste";
+import { classifyWithTaste, parseDirection, parseDirectionPlan, parseDirectionWithGemini } from "@tell/taste";
 import { DesignBrief, designFromFeatures } from "@tell/design-skills";
 import type { Finding, TasteVerdict } from "@tell/schema";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
+import { REGISTERED_MCP_TOOLS } from "./registered-tools.js";
+
+if (REGISTERED_MCP_TOOLS.join("\0") !== MCP_TOOL_NAMES.join("\0")) {
+  throw new Error("MCP registered tools drifted from @tell/schema MCP_TOOL_NAMES");
+}
 
 const server = new McpServer({
   name: "tell",
   version: "0.1.0",
 });
 
+const reportById = new Map<string, TellReport>();
 let lastReport: TellReport | undefined;
 let lastProposal: Awaited<ReturnType<OfflineRedesignGenerator["propose"]>> | undefined;
+
+function rememberReport(report: TellReport): TellReport {
+  const withId = TellReport.parse({ ...report, id: report.id ?? randomUUID() });
+  reportById.set(withId.id!, withId);
+  lastReport = withId;
+  return withId;
+}
+
+function resolveReport(reportId?: string): TellReport | undefined {
+  if (reportId) return reportById.get(reportId) ?? lastReport;
+  return lastReport;
+}
 
 server.tool(
   "tell_capture",
@@ -35,49 +53,53 @@ server.tool(
   { url: z.string().url() },
   async ({ url }) => {
     const capture = await captureUrl(url);
-    return asJson(capture);
+    return asJson(CapturePayload.parse(capture));
   },
 );
 
 server.tool(
   "tell_diagnose",
-  "Diagnose genericness tells and consistency drift from a URL or committed report artifact.",
+  "Diagnose genericness tells and consistency drift from a URL or committed report artifact. Returns a TellReport with id for redesign/apply chaining.",
   { url: z.string().url().optional(), reportPath: z.string().optional() },
   async ({ url, reportPath }) => {
     if (reportPath) {
       const raw = await readFile(reportPath, "utf8");
-      lastReport = TellReport.parse(JSON.parse(raw));
-      return asJson(lastReport);
+      return asJson(rememberReport(TellReport.parse(JSON.parse(raw))));
     }
     if (url) {
       const capture = await captureUrl(url);
       const base = diagnoseCapture(capture);
-      // Enrich with the real taste engine when a key is present; otherwise
-      // classifyWithTaste returns the same deterministic verdicts as base.
       const verdicts = await classifyWithTaste(base.findings, base.fingerprint, {
         apiKey: process.env.GEMINI_API_KEY,
       });
-      lastReport = TellReport.parse({ ...base, verdicts, score: scoreOf(verdicts, base.findings) });
-      return asJson(lastReport);
+      return asJson(
+        rememberReport(
+          TellReport.parse({ ...base, verdicts, score: scoreOf(verdicts, base.findings) }),
+        ),
+      );
     }
     const artifact = process.env.TELL_REPORT_ARTIFACT ?? "fixtures/reports/tell-report.json";
     const raw = await readFile(artifact, "utf8");
-    lastReport = TellReport.parse(JSON.parse(raw));
-    return asJson(lastReport);
+    return asJson(rememberReport(TellReport.parse(JSON.parse(raw))));
   },
 );
 
 server.tool(
   "tell_redesign",
   "Draft a redesign proposal for a finding or whole report. Returns patch text only; never applies it.",
-  { direction: z.string(), findingId: z.string().optional() },
-  async ({ direction, findingId }) => {
-    if (!lastReport) {
+  {
+    direction: z.string(),
+    findingId: z.string().optional(),
+    reportId: z.string().optional(),
+  },
+  async ({ direction, findingId, reportId }) => {
+    let report = resolveReport(reportId);
+    if (!report) {
       const artifact = process.env.TELL_REPORT_ARTIFACT ?? "fixtures/reports/tell-report.json";
-      lastReport = TellReport.parse(JSON.parse(await readFile(artifact, "utf8")));
+      report = rememberReport(TellReport.parse(JSON.parse(await readFile(artifact, "utf8"))));
     }
     const generator = new OfflineRedesignGenerator();
-    lastProposal = await generator.propose(lastReport, parseDirection(direction), findingId);
+    lastProposal = await generator.propose(report, parseDirection(direction), findingId);
     return asJson(lastProposal);
   },
 );
@@ -92,13 +114,15 @@ server.tool(
         error: `Unknown proposalId "${proposalId}". Last proposal is "${lastProposal.id}". Run tell_redesign again.`,
       });
     }
-    // Hero path: re-derive the proposal against the user's actual source files so the diff
-    // edits their code, not a new override sheet. Falls back silently when none are found.
     if (lastReport && lastProposal) {
       const sources = await collectSources(projectRoot ?? process.cwd());
       if (sources.length) {
         lastProposal = await new OfflineRedesignGenerator().propose(
-          lastReport, lastProposal.direction, lastProposal.findingId, undefined, sources,
+          lastReport,
+          lastProposal.direction,
+          lastProposal.findingId,
+          undefined,
+          sources,
         );
       }
     }
@@ -244,6 +268,32 @@ server.tool(
   },
 );
 
+server.tool(
+  "tell_voice",
+  "Parse compound voice/text art-direction into action items + artDirection. Uses Gemini when GEMINI_API_KEY is set; otherwise deterministic local parse.",
+  {
+    transcript: z.string().min(1),
+  },
+  async ({ transcript }) => {
+    const apiKey = process.env.GEMINI_API_KEY?.trim();
+    const plan = apiKey
+      ? await parseDirectionWithGemini(transcript, apiKey)
+      : parseDirectionPlan(transcript);
+    return asJson({ ...plan, source: apiKey ? "gemini" : "local" });
+  },
+);
+
+server.tool(
+  "tell_install_info",
+  "Return versioned MCP/CLI install snippets, Cursor deeplink, and demo URLs. Single source of truth for Connect Agent flows.",
+  {
+    launch: z.enum(["pnpm", "tell-mcp"]).optional(),
+  },
+  async ({ launch }) => {
+    return asJson(buildInstallInfo({ launch: launch ?? "pnpm" }));
+  },
+);
+
 // ── Local source reader for the tell_apply hero path (Cursor workspace) ──
 const SKIP_DIRS = new Set(["node_modules", ".next", ".git", "dist", "build", "out", ".turbo", "coverage"]);
 const MAX_SOURCE_FILES = 60;
@@ -258,7 +308,11 @@ async function collectSources(root: string): Promise<SourceFile[]> {
   async function walk(dir: string): Promise<void> {
     if (out.length >= MAX_SOURCE_FILES) return;
     let entries;
-    try { entries = await readdir(dir, { withFileTypes: true }); } catch { return; }
+    try {
+      entries = await readdir(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
     for (const e of entries) {
       if (out.length >= MAX_SOURCE_FILES) return;
       if (e.isDirectory()) {
@@ -269,7 +323,9 @@ async function collectSources(root: string): Promise<SourceFile[]> {
         try {
           const contents = await readFile(full, "utf8");
           if (contents.length <= MAX_SOURCE_BYTES) out.push({ path: path.relative(root, full), contents });
-        } catch { /* unreadable — skip */ }
+        } catch {
+          /* unreadable — skip */
+        }
       }
     }
   }
