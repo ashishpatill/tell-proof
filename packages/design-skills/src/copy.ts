@@ -153,6 +153,20 @@ export function ctaFor(
       note: "Entries ship as numbered stamps — not a demo theatre.",
     };
   }
+  if (siteKind === "commerce-loom") {
+    return {
+      primary: "Request a cut",
+      secondary: "Walk the loom",
+      note: "Samples ship with size tape and SKU cells — not a demo theatre.",
+    };
+  }
+  if (siteKind === "field-guide") {
+    return {
+      primary: "Request a voucher",
+      secondary: "Open the plate",
+      note: "Vouchers ship with pressed plates and range notes — not a demo theatre.",
+    };
+  }
   return GOAL_CTA[goal];
 }
 

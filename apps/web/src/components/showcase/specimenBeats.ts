@@ -31,13 +31,15 @@ export function discoverBeats(doc: Document): SpecimenBeat[] {
 
   const beats: SpecimenBeat[] = [];
   const hero =
-    pick(".ds-hero .ds-display", "hero", "Claim") ||
+    pick(".ds-press-label .ds-display, .ds-weft-display, .ds-hero .ds-display", "hero", "Claim") ||
     pick(".ds-hero", "hero", "Claim") ||
     pick("h1", "hero", "Claim");
   if (hero) beats.push(hero);
 
   const figureRaw =
     pick(".ds-hero .ds-press-sheet .ds-fig, .ds-press-sheet", "figure", "Forme") ||
+    pick(".ds-hero .ds-press-plate .ds-fig, .ds-press-plate, .ds-voucher-plate", "figure", "Specimen") ||
+    pick(".ds-hero .ds-drawloom-cloth .ds-fig, .ds-drawloom-cloth, .ds-loom-plate", "figure", "Loom") ||
     pick(".ds-hero .ds-register-ledger .ds-fig, .ds-register-ledger", "figure", "Ledger") ||
     pick(".ds-hero .ds-chrono-lattice .ds-fig, .ds-chrono-lattice", "figure", "Lattice") ||
     pick(".ds-hero .ds-folio-plate .ds-fig, .ds-folio-plate", "figure", "Plate") ||
@@ -65,7 +67,7 @@ export function discoverBeats(doc: Document): SpecimenBeat[] {
   if (specimen && !hasCraftFigure) beats.push(specimen);
 
   const spread = pick(
-    ".ds-spread, .ds-marginalia, .ds-chrono, .ds-gather, [data-section='story']",
+    ".ds-spread, .ds-marginalia, .ds-chrono, .ds-entry, .ds-hangtag, .ds-range, .ds-gather, [data-section='story']",
     "spread",
     "Spread",
   );

@@ -192,3 +192,52 @@ Pattern keys match `tell-recursive-improve`.
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.
 Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) → push → green → merge.
+
+
+## 2026-08-07 — `template:soft-pack-vs-structural`
+
+- **Failure named (champion):** Soft public templates read as glass card collages + purple/system
+  gradients + floating UI panels. A recolored SaaS skeleton cannot beat that look by restyling —
+  it still reads as the same grammar.
+- **Challenger:** Two structural siteKinds that invent unreplicable press/voucher grammars —
+  `commerce-loom` (size-tape + warp/weft photo loom + hangtag + Care label) and `field-guide`
+  (taxon rail + specimen plate + range beads + Voucher) with copyright-free photo stock embedded
+  as matter, not lifestyle cards.
+- **Eval:** Critique loom/field **97.6** (only ink-variation above corridor, same class as archive);
+  matrix **98.9**; holdout gap 0.5. Playwright eye: fold shows photo cells / botanical plate, not
+  sticky-nav chrome. Soft-pack folds (card grids, glass heroes) are a different grammar entirely.
+- **Do not:** Answer soft-pack craft with more rounded cards, mesh gradients, or glass panels.
+  Invent a structure a density slider cannot emit, then hang the unique figure into the fold.
+
+## 2026-08-07 — `template:svg-scale-inflates-type-steps`
+
+- **Failure:** Loom first critique scored type-steps **15** (band ≤14). SVG mono labels at band /
+  plate / mark roles measured as 10/12/19px after viewBox scale — distinct steps even when the
+  attribute said `font-size="11"`.
+- **Fix:** Force `text.ds-fig-mono{font-size:11px!important}` on loom/field; demote hang-aside
+  titles to a shared 14px; drop 8–10px tape/taxon chips to 11px.
+- **Do not:** Assume SVG `font-size="11"` survives scaling as one type step across figure roles.
+
+## 2026-08-07 — `template:sticky-rail-recipe`
+
+- **Failure named (champion):** Loom + field still read as sticky left-rail editorial landings
+  (claim column + figure) — a density/chrome swap on the archive/observatory recipe, not marvel
+  craft. Soft packs lose to structure; this structure was still the same recipe.
+- **Challenger:** Drawloom (headline as weft picks through warp; cloth below; size treadles at
+  bottom) + glassine press (specimen under peeled translucent sheet; museum label; corner pins;
+  binomial strip at bottom).
+- **Eval:** Critique after dogfood **97.6 / 97.6** (matrix **98.9**). Desktop fold shots show
+  woven weft lines and pinned glassine peel — not left sticky chrome.
+- **Do not:** Answer “make it unique” by renaming a left sticky rail. Invent a fold grammar a
+  rail cannot emit.
+
+## 2026-08-07 — `template:marvel-chrome-tax`
+
+- **Failure:** First marvel pass scored **94.2 / 94.3**. 3px active borders on treadle/binomial
+  chips tanked hairline (0.85 / 0.84); peel/label box-shadows blew shadow coverage; short weft
+  wraps (~10ch) starved display measure; tall claim starved fold figure.
+- **Fix:** Force 1px instrument borders; drop decorative shadows; longer weft wraps (~28ch);
+  hang cloth / raise plate into the first viewport.
+- **Do not:** Decorate a new siteKind with 2–3px accent bars or soft drop shadows and expect
+  hairline/shadow bands to hold.
+

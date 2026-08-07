@@ -92,7 +92,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     check(
       "asymmetric-or-statement-fold",
       (() => {
-        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam|ds-hero-folio|ds-hero-chrono|ds-hero-register|ds-hero-press/.test(html)) return true;
+        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam|ds-hero-folio|ds-hero-chrono|ds-hero-register|ds-hero-loom|ds-hero-voucher|ds-hero-press|ds-hero-drawloom|ds-hero-glassine/.test(html)) return true;
         const splits = html.match(/grid-template-columns:[^";]+/g) ?? [];
         return splits.some((s) => {
           const fr = Array.from(s.matchAll(/(\d+(?:\.\d+)?)fr/g)).map((m) => Number(m[1]));
@@ -213,6 +213,41 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Archive offerings use register + alpha rail + index ledger + entry essay + Registry — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
+      "kind-loom",
+      spec.brief.siteKind !== "commerce-loom"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && !spec.sections.some((s) => s.kind === "metrics")
+          && /ds-hero-drawloom/.test(html)
+          && /ds-weft-pick/.test(html)
+          && /ds-treadles/.test(html)
+          && /data-figure="loom-weave"/.test(html)
+          && /ds-hangtag/.test(html)
+          && /Care label/.test(html)
+          && /ds-bleed-rule/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length === 0
+        ),
+      "Loom offerings use drawloom weft claim + treadles + loom weave + hangtag essay + Care label — no pricing, no metrics theatre, zero inverse bands.",
+    ),
+    check(
+      "kind-field",
+      spec.brief.siteKind !== "field-guide"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && !spec.sections.some((s) => s.kind === "metrics")
+          && /ds-hero-glassine/.test(html)
+          && /ds-glassine-sheet/.test(html)
+          && /ds-press-label/.test(html)
+          && /ds-binomial-strip/.test(html)
+          && /data-figure="specimen-plate"/.test(html)
+          && /ds-range/.test(html)
+          && /Voucher/.test(html)
+          && /ds-bleed-rule/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length === 0
+        ),
+      "Field-guide offerings use glassine press + binomial strip + specimen plate + range essay + Voucher — no pricing, no metrics theatre, zero inverse bands.",
+    ),
+    check(
       "kind-press",
       spec.brief.siteKind !== "press-atelier"
         || (
@@ -255,11 +290,17 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         if (kind === "research-dossier") {
           return /ds-folio-field/.test(html) && /ds-hero-folio/.test(html);
         }
+        if (kind === "commerce-loom") {
+          return /ds-drawloom-cloth/.test(html) && /ds-hero-drawloom/.test(html);
+        }
+        if (kind === "field-guide") {
+          return /ds-press-plate/.test(html) && /ds-hero-glassine/.test(html);
+        }
         return true;
       })(),
       "Unique craft figures hang under a compact claim so the forme/plate/ledger owns the fold — not a shouty claim stack.",
     ),
-check(
+    check(
       "solid-claim-when-labeled-fold",
       !(
         (spec.brief.siteKind === "art-directed-studio" || spec.brief.siteKind === "consumer-craft")

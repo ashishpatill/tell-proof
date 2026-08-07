@@ -372,6 +372,128 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     </section>`;
   }
 
+  /*
+   * Drawloom fold — commerce-loom marvel craft.
+   *
+   * Breaks the sticky-rail recipe: the headline is woven as weft picks through visible warp
+   * threads, the cloth (photo loom) owns the lower fold, and size tape becomes treadles at the
+   * bottom — not a left chrome rail. Theme packs invent card grids; they do not invent a drawloom.
+   */
+  /*
+   * Drawloom fold — commerce-loom marvel craft.
+   *
+   * Breaks the sticky-rail recipe: the headline is woven as weft picks through visible warp
+   * threads, the cloth (photo loom) owns the lower fold, and size tape becomes treadles at the
+   * bottom — not a left chrome rail. Theme packs invent card grids; they do not invent a drawloom.
+   */
+  if (section.layout === "hero-loom") {
+    const loomFig = figures.hero
+      ? `<figure class="ds-loom-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const words = section.title.trim().split(/\s+/).filter(Boolean);
+    const picks: string[] = [];
+    let line = "";
+    for (const w of words) {
+      const next = line ? `${line} ${w}` : w;
+      if (next.length > 28 && line) {
+        picks.push(line);
+        line = w;
+      } else {
+        line = next;
+      }
+    }
+    if (line) picks.push(line);
+    const weftPicks = picks
+      .map((p, i) => `<span class="ds-weft-pick" style="--pick:${i}"><span class="ds-weft-ink">${esc(p)}</span></span>`)
+      .join("");
+    const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
+    const treadles = `<nav class="ds-tape-rail ds-treadles" aria-label="Size treadles"><ol>${sizes
+      .map((S, i) => {
+        const href = i < 6 ? ["#features", "#figure", "#specimen", "#story", "#proof", "#cta"][i] : "#features";
+        return `<li><a href="${href}" class="ds-tape-chip${i === 2 ? " is-active" : ""}" data-size="${S}"><span class="ds-tape-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-tape-label">${S}</span></a></li>`;
+      })
+      .join("")}</ol></nav>`;
+    const reed = `<div class="ds-reed" aria-hidden="true">${Array.from({ length: 24 }, (_, i) => `<span class="ds-reed-tooth" style="--i:${i}"></span>`).join("")}</div>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-loom ds-hero-drawloom" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      <div class="ds-drawloom">
+        <header class="ds-loom-beam" aria-label="Loom beam">
+          <span class="ds-loom-vol">Drawloom</span>
+          <span class="ds-loom-issue">Warp × weft</span>
+          <span class="ds-loom-mark">${esc(spec.brief.productName)}</span>
+        </header>
+        ${reed}
+        <div class="ds-drawloom-stage">
+          <div class="ds-warp-field" aria-hidden="true"></div>
+          <div class="ds-weft-claim">
+            <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
+            ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+            <h1 class="ds-display ds-weft-display">${weftPicks}</h1>
+            <p class="ds-lede">${esc(section.body)}</p>
+            ${actions(section)}
+          </div>
+          <div class="ds-drawloom-cloth">${loomFig}</div>
+        </div>
+        ${treadles}
+      </div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Glassine press fold — field-guide marvel craft.
+   *
+   * Breaks the sticky-rail recipe: the specimen plate sits under a translucent glassine sheet with
+   * corner press pins; the claim is a museum label stuck on the glassine; taxon ranks become a
+   * horizontal binomial strip under the press — not a left chrome rail. Theme packs invent glass
+   * card collages; they do not invent a herbarium press under glassine.
+   */
+  if (section.layout === "hero-voucher") {
+    const plateFig = figures.hero
+      ? `<figure class="ds-voucher-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const ranks = [
+      { id: "K", label: "Kingdom" },
+      { id: "P", label: "Phylum" },
+      { id: "C", label: "Class" },
+      { id: "O", label: "Order" },
+      { id: "F", label: "Family" },
+      { id: "G", label: "Genus" },
+      { id: "S", label: "Species" },
+    ];
+    const binomial = `<nav class="ds-taxon-rail ds-binomial-strip" aria-label="Taxonomic ranks"><ol>${ranks
+      .map((R, i) => {
+        const href = i < 6 ? ["#features", "#figure", "#specimen", "#story", "#proof", "#cta"][i] : "#features";
+        return `<li><a href="${href}" class="ds-taxon-chip${i === 5 ? " is-active" : ""}" data-rank="${R.id}"><span class="ds-taxon-meta">${R.id}</span><span class="ds-taxon-label">${esc(R.label)}</span></a></li>`;
+      })
+      .join("")}</ol></nav>`;
+    const pins = `<div class="ds-press-pins" aria-hidden="true"><span></span><span></span><span></span><span></span></div>`;
+    const lucida = `<div class="ds-lucida" aria-hidden="true"><span class="ds-lucida-arm"></span><span class="ds-lucida-prism"></span><span class="ds-lucida-meta">Lucida</span></div>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-voucher ds-hero-glassine" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      <div class="ds-glassine-press">
+        <header class="ds-voucher-masthead" aria-label="Voucher masthead">
+          <span class="ds-voucher-vol">Press</span>
+          <span class="ds-voucher-issue">Glassine</span>
+          <span class="ds-voucher-date">Herbarium plate</span>
+          <span class="ds-voucher-mark">${esc(spec.brief.productName)}</span>
+        </header>
+        <div class="ds-press-stage">
+          ${pins}
+          <div class="ds-press-plate">${plateFig}</div>
+          <div class="ds-glassine-sheet" aria-hidden="true"></div>
+          <div class="ds-press-label">
+            <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
+            ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+            <h1 class="ds-display">${esc(section.title)}</h1>
+            <p class="ds-lede">${esc(section.body)}</p>
+            ${actions(section)}
+          </div>
+          ${lucida}
+        </div>
+        ${binomial}
+      </div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
 
   /*
    * Press fold — the press-atelier signature.
@@ -1001,6 +1123,53 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
+ * Hangtag essay — commerce-loom signature.
+ * String/eyelet mark + hangtag body + outer size index. Not entry folio or chrono beads.
+ */
+function renderHangtag(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const count = blocks.length || 1;
+  const essay = blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-hang-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const size = esc(b.meta ?? ["XS", "S", "M", "L", "XL", "XXL"][i % 6]!);
+      return `<article class="ds-hang-beat" style="--i:${i}">
+        <span class="ds-hang-eyelet" aria-hidden="true"></span>
+        <div class="ds-hang-body">
+          <p class="ds-hang-size">${size}</p>
+          <h3>${esc(b.title)}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${b.kicker ? `<p class="ds-hang-note">${esc(b.kicker)}</p>` : ""}
+          ${mark}
+        </div>
+      </article>`;
+    })
+    .join("");
+  const aside = blocks
+    .map((b, i) => {
+      const size = esc(b.meta ?? ["XS", "S", "M", "L", "XL", "XXL"][i % 6]!);
+      return `<li class="ds-hang-aside-item">
+        <span class="ds-hang-aside-size">${size}</span>
+        <span class="ds-hang-aside-title">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-hangtag" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
+    <div class="ds-wrap-wide">
+      ${secMeta("Hangtag", `${count} tags · size index`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-hang-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
+        <div class="ds-hang-essay">${essay}</div>
+        <aside class="ds-hang-aside" aria-label="Size index">
+          <ol class="ds-hang-aside-list">${aside}</ol>
+        </aside>
+      </div>
+    </div>
+  </section>`;
+}
+
+/**
  * Gather essay with fold ticks + outer plate index — press-atelier signature.
  *
  * Not entry folios, chrono beads, verso/recto, or marginalia — signatures gathered in order
@@ -1044,6 +1213,56 @@ function renderGather(section: SectionSpec, figures: FigurePlan): string {
         <div class="ds-gather-essay">${essay}</div>
         <aside class="ds-gather-aside" aria-label="Plate index">
           <ol class="ds-gather-aside-list">${aside}</ol>
+        </aside>
+      </div>
+    </div>
+  </section>`;
+}
+
+/**
+ * Range essay — field-guide signature.
+ * Distribution beads + outer taxon index. Not hangtag, entry, or verso/recto.
+ */
+function renderRange(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const count = blocks.length || 1;
+  const essay = blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-range-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const rank = esc(b.meta ?? ["K", "P", "C", "O", "F", "G"][i % 6]!);
+      return `<article class="ds-range-beat" style="--i:${i}">
+        <span class="ds-range-bead" aria-hidden="true"></span>
+        <div class="ds-range-body">
+          <p class="ds-range-rank">${rank}</p>
+          <h3>${esc(b.title)}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${b.kicker ? `<p class="ds-range-note">${esc(b.kicker)}</p>` : ""}
+          ${mark}
+        </div>
+      </article>`;
+    })
+    .join("");
+  const aside = blocks
+    .map((b, i) => {
+      const rank = esc(b.meta ?? ["K", "P", "C", "O", "F", "G"][i % 6]!);
+      return `<li class="ds-range-aside-item">
+        <span class="ds-range-aside-rank">${rank}</span>
+        <span class="ds-range-aside-title">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-range" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
+    <div class="ds-wrap-wide">
+      ${secMeta("Range", `${count} beads · taxon index`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-range-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
+        <div class="ds-range-essay">
+          <div class="ds-range-track" aria-hidden="true"></div>
+          ${essay}
+        </div>
+        <aside class="ds-range-aside" aria-label="Taxon index">
+          <ol class="ds-range-aside-list">${aside}</ol>
         </aside>
       </div>
     </div>
@@ -1179,32 +1398,26 @@ function renderFaq(section: SectionSpec): string {
  * as tall as what is in it, and the composition reads across rather than down.
  */
 function renderCtaBand(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
-  const isColophon = /Colophon|Imprint|Calibration|Registry|Pressroom/i.test(section.eyebrow ?? "");
+  const isColophon = /Colophon|Imprint|Calibration|Registry|Care label|Voucher|Pressroom/i.test(section.eyebrow ?? "");
   const colophonClass = isColophon ? " ds-closing-colophon" : "";
   // Observatory calibration close — paper strip of tolerance numerals (not metrics theatre).
   const isObservatoryCal =
     Boolean(spec && spec.brief.siteKind === "signal-observatory") &&
     /Calibration/i.test(section.eyebrow ?? "");
-  // Pressroom close — plate number strip (not metrics theatre).
-  const isPressroom =
-    Boolean(spec && spec.brief.siteKind === "press-atelier") &&
-    /Pressroom/i.test(section.eyebrow ?? "");
   const tolLadder = ["±0.5", "±1.0", "±1.5", "±2.0"];
-  const plateLadder = ["P-01", "P-02", "P-03", "P-04"];
-  const fromCatalogue =
-    (isObservatoryCal || isPressroom) && spec ? catalogue(spec).slice(0, 4) : [];
+  const fromCatalogue = isObservatoryCal && spec ? catalogue(spec).slice(0, 4) : [];
   const calLabels =
     fromCatalogue.length > 0
       ? fromCatalogue.map((b) => b.title)
-      : (isObservatoryCal || isPressroom) && spec
+      : isObservatoryCal && spec
         ? spec.brief.features.slice(0, 4).map((f) => f.name)
         : [];
   const calStrip =
     calLabels.length > 0
-      ? `<ol class="ds-cal-strip${isPressroom ? " ds-press-plates" : ""}" aria-label="${isPressroom ? "Plate numbers" : "Tolerance marks"}">${calLabels
+      ? `<ol class="ds-cal-strip" aria-label="Tolerance marks">${calLabels
           .map(
             (name, i) =>
-              `<li class="ds-cal-mark"><span class="ds-cal-tol">${isPressroom ? plateLadder[i % plateLadder.length] : tolLadder[i % tolLadder.length]}</span><span class="ds-cal-ch">${esc(name.slice(0, 14))}</span></li>`,
+              `<li class="ds-cal-mark"><span class="ds-cal-tol">${tolLadder[i % tolLadder.length]}</span><span class="ds-cal-ch">${esc(name.slice(0, 14))}</span></li>`,
           )
           .join("")}</ol>`
       : "";
@@ -1371,6 +1584,8 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-folio":
     case "hero-chrono":
     case "hero-register":
+    case "hero-loom":
+    case "hero-voucher":
     case "hero-press":
       return wrapped(renderHero(section, spec, figures));
     case "metric-band":
@@ -1394,6 +1609,10 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderChrono(section, figures));
     case "story-entry":
       return wrapped(renderEntry(section, figures));
+    case "story-hangtag":
+      return wrapped(renderHangtag(section, figures));
+    case "story-range":
+      return wrapped(renderRange(section, figures));
     case "story-gather":
       return wrapped(renderGather(section, figures));
     case "pullquote":

@@ -506,6 +506,102 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-entry-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="archive-index"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="archive-index"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
+
+/* Commerce loom — drawloom fold: claim-as-weft, cloth below, treadles. Not soft purple glass. */
+[data-sitekind="commerce-loom"]{
+  --tape-rail:0;
+  --treadle-h:3.25rem;
+}
+body[data-sitekind="commerce-loom"]{
+  background-color:var(--c-paper);
+  background-image:
+    linear-gradient(180deg,color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface)) 0%,var(--c-paper) 42%,var(--c-paper) 100%),
+    repeating-linear-gradient(90deg,transparent 0 47px,color-mix(in srgb,var(--c-border) 35%,transparent) 47px 48px);
+}
+[data-sitekind="commerce-loom"] .ds-brand-mark{
+  font-family:var(--f-display);letter-spacing:-0.02em;
+}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-weft-display{
+  font-size:clamp(2.35rem,3.4vw,3.15rem);line-height:1.02;letter-spacing:-0.035em;
+  display:flex;flex-direction:column;gap:0.35rem;margin:0;max-width:28ch;
+}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-lede{max-width:36ch;margin:0.25rem 0 0;font-size:var(--t-small-size,0.95rem)}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-brand-mark{margin:0 0 0.1rem}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-eyebrow{margin:0}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-actions{margin-top:0.4rem}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-cta-note{display:none}
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-actions .ds-btn-ghost,
+[data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-actions a:nth-child(2){display:none}
+[data-sitekind="commerce-loom"] .ds-hang-size,
+[data-sitekind="commerce-loom"] .ds-hang-aside-size{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;color:var(--c-accent);
+}
+[data-sitekind="commerce-loom"] .ds-hang-aside-title{font-size:14px;line-height:1.3}
+[data-sitekind="commerce-loom"] .ds-fig text.ds-fig-mono,
+[data-sitekind="commerce-loom"] text.ds-fig-mono{font-size:11px!important}
+[data-sitekind="commerce-loom"] .ds-loom-plate .ds-fig{min-height:min(56vh,560px)}
+[data-sitekind="commerce-loom"] .ds-hero-loom{min-height:min(100vh,960px);padding-bottom:var(--treadle-h)}
+[data-sitekind="commerce-loom"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="commerce-loom"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
+[data-sitekind="commerce-loom"] .ds-closing-colophon{
+  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
+}
+[data-sitekind="commerce-loom"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
+[data-sitekind="commerce-loom"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
+[data-sitekind="commerce-loom"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="commerce-loom"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="commerce-loom"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="commerce-loom"] .ds-hang-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="commerce-loom"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="commerce-loom"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
+[data-sitekind="commerce-loom"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
+
+/* Field guide — glassine press fold: plate under sheet, museum label, binomial strip. */
+[data-sitekind="field-guide"]{
+  --taxon-rail:0;
+  --binomial-h:3.1rem;
+}
+body[data-sitekind="field-guide"]{
+  background-color:var(--c-paper);
+  background-image:
+    linear-gradient(180deg,color-mix(in srgb,var(--c-paper) 88%,var(--c-accent-surface)) 0%,var(--c-paper) 40%,var(--c-paper) 100%),
+    radial-gradient(70% 55% at 70% 20%,color-mix(in srgb,var(--c-accent-surface) 45%,transparent),transparent 60%);
+}
+[data-sitekind="field-guide"] .ds-brand-mark{
+  font-family:var(--f-display);letter-spacing:-0.02em;
+}
+[data-sitekind="field-guide"] .ds-press-label .ds-display{
+  font-size:clamp(2.2rem,3.15vw,2.95rem);line-height:1.06;max-width:16ch;letter-spacing:-0.03em;
+}
+[data-sitekind="field-guide"] .ds-press-label .ds-lede{max-width:32ch;margin:0.25rem 0 0;font-size:var(--t-small-size,0.95rem)}
+[data-sitekind="field-guide"] .ds-press-label .ds-brand-mark{margin:0 0 0.15rem}
+[data-sitekind="field-guide"] .ds-press-label .ds-eyebrow{margin:0}
+[data-sitekind="field-guide"] .ds-press-label .ds-actions{margin-top:0.45rem}
+[data-sitekind="field-guide"] .ds-hero-glassine .ds-cta-note{display:none}
+[data-sitekind="field-guide"] .ds-hero-glassine .ds-actions .ds-btn-ghost,
+[data-sitekind="field-guide"] .ds-hero-glassine .ds-actions a:nth-child(2){display:none}
+[data-sitekind="field-guide"] .ds-range-rank,
+[data-sitekind="field-guide"] .ds-range-aside-rank{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;color:var(--c-accent);
+}
+[data-sitekind="field-guide"] .ds-fig text.ds-fig-mono,
+[data-sitekind="field-guide"] text.ds-fig-mono{font-size:11px!important}
+[data-sitekind="field-guide"] .ds-voucher-plate .ds-fig{min-height:min(64vh,660px)}
+[data-sitekind="field-guide"] .ds-hero-voucher{min-height:min(100vh,960px);padding-bottom:var(--binomial-h)}
+[data-sitekind="field-guide"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="field-guide"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
+[data-sitekind="field-guide"] .ds-closing-colophon{
+  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
+}
+[data-sitekind="field-guide"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
+[data-sitekind="field-guide"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
+[data-sitekind="field-guide"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="field-guide"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="field-guide"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="field-guide"] .ds-range-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="field-guide"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="field-guide"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
+[data-sitekind="field-guide"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
 /*
  * ruleDensity = wide CSS top/bottom borders ÷ screens (SVG strokes do not count).
  * Must come LAST in this siteKind block — an earlier border-color shorthand undid thinning.
@@ -1336,6 +1432,288 @@ ${surfaceRules()}
   .ds-entry-aside{order:-1}
   .ds-entry-beat{padding-left:0}
   .ds-entry-folio{position:static;writing-mode:horizontal-tb;transform:none;height:auto;display:block;margin-bottom:0.35rem}
+}
+
+/* Drawloom fold — claim woven as weft picks through warp; cloth below; treadles. */
+.ds-hero-loom{
+  position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
+  display:flex;flex-direction:column;
+}
+.ds-drawloom{display:flex;flex-direction:column;flex:1;min-height:inherit;position:relative}
+.ds-loom-beam{
+  display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
+  padding:calc(var(--nav-h,4.5rem) + var(--s-xs)) var(--gutter) var(--s-xs);
+  border-bottom:1px solid var(--c-border);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;
+  color:var(--c-ink-tertiary);
+}
+.ds-loom-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.12em}
+.ds-reed{
+  display:flex;height:0.85rem;border-bottom:1px solid var(--c-border);
+  padding:0 var(--gutter);gap:0;background:color-mix(in srgb,var(--c-paper) 85%,var(--c-accent-surface));
+}
+.ds-reed-tooth{
+  flex:1;border-left:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+  height:100%;
+}
+.ds-reed-tooth:first-child{border-left:0}
+.ds-drawloom-stage{
+  position:relative;flex:1;display:grid;
+  grid-template-rows:auto minmax(48vh,1fr);
+  padding:0 var(--gutter) calc(var(--treadle-h,3.25rem) + var(--s-sm));
+  min-height:0;
+}
+.ds-warp-field{
+  pointer-events:none;position:absolute;inset:0 var(--gutter) var(--treadle-h,3.25rem);
+  background:repeating-linear-gradient(90deg,
+    transparent 0 22px,
+    color-mix(in srgb,var(--c-border) 55%,transparent) 22px 23px);
+  opacity:0.55;z-index:0;
+}
+.ds-weft-claim{
+  position:relative;z-index:2;padding:var(--s-xs) 0 0;
+  max-width:42rem;
+}
+.ds-weft-pick{
+  position:relative;display:block;
+  background:color-mix(in srgb,var(--c-paper) 88%,transparent);
+  padding:0.08rem 0.35rem 0.08rem 0;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  animation:ds-weft-settle 900ms calc(var(--pick,0) * 70ms) both;
+}
+@keyframes ds-weft-settle{
+  from{opacity:0;transform:translateX(-0.6rem)}
+  to{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .ds-weft-pick{animation:none}
+}
+.ds-weft-pick::before,
+.ds-weft-pick::after{
+  content:"";position:absolute;top:50%;width:100vw;height:1px;
+  background:color-mix(in srgb,var(--c-accent) 55%,var(--c-border));
+  pointer-events:none;
+}
+.ds-weft-pick::before{right:100%;margin-right:0.35rem}
+.ds-weft-pick::after{left:100%;margin-left:0.35rem}
+.ds-weft-ink{position:relative;z-index:1}
+.ds-drawloom-cloth{
+  position:relative;z-index:1;margin-top:calc(var(--s-sm) * -1);
+  mask-image:linear-gradient(180deg,transparent 0%,#000 6%,#000 100%);
+}
+.ds-loom-plate{margin:0;width:100%;display:block}
+.ds-loom-plate .ds-fig{min-height:min(52vh,540px)}
+/* Treadles — size tape as bottom instrument, not left sticky rail. */
+.ds-treadles.ds-tape-rail{
+  position:absolute;left:0;right:0;bottom:0;top:auto;width:100%;height:var(--treadle-h,3.25rem);
+  display:flex;align-items:stretch;justify-content:stretch;padding:0;z-index:var(--z-nav);
+  pointer-events:none;border-top:1px solid var(--c-border);
+  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
+}
+.ds-treadles.ds-tape-rail ol{
+  list-style:none;margin:0;padding:0 var(--gutter);flex:1;display:flex;flex-direction:row;
+  justify-content:space-between;align-items:stretch;pointer-events:auto;width:100%;
+}
+.ds-treadles .ds-tape-chip{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-decoration:none;font-family:var(--f-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--c-ink-tertiary);min-height:44px;line-height:1.1;gap:0.15rem;
+  border-left:1px solid color-mix(in srgb,var(--c-border) 60%,transparent);
+  border-top:1px solid transparent;padding:0.25rem;
+}
+.ds-treadles .ds-tape-chip:first-child{border-left:0}
+.ds-treadles .ds-tape-meta{font-size:11px;opacity:0.7}
+.ds-treadles .ds-tape-chip:hover,.ds-treadles .ds-tape-chip:focus-visible,.ds-treadles .ds-tape-chip.is-active{
+  color:var(--c-accent);border-top-color:var(--c-accent);background:color-mix(in srgb,var(--c-accent-surface) 40%,transparent);
+}
+@media (max-width:800px){
+  .ds-warp-field{opacity:0.3}
+  .ds-weft-pick::before,.ds-weft-pick::after{display:none}
+  .ds-loom-plate .ds-fig{min-height:min(42vh,420px)}
+  .ds-treadles .ds-tape-label{font-size:10px}
+}
+/* Hangtag essay. */
+.ds-hang-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
+.ds-hang-essay{display:flex;flex-direction:column;gap:var(--s-2xl);max-width:40rem}
+.ds-hang-beat{
+  position:relative;padding-left:1.75rem;
+  border:1px solid var(--c-border);padding:var(--s-lg) var(--s-lg) var(--s-lg) 2rem;
+  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
+}
+.ds-hang-eyelet{
+  position:absolute;left:0.65rem;top:0.85rem;width:0.7rem;height:0.7rem;border-radius:50%;
+  border:1px solid var(--c-accent);background:var(--c-paper);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--c-paper) 80%,transparent);
+}
+.ds-hang-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
+.ds-hang-note{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.06em;text-transform:none;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+}
+.ds-hang-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-hang-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-md)}
+.ds-hang-aside-item{
+  display:flex;flex-direction:column;gap:0.2rem;
+  border-bottom:1px solid var(--c-border);padding-bottom:var(--s-sm);
+}
+.ds-hang-aside-title{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:22ch}
+@media (max-width:800px){
+  .ds-hang-grid{grid-template-columns:1fr!important}
+  .ds-hang-aside{order:-1}
+}
+
+/* Glassine press fold — specimen under translucent sheet; museum label; binomial strip. */
+.ds-hero-voucher{
+  position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
+  display:flex;flex-direction:column;
+}
+.ds-glassine-press{display:flex;flex-direction:column;flex:1;min-height:inherit;position:relative}
+.ds-voucher-masthead{
+  display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
+  padding:calc(var(--nav-h,4.5rem) + var(--s-xs)) var(--gutter) var(--s-xs);
+  border-bottom:1px solid var(--c-border);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;
+  color:var(--c-ink-tertiary);
+}
+.ds-voucher-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
+.ds-press-stage{
+  position:relative;flex:1;display:grid;place-items:stretch;
+  padding:var(--s-md) var(--gutter) calc(var(--binomial-h,3.1rem) + var(--s-sm));
+  min-height:min(58vh,620px);
+}
+.ds-press-plate{
+  position:relative;z-index:1;margin:0;
+  filter:saturate(0.92) contrast(1.04);
+}
+.ds-voucher-plate{margin:0;width:100%;display:block}
+.ds-glassine-sheet{
+  position:absolute;inset:var(--s-md) var(--gutter) calc(var(--binomial-h,3.1rem) + var(--s-sm));
+  z-index:2;pointer-events:none;
+  background:
+    linear-gradient(135deg,color-mix(in srgb,var(--c-paper) 55%,transparent) 0%,color-mix(in srgb,var(--c-accent-surface) 28%,transparent) 42%,color-mix(in srgb,var(--c-paper) 40%,transparent) 100%),
+    repeating-linear-gradient(0deg,transparent 0 3px,color-mix(in srgb,var(--c-border) 18%,transparent) 3px 4px);
+  border:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 4.5rem),calc(100% - 5.5rem) 100%,0 100%);
+}
+.ds-glassine-sheet::after{
+  content:"";position:absolute;right:0;bottom:0;width:5.5rem;height:4.5rem;
+  background:
+    linear-gradient(225deg,transparent 48%,color-mix(in srgb,var(--c-paper) 70%,var(--c-accent-surface)) 49%,color-mix(in srgb,var(--c-paper) 85%,transparent) 100%);
+  border-left:1px solid color-mix(in srgb,var(--c-border) 55%,transparent);
+  border-top:1px solid color-mix(in srgb,var(--c-border) 55%,transparent);
+  transform-origin:100% 100%;
+  animation:ds-glassine-peel 1.4s ease both;
+}
+@keyframes ds-glassine-peel{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(-2deg)}
+}
+.ds-press-label{
+  position:absolute;z-index:3;left:calc(var(--gutter) + 1.25rem);top:calc(var(--s-md) + 1.15rem);
+  max-width:min(28rem,48%);
+  padding:var(--s-sm) var(--s-md);
+  background:color-mix(in srgb,var(--c-paper) 94%,var(--c-accent-surface));
+  border:1px solid var(--c-border);
+  transform:rotate(-1.1deg);
+  animation:ds-label-settle 1s 180ms both;
+}
+@keyframes ds-label-settle{
+  from{opacity:0;transform:rotate(-1.1deg) translateY(0.5rem)}
+  to{opacity:1;transform:rotate(-1.1deg)}
+}
+@media (prefers-reduced-motion:reduce){
+  .ds-glassine-sheet::after,.ds-press-label{animation:none}
+}
+.ds-press-pins{
+  position:absolute;inset:calc(var(--s-md) + 0.35rem) calc(var(--gutter) + 0.35rem) calc(var(--binomial-h,3.1rem) + var(--s-sm) + 0.35rem);
+  z-index:4;pointer-events:none;
+}
+.ds-press-pins span{
+  position:absolute;width:0.7rem;height:0.7rem;border-radius:50%;
+  border:1px solid var(--c-accent);
+  background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--c-paper) 90%,var(--c-accent)),var(--c-accent-surface));
+}
+.ds-press-pins span:nth-child(1){top:0;left:0}
+.ds-press-pins span:nth-child(2){top:0;right:0}
+.ds-press-pins span:nth-child(3){bottom:0;left:0}
+.ds-press-pins span:nth-child(4){bottom:0;right:0}
+.ds-press-label .ds-display{margin:0}
+.ds-lucida{
+  position:absolute;z-index:3;right:calc(var(--gutter) + 1.5rem);bottom:calc(var(--binomial-h,3.1rem) + var(--s-xl));
+  width:5.5rem;height:5.5rem;pointer-events:none;
+}
+.ds-lucida-arm{
+  position:absolute;left:50%;top:-1.75rem;width:1px;height:2.1rem;
+  background:var(--c-border);transform:translateX(-50%);
+}
+.ds-lucida-prism{
+  position:absolute;inset:0;border-radius:50%;
+  border:1px solid var(--c-accent);
+  background:
+    radial-gradient(circle at 40% 35%,color-mix(in srgb,var(--c-paper) 70%,transparent),color-mix(in srgb,var(--c-accent-surface) 35%,transparent) 55%,transparent 72%),
+    color-mix(in srgb,var(--c-paper) 25%,transparent);
+}
+.ds-lucida-meta{
+  position:absolute;left:50%;bottom:-1.1rem;transform:translateX(-50%);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-ink-tertiary);
+}
+/* Binomial strip — taxon as bottom instrument, not left sticky rail. */
+.ds-binomial-strip.ds-taxon-rail{
+  position:absolute;left:0;right:0;bottom:0;top:auto;width:100%;height:var(--binomial-h,3.1rem);
+  display:flex;align-items:stretch;justify-content:stretch;padding:0;z-index:var(--z-nav);
+  pointer-events:none;border-top:1px solid var(--c-border);
+  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
+}
+.ds-binomial-strip.ds-taxon-rail ol{
+  list-style:none;margin:0;padding:0 var(--gutter);flex:1;display:flex;flex-direction:row;
+  justify-content:space-between;align-items:stretch;pointer-events:auto;width:100%;
+}
+.ds-binomial-strip .ds-taxon-chip{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-decoration:none;font-family:var(--f-mono);font-size:11px;letter-spacing:0.04em;
+  color:var(--c-ink-tertiary);min-height:44px;line-height:1.1;gap:0.1rem;
+  border-left:1px solid color-mix(in srgb,var(--c-border) 60%,transparent);
+  border-top:1px solid transparent;padding:0.2rem;writing-mode:horizontal-tb;
+}
+.ds-binomial-strip .ds-taxon-chip:first-child{border-left:0}
+.ds-binomial-strip .ds-taxon-meta{font-size:11px;color:var(--c-accent)}
+.ds-binomial-strip .ds-taxon-label{font-size:11px;letter-spacing:0.02em;text-transform:none;opacity:0.75;max-width:none}
+.ds-binomial-strip .ds-taxon-chip:hover,.ds-binomial-strip .ds-taxon-chip:focus-visible,.ds-binomial-strip .ds-taxon-chip.is-active{
+  color:var(--c-accent);border-top-color:var(--c-accent);background:color-mix(in srgb,var(--c-accent-surface) 40%,transparent);
+}
+.ds-binomial-strip .ds-taxon-chip.is-active .ds-taxon-meta{text-decoration:underline}
+@media (max-width:800px){
+  .ds-press-label{max-width:calc(100% - 2rem);left:var(--gutter);right:var(--gutter);transform:none;top:calc(var(--s-md) + 0.75rem)}
+  .ds-lucida{display:none}
+  .ds-glassine-sheet{clip-path:none}
+  .ds-glassine-sheet::after{display:none}
+  .ds-voucher-plate .ds-fig{min-height:min(42vh,420px)}
+  .ds-binomial-strip .ds-taxon-label{font-size:10px}
+}
+/* Range essay. */
+.ds-range-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
+.ds-range-essay{position:relative;display:flex;flex-direction:column;gap:var(--s-2xl);max-width:42rem;padding-left:1.5rem}
+.ds-range-track{
+  position:absolute;left:0.35rem;top:0.5rem;bottom:0.5rem;width:1px;
+  background:linear-gradient(180deg,var(--c-accent),var(--c-border));
+}
+.ds-range-bead{
+  position:absolute;left:-1.28rem;top:0.55rem;width:0.7rem;height:0.7rem;border-radius:50%;
+  background:var(--c-paper);border:1px solid var(--c-accent);z-index:1;
+}
+.ds-range-beat{position:relative}
+.ds-range-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
+.ds-range-note{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.06em;text-transform:none;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+}
+.ds-range-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-range-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-lg)}
+.ds-range-aside-item{display:flex;flex-direction:column;gap:0.25rem;border-left:1px solid var(--c-border);padding-left:0.75rem}
+.ds-range-aside-title{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:22ch}
+@media (max-width:800px){
+  .ds-range-grid{grid-template-columns:1fr!important}
+  .ds-range-aside{order:-1}
 }
 
 /* Press fold + signature rail (press atelier). */

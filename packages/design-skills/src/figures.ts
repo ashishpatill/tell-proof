@@ -13,6 +13,7 @@
  *  - static, because a diagram that moves is a diagram competing with the argument beside it
  */
 import type { Block, MetricSpec } from "./types";
+import { FREE_PHOTOS } from "./free-assets";
 
 /* ------------------------------------------------------------------ */
 /* Deterministic values                                                */
@@ -104,6 +105,8 @@ export type FigureKind =
   | "dossier-plate"
   | "signal-lattice"
   | "index-ledger"
+  | "loom-weave"
+  | "specimen-plate"
   | "press-sheet";
 
 interface FrameOptions {
@@ -1060,7 +1063,7 @@ export function typeLadder(
     );
     if (cut) {
       parts.push(
-        `<text class="ds-fig-mono" x="${round(W - padX)}" y="${round(labelY + 14)}" font-size="11" fill="var(--surface-muted)" text-anchor="end">${esc(clip(cut.title, 22))}</text>`,
+        `<text class="ds-fig-mono" x="${round(W - padX)}" y="${round(labelY + 14)}" font-size="${FIG_MONO_PX}" fill="var(--surface-muted)" text-anchor="end">${esc(clip(cut.title, 22))}</text>`,
       );
     }
     if (i < steps.length - 1) {
@@ -1073,7 +1076,7 @@ export function typeLadder(
   }
 
   parts.push(
-    `<text class="ds-fig-mono" x="${round(padX + 28)}" y="${round(H - padY + 4)}" font-size="11" fill="var(--surface-quiet)">${esc(clip(productName, 28))} · optical sizes</text>`,
+    `<text class="ds-fig-mono" x="${round(padX + 28)}" y="${round(H - padY + 4)}" font-size="${FIG_MONO_PX}" fill="var(--surface-quiet)">${esc(clip(productName, 28))} · optical sizes</text>`,
   );
 
   return frame(parts.join(""), {
@@ -1783,6 +1786,314 @@ export function pressSheet(
 }
 
 /**
+ * Loom weave — commerce-loom signature figure.
+ *
+ * Warp threads + weft SKU cells with copyright-free textile photographs clipped into the weave.
+ * Mono SKU / size labels only (≤11px). Theme packs invent soft card grids; they do not invent a
+ * warp/weft merchandising press with size-tape chrome.
+ */
+export function loomWeave(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:loom-weave:${role}`);
+  const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
+  const H = role === "band" ? 720 : role === "column" ? 520 : 480;
+  const padX = role === "band" ? 40 : 24;
+  const padY = role === "band" ? 36 : 24;
+  const parts: string[] = [];
+  const photos = [FREE_PHOTOS.textileA, FREE_PHOTOS.textileB, FREE_PHOTOS.textileC];
+  const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
+
+  // Outer loom frame — hairline.
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  // Header — LOOM + product (mono ≤11px).
+  const headY = padY + 14;
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">Loom · warp × weft</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W / 2)}" y="${round(headY)}" font-size="11" fill="var(--surface-muted)" text-anchor="middle">${esc(clip(productName, 28))}</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">Size tape</text>`,
+  );
+  parts.push(
+    `<line x1="${round(padX)}" y1="${round(headY + 8)}" x2="${round(W - padX)}" y2="${round(headY + 8)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  // Size tape along left — chrome ticks, not thick bars.
+  const tapeX = padX + 8;
+  const tapeTop = padY + 36;
+  const tapeBot = H - padY - 28;
+  for (let i = 0; i < sizes.length; i += 1) {
+    const y = tapeTop + (i / (sizes.length - 1)) * (tapeBot - tapeTop);
+    parts.push(
+      `<line x1="${round(tapeX)}" y1="${round(y)}" x2="${round(tapeX + 10)}" y2="${round(y)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(tapeX + 14)}" y="${round(y + 3)}" font-size="11" fill="var(--surface-quiet)">${sizes[i]}</text>`,
+    );
+  }
+
+  // Weave field — warp lines + weft photo cells.
+  const fieldX = padX + 56;
+  const fieldY = padY + 32;
+  const fieldW = W - padX - 16 - fieldX;
+  const fieldH = H - padY - 28 - fieldY;
+  const cols = 3;
+  const rows = role === "band" ? 2 : 2;
+  const gap = 10;
+  const cellW = (fieldW - gap * (cols - 1)) / cols;
+  const cellH = (fieldH - gap * (rows - 1)) / rows;
+  const base = features.length ? features : [{ title: "SKU", body: "", meta: "001" } as Block];
+
+  // Warp threads behind cells (sparse — avoid rule flood).
+  const warps = 7;
+  for (let i = 0; i < warps; i += 1) {
+    const x = fieldX + ((i + 0.5) / warps) * fieldW;
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(fieldY)}" x2="${round(x)}" y2="${round(fieldY + fieldH)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.18 + (i % 3) * 0.08)}" vector-effect="non-scaling-stroke"/>`,
+    );
+  }
+
+  // Shuttle path — unreplicable loom craft (theme packs do not invent a flying shuttle).
+  const shuttleY = fieldY + fieldH * 0.48;
+  parts.push(
+    `<path d="M ${round(fieldX + 8)} ${round(shuttleY)} C ${round(fieldX + fieldW * 0.35)} ${round(shuttleY - 18)}, ${round(fieldX + fieldW * 0.65)} ${round(shuttleY + 18)}, ${round(fieldX + fieldW - 8)} ${round(shuttleY)}" fill="none" stroke="${ACCENT}" stroke-width="1" opacity="0.55" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<ellipse cx="${round(fieldX + fieldW * 0.62)}" cy="${round(shuttleY + 2)}" rx="14" ry="5" fill="none" stroke="${ACCENT}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(fieldX + fieldW * 0.62)}" y="${round(shuttleY - 10)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">Shuttle</text>`,
+  );
+
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      const x = fieldX + col * (cellW + gap);
+      const y = fieldY + row * (cellH + gap);
+      const idx = row * cols + col;
+      const f = base[idx % base.length]!;
+      const photo = photos[idx % photos.length]!;
+      const clipId = `loom-clip-${idx}`;
+      parts.push(`<defs><clipPath id="${clipId}"><rect x="${round(x)}" y="${round(y)}" width="${round(cellW)}" height="${round(cellH * 0.72)}"/></clipPath></defs>`);
+      parts.push(
+        `<image href="${photo}" x="${round(x)}" y="${round(y)}" width="${round(cellW)}" height="${round(cellH * 0.72)}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clipId})" opacity="0.92"/>`,
+      );
+      // Weft rule under photo.
+      parts.push(
+        `<rect x="${round(x)}" y="${round(y)}" width="${round(cellW)}" height="${round(cellH)}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      );
+      parts.push(
+        `<line x1="${round(x)}" y1="${round(y + cellH * 0.72)}" x2="${round(x + cellW)}" y2="${round(y + cellH * 0.72)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      );
+      const sku = String(100 + idx).padStart(3, "0");
+      parts.push(
+        `<text class="ds-fig-mono" x="${round(x + 6)}" y="${round(y + cellH * 0.72 + 14)}" font-size="11" fill="var(--surface-quiet)">Sku ${sku}</text>`,
+      );
+      parts.push(
+        `<text class="ds-fig-mono" x="${round(x + 6)}" y="${round(y + cellH - 8)}" font-size="11" fill="var(--surface-muted)">${esc(clip(f.title ?? "Line", 18))}</text>`,
+      );
+      // Accent pin on lead cell.
+      if (idx === 0) {
+        parts.push(
+          `<rect x="${round(x + cellW - 10)}" y="${round(y + 6)}" width="4" height="4" fill="${ACCENT}" opacity="0.85"/>`,
+        );
+      }
+      void r; // seed reserved for future weave jitter without rule flood
+    }
+  }
+
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(H - padY + 12)}" font-size="11" fill="var(--surface-quiet)">${esc(clip(productName, 24))} · loom weave</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(H - padY + 12)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${cols * rows} cells · free textile stock</text>`,
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "loom-weave",
+    label: `${productName} loom weave`,
+    inset: role === "band" ? BLEED_INSET : 0,
+  });
+}
+
+/**
+ * Specimen plate — field-guide signature figure.
+ *
+ * Pressed-leaf silhouette + copyright-free botanical photo inset in a voucher window, taxonomic
+ * mono labels ≤11px, range ticks. Soft theme packs float glass cards; they do not invent a
+ * herbarium voucher with pressed geometry and a taxon rail.
+ */
+export function specimenPlate(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:specimen-plate:${role}`);
+  const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
+  const H = role === "band" ? 720 : role === "column" ? 520 : 480;
+  const padX = role === "band" ? 44 : 26;
+  const padY = role === "band" ? 36 : 24;
+  const parts: string[] = [];
+  const photos = [FREE_PHOTOS.botanicalA, FREE_PHOTOS.botanicalB, FREE_PHOTOS.botanicalC];
+  const ranks = ["K", "P", "C", "O", "F", "G", "S"];
+
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  const headY = padY + 14;
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">Voucher · herbarium</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W / 2)}" y="${round(headY)}" font-size="11" fill="var(--surface-muted)" text-anchor="middle">${esc(clip(productName, 28))}</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">Specimen</text>`,
+  );
+  parts.push(
+    `<line x1="${round(padX)}" y1="${round(headY + 8)}" x2="${round(W - padX)}" y2="${round(headY + 8)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  // Taxon rank ticks along left.
+  const rankTop = padY + 36;
+  const rankBot = H - padY - 28;
+  for (let i = 0; i < ranks.length; i += 1) {
+    const y = rankTop + (i / (ranks.length - 1)) * (rankBot - rankTop);
+    parts.push(
+      `<line x1="${round(padX + 8)}" y1="${round(y)}" x2="${round(padX + 16)}" y2="${round(y)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(padX + 20)}" y="${round(y + 3)}" font-size="11" fill="var(--surface-quiet)">${ranks[i]}</text>`,
+    );
+  }
+
+  // Pressed silhouette (constructed leaf — not SVG display type).
+  const leafX = padX + 70;
+  const leafY = padY + 40;
+  const leafW = W * 0.42;
+  const leafH = H - padY * 2 - 70;
+  const midX = leafX + leafW * 0.45;
+  const midY = leafY + leafH * 0.5;
+  // Stem
+  parts.push(
+    `<line x1="${round(midX)}" y1="${round(leafY + leafH * 0.08)}" x2="${round(midX)}" y2="${round(leafY + leafH * 0.92)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  // Leaf outline as paired arcs / polylines
+  const lobes = 5;
+  for (let i = 0; i < lobes; i += 1) {
+    const t0 = 0.12 + (i / lobes) * 0.7;
+    const y0 = leafY + leafH * t0;
+    const spread = leafW * (0.18 + 0.12 * Math.sin(i * 1.2 + r() * 0.2));
+    parts.push(
+      `<path d="M ${round(midX)} ${round(y0)} Q ${round(midX - spread)} ${round(y0 + leafH * 0.06)} ${round(midX)} ${round(y0 + leafH * 0.14)}" fill="none" stroke="${LINE}" stroke-width="1" opacity="0.75" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      `<path d="M ${round(midX)} ${round(y0)} Q ${round(midX + spread * 0.9)} ${round(y0 + leafH * 0.05)} ${round(midX)} ${round(y0 + leafH * 0.13)}" fill="none" stroke="${LINE}" stroke-width="1" opacity="0.55" vector-effect="non-scaling-stroke"/>`,
+    );
+  }
+  // Pressing pin marks (corners of silhouette field).
+  for (const [px, py] of [
+    [leafX + 8, leafY + 8],
+    [leafX + leafW - 20, leafY + 8],
+    [leafX + 8, leafY + leafH - 16],
+    [leafX + leafW - 20, leafY + leafH - 16],
+  ] as const) {
+    parts.push(`<circle cx="${round(px)}" cy="${round(py)}" r="2.5" fill="none" stroke="${ACCENT}" stroke-width="1"/>`);
+  }
+  // Pressing blot — unreplicable herbarium craft (theme packs do not invent a blot + pin register).
+  parts.push(
+    `<ellipse cx="${round(midX + leafW * 0.08)}" cy="${round(midY + leafH * 0.12)}" rx="22" ry="14" fill="${ACCENT_FIELD}" opacity="0.35"/>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(midX + leafW * 0.08)}" y="${round(midY + leafH * 0.12 + 3)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">Blot</text>`,
+  );
+
+  // Photo voucher window on the right.
+  const winX = leafX + leafW + 16;
+  const winY = leafY + 12;
+  const winW = W - padX - 16 - winX;
+  const winH = leafH * 0.62;
+  const clipId = "spec-photo-clip";
+  parts.push(`<defs><clipPath id="${clipId}"><rect x="${round(winX)}" y="${round(winY)}" width="${round(winW)}" height="${round(winH)}"/></clipPath></defs>`);
+  parts.push(
+    `<image href="${photos[0]}" x="${round(winX)}" y="${round(winY)}" width="${round(winW)}" height="${round(winH)}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${clipId})" opacity="0.94"/>`,
+  );
+  parts.push(
+    `<rect x="${round(winX)}" y="${round(winY)}" width="${round(winW)}" height="${round(winH)}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(winX + 8)}" y="${round(winY + 16)}" font-size="11" fill="var(--surface-quiet)">Plate A</text>`,
+  );
+
+  // Feature callouts under photo — sparse mono.
+  const base = features.length ? features : [{ title: "Trait", body: "", meta: "01" } as Block];
+  const callTop = winY + winH + 18;
+  for (let i = 0; i < Math.min(3, base.length); i += 1) {
+    const y = callTop + i * 22;
+    const f = base[i]!;
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(winX + 8)}" y="${round(y)}" font-size="11" fill="var(--surface-quiet)">${String(i + 1).padStart(2, "0")}</text>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(winX + 36)}" y="${round(y)}" font-size="11" fill="var(--surface-muted)">${esc(clip(f.title, 22))}</text>`,
+    );
+    // Tiny secondary photo chips for remaining stock — ink without card collage.
+    if (i > 0 && photos[i]) {
+      const chip = 28;
+      const cx = winX + winW - chip - 6;
+      const cy = callTop + (i - 1) * (chip + 6);
+      const cid = `spec-chip-${i}`;
+      parts.push(`<defs><clipPath id="${cid}"><rect x="${round(cx)}" y="${round(cy)}" width="${chip}" height="${chip}"/></clipPath></defs>`);
+      parts.push(
+        `<image href="${photos[i]}" x="${round(cx)}" y="${round(cy)}" width="${chip}" height="${chip}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${cid})" opacity="0.85"/>`,
+      );
+      parts.push(
+        `<rect x="${round(cx)}" y="${round(cy)}" width="${chip}" height="${chip}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      );
+    }
+  }
+
+  // Range ticks under leaf.
+  const rangeY = leafY + leafH - 4;
+  for (let i = 0; i < 6; i += 1) {
+    const x = leafX + 20 + (i / 5) * (leafW - 40);
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(rangeY)}" x2="${round(x)}" y2="${round(rangeY + 8)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+  }
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(leafX + 20)}" y="${round(rangeY + 20)}" font-size="11" fill="var(--surface-quiet)">Range · W → E</text>`,
+  );
+
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(H - padY + 12)}" font-size="11" fill="var(--surface-quiet)">${esc(clip(productName, 24))} · specimen plate</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(H - padY + 12)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">free botanical stock</text>`,
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "specimen-plate",
+    label: `${productName} specimen plate`,
+    inset: role === "band" ? BLEED_INSET : 0,
+  });
+}
+
+/**
  * One letterform drawn as strokes rather than typeset. Not a typeface — a construction, the way a
  * mark is drawn before it is drawn properly: stems on the vertical, a shoulder or a bowl where the
  * letter needs one, a diagonal where it needs that instead.
@@ -1920,7 +2231,7 @@ export interface FigurePlan {
   sparks: string[];
 }
 
-type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder" | "dossier-plate" | "signal-lattice" | "index-ledger" | "press-sheet";
+type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder" | "dossier-plate" | "signal-lattice" | "index-ledger" | "loom-weave" | "specimen-plate" | "press-sheet";
 
 /**
  * Which drawing goes where.
@@ -1951,7 +2262,10 @@ const ORDER: Record<string, Kind[]> = {
   "signal-observatory": ["signal-lattice", "stack", "horizon", "flow"],
   // Archive: ledger owns the fold; horizon specimen stays rule-light (stack was flooding rules/screen).
   "archive-index": ["index-ledger", "horizon", "flow", "stack"],
-  // Press: press sheet owns the fold; denser flow specimen (horizon was an empty valley in the reel).
+  // Commerce loom: weave owns the fold; horizon specimen stays quiet vs soft card grids.
+  "commerce-loom": ["loom-weave", "horizon", "flow", "stack"],
+  // Field guide: specimen plate owns the fold; horizon keeps scroll rhythm.
+  "field-guide": ["specimen-plate", "horizon", "flow", "stack"],
   "press-atelier": ["press-sheet", "flow", "stack", "horizon"],
 };
 
@@ -1990,6 +2304,10 @@ export function planFigures(input: {
         return signalLattice(input.productName, input.features, seed, role);
       case "index-ledger":
         return indexLedger(input.productName, input.features, seed, role);
+      case "loom-weave":
+        return loomWeave(input.productName, input.features, seed, role);
+      case "specimen-plate":
+        return specimenPlate(input.productName, input.features, seed, role);
       case "press-sheet":
         return pressSheet(input.productName, input.features, seed, role);
       default:
@@ -2003,8 +2321,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["press-sheet", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["press-sheet", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -2028,7 +2346,8 @@ export function planFigures(input: {
   // Dossier folio fold: the cartographic plate always owns the spanning field.
   // Observatory chrono fold: the signal lattice always owns the spanning field.
   // Archive register fold: the index ledger always owns the spanning field.
-  // Press fold: the press sheet always owns the spanning field.
+  // Commerce loom fold: the warp/weft weave always owns the spanning field.
+  // Field guide fold: the specimen plate always owns the spanning field.
   const heroKind =
     input.siteKind === "editorial-foundry"
       ? ("type-ladder" as Kind)
@@ -2038,6 +2357,10 @@ export function planFigures(input: {
           ? ("signal-lattice" as Kind)
           : input.siteKind === "archive-index"
             ? ("index-ledger" as Kind)
+            : input.siteKind === "commerce-loom"
+              ? ("loom-weave" as Kind)
+              : input.siteKind === "field-guide"
+                ? ("specimen-plate" as Kind)
             : input.siteKind === "press-atelier"
               ? ("press-sheet" as Kind)
       : shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;

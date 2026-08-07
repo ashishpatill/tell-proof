@@ -265,7 +265,7 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(12);
+    expect(templates).toHaveLength(14);
     expect(templates.map((t) => t.key).sort()).toEqual([
       "archive",
       "consumer",
@@ -275,6 +275,8 @@ describe("research-backed offerings + implementation basics", () => {
       "educational",
       "fintech",
       "foundry",
+      "herbarium",
+      "loom",
       "observatory",
       "press",
       "saas",
@@ -298,6 +300,10 @@ describe("research-backed offerings + implementation basics", () => {
     expect(observatory.siteKind).toBe("signal-observatory");
     const archive = templates.find((t) => t.key === "archive")!;
     expect(archive.siteKind).toBe("archive-index");
+    const loom = templates.find((t) => t.key === "loom")!;
+    expect(loom.siteKind).toBe("commerce-loom");
+    const herbarium = templates.find((t) => t.key === "herbarium")!;
+    expect(herbarium.siteKind).toBe("field-guide");
     const press = templates.find((t) => t.key === "press")!;
     expect(press.siteKind).toBe("press-atelier");
   });
@@ -422,6 +428,51 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).not.toContain('class="ds-chapter-rail"');
     expect(previewHtml).not.toContain('class="ds-scrub-rail"');
     expect(previewHtml).not.toContain('class="ds-chronometer"');
+  });
+
+  it("gives commerce loom a drawloom weft + treadles + hangtag plan distinct from soft card grids", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.loom!);
+    expect(spec.brief.siteKind).toBe("commerce-loom");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-loom")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-hangtag")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="commerce-loom"');
+    expect(previewHtml).toContain("ds-hero-drawloom");
+    expect(previewHtml).toContain("ds-weft-pick");
+    expect(previewHtml).toContain("ds-treadles");
+    expect(previewHtml).toContain('data-figure="loom-weave"');
+    expect(previewHtml).toContain("ds-hangtag");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Care label");
+    expect(previewHtml).toContain("The lines");
+    expect(previewHtml).not.toContain('class="ds-alpha-rail"');
+    expect(previewHtml).not.toContain('aria-label="Taxonomic ranks"');
+  });
+
+  it("gives field guide a glassine press + binomial + range plan distinct from glass hero collages", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.herbarium!);
+    expect(spec.brief.siteKind).toBe("field-guide");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-voucher")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-range")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="field-guide"');
+    expect(previewHtml).toContain("ds-hero-glassine");
+    expect(previewHtml).toContain("ds-glassine-sheet");
+    expect(previewHtml).toContain("ds-press-label");
+    expect(previewHtml).toContain("ds-binomial-strip");
+    expect(previewHtml).toContain('data-figure="specimen-plate"');
+    expect(previewHtml).toContain("ds-range");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Voucher");
+    expect(previewHtml).toContain("The traits");
+    expect(previewHtml).not.toContain('aria-label="Size treadles"');
+    expect(previewHtml).not.toContain('class="ds-alpha-rail"');
   });
 
   it("gives press atelier a registration + press sheet + gather plan distinct from archive and dossier", () => {

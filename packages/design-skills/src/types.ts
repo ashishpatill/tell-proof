@@ -89,6 +89,20 @@ export const SiteKind = z.enum([
    */
   "archive-index",
   /**
+   * Commerce loom / merchandising press — drawloom fold (claim woven as weft through warp),
+   * size treadles, free textile photo cloth, hangtag essay, Care label close.
+   * Calibrated to commerce-platform + brand-product-agency (figure-forward, quiet-to-moderate
+   * display, dense product matter, low inverse). Not SaaS conversion, not soft card grids.
+   */
+  "commerce-loom",
+  /**
+   * Field guide / herbarium craft — glassine press fold (specimen under peeled sheet + museum
+   * label), binomial strip, free botanical plate, range essay, Voucher close.
+   * Calibrated to personal-craft + brand-agency + consumer-craft (figureArea high, quiet display,
+   * paper-led, layered specimen matter). Not soft glass hero collages or theme-pack card stacks.
+   */
+  "field-guide",
+  /**
    * Press atelier / brand-agency production craft — registration-framed fold, sticky signature
    * rail, press-sheet imposition figure owning the fold, gather essay with fold ticks,
    * Pressroom close. Calibrated to brand-agency + brand-product-agency + editorial-longform
@@ -277,6 +291,26 @@ export const LayoutVariant = z.enum([
    * Not chapters, marginalia, verso/recto, or chrono beads.
    */
   "story-entry",
+  /**
+   * Loom fold — size-tape rail + compact claim + spanning warp/weft SKU loom with photo cells.
+   * Commerce-loom signature; not register, chrono, folio, or soft card collage.
+   */
+  "hero-loom",
+  /**
+   * Voucher fold — taxon rail + voucher masthead + spanning specimen plate with photo inset.
+   * Field-guide signature; not loom, register, or glassmorphism hero.
+   */
+  "hero-voucher",
+  /**
+   * Hangtag essay — string/eyelet mark + ruled hangtag body + outer size index.
+   * Commerce-loom craft; not entry folio or chrono beads.
+   */
+  "story-hangtag",
+  /**
+   * Range essay — distribution beads + outer taxon index + voucher footnotes.
+   * Field-guide craft; not hangtag, entry, or verso/recto.
+   */
+  "story-range",
   /**
    * Gather essay — folded signature ticks + outer plate index — press-atelier craft.
    * Not entry folios, chrono beads, verso/recto, or marginalia.

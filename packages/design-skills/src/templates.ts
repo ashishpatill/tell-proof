@@ -29,6 +29,8 @@ export type TemplateKey =
   | "dossier"
   | "observatory"
   | "archive"
+  | "loom"
+  | "herbarium"
   | "press";
 
 export interface DesignTemplate {
@@ -686,6 +688,136 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
           id: "a6",
           name: "Quiet spine",
           description: "A register that survives the jump from browse to cite without becoming a search box costume",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "loom",
+    label: "Commerce loom",
+    marketJob:
+      "Merchandising press landing — drawloom weft claim, size treadles, warp/weft photo cloth, hangtag essay, Care label close.",
+    siteKind: "commerce-loom",
+    researchBasis:
+      "Calibrated against commerce-platform + brand-product-agency corridors (figure-forward, quiet-to-moderate display, low inverse). Distinct craft soft theme packs miss: claim-as-weft drawloom, bottom size treadles, loom-weave figure with copyright-free textile photo cells, hangtag essay with eyelet marks, paper Care label — no pricing, no metrics theatre, zero inverse bands, no glass card collage.",
+    brief: DesignBrief.parse({
+      productName: "Warp Desk",
+      tagline: "The press that keeps every SKU under one honest weave",
+      audience: "merchandisers and wholesale buyers cutting seasonal lines",
+      businessGoal: "trust",
+      siteKind: "commerce-loom",
+      lockSiteKind: true,
+      // Cool ink-led stock — escapes cream/terracotta and violet AI clusters.
+      brandAccent: "#3A4A3C",
+      features: [
+        {
+          id: "l1",
+          name: "Size treadles",
+          description: "Bottom size treadles that land you on the fit window without a left sticky rail",
+          priority: "p0",
+        },
+        {
+          id: "l2",
+          name: "Warp cells",
+          description: "SKU cells woven on a shared loom so a quiet line cannot hide beside a loud one",
+          priority: "p0",
+        },
+        {
+          id: "l3",
+          name: "Photo weft",
+          description: "Copyright-free textile stock clipped into the weave — matter, not a lifestyle card grid",
+          priority: "p0",
+        },
+        {
+          id: "l4",
+          name: "Hangtag notes",
+          description: "Fit notes that travel with the reading — the limits of a cut stay visible while you decide",
+          priority: "p1",
+        },
+        {
+          id: "l5",
+          name: "Care label",
+          description: "Edition and care stamped so a reused page cannot orphan its provenance",
+          priority: "p1",
+        },
+        {
+          id: "l6",
+          name: "Cut memory",
+          description: "A loom that survives the jump from sample to order without becoming orphan cards",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "herbarium",
+    label: "Field guide",
+    marketJob:
+      "Herbarium / voucher landing — glassine press, binomial strip, specimen plate with free botanical photos, range essay, Voucher close.",
+    siteKind: "field-guide",
+    researchBasis:
+      "Calibrated against personal-craft + brand-agency + consumer-craft corridors (high figureArea, quiet display, paper-led). Distinct craft soft theme packs miss: glassine press with peeled sheet + museum label, bottom binomial strip, specimen-plate with pressed silhouette + copyright-free botanical inset, range essay with distribution beads, paper Voucher close — no pricing, no metrics theatre, zero inverse bands, no floating glass collage.",
+    brief: DesignBrief.parse({
+      productName: "Vellum Press",
+      tagline: "The voucher that keeps every trait under one honest plate",
+      audience: "naturalists and editors maintaining a public field guide",
+      businessGoal: "trust",
+      siteKind: "field-guide",
+      lockSiteKind: true,
+      // Cool ink-led stock — escapes cream/terracotta and violet AI clusters.
+      brandAccent: "#2F4538",
+      features: [
+        {
+          id: "h1",
+          name: "Binomial strip",
+          description: "Kingdom→Species treadles under the press so ranks stay reachable without a left sticky rail",
+          priority: "p0",
+        },
+        {
+          id: "h2",
+          name: "Pressed plate",
+          description: "A specimen silhouette with pin marks so the voucher reads as collected matter, not stock art",
+          priority: "p0",
+        },
+        {
+          id: "h3",
+          name: "Photo inset",
+          description: "Copyright-free botanical stock clipped into the voucher window — evidence, not a card collage",
+          priority: "p0",
+        },
+        {
+          id: "h4",
+          name: "Range beads",
+          description: "Distribution notes that travel with the reading — west-to-east ticks stay visible while you decide",
+          priority: "p1",
+        },
+        {
+          id: "h5",
+          name: "Voucher close",
+          description: "Edition and custody stamped so a reused page cannot orphan its provenance",
+          priority: "p1",
+        },
+        {
+          id: "h6",
+          name: "Plate memory",
+          description: "A voucher that survives the jump from field to desk without becoming orphan photos",
           priority: "p2",
         },
       ],

@@ -21,6 +21,8 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
           siteKind === "research-dossier" ||
           siteKind === "signal-observatory" ||
           siteKind === "archive-index" ||
+          siteKind === "commerce-loom" ||
+          siteKind === "field-guide" ||
           siteKind === "press-atelier"
         ? "refined-story"
         : "conversion-sharp";
@@ -28,7 +30,7 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
   return TasteControls.parse({
     density:
       brief.taste?.density ??
-      (siteKind === "docs-educational" || siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "archive-index" || siteKind === "press-atelier"
+      (siteKind === "docs-educational" || siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "archive-index" || siteKind === "commerce-loom" || siteKind === "field-guide" || siteKind === "press-atelier"
         ? "sparse"
         : siteKind === "signal-observatory"
           ? "balanced"
@@ -37,7 +39,7 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
           : "balanced"),
     motion:
       brief.taste?.motion ??
-      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory" || siteKind === "archive-index" || siteKind === "press-atelier"
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory" || siteKind === "archive-index" || siteKind === "commerce-loom" || siteKind === "field-guide" || siteKind === "press-atelier"
         ? "light-scroll-reveals"
         : siteKind === "dashboard-webapp"
           ? "subtle-micro"
@@ -45,12 +47,12 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
     aestheticLean: brief.taste?.aestheticLean ?? leanDefault,
     colorMood:
       brief.taste?.colorMood ??
-      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory" || siteKind === "archive-index" || siteKind === "press-atelier"
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory" || siteKind === "archive-index" || siteKind === "commerce-loom" || siteKind === "field-guide" || siteKind === "press-atelier"
         ? "light-airy"
         : "neutral-professional"),
     typographyWeight:
       brief.taste?.typographyWeight ??
-      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory" || siteKind === "archive-index" || siteKind === "press-atelier"
+      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory" || siteKind === "archive-index" || siteKind === "commerce-loom" || siteKind === "field-guide" || siteKind === "press-atelier"
         ? "light-elegant"
         : "medium-modern"),
     roundingDepth:
@@ -60,6 +62,8 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
         siteKind === "research-dossier" ||
         siteKind === "signal-observatory" ||
         siteKind === "archive-index" ||
+        siteKind === "commerce-loom" ||
+        siteKind === "field-guide" ||
         siteKind === "press-atelier"
         ? "sharp"
         : "soft"),

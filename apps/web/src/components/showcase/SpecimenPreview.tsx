@@ -110,6 +110,8 @@ export function SpecimenPreview({
           .ds-scrub-rail{display:none!important}
           .ds-chronometer{display:none!important}
           .ds-alpha-rail{display:none!important}
+          .ds-tape-rail{display:none!important}
+          .ds-taxon-rail{display:none!important}
           .ds-sig-rail{display:none!important}
           .ds-press-regs{display:none!important}
           html{scroll-padding-top:0!important}
