@@ -373,18 +373,12 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
   }
 
   /*
-   * Drawloom fold — commerce-loom marvel craft.
+   * Drawloom fold — commerce-loom marvel craft (instrument depth).
    *
-   * Breaks the sticky-rail recipe: the headline is woven as weft picks through visible warp
-   * threads, the cloth (photo loom) owns the lower fold, and size tape becomes treadles at the
-   * bottom — not a left chrome rail. Theme packs invent card grids; they do not invent a drawloom.
-   */
-  /*
-   * Drawloom fold — commerce-loom marvel craft.
-   *
-   * Breaks the sticky-rail recipe: the headline is woven as weft picks through visible warp
-   * threads, the cloth (photo loom) owns the lower fold, and size tape becomes treadles at the
-   * bottom — not a left chrome rail. Theme packs invent card grids; they do not invent a drawloom.
+   * Failure named: claim + CSS warp lines still read as “serif over graph paper.”
+   * Challenger: a real shed — SVG warp ends, weft picks that pass over/under alternate
+   * warps, a flying shuttle, and a fell line where cloth begins. Theme packs cannot emit
+   * a shed-threaded headline from taste sliders.
    */
   if (section.layout === "hero-loom") {
     const loomFig = figures.hero
@@ -404,8 +398,23 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     }
     if (line) picks.push(line);
     const weftPicks = picks
-      .map((p, i) => `<span class="ds-weft-pick" style="--pick:${i}"><span class="ds-weft-ink">${esc(p)}</span></span>`)
+      .map((p, i) => {
+        const letters = [...p].map((ch, j) => {
+          const under = (i + j) % 2 === 1;
+          const glyph = ch === " " ? "&nbsp;" : esc(ch);
+          return `<span class="ds-shed-glyph${under ? " is-under" : " is-over"}">${glyph}</span>`;
+        }).join("");
+        return `<span class="ds-weft-pick" style="--pick:${i}"><span class="ds-weft-thread" aria-hidden="true"></span><span class="ds-weft-ink">${letters}</span></span>`;
+      })
       .join("");
+    const warpCount = 28;
+    const warpEnds = Array.from({ length: warpCount }, (_, i) => {
+      const x = ((i + 0.5) / warpCount) * 100;
+      return `<line class="ds-warp-end" x1="${x}%" y1="0" x2="${x}%" y2="100%" />`;
+    }).join("");
+    const shed = `<svg class="ds-shed" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${warpEnds}</svg>`;
+    const shuttle = `<div class="ds-shuttle" aria-hidden="true"><span class="ds-shuttle-body"></span><span class="ds-shuttle-tip"></span><span class="ds-shuttle-meta">Shuttle</span></div>`;
+    const fell = `<div class="ds-fell" aria-hidden="true"><span class="ds-fell-label">Fell</span></div>`;
     const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
     const treadles = `<nav class="ds-tape-rail ds-treadles" aria-label="Size treadles"><ol>${sizes
       .map((S, i) => {
@@ -413,24 +422,28 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
         return `<li><a href="${href}" class="ds-tape-chip${i === 2 ? " is-active" : ""}" data-size="${S}"><span class="ds-tape-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-tape-label">${S}</span></a></li>`;
       })
       .join("")}</ol></nav>`;
-    const reed = `<div class="ds-reed" aria-hidden="true">${Array.from({ length: 24 }, (_, i) => `<span class="ds-reed-tooth" style="--i:${i}"></span>`).join("")}</div>`;
+    const reed = `<div class="ds-reed" aria-hidden="true">${Array.from({ length: 32 }, (_, i) => `<span class="ds-reed-tooth" style="--i:${i}"></span>`).join("")}</div>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-loom ds-hero-drawloom" data-surface="${section.surface}" data-section="${esc(section.id)}">
       <div class="ds-drawloom">
         <header class="ds-loom-beam" aria-label="Loom beam">
           <span class="ds-loom-vol">Drawloom</span>
-          <span class="ds-loom-issue">Warp × weft</span>
+          <span class="ds-loom-issue">Shed · warp × weft</span>
           <span class="ds-loom-mark">${esc(spec.brief.productName)}</span>
         </header>
         ${reed}
         <div class="ds-drawloom-stage">
-          <div class="ds-warp-field" aria-hidden="true"></div>
-          <div class="ds-weft-claim">
-            <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
-            ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
-            <h1 class="ds-display ds-weft-display">${weftPicks}</h1>
-            <p class="ds-lede">${esc(section.body)}</p>
-            ${actions(section)}
+          <div class="ds-shed-stage">
+            ${shed}
+            <div class="ds-weft-claim">
+              <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
+              ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+              <h1 class="ds-display ds-weft-display">${weftPicks}</h1>
+              <p class="ds-lede">${esc(section.body)}</p>
+              ${actions(section)}
+            </div>
+            ${shuttle}
           </div>
+          ${fell}
           <div class="ds-drawloom-cloth">${loomFig}</div>
         </div>
         ${treadles}
@@ -440,12 +453,12 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
   }
 
   /*
-   * Glassine press fold — field-guide marvel craft.
+   * Dissecting-tray glassine — field-guide marvel craft (instrument depth).
    *
-   * Breaks the sticky-rail recipe: the specimen plate sits under a translucent glassine sheet with
-   * corner press pins; the claim is a museum label stuck on the glassine; taxon ranks become a
-   * horizontal binomial strip under the press — not a left chrome rail. Theme packs invent glass
-   * card collages; they do not invent a herbarium press under glassine.
+   * Failure named: museum label still read as a floating SaaS card over a photo.
+   * Challenger: cork-edged dissecting tray, hinged glassine lid with peel corner, numbered
+   * entomology pins tied to a specimen tag, vernier scale, dichotomous key as the bottom
+   * instrument. Theme packs invent glass heroes; they do not invent a hinged tray.
    */
   if (section.layout === "hero-voucher") {
     const plateFig = figures.hero
@@ -460,34 +473,44 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       { id: "G", label: "Genus" },
       { id: "S", label: "Species" },
     ];
-    const binomial = `<nav class="ds-taxon-rail ds-binomial-strip" aria-label="Taxonomic ranks"><ol>${ranks
+    const binomial = `<nav class="ds-taxon-rail ds-binomial-strip" aria-label="Dichotomous key"><ol>${ranks
       .map((R, i) => {
         const href = i < 6 ? ["#features", "#figure", "#specimen", "#story", "#proof", "#cta"][i] : "#features";
         return `<li><a href="${href}" class="ds-taxon-chip${i === 5 ? " is-active" : ""}" data-rank="${R.id}"><span class="ds-taxon-meta">${R.id}</span><span class="ds-taxon-label">${esc(R.label)}</span></a></li>`;
       })
       .join("")}</ol></nav>`;
-    const pins = `<div class="ds-press-pins" aria-hidden="true"><span></span><span></span><span></span><span></span></div>`;
-    const lucida = `<div class="ds-lucida" aria-hidden="true"><span class="ds-lucida-arm"></span><span class="ds-lucida-prism"></span><span class="ds-lucida-meta">Lucida</span></div>`;
-    return `<section id="top" class="ds-section ds-hero ds-hero-voucher ds-hero-glassine" data-surface="${section.surface}" data-section="${esc(section.id)}">
-      <div class="ds-glassine-press">
-        <header class="ds-voucher-masthead" aria-label="Voucher masthead">
-          <span class="ds-voucher-vol">Press</span>
-          <span class="ds-voucher-issue">Glassine</span>
-          <span class="ds-voucher-date">Herbarium plate</span>
+    const ePins = [1, 2, 3, 4]
+      .map((n) => `<span class="ds-epin" style="--n:${n}" data-pin="${n}"><i>${n}</i></span>`)
+      .join("");
+    const hinge = `<div class="ds-tray-hinge" aria-hidden="true"><span></span><span></span><span></span></div>`;
+    const vernier = `<div class="ds-vernier" aria-hidden="true"><span class="ds-vernier-track"></span><span class="ds-vernier-meta">0 — 50 mm</span></div>`;
+    const tagString = `<svg class="ds-tag-string" viewBox="0 0 120 80" aria-hidden="true"><path d="M8 72 C 28 40, 48 28, 72 18" fill="none" stroke="currentColor" stroke-width="1"/></svg>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-voucher ds-hero-glassine ds-hero-tray" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      <div class="ds-glassine-press ds-dissecting-tray">
+        <header class="ds-voucher-masthead" aria-label="Tray masthead">
+          <span class="ds-voucher-vol">Tray</span>
+          <span class="ds-voucher-issue">Hinged glassine</span>
+          <span class="ds-voucher-date">Dissecting plate</span>
           <span class="ds-voucher-mark">${esc(spec.brief.productName)}</span>
         </header>
-        <div class="ds-press-stage">
-          ${pins}
+        <div class="ds-press-stage ds-tray-well">
+          <div class="ds-tray-cork" aria-hidden="true"></div>
+          ${hinge}
+          ${ePins}
+          ${vernier}
           <div class="ds-press-plate">${plateFig}</div>
-          <div class="ds-glassine-sheet" aria-hidden="true"></div>
-          <div class="ds-press-label">
+          <div class="ds-glassine-sheet ds-glassine-lid" aria-hidden="true">
+            <span class="ds-lid-peel"></span>
+          </div>
+          ${tagString}
+          <div class="ds-press-label ds-specimen-tag">
+            <p class="ds-tag-pinmeta">Pin 02 · voucher</p>
             <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
             ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
             <h1 class="ds-display">${esc(section.title)}</h1>
             <p class="ds-lede">${esc(section.body)}</p>
             ${actions(section)}
           </div>
-          ${lucida}
         </div>
         ${binomial}
       </div>

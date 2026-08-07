@@ -441,6 +441,10 @@ describe("research-backed offerings + implementation basics", () => {
     expect(inverse.length).toBe(0);
     expect(previewHtml).toContain('data-sitekind="commerce-loom"');
     expect(previewHtml).toContain("ds-hero-drawloom");
+    expect(previewHtml).toContain("ds-shed");
+    expect(previewHtml).toContain("ds-shed-glyph");
+    expect(previewHtml).toContain("ds-shuttle");
+    expect(previewHtml).toContain("ds-fell");
     expect(previewHtml).toContain("ds-weft-pick");
     expect(previewHtml).toContain("ds-treadles");
     expect(previewHtml).toContain('data-figure="loom-weave"');
@@ -449,7 +453,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("Care label");
     expect(previewHtml).toContain("The lines");
     expect(previewHtml).not.toContain('class="ds-alpha-rail"');
-    expect(previewHtml).not.toContain('aria-label="Taxonomic ranks"');
+    expect(previewHtml).not.toContain('aria-label="Dichotomous key"');
   });
 
   it("gives field guide a glassine press + binomial + range plan distinct from glass hero collages", () => {
@@ -463,8 +467,10 @@ describe("research-backed offerings + implementation basics", () => {
     expect(inverse.length).toBe(0);
     expect(previewHtml).toContain('data-sitekind="field-guide"');
     expect(previewHtml).toContain("ds-hero-glassine");
-    expect(previewHtml).toContain("ds-glassine-sheet");
-    expect(previewHtml).toContain("ds-press-label");
+    expect(previewHtml).toContain("ds-dissecting-tray");
+    expect(previewHtml).toContain("ds-glassine-lid");
+    expect(previewHtml).toContain("ds-specimen-tag");
+    expect(previewHtml).toContain("ds-epin");
     expect(previewHtml).toContain("ds-binomial-strip");
     expect(previewHtml).toContain('data-figure="specimen-plate"');
     expect(previewHtml).toContain("ds-range");
