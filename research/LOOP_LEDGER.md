@@ -549,3 +549,23 @@ buckets, never names, hosts, or URLs.
 - **Side effects:** archive ink-variation still above corridor — accepted for ledger-owned fold.
 - **Next weakest:** archive/press ink-variation ceilings; deepen unreplicable craft without
   score-gaming.
+
+## Loop 24 — instrument depth: shed + dissecting tray (marvel RSI 2)
+
+- **Goal:** Loop 21 folds still read as claim-over-grid / floating label to a hard eye. Deepen
+  into instruments a Framer template cannot emit from taste sliders.
+- **Failure named (champion):** Drawloom was CSS warp lines + serif claim; glassine was a
+  floating SaaS card over a photo — approximable editorial recipes with metaphor labels.
+- **Challenger:**
+  - Shed-threaded drawloom — SVG warp ends, weft thread + fell line, flying shuttle; cloth
+    begins at the fell (probe-safe whole-line weft ink, not per-glyph spans)
+  - Dissecting tray — cork well, hinged glassine lid with peel, numbered entomology pins,
+    specimen tag on a string, vernier scale, dichotomous key strip
+- **Score:** first glyph-split loom **93.0** (displayVw 1.74); dogfood → loom **97.6**, field
+  **98.7** (↑ from 97.6), matrix **99.0**, holdout **99.1**.
+- **Closed:** `template:claim-over-grid-still-basic`, `template:glyph-split-steals-display`.
+- **Side effects:** ink-variation still above corridor for photo/tray folds — accepted.
+- **Qualitative:** fold shows shuttle on the shed and a pinned tray with hinged lid — not a
+  renamed sticky rail or a card collage.
+- **Next weakest:** make shed over/under more optically obvious without splitting display glyphs.
+

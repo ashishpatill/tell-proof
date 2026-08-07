@@ -241,3 +241,24 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Do not:** Decorate a new siteKind with 2–3px accent bars or soft drop shadows and expect
   hairline/shadow bands to hold.
 
+## 2026-08-07 — `template:claim-over-grid-still-basic`
+
+- **Failure named (champion):** After Loop 21, hard eye still read loom as serif-over-graph-paper
+  and field as a floating label card on a photo — metaphor chrome, not unreplicable structure.
+- **Challenger:** SVG warp shed + flying shuttle + fell line; cork dissecting tray with hinged
+  glassine lid, entomology pins, specimen tag, vernier.
+- **Eval:** Loom **97.6**, field **98.7** (↑), matrix **99.0**. Desktop folds show shuttle on
+  shed and numbered pins in a tray well.
+- **Do not:** Stop at renaming chrome. Ask whether a density slider + stock photo could emit the
+  same fold; if yes, invent an instrument.
+
+## 2026-08-07 — `template:glyph-split-steals-display`
+
+- **Failure:** Per-character shed glyphs inside the display headline scored loom **93.0** —
+  displayVw **1.74**, display leading **1.36** (probe lost the clamp on `.ds-weft-display`).
+- **Fix:** Keep whole-line weft ink (probe-safe); simulate shed weave with a repeating background
+  mask on `.ds-weft-ink`, not split glyphs. Score **93.0 → 97.6**.
+- **Do not:** Split display type into per-glyph spans to fake a weave — the forensics probe will
+  demote the headline.
+
+
