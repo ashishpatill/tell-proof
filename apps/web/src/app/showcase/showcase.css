@@ -348,6 +348,50 @@
   color: rgb(var(--accent));
 }
 
+.sx-anthology {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.sx-anthology-dots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.45rem 0.75rem;
+  background: rgb(24 22 20);
+  border-left: 1px solid rgb(var(--border) / 0.55);
+  border-right: 1px solid rgb(var(--border) / 0.55);
+}
+
+.sx-anthology-dots button {
+  width: 0.45rem;
+  height: 0.45rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(243 237 228 / 0.28);
+  cursor: pointer;
+}
+
+.sx-anthology-dots button.is-active {
+  background: rgb(var(--accent));
+  width: 0.85rem;
+}
+
+.sx-anthology-dots em {
+  margin-left: auto;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.65rem;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(243 237 228 / 0.55);
+}
+
 .sx-stage-reel .sx-plate {
   border-radius: 0;
   border-left: 1px solid rgb(var(--border) / 0.55);

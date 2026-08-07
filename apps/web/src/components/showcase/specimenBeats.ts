@@ -11,10 +11,14 @@ export type SpecimenPrefer = "hero" | "figure" | "auto";
 export function craftFigureFloor(doc: Pick<Document, "querySelector">): number {
   if (doc.querySelector(".ds-press-sheet, [data-sitekind='press-atelier']")) return 360;
   if (doc.querySelector(".ds-register-ledger, [data-sitekind='archive-index']")) return 300;
-  if (doc.querySelector(".ds-chrono-lattice, [data-sitekind='observatory-signal']")) return 300;
+  if (doc.querySelector(".ds-chrono-lattice, [data-sitekind='signal-observatory']")) return 300;
   if (doc.querySelector(".ds-folio-plate, [data-sitekind='research-dossier']")) return 280;
   if (doc.querySelector(".ds-seam-figure")) return 260;
-  if (doc.querySelector("[data-sitekind='docs-educational']")) return 280;
+  if (doc.querySelector(".ds-pipeline-field, [data-sitekind='saas-marketing']")) return 280;
+  if (doc.querySelector(".ds-queue-field, [data-sitekind='dashboard-webapp']")) return 280;
+  if (doc.querySelector(".ds-diligence-field, [data-sitekind='corporate-story']")) return 260;
+  if (doc.querySelector(".ds-mechanism-stage, [data-sitekind='docs-educational']")) return 240;
+  if (doc.querySelector(".ds-wire-field, [data-sitekind='fintech-marketing']")) return 280;
   return 220;
 }
 
@@ -44,6 +48,11 @@ export function discoverBeats(doc: Document): SpecimenBeat[] {
     pick(".ds-hero .ds-chrono-lattice .ds-fig, .ds-chrono-lattice", "figure", "Lattice") ||
     pick(".ds-hero .ds-folio-plate .ds-fig, .ds-folio-plate", "figure", "Plate") ||
     pick(".ds-hero .ds-seam-figure .ds-fig, .ds-seam-figure", "figure", "Ladder") ||
+    pick(".ds-pipeline-field .ds-fig, .ds-pipeline-board, .ds-hero-pipeline", "figure", "Pipeline") ||
+    pick(".ds-queue-field .ds-fig, .ds-queue-console, .ds-hero-queue", "figure", "Console") ||
+    pick(".ds-diligence-field .ds-fig, .ds-posture-plate, .ds-hero-diligence", "figure", "Posture") ||
+    pick(".ds-mechanism-stage .ds-fig, .ds-mechanism-plate, .ds-hero-mechanism", "figure", "Mechanism") ||
+    pick(".ds-wire-field .ds-fig, .ds-wire-ledger, .ds-hero-wire", "figure", "Ledger") ||
     pick(".ds-hero .ds-plate-bleed", "figure", "Figure") ||
     pick(".ds-plate-bleed .ds-fig", "figure", "Figure") ||
     pick(".ds-alt-figure, [data-section='features'] .ds-plate", "figure", "Figure");

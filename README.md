@@ -26,7 +26,7 @@
 
 ## Specimens — craft reels, not theme packs
 
-Tell ships a fourteen-offering catalog under [`/showcase`](./apps/web/src/app/showcase). Each cell is a **craft reel** that walks the best beats (plate, lattice, ledger, spread) — not a cropped nav strip and not a one-size card grid restyled with new colors.
+Tell ships a fourteen-offering catalog under [`/showcase`](./apps/web/src/app/showcase). The hero stage **slowly tours** the best craft beat from each specimen. Filmstrip cells stay still until **hover** — then that offering’s reel plays. Not a cropped nav strip and not a one-size card grid restyled with new colors.
 
 ![Tell Specimens — featured craft reel](./docs/media/showcase/01-showcase-featured.png)
 

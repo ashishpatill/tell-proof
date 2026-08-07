@@ -321,6 +321,15 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   dashboard `hero-queue` + `queue-console`, corporate `hero-diligence` + `posture-grid`, educational
   `hero-mechanism` + scrub-on-fold `mechanism-plate`, fintech `hero-wire` + `wire-ledger`. Basics
   gates require the new DOM and forbid stackfold class on those kinds.
-- **Do not:** Answer "make it unique" with ORDER permutations, siteKind CSS min-height tweaks, or
-  proof-title maps. If a density slider + recolor can emit the same fold, invent an instrument.
+## 2026-08-07 — `showcase:hover-reel-vs-anthology-hero`
+
+- **Failure (human):** Template filmstrip reels autoplayed the same 2–3 beats of one offering on
+  loop; the hero stage also looped a single specimen instead of touring craft across the catalog.
+- **Fix:** Filmstrip `autoplayInView={false}` — cinema only on hover. Featured stage is
+  `ShowcaseAnthologyReel`: slow (~5.2s) still-craft tour across distinct siteKinds (archive →
+  observatory → … → fintech), one best beat per offering, hover pauses. Prefer-figure stills; no
+  intra-template cinema on the hero.
+- **Do not:** Autoplay every thumb in view. Do not call a single-template 3-beat loop an "across
+  specimens" tour.
+
 

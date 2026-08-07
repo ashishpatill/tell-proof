@@ -34,3 +34,11 @@ describe("specimenBeats craft-first cinema", () => {
     expect(ordered[0]?.id).not.toBe("specimen");
   });
 });
+
+describe("showcase anthology order", () => {
+  it("lists distinct specimen keys without duplicates", async () => {
+    const { ANTHOLOGY_KEYS } = await import("./ShowcaseAnthologyReel");
+    expect(new Set(ANTHOLOGY_KEYS).size).toBe(ANTHOLOGY_KEYS.length);
+    expect(ANTHOLOGY_KEYS.length).toBeGreaterThanOrEqual(8);
+  });
+});
