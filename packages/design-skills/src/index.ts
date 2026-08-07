@@ -22,3 +22,4 @@ export {
 export type { DesignTemplate, TemplateKey } from "./templates";
 export { assertBasics } from "./basics-checklist";
 export type { BasicsFinding, BasicsReport } from "./basics-checklist";
+export { FIG_MONO_PX, miniPageMatter, densitometerStrip } from "./figures";

@@ -286,6 +286,35 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       },
     },
   },
+  {
+    id: "press-atelier",
+    brief: {
+      productName: "Forme Desk",
+      tagline: "The pressroom that keeps every signature under one forme",
+      audience: "production leads and brand studios running print and digital formes",
+      businessGoal: "trust",
+      siteKind: "press-atelier",
+      lockSiteKind: true,
+      brandAccent: "#1E3A4C",
+      features: [
+        { id: "p1", name: "Registration lock", description: "Crop and registration marks that keep every plate aligned before ink hits the sheet.", priority: "p0" },
+        { id: "p2", name: "Imposition sheet", description: "A spanning press sheet that shows signature folds and page numbers at a glance.", priority: "p0" },
+        { id: "p3", name: "Signature rail", description: "A sticky Sig A–H rail that jumps the forme without losing the gather.", priority: "p0" },
+        { id: "p4", name: "Densitometer strip", description: "Ink density marks that stay honest when a proof drifts off the approved forme.", priority: "p1" },
+        { id: "p5", name: "Gather essay", description: "A folded-signature reading with outer plate ticks so the gather stays citeable.", priority: "p1" },
+        { id: "p6", name: "Pressroom close", description: "Plate numbers and custody stamped so a reused forme cannot orphan its edition.", priority: "p2" },
+      ],
+      constraints: ["press-first", "press sheet", "gather essay", "no pricing theatre", "restrained motion"],
+      taste: {
+        aestheticLean: "refined-story",
+        motion: "light-scroll-reveals",
+        density: "sparse",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    },
+  },
 ];
 
 /**

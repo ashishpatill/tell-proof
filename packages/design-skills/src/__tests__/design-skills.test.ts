@@ -265,7 +265,7 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(11);
+    expect(templates).toHaveLength(12);
     expect(templates.map((t) => t.key).sort()).toEqual([
       "archive",
       "consumer",
@@ -276,6 +276,7 @@ describe("research-backed offerings + implementation basics", () => {
       "fintech",
       "foundry",
       "observatory",
+      "press",
       "saas",
       "studio",
     ]);
@@ -297,6 +298,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(observatory.siteKind).toBe("signal-observatory");
     const archive = templates.find((t) => t.key === "archive")!;
     expect(archive.siteKind).toBe("archive-index");
+    const press = templates.find((t) => t.key === "press")!;
+    expect(press.siteKind).toBe("press-atelier");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -419,6 +422,48 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).not.toContain('class="ds-chapter-rail"');
     expect(previewHtml).not.toContain('class="ds-scrub-rail"');
     expect(previewHtml).not.toContain('class="ds-chronometer"');
+  });
+
+  it("gives press atelier a registration + press sheet + gather plan distinct from archive and dossier", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.press!);
+    expect(spec.brief.siteKind).toBe("press-atelier");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-press")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-gather")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="press-atelier"');
+    expect(previewHtml).toContain("ds-hero-press");
+    expect(previewHtml).toContain("ds-press-masthead");
+    expect(previewHtml).toContain("ds-sig-rail");
+    expect(previewHtml).toContain('data-figure="press-sheet"');
+    expect(previewHtml).toContain('data-dense="ink"');
+    expect(previewHtml).toMatch(/data-figure="press-sheet"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="press-sheet"/);
+    // Mini page folios — densify helper left page matter, not empty SIG voids.
+    expect(previewHtml).toContain(">01</text>");
+    expect(previewHtml).toContain("ds-gather");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Pressroom");
+    expect(previewHtml).toContain("The plates");
+    expect(previewHtml).not.toContain('class="ds-alpha-rail"');
+    expect(previewHtml).not.toContain('class="ds-chapter-rail"');
+    expect(previewHtml).not.toContain('class="ds-scrub-rail"');
+    // Engine mono floor — no SVG figure labels below 11px.
+    const svgSizes = [...previewHtml.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)].map((m) => Number(m[1]));
+    expect(svgSizes.every((n) => n >= 11)).toBe(true);
+  });
+
+  it("exposes reusable densify helpers for cell-grid figures", async () => {
+    const { miniPageMatter, densitometerStrip, FIG_MONO_PX } = await import("../figures");
+    expect(FIG_MONO_PX).toBe(11);
+    const page = miniPageMatter(0, 0, 80, 100, 0, "07", () => 0.5);
+    expect(page).toContain("var(--surface-muted)");
+    expect(page).toContain(">07</text>");
+    expect(page).toContain(`font-size="${FIG_MONO_PX}"`);
+    const dens = densitometerStrip(0, 0, 200, 4);
+    expect(dens).toContain("DENS");
+    expect(dens).toContain("GRIP");
   });
 
   it("clears the implementation basics gate on every offering", () => {

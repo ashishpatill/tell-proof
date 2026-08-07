@@ -142,6 +142,7 @@ export function buildSections(
         const isDossier = brief.siteKind === "research-dossier";
         const isObservatory = brief.siteKind === "signal-observatory";
         const isArchive = brief.siteKind === "archive-index";
+        const isPress = brief.siteKind === "press-atelier";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -151,8 +152,8 @@ export function buildSections(
             brandLabel: brief.productName,
             ctaLabel: cta.primary,
             secondaryLabel: cta.secondary,
-            // Folio / chrono / register folds must leave room for the plate — skip the reassurance line.
-            ctaNote: isDossier || isObservatory || isArchive ? undefined : cta.note,
+            // Folio / chrono / register / press folds must leave room for the plate — skip the reassurance line.
+            ctaNote: isDossier || isObservatory || isArchive || isPress ? undefined : cta.note,
             blocks: named,
             aside: editorial.features
               .slice(0, 4)
@@ -202,6 +203,7 @@ export function buildSections(
         const isDossier = brief.siteKind === "research-dossier";
         const isObservatory = brief.siteKind === "signal-observatory";
         const isArchive = brief.siteKind === "archive-index";
+        const isPress = brief.siteKind === "press-atelier";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -218,6 +220,8 @@ export function buildSections(
                         ? "Also on the desk"
                         : isArchive
                           ? "Also in the roll"
+                          : isPress
+                            ? "Also on the forme"
                     : "Also included"
               : isStudio
                 ? "Selected work"
@@ -231,6 +235,8 @@ export function buildSections(
                         ? "The channels"
                         : isArchive
                           ? "The entries"
+                          : isPress
+                            ? "The plates"
                     : eyebrow.features,
             title: isSecond
               ? isStudio
@@ -245,6 +251,8 @@ export function buildSections(
                       ? sentence(`The quieter channels that keep a desk honest`)
                       : isArchive
                         ? sentence(`The quieter entries that keep a registry honest`)
+                        : isPress
+                          ? sentence(`The quieter plates that keep a forme honest`)
                   : sentence(`The rest of what ships with ${brief.productName}`)
               : isStudio
                 ? sentence(`Work that still holds after the launch week`)
@@ -258,6 +266,8 @@ export function buildSections(
                       ? sentence(`Channels an on-call desk actually watches`)
                       : isArchive
                         ? sentence(`Entries an archive index actually keeps`)
+                        : isPress
+                          ? sentence(`Plates a pressroom actually runs`)
                   : featuresTitle(brief, features),
             body: isSecond
               ? isStudio
@@ -272,6 +282,8 @@ export function buildSections(
                       ? sentence(`Thresholds, handoffs, and the rails that stop a page from inventing calm`)
                       : isArchive
                         ? sentence(`Cross-refs, stamps, and the rails that stop a catalog from inventing completeness`)
+                        : isPress
+                          ? sentence(`Gather ticks, densitometer marks, and the rails that stop a forme from inventing registration`)
                   : sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
               : isStudio
                 ? sentence(`Each engagement is a composed surface — identity, product, and motion under one grid`)
@@ -285,6 +297,8 @@ export function buildSections(
                       ? sentence(`Each channel is a named signal — not a chart dressed as a product`)
                       : isArchive
                         ? sentence(`Each entry is a numbered stamp — not a search box dressed as an archive`)
+                        : isPress
+                          ? sentence(`Each plate is a numbered signature — not a gallery dressed as a pressroom`)
                   : featuresLede(brief, features),
             blocks: slice,
           }),
@@ -312,6 +326,8 @@ export function buildSections(
                   ? sentence(`${brief.productName} channel field`)
                 : brief.siteKind === "archive-index"
                   ? sentence(`${brief.productName} register field`)
+                : brief.siteKind === "press-atelier"
+                  ? sentence(`${brief.productName} forme field`)
                 // Dashboard specimen is the quiet valley before the shell — short mark, not a claim.
                 : brief.siteKind === "dashboard-webapp"
                   ? brief.productName.split(/\s+/)[0] ?? brief.productName
@@ -328,6 +344,7 @@ export function buildSections(
         const isDossier = brief.siteKind === "research-dossier";
         const isObservatory = brief.siteKind === "signal-observatory";
         const isArchive = brief.siteKind === "archive-index";
+        const isPress = brief.siteKind === "press-atelier";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -339,6 +356,8 @@ export function buildSections(
                   ? "Channel legend"
                   : isArchive
                     ? "Entry legend"
+                    : isPress
+                      ? "Forme legend"
                   : eyebrow.figure,
             title: isFoundry
               ? sentence(`How ${brief.productName} changes with size`)
@@ -348,6 +367,8 @@ export function buildSections(
                   ? sentence(`How ${brief.productName} reads a window`)
                   : isArchive
                     ? sentence(`How ${brief.productName} keeps the roll`)
+                    : isPress
+                      ? sentence(`How ${brief.productName} locks a forme`)
               : sentence(`${focal?.name ?? brief.productName}, step by step`),
             body: isFoundry
               ? sentence(`The same face at display, title, deck, text, and caption — drawn, not described`)
@@ -357,6 +378,8 @@ export function buildSections(
                   ? sentence(`Amplitudes, live brackets, and channel ids — the lattice drawn rather than claimed`)
                   : isArchive
                     ? sentence(`Ordinals, letter columns, and ruled rows — the index drawn rather than claimed`)
+                    : isPress
+                      ? sentence(`Signatures, crop marks, and densitometer patches — the forme drawn rather than claimed`)
               : sentence(
                   `The path work takes through ${brief.productName}, drawn rather than described`,
                 ),
@@ -373,6 +396,8 @@ export function buildSections(
                   ? sentence(`Read the channels that mark each signal on the lattice`)
                   : isArchive
                     ? sentence(`Read the ordinals that mark each stamp on the ledger`)
+                    : isPress
+                      ? sentence(`Read the signatures that mark each plate on the forme`)
               : sentence(
                   `Drag to step through how ${brief.productName} moves work from ${
                     features[0]?.name.toLowerCase() ?? "input"
@@ -400,6 +425,8 @@ export function buildSections(
                       ? "Incident time"
                       : brief.siteKind === "archive-index"
                         ? "Entry notes"
+                        : brief.siteKind === "press-atelier"
+                          ? "Gather notes"
                   : eyebrow.story,
             title:
               brief.siteKind === "art-directed-studio"
@@ -414,6 +441,8 @@ export function buildSections(
                       ? sentence(`How a window is actually walked`)
                       : brief.siteKind === "archive-index"
                         ? sentence(`How a single entry is actually read`)
+                        : brief.siteKind === "press-atelier"
+                          ? sentence(`How a signature is actually gathered`)
                   : sentence(`The order things happen in`),
             body:
               brief.siteKind === "art-directed-studio"
@@ -428,6 +457,8 @@ export function buildSections(
                       ? sentence(`Tick beads, channel notes, and the handoffs that keep calm honest`)
                       : brief.siteKind === "archive-index"
                         ? sentence(`Hanging folio, ruled measure, and the cross-refs that keep the roll honest`)
+                        : brief.siteKind === "press-atelier"
+                          ? sentence(`Fold ticks, plate index, and the gathers that keep a forme honest`)
                   : sentence(`The sequence ${brief.audience} actually meet, in order`),
             blocks: chapters(editorial.features).map((c, i) =>
               block({
@@ -437,10 +468,12 @@ export function buildSections(
                   ? `T+${String(i * 6).padStart(2, "0")}h`
                   : brief.siteKind === "archive-index"
                     ? String(i + 1).padStart(3, "0")
+                    : brief.siteKind === "press-atelier"
+                      ? `Sig ${"ABCDEFGH"[i] ?? String(i + 1)}`
                   : c.meta,
-                // Marginalia / footnotes / chrono / entry notes hang these kickers beside the essay.
+                // Marginalia / footnotes / chrono / entry / gather notes hang these kickers beside the essay.
                 kicker:
-                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier" || brief.siteKind === "signal-observatory" || brief.siteKind === "archive-index"
+                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier" || brief.siteKind === "signal-observatory" || brief.siteKind === "archive-index" || brief.siteKind === "press-atelier"
                     ? `Note ${String(i + 1).padStart(2, "0")}`
                     : undefined,
               }),
@@ -540,6 +573,8 @@ export function buildSections(
                     ? "Calibration"
                     : brief.siteKind === "archive-index"
                       ? "Registry"
+                      : brief.siteKind === "press-atelier"
+                        ? "Pressroom"
                   : eyebrow.cta,
             title: sentence(
               brief.siteKind === "editorial-foundry"
@@ -550,6 +585,8 @@ export function buildSections(
                     ? `Calibrate a ${brief.productName} window`
                     : brief.siteKind === "archive-index"
                       ? `Request an entry in ${brief.productName}`
+                      : brief.siteKind === "press-atelier"
+                        ? `Lock a forme on ${brief.productName}`
                 : brief.businessGoal === "trust"
                   ? `See it against your own material`
                   : `Put ${brief.productName} in front of your ${brief.audience.split(" ").slice(-1)[0] ?? "team"}`,
@@ -565,6 +602,8 @@ export function buildSections(
                     ? `Tolerance marks, channel maps, and the windows ${brief.audience} actually watch`
                     : brief.siteKind === "archive-index"
                       ? `Numbered stamps, cross-refs, and the entries ${brief.audience} actually keep`
+                      : brief.siteKind === "press-atelier"
+                        ? `Plate numbers, densitometer marks, and the formes ${brief.audience} actually run`
                 : `${count(features.length)[0]!.toUpperCase()}${count(features.length).slice(1)} capabilities, one conversation`,
             ),
             ctaLabel: cta.primary,
