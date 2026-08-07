@@ -690,7 +690,7 @@ function renderFigure(section: SectionSpec): string {
     .map((g) => {
       const y = top + ((floor - top) / 3) * g;
       return `<line x1="${left}" y1="${y.toFixed(1)}" x2="${right}" y2="${y.toFixed(1)}" stroke="var(--surface-border)" stroke-width="1"/>
-        <text class="ds-fig-mono" x="${left - 12}" y="${(y + 4).toFixed(1)}" font-size="10" fill="var(--surface-quiet)" text-anchor="end">${100 - g * 30}</text>`;
+        <text class="ds-fig-mono" x="${left - 12}" y="${(y + 4).toFixed(1)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${100 - g * 30}</text>`;
     })
     .join("");
 
@@ -718,7 +718,7 @@ function renderFigure(section: SectionSpec): string {
                 (p, i) =>
                   `<line class="ds-scrub-stem" data-step="${i}" x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${p.x.toFixed(1)}" y2="${floor}" stroke="var(--surface-border)" stroke-width="1" opacity="${i === mid ? 1 : 0}"/>
                    <circle class="ds-scrub-node" data-step="${i}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${i === mid ? 6 : 4}" fill="${i === mid ? "var(--surface-bg)" : "var(--c-accent)"}" stroke="var(--c-accent)" stroke-width="2" opacity="${i === mid ? 1 : 0.45}"/>
-                   <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(floor + 20).toFixed(1)}" font-size="10" fill="var(--surface-quiet)" text-anchor="middle">${String(i + 1).padStart(2, "0")}</text>`,
+                   <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(floor + 20).toFixed(1)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">${String(i + 1).padStart(2, "0")}</text>`,
               )
               .join("")}
           </svg>

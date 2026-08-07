@@ -53,22 +53,27 @@ function discoverBeats(doc: Document): Beat[] {
     pick(".ds-hero .ds-plate-bleed", "figure", "Figure") ||
     pick(".ds-plate-bleed .ds-fig", "figure", "Figure") ||
     pick(".ds-alt-figure, [data-section='features'] .ds-plate", "figure", "Figure");
-  // Overfigure / folio plates start high — nudge into drawn matter past claim chrome.
+  // Overfigure / folio / press plates start high — nudge into drawn matter past claim chrome.
+  // Press sheet: land mid-forme so filled SIG mini-pages are visible, not the claim strip.
   if (figureRaw) {
+    const isPress = Boolean(doc.querySelector(".ds-press-sheet, [data-sitekind='press-atelier']"));
+    const floor = isPress ? 360 : 220;
     const figure =
-      figureRaw.y < 200 ? { ...figureRaw, y: Math.max(figureRaw.y, 220) } : figureRaw;
+      figureRaw.y < floor ? { ...figureRaw, y: Math.max(figureRaw.y, floor) } : figureRaw;
     if (!hero || Math.abs(figure.y - hero.y) > 80) beats.push(figure);
   }
 
   const metrics = pick(".ds-metrics-band, [data-section='metrics']", "metrics", "Stakes");
   if (metrics) beats.push(metrics);
 
+  // Skip feature cards + sparse specimen when a unique craft figure exists — they read as basic/empty.
+  const hasCraftFigure = beats.some((b) => b.id === "figure");
   const instruments =
     pick("[data-section='features'] .ds-index, [data-section='features']", "instruments", "Index");
-  if (instruments && instruments.y > 400) beats.push(instruments);
+  if (instruments && instruments.y > 400 && !hasCraftFigure) beats.push(instruments);
 
   const specimen = pick(".ds-specimen, [data-section='specimen']", "specimen", "Specimen");
-  if (specimen) beats.push(specimen);
+  if (specimen && !hasCraftFigure) beats.push(specimen);
 
   // Dossier / foundry / observatory / press signature essays — the craft theme packs miss.
   const spread = pick(".ds-spread, .ds-marginalia, .ds-chrono, .ds-entry, .ds-gather, [data-section='story']", "spread", "Spread");
@@ -95,13 +100,28 @@ function pickStill(beats: Beat[], prefer: SpecimenPreviewProps["prefer"]): Beat 
   const figure = beats.find((b) => b.id === "figure");
   const hero = beats.find((b) => b.id === "hero");
   const spread = beats.find((b) => b.id === "spread");
+  const specimen = beats.find((b) => b.id === "specimen");
   if (prefer === "hero") return hero || figure || beats[0]!;
   // Prefer a figure that is actually down-page; otherwise claim / spread craft.
   if (figure && figure.y >= 140) return figure;
+  if (specimen && specimen.y >= 200) return specimen;
   if (spread && spread.y >= 200) return spread;
   if (hero) return hero;
   if (figure) return { ...figure, y: Math.max(figure.y, 168) };
   return { ...beats[0]!, y: Math.max(beats[0]!.y, 96) };
+}
+
+/** When preferring figure craft, lock reel to forme → essay → proof — never open on empty specimen. */
+function orderCinemaBeats(beats: Beat[], prefer: SpecimenPreviewProps["prefer"]): Beat[] {
+  if (prefer !== "figure") return beats;
+  const hasFigure = beats.some((b) => b.id === "figure");
+  const order = hasFigure
+    ? ["figure", "spread", "proof", "imprint"]
+    : ["figure", "spread", "proof", "imprint", "specimen", "hero"];
+  const picked = order
+    .map((id) => beats.find((b) => b.id === id))
+    .filter((b): b is Beat => Boolean(b));
+  return picked.length >= 2 ? picked : beats;
 }
 
 /**
@@ -190,7 +210,7 @@ export function SpecimenPreview({
         doc.head.appendChild(style);
       }
       window.setTimeout(() => {
-        const found = discoverBeats(doc);
+        const found = orderCinemaBeats(discoverBeats(doc), prefer);
         setBeats(found);
         const still = pickStill(found, prefer);
         const idx = Math.max(0, found.findIndex((b) => b.id === still.id));
@@ -229,7 +249,8 @@ export function SpecimenPreview({
       timer = setTimeout(step, decorative ? 1600 : 2200);
     };
 
-    timer = setTimeout(step, decorative ? 600 : 900);
+    // Featured cinema: longer first dwell so the forme craft beat reads before the reel advances.
+    timer = setTimeout(step, decorative ? 600 : 2800);
     return () => {
       cancelled = true;
       clearTimeout(timer);

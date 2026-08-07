@@ -497,48 +497,19 @@ body[data-sitekind="press-atelier"]{
 [data-sitekind="press-atelier"] .ds-brand-mark{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
 }
+/* Thin claim strip — forme owns the fold. Quiet display stays in band (≥3.16vw). */
 [data-sitekind="press-atelier"] .ds-hero-press .ds-display{
-  font-size:clamp(2.7rem,3.5vw,3.4rem);
-  letter-spacing:-0.03em;max-width:15ch;line-height:1.06;
+  font-size:clamp(2.45rem,3.2vw,3.0rem);
+  letter-spacing:-0.03em;max-width:15ch;line-height:1.05;
 }
-[data-sitekind="press-atelier"] .ds-hero-press .ds-lede{max-width:36ch;margin:0.25rem 0 0}
-[data-sitekind="press-atelier"] .ds-hero-press .ds-brand-mark{margin:0 0 0.25rem}
+[data-sitekind="press-atelier"] .ds-hero-press .ds-lede{display:none}
 [data-sitekind="press-atelier"] .ds-hero-press .ds-eyebrow{display:none}
-[data-sitekind="press-atelier"] .ds-hero-press .ds-actions{margin-top:0.4rem}
-[data-sitekind="press-atelier"] .ds-gather-beat .ds-chapter-index,
-[data-sitekind="press-atelier"] .ds-gather-tick{
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.16em;line-height:1.2;
-  opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
+[data-sitekind="press-atelier"] .ds-hero-press .ds-brand-mark{
+  margin:0 0 0.1rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
 }
-[data-sitekind="press-atelier"] .ds-press-claim{
-  padding:var(--s-xs,0.35rem) 0 0.15rem;
-  padding-left:var(--sig-rail);
-  position:relative;z-index:2;
-  background:linear-gradient(180deg,var(--c-paper) 62%,transparent);
-}
-[data-sitekind="press-atelier"] .ds-press-field{
-  margin-top:calc(var(--s-3xl, 3rem) * -1.15);position:relative;z-index:1;
-  padding-left:var(--sig-rail);
-}
-[data-sitekind="press-atelier"] .ds-press-sheet .ds-fig{min-height:min(88vh,920px)}
-[data-sitekind="press-atelier"] .ds-hero-press{min-height:min(100vh,900px)}
 [data-sitekind="press-atelier"] .ds-hero-press .ds-cta-note{display:none}
 [data-sitekind="press-atelier"] .ds-hero-press .ds-actions .ds-btn-ghost,
 [data-sitekind="press-atelier"] .ds-hero-press .ds-actions .ds-btn-secondary{display:none}
-/* Compact fold claim — press sheet must own the first viewport (archive/chrono lesson). */
-[data-sitekind="press-atelier"] .ds-hero-press .ds-display{
-  font-size:clamp(2.6rem,3.4vw,3.2rem);
-  letter-spacing:-0.03em;max-width:14ch;line-height:1.06;
-}
-[data-sitekind="press-atelier"] .ds-hero-press .ds-lede{max-width:34ch;margin:0.2rem 0 0}
-[data-sitekind="press-atelier"] .ds-hero-press .ds-eyebrow{display:none}
-[data-sitekind="press-atelier"] .ds-hero-press .ds-brand-mark{
-  margin:0 0 0.15rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
-}
-[data-sitekind="press-atelier"] .ds-press-claim .ds-actions{margin-top:0.3rem}
-/* Keep button type on the shared ladder — custom rem sizes inflate type-steps past the ceiling. */
-[data-sitekind="press-atelier"] .ds-press-claim .ds-actions .ds-btn{padding:0.45rem 0.95rem}
-/* Gather ticks must not steal the display metric. */
 [data-sitekind="press-atelier"] .ds-gather-beat .ds-chapter-index,
 [data-sitekind="press-atelier"] .ds-gather-tick,
 [data-sitekind="press-atelier"] .ds-gather-aside-sig,
@@ -547,12 +518,31 @@ body[data-sitekind="press-atelier"]{
 [data-sitekind="press-atelier"] .ds-cal-tol,
 [data-sitekind="press-atelier"] .ds-cal-ch{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;line-height:1.2;
+  opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
-/* Hide hero feature chips on the fold — they steal height from the forme. */
+[data-sitekind="press-atelier"] .ds-press-claim{
+  padding:0.15rem 0 0;
+  padding-left:var(--sig-rail);
+  position:relative;z-index:2;
+  background:linear-gradient(180deg,var(--c-paper) 55%,transparent);
+}
+[data-sitekind="press-atelier"] .ds-press-claim .ds-actions{margin-top:0.2rem}
+[data-sitekind="press-atelier"] .ds-press-claim .ds-actions .ds-btn{padding:0.45rem 0.95rem}
 [data-sitekind="press-atelier"] .ds-press-claim .ds-hero-chips,
 [data-sitekind="press-atelier"] .ds-press-claim .ds-capability-list,
 [data-sitekind="press-atelier"] .ds-press-claim .ds-hero-aside,
 [data-sitekind="press-atelier"] .ds-press-claim .ds-hero-facts{display:none}
+[data-sitekind="press-atelier"] .ds-press-field{
+  margin-top:calc(var(--s-3xl, 3rem) * -1.35);position:relative;z-index:1;
+  padding-left:var(--sig-rail);
+}
+[data-sitekind="press-atelier"] .ds-press-sheet .ds-fig{min-height:min(92vh,960px)}
+[data-sitekind="press-atelier"] .ds-hero-press{min-height:min(100vh,920px)}
+[data-sitekind="press-atelier"] .ds-press-masthead{
+  padding-top:calc(var(--nav-h,4.5rem) + 0.25rem);
+  padding-bottom:0.25rem;
+  color:var(--c-ink-tertiary);
+}
 [data-sitekind="press-atelier"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="press-atelier"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
 [data-sitekind="press-atelier"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
@@ -1232,7 +1222,7 @@ ${surfaceRules()}
 }
 .ds-sig-letter{
   display:flex;align-items:center;justify-content:center;text-decoration:none;
-  font-family:var(--f-mono);font-size:10px;letter-spacing:0.06em;text-transform:uppercase;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;
   color:var(--c-ink-tertiary);min-width:36px;min-height:28px;line-height:1;writing-mode:vertical-rl;
   transform:rotate(180deg);
 }

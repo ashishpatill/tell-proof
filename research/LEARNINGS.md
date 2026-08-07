@@ -117,6 +117,27 @@ Pattern keys match `tell-recursive-improve`.
   viewport. Consolidate mono chrome to 11px so type-steps stay ≤14.
 - **Do not:** Treat a unique forme as shipped if the fold shot is only type + sticky rail.
 
+## 2026-08-07 — `template:empty-sig-voids`
+
+- **Failure:** Press-sheet SIG cells were empty white rectangles — showcase + proof screenshots
+  read as a sparse wireframe, not an imposition forme. Featured cinema also drifted onto
+  specimen/horizon beats that looked basic.
+- **Fix:** Draw 2×2 mini pages (text bars, media blocks, folios) inside every SIG cell; densitometer
+  as filled patches not rule ticks; lock SpecimenPreview reel to figure→spread→proof when a craft
+  figure exists; skip instruments/specimen in discovery; land press still at y≥360 into filled
+  matter. Keep SVG mono at 11px (`FT.micro`) so type-steps stay ≤14; prefer filled rects over
+  dashed fold crosses so rule-structure stays in band.
+- **Do not:** Ship an imposition grid whose cells are blank paper and call it craft.
+
+## 2026-08-07 — `showcase:stage-selector-miss`
+
+- **Failure:** Gallery 2-column mast|reel used `.sx-root > .sx-stage`, but the stage lives under
+  `.sx-shell` — the rule never matched. A later unscoped `.sx-stage` chrome rule also fought the
+  gallery grid and left proof iframes looking empty.
+- **Fix:** Scope gallery as `.sx-shell > .sx-stage` and proof as `.sx-chrome .sx-stage` (display
+  block, full-bleed iframe). Verify with getComputedStyle grid columns before claiming the fold.
+- **Do not:** Style shared classnames across gallery and proof without a parent scope.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.

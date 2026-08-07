@@ -98,7 +98,7 @@ export default function ShowcaseGalleryPage() {
                 title={`${featured.label} craft reel`}
                 html={featured.previewHtml}
                 designWidth={1440}
-                designHeight={1100}
+                designHeight={1200}
                 mode="cinema"
                 prefer="figure"
                 autoplayInView

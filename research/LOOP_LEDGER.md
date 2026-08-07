@@ -450,3 +450,19 @@ buckets, never names, hosts, or URLs.
   invent from taste controls.
 - **Next weakest:** press ink-variation; docs rule density; deepen Pressroom uniqueness
   (ink patch legends, forme custody marks) without score-gaming.
+
+## Loop 21 — densify press forme + fix Specimens stage
+
+- **Goal:** Human named empty proof/template screenshots and a too-basic Specimens gallery —
+  SIG cells were blank voids; featured cinema missed the forme; gallery mast|reel CSS never
+  applied (wrong parent selector) and fought proof chrome.
+- **Challenger:** filled 2×2 mini pages in every SIG cell; densitometer patches; SpecimenPreview
+  locks figure→spread→proof and skips specimen/instruments when craft figure exists; press still
+  lands at y≥360; `FT.micro` 10→11; scoped `.sx-shell > .sx-stage` vs `.sx-chrome .sx-stage`.
+- **Score:** matrix **99.1**; press-atelier **97.6** (type-steps 14, rules 3.89, fold-figure 0.69);
+  holdout gap **0.1**. No regression on locked kinds.
+- **Closed:** `template:empty-sig-voids`; `showcase:stage-selector-miss`.
+- **Side effects:** ink-variation still above corridor for a forme-owned fold — accepted.
+- **Qualitative:** gallery fold shows Tell Specimens mast beside a filled press sheet on FORME
+  reel; proof iframe is full-bleed again; SIG cells read as pages, not empty paper.
+- **Next weakest:** press ink-variation; deepen gather/Pressroom without starving the forme.
