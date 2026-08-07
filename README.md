@@ -6,7 +6,7 @@
 
 **Agents write code. Tell proves the UI — then helps you ship design that looks intentional, not AI-default.**
 
-[Why Tell](#why-tell-revolutionizes-design-for-cursor) · [Demo](#demo) · [Features](#features) · [Quick Start](#quick-start) · [Cursor MCP](#cursor-mcp) · [Architecture](#architecture) · [Deploy](#deploy)
+[Specimens](#specimens--craft-reels-not-theme-packs) · [Why Tell](#why-tell-revolutionizes-design-for-cursor) · [Demo](#demo) · [Features](#features) · [Quick Start](#quick-start) · [Cursor MCP](#cursor-mcp) · [Architecture](#architecture) · [Deploy](#deploy)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](./LICENSE)
 [![Built for Cursor](https://img.shields.io/badge/built%20for-Cursor-black.svg)](https://cursor.com)
@@ -24,6 +24,41 @@
 
 ---
 
+## Specimens — craft reels, not theme packs
+
+Tell ships an eleven-offering catalog under [`/showcase`](./apps/web/src/app/showcase). Each cell is a **craft reel** that walks the best beats (plate, lattice, ledger, spread) — not a cropped nav strip and not a one-size card grid restyled with new colors.
+
+![Tell Specimens — featured craft reel (Archive index)](./docs/media/showcase/01-showcase-featured.png)
+
+![Tell Specimens — filmstrip of research-backed offerings](./docs/media/showcase/02-showcase-gallery.png)
+
+### Top templates (first viewport craft)
+
+These are not “SaaS with a different accent.” Each `siteKind` owns unreplicable structure — measured against research corridors, dogfooded until critique holds.
+
+| Archive index · Stamp Roll | Signal observatory · Nightglass |
+|:---:|:---:|
+| ![Archive index fold — A–Z rail + ruled ledger](./docs/media/showcase/archive-fold.png) | ![Signal observatory fold — LIVE window + signal lattice](./docs/media/showcase/observatory-fold.png) |
+| Quiet register, sticky alpha rail, multi-column ledger | Chronometer fold, scrub rail, channel lattice |
+
+| Research dossier · Meridian Atlas | Editorial foundry · Glyph Press |
+|:---:|:---:|
+| ![Research dossier fold — cartographic plate with pin callouts](./docs/media/showcase/dossier-fold.png) | ![Editorial foundry fold — optical-size ladder seam](./docs/media/showcase/foundry-fold.png) |
+| Folio masthead, chapter rail, dossier plate, imprint | Hard-seam fold, type ladder, marginalia, colophon |
+
+| SaaS marketing · Northstar | Dashboard workspace · Northstar |
+|:---:|:---:|
+| ![SaaS marketing fold — product plate over claim](./docs/media/showcase/saas-fold.png) | ![Dashboard fold — staged operator workspace](./docs/media/showcase/dashboard-fold.png) |
+| Brand-first claim + feature-derived product stage | Operator shell with measured band rhythm |
+
+Regenerate README frames (web on `:3000`):
+
+```bash
+pnpm capture:readme-showcase
+```
+
+---
+
 ## Why Tell revolutionizes design for Cursor
 
 Coding agents inside Cursor (and other harnesses) are extraordinary at shipping working software. They are much weaker at **visual authorship**. Ask an agent to “make it prettier” and you usually get the same defaults again: system fonts, violet accents, shadow-on-every-card, emoji chrome, monotone radius, mushy gray hierarchy.
@@ -35,7 +70,7 @@ That is not a failure of effort. It is a structural gap:
 | Compiling code that runs | A composition users trust in the first viewport |
 | Local file edits that “look better” | Measured contrast, token rhythm, and state coverage |
 | The same model judging its own output | An independent visual proof loop |
-| Prompt-only taste | Deterministic detectors + craft floors that cannot be waved away |
+| Prompt-only taste / one universal layout kit | Kind-specific craft + detectors that cannot be waved away |
 
 **Tell is the missing design runtime for agent-built software.** It sits beside Cursor as an independent critic and craft engine:
 
@@ -48,16 +83,25 @@ That is not a failure of effort. It is a structural gap:
 
 The authoring agent proposes. Tell measures, critiques, redesigns, and verifies. Humans stay in control.
 
-### Design superiority that ships
+### Why this is a higher bar than “generate a pretty page”
 
-Tell does not chase “more AI.” It enforces a higher craft floor than prompt-only UI generation:
+Most agent UI pipelines stop at HTML that compiles and looks fine in a thumbnail. Tell raises the floor in ways a prompt lottery cannot:
+
+| Prompt-only / generic kit | Tell |
+|---|---|
+| One layout grammar restyled per product | **Eleven site kinds** with distinct fold grammar (ledger, lattice, dossier plate, optical seam, …) |
+| Taste lives only in the model’s prior | **Deterministic detectors + critique bands** — scores and evidence, not vibes |
+| Nav crop as “proof” of craft | **Craft reels** that scroll to plate / spread / imprint beats |
+| Filler tiers and lorem sections | **Feature-derived** pricing, proof, and instruments from the brief you typed |
+| “Looks better” with no receipt | **Contrast floor, token rhythm, state coverage** reported on the after-state |
+| Agent grades its own homework | **Independent capture → diagnose → reconcile → proof** loop beside Cursor |
 
 - **Brand-first composition** — product identity leads the first viewport; the hero is not a dashboard of widgets.
 - **Atmosphere over flat canvas** — gradients, paper grain, and depth used with intent — not purple-on-white defaults.
 - **Token discipline** — type scale, spacing grid, radius, and depth become one system instead of eleven accidental sizes and fourteen random gaps.
 - **Contrast as a hard floor** — reconciliation reports WCAG-minded contrast so “prettier” never means unreadable.
 - **State coverage** — empty, loading, error, and focus-visible are first-class, not afterthoughts.
-- **Lean-distinct layouts** — SaaS, dashboard, corporate, and educational surfaces route through different skill paths so structure follows the product, not a universal card grid.
+- **Lean-distinct layouts** — SaaS, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, and archive route through different skill paths.
 - **Feature-derived content** — pricing, proof, and sections come from the brief you typed — not Starter/Growth filler.
 
 The result is UI that feels **authored for production**, not assembled from the model’s prior.
@@ -85,12 +129,13 @@ The GIF above walks the full product loop:
 3. **Art-direction** — editorial / precision / warm presets map to concrete action items.
 4. **Tell Studio** — generate SaaS, dashboard, corporate, and educational surfaces from features.
 5. **Magic redesign + viewports** — redesign from a text cue; flip mobile/desktop preview.
-6. **Showcases** — premium compositions that prove the craft floor without a prompt lottery.
+6. **Showcases** — premium compositions that prove the craft floor without a prompt lottery. See [Specimens](#specimens--craft-reels-not-theme-packs) for stills of the top templates.
 
 Regenerate media locally (web on `:3000`, fixture on `:3001`):
 
 ```bash
 pnpm record:readme-demo
+pnpm capture:readme-showcase   # /showcase + top template folds for README
 ```
 
 ---

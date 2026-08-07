@@ -18,6 +18,11 @@ type SpecimenPreviewProps = {
   mode?: PreviewMode;
   /** Prefer this beat family when picking the still frame. */
   prefer?: "hero" | "figure" | "auto";
+  /**
+   * When true (default for decorative cinema), play the reel while the frame is in view —
+   * not only on hover. Featured cinema always plays when visible.
+   */
+  autoplayInView?: boolean;
 };
 
 function discoverBeats(doc: Document): Beat[] {
@@ -38,40 +43,61 @@ function discoverBeats(doc: Document): Beat[] {
     pick("h1", "hero", "Claim");
   if (hero) beats.push(hero);
 
+  // Prefer the unique craft figure for each kind — lattice, folio plate, seam ladder, then product.
   const figureRaw =
+    pick(".ds-hero .ds-register-ledger .ds-fig, .ds-register-ledger", "figure", "Ledger") ||
+    pick(".ds-hero .ds-chrono-lattice .ds-fig, .ds-chrono-lattice", "figure", "Lattice") ||
+    pick(".ds-hero .ds-folio-plate .ds-fig, .ds-folio-plate", "figure", "Plate") ||
+    pick(".ds-hero .ds-seam-figure .ds-fig, .ds-seam-figure", "figure", "Ladder") ||
     pick(".ds-hero .ds-plate-bleed", "figure", "Figure") ||
     pick(".ds-plate-bleed .ds-fig", "figure", "Figure") ||
     pick(".ds-alt-figure, [data-section='features'] .ds-plate", "figure", "Figure");
-  // Overfigure plates start at y≈0 (under the claim). Nudge into the product surface past sticky nav.
+  // Overfigure / folio plates start high — nudge into drawn matter past claim chrome.
   if (figureRaw) {
     const figure =
-      figureRaw.y < 120 ? { ...figureRaw, y: Math.max(figureRaw.y, 168) } : figureRaw;
+      figureRaw.y < 200 ? { ...figureRaw, y: Math.max(figureRaw.y, 220) } : figureRaw;
     if (!hero || Math.abs(figure.y - hero.y) > 80) beats.push(figure);
   }
 
   const metrics = pick(".ds-metrics-band, [data-section='metrics']", "metrics", "Stakes");
   if (metrics) beats.push(metrics);
 
+  const instruments =
+    pick("[data-section='features'] .ds-index, [data-section='features']", "instruments", "Index");
+  if (instruments && instruments.y > 400) beats.push(instruments);
+
   const specimen = pick(".ds-specimen, [data-section='specimen']", "specimen", "Specimen");
   if (specimen) beats.push(specimen);
 
-  const proof = pick(".ds-proof, [data-surface='inverse']", "proof", "Proof");
+  // Dossier / foundry / observatory signature essays — the craft theme packs miss.
+  const spread = pick(".ds-spread, .ds-marginalia, .ds-chrono, .ds-entry, [data-section='story']", "spread", "Spread");
+  if (spread) beats.push(spread);
+
+  const proof =
+    pick(".ds-proof-board, .ds-proof", "proof", "Proof") ||
+    pick("[data-surface='inverse']", "proof", "Proof");
   if (proof) beats.push(proof);
+
+  const imprint = pick(".ds-closing-colophon, .ds-closing, #cta", "imprint", "Imprint");
+  if (imprint) beats.push(imprint);
 
   const out: Beat[] = [];
   for (const b of beats.sort((a, c) => a.y - c.y)) {
-    if (out.length && Math.abs(out[out.length - 1]!.y - b.y) < 60) continue;
+    if (out.length && Math.abs(out[out.length - 1]!.y - b.y) < 90) continue;
     out.push(b);
   }
-  return out.length ? out : [{ id: "top", y: 96, label: "Fold" }];
+  // Cap reel length so the GIF-like loop stays punchy (best moments, not every section).
+  return (out.length ? out : [{ id: "top", y: 96, label: "Fold" }]).slice(0, 6);
 }
 
 function pickStill(beats: Beat[], prefer: SpecimenPreviewProps["prefer"]): Beat {
   const figure = beats.find((b) => b.id === "figure");
   const hero = beats.find((b) => b.id === "hero");
+  const spread = beats.find((b) => b.id === "spread");
   if (prefer === "hero") return hero || figure || beats[0]!;
-  // Prefer a figure that is actually down-page; otherwise the claim beat (never bare y=0 nav).
+  // Prefer a figure that is actually down-page; otherwise claim / spread craft.
   if (figure && figure.y >= 140) return figure;
+  if (spread && spread.y >= 200) return spread;
   if (hero) return hero;
   if (figure) return { ...figure, y: Math.max(figure.y, 168) };
   return { ...beats[0]!, y: Math.max(beats[0]!.y, 96) };
@@ -91,6 +117,7 @@ export function SpecimenPreview({
   decorative = false,
   mode = "still",
   prefer = "auto",
+  autoplayInView,
 }: SpecimenPreviewProps) {
   const frameRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -99,7 +126,10 @@ export function SpecimenPreview({
   const [beats, setBeats] = useState<Beat[]>([]);
   const [active, setActive] = useState(0);
   const [hovering, setHovering] = useState(false);
+  const [inView, setInView] = useState(() => mode === "cinema" && !decorative);
   const [reducedMotion, setReducedMotion] = useState(false);
+
+  const playInView = autoplayInView ?? (mode === "cinema" || decorative);
 
   useEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -120,6 +150,20 @@ export function SpecimenPreview({
   }, [designWidth]);
 
   useEffect(() => {
+    const el = frameRef.current;
+    if (!el || !playInView) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.some((e) => e.isIntersecting && e.intersectionRatio >= 0.2);
+        setInView(hit);
+      },
+      { threshold: [0.15, 0.25, 0.4], rootMargin: "0px 0px -4% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [playInView]);
+
+  useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
 
@@ -127,13 +171,17 @@ export function SpecimenPreview({
       const doc = iframe.contentDocument;
       const win = iframe.contentWindow;
       if (!doc || !win) return;
-      // Showcase chrome: hide sticky nav so stills/reels show craft, not browser chrome.
+      // Showcase chrome: hide sticky nav + chapter rail so stills/reels show craft, not chrome.
       if (!doc.getElementById("sx-preview-chrome")) {
         const style = doc.createElement("style");
         style.id = "sx-preview-chrome";
         style.textContent = `
           .ds-nav{display:none!important}
           .ds-skip{display:none!important}
+          .ds-chapter-rail{display:none!important}
+          .ds-scrub-rail{display:none!important}
+          .ds-chronometer{display:none!important}
+          .ds-alpha-rail{display:none!important}
           html{scroll-padding-top:0!important}
         `;
         doc.head.appendChild(style);
@@ -154,7 +202,12 @@ export function SpecimenPreview({
     return () => iframe.removeEventListener("load", onLoad);
   }, [html, prefer]);
 
-  const cinemaOn = mode === "cinema" || (decorative && hovering);
+  const cinemaOn =
+    mode === "cinema"
+      ? playInView
+        ? inView || hovering
+        : true
+      : decorative && (hovering || (playInView && inView));
 
   useEffect(() => {
     if (!cinemaOn || reducedMotion || beats.length < 2) return;
@@ -170,10 +223,10 @@ export function SpecimenPreview({
       indexRef.current = next;
       setActive(next);
       win.scrollTo({ top: beats[next]!.y, left: 0, behavior: "smooth" });
-      timer = setTimeout(step, decorative ? 1500 : 2100);
+      timer = setTimeout(step, decorative ? 1600 : 2200);
     };
 
-    timer = setTimeout(step, decorative ? 700 : 1200);
+    timer = setTimeout(step, decorative ? 600 : 900);
     return () => {
       cancelled = true;
       clearTimeout(timer);
@@ -187,7 +240,7 @@ export function SpecimenPreview({
     ["--sx-design-h"]: `${designHeight}px`,
   } as CSSProperties;
 
-  const showBeats = mode === "cinema" && beats.length > 1 && !decorative;
+  const showBeats = beats.length > 1 && (mode === "cinema" || (decorative && cinemaOn));
 
   return (
     <div
@@ -197,6 +250,7 @@ export function SpecimenPreview({
       data-ready={ready ? "true" : "false"}
       data-mode={mode}
       data-beat={beats[active]?.id ?? ""}
+      data-playing={cinemaOn && !reducedMotion ? "true" : "false"}
       style={style}
       aria-hidden={decorative || undefined}
       onMouseEnter={() => setHovering(true)}

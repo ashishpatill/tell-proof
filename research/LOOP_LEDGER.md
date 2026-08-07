@@ -310,3 +310,107 @@ buckets, never names, hosts, or URLs.
   spine + constructed optical sizes are craft a generic design engine will not invent from controls.
 - **Next weakest:** dashboard band-variation; foundry coverage variation; deepen foundry uniqueness
   (second letter clarity on ladder, richer marginalia marks) without score-gaming.
+
+## Loop 16 — ninth offering: research dossier (RSI)
+
+- **Goal:** fill the capital-brand / research-editorial / editorial-brand demand gap with a template
+  structurally hard to replicate from a theme pack — folio masthead, chapter rail, dossier plate,
+  verso/recto footnotes, imprint — and dogfood the engine until critique + eye pass.
+- **Failure named (champion):** eight offerings still lacked a magazine/briefing grammar; nothing
+  forced a cartographic plate, sticky chapter rail, or footnote register.
+- **Challenger:** new `research-dossier` siteKind + `dossier` template (`Meridian Atlas`) with craft
+  prior kinds do not emit:
+  - `hero-folio` — volume/issue masthead + quiet claim + spanning dossier plate
+  - sticky `ds-chapter-rail` — numbered briefing chapters on the right edge
+  - `dossier-plate` figure (coordinate grid + pin callouts; mono labels only — foundry SVG-text lesson)
+  - `story-spread` — verso/recto opening with center gutter + footnote register
+  - full-bleed accent rules + paper imprint (no pricing, no metrics theatre, zero inverse)
+- **Score:** matrix **99.1**; dossier-research **98.1** (was 94.9 before fold hang + type consolidation);
+  holdout **98.4** (gap 0.7 — generalises). Prior matrix ~99.3; no regression on locked SaaS/studio/consumer/foundry.
+- **Closed:** fold-figure into band by compacting claim and hanging the plate; display into band;
+  type-steps 17→15; denser stack specimen cut ink-variation 1.26→1.10; basics gate `kind-dossier`;
+  showcase `/showcase/dossier` featured on gallery.
+- **Side effects:** dossier ink-variation still slightly above corridor ceiling (1.10 vs 0.96) —
+  acceptable for a plate-owned fold that must stay dense; do not empty the plate to game the band.
+  Type-steps at 15 (ceiling 14) — one micro size remains; do not collapse mono hierarchy further
+  into illegibility.
+- **Qualitative:** fold reads as a capital briefing folio, not a recolored SaaS/foundry page. Chapter
+  rail + cartographic pins + verso/recto footnotes are craft a generic design engine will not invent
+  from taste controls.
+- **Next weakest:** dashboard band-variation; dossier type-steps ceiling; deepen dossier uniqueness
+  (richer pin legend, imprint edition marks) without score-gaming.
+
+## Loop 17 — showcase craft-reel filmstrip (RSI)
+
+- **Goal:** finish the earlier cinema/GIF showcase intent — gallery must show best craft beats as
+  live reels, with Research Dossier featured, not a text list of hover thumbs.
+- **Failure named (champion):** `SpecimenPreview` cinema existed, but `/showcase` still presented as
+  a spine register list; beat discovery skipped spread/imprint; thumbs only scrubbed on hover.
+- **Challenger:** redesign gallery as craft stage + filmstrip; enrich beats; autoplay in view.
+- **Eval:** Playwright eye — featured `NOW PLAYING · RESEARCH DOSSIER`, `data-playing=true`,
+  craft beat ≠ nav; filmstrip cells show REEL chrome; typecheck green.
+- **Closed:** `/showcase` stage + sprocket filmstrip; dossier featured; beat discovery for
+  folio/seam/spread/imprint; chapter-rail hidden in preview chrome; learning `showcase:list-not-reel`.
+- **Side effects:** featured is excluded from the strip (8 cells) — intentional so the stage owns it.
+- **Qualitative:** gallery reads as a specimen cinema, not a sitemap of offerings.
+
+## Loop 18 — tenth offering: signal observatory (RSI)
+
+- **Goal:** fill the enterprise-observability / enterprise-data / award-index demand gap with a
+  template structurally hard to replicate from a theme pack — chronometer fold, scrub rail, signal
+  lattice, chrono essay, calibration — and dogfood the engine until critique + eye pass.
+- **Failure named (champion):** nine offerings still lacked an instrument-desk grammar; nothing
+  forced a vertical chronometer, sticky time-window scrub rail, amplitude lattice, or tick-bead
+  chronology. Theme packs restyle SaaS/dashboard shells; they do not invent desk instruments.
+- **Challenger:** new `signal-observatory` siteKind + `observatory` template (`Nightglass`) with
+  craft prior kinds do not emit:
+  - `hero-chrono` — UTC chronometer ticks + compact claim + spanning signal lattice
+  - sticky `ds-scrub-rail` — T−24h / Live / +6h / Calibrate time windows
+  - `signal-lattice` figure (amplitude bars + LIVE bracket; mono labels only — foundry SVG-text lesson)
+  - `story-chrono` — event track with tick beads + outer time index
+  - hairline bleed + paper calibration close (no pricing, no metrics theatre, zero inverse)
+- **Score:** matrix **99.1**; observatory-signal **96.0 → 98.9/99.0** after hairline + type
+  consolidation + fold hang; holdout **98.4** (gap 0.7 — generalises). No regression on locked
+  SaaS/studio/consumer/foundry/dossier.
+- **Closed:** thick-chrome hairline failure (`template:thick-chrome-kills-hairline`); fold lattice
+  into first viewport (`template:chrono-claim-starves-lattice`); basics gate `kind-observatory`;
+  showcase `/showcase/observatory` featured on gallery cinema; beat discovery for lattice/chrono.
+- **Side effects:** observatory ink-variation still slightly above corridor ceiling (1.07 vs 0.96) —
+  acceptable for a lattice-owned fold that must stay dense; do not empty the lattice to game the band.
+- **Qualitative:** fold reads as an on-call instrument desk, not a recolored dashboard or SaaS page.
+  Chronometer + scrub rail + amplitude lattice + chrono beads are craft a generic design engine will
+  not invent from taste controls.
+- **Next weakest:** dashboard band-variation; observatory ink-variation ceiling; deepen uniqueness
+  (richer LIVE bracket legends, calibration tolerance numerals) without score-gaming.
+
+## Loop 18b — deepen observatory + dashboard rhythm (parallel RSI)
+
+- **Goal:** parallel dogfood — deepen Nightglass LIVE/calibration craft; raise dashboard
+  band-variation without empty voids.
+- **Observatory:** WINDOW legend + corner ticks, per-channel threshold marks, calibration
+  tolerance strip — mono ≤11px, 1px chrome only.
+- **Dashboard:** sunken specimen valley before dense app-shell; pack shell/index/proof as peaks;
+  widen body measure out of the 33ch trap. Score **~97.8 → 99.7**; band-variation into floor.
+- **Side effects:** observatory ink-variation still slightly above ceiling — accepted.
+
+## Loop 19 — eleventh offering: archive index (RSI, parallel)
+
+- **Goal:** fill the award-index demand gap with unreplicable register craft — quiet display,
+  extreme spine, index-ledger owning the fold, A–Z alpha rail, entry essay, Registry close.
+- **Failure named (champion):** ten offerings still lacked an alphabetical archive/ledger grammar;
+  nothing forced a register fold where the index IS the figure.
+- **Challenger:** `archive-index` siteKind + `archive` template (`Stamp Roll`):
+  - `hero-register` + sticky `ds-alpha-rail`
+  - `index-ledger` figure (mono ordinals ≤11px)
+  - `story-entry` hanging folio + ruled measure
+  - paper Registry close — no pricing/metrics/inverse
+- **Score:** matrix **99.2**; archive-index **91.3 → 97.6** after display-clamp fix + ledger
+  rule sparse + horizon specimen; holdout **98.4**. Dashboard parallel pass **99.7**.
+- **Closed:** `template:display-clamp-invalid`, `template:ledger-rule-flood`; basics
+  `kind-archive`; `/showcase/archive` featured.
+- **Side effects:** archive ink-variation above corridor (1.32 vs 0.96) — accepted for a
+  ledger-owned fold; do not flood rules to game the band.
+- **Qualitative:** fold reads as an archive register, not a recolored SaaS/dossier page. Alpha
+  rail + ruled ledger + entry folios are craft theme packs will not invent from taste controls.
+- **Next weakest:** archive ink-variation; docs rule density; deepen register uniqueness
+  (section tabs, stamp marks) without score-gaming.

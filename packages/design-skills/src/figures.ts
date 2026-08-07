@@ -100,7 +100,10 @@ export type FigureKind =
   | "mark"
   | "spark"
   | "signature"
-  | "type-ladder";
+  | "type-ladder"
+  | "dossier-plate"
+  | "signal-lattice"
+  | "index-ledger";
 
 interface FrameOptions {
   /** Named for a screen reader; omit to mark the figure decorative. */
@@ -1058,6 +1061,401 @@ export function typeLadder(
 }
 
 /**
+ * Dossier plate — cartographic schematic for capital/research briefings.
+ *
+ * A coordinate grid, region contours, and pin callouts derived from the brief's capabilities.
+ * Labels stay mono and tiny so the type probe does not treat them as display (foundry lesson).
+ * Generic engines emit SaaS UI plates; they do not invent a folio map with pinned instruments.
+ */
+export function dossierPlate(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:dossier`);
+  const W = role === "band" ? 1440 : role === "column" ? 640 : 920;
+  const H = role === "band" ? 820 : role === "column" ? 720 : 560;
+  const padX = role === "band" ? W * 0.06 : W * 0.08;
+  const padY = role === "band" ? H * 0.08 : H * 0.09;
+  const parts: string[] = [];
+
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  const cols = 10;
+  const rows = 7;
+  const gridW = W - padX * 2;
+  const gridH = H - padY * 2;
+  const cellW = gridW / cols;
+  const cellH = gridH / rows;
+  for (let i = 1; i < cols; i += 1) {
+    const x = padX + cellW * i;
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(padY)}" x2="${round(x)}" y2="${round(H - padY)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.22 + r() * 0.2)}" vector-effect="non-scaling-stroke"/>`,
+    );
+  }
+  for (let j = 1; j < rows; j += 1) {
+    const y = padY + cellH * j;
+    parts.push(
+      `<line x1="${round(padX)}" y1="${round(y)}" x2="${round(W - padX)}" y2="${round(y)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.18 + r() * 0.18)}" vector-effect="non-scaling-stroke"/>`,
+    );
+  }
+
+  const letters = "ABCDEFGHIJ";
+  for (let i = 0; i < cols; i += 1) {
+    const x = padX + cellW * (i + 0.5);
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(x)}" y="${round(padY - 8)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">${letters[i]}</text>`,
+    );
+  }
+  for (let j = 0; j < rows; j += 1) {
+    const y = padY + cellH * (j + 0.5);
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(padX - 10)}" y="${round(y + 3)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${j + 1}</text>`,
+    );
+  }
+
+  const regions = Math.min(4, Math.max(2, features.length - 1));
+  for (let i = 0; i < regions; i += 1) {
+    const cx = padX + gridW * (0.22 + r() * 0.56);
+    const cy = padY + gridH * (0.25 + r() * 0.5);
+    const rx = cellW * (1.4 + r() * 1.8);
+    const ry = cellH * (1.1 + r() * 1.4);
+    const pts: string[] = [];
+    const n = 6 + Math.floor(r() * 3);
+    for (let k = 0; k < n; k += 1) {
+      const a = (Math.PI * 2 * k) / n + r() * 0.25;
+      const jitter = 0.72 + r() * 0.35;
+      pts.push(`${round(cx + Math.cos(a) * rx * jitter)},${round(cy + Math.sin(a) * ry * jitter)}`);
+    }
+    parts.push(
+      `<polygon points="${pts.join(" ")}" fill="${ACCENT_FIELD}" stroke="${ACCENT}" stroke-width="1" opacity="${round(0.35 + r() * 0.25)}" vector-effect="non-scaling-stroke"/>`,
+    );
+  }
+
+  const pins = features.slice(0, Math.min(5, features.length));
+  pins.forEach((f, i) => {
+    const col = 1 + Math.floor(r() * (cols - 2));
+    const row = 1 + Math.floor(r() * (rows - 2));
+    const x = padX + cellW * (col + 0.5);
+    const y = padY + cellH * (row + 0.5);
+    const coord = `${letters[col]}${row + 1}`;
+    parts.push(`<circle cx="${round(x)}" cy="${round(y)}" r="5" fill="${ACCENT}" stroke="var(--surface-bg)" stroke-width="1.5"/>`);
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(y)}" x2="${round(x + cellW * 0.85)}" y2="${round(y - cellH * 0.55)}" stroke="${ACCENT}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    const lx = x + cellW * 0.9;
+    const ly = y - cellH * 0.6;
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(lx)}" y="${round(ly)}" font-size="11" fill="var(--surface-muted)">${esc(coord)}</text>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(lx)}" y="${round(ly + 14)}" font-size="11" fill="var(--surface-quiet)">${esc(clip(f.title, 18))}</text>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(x)}" y="${round(y + 18)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">${String(i + 1).padStart(2, "0")}</text>`,
+    );
+  });
+
+  const scaleX = padX + 12;
+  const scaleY = H - padY + 4;
+  parts.push(
+    `<line x1="${round(scaleX)}" y1="${round(scaleY)}" x2="${round(scaleX + cellW * 1.5)}" y2="${round(scaleY)}" stroke="${LINE}" stroke-width="1.5" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<line x1="${round(scaleX)}" y1="${round(scaleY - 4)}" x2="${round(scaleX)}" y2="${round(scaleY + 4)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<line x1="${round(scaleX + cellW * 1.5)}" y1="${round(scaleY - 4)}" x2="${round(scaleX + cellW * 1.5)}" y2="${round(scaleY + 4)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(scaleX + cellW * 1.65)}" y="${round(scaleY + 3)}" font-size="11" fill="var(--surface-quiet)">1 briefing unit</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX)}" y="${round(scaleY + 3)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${esc(clip(productName, 28))} · dossier plate</text>`,
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "dossier-plate",
+    label: `${productName} dossier plate`,
+    inset: role === "band" ? BLEED_INSET : 0,
+  });
+}
+
+/**
+ * Signal lattice — observatory signature figure.
+ *
+ * A channel grid with amplitude bars and status dots. Labels stay mono ≤11px so the type probe
+ * does not treat them as display (foundry SVG-text lesson). Theme packs do not invent instrument
+ * lattices from a density slider.
+ */
+/** Corner L-brackets for a live window — instrument ticks, not a full chrome box. */
+function liveWindowCorners(x: number, y: number, w: number, h: number, arm = 10): string {
+  const s = `fill="none" stroke="${ACCENT}" stroke-width="1" opacity="0.85" vector-effect="non-scaling-stroke"`;
+  const x2 = x + w;
+  const y2 = y + h;
+  return [
+    `<path d="M ${round(x)} ${round(y + arm)} V ${round(y)} H ${round(x + arm)}" ${s}/>`,
+    `<path d="M ${round(x2 - arm)} ${round(y)} H ${round(x2)} V ${round(y + arm)}" ${s}/>`,
+    `<path d="M ${round(x)} ${round(y2 - arm)} V ${round(y2)} H ${round(x + arm)}" ${s}/>`,
+    `<path d="M ${round(x2 - arm)} ${round(y2)} H ${round(x2)} V ${round(y2 - arm)}" ${s}/>`,
+  ].join("");
+}
+
+export function signalLattice(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:signal-lattice:${role}`);
+  const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
+  const H = role === "band" ? 720 : role === "column" ? 520 : 480;
+  const padX = role === "band" ? 56 : 36;
+  const padY = role === "band" ? 48 : 32;
+  const parts: string[] = [];
+
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  // Top chronometer strip — hour ticks across the plate.
+  const chronY = padY + 18;
+  parts.push(
+    `<line x1="${round(padX + 8)}" y1="${round(chronY)}" x2="${round(W - padX - 8)}" y2="${round(chronY)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  const hours = 12;
+  // "Now" sits mid-strip — a 1px-stroke bead, not thick chrome.
+  const nowHour = 6;
+  for (let i = 0; i <= hours; i += 1) {
+    const x = padX + 8 + ((W - padX * 2 - 16) * i) / hours;
+    const tall = i % 3 === 0;
+    const isNow = i === nowHour;
+    parts.push(
+      `<line x1="${round(x)}" y1="${round(chronY - (tall ? 8 : 4))}" x2="${round(x)}" y2="${round(chronY + (tall ? 8 : 4))}" stroke="${tall || isNow ? ACCENT : LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    if (tall) {
+      parts.push(
+        `<text class="ds-fig-mono" x="${round(x)}" y="${round(chronY - 12)}" font-size="11" fill="var(--surface-quiet)" text-anchor="middle">${String(i).padStart(2, "0")}</text>`,
+      );
+    }
+    if (isNow) {
+      parts.push(
+        `<circle cx="${round(x)}" cy="${round(chronY)}" r="2.5" fill="var(--surface-bg, var(--c-paper))" stroke="${ACCENT}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      );
+    }
+  }
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX - 8)}" y="${round(chronY - 12)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">UTC</text>`,
+  );
+
+  const channels = features.slice(0, 6);
+  const count = Math.max(4, channels.length);
+  const gridTop = padY + 44;
+  const gridBottom = H - padY - 28;
+  const gridH = gridBottom - gridTop;
+  const rowH = gridH / count;
+  const labelW = Math.min(140, W * 0.16);
+  const barLeft = padX + labelW + 12;
+  const barRight = W - padX - 24;
+  const barW = barRight - barLeft;
+
+  // Tolerance ladder keyed to channel index — same values the calibration close echoes.
+  const tolerances = ["±0.5", "±1.0", "±0.5", "±1.5", "±1.0", "±2.0"];
+
+  for (let i = 0; i < count; i += 1) {
+    const f = channels[i] ?? channels[i % Math.max(1, channels.length)]!;
+    const y0 = gridTop + rowH * i;
+    const mid = y0 + rowH / 2;
+    // Row rule
+    if (i > 0) {
+      parts.push(
+        `<line x1="${round(padX + 8)}" y1="${round(y0)}" x2="${round(W - padX - 8)}" y2="${round(y0)}" stroke="${LINE}" stroke-width="1" opacity="0.35" vector-effect="non-scaling-stroke"/>`,
+      );
+    }
+    // Channel id + title (mono only)
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(mid - 4)}" font-size="11" fill="var(--surface-quiet)">${String(i + 1).padStart(2, "0")}</text>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(mid + 12)}" font-size="11" fill="var(--surface-muted)">${esc(clip(f?.title ?? `ch-${i + 1}`, 16))}</text>`,
+    );
+
+    // Amplitude bars — dense instrument matter without SVG display type.
+    const bars = 28;
+    const gap = barW / bars;
+    const ampSeed = 0.25 + r() * 0.55;
+    for (let b = 0; b < bars; b += 1) {
+      const h = rowH * (0.18 + ampSeed * Math.abs(Math.sin((b + i * 3) * 0.55 + r() * 0.4)) * 0.72);
+      const x = barLeft + gap * b + gap * 0.15;
+      const y = mid - h / 2;
+      const hot = b > bars * 0.62 && b < bars * 0.78;
+      parts.push(
+        `<rect x="${round(x)}" y="${round(y)}" width="${round(gap * 0.55)}" height="${round(h)}" fill="${hot ? ACCENT : LINE}" opacity="${hot ? 0.85 : round(0.35 + r() * 0.35)}"/>`,
+      );
+    }
+
+    // Per-channel threshold hairline across the amplitude row.
+    const thrY = mid - rowH * (0.12 + (i % 3) * 0.04);
+    parts.push(
+      `<line x1="${round(barLeft)}" y1="${round(thrY)}" x2="${round(barRight)}" y2="${round(thrY)}" stroke="${ACCENT}" stroke-width="1" opacity="0.45" stroke-dasharray="3 5" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(barLeft + 4)}" y="${round(thrY - 3)}" font-size="11" fill="var(--surface-quiet)">${tolerances[i % tolerances.length]}</text>`,
+    );
+
+    // Status dot
+    const status = i % 3 === 0 ? ACCENT : LINE;
+    parts.push(
+      `<circle cx="${round(W - padX - 12)}" cy="${round(mid)}" r="3.5" fill="${status}"/>`,
+    );
+  }
+
+  // Live window — corner ticks + WINDOW / duration legend (not a full boxed chrome).
+  const winX = barLeft + barW * 0.62;
+  const winW = barW * 0.16;
+  const winMin = Math.max(8, Math.round((winW / barW) * 60));
+  const duration = `00:${String(winMin).padStart(2, "0")}`;
+  parts.push(liveWindowCorners(winX, gridTop, winW, gridH, role === "band" ? 12 : 8));
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(winX + winW / 2)}" y="${round(gridTop - 6)}" font-size="11" fill="var(--c-accent)" text-anchor="middle">LIVE</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(winX + 6)}" y="${round(gridTop + 14)}" font-size="11" fill="var(--c-accent)">WINDOW</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(winX + winW - 6)}" y="${round(gridTop + 14)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${duration}</text>`,
+  );
+
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(padX + 12)}" y="${round(H - padY + 14)}" font-size="11" fill="var(--surface-quiet)">${esc(clip(productName, 28))} · signal lattice</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX - 8)}" y="${round(H - padY + 14)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${count} channels</text>`,
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "signal-lattice",
+    label: `${productName} signal lattice`,
+    inset: role === "band" ? BLEED_INSET : 0,
+  });
+}
+
+/**
+ * Index ledger — archive-index signature figure.
+ *
+ * Multi-column ruled entry rows with mono ordinals only (≤11px). The ledger IS the fold figure —
+ * dense index grammar, high ink variation, no large SVG display type (foundry lesson). Theme packs
+ * do not invent alphabetical ledgers from a density slider.
+ */
+export function indexLedger(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:index-ledger:${role}`);
+  const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
+  const H = role === "band" ? 720 : role === "column" ? 520 : 480;
+  const padX = role === "band" ? 48 : 28;
+  const padY = role === "band" ? 40 : 28;
+  const parts: string[] = [];
+
+  // Outer rule — hairline only.
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="none" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  // Header strip — register mark + product (mono ≤11px).
+  const headY = padY + 16;
+  parts.push(
+    `<line x1="${round(padX)}" y1="${round(headY + 10)}" x2="${round(W - padX)}" y2="${round(headY + 10)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">REGISTER</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W / 2)}" y="${round(headY)}" font-size="11" fill="var(--surface-muted)" text-anchor="middle">${esc(clip(productName, 32))}</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">A–Z · INDEX</text>`,
+  );
+
+  // Build dense entry list from features + synthetic fillers for ink variation.
+  const baseEntries = features.length ? features : [{ title: "Entry", body: "", meta: "001" } as Block];
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const cols = 2;
+  const gridTop = padY + 36;
+  const gridBottom = H - padY - 22;
+  const gridH = gridBottom - gridTop;
+  const colGap = 22;
+  const colW = (W - padX * 2 - colGap * (cols - 1)) / cols;
+  // Sparse ledger — rules/screen must stay ≤4.33; prior 3×18 rows scored ~10.
+  const rowsPerCol = role === "band" ? 5 : 4;
+  const rowH = gridH / rowsPerCol;
+
+  for (let c = 0; c < cols; c += 1) {
+    const x0 = padX + c * (colW + colGap);
+    // Column letter marker
+    const letter = letters[c * 8] ?? letters[c]!;
+    parts.push(
+      `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(gridTop - 4)}" font-size="11" fill="var(--c-accent)">${letter}</text>`,
+    );
+    // Vertical column rule (except first)
+    if (c > 0) {
+      parts.push(
+        `<line x1="${round(x0 - colGap / 2)}" y1="${round(gridTop)}" x2="${round(x0 - colGap / 2)}" y2="${round(gridBottom)}" stroke="${LINE}" stroke-width="1" opacity="0.45" vector-effect="non-scaling-stroke"/>`,
+      );
+    }
+
+    for (let row = 0; row < rowsPerCol; row += 1) {
+      const y = gridTop + row * rowH;
+      const entryIdx = c * rowsPerCol + row;
+      const f = baseEntries[entryIdx % baseEntries.length]!;
+      const ordinal = String(entryIdx + 1).padStart(3, "0");
+      // Ruled row — one hairline per entry (no double underlines).
+      parts.push(
+        `<line x1="${round(x0)}" y1="${round(y + rowH)}" x2="${round(x0 + colW)}" y2="${round(y + rowH)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.28 + (row % 3) * 0.12)}" vector-effect="non-scaling-stroke"/>`,
+      );
+      parts.push(
+        `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(y + rowH * 0.62)}" font-size="11" fill="var(--surface-quiet)">${ordinal}</text>`,
+      );
+      const title = clip(f.title ?? `Entry ${ordinal}`, role === "band" ? 22 : 14);
+      parts.push(
+        `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.62)}" font-size="11" fill="var(--surface-muted)">${esc(title)}</text>`,
+      );
+      // Accent tick on every 3rd row — ink without extra rules.
+      if (row % 3 === 0) {
+        parts.push(
+          `<rect x="${round(x0 + colW - 8)}" y="${round(y + rowH * 0.4)}" width="4" height="4" fill="${ACCENT}" opacity="0.7"/>`,
+        );
+      }
+    }
+  }
+
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(H - padY + 12)}" font-size="11" fill="var(--surface-quiet)">${esc(clip(productName, 28))} · index ledger</text>`,
+  );
+  parts.push(
+    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(H - padY + 12)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${cols * rowsPerCol} entries</text>`,
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "index-ledger",
+    label: `${productName} index ledger`,
+    inset: role === "band" ? BLEED_INSET : 0,
+  });
+}
+
+/**
  * One letterform drawn as strokes rather than typeset. Not a typeface — a construction, the way a
  * mark is drawn before it is drawn properly: stems on the vertical, a shoulder or a bowl where the
  * letter needs one, a diagonal where it needs that instead.
@@ -1195,7 +1593,7 @@ export interface FigurePlan {
   sparks: string[];
 }
 
-type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder";
+type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder" | "dossier-plate" | "signal-lattice" | "index-ledger";
 
 /**
  * Which drawing goes where.
@@ -1220,6 +1618,13 @@ const ORDER: Record<string, Kind[]> = {
   "consumer-craft": ["interface", "horizon", "flow", "stack"],
   // Foundry: optical-size ladder owns the fold; horizon/stack keep scroll beats distinct.
   "editorial-foundry": ["type-ladder", "horizon", "stack", "flow"],
+  // Dossier: cartographic plate owns the fold; denser stack specimen keeps ink-variation honest.
+  "research-dossier": ["dossier-plate", "stack", "horizon", "flow"],
+  // Observatory: signal lattice owns the fold; denser stack specimen keeps ink-variation honest.
+  "signal-observatory": ["signal-lattice", "stack", "horizon", "flow"],
+  // Archive: index ledger owns the fold; denser stack specimen keeps ink-variation honest.
+  // Archive: ledger owns the fold; horizon specimen stays rule-light (stack was flooding rules/screen).
+  "archive-index": ["index-ledger", "horizon", "flow", "stack"],
 };
 
 export function planFigures(input: {
@@ -1251,6 +1656,12 @@ export function planFigures(input: {
         return horizonPlot(sequence, seed, role);
       case "type-ladder":
         return typeLadder(input.productName, input.features, seed, role);
+      case "dossier-plate":
+        return dossierPlate(input.productName, input.features, seed, role);
+      case "signal-lattice":
+        return signalLattice(input.productName, input.features, seed, role);
+      case "index-ledger":
+        return indexLedger(input.productName, input.features, seed, role);
       default:
         return "";
     }
@@ -1262,8 +1673,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["type-ladder", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["type-ladder", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -1284,9 +1695,18 @@ export function planFigures(input: {
   const shaped = (pool: Kind[], from: Kind[]): Kind | undefined => from.find((k) => pool.includes(k));
 
   // Foundry hard-seam fold: the ladder always owns the inverse column — never fall through to a plate.
+  // Dossier folio fold: the cartographic plate always owns the spanning field.
+  // Observatory chrono fold: the signal lattice always owns the spanning field.
+  // Archive register fold: the index ledger always owns the spanning field.
   const heroKind =
     input.siteKind === "editorial-foundry"
       ? ("type-ladder" as Kind)
+      : input.siteKind === "research-dossier"
+        ? ("dossier-plate" as Kind)
+        : input.siteKind === "signal-observatory"
+          ? ("signal-lattice" as Kind)
+          : input.siteKind === "archive-index"
+            ? ("index-ledger" as Kind)
       : shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;
   const afterHero = order.filter((k) => k !== heroKind);
   const bandKind = shaped(SPANNING, afterHero);

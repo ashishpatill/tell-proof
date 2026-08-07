@@ -32,6 +32,81 @@ Pattern keys match `tell-recursive-improve`.
 - **Fix:** Draw optical sizes as `constructedGlyph` strokes; keep only 10–11px mono labels in SVG.
 - **Do not:** Put large SVG text on the fold and expect type bands to stay honest.
 
+## 2026-08-07 — `template:folio-claim-starves-plate`
+
+- **Failure:** Research-dossier folio put masthead + full claim + CTAs above the dossier plate, so
+  fold-figure sat at 0.20 (band ≥0.34) — the unique craft was below the fold.
+- **Fix:** Compact claim (drop fold cta-note, tighten padding), hang `.ds-folio-field` up under a
+  soft paper fade, raise plate min-height so pins enter the first viewport.
+- **Do not:** Treat a unique figure as shipped if the fold shot is only type chrome.
+
+## 2026-08-07 — `showcase:list-not-reel`
+
+- **Failure:** Cinema reel existed as a GIF substitute, but `/showcase` still read as a text index
+  with hover thumbs; beat discovery missed dossier spread/imprint; reels did not autoplay in view.
+- **Fix:** Gallery becomes a craft stage (featured dossier cinema) + filmstrip of sprocket-framed
+  cells; `discoverBeats` includes plate/ladder/spread/imprint; `autoplayInView` IntersectionObserver;
+  hide chapter rail in preview chrome like sticky nav.
+- **Do not:** Ship a gallery of nav-crop stills and call the earlier cinema commit "done".
+
+## 2026-08-07 — `template:thick-chrome-kills-hairline`
+
+- **Failure:** Observatory first critique scored **96.0** with hairline ratio 0.839 (band ≥0.947).
+  Chronometer major ticks, chrono track/beads, aside borders, 3px bleed seal, and calibration stripe
+  were 1.5–3px chrome — the probe treats those as non-hairline and tanks the band.
+- **Fix:** Force observatory structural rules to 1px; consolidate mono labels to 11px; hairline bleed
+  seal. Score **96.0 → 99.0**.
+- **Do not:** Add 2–3px “accent bars” as borders on a new siteKind and expect hairline bands to hold.
+
+## 2026-08-07 — `template:chrono-claim-starves-lattice`
+
+- **Failure:** Same class as folio-claim-starves-plate — chronometer fold put full claim + dual CTAs
+  above the signal lattice, so narrow showcase frames showed scrub chrome without the unique figure.
+- **Fix:** Compact claim, hang `.ds-chrono-field` under a soft paper fade, raise lattice min-height
+  so amplitude channels enter the first desktop viewport (lattice top ~344px @1440×900).
+- **Do not:** Treat a unique lattice as shipped if the fold shot is only type + sticky scrub.
+
+
+## 2026-08-07 — `template:index-must-own-fold`
+
+- **Failure class:** Same as folio-claim-starves-plate / chrono-claim-starves-lattice — for award-index /
+  archive craft the **ledger is the figure**. A tall claim + CTAs above a plate leaves foldFigure
+  starved and the unique index grammar below the fold.
+- **Fix:** `hero-register` keeps a compact claim, hangs `.ds-register-field` under a soft paper fade,
+  and lets `index-ledger` own the first viewport. Quiet display clamp 45–52px; alpha-rail is chrome
+  (hidden in SpecimenPreview).
+- **Do not:** Put a product plate *below* a shouty claim and call an archive index shipped.
+
+## 2026-08-07 — `template:display-clamp-invalid`
+
+- **Failure:** Archive override used `font-size: clamp(2.5rem, calc(var(--t-display-size) * 1px), …)`
+  but `--t-display-size` is already a `clamp(...)` → invalid CSS → probe measured a mid-size
+  title (1.6vw / leading 1.36) as display → craft **91.3**.
+- **Fix:** Set archive display with literal `clamp(2.6rem, 3.4vw, 3.2rem)` + `line-height: 1.08`;
+  demote entry `.ds-chapter-index` folios to 11px mono so they cannot steal the display metric.
+- **Do not:** Multiply a token that is already a full `font-size` expression by `1px`.
+
+## 2026-08-07 — `template:ledger-rule-flood`
+
+- **Failure:** Index-ledger drew 3×18 ruled rows (+ random underlines) → rules/screen **9.94**
+  (band ≤4.33). Stack specimen compounded the flood.
+- **Fix:** Sparse 2×5 ledger; specimen figure order prefers horizon over stack for archive.
+  Rules **9.94 → 4.29**; craft **91.3 → 97.6**.
+- **Do not:** Equate “dense index grammar” with hundreds of SVG hairlines per page.
+
+## 2026-08-07 — `template:dashboard-shell-smears-bands`
+
+- **Failure:** Dashboard band-variation sat at ~0.235 (corridor 0.422–0.896). The app shell’s character
+  mass spanned two equal-height probe bands, and the late inverse specimen used a stack ledger with
+  body prose — so every strip read as medium-dense. Empty 140vh statement voids (Loop 6) are not an
+  allowed recovery.
+- **Fix:** Sunken horizon specimen (titles only) between metrics and shell; pack the shell under
+  ~1vh; stretch the drawn plate so the shell aligns into one measured band; quiet metric chrome;
+  keep proof-claim at body measure so it does not steal the prose corridor. Score **97.8 → 99.9**;
+  band-variation **0.235 → 0.474**.
+- **Do not:** Recover band-variation with empty height, or leave a prose-heavy stack drawing in the
+  quiet valley before a dense app shell.
+
 ## Process
 
 After any visual miss the human names: append a pattern here in the same session, even if the code fix lands later.

@@ -132,6 +132,27 @@ export function ctaFor(
       note: "Trial files ship with the optical sizes you will actually set.",
     };
   }
+  if (siteKind === "research-dossier") {
+    return {
+      primary: "Request the brief",
+      secondary: "Read the method",
+      note: "Briefings ship as numbered folios — not a demo theatre.",
+    };
+  }
+  if (siteKind === "signal-observatory") {
+    return {
+      primary: "Open a desk window",
+      secondary: "Read the channels",
+      note: "Windows ship with the channels you actually watch — not a demo theatre.",
+    };
+  }
+  if (siteKind === "archive-index") {
+    return {
+      primary: "Request an entry",
+      secondary: "Browse the registry",
+      note: "Entries ship as numbered stamps — not a demo theatre.",
+    };
+  }
   return GOAL_CTA[goal];
 }
 

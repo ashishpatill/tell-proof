@@ -265,14 +265,17 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(8);
+    expect(templates).toHaveLength(11);
     expect(templates.map((t) => t.key).sort()).toEqual([
+      "archive",
       "consumer",
       "corporate",
       "dashboard",
+      "dossier",
       "educational",
       "fintech",
       "foundry",
+      "observatory",
       "saas",
       "studio",
     ]);
@@ -288,6 +291,12 @@ describe("research-backed offerings + implementation basics", () => {
     expect(consumer.siteKind).toBe("consumer-craft");
     const foundry = templates.find((t) => t.key === "foundry")!;
     expect(foundry.siteKind).toBe("editorial-foundry");
+    const dossier = templates.find((t) => t.key === "dossier")!;
+    expect(dossier.siteKind).toBe("research-dossier");
+    const observatory = templates.find((t) => t.key === "observatory")!;
+    expect(observatory.siteKind).toBe("signal-observatory");
+    const archive = templates.find((t) => t.key === "archive")!;
+    expect(archive.siteKind).toBe("archive-index");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -346,6 +355,70 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-marginalia");
     expect(previewHtml).toContain("Colophon");
     expect(previewHtml).toContain("The cuts");
+  });
+
+  it("gives research dossier a folio + plate + spread plan distinct from foundry and SaaS", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.dossier!);
+    expect(spec.brief.siteKind).toBe("research-dossier");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-folio")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-spread")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="research-dossier"');
+    expect(previewHtml).toContain("ds-hero-folio");
+    expect(previewHtml).toContain("ds-folio-masthead");
+    expect(previewHtml).toContain("ds-chapter-rail");
+    expect(previewHtml).toContain('data-figure="dossier-plate"');
+    expect(previewHtml).toContain("ds-spread");
+    expect(previewHtml).toContain("ds-footnote-register");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Imprint");
+    expect(previewHtml).toContain("The instruments");
+  });
+
+  it("gives signal observatory a chrono + lattice plan distinct from dossier and SaaS", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.observatory!);
+    expect(spec.brief.siteKind).toBe("signal-observatory");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-chrono")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-chrono")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="signal-observatory"');
+    expect(previewHtml).toContain("ds-hero-chrono");
+    expect(previewHtml).toContain("ds-chronometer");
+    expect(previewHtml).toContain("ds-scrub-rail");
+    expect(previewHtml).toContain('data-figure="signal-lattice"');
+    expect(previewHtml).toContain("ds-chrono");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Calibration");
+    expect(previewHtml).toContain("The channels");
+  });
+
+  it("gives archive index a register + ledger + entry plan distinct from dossier and observatory", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.archive!);
+    expect(spec.brief.siteKind).toBe("archive-index");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-register")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-entry")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="archive-index"');
+    expect(previewHtml).toContain("ds-hero-register");
+    expect(previewHtml).toContain("ds-register-masthead");
+    expect(previewHtml).toContain("ds-alpha-rail");
+    expect(previewHtml).toContain('data-figure="index-ledger"');
+    expect(previewHtml).toContain("ds-entry");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Registry");
+    expect(previewHtml).toContain("The entries");
+    expect(previewHtml).not.toContain('class="ds-chapter-rail"');
+    expect(previewHtml).not.toContain('class="ds-scrub-rail"');
+    expect(previewHtml).not.toContain('class="ds-chronometer"');
   });
 
   it("clears the implementation basics gate on every offering", () => {

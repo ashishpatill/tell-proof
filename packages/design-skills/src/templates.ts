@@ -25,7 +25,10 @@ export type TemplateKey =
   | "fintech"
   | "studio"
   | "consumer"
-  | "foundry";
+  | "foundry"
+  | "dossier"
+  | "observatory"
+  | "archive";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -500,6 +503,202 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
       },
     }),
   },
+  {
+    key: "dossier",
+    label: "Research dossier",
+    marketJob:
+      "Capital / research briefing landing — folio masthead, chapter rail, dossier plate, verso/recto footnotes, imprint.",
+    siteKind: "research-dossier",
+    researchBasis:
+      "Calibrated against capital-brand + research-editorial + editorial-brand corridors (alignment axes ~6–8, spineConformity ~0.5–0.75, quiet display, dense bleeds, layered matter). Distinct craft theme packs miss: folio volume/issue masthead, sticky chapter rail, dossier-plate cartographic figure with pin callouts, verso/recto spread with footnote register, full-bleed accent rules, paper imprint — no pricing, no metrics theatre, zero inverse bands.",
+    brief: DesignBrief.parse({
+      productName: "Meridian Atlas",
+      tagline: "Briefings that map conviction before the room decides",
+      audience: "partners and principals at capital research desks",
+      businessGoal: "trust",
+      siteKind: "research-dossier",
+      lockSiteKind: true,
+      // Cool ink-led stock — escapes cream/terracotta and violet AI clusters.
+      brandAccent: "#243B55",
+      features: [
+        {
+          id: "m1",
+          name: "Thesis map",
+          description: "A single plate that places every claim on a shared coordinate so the room argues the same terrain",
+          priority: "p0",
+        },
+        {
+          id: "m2",
+          name: "Source rails",
+          description: "Primary sources pinned to the claim they support, not buried in an appendix nobody opens",
+          priority: "p0",
+        },
+        {
+          id: "m3",
+          name: "Caveat register",
+          description: "Footnotes that travel with the reading — the limits of the brief stay visible while you decide",
+          priority: "p0",
+        },
+        {
+          id: "m4",
+          name: "Scenario forks",
+          description: "Two or three paths drawn on the same plate so a bull case cannot pretend the base case does not exist",
+          priority: "p1",
+        },
+        {
+          id: "m5",
+          name: "Imprint trail",
+          description: "Edition, authors, and revision stamped so a reused slide cannot orphan its provenance",
+          priority: "p1",
+        },
+        {
+          id: "m6",
+          name: "Desk handoff",
+          description: "A folio that survives the jump from analyst to partner without becoming a deck of orphan charts",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "observatory",
+    label: "Signal observatory",
+    marketJob:
+      "Enterprise telemetry / on-call desk landing — chronometer fold, scrub rail, signal lattice, chrono essay, calibration close.",
+    siteKind: "signal-observatory",
+    researchBasis:
+      "Calibrated against enterprise-observability + enterprise-data + award-index corridors (figureArea ~0.4–0.78, foldFigure ~0.23–0.57, alignment axes ~3–6, spineConformity ~0.2–0.8, quiet-to-moderate display, instrument-dense matter). Distinct craft theme packs miss: vertical chronometer ticks, sticky time-window scrub rail, signal-lattice amplitude figure with mono labels only, chrono essay with tick beads + outer time index, bleed rule + paper calibration close — no pricing, no metrics theatre, zero inverse bands.",
+    brief: DesignBrief.parse({
+      productName: "Nightglass",
+      tagline: "The desk that keeps every channel under one live window",
+      audience: "on-call leads and SRE desks at platform companies",
+      businessGoal: "trust",
+      siteKind: "signal-observatory",
+      lockSiteKind: true,
+      // Cool ink-led stock — escapes cream/terracotta and violet AI clusters.
+      brandAccent: "#1F4A45",
+      features: [
+        {
+          id: "n1",
+          name: "Live window",
+          description: "A scrubbable time bracket that keeps the same channels under the eye while the incident moves",
+          priority: "p0",
+        },
+        {
+          id: "n2",
+          name: "Channel lattice",
+          description: "Amplitudes and status on a shared grid so a quiet service cannot hide beside a loud one",
+          priority: "p0",
+        },
+        {
+          id: "n3",
+          name: "Threshold rails",
+          description: "Limits that travel with the reading — the desk sees the floor before the page invents calm",
+          priority: "p0",
+        },
+        {
+          id: "n4",
+          name: "Handoff beads",
+          description: "Shift notes pinned to the minute they mattered, not buried in a chat nobody searches",
+          priority: "p1",
+        },
+        {
+          id: "n5",
+          name: "Calibration strip",
+          description: "Tolerance marks stamped on the close so a reused screenshot cannot orphan its scale",
+          priority: "p1",
+        },
+        {
+          id: "n6",
+          name: "Desk memory",
+          description: "A window that survives the jump from night lead to morning lead without becoming orphan charts",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "balanced",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "archive",
+    label: "Archive index",
+    marketJob:
+      "Award / archive index landing — quiet register, A–Z alpha rail, index ledger, entry essay, Registry close.",
+    siteKind: "archive-index",
+    researchBasis:
+      "Calibrated against award-index corridor (foldFigure ~0.54, figureArea ~0.58, invertedShare ~0, display ~1–3vw quiet, alignment axes ~3, spineConformity ~0.82, high ink variation). Distinct craft theme packs miss: hero-register with index owning the fold, sticky ds-alpha-rail A–Z letters, index-ledger multi-column ruled rows with mono ordinals ≤11px, story-entry hanging folio + ruled measure, paper Registry close — no pricing, no metrics theatre, zero inverse bands. Not SaaS, foundry, dossier, or observatory.",
+    brief: DesignBrief.parse({
+      productName: "Stamp Roll",
+      tagline: "The index that keeps every entry under one quiet spine",
+      audience: "archivists and editors maintaining a public award index",
+      businessGoal: "trust",
+      siteKind: "archive-index",
+      lockSiteKind: true,
+      // Cool ink-led stock — escapes cream/terracotta and violet AI clusters.
+      brandAccent: "#2A3340",
+      features: [
+        {
+          id: "a1",
+          name: "Alpha jump",
+          description: "A sticky A–Z rail that lands you on the letter you need without scrolling the whole roll",
+          priority: "p0",
+        },
+        {
+          id: "a2",
+          name: "Ruled ledger",
+          description: "Multi-column entry rows with mono ordinals so density stays honest at a glance",
+          priority: "p0",
+        },
+        {
+          id: "a3",
+          name: "Entry folio",
+          description: "A single-entry reading with a hanging folio number and a ruled measure that does not drift",
+          priority: "p0",
+        },
+        {
+          id: "a4",
+          name: "Cross stamps",
+          description: "Cross-references that travel with the entry — related stamps stay visible while you read",
+          priority: "p1",
+        },
+        {
+          id: "a5",
+          name: "Registry close",
+          description: "Edition and custody stamped so a reused page cannot orphan its provenance",
+          priority: "p1",
+        },
+        {
+          id: "a6",
+          name: "Quiet spine",
+          description: "A register that survives the jump from browse to cite without becoming a search box costume",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+
 ];
 
 const BY_KEY = Object.fromEntries(DESIGN_TEMPLATES.map((t) => [t.key, t])) as Record<

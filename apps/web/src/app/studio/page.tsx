@@ -223,6 +223,21 @@ export default function StudioPage() {
       nextLean = "refined-story";
       nextDensity = "sparse";
     }
+    if (/dossier|briefing|folio|capital brief|research desk|imprint|memo/.test(text)) {
+      nextKind = "research-dossier";
+      nextLean = "refined-story";
+      nextDensity = "sparse";
+    }
+    if (/observatory|telemetry|signal desk|channel lattice|on.?call|sre desk|incident/.test(text)) {
+      nextKind = "signal-observatory";
+      nextLean = "refined-story";
+      nextDensity = "balanced";
+    }
+    if (/archive|alphabetical|stamp roll|registry|alpha.?rail|index ledger|entry folio/.test(text)) {
+      nextKind = "archive-index";
+      nextLean = "refined-story";
+      nextDensity = "sparse";
+    }
     if (/story|editorial|refined|corporate/.test(text)) {
       nextLean = "refined-story";
       nextDensity = "sparse";
@@ -351,6 +366,9 @@ export default function StudioPage() {
               "art-directed-studio",
               "consumer-craft",
               "editorial-foundry",
+              "research-dossier",
+              "signal-observatory",
+              "archive-index",
             ]}
             testId="input-sitekind"
           />

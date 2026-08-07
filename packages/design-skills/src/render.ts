@@ -6,7 +6,7 @@
  * the generated markup safe to hand to a developer as a starting point.
  */
 import { renderCss } from "./css";
-import { isReading, planFigures, type FigurePlan } from "./figures";
+import { horizonPlot, isReading, planFigures, type FigurePlan } from "./figures";
 import type { Block, DesignSpec, SectionSpec } from "./types";
 
 function esc(s: string): string {
@@ -259,6 +259,113 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     </section>`;
   }
 
+  /*
+   * Folio fold — the research-dossier signature.
+   *
+   * Masthead (volume / issue / date) + quiet claim on paper, then a spanning dossier plate.
+   * A sticky chapter rail marks the argument on the right edge. Bleed rule seals the fold.
+   * Not overfigure, not hard-seam, not SaaS split — a magazine briefing grammar.
+   */
+  if (section.layout === "hero-folio") {
+    const plateFig = figures.hero
+      ? `<figure class="ds-folio-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const chapterHrefs = ["#features", "#figure", "#story", "#proof", "#cta"];
+    const chapters = (section.aside.length ? section.aside : section.blocks.slice(0, 5))
+      .map((b, i) => {
+        const href = chapterHrefs[i] ?? "#features";
+        return `<li><a href="${href}"><span class="ds-chapter-rail-num">${String(i + 1).padStart(2, "0")}</span><span class="ds-chapter-rail-label">${esc(b.title)}</span></a></li>`;
+      })
+      .join("");
+    const rail = chapters
+      ? `<nav class="ds-chapter-rail" aria-label="Briefing chapters"><ol>${chapters}</ol></nav>`
+      : "";
+    const mast = `<header class="ds-folio-masthead" aria-label="Folio masthead">
+      <span class="ds-folio-vol">Vol. XII</span>
+      <span class="ds-folio-issue">Issue 03</span>
+      <span class="ds-folio-date">Briefing folio</span>
+      <span class="ds-folio-mark">${esc(spec.brief.productName)}</span>
+    </header>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-folio" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      ${mast}
+      <div class="ds-folio-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-folio-field">${plateFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Chronometer fold — the signal-observatory signature.
+   *
+   * Left vertical chronometer (hour ticks), compact claim, spanning signal lattice, sticky scrub
+   * rail for time windows. Not folio, not hard-seam, not SaaS split — an instrument-desk grammar.
+   */
+  if (section.layout === "hero-chrono") {
+    const latticeFig = figures.hero
+      ? `<figure class="ds-chrono-lattice" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const ticks = Array.from({ length: 13 }, (_, i) => {
+      const label = String(i).padStart(2, "0");
+      const major = i % 3 === 0;
+      return `<li class="ds-chrono-tick${major ? " is-major" : ""}" style="--tick:${i}"><span>${label}</span></li>`;
+    }).join("");
+    const chronometer = `<aside class="ds-chronometer" aria-hidden="true"><ol>${ticks}</ol><span class="ds-chronometer-label">UTC</span></aside>`;
+    const windows = [
+      { id: "t24", label: "T−24h", href: "#features" },
+      { id: "live", label: "Live", href: "#figure" },
+      { id: "p6", label: "+6h", href: "#story" },
+      { id: "cal", label: "Calibrate", href: "#cta" },
+    ];
+    const scrub = `<nav class="ds-scrub-rail" aria-label="Time windows"><ol>${windows
+      .map(
+        (w, i) =>
+          `<li><a href="${w.href}" class="ds-scrub-chip${i === 1 ? " is-live" : ""}" data-window="${w.id}"><span class="ds-scrub-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-scrub-label">${esc(w.label)}</span></a></li>`,
+      )
+      .join("")}</ol></nav>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-chrono" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${chronometer}
+      ${scrub}
+      <div class="ds-chrono-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-chrono-field">${latticeFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+
+  /*
+   * Register fold — the archive-index signature.
+   *
+   * Quiet masthead + compact claim, then a spanning index-ledger that OWNS the fold
+   * (the index IS the figure). Sticky A–Z alpha rail on the left edge. Not folio, chrono,
+   * seam, or SaaS — an archive ledger grammar.
+   */
+  if (section.layout === "hero-register") {
+    const ledgerFig = figures.hero
+      ? `<figure class="ds-register-ledger" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    const rail = `<nav class="ds-alpha-rail" aria-label="Alphabetical index"><ol>${letters
+      .map((L, i) => {
+        const href = i < 6 ? ["#features", "#figure", "#specimen", "#story", "#proof", "#cta"][i] : "#features";
+        return `<li><a href="${href}" class="ds-alpha-letter${i === 0 ? " is-active" : ""}" data-letter="${L}"><span>${L}</span></a></li>`;
+      })
+      .join("")}</ol></nav>`;
+    const mast = `<header class="ds-register-masthead" aria-label="Register masthead">
+      <span class="ds-register-vol">Index</span>
+      <span class="ds-register-issue">A–Z</span>
+      <span class="ds-register-date">Archive register</span>
+      <span class="ds-register-mark">${esc(spec.brief.productName)}</span>
+    </header>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-register" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      ${mast}
+      <div class="ds-register-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-register-field">${ledgerFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
   if (section.layout === "hero-editorial") {
     return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-overfigure" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${spanning}
@@ -291,9 +398,20 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
  * on it, reaching the edges, between two screens that are dense. It is what makes the dense screens
  * read as dense. Measured, it is the difference between a page whose bands all weigh the same and
  * one whose rhythm a reader can feel.
+ *
+ * Dashboard override: the default band slot after a spanning hero is often a stack ledger with
+ * body prose, which flattens char-variation. A horizon plot (titles + ticks only) keeps ink while
+ * leaving a real character valley before the dense app shell — without empty-height gaming.
  */
-function renderSpecimen(section: SectionSpec, figures: FigurePlan): string {
-  if (!figures.band) return "";
+function renderSpecimen(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
+  let drawing = figures.band;
+  if (spec?.brief.siteKind === "dashboard-webapp") {
+    const marks = catalogue(spec).slice(0, 4);
+    if (marks.length >= 2) {
+      drawing = horizonPlot(marks, spec.brief.productName, "band");
+    }
+  }
+  if (!drawing) return "";
   return `<section class="ds-section ds-specimen" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide ds-specimen-head">
       <h2 class="ds-heading">${esc(section.title)}</h2>
@@ -301,18 +419,25 @@ function renderSpecimen(section: SectionSpec, figures: FigurePlan): string {
     </div>
     <div class="ds-bleed">
       <figure class="ds-plate ds-plate-bleed">
-        ${figures.band}
+        ${drawing}
       </figure>
     </div>
   </section>`;
 }
 
-function renderMetricBand(section: SectionSpec, figures: FigurePlan): string {
+function renderMetricBand(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
   // A reading has a direction, and a column of bare numerals asks the reader to take the direction
   // on trust. The shape sits under the numeral at the width of its own column.
+  //
+  // Dashboard: drop the section-head prose so the inverse register stays a short stake band —
+  // the quiet specimen that follows needs a real character valley next to denser neighbours.
+  const head =
+    spec?.brief.siteKind === "dashboard-webapp"
+      ? ""
+      : sectionHead(section, 2);
   return `<section class="ds-section ds-section-tight ds-metrics-band" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
-      ${sectionHead(section, 2)}
+      ${head}
       <div class="ds-metrics">
         ${section.metrics
           .map(
@@ -320,7 +445,7 @@ function renderMetricBand(section: SectionSpec, figures: FigurePlan): string {
               <p class="ds-metric-value">${esc(m.value)}</p>
               <p class="ds-metric-label">${esc(m.label)}</p>
               ${figures.sparks[i] && isReading(m.value) ? `<div class="ds-metric-spark">${figures.sparks[i]}</div>` : ""}
-              ${m.note ? `<p class="ds-metric-note">${esc(m.note)}</p>` : ""}
+              ${m.note && spec?.brief.siteKind !== "dashboard-webapp" ? `<p class="ds-metric-note">${esc(m.note)}</p>` : ""}
             </div>`,
           )
           .join("")}
@@ -643,12 +768,164 @@ function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
+ * Verso/recto spread with footnote register — research-dossier signature essay.
+ *
+ * Two facing pages with a center gutter rule; superscript markers in the prose resolve to a
+ * footnote strip under the spread. Theme packs do not invent book openings + footnote registers
+ * from a density slider.
+ */
+function renderSpread(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const mid = Math.ceil(blocks.length / 2) || 1;
+  const verso = blocks.slice(0, mid);
+  const recto = blocks.slice(mid);
+  const renderPage = (page: typeof blocks, side: "verso" | "recto") =>
+    page
+      .map((b, i) => {
+        const globalIndex = side === "verso" ? i : mid + i;
+        const mark = figures.marks[globalIndex]
+          ? `<div class="ds-spread-mark" aria-hidden="true">${figures.marks[globalIndex]}</div>`
+          : "";
+        const ref = `<sup class="ds-fn-ref" id="fnref-${globalIndex + 1}"><a href="#fn-${globalIndex + 1}">${globalIndex + 1}</a></sup>`;
+        return `<article class="ds-spread-beat">
+          <p class="ds-chapter-index">${esc(b.meta ?? String(globalIndex + 1).padStart(2, "0"))}</p>
+          <h3>${esc(b.title)}${ref}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${mark}
+        </article>`;
+      })
+      .join("");
+  const footnotes = blocks
+    .map((b, i) => {
+      const note = b.kicker || b.meta || `Note ${String(i + 1).padStart(2, "0")}`;
+      return `<li class="ds-fn-item" id="fn-${i + 1}">
+        <a class="ds-fn-back" href="#fnref-${i + 1}" aria-label="Back to reference ${i + 1}">${i + 1}</a>
+        <span class="ds-fn-meta">${esc(note)}</span>
+        <span class="ds-fn-body">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-spread" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
+    <div class="ds-wrap-wide">
+      ${secMeta("Spread", `${blocks.length} notes · verso / recto`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-spread-grid">
+        <div class="ds-spread-page ds-spread-verso">${renderPage(verso, "verso")}</div>
+        <div class="ds-spread-gutter" aria-hidden="true"></div>
+        <div class="ds-spread-page ds-spread-recto">${renderPage(recto, "recto")}</div>
+      </div>
+      <ol class="ds-footnote-register" aria-label="Footnotes">${footnotes}</ol>
+    </div>
+  </section>`;
+}
+
+/**
+ * Chrono essay — signal-observatory signature story.
+ *
+ * A vertical event track with tick beads and outer time labels. Not chapters, not marginalia,
+ * not verso/recto — a time-ordered instrument reading.
+ */
+function renderChrono(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const count = blocks.length || 1;
+  const ticks = blocks
+    .map((b, i) => {
+      const t = b.meta || `T+${String(i * 6).padStart(2, "0")}h`;
+      return `<li class="ds-chrono-aside-tick" style="--i:${i}">
+        <span class="ds-chrono-aside-time">${esc(t)}</span>
+        <span class="ds-chrono-aside-title">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  const essay = blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-chrono-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const bead = `<span class="ds-chrono-bead" aria-hidden="true" style="--i:${i}"></span>`;
+      return `<article class="ds-chrono-beat" style="--i:${i}">
+        ${bead}
+        <p class="ds-chapter-index">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
+        <h3>${esc(b.title)}</h3>
+        ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+        ${b.kicker ? `<p class="ds-chrono-note">${esc(b.kicker)}</p>` : ""}
+        ${mark}
+      </article>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-chrono" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-wrap-wide">
+      ${secMeta("Chronology", `${count} events · instrument time`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-chrono-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
+        <div class="ds-chrono-essay">
+          <div class="ds-chrono-track" aria-hidden="true"></div>
+          ${essay}
+        </div>
+        <aside class="ds-chrono-aside" aria-label="Time index">
+          <ol class="ds-chrono-aside-list">${ticks}</ol>
+        </aside>
+      </div>
+    </div>
+  </section>`;
+}
+
+/**
  * Proof band — a filled board, not a lonely quote on black.
  *
  * The pullquote layout left a dark void with one paragraph of type: the exact toy look buyers
  * reject. This board packs declared capabilities (with marks), a short claim strip, and a drawn
  * figure into one inverse surface so every region of the band has matter.
  */
+
+/**
+ * Single-entry essay with hanging folio number + ruled measure — archive-index signature.
+ *
+ * Not chapters, marginalia, verso/recto, or chrono beads — one entry at a time with a folio
+ * hanging in the margin and a ruled reading measure.
+ */
+function renderEntry(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const count = blocks.length || 1;
+  const essay = blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-entry-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const folio = esc(b.meta ?? String(i + 1).padStart(3, "0"));
+      return `<article class="ds-entry-beat" style="--i:${i}">
+        <span class="ds-entry-folio" aria-hidden="true">${folio}</span>
+        <div class="ds-entry-measure">
+          <p class="ds-chapter-index">${folio}</p>
+          <h3>${esc(b.title)}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${b.kicker ? `<p class="ds-entry-note">${esc(b.kicker)}</p>` : ""}
+          ${mark}
+        </div>
+      </article>`;
+    })
+    .join("");
+  const aside = blocks
+    .map((b, i) => {
+      const folio = esc(b.meta ?? String(i + 1).padStart(3, "0"));
+      return `<li class="ds-entry-aside-item">
+        <span class="ds-entry-aside-folio">${folio}</span>
+        <span class="ds-entry-aside-title">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-entry" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
+    <div class="ds-wrap-wide">
+      ${secMeta("Entry", `${count} stamps · ruled measure`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-entry-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
+        <div class="ds-entry-essay">${essay}</div>
+        <aside class="ds-entry-aside" aria-label="Entry index">
+          <ol class="ds-entry-aside-list">${aside}</ol>
+        </aside>
+      </div>
+    </div>
+  </section>`;
+}
+
 function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
   const cells = section.blocks.slice(0, 5);
   const board = cells.length
@@ -777,13 +1054,35 @@ function renderFaq(section: SectionSpec): string {
  * page was three hundred pixels of nothing. Given its own column the mark is legible, the band is
  * as tall as what is in it, and the composition reads across rather than down.
  */
-function renderCtaBand(section: SectionSpec, figures: FigurePlan): string {
-  const isColophon = /Colophon/i.test(section.eyebrow ?? "");
+function renderCtaBand(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
+  const isColophon = /Colophon|Imprint|Calibration|Registry/i.test(section.eyebrow ?? "");
   const colophonClass = isColophon ? " ds-closing-colophon" : "";
+  // Observatory calibration close — paper strip of tolerance numerals (not metrics theatre).
+  const isObservatoryCal =
+    Boolean(spec && spec.brief.siteKind === "signal-observatory") &&
+    /Calibration/i.test(section.eyebrow ?? "");
+  const tolLadder = ["±0.5", "±1.0", "±1.5", "±2.0"];
+  const fromCatalogue = isObservatoryCal && spec ? catalogue(spec).slice(0, 4) : [];
+  const calLabels =
+    fromCatalogue.length > 0
+      ? fromCatalogue.map((b) => b.title)
+      : isObservatoryCal && spec
+        ? spec.brief.features.slice(0, 4).map((f) => f.name)
+        : [];
+  const calStrip =
+    calLabels.length > 0
+      ? `<ol class="ds-cal-strip" aria-label="Tolerance marks">${calLabels
+          .map(
+            (name, i) =>
+              `<li class="ds-cal-mark"><span class="ds-cal-tol">${tolLadder[i % tolLadder.length]}</span><span class="ds-cal-ch">${esc(name.slice(0, 14))}</span></li>`,
+          )
+          .join("")}</ol>`
+      : "";
   return `<section class="ds-section ds-closing${colophonClass}" data-surface="${section.surface}" data-section="${esc(section.id)}" id="cta">
     <div class="ds-wrap-wide ds-closing-grid">
       <div class="ds-cta">
         ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+        ${calStrip}
         <h2 class="ds-title">${esc(section.title)}</h2>
         <p class="ds-lede">${esc(section.body)}</p>
         ${actions(section, "band")}
@@ -834,9 +1133,24 @@ function renderFooter(section: SectionSpec): string {
 
 function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigurePlan): string {
   const rows = section.blocks;
+  const isDash = spec.brief.siteKind === "dashboard-webapp";
+  // Dashboard packs the shell into one measured screen: short claim, dense table detail, no
+  // duplicated lede. Height under ~1vh keeps the 2200-character peak from smearing into the
+  // quiet specimen valley above.
+  const head = isDash
+    ? `<div class="ds-app-claim">
+        ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+        <h2 class="ds-heading">${esc(section.title)}</h2>
+      </div>`
+    : sectionHead(section);
+  const lede = isDash
+    ? ""
+    : section.body
+      ? `<p class="ds-lede">${esc(section.body)} Each row is a live decision for ${esc(spec.brief.audience)} — state, detail, and age — so this surface stays the source of truth rather than a report you refresh.</p>`
+      : "";
   return `<section class="ds-section ds-app-band" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide">
-      ${sectionHead(section)}
+      ${head}
       <div class="ds-app">
         <div class="ds-app-top">
           <span class="ds-wordmark">${esc(section.brandLabel ?? spec.brief.productName)}</span>
@@ -862,11 +1176,7 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
             </ul>
           </aside>
           <div class="ds-app-main">
-            ${
-              section.body
-                ? `<p class="ds-lede">${esc(section.body)} Each row is a live decision for ${esc(spec.brief.audience)} — state, detail, and age — so this surface stays the source of truth rather than a report you refresh.</p>`
-                : ""
-            }
+            ${lede}
             <div class="ds-app-stats">
               ${section.metrics
                 .map(
@@ -886,7 +1196,7 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
                     (b) => `<tr>
                       <th scope="row">${esc(b.title)}</th>
                       <td><span class="ds-pill${b.kicker === "Now" ? " ds-pill-signal" : ""}">${esc(b.kicker ?? "Queued")}</span></td>
-                      <td>${esc(b.points[0] ?? b.kicker ?? b.title)}</td>
+                      <td>${esc(b.points[0] ?? b.body ?? b.kicker ?? b.title)}</td>
                       <td class="ds-num">${esc(b.meta ?? "0")}m</td>
                     </tr>`,
                   )
@@ -928,11 +1238,14 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-split":
     case "hero-statement":
     case "hero-seam":
+    case "hero-folio":
+    case "hero-chrono":
+    case "hero-register":
       return wrapped(renderHero(section, spec, figures));
     case "metric-band":
-      return wrapped(renderMetricBand(section, figures));
+      return wrapped(renderMetricBand(section, figures, spec));
     case "specimen-band":
-      return wrapped(renderSpecimen(section, figures));
+      return wrapped(renderSpecimen(section, figures, spec));
     case "feature-bento":
     case "feature-index":
     case "feature-rows":
@@ -944,6 +1257,12 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderChapters(section, figures));
     case "story-marginalia":
       return wrapped(renderMarginalia(section, figures));
+    case "story-spread":
+      return wrapped(renderSpread(section, figures));
+    case "story-chrono":
+      return wrapped(renderChrono(section, figures));
+    case "story-entry":
+      return wrapped(renderEntry(section, figures));
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));
@@ -954,7 +1273,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "faq-columns":
       return wrapped(renderFaq(section));
     case "cta-band":
-      return wrapped(renderCtaBand(section, figures));
+      return wrapped(renderCtaBand(section, figures, spec));
     case "footer-columns":
       return renderFooter(section);
     case "app-shell":
