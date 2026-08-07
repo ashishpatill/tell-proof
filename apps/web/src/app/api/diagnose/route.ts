@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { trace, SpanStatusCode, type Span } from "@opentelemetry/api";
 import { hasRemoteCaptureBackend, runDiagnoseRemote } from "@/lib/run-diagnose-remote";
 import { demoReport } from "@/lib/demo-report";
+import { assertCaptureApiAuthorized } from "@/lib/capture-auth";
 
 /** A remote capture backend can take ~90s (Playwright cold start). */
 export const maxDuration = 90;
@@ -23,6 +24,9 @@ function captureErrorMessage(url: string, error: unknown, backend: "remote" | "l
 }
 
 export async function POST(request: Request) {
+  const unauthorized = assertCaptureApiAuthorized(request);
+  if (unauthorized) return unauthorized;
+
   const body = await request.json().catch(() => ({}));
   const url = typeof body.url === "string" && body.url.trim() ? body.url.trim() : demoReport.capture.url;
   const backend = hasRemoteCaptureBackend() ? "remote" : "local";

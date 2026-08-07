@@ -28,7 +28,7 @@
 | Question | Source |
 |---|---|
 | What does a multi-million-dollar page look like? Which offerings do we ship? How do we compose them? | **Expert study** via `design-research-loop` → corpus measurements → `docs/10_DESIGN_EVIDENCE.md` → `research/LOOP_LEDGER.md` |
-| Why is the sticky nav ghosting? Why won't columns stack? Why are tokens missing? | **Open-source design builders** — only for plumbing we keep getting wrong after retries. Encode those floors in `basics-checklist.ts`. Never invent a template or aesthetic from them. |
+| Why is the sticky nav ghosting? Why won't columns stack? Why are tokens missing? | **Peer design-daemon plumbing** (local checkout via `research/plumbing-reference.local.json`) — only for floors we keep getting wrong after retries. Encode in `basics-checklist.ts`. Never invent a template or aesthetic from them. Platform/MCP patterns: `docs/11`–`docs/13`. |
 
 ### Offering catalog (keep count low)
 

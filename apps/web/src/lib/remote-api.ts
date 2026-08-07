@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { CAPTURE_TOKEN_HEADER } from "@/lib/capture-auth";
 
 export function remoteBackendBaseUrl(): string | null {
   const raw = process.env.TELL_CAPTURE_API_URL?.trim();
@@ -14,10 +15,20 @@ function repoSetupToken(): string | null {
   return raw || null;
 }
 
+function captureApiToken(): string | null {
+  const raw = process.env.TELL_CAPTURE_API_TOKEN?.trim();
+  return raw || null;
+}
+
 export function repoSetupAuthHeaders(headers?: HeadersInit): Headers {
   const out = new Headers(headers);
   const token = repoSetupToken();
   if (token) out.set("x-tell-repo-setup-token", token);
+  const captureToken = captureApiToken();
+  if (captureToken) {
+    out.set(CAPTURE_TOKEN_HEADER, captureToken);
+    out.set("authorization", `Bearer ${captureToken}`);
+  }
   return out;
 }
 

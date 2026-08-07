@@ -53,6 +53,9 @@ flowchart TB
 | **`docs/07_VISUALIZATION_PLAN.md`** | Interactive / illustration-first educational viz plan | **Keep — separate plan** |
 | **`docs/08_AI_DESIGN_METHODS.md`** | Methods for designing with AI + how to add styles | **Keep — separate plan** |
 | **`docs/09_PREMIUM_DESIGN_SKILLS.md`** | Premium content-custom skill graph + studio | **Keep — separate plan** |
+| **`docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md`** | MCP / one-click install / CLI / skills / multi-agent | **Keep — separate plan** |
+| **`docs/12_AUTH_SECURITY_BOUNDARIES_PLAN.md`** | Capture/API/agent trust envelopes (not product login) | **Keep — separate plan** |
+| **`docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`** | Common + complex design-task flows for Priya loop | **Keep — separate plan** |
 | `DESIGN.md`, `PITCH.md` | Dogfood contract / pitch | **Keep** |
 
 ---
@@ -155,6 +158,34 @@ If blocked: note in Status log and continue with the next unchecked item.
 
 ---
 
+## Phase 8 — Agent platform distribution (planned)
+
+Make Tell reachable from coding agents without monorepo archaeology — install-info,
+one-command / deeplink MCP install, unified CLI — without weakening deterministic core
+or never-auto-apply. Full checklists: `docs/11`, `docs/12`, `docs/13`.
+
+### Checklist (DoD) — open
+
+- [x] Wave 0: MCP tool docs ≡ code (10 tools) + schema enum + CI drift guard
+- [x] Wave 1: `GET /api/install-info` + `InstallInfo` zod + print-config
+- [x] Wave 2: `tell mcp install` for Cursor (project json + deeplink); other agents print-config
+- [x] Wave A0: `TELL_CAPTURE_API_TOKEN` when capture host requires auth
+- [x] Wave C0: `tell_voice` MCP + report `id` persistence for redesign chain
+- [x] Stretch: intent resolver MCP tool + Settings Connect Agent UI panel
+
+### Goal prompt (Phase 8)
+
+```
+@PLAN.md @docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md @docs/12_AUTH_SECURITY_BOUNDARIES_PLAN.md
+@docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md @packages/mcp @USER_STORY.md
+
+GOAL: Phase 8 — execute next unchecked DoD item above (start Wave 0).
+Adapt peer patterns only; never name the peer; never auto-apply; zod everywhere.
+pnpm test + schema build + web typecheck stay green.
+```
+
+---
+
 ## Goal prompt — Phase 6 keep-green (archive)
 
 ```
@@ -180,6 +211,9 @@ no "Next" blockers for matrix/auth.
 ## Status log
 
 ```
+[2026-08-07] Phase 8 stretch shipped — `resolveIntent` + `tell_resolve_intent` MCP + `tell resolve` CLI + Connect Agent UI (11 tools).
+[2026-08-07] Phase 8 Waves 0–2/A0/C0 implemented — install-info, Cursor mcp install, tell CLI, tell_voice, capture token, MCP drift guard (10 tools).
+[2026-08-07] Opened Phase 8 — agent platform distribution plans (docs/11–13) + plumbing reference memory (gitignored local pointer).
 [2026-08-03] Phase 7 closed — craft floor in render/sections, Studio viewport+copy HTML, educational scrub figure, e2e craft assertions green.
 [2026-08-03] Opened Phase 7 — premium design craft (hero/atmosphere, lean layouts, dash shell, no filler, edu figure, Studio craft, e2e).
 [2026-08-03] Shipped packages/design-skills + /studio + showcases + MCP tell_design_from_features (premium content-custom skill graph).
