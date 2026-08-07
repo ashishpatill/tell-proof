@@ -616,6 +616,65 @@ export function planSections(input: CompositionInput): SectionPlan[] {
     return plans;
   }
 
+
+  /*
+   * Press atelier — brand-agency / production craft.
+   *
+   * Measured brand-agency and brand-product-agency pages sit at foldFigure ~0.9–1.0,
+   * figureArea ~0.4–0.52, invertedShare ~0, quiet-to-moderate display (~1.5–3.8vw),
+   * ~3–6 alignment axes, dense bleeds — not SaaS, archive ledgers, dossier folios,
+   * or observatory instruments. Registration-framed fold + press-sheet owning the fold
+   * + signature rail + gather essay + Pressroom close are craft a theme pack will not
+   * invent from taste controls.
+   */
+  if (siteKind === "press-atelier") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-press", surface: "paper", columns: split.wide });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-gather",
+      surface: "paper",
+      bond: true,
+      columns: "7fr 5fr",
+    });
+    if (featureCount >= 4) {
+      plans.push({
+        id: "features-2",
+        kind: "features",
+        layout: "feature-rows",
+        surface: "paper",
+        columns: split.wide,
+      });
+    }
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "raised",
+      bond: true,
+      columns: split.feature,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
   /*
    * Field guide — herbarium / voucher craft.
    *
@@ -779,6 +838,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "commerce-loom") px = 50;
   // Field guide: quiet display — specimen plate owns the fold.
   if (siteKind === "field-guide") px = 50;
+  // Press atelier: quiet-moderate display — brand-agency corridor; press sheet owns the fold.
+  if (siteKind === "press-atelier") px = 50;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -791,6 +852,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "archive-index") return Math.max(45, Math.min(52, px));
   if (siteKind === "commerce-loom") return Math.max(46, Math.min(56, px));
   if (siteKind === "field-guide") return Math.max(47, Math.min(54, px));
+  if (siteKind === "press-atelier") return Math.max(46, Math.min(56, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

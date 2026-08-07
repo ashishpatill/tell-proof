@@ -30,7 +30,8 @@ export type TemplateKey =
   | "observatory"
   | "archive"
   | "loom"
-  | "herbarium";
+  | "herbarium"
+  | "press";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -817,6 +818,71 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
           id: "h6",
           name: "Plate memory",
           description: "A voucher that survives the jump from field to desk without becoming orphan photos",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "press",
+    label: "Press atelier",
+    marketJob:
+      "Brand / production pressroom landing — registration fold, signature rail, press sheet, gather essay, Pressroom close.",
+    siteKind: "press-atelier",
+    researchBasis:
+      "Calibrated against brand-agency + brand-product-agency + editorial-longform corridors (foldFigure ~0.9–1.0, figureArea ~0.4–0.52, invertedShare ~0, display ~1.5–3.8vw, alignment axes ~3–6, dense bleeds). Distinct craft theme packs miss: hero-press with registration/crop marks, sticky ds-sig-rail Sig A–H, press-sheet imposition grid with densitometer strip and mono plate labels ≤11px, story-gather with fold ticks, paper Pressroom close — no pricing, no metrics theatre, zero inverse bands. Not SaaS, foundry, dossier, observatory, or archive.",
+    brief: DesignBrief.parse({
+      productName: "Forme Desk",
+      tagline: "The pressroom that keeps every signature under one forme",
+      audience: "production leads and brand studios running print and digital formes",
+      businessGoal: "trust",
+      siteKind: "press-atelier",
+      lockSiteKind: true,
+      // Cool steel ink — escapes cream/terracotta and violet AI clusters.
+      brandAccent: "#1E3A4C",
+      features: [
+        {
+          id: "p1",
+          name: "Registration lock",
+          description: "Crop and registration marks that keep every plate aligned before ink hits the sheet",
+          priority: "p0",
+        },
+        {
+          id: "p2",
+          name: "Imposition sheet",
+          description: "A spanning press sheet that shows signature folds and page numbers at a glance",
+          priority: "p0",
+        },
+        {
+          id: "p3",
+          name: "Signature rail",
+          description: "A sticky Sig A–H rail that jumps the forme without losing the gather",
+          priority: "p0",
+        },
+        {
+          id: "p4",
+          name: "Densitometer strip",
+          description: "Ink density marks that stay honest when a proof drifts off the approved forme",
+          priority: "p1",
+        },
+        {
+          id: "p5",
+          name: "Gather essay",
+          description: "A folded-signature reading with outer plate ticks so the gather stays citeable",
+          priority: "p1",
+        },
+        {
+          id: "p6",
+          name: "Pressroom close",
+          description: "Plate numbers and custody stamped so a reused forme cannot orphan its edition",
           priority: "p2",
         },
       ],

@@ -102,6 +102,14 @@ export const SiteKind = z.enum([
    * paper-led, layered specimen matter). Not soft glass hero collages or theme-pack card stacks.
    */
   "field-guide",
+  /**
+   * Press atelier / brand-agency production craft — registration-framed fold, sticky signature
+   * rail, press-sheet imposition figure owning the fold, gather essay with fold ticks,
+   * Pressroom close. Calibrated to brand-agency + brand-product-agency + editorial-longform
+   * (foldFigure ~0.9–1.0, figureArea ~0.4–0.52, invertedShare ~0, display ~1.5–3.8vw,
+   * alignment axes ~3–6, dense bleeds). Not SaaS, foundry, dossier, observatory, or archive.
+   */
+  "press-atelier",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 
@@ -252,6 +260,11 @@ export const LayoutVariant = z.enum([
    * Not folio, chrono, seam, or SaaS split.
    */
   "hero-register",
+  /**
+   * Press fold — registration/crop marks frame + compact claim + spanning press-sheet.
+   * Sticky signature rail (Sig A–H). Press-atelier signature; not register, folio, chrono, or SaaS.
+   */
+  "hero-press",
   "metric-band",
   "specimen-band",
   "marquee-proof",
@@ -298,6 +311,11 @@ export const LayoutVariant = z.enum([
    * Field-guide craft; not hangtag, entry, or verso/recto.
    */
   "story-range",
+  /**
+   * Gather essay — folded signature ticks + outer plate index — press-atelier craft.
+   * Not entry folios, chrono beads, verso/recto, or marginalia.
+   */
+  "story-gather",
   "pullquote",
   "pricing-lanes",
   "compare-matrix",

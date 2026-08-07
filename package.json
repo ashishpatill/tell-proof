@@ -34,6 +34,7 @@
     "research:inspect": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/inspect.ts"
   },
   "devDependencies": {
+    "playwright": "^1.49.1",
     "vitest": "^2.1.9"
   },
   "engines": {

@@ -463,3 +463,68 @@ buckets, never names, hosts, or URLs.
   pinned glassine peel over botanical matter — not left-rail SaaS landings.
 - **Next weakest:** ink-variation ceiling; keep hairlines at 1px when deepening peel/reed craft.
 
+## Loop 20 — twelfth offering: press atelier (RSI)
+
+- **Goal:** fill the brand-agency / brand-product-agency / editorial-longform demand gap with a
+  template structurally hard to replicate from a theme pack — registration-framed fold, sticky
+  signature rail, press-sheet imposition figure, gather essay, Pressroom close — and dogfood the
+  engine until critique + eye pass. Peer builder study (local plumbing + template eye only) showed
+  cream/terracotta magazine posters, Inter-led landings, and document runbooks — none invent a
+  pressroom forme grammar.
+- **Failure named (champion):** eleven offerings still lacked a print-production / forme grammar;
+  nothing forced registration marks, densitometer strips, Sig A–H rails, or imposition grids.
+  Theme packs restyle SaaS/editorial shells; they do not invent press sheets.
+- **Goal prompt:** Raise fold ownership so the press sheet is the first craft beat; keep
+  display/type-steps in band; accept ink-variation above ceiling for a forme-owned fold (same
+  class as archive ledger).
+- **Loop prompt (iteration):** Fold shot claimed-starved → compact + hang → type-steps 16→14 →
+  display 3.1→3.4vw → re-critique.
+- **Challenger:** new `press-atelier` siteKind + `press` template (`Forme Desk`) with craft prior
+  kinds do not emit:
+  - `hero-press` — registration/crop marks + compact claim + spanning press sheet
+  - sticky `ds-sig-rail` — Sig A–H
+  - `press-sheet` figure (imposition grid + densitometer; mono ≤11px)
+  - `story-gather` — fold ticks + outer plate index
+  - paper Pressroom close with plate numbers — no pricing/metrics/inverse
+- **Score:** matrix **99.1**; press-atelier **96.3 → 97.6** after fold hang + type consolidation;
+  holdout **98.4** (gap 0.6 — generalises). No regression on locked SaaS/studio/consumer/foundry/
+  dossier/observatory/archive.
+- **Closed:** `template:press-claim-starves-forme`; basics gate `kind-press`; showcase
+  `/showcase/press` featured on gallery cinema; beat discovery for press-sheet/gather.
+- **Side effects:** press ink-variation above corridor (1.28 vs 0.96) — accepted for a forme-owned
+  fold; do not empty the press sheet to game the band.
+- **Qualitative:** fold reads as a pressroom forme, not a recolored archive/dossier page.
+  Registration marks + signature rail + densitometer + gather ticks are craft theme packs will not
+  invent from taste controls.
+- **Next weakest:** press ink-variation; docs rule density; deepen Pressroom uniqueness
+  (ink patch legends, forme custody marks) without score-gaming.
+
+## Loop 21 — densify press forme + fix Specimens stage
+
+- **Goal:** Human named empty proof/template screenshots and a too-basic Specimens gallery —
+  SIG cells were blank voids; featured cinema missed the forme; gallery mast|reel CSS never
+  applied (wrong parent selector) and fought proof chrome.
+- **Challenger:** filled 2×2 mini pages in every SIG cell; densitometer patches; SpecimenPreview
+  locks figure→spread→proof and skips specimen/instruments when craft figure exists; press still
+  lands at y≥360; `FT.micro` 10→11; scoped `.sx-shell > .sx-stage` vs `.sx-chrome .sx-stage`.
+- **Score:** matrix **99.1**; press-atelier **97.6** (type-steps 14, rules 3.89, fold-figure 0.69);
+  holdout gap **0.1**. No regression on locked kinds.
+- **Closed:** `template:empty-sig-voids`; `showcase:stage-selector-miss`.
+- **Side effects:** ink-variation still above corridor for a forme-owned fold — accepted.
+- **Qualitative:** gallery fold shows Tell Specimens mast beside a filled press sheet on FORME
+  reel; proof iframe is full-bleed again; SIG cells read as pages, not empty paper.
+- **Next weakest:** press ink-variation; deepen gather/Pressroom without starving the forme.
+
+## Loop 22 — encode empty-void + craft-first into the engine
+
+- **Goal:** Improve the design engine itself — reusable densify helpers, basics gates, craft-first
+  cinema policy — so the next siteKind cannot regress into empty SIG voids / specimen-first reels.
+- **Challenger:** `miniPageMatter` + `densitometerStrip` + `FIG_MONO_PX` clamp; `data-dense="ink"`;
+  assertBasics `fig-mono-floor` / `craft-figure-dense` / `fold-owns-craft`; shared fold-owns CTA
+  hide; `specimenBeats` module + tests.
+- **Score:** matrix **99.1**; press **97.6**; holdout gap **0.1**. No regression.
+- **Closed:** `engine:encode-empty-void-gates`.
+- **Side effects:** none measured; gates are structural.
+- **Qualitative:** engine now refuses empty press sheets and sub-11 SVG mono at preflight.
+- **Next weakest:** press ink-variation; deepen densify helpers into other cell-grid figures when
+  a new kind needs them.

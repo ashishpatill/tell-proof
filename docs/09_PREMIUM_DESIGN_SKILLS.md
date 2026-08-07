@@ -18,7 +18,7 @@
 | `packages/design-skills/src/basics-checklist.ts` | Implementation floor only (not taste) |
 | `/studio` | Live canvas + Taste Controls + magic edit + viewport + copy HTML |
 | `/showcase` | Specimen gallery (print-atelier index of all offerings) |
-| `/showcase/*` | Full proof sheets: saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, archive, loom, herbarium |
+| `/showcase/*` | Full proof sheets: saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, archive, loom, herbarium, press |
 | `POST /api/design` | Brief → spec + preview HTML (`redesignFrom` optional) |
 | `GET /api/design?templates=1` | Offering catalog metadata |
 | MCP `tell_design_from_features` | MCP tool |
@@ -32,7 +32,7 @@
 
 ### Offering catalog (keep count low)
 
-One template per `siteKind` (saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, archive, loom, herbarium). Improve each until the research loop's convergence criteria hold for two consecutive loops. Add another only when a measured demand gap appears that none of the current kinds cover.
+One template per `siteKind` (saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, archive, loom, herbarium, press). Improve each until the research loop's convergence criteria hold for two consecutive loops. Add another only when a measured demand gap appears that none of the current kinds cover.
 
 | Key | Market job |
 |---|---|
@@ -49,6 +49,7 @@ One template per `siteKind` (saas, dashboard, corporate, educational, fintech, s
 | `archive` | Archive index — quiet register, A–Z alpha rail, index ledger, entry essay, Registry close |
 | `loom` | Commerce loom — size-tape rail, warp/weft SKU loom with free textile photos, hangtag essay, Care label |
 | `herbarium` | Field guide — taxon rail, specimen plate with free botanical photos, range essay, Voucher close |
+| `press` | Press atelier — registration fold, signature rail, press sheet, gather essay, Pressroom close |
 
 ## Quality bar (Phase 7)
 
