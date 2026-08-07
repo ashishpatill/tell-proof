@@ -28,6 +28,7 @@ function buildOfferings(): OfferingPreview[] {
 export default function ShowcaseGalleryPage() {
   const offerings = buildOfferings();
   const featured =
+    offerings.find((o) => o.key === "archive") ??
     offerings.find((o) => o.key === "observatory") ??
     offerings.find((o) => o.key === "dossier") ??
     offerings.find((o) => o.key === "foundry") ??

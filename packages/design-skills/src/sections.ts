@@ -612,10 +612,8 @@ export function buildSections(
                 title: c.name,
                 meta: `${(i + 3) * 7}`,
                 kicker: i === 0 ? "Now" : i < 3 ? "Today" : "Queued",
-                // Dense detail cells raise the shell's character peak without empty height.
-                points: isDash
-                  ? [sentence(c.description || `${c.name} needs a human decision before it ages out`)]
-                  : undefined,
+                // Short detail — long cells stole body-measure from the FAQ prose column.
+                points: isDash ? [`${c.name.split(/\s+/)[0] ?? c.name} · live`] : undefined,
               }),
             ),
             metrics: editorial.outcomesAreStated

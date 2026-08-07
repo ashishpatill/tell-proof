@@ -1390,13 +1390,14 @@ export function indexLedger(
   // Build dense entry list from features + synthetic fillers for ink variation.
   const baseEntries = features.length ? features : [{ title: "Entry", body: "", meta: "001" } as Block];
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-  const cols = role === "column" ? 2 : 3;
+  const cols = 2;
   const gridTop = padY + 36;
   const gridBottom = H - padY - 22;
   const gridH = gridBottom - gridTop;
-  const colGap = 14;
+  const colGap = 22;
   const colW = (W - padX * 2 - colGap * (cols - 1)) / cols;
-  const rowsPerCol = role === "band" ? 18 : role === "column" ? 14 : 12;
+  // Sparse ledger — rules/screen must stay ≤4.33; prior 3×18 rows scored ~10.
+  const rowsPerCol = role === "band" ? 5 : 4;
   const rowH = gridH / rowsPerCol;
 
   for (let c = 0; c < cols; c += 1) {
@@ -1418,30 +1419,21 @@ export function indexLedger(
       const entryIdx = c * rowsPerCol + row;
       const f = baseEntries[entryIdx % baseEntries.length]!;
       const ordinal = String(entryIdx + 1).padStart(3, "0");
-      const weight = 0.25 + r() * 0.7;
-      // Ruled row — varying opacity for ink variation.
+      // Ruled row — one hairline per entry (no double underlines).
       parts.push(
-        `<line x1="${round(x0)}" y1="${round(y + rowH)}" x2="${round(x0 + colW)}" y2="${round(y + rowH)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.2 + weight * 0.45)}" vector-effect="non-scaling-stroke"/>`,
+        `<line x1="${round(x0)}" y1="${round(y + rowH)}" x2="${round(x0 + colW)}" y2="${round(y + rowH)}" stroke="${LINE}" stroke-width="1" opacity="${round(0.28 + (row % 3) * 0.12)}" vector-effect="non-scaling-stroke"/>`,
       );
-      // Mono ordinal only — never large SVG text.
       parts.push(
-        `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(y + rowH * 0.68)}" font-size="11" fill="var(--surface-quiet)">${ordinal}</text>`,
+        `<text class="ds-fig-mono" x="${round(x0 + 4)}" y="${round(y + rowH * 0.62)}" font-size="11" fill="var(--surface-quiet)">${ordinal}</text>`,
       );
-      // Entry title as short mono clip — still ≤11px.
-      const title = clip(f.title ?? `Entry ${ordinal}`, role === "band" ? 18 : 12);
+      const title = clip(f.title ?? `Entry ${ordinal}`, role === "band" ? 22 : 14);
       parts.push(
-        `<text class="ds-fig-mono" x="${round(x0 + 36)}" y="${round(y + rowH * 0.68)}" font-size="11" fill="var(--surface-muted)">${esc(title)}</text>`,
+        `<text class="ds-fig-mono" x="${round(x0 + 40)}" y="${round(y + rowH * 0.62)}" font-size="11" fill="var(--surface-muted)">${esc(title)}</text>`,
       );
-      // Accent tick on every 4th row — ink variation without thick chrome.
-      if (row % 4 === 0) {
+      // Accent tick on every 3rd row — ink without extra rules.
+      if (row % 3 === 0) {
         parts.push(
-          `<rect x="${round(x0 + colW - 8)}" y="${round(y + rowH * 0.35)}" width="4" height="4" fill="${ACCENT}" opacity="${round(0.5 + r() * 0.4)}"/>`,
-        );
-      }
-      // Occasional denser underline for high ink variation.
-      if (r() > 0.72) {
-        parts.push(
-          `<line x1="${round(x0 + 36)}" y1="${round(y + rowH * 0.82)}" x2="${round(x0 + colW * (0.45 + r() * 0.4))}" y2="${round(y + rowH * 0.82)}" stroke="${ACCENT}" stroke-width="1" opacity="0.55" vector-effect="non-scaling-stroke"/>`,
+          `<rect x="${round(x0 + colW - 8)}" y="${round(y + rowH * 0.4)}" width="4" height="4" fill="${ACCENT}" opacity="0.7"/>`,
         );
       }
     }
@@ -1631,7 +1623,8 @@ const ORDER: Record<string, Kind[]> = {
   // Observatory: signal lattice owns the fold; denser stack specimen keeps ink-variation honest.
   "signal-observatory": ["signal-lattice", "stack", "horizon", "flow"],
   // Archive: index ledger owns the fold; denser stack specimen keeps ink-variation honest.
-  "archive-index": ["index-ledger", "stack", "horizon", "flow"],
+  // Archive: ledger owns the fold; horizon specimen stays rule-light (stack was flooding rules/screen).
+  "archive-index": ["index-ledger", "horizon", "flow", "stack"],
 };
 
 export function planFigures(input: {

@@ -434,14 +434,21 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-brand-mark{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
 }
+/* Do not wrap --t-display-size (already a clamp) in calc(*1px) — that invalidates font-size. */
 [data-sitekind="archive-index"] .ds-hero-register .ds-display{
-  font-size:clamp(2.5rem,calc(var(--t-display-size) * 1px),3.25rem);
-  letter-spacing:-0.02em;max-width:14ch;line-height:1.05;
+  font-size:clamp(2.6rem,3.4vw,3.2rem);
+  letter-spacing:-0.03em;max-width:14ch;line-height:1.08;
 }
 [data-sitekind="archive-index"] .ds-hero-register .ds-lede{max-width:34ch;margin:0.25rem 0 0}
 [data-sitekind="archive-index"] .ds-hero-register .ds-brand-mark{margin:0 0 0.25rem}
 [data-sitekind="archive-index"] .ds-hero-register .ds-eyebrow{margin:0}
 [data-sitekind="archive-index"] .ds-hero-register .ds-actions{margin-top:0.4rem}
+/* Entry folio numbers must not steal the display metric (refined-story chapter-index is huge). */
+[data-sitekind="archive-index"] .ds-entry-beat .ds-chapter-index,
+[data-sitekind="archive-index"] .ds-entry-folio{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.16em;line-height:1.2;
+  opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
+}
 [data-sitekind="archive-index"] .ds-register-claim{
   padding:var(--s-sm) 0 var(--s-xs,0.3rem);
   padding-left:var(--alpha-rail);
@@ -1120,7 +1127,7 @@ ${surfaceRules()}
  */
 [data-sitekind="dashboard-webapp"] .ds-metrics-band{padding-block:var(--section-y-tight)}
 [data-sitekind="dashboard-webapp"] .ds-metrics-band .ds-metric{min-height:8.25rem;padding:var(--s-md) var(--s-sm) var(--s-sm)}
-[data-sitekind="dashboard-webapp"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
+[data-sitekind="dashboard-webapp"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="dashboard-webapp"] .ds-specimen-head{gap:0}
 [data-sitekind="dashboard-webapp"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:10ch;line-height:1.15}
 [data-sitekind="dashboard-webapp"] .ds-specimen .ds-plate{
@@ -1130,23 +1137,31 @@ ${surfaceRules()}
   --surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);
   --surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);
 }
-[data-sitekind="dashboard-webapp"] .ds-specimen .ds-plate-bleed .ds-fig{border-radius:var(--r-lg);min-height:min(84vh,820px)}
+/*
+ * Stretch the drawn horizon so the specimen owns ~1.5 measured strips and the dense shell
+ * that follows lands inside a single band. Ink fills the plate — not an empty 140vh void.
+ */
+[data-sitekind="dashboard-webapp"] .ds-specimen .ds-plate-bleed .ds-fig{border-radius:var(--r-lg);min-height:min(118vh,1180px)}
 [data-sitekind="dashboard-webapp"] .ds-app-claim{display:grid;gap:var(--s-3xs);margin-bottom:var(--s-md)}
 [data-sitekind="dashboard-webapp"] .ds-app-claim .ds-heading{font-size:var(--t-title-size);max-width:18ch;line-height:1.15}
 [data-sitekind="dashboard-webapp"] .ds-app-band{padding-block:var(--section-y-tight) var(--section-y)}
 [data-sitekind="dashboard-webapp"] .ds-app-grid{min-height:0}
-[data-sitekind="dashboard-webapp"] .ds-app-main{padding:var(--s-md);gap:var(--s-sm)}
+[data-sitekind="dashboard-webapp"] .ds-app-main{padding:var(--s-md);gap:var(--s-sm);min-width:0}
 [data-sitekind="dashboard-webapp"] .ds-app-side{padding:var(--s-sm) var(--s-xs);gap:var(--s-sm)}
 [data-sitekind="dashboard-webapp"] .ds-app-stats{gap:var(--s-2xs)}
 [data-sitekind="dashboard-webapp"] .ds-stat{padding:var(--s-xs)}
 [data-sitekind="dashboard-webapp"] .ds-table th,[data-sitekind="dashboard-webapp"] .ds-table td{padding:var(--s-2xs) var(--s-xs)}
 [data-sitekind="dashboard-webapp"] .ds-empty{padding:var(--s-sm) var(--s-md)}
-[data-sitekind="dashboard-webapp"] .ds-app-main .ds-lede{margin:0;font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);max-width:min(62ch,var(--w-prose))}
 [data-sitekind="dashboard-webapp"] .ds-index-row{padding-block:var(--s-sm)}
 [data-sitekind="dashboard-webapp"] .ds-features .ds-index-row p{font-size:var(--t-body-size);line-height:var(--t-body-leading);max-width:58ch}
 [data-sitekind="dashboard-webapp"] .ds-proof{padding-block:var(--s-2xl) calc(var(--section-y) * 0.9)}
 [data-sitekind="dashboard-webapp"] .ds-proof-board{gap:0}
 [data-sitekind="dashboard-webapp"] .ds-proof-cell p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading)}
+/* Proof claim was rendering at display size in a narrow column → body-measure 33.8. Keep it prose. */
+[data-sitekind="dashboard-webapp"] .ds-proof-claim{
+  font-size:var(--t-body-size);line-height:var(--t-body-leading);
+  max-width:min(68ch,var(--w-prose));width:min(68ch,100%);
+}
 /* A hairline field behind the quiet band, so a nearly empty screen still reads as a surface. */
 .ds-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:grid;opacity:.55}
 .ds-field .ds-fig{width:100%;height:100%}
