@@ -34,7 +34,7 @@ Tell ships a fourteen-offering catalog under [`/showcase`](./apps/web/src/app/sh
 
 ### First five (marketing kinds — distinct folds)
 
-Plumbing + craft pass: stackfold (no claim/SVG collisions), siteKind-unique proof copy (no shared “holds under review”), distinct hero figure grammar, and filled stage matter (no empty ordinal shells).
+Plumbing + craft pass: stackfold (no claim/SVG collisions), siteKind-unique proof copy (no shared “holds under review”), distinct hero figure grammar, filled stage matter (catalogue bodies merge into flow legends), and a scrub that actually steps when you click the stage list.
 
 | SaaS · Northstar | Operator console · Queueboard |
 |:---:|:---:|
@@ -72,8 +72,7 @@ Regenerate README frames + first-five reels (web on `:3000`):
 
 ```bash
 pnpm capture:readme-showcase
-# optional: rebuild per-template GIFs from the captured PNGs
-# ffmpeg paletteuse on docs/media/showcase/{saas,dashboard,corporate,educational,fintech}-*.png
+pnpm -F @tell/core exec tsx ../../scripts/capture-first5-reels.ts
 ```
 
 ---

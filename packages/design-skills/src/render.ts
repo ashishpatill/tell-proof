@@ -877,7 +877,7 @@ function renderFigure(section: SectionSpec): string {
     .map(
       (p, i) =>
         `<line x1="${p.x.toFixed(1)}" y1="${top}" x2="${p.x.toFixed(1)}" y2="${floor}" stroke="var(--surface-border)" stroke-width="1" opacity="0.35" stroke-dasharray="2 4"/>
-         <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(top - 12).toFixed(1)}" font-size="11" fill="${i === mid ? "var(--c-accent)" : "var(--surface-quiet)"}" text-anchor="middle">${esc(clip(p.title, 14))}</text>`,
+         <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(top - 12).toFixed(1)}" font-size="11" fill="${i === mid ? "var(--c-accent)" : "var(--surface-quiet)"}" text-anchor="middle">${esc(clip(p.title, 18))}</text>`,
     )
     .join("");
 
