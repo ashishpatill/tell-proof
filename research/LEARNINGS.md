@@ -5,6 +5,18 @@ Pattern keys match `tell-recursive-improve`.
 
 ---
 
+## 2026-08-08 — `template:story-note-under-mark`
+
+- **Failure:** Sitekind “layered” overrides set `margin-top: calc(var(--s-sm) * -1)` on
+  chrono/entry/hang/range/gather/ember (and spread/marginalia) marks. HTML stacks
+  `Note 0N` then the capability SVG, so the drawing slid through the label (nested frames,
+  bars, junction targets). Mark SVGs also drew ink at ~4.5px from the top edge.
+- **Fix:** Drop those note-adjacent negative margins; keep band-boundary overlaps
+  (specimen / proof-figure / closing). Add `note + mark { margin-top: var(--s-lg) }`
+  clearance; pad capabilityMark to 14px; basics gate `story-note-clears-mark`. Rebuild
+  `@tell/design-skills` dist so showcase iframes pick up CSS.
+- **Do not:** Score layeredElements by pulling labeled drawings under their own captions.
+
 ## 2026-08-06 — `showcase:preview-gutter`
 
 - **Failure:** Featured + index iframes used `scale(calc(100cqw / 1440))` which never applied; fixed `0.48` / `0.14` left ~88px empty on the right of thumbs.

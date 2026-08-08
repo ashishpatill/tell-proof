@@ -813,8 +813,10 @@ export function horizonPlot(marks: Block[], seed: string, role: FigureRole = "pl
 export function capabilityMark(b: Block, index: number, seed: string): string {
   // Marks are small schematics, not icons — sized so a register of them still registers as drawn
   // matter on a dense B2B page (references often carry dozens of figures, not three plates).
+  // pad ≥ 14 keeps stroke ink off the SVG top edge so Note 0N captions above never kiss the drawing.
   const W = 220;
-  const H = 128;
+  const H = 140;
+  const pad = 14;
   const r = rng(`${seed}:mark:${b.title}`);
   const n = Math.max(2, Math.min(5, b.points.length || 3));
   const lead = b.emphasis === "lead";
@@ -826,16 +828,16 @@ export function capabilityMark(b: Block, index: number, seed: string): string {
       // Nested frames — scope contained inside scope.
       for (let i = 0; i < n; i += 1) {
         const inset = i * 9;
-        parts.push(box(4.5 + inset, 4.5 + inset, W - 9 - inset * 2, H - 9 - inset * 2, { r: 4, stroke: i === 0 ? key : LINE }));
+        parts.push(box(pad + inset, pad + inset, W - pad * 2 - inset * 2, H - pad * 2 - inset * 2, { r: 4, stroke: i === 0 ? key : LINE }));
       }
       break;
     }
     case 1: {
       // A measured stack — quantities of unequal weight.
       for (let i = 0; i < n; i += 1) {
-        const y = 12 + i * ((H - 24) / n);
-        const w = (W - 24) * (0.3 + r() * 0.7);
-        parts.push(box(12, y, w, 6, { r: 3, fill: i === 0 ? key : LINE }));
+        const y = pad + i * ((H - pad * 2) / n);
+        const w = (W - pad * 2) * (0.3 + r() * 0.7);
+        parts.push(box(pad, y, w, 6, { r: 3, fill: i === 0 ? key : LINE }));
       }
       break;
     }
@@ -844,9 +846,9 @@ export function capabilityMark(b: Block, index: number, seed: string): string {
       const cx = W - 26;
       const cy = H / 2;
       for (let i = 0; i < n; i += 1) {
-        const y = 16 + i * ((H - 32) / Math.max(1, n - 1));
-        parts.push(`<path d="M14 ${round(y)} C ${round(W / 2)} ${round(y)}, ${round(W / 2)} ${cy}, ${cx - 8} ${cy}" fill="none" stroke="${LINE}" stroke-width="1"/>`);
-        parts.push(`<circle cx="14" cy="${round(y)}" r="2.5" fill="${LINE}"/>`);
+        const y = pad + 4 + i * ((H - pad * 2 - 8) / Math.max(1, n - 1));
+        parts.push(`<path d="M${pad} ${round(y)} C ${round(W / 2)} ${round(y)}, ${round(W / 2)} ${cy}, ${cx - 8} ${cy}" fill="none" stroke="${LINE}" stroke-width="1"/>`);
+        parts.push(`<circle cx="${pad}" cy="${round(y)}" r="2.5" fill="${LINE}"/>`);
       }
       parts.push(`<circle cx="${cx}" cy="${cy}" r="6" fill="${PAPER}" stroke="${key}" stroke-width="2"/>`);
       break;
@@ -855,12 +857,12 @@ export function capabilityMark(b: Block, index: number, seed: string): string {
       // A grid with one cell claimed.
       const cols = 4;
       const rows = 3;
-      const cw = (W - 24) / cols;
-      const ch = (H - 24) / rows;
+      const cw = (W - pad * 2) / cols;
+      const ch = (H - pad * 2) / rows;
       const pick = Math.floor(r() * cols * rows);
       for (let i = 0; i < cols * rows; i += 1) {
-        const x = 12 + (i % cols) * cw;
-        const y = 12 + Math.floor(i / cols) * ch;
+        const x = pad + (i % cols) * cw;
+        const y = pad + Math.floor(i / cols) * ch;
         parts.push(box(x + 1, y + 1, cw - 2, ch - 2, { r: 2, fill: i === pick ? key : "none", stroke: i === pick ? "none" : LINE }));
       }
       break;
@@ -870,21 +872,21 @@ export function capabilityMark(b: Block, index: number, seed: string): string {
       const pts: string[] = [];
       const steps = 14;
       for (let i = 0; i <= steps; i += 1) {
-        const x = 12 + (i / steps) * (W - 24);
-        const y = H - 18 - ((i / steps) ** 1.4) * (H - 42) * (0.6 + r() * 0.5);
-        pts.push(`${i === 0 ? "M" : "L"}${round(x)} ${round(Math.max(14, y))}`);
+        const x = pad + (i / steps) * (W - pad * 2);
+        const y = H - pad - ((i / steps) ** 1.4) * (H - pad * 2 - 12) * (0.6 + r() * 0.5);
+        pts.push(`${i === 0 ? "M" : "L"}${round(x)} ${round(Math.max(pad, y))}`);
       }
-      parts.push(`<line x1="12" y1="${round(H / 2)}" x2="${W - 12}" y2="${round(H / 2)}" stroke="${LINE}" stroke-width="1" stroke-dasharray="3 4"/>`);
+      parts.push(`<line x1="${pad}" y1="${round(H / 2)}" x2="${W - pad}" y2="${round(H / 2)}" stroke="${LINE}" stroke-width="1" stroke-dasharray="3 4"/>`);
       parts.push(`<path d="${pts.join(" ")}" fill="none" stroke="${key}" stroke-width="2" stroke-linecap="round"/>`);
       break;
     }
     default: {
       // A spine with hung entries — a register.
-      parts.push(rule(20, 12, 20, H - 12));
+      parts.push(rule(pad + 6, pad, pad + 6, H - pad));
       for (let i = 0; i < n; i += 1) {
-        const y = 18 + i * ((H - 36) / Math.max(1, n - 1));
-        parts.push(rule(20, y, 20 + 16, y));
-        parts.push(box(40, y - 5, (W - 56) * (0.42 + r() * 0.56), 10, { r: 5, fill: i === 0 ? key : LINE }));
+        const y = pad + 6 + i * ((H - pad * 2 - 12) / Math.max(1, n - 1));
+        parts.push(rule(pad + 6, y, pad + 22, y));
+        parts.push(box(pad + 26, y - 5, (W - pad * 2 - 32) * (0.42 + r() * 0.56), 10, { r: 5, fill: i === 0 ? key : LINE }));
       }
       break;
     }

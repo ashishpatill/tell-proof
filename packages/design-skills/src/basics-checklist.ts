@@ -227,6 +227,37 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Workflow lit plate must not hang (translateY) into the swap panel — keep stack gap and no proof tuck into the next section.",
     ),
     check(
+      "story-note-clears-mark",
+      !/\.ds-(?:chrono|entry|hang|range|gather|ember|spread|marginalia)-mark\{[^}]*margin-top:calc\(var\(--s-(?:sm|xs|md)\) \* -1\)/.test(
+        html,
+      ) &&
+        (
+          !/class="ds-chrono-note"/.test(html) ||
+          /\.ds-chrono-note \+ \.ds-chrono-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-entry-note"/.test(html) ||
+          /\.ds-entry-note \+ \.ds-entry-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-hang-note"/.test(html) ||
+          /\.ds-hang-note \+ \.ds-hang-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-range-note"/.test(html) ||
+          /\.ds-range-note \+ \.ds-range-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-gather-note"/.test(html) ||
+          /\.ds-gather-note \+ \.ds-gather-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-ember-note"/.test(html) ||
+          /\.ds-ember-note \+ \.ds-ember-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ),
+      "Story Note 0N labels must clear capability marks — never negative-margin the drawing under the label.",
+    ),
+    check(
       "no-boilerplate-proof-title",
       !/holds under review/i.test(html),
       "Proof titles must be siteKind-specific — never the shared 'holds under review' spam across offerings.",

@@ -631,6 +631,23 @@ describe("research-backed offerings + implementation basics", () => {
     expect(svg).toContain(`font-size="${FIG_MONO_PX}"`);
   });
 
+  it("keeps story Note labels from sliding under capability marks", () => {
+    const noteKinds = ["observatory", "archive", "loom", "herbarium", "press", "lantern"] as const;
+    for (const key of noteKinds) {
+      const brief = SHOWCASE_BRIEFS[key];
+      if (!brief) continue;
+      const { previewHtml } = designFromFeatures(brief);
+      expect(previewHtml, key).toMatch(/Note 0\d/);
+      expect(previewHtml, key).not.toMatch(
+        /\.ds-(?:chrono|entry|hang|range|gather|ember|spread|marginalia)-mark\{[^}]*margin-top:calc\(var\(--s-(?:sm|xs|md)\) \* -1\)/,
+      );
+    }
+    const { previewHtml: chrono } = designFromFeatures(SHOWCASE_BRIEFS.observatory!);
+    expect(chrono).toMatch(/\.ds-chrono-note \+ \.ds-chrono-mark\{[^}]*margin-top:var\(--s-lg\)/);
+    const { previewHtml: ember } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    expect(ember).toMatch(/\.ds-ember-note \+ \.ds-ember-mark\{[^}]*margin-top:var\(--s-lg\)/);
+  });
+
   it("clears the implementation basics gate on every offering", () => {
     for (const t of listTemplates()) {
       const { spec, previewHtml } = designFromFeatures(t.brief);

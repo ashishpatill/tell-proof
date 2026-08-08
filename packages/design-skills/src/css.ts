@@ -332,13 +332,12 @@ body[data-sitekind="editorial-foundry"]{
 }
 [data-sitekind="editorial-foundry"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:16ch}
 [data-sitekind="editorial-foundry"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
-/* Deliberate overlaps across band boundaries — layeredElements corridor floor is 11. */
+/* Deliberate overlaps across band boundaries — layeredElements corridor floor is 11.
+ * Never pull story marks under Note 0N labels (note + mark stay in normal stack). */
 [data-sitekind="editorial-foundry"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="editorial-foundry"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
 [data-sitekind="editorial-foundry"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="editorial-foundry"] .ds-marginalia-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="editorial-foundry"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="editorial-foundry"] .ds-index-mark{margin-top:calc(var(--s-xs) * -1)}
 /* Quiet the sunken specimen a notch so ink-variation stays inside corridor (seam is already dense). */
 [data-sitekind="editorial-foundry"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(62vh,640px)}
 [data-sitekind="editorial-foundry"] .ds-alt-figure .ds-fig{min-height:min(48vh,480px)}
@@ -391,7 +390,6 @@ body[data-sitekind="research-dossier"]{
 [data-sitekind="research-dossier"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="research-dossier"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
 [data-sitekind="research-dossier"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="research-dossier"] .ds-spread-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="research-dossier"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="research-dossier"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(70vh,720px)}
 [data-sitekind="research-dossier"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
@@ -437,8 +435,9 @@ body[data-sitekind="signal-observatory"]{
 [data-sitekind="signal-observatory"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
 [data-sitekind="signal-observatory"] .ds-section-head,
 [data-sitekind="signal-observatory"] .ds-index-row,
-[data-sitekind="signal-observatory"] .ds-chrono-essay,
 [data-sitekind="signal-observatory"] .ds-chapter{padding-left:0;margin-left:var(--chrono-rail)}
+/* Chrono track + beads need the essay's own padding-left — do not zero it onto the rail. */
+[data-sitekind="signal-observatory"] .ds-chrono-essay{margin-left:var(--chrono-rail)}
 [data-sitekind="signal-observatory"] .ds-closing-colophon{
   border-top:1px solid var(--c-border);padding-top:var(--s-xl);
 }
@@ -447,7 +446,6 @@ body[data-sitekind="signal-observatory"]{
 [data-sitekind="signal-observatory"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="signal-observatory"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
 [data-sitekind="signal-observatory"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="signal-observatory"] .ds-chrono-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="signal-observatory"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="signal-observatory"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(74vh,760px)}
 [data-sitekind="signal-observatory"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
@@ -538,7 +536,6 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="archive-index"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
 [data-sitekind="archive-index"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="archive-index"] .ds-entry-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="archive-index"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="archive-index"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
 
@@ -586,7 +583,6 @@ body[data-sitekind="commerce-loom"]{
 [data-sitekind="commerce-loom"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="commerce-loom"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
 [data-sitekind="commerce-loom"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="commerce-loom"] .ds-hang-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="commerce-loom"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="commerce-loom"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
 [data-sitekind="commerce-loom"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
@@ -633,7 +629,6 @@ body[data-sitekind="field-guide"]{
 [data-sitekind="field-guide"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="field-guide"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
 [data-sitekind="field-guide"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="field-guide"] .ds-range-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="field-guide"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="field-guide"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
 [data-sitekind="field-guide"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
@@ -729,7 +724,6 @@ body[data-sitekind="press-atelier"]{
 [data-sitekind="press-atelier"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="press-atelier"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
 [data-sitekind="press-atelier"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="press-atelier"] .ds-gather-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 /* Lantern path — chapter waypoints, path atlas fold, silhouette near-plane, ember essay, Ember. */
 [data-sitekind="lantern-path"]{
   --way-rail:3.5rem;
@@ -804,7 +798,6 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="lantern-path"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
 [data-sitekind="lantern-path"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
-[data-sitekind="lantern-path"] .ds-ember-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="lantern-path"] .ds-proof-figure,
 [data-sitekind="lantern-path"] .ds-plate-fold,
 [data-sitekind="lantern-path"] .ds-plate-lit,
@@ -1589,9 +1582,10 @@ ${surfaceRules()}
 .ds-chrono-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-chrono-note{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
-  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;position:relative;z-index:1;
 }
 .ds-chrono-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-chrono-note + .ds-chrono-mark{margin-top:var(--s-lg)}
 .ds-chrono-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-lg)}
 .ds-chrono-aside-tick{display:flex;flex-direction:column;gap:0.25rem;border-left:1px solid var(--c-border);padding-left:0.75rem}
 .ds-chrono-aside-time{
@@ -1663,9 +1657,10 @@ ${surfaceRules()}
 .ds-entry-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-entry-note{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
-  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;position:relative;z-index:1;
 }
 .ds-entry-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-entry-note + .ds-entry-mark{margin-top:var(--s-lg)}
 .ds-entry-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-md)}
 .ds-entry-aside-item{
   display:flex;flex-direction:column;gap:0.2rem;
@@ -1832,9 +1827,10 @@ ${surfaceRules()}
 .ds-hang-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-hang-note{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.06em;text-transform:none;
-  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;position:relative;z-index:1;
 }
 .ds-hang-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-hang-note + .ds-hang-mark{margin-top:var(--s-lg)}
 .ds-hang-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-md)}
 .ds-hang-aside-item{
   display:flex;flex-direction:column;gap:0.2rem;
@@ -2009,9 +2005,10 @@ ${surfaceRules()}
 .ds-range-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-range-note{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.06em;text-transform:none;
-  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;position:relative;z-index:1;
 }
 .ds-range-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-range-note + .ds-range-mark{margin-top:var(--s-lg)}
 .ds-range-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-lg)}
 .ds-range-aside-item{display:flex;flex-direction:column;gap:0.25rem;border-left:1px solid var(--c-border);padding-left:0.75rem}
 .ds-range-aside-title{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:22ch}
@@ -2100,9 +2097,10 @@ ${surfaceRules()}
 .ds-gather-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-gather-note{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
-  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;position:relative;z-index:1;
 }
 .ds-gather-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-gather-note + .ds-gather-mark{margin-top:var(--s-lg)}
 .ds-gather-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-md)}
 .ds-gather-aside-item{
   display:flex;flex-direction:column;gap:0.2rem;
@@ -2178,9 +2176,10 @@ ${surfaceRules()}
 .ds-ember-measure h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-ember-note{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
-  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;position:relative;z-index:1;
 }
 .ds-ember-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-ember-note + .ds-ember-mark{margin-top:var(--s-lg)}
 .ds-ember-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-md)}
 .ds-ember-aside-item{
   display:flex;flex-direction:column;gap:0.2rem;
