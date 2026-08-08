@@ -28,6 +28,7 @@
     "e2e:studio": "pnpm -F @tell/core exec tsx ../../scripts/e2e-studio-playwright.ts",
     "record:readme-demo": "pnpm exec tsx scripts/record-readme-demo.ts",
     "capture:readme-showcase": "pnpm -F @tell/core exec tsx ../../scripts/capture-readme-showcase.ts",
+    "media:webp": "bash scripts/optimize-readme-media.sh --prune",
     "research:forensics": "pnpm -F @tell/core exec tsx ../../scripts/design-research/forensics.ts",
     "research:aggregate": "pnpm -F @tell/core exec tsx ../../scripts/design-research/aggregate.ts",
     "research:critique": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/critique.ts",

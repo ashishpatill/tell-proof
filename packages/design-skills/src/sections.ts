@@ -97,7 +97,10 @@ export function buildSections(
 
   const eyebrow = eyebrows(brief);
   const cta = ctaFor(brief.businessGoal, brief.siteKind);
-  const navItems = navFor(plan.map((p) => ({ kind: p.kind, id: p.id })));
+  const navItems = navFor(
+    plan.map((p) => ({ kind: p.kind, id: p.id })),
+    brief.siteKind,
+  );
   const editorial = editorialize(features);
   const allBlocks = featureBlocks(editorial.features);
 
@@ -145,6 +148,14 @@ export function buildSections(
         const isLoom = brief.siteKind === "commerce-loom";
         const isField = brief.siteKind === "field-guide";
         const isPress = brief.siteKind === "press-atelier";
+        const isPipeline = brief.siteKind === "saas-marketing";
+        const isQueue = brief.siteKind === "dashboard-webapp";
+        const isDiligence = brief.siteKind === "corporate-story";
+        const isMechanism = brief.siteKind === "docs-educational";
+        const isWire = brief.siteKind === "fintech-marketing";
+        const craftFold =
+          isDossier || isObservatory || isArchive || isLoom || isField || isPress
+          || isPipeline || isQueue || isDiligence || isMechanism || isWire;
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -153,13 +164,31 @@ export function buildSections(
             body: heroLede(brief, editorial.heroLines),
             brandLabel: brief.productName,
             ctaLabel: cta.primary,
-            secondaryLabel: isDossier || isObservatory || isArchive || isLoom || isField || isPress ? undefined : cta.secondary,
-            // Folio / chrono / register / loom / voucher / press folds leave room for the figure.
-            ctaNote: isDossier || isObservatory || isArchive || isLoom || isField || isPress ? undefined : cta.note,
-            blocks: named,
+            secondaryLabel: craftFold ? undefined : cta.secondary,
+            // Compact claim — leave the fold to the instrument plate / rail.
+            ctaNote: craftFold ? undefined : cta.note,
+            blocks: named.map((b, i) => {
+              const src = (core.length ? core : editorial.features.slice(0, 3))[i];
+              return src
+                ? block({
+                    title: src.name,
+                    body: isMechanism || isPipeline || isQueue || isDiligence || isWire
+                      ? sentence(src.claim || src.consequence || src.name)
+                      : "",
+                    emphasis: "normal",
+                  })
+                : b;
+            }),
             aside: editorial.features
               .slice(0, 4)
-              .map((c, i) => block({ title: c.name, meta: c.tier, emphasis: i === 0 ? "lead" : "normal" })),
+              .map((c, i) =>
+                block({
+                  title: c.name,
+                  body: isMechanism || isDiligence ? sentence(c.claim || c.name) : "",
+                  meta: c.tier,
+                  emphasis: i === 0 ? "lead" : "normal",
+                }),
+              ),
           }),
         );
         break;
@@ -427,10 +456,15 @@ export function buildSections(
               : sentence(
                   `The path work takes through ${brief.productName}, drawn rather than described`,
                 ),
-            // Step labels only. A diagram whose legend restates every description is a paragraph
-            // with a picture behind it.
+            // Mechanism / scrub legends need a real line of matter — title-only steps starved the
+            // educational scrub list and any flow hero that reused figure blocks (empty cards).
+            // Keep bodies short (claim only); do not reprint full catalogue paragraphs.
             blocks: editorial.features.slice(0, 4).map((c, i) =>
-              block({ title: c.name, meta: `0${i + 1}` }),
+              block({
+                title: c.name,
+                meta: `0${i + 1}`,
+                body: sentence(c.claim || c.consequence || c.name),
+              }),
             ),
             figureCaption: isFoundry
               ? sentence(`Step through the optical sizes ${brief.productName} is cut for`)
@@ -499,6 +533,16 @@ export function buildSections(
                             ? sentence(`How a voucher is actually read`)
                         : brief.siteKind === "press-atelier"
                           ? sentence(`How a signature is actually gathered`)
+                  : brief.siteKind === "saas-marketing"
+                    ? sentence(`How ${brief.productName} moves an account`)
+                    : brief.siteKind === "dashboard-webapp"
+                      ? sentence(`How a day on ${brief.productName} actually runs`)
+                      : brief.siteKind === "corporate-story"
+                        ? sentence(`How ${brief.productName} earns the room`)
+                        : brief.siteKind === "docs-educational"
+                          ? sentence(`How ${brief.productName} decides under constraint`)
+                          : brief.siteKind === "fintech-marketing"
+                            ? sentence(`How a send clears on ${brief.productName}`)
                   : sentence(`The order things happen in`),
             body:
               brief.siteKind === "art-directed-studio"
@@ -519,6 +563,16 @@ export function buildSections(
                             ? sentence(`Range beads, taxon ranks, and the notes that keep a voucher honest`)
                         : brief.siteKind === "press-atelier"
                           ? sentence(`Fold ticks, plate index, and the gathers that keep a forme honest`)
+                  : brief.siteKind === "saas-marketing"
+                    ? sentence(`From first signal to booked walkthrough — the path revenue leaders actually take`)
+                    : brief.siteKind === "dashboard-webapp"
+                      ? sentence(`Queue, deal room, playbook, handoff — the loop account executives live in`)
+                      : brief.siteKind === "corporate-story"
+                        ? sentence(`Language, principles, outcomes, posture — the diligence path in order`)
+                        : brief.siteKind === "docs-educational"
+                          ? sentence(`Placement, preemption, backpressure, failure — the cost function in order`)
+                          : brief.siteKind === "fintech-marketing"
+                            ? sentence(`Wire, wallet, approval, FX — the send path treasury actually walks`)
                   : sentence(`The sequence ${brief.audience} actually meet, in order`),
             blocks: chapters(editorial.features).map((c, i) =>
               block({
@@ -559,11 +613,25 @@ export function buildSections(
             emphasis: f.priority === "p0" ? "lead" : "normal",
           }),
         );
+        const proofTitle =
+          brief.siteKind === "saas-marketing"
+            ? sentence(`Why ${brief.productName} earns the second meeting`)
+            : brief.siteKind === "dashboard-webapp"
+              ? sentence(`Why operators keep ${brief.productName} open all day`)
+              : brief.siteKind === "corporate-story"
+                ? sentence(`Why ${brief.productName} holds up in diligence`)
+                : brief.siteKind === "fintech-marketing"
+                  ? sentence(`Why treasury teams short-list ${brief.productName}`)
+                  : brief.siteKind === "art-directed-studio"
+                    ? sentence(`Why work from ${brief.productName} survives the handoff`)
+                    : brief.siteKind === "docs-educational"
+                      ? sentence(`Why the ${brief.productName} model holds under load`)
+                      : sentence(`Why ${brief.productName} earns trust in review`);
         sections.push(
           SectionSpec.parse({
             ...base,
             eyebrow: eyebrow.proof,
-            title: sentence(`Why ${brief.productName} holds under review`),
+            title: proofTitle,
             body: q.quote,
             quote: q.quote,
             quoteAttribution: q.attribution,

@@ -108,7 +108,7 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
     researchBasis:
       "Calibrated against design-tool / enterprise-observability density bands; system-crafted + dark-premium.",
     brief: DesignBrief.parse({
-      productName: "Northstar",
+      productName: "Queueboard",
       tagline: "The seller workspace",
       audience: "account executives",
       businessGoal: "activation",
@@ -164,7 +164,7 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
     researchBasis:
       "Calibrated against enterprise-corporate / art-directed-studio bands; refined-story lean.",
     brief: DesignBrief.parse({
-      productName: "Northstar",
+      productName: "Lattice",
       tagline: "Clarity for teams that sell complexity",
       audience: "enterprise operators and their boards",
       businessGoal: "trust",

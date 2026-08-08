@@ -87,19 +87,14 @@ const SPLIT: Record<AestheticLean, { hero: string; feature: string; wide: string
 };
 
 function heroLayout(siteKind: SiteKind, lean: AestheticLean): LayoutVariant {
-  if (siteKind === "corporate-story") return lean === "conversion-sharp" ? "hero-editorial" : "hero-statement";
-  if (siteKind === "docs-educational") return "hero-editorial";
-  /*
-   * Every SaaS / fintech marketing fold: short claim, then the product surface owns the screen.
-   *
-   * Measured premium-b2b, fintech-product, and art-directed references put roughly 0.7–1.0 of the
-   * first viewport into drawn matter. Spanning is the default; lean changes type and density, not
-   * whether the product appears.
-   */
-  if (siteKind === "saas-marketing" || siteKind === "fintech-marketing") return "hero-statement";
-  // Studio folds are claim-over-figure — short brand event on a full composed surface.
+  // First-five marketing kinds own unreplicable fold instruments — never the shared stackfold.
+  if (siteKind === "saas-marketing") return "hero-pipeline";
+  if (siteKind === "dashboard-webapp") return "hero-queue";
+  if (siteKind === "corporate-story") return "hero-diligence";
+  if (siteKind === "docs-educational") return "hero-mechanism";
+  if (siteKind === "fintech-marketing") return "hero-wire";
+  // Studio / consumer: short claim then labeled figure (stackfold in render).
   if (siteKind === "art-directed-studio") return "hero-statement";
-  // Consumer craft leads with the product surface under a short voice claim.
   if (siteKind === "consumer-craft") return "hero-statement";
   // Foundry: hard vertical seam — paper claim | inverse type ladder. Not a stack or overfigure.
   if (siteKind === "editorial-foundry") return "hero-seam";
@@ -142,7 +137,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
      * sunken type-led specimen between the metric register and the dense shell so one measured
      * strip is ink-heavy and character-light — then pack shell + index + proof as density peaks.
      */
-    plans.push({ id: "hero", kind: "hero", layout: "hero-statement", surface: "paper", columns: split.hero });
+    plans.push({ id: "hero", kind: "hero", layout: "hero-queue", surface: "paper", columns: split.hero });
     plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "inverse" });
     // Quiet sunken valley — titles + drawing only; honest weight contrast before the shell.
     plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
@@ -172,7 +167,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
    * moves down the scroll the way money-product sites do.
    */
   if (siteKind === "fintech-marketing") {
-    plans.push({ id: "hero", kind: "hero", layout: "hero-statement", surface: "paper", columns: split.hero });
+    plans.push({ id: "hero", kind: "hero", layout: "hero-wire", surface: "paper", columns: split.hero });
     plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "inverse" });
     plans.push({
       id: "features",
@@ -625,15 +620,9 @@ export function planSections(input: CompositionInput): SectionPlan[] {
    * No metric theatre — the scrub owns the stakes.
    */
   if (siteKind === "docs-educational") {
-    plans.push({ id: "hero", kind: "hero", layout: "hero-editorial", surface: "paper", columns: split.hero });
-    plans.push({
-      id: "figure",
-      kind: "figure",
-      layout: "figure-explainer",
-      surface: "raised",
-      columns: split.wide,
-    });
-    // Quiet valley immediately after the scrub peak — titles-only horizon (see renderSpecimen).
+    // Scrub owns the fold — do not bury the instrument under a second stackfold hero.
+    plans.push({ id: "hero", kind: "hero", layout: "hero-mechanism", surface: "paper", columns: split.hero });
+    // Quiet valley after the scrub peak — titles-only horizon (see renderSpecimen).
     plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
     plans.push({
       id: "features",

@@ -47,6 +47,11 @@ describe("premium-content-custom-web engine", () => {
     expect(previewHtml).toContain("Priority queue");
     expect(previewHtml).toContain("ds-app-side");
     expect(previewHtml).toContain('aria-current="page"');
+    expect(previewHtml).toContain('data-app-shell');
+    expect(previewHtml).toContain('data-rail="priority"');
+    expect(previewHtml).toContain('ds-priority-chip');
+    expect(previewHtml).toMatch(/<button[^>]*class="[^"]*ds-priority-chip/);
+    expect(previewHtml).toMatch(/<button[^>]*class="[^"]*ds-app-nav-item[^"]*"[^>]*data-view=/);
     // Dense product surfaces still need an empty state, not just a happy path.
     expect(previewHtml).toContain("ds-empty");
   });
@@ -64,9 +69,10 @@ describe("premium-content-custom-web engine", () => {
   it("builds an educational surface with a teaching figure", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.educational!);
     expect(spec.brief.siteKind).toBe("docs-educational");
-    expect(spec.sections.some((s) => s.kind === "figure")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "hero-mechanism")).toBe(true);
     expect(previewHtml).toContain("Signal Path");
     expect(previewHtml).toContain('data-instrument="scrub"');
+    expect(previewHtml).toContain('data-figure="mechanism-plate"');
     expect(previewHtml).toContain("<figcaption data-scrub-caption>");
   });
 

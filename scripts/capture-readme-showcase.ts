@@ -3,14 +3,16 @@
  *
  * - Showcase routes: real Tell Specimens UI (featured cinema + filmstrip).
  * - Template folds: full-bleed HTML from designFromFeatures at 1440×900 (no chrome).
+ * - Writes display-sized WebP (hero 1100w, beats 720w).
  *
  * Requires `@tell/web` on :3000 for showcase frames.
  *
- * Usage: pnpm -F @tell/core exec tsx ../../scripts/capture-readme-showcase.ts
+ * Usage: pnpm capture:readme-showcase
  */
 import { createServer } from "node:http";
-import { existsSync, mkdirSync, copyFileSync } from "node:fs";
+import { existsSync, mkdirSync, copyFileSync, unlinkSync } from "node:fs";
 import { resolve } from "node:path";
+import { spawnSync } from "node:child_process";
 import { chromium, type Page } from "playwright";
 import { designFromFeatures, getTemplate } from "../packages/design-skills/src/index";
 
@@ -20,7 +22,12 @@ const ARTIFACTS = "/opt/cursor/artifacts/screenshots";
 const BASE = process.env.TELL_WEB_URL ?? "http://127.0.0.1:3000";
 const VIEWPORT = { width: 1440, height: 900 };
 
-/** Newest / most distinctive offerings featured on the README. */
+function webpWidthFor(name: string): number {
+  if (name === "01-showcase-featured" || name === "02-showcase-gallery") return 1100;
+  return 720;
+}
+
+/** Newest / most distinctive offerings featured on the README — plus fixed first-five marketing kinds. */
 const TEMPLATES: Array<{
   key: string;
   beats: Array<{ id: string; sel: string; yPad?: number }>;
@@ -57,29 +64,83 @@ const TEMPLATES: Array<{
     ],
   },
   {
-    key: "dashboard",
+    key: "saas",
     beats: [
-      { id: "fold", sel: ".ds-hero, h1", yPad: 0 },
-      { id: "shell", sel: ".ds-dash-grid, .ds-app-shell, [data-section='specimen']", yPad: 20 },
+      { id: "fold", sel: ".ds-pipeline-field, .ds-hero-pipeline, .ds-hero", yPad: 8 },
+      { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
+      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
     ],
   },
   {
-    key: "saas",
-    beats: [{ id: "fold", sel: ".ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 }],
+    key: "dashboard",
+    beats: [
+      { id: "fold", sel: ".ds-queue-field, .ds-hero-queue, .ds-hero", yPad: 8 },
+      { id: "shell", sel: "#app, .ds-app-band, .ds-app", yPad: 20 },
+      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
+    ],
+  },
+  {
+    key: "corporate",
+    beats: [
+      { id: "fold", sel: ".ds-diligence-field, .ds-hero-diligence, .ds-hero", yPad: 8 },
+      { id: "story", sel: "#story, [data-section='story']", yPad: 36 },
+      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
+    ],
+  },
+  {
+    key: "educational",
+    beats: [
+      { id: "fold", sel: ".ds-mechanism-stage, .ds-hero-mechanism, .ds-hero", yPad: 8 },
+      { id: "scrub", sel: ".ds-mechanism-fold, #features", yPad: 28 },
+      { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
+    ],
+  },
+  {
+    key: "fintech",
+    beats: [
+      { id: "fold", sel: ".ds-wire-field, .ds-hero-wire, .ds-hero", yPad: 8 },
+      { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
+      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
+    ],
   },
 ];
 
 async function shot(page: Page, name: string): Promise<void> {
-  const path = resolve(OUT, `${name}.png`);
-  await page.screenshot({ path, type: "png" });
+  const png = resolve(OUT, `${name}.png`);
+  const webp = resolve(OUT, `${name}.webp`);
+  await page.screenshot({ path: png, type: "png" });
+  const maxw = webpWidthFor(name);
+  const r = spawnSync(
+    "ffmpeg",
+    [
+      "-y",
+      "-hide_banner",
+      "-loglevel",
+      "error",
+      "-i",
+      png,
+      "-vf",
+      `scale='min(${maxw},iw)':-2:flags=lanczos`,
+      "-c:v",
+      "libwebp",
+      "-quality",
+      "78",
+      "-compression_level",
+      "6",
+      webp,
+    ],
+    { encoding: "utf8" },
+  );
+  if (r.status !== 0) throw new Error(r.stderr || `webp ${name}`);
+  unlinkSync(png);
   if (existsSync(ARTIFACTS)) {
     try {
-      copyFileSync(path, resolve(ARTIFACTS, `readme-${name}.png`));
+      copyFileSync(webp, resolve(ARTIFACTS, `readme-${name}.webp`));
     } catch {
       /* best-effort */
     }
   }
-  console.log(`[readme-shots] ${name}`);
+  console.log(`[readme-shots] ${name}.webp @${maxw}w`);
 }
 
 async function scrollTo(page: Page, sel: string, yPad: number): Promise<boolean> {
@@ -130,7 +191,7 @@ async function main(): Promise<void> {
   const page = await context.newPage();
 
   // ——— Showcase gallery (live app) ———
-  await page.goto(`${BASE}/showcase`, { waitUntil: "networkidle", timeout: 60_000 });
+  await page.goto(`${BASE}/showcase`, { waitUntil: "domcontentloaded", timeout: 60_000 });
   await page.waitForSelector('[data-testid="showcase-featured-preview"][data-ready="true"]', {
     timeout: 45_000,
   });
@@ -147,11 +208,11 @@ async function main(): Promise<void> {
   // ——— Full-bleed template craft ———
   for (const t of pages) {
     await page.goto(`http://127.0.0.1:4323/${t.key}`, {
-      waitUntil: "networkidle",
+      waitUntil: "domcontentloaded",
       timeout: 30_000,
     });
     await page.waitForSelector(".ds-hero, h1, [data-sitekind]", { timeout: 20_000 });
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(500);
 
     for (const beat of t.beats) {
       if (beat.id === "fold") {

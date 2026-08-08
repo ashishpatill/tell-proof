@@ -77,9 +77,12 @@ function sectionHead(section: SectionSpec, headingLevel: 2 | 3 = 2, spread = fal
 
 function actions(section: SectionSpec, variant: "hero" | "band" = "hero"): string {
   if (!section.ctaLabel) return "";
+  // Prefer #features (always on marketing skeletons). Mechanism pages that expose a figure section
+  // use nav "How it works" → #figure; secondary still lands on a real id.
+  const secondary = "#features";
   return `<div class="ds-actions${variant === "hero" ? " ds-hero-actions" : ""}">
     <a class="ds-btn ds-btn-primary" href="#cta">${esc(section.ctaLabel)}</a>
-    ${section.secondaryLabel ? `<a class="ds-btn ds-btn-secondary" href="#features">${esc(section.secondaryLabel)}</a>` : ""}
+    ${section.secondaryLabel ? `<a class="ds-btn ds-btn-secondary" href="${secondary}">${esc(section.secondaryLabel)}</a>` : ""}
     ${section.ctaNote ? `<span class="ds-cta-note">${esc(section.ctaNote)}</span>` : ""}
   </div>`;
 }
@@ -129,10 +132,17 @@ function figuresFor(spec: DesignSpec): FigurePlan {
 }
 
 /** A figure set against the page, with a caption that says what it is rather than repeating it. */
-function plate(svg: string, caption: string, extraClass = ""): string {
-  if (!svg) return "";
+function plate(drawing: string, caption: string, extraClass = ""): string {
+  if (!drawing) return "";
+  // Interactive HTML flow track — not an SVG plate.
+  if (drawing.includes('data-instrument="flow"')) {
+    return `<figure class="ds-figure ds-flow-figure${extraClass ? ` ${extraClass}` : ""}" data-instrument="flow">
+    ${drawing}
+    ${caption ? `<figcaption class="ds-sr">${esc(caption)}</figcaption>` : ""}
+  </figure>`;
+  }
   return `<figure class="ds-plate${extraClass ? ` ${extraClass}` : ""}">
-    ${svg}
+    ${drawing}
     ${caption ? `<figcaption>${esc(caption)}</figcaption>` : ""}
   </figure>`;
 }
@@ -219,13 +229,15 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
 
   if (section.layout === "hero-statement") {
     /*
-     * SaaS/fintech: figure first, claim overlaid on a soft gradient.
-     * Studio/consumer: *stack fold* — opaque claim band in document flow, then the labeled
-     * figure. Never absolutely park stage labels under readable type (Fieldmark collision).
-     * Plumbing matches opaque sticky nav: underlayer ink must not share the type's box.
+     * Stack fold is the default for labeled product figures (saas/fintech/dashboard/studio/
+     * consumer). Absolute overfigure parked display + CTAs on top of SVG chrome (Fieldmark-class
+     * collision) — 100k+ px of measured overlap on Northstar alone. Opaque claim band in document
+     * flow, then the figure. Soft-gradient overclaim is reserved only when the underlayer has no
+     * competing ink (rare).
      */
     const solidClaim =
-      spec.brief.siteKind === "art-directed-studio" || spec.brief.siteKind === "consumer-craft";
+      spec.brief.siteKind === "art-directed-studio" ||
+      spec.brief.siteKind === "consumer-craft";
     if (solidClaim) {
       return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-stackfold ds-hero-solidclaim" data-surface="${section.surface}" data-section="${esc(section.id)}">
       <div class="ds-hero-overclaim ds-hero-claimband"><div class="ds-wrap-wide">${copy}</div></div>
@@ -547,6 +559,149 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     </section>`;
   }
 
+  /*
+   * Pipeline fold — SaaS-marketing signature.
+   * Sticky stage rail + split fold: claim left, pipeline board right (fills the viewport).
+   * Never a tall left-only claim band with the board shoved below the fold.
+   */
+  if (section.layout === "hero-pipeline") {
+    const board = figures.hero
+      ? `<figure class="ds-pipeline-board" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const stages = (section.blocks.length ? section.blocks : section.aside).slice(0, 5);
+    const rail = `<nav class="ds-stage-rail" data-rail="stage" aria-label="Pipeline stages"><ol>${stages
+      .map((b, i) => {
+        const live = i === 0;
+        return `<li><button type="button" class="ds-stage-chip${live ? " is-live" : ""}" data-rail-step="${i}" data-rail-label="${esc(b.title)}" aria-pressed="${live ? "true" : "false"}"><span class="ds-stage-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-stage-label">${esc(b.title)}</span></button></li>`;
+      })
+      .join("")}</ol></nav>
+      <p class="ds-rail-caption ds-wrap-wide" data-rail-caption>${esc(stages[0]?.title ?? "")}</p>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-pipeline" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      <div class="ds-wrap-wide ds-pipeline-fold">
+        <div class="ds-pipeline-claim">${copy}</div>
+        <div class="ds-pipeline-field">${board}</div>
+      </div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Queue fold — dashboard-webapp signature.
+   * Sticky priority rail + split fold: claim left, operator console right. App shell remains below.
+   */
+  if (section.layout === "hero-queue") {
+    const consoleFig = figures.hero
+      ? `<figure class="ds-queue-console" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const ranks = (section.blocks.length ? section.blocks : section.aside).slice(0, 6);
+    const rail = `<nav class="ds-priority-rail" data-rail="priority" aria-label="Priority queue"><ol>${ranks
+      .map((b, i) => {
+        const live = i === 0;
+        return `<li><button type="button" class="ds-priority-chip${live ? " is-live" : ""}" data-rail-step="${i}" data-rail-label="${esc(b.title)}" data-view="${esc(b.title)}" aria-pressed="${live ? "true" : "false"}"><span class="ds-priority-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-priority-label">${esc(b.title)}</span></button></li>`;
+      })
+      .join("")}</ol></nav>
+      <p class="ds-rail-caption ds-wrap-wide" data-rail-caption>${esc(ranks[0]?.title ?? "")}</p>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-queue" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      <div class="ds-wrap-wide ds-queue-fold">
+        <div class="ds-queue-claim">${copy}</div>
+        <div class="ds-queue-field">${consoleFig}</div>
+      </div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Diligence fold — corporate-story signature.
+   * Sticky principle spine + split fold: claim left, posture grid right. Paper-led (not foundry inverse).
+   */
+  if (section.layout === "hero-diligence") {
+    const grid = figures.hero
+      ? `<figure class="ds-posture-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const principles = (section.aside.length ? section.aside : section.blocks).slice(0, 5);
+    const spine = `<aside class="ds-principle-spine" aria-hidden="true"><ol>${principles
+      .map((b, i) => `<li class="${i === 0 ? "is-live" : ""}"><span>${String(i + 1).padStart(2, "0")}</span><b>${esc(b.title)}</b></li>`)
+      .join("")}</ol></aside>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-diligence" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${spine}
+      <div class="ds-wrap-wide ds-diligence-fold">
+        <div class="ds-diligence-claim">${copy}</div>
+        <div class="ds-diligence-field">${grid}</div>
+      </div>
+      <div class="ds-measure-rule" aria-hidden="true"></div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Mechanism fold — docs-educational signature.
+   * Scrub instrument owns the fold (stage list + range + mechanism plate). Not buried mid-page.
+   */
+  if (section.layout === "hero-mechanism") {
+    const steps = (section.aside.length ? section.aside : section.blocks).slice(0, 4);
+    const mid = Math.min(1, Math.max(0, steps.length - 1));
+    const plateFig = figures.hero
+      ? `<figure class="ds-mechanism-plate" data-instrument="scrub" aria-label="${esc(caption)}">${figures.hero}
+          <label class="ds-scrub"><span class="ds-caption">Step through the mechanism</span>
+            <input type="range" min="0" max="${Math.max(0, steps.length - 1)}" value="${mid}" data-scrub aria-label="Step through the mechanism" />
+          </label>
+          <figcaption data-scrub-caption>${esc(steps[mid]?.title ?? caption)}</figcaption>
+        </figure>`
+      : "";
+    const list = `<ol class="ds-figure-steps ds-mechanism-steps">${steps
+      .map(
+        (s, i) =>
+          `<li data-step="${i}" class="${i === mid ? "is-active" : ""}" role="button" tabindex="0"><strong>${esc(s.title)}</strong>${
+            s.body ? `<span> — ${esc(s.body)}</span>` : ""
+          }</li>`,
+      )
+      .join("")}</ol>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-mechanism" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      <div class="ds-wrap-wide ds-mechanism-fold">
+        <div class="ds-mechanism-claim">${copy}
+          <div class="ds-mechanism-legend">
+            <p class="ds-eyebrow">The scrub</p>
+            ${list}
+          </div>
+        </div>
+        <div class="ds-mechanism-stage">${plateFig}</div>
+      </div>
+    </section>`;
+  }
+
+  /*
+   * Wire fold — fintech-marketing signature.
+   * Sticky cutoff rail + split fold: claim left, wire ledger right + tolerance strip.
+   */
+  if (section.layout === "hero-wire") {
+    const ledger = figures.hero
+      ? `<figure class="ds-wire-ledger" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const windows = [
+      { id: "am", label: "09:00", href: "#features" },
+      { id: "noon", label: "12:00", href: "#specimen" },
+      { id: "pm", label: "15:00", href: "#proof" },
+      { id: "eod", label: "17:00", href: "#cta" },
+    ];
+    const rail = `<nav class="ds-cutoff-rail" aria-label="Wire cutoffs"><ol>${windows
+      .map(
+        (w, i) =>
+          `<li><a href="${w.href}" class="ds-cutoff-chip${i === 1 ? " is-live" : ""}" data-cutoff="${w.id}"><span class="ds-cutoff-meta">${String(i + 1).padStart(2, "0")}</span><span class="ds-cutoff-label">${esc(w.label)}</span></a></li>`,
+      )
+      .join("")}</ol></nav>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-wire" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      <div class="ds-wrap-wide ds-wire-fold">
+        <div class="ds-wire-claim">${copy}</div>
+        <div class="ds-wire-field">${ledger}</div>
+      </div>
+      <div class="ds-tolerance-strip" aria-hidden="true"><span>Tolerance floor</span><b>±0.4%</b><span>illustrative</span></div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
   if (section.layout === "hero-editorial") {
     /*
      * Stack fold — opaque claim + aside, then the mechanism figure.
@@ -554,6 +709,11 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
      * (Fieldmark-class collision). Educational figures carry readable stage titles;
      * they must not share the type box.
      */
+    const stepTarget = spec.sections.some((s) => s.id === "figure")
+      ? "#figure"
+      : spec.sections.some((s) => s.id === "story")
+        ? "#story"
+        : "#features";
     return `<section id="top" class="ds-section ds-hero ds-hero-spanning ds-hero-stackfold ds-hero-solidclaim" data-surface="${section.surface}" data-section="${esc(section.id)}">
       <div class="ds-hero-overclaim ds-hero-claimband">
         <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "8fr 4fr"))}">
@@ -561,7 +721,10 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
           <aside class="ds-hero-aside">
             <p class="ds-eyebrow">In this page</p>
             <ol class="ds-figure-steps">${section.aside
-              .map((b, i) => `<li${i === 0 ? ' class="is-active"' : ""}>${esc(b.title)}</li>`)
+              .map(
+                (b, i) =>
+                  `<li${i === 0 ? ' class="is-active"' : ""}><a href="${stepTarget}" data-step="${i}">${esc(b.title)}</a></li>`,
+              )
               .join("")}</ol>
           </aside>
         </div>
@@ -861,7 +1024,7 @@ function renderFigure(section: SectionSpec): string {
     .map(
       (p, i) =>
         `<line x1="${p.x.toFixed(1)}" y1="${top}" x2="${p.x.toFixed(1)}" y2="${floor}" stroke="var(--surface-border)" stroke-width="1" opacity="0.35" stroke-dasharray="2 4"/>
-         <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(top - 12).toFixed(1)}" font-size="11" fill="${i === mid ? "var(--c-accent)" : "var(--surface-quiet)"}" text-anchor="middle">${esc(clip(p.title, 14))}</text>`,
+         <text class="ds-fig-mono" x="${p.x.toFixed(1)}" y="${(top - 12).toFixed(1)}" font-size="11" fill="${i === mid ? "var(--c-accent)" : "var(--surface-quiet)"}" text-anchor="middle">${esc(clip(p.title, 18))}</text>`,
     )
     .join("");
 
@@ -1288,14 +1451,16 @@ function renderRange(section: SectionSpec, figures: FigurePlan): string {
 function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
   const cells = section.blocks.slice(0, 5);
   const board = cells.length
-    ? `<ul class="ds-proof-board">${cells
+    ? `<ul class="ds-proof-board" data-proof-board>${cells
         .map((b, i) => {
           const mark = figures.marks[i] ?? "";
           return `<li class="ds-proof-cell${b.emphasis === "lead" ? " is-lead" : ""}">
+            <button type="button" class="ds-proof-hit" data-proof="${esc(b.title)}" aria-pressed="${b.emphasis === "lead" ? "true" : "false"}">
             ${mark ? `<div class="ds-proof-mark" aria-hidden="true">${mark}</div>` : ""}
             <p class="ds-proof-meta">${esc(b.meta ?? b.kicker ?? "")}</p>
             <h3>${esc(b.title)}</h3>
             ${b.body ? `<p>${esc(b.body)}</p>` : ""}
+            </button>
           </li>`;
         })
         .join("")}</ul>`
@@ -1335,7 +1500,13 @@ function renderPlans(section: SectionSpec): string {
               <p class="ds-plan-meta">${esc(b.meta ?? "")}</p>
               <p class="ds-small">${esc(b.body)}</p>
               <ul class="ds-card-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
-              ${b.emphasis === "lead" && section.ctaLabel ? `<a class="ds-btn ds-btn-primary" href="#cta">${esc(section.ctaLabel)}</a>` : ""}
+              ${
+                section.ctaLabel
+                  ? `<a class="ds-btn ${b.emphasis === "lead" ? "ds-btn-primary" : "ds-btn-secondary"}" href="#cta">${esc(
+                      b.emphasis === "lead" ? section.ctaLabel : "Compare plans",
+                    )}</a>`
+                  : ""
+              }
             </li>`,
           )
           .join("")}
@@ -1460,8 +1631,57 @@ function renderCtaBand(section: SectionSpec, figures: FigurePlan, spec?: DesignS
  * The stub version here was three columns of three links, which made the last screen of every
  * generated page weigh about the same as the middle of it.
  */
-function renderFooter(section: SectionSpec): string {
+/**
+ * Footer columns must not look like site links that only jump to #top.
+ * Map evaluate/nav labels to real section ids; company/trust labels stay non-interactive text.
+ */
+function footerPointHref(label: string, knownIds: Set<string>, columnTitle: string): string | null {
+  const key = label.trim().toLowerCase();
+  const companyTrust = new Set([
+    "about",
+    "customers",
+    "careers",
+    "press",
+    "contact",
+    "security",
+    "availability",
+    "data handling",
+    "subprocessors",
+    "status",
+  ]);
+  if (companyTrust.has(key)) return null;
+
+  const prefer = (id: string, fallback?: string): string | null => {
+    if (knownIds.has(id)) return `#${id}`;
+    if (fallback && knownIds.has(fallback)) return `#${fallback}`;
+    return null;
+  };
+
+  const map: Record<string, () => string | null> = {
+    "how it works": () => prefer("figure", "features"),
+    "what is included": () => prefer("compare", "features"),
+    questions: () => prefer("faq", "cta"),
+    "security review": () => prefer("proof", "cta"),
+    "talk to us": () => prefer("cta"),
+    sequence: () => prefer("figure", "story"),
+    "why it holds": () => prefer("proof"),
+    workspace: () => prefer("app"),
+    plans: () => prefer("pricing"),
+    included: () => prefer("compare"),
+  };
+  if (map[key]) return map[key]!();
+
+  // Capabilities column: feature names → catalogue
+  if (/^capabilities$/i.test(columnTitle)) return prefer("features");
+  return null;
+}
+
+function renderFooter(section: SectionSpec, spec: DesignSpec): string {
   const year = 2026;
+  const knownIds = new Set(spec.sections.map((s) => s.id));
+  // Closing band always exposes id="cta" even when section.id differs.
+  knownIds.add("cta");
+  knownIds.add("top");
   return `<footer class="ds-footer" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide">
       <div class="ds-footer-grid">
@@ -1474,7 +1694,14 @@ function renderFooter(section: SectionSpec): string {
           .map(
             (b) => `<div class="ds-footer-col">
               <h4>${esc(b.title)}</h4>
-              ${b.points.map((p) => `<a href="#top">${esc(p)}</a>`).join("")}
+              ${b.points
+                .map((p) => {
+                  const href = footerPointHref(p, knownIds, b.title);
+                  return href
+                    ? `<a href="${href}">${esc(p)}</a>`
+                    : `<span class="ds-footer-item">${esc(p)}</span>`;
+                })
+                .join("")}
             </div>`,
           )
           .join("")}
@@ -1507,10 +1734,10 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
     : section.body
       ? `<p class="ds-lede">${esc(section.body)} Each row is a live decision for ${esc(spec.brief.audience)} — state, detail, and age — so this surface stays the source of truth rather than a report you refresh.</p>`
       : "";
-  return `<section class="ds-section ds-app-band" data-surface="${section.surface}" data-section="${esc(section.id)}">
+  return `<section id="${esc(section.id)}" class="ds-section ds-app-band" data-surface="${section.surface}" data-section="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${head}
-      <div class="ds-app">
+      <div class="ds-app" data-app-shell>
         <div class="ds-app-top">
           <span class="ds-wordmark">${esc(section.brandLabel ?? spec.brief.productName)}</span>
           <span class="ds-app-crumbs">workspace / ${esc(section.title.toLowerCase())}</span>
@@ -1519,23 +1746,24 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
         <div class="ds-app-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "260px 1fr"))}">
           <aside class="ds-app-side" aria-label="Workspace navigation">
             <p class="ds-eyebrow">Views</p>
-            <ul class="ds-app-nav">
+            <ul class="ds-app-nav" role="list" data-app-views>
               ${section.aside
                 .map(
                   (b, i) =>
-                    `<li><a href="#${esc(section.id)}"${i === 0 ? ' aria-current="page"' : ""}>${esc(b.title)}</a></li>`,
+                    `<li><button type="button" class="ds-app-nav-item${i === 0 ? " is-current" : ""}" data-view="${esc(b.title)}"${i === 0 ? ' aria-current="page"' : ""}>${esc(b.title)}</button></li>`,
                 )
                 .join("")}
             </ul>
             <p class="ds-eyebrow">Filters</p>
-            <ul class="ds-app-nav">
-              <li><a href="#${esc(section.id)}">Needs a human</a></li>
-              <li><a href="#${esc(section.id)}">Assigned to me</a></li>
-              <li><a href="#${esc(section.id)}">Resolved today</a></li>
+            <ul class="ds-app-nav" role="list" data-app-filters>
+              <li><button type="button" class="ds-app-nav-item" data-filter="now" aria-pressed="false">Needs a human</button></li>
+              <li><button type="button" class="ds-app-nav-item" data-filter="today" aria-pressed="false">Assigned to me</button></li>
+              <li><button type="button" class="ds-app-nav-item" data-filter="queued" aria-pressed="false">Resolved today</button></li>
             </ul>
           </aside>
           <div class="ds-app-main">
             ${lede}
+            <p class="ds-app-view-label" data-app-view-label>${esc(section.aside[0]?.title ?? "All views")}</p>
             <div class="ds-app-stats">
               ${section.metrics
                 .map(
@@ -1547,12 +1775,12 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
                 )
                 .join("")}
             </div>
-            <table class="ds-table">
+            <table class="ds-table" data-app-table>
               <thead><tr><th scope="col">Item</th><th scope="col">State</th><th scope="col">Detail</th><th scope="col" class="ds-num">Age</th></tr></thead>
               <tbody>
                 ${rows
                   .map(
-                    (b) => `<tr>
+                    (b) => `<tr data-row-view="${esc(b.title)}" data-row-state="${esc((b.kicker ?? "Queued").toLowerCase())}">
                       <th scope="row">${esc(b.title)}</th>
                       <td><span class="ds-pill${b.kicker === "Now" ? " ds-pill-signal" : ""}">${esc(b.kicker ?? "Queued")}</span></td>
                       <td>${esc(b.points[0] ?? b.body ?? b.kicker ?? b.title)}</td>
@@ -1562,7 +1790,7 @@ function renderAppShell(section: SectionSpec, spec: DesignSpec, figures: FigureP
                   .join("")}
               </tbody>
             </table>
-            <div class="ds-empty">
+            <div class="ds-empty" data-app-empty hidden>
               <p class="ds-eyebrow">Nothing else needs you</p>
               <p class="ds-small">Everything outside the filters above is handled automatically. This state is the goal, not an error.</p>
               ${section.ctaLabel ? `<a class="ds-btn ds-btn-secondary" href="#cta">${esc(section.ctaLabel)}</a>` : ""}
@@ -1603,6 +1831,11 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-loom":
     case "hero-voucher":
     case "hero-press":
+    case "hero-pipeline":
+    case "hero-queue":
+    case "hero-diligence":
+    case "hero-mechanism":
+    case "hero-wire":
       return wrapped(renderHero(section, spec, figures));
     case "metric-band":
       return wrapped(renderMetricBand(section, figures, spec));
@@ -1643,7 +1876,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "cta-band":
       return wrapped(renderCtaBand(section, figures, spec));
     case "footer-columns":
-      return renderFooter(section);
+      return renderFooter(section, spec);
     case "app-shell":
       return wrapped(renderAppShell(section, spec, figures));
     default:
@@ -1670,34 +1903,181 @@ function scripts(spec: DesignSpec): string {
   return `<script>
 (function(){
   ${revealJs}
+
   var scrub=document.querySelector('[data-scrub]');
-  if(!scrub) return;
-  var nodes=[].slice.call(document.querySelectorAll('.ds-scrub-node'));
-  var stems=[].slice.call(document.querySelectorAll('.ds-scrub-stem'));
-  var steps=[].slice.call(document.querySelectorAll('.ds-figure-steps [data-step]'));
-  var caption=document.querySelector('[data-scrub-caption]');
-  var base=caption?caption.textContent:'';
-  function paint(v){
-    var idx=Number(v)||0;
-    nodes.forEach(function(n){
-      var active=Number(n.getAttribute('data-step'))===idx;
-      n.setAttribute('r', active ? '6' : '4');
-      n.setAttribute('opacity', active ? '1' : '0.45');
-      n.setAttribute('fill', active ? 'var(--surface-bg)' : 'var(--c-accent)');
-    });
-    stems.forEach(function(s){
-      s.setAttribute('opacity', Number(s.getAttribute('data-step'))===idx ? '1' : '0');
-    });
-    steps.forEach(function(li){
-      li.classList.toggle('is-active', Number(li.getAttribute('data-step'))===idx);
-    });
-    if(caption){
-      var active=steps.filter(function(li){return Number(li.getAttribute('data-step'))===idx})[0];
-      caption.textContent = active ? active.textContent : base;
+  if(scrub){
+    var nodes=[].slice.call(document.querySelectorAll('.ds-scrub-node'));
+    var stems=[].slice.call(document.querySelectorAll('.ds-scrub-stem'));
+    var steps=[].slice.call(document.querySelectorAll('.ds-figure-steps [data-step]'));
+    var caption=document.querySelector('[data-scrub-caption]');
+    var base=caption?caption.textContent:'';
+    function paint(v){
+      var idx=Number(v)||0;
+      nodes.forEach(function(n){
+        var active=Number(n.getAttribute('data-step'))===idx;
+        n.setAttribute('r', active ? '6' : '4');
+        n.setAttribute('opacity', active ? '1' : '0.45');
+        n.setAttribute('fill', active ? 'var(--surface-bg)' : 'var(--c-accent)');
+      });
+      stems.forEach(function(s){
+        s.setAttribute('opacity', Number(s.getAttribute('data-step'))===idx ? '1' : '0');
+      });
+      steps.forEach(function(li){
+        li.classList.toggle('is-active', Number(li.getAttribute('data-step'))===idx);
+      });
+      if(caption){
+        var active=steps.filter(function(li){return Number(li.getAttribute('data-step'))===idx})[0];
+        if(active){
+          var strong=active.querySelector('strong');
+          caption.textContent = strong ? strong.textContent : active.textContent;
+        } else {
+          caption.textContent = base;
+        }
+      }
     }
+    scrub.addEventListener('input', function(){ paint(scrub.value); });
+    function go(idx){
+      scrub.value=String(idx);
+      paint(scrub.value);
+    }
+    steps.forEach(function(li){
+      li.setAttribute('role','button');
+      li.setAttribute('tabindex','0');
+      li.style.cursor='pointer';
+      li.addEventListener('click', function(){ go(li.getAttribute('data-step')); });
+      li.addEventListener('keydown', function(e){
+        if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(li.getAttribute('data-step')); }
+      });
+    });
+    nodes.forEach(function(n){
+      n.style.cursor='pointer';
+      n.addEventListener('click', function(){ go(n.getAttribute('data-step')); });
+    });
+    paint(scrub.value);
   }
-  scrub.addEventListener('input', function(){ paint(scrub.value); });
-  paint(scrub.value);
+
+  [].slice.call(document.querySelectorAll('.ds-flow-track')).forEach(function(root){
+    var cards=[].slice.call(root.querySelectorAll('.ds-flow-card[data-step]'));
+    var caption=root.querySelector('[data-flow-caption]');
+    function activate(i){
+      cards.forEach(function(el, idx){
+        var on=idx===i;
+        el.classList.toggle('is-live', on);
+        el.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      if(caption){
+        var live=cards[i];
+        caption.textContent=live ? (live.getAttribute('data-label') || (live.querySelector('.ds-flow-title')||{}).textContent || '') : '';
+      }
+    }
+    cards.forEach(function(el, i){
+      el.addEventListener('click', function(){ activate(i); });
+    });
+    var initial=cards.findIndex(function(el){ return el.classList.contains('is-live'); });
+    activate(initial >= 0 ? initial : 0);
+  });
+
+  function setAppView(shell, view){
+    if(!shell || !view) return;
+    var nav=[].slice.call(shell.querySelectorAll('[data-app-views] [data-view]'));
+    var filters=[].slice.call(shell.querySelectorAll('[data-app-filters] [data-filter]'));
+    var rows=[].slice.call(shell.querySelectorAll('[data-row-view]'));
+    var label=shell.querySelector('[data-app-view-label]');
+    var empty=shell.querySelector('[data-app-empty]');
+    var activeFilter='all';
+    filters.forEach(function(el){
+      if(el.getAttribute('aria-pressed')==='true') activeFilter=el.getAttribute('data-filter')||'all';
+    });
+    nav.forEach(function(el){
+      var on=el.getAttribute('data-view')===view;
+      el.classList.toggle('is-current', on);
+      if(on) el.setAttribute('aria-current','page');
+      else el.removeAttribute('aria-current');
+    });
+    var visible=0;
+    rows.forEach(function(el){
+      var viewOk=el.getAttribute('data-row-view')===view;
+      var state=(el.getAttribute('data-row-state')||'');
+      var filterOk=activeFilter==='all' || state===activeFilter;
+      var show=viewOk && filterOk;
+      el.hidden=!show;
+      if(show) visible+=1;
+    });
+    if(label) label.textContent=view;
+    if(empty) empty.hidden=visible>0;
+  }
+
+  [].slice.call(document.querySelectorAll('[data-app-shell]')).forEach(function(shell){
+    var nav=[].slice.call(shell.querySelectorAll('[data-app-views] [data-view]'));
+    var filters=[].slice.call(shell.querySelectorAll('[data-app-filters] [data-filter]'));
+    function activeView(){
+      var cur=nav.filter(function(el){ return el.getAttribute('aria-current')==='page'; })[0];
+      return cur ? cur.getAttribute('data-view') : (nav[0] && nav[0].getAttribute('data-view'));
+    }
+    nav.forEach(function(el){
+      el.addEventListener('click', function(){
+        filters.forEach(function(f){ f.classList.remove('is-current'); f.setAttribute('aria-pressed','false'); });
+        setAppView(shell, el.getAttribute('data-view'));
+      });
+    });
+    filters.forEach(function(el){
+      el.addEventListener('click', function(){
+        var on=el.getAttribute('aria-pressed')!=='true';
+        filters.forEach(function(f){
+          var active=on && f===el;
+          f.classList.toggle('is-current', active);
+          f.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+        setAppView(shell, activeView());
+      });
+    });
+    setAppView(shell, activeView());
+  });
+
+  [].slice.call(document.querySelectorAll('[data-rail]')).forEach(function(rail){
+    var chips=[].slice.call(rail.querySelectorAll('[data-rail-step]'));
+    var caption=rail.parentElement && rail.parentElement.querySelector('[data-rail-caption]');
+    chips.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        chips.forEach(function(other){
+          var on=other===chip;
+          other.classList.toggle('is-live', on);
+          other.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        var label=chip.getAttribute('data-rail-label') || '';
+        if(caption) caption.textContent=label;
+        var view=chip.getAttribute('data-view');
+        if(view){
+          var shell=document.querySelector('[data-app-shell]');
+          if(shell){
+            var filters=[].slice.call(shell.querySelectorAll('[data-app-filters] [data-filter]'));
+            filters.forEach(function(f){ f.classList.remove('is-current'); f.setAttribute('aria-pressed','false'); });
+            setAppView(shell, view);
+            var app=document.getElementById('app');
+            if(app && app.scrollIntoView) app.scrollIntoView({ behavior:'smooth', block:'nearest' });
+          }
+        }
+      });
+    });
+  });
+
+  [].slice.call(document.querySelectorAll('[data-proof-board]')).forEach(function(board){
+    var hits=[].slice.call(board.querySelectorAll('[data-proof]'));
+    hits.forEach(function(el){
+      el.addEventListener('click', function(){
+        hits.forEach(function(other){
+          var on=other===el;
+          other.classList.toggle('is-live', on);
+          other.setAttribute('aria-pressed', on ? 'true' : 'false');
+          var cell=other.closest('.ds-proof-cell');
+          if(cell) cell.classList.toggle('is-lead', on);
+        });
+        var target=el.getAttribute('data-proof');
+        var feature=document.querySelector('[data-feature="'+target+'"], [data-feature-id="'+target+'"]');
+        if(feature && feature.scrollIntoView) feature.scrollIntoView({ behavior:'smooth', block:'nearest' });
+      });
+    });
+  });
 })();
 </script>`;
 }

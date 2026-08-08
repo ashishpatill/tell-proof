@@ -11,9 +11,15 @@ loadEnvConfig(tellRoot);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@tell/schema", "@tell/taste", "@tell/redesign", "@tell/core", "@tell/design-skills"],
+  modularizeImports: {
+    "lucide-react": {
+      transform: "lucide-react/dist/esm/icons/{{kebabCase member}}",
+    },
+  },
   experimental: {
     // Playwright must stay external so Next does not try to bundle browser binaries.
     serverComponentsExternalPackages: ["playwright", "playwright-core"],
+    optimizePackageImports: ["lucide-react"],
   },
   webpack: (config, { isServer }) => {
     if (isServer) {

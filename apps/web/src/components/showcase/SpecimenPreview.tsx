@@ -13,7 +13,10 @@ export type PreviewMode = "still" | "cinema";
 export type { SpecimenBeat, SpecimenPrefer };
 
 type SpecimenPreviewProps = {
-  html: string;
+  /** Inline HTML (srcDoc). Prefer `src` for gallery/nav so pages stay small. */
+  html?: string;
+  /** Iframe URL — preferred for showcase (lazy + cacheable). */
+  src?: string;
   title: string;
   designWidth?: number;
   designHeight?: number;
@@ -25,10 +28,17 @@ type SpecimenPreviewProps = {
   /** Prefer this beat family when picking the still frame. */
   prefer?: SpecimenPrefer;
   /**
-   * When true (default for decorative cinema), play the reel while the frame is in view —
-   * not only on hover. Featured cinema always plays when visible.
+   * When true, play the reel while the frame is in view (featured hero only).
+   * Template filmstrip cells default to false — play on hover only.
    */
   autoplayInView?: boolean;
+  /** Dwell ms between cinema beats when autoplaying (featured should be slow). */
+  dwellMs?: number;
+  /**
+   * Defer attaching iframe src/srcDoc until near the viewport (default true when `src` is set).
+   * Keeps the gallery from parsing 14×200KB documents on first paint.
+   */
+  lazy?: boolean;
 };
 
 /**
@@ -37,6 +47,7 @@ type SpecimenPreviewProps = {
  */
 export function SpecimenPreview({
   html,
+  src,
   title,
   designWidth = 1440,
   designHeight = 900,
@@ -45,7 +56,9 @@ export function SpecimenPreview({
   decorative = false,
   mode = "still",
   prefer = "auto",
-  autoplayInView,
+  autoplayInView = false,
+  dwellMs,
+  lazy,
 }: SpecimenPreviewProps) {
   const frameRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -54,14 +67,41 @@ export function SpecimenPreview({
   const [beats, setBeats] = useState<SpecimenBeat[]>([]);
   const [active, setActive] = useState(0);
   const [hovering, setHovering] = useState(false);
-  const [inView, setInView] = useState(() => mode === "cinema" && !decorative);
+  const [inView, setInView] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const lazyDefault = Boolean(src) && html == null;
+  const lazyLoad = lazy ?? lazyDefault;
+  const [shouldLoad, setShouldLoad] = useState(!lazyLoad);
 
-  const playInView = autoplayInView ?? (mode === "cinema" || decorative);
+  const playInView = autoplayInView;
+  const gapMs = dwellMs ?? (playInView ? 4200 : 1600);
+  const firstDwellMs = playInView ? Math.max(gapMs, 3600) : 500;
+  const docKey = src ?? html ?? "";
 
   useEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
+
+  useEffect(() => {
+    if (!lazyLoad || shouldLoad) return;
+    const el = frameRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setShouldLoad(true);
+        }
+      },
+      { rootMargin: "240px 0px", threshold: 0.01 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [lazyLoad, shouldLoad]);
+
+  // Hover can force-load a filmstrip cell before it scrolls into the rootMargin.
+  useEffect(() => {
+    if (hovering && lazyLoad && !shouldLoad) setShouldLoad(true);
+  }, [hovering, lazyLoad, shouldLoad]);
 
   useEffect(() => {
     const el = frameRef.current;
@@ -92,6 +132,7 @@ export function SpecimenPreview({
   }, [playInView]);
 
   useEffect(() => {
+    if (!shouldLoad) return;
     const iframe = iframeRef.current;
     if (!iframe) return;
 
@@ -114,6 +155,10 @@ export function SpecimenPreview({
           .ds-taxon-rail{display:none!important}
           .ds-sig-rail{display:none!important}
           .ds-press-regs{display:none!important}
+          .ds-stage-rail{display:none!important}
+          .ds-priority-rail{display:none!important}
+          .ds-cutoff-rail{display:none!important}
+          .ds-principle-spine{display:none!important}
           html{scroll-padding-top:0!important}
         `;
         doc.head.appendChild(style);
@@ -130,16 +175,18 @@ export function SpecimenPreview({
     };
 
     iframe.addEventListener("load", onLoad);
-    if (iframe.contentDocument?.readyState === "complete") onLoad();
+    if (iframe.contentDocument?.readyState === "complete" && iframe.contentDocument.body?.childNodes.length) {
+      onLoad();
+    }
     return () => iframe.removeEventListener("load", onLoad);
-  }, [html, prefer]);
+  }, [docKey, prefer, shouldLoad]);
 
   const cinemaOn =
     mode === "cinema"
       ? playInView
         ? inView || hovering
-        : true
-      : decorative && (hovering || (playInView && inView));
+        : hovering
+      : decorative && hovering;
 
   useEffect(() => {
     if (!cinemaOn || reducedMotion || beats.length < 2) return;
@@ -155,16 +202,16 @@ export function SpecimenPreview({
       indexRef.current = next;
       setActive(next);
       win.scrollTo({ top: beats[next]!.y, left: 0, behavior: "smooth" });
-      timer = setTimeout(step, decorative ? 1600 : 2200);
+      timer = setTimeout(step, gapMs);
     };
 
-    // Featured cinema: longer first dwell so the craft beat reads before the reel advances.
-    timer = setTimeout(step, decorative ? 600 : 2800);
+    // Featured autoplay: long first dwell so the craft beat reads before advancing.
+    timer = setTimeout(step, firstDwellMs);
     return () => {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [cinemaOn, reducedMotion, beats, decorative]);
+  }, [cinemaOn, reducedMotion, beats, gapMs, firstDwellMs]);
 
   const ready = scale !== null && scale > 0;
   const style = {
@@ -173,24 +220,40 @@ export function SpecimenPreview({
     ["--sx-design-h"]: `${designHeight}px`,
   } as CSSProperties;
 
-  const showBeats = beats.length > 1 && (mode === "cinema" || (decorative && cinemaOn));
+  // Filmstrip: show reel chrome while hovering (or always for featured autoplay cinema).
+  const showBeats =
+    beats.length > 1 &&
+    mode === "cinema" &&
+    (playInView || hovering || cinemaOn);
 
   return (
     <div
       ref={frameRef}
       className={className}
       data-testid={testId}
-      data-ready={ready ? "true" : "false"}
+      data-ready={ready && shouldLoad ? "true" : "false"}
       data-mode={mode}
       data-beat={beats[active]?.id ?? ""}
       data-playing={cinemaOn && !reducedMotion ? "true" : "false"}
+      data-lazy={lazyLoad && !shouldLoad ? "pending" : "loaded"}
       style={style}
       aria-hidden={decorative || undefined}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
       <div className="sx-scale-surface">
-        <iframe ref={iframeRef} title={decorative ? "" : title} srcDoc={html} tabIndex={-1} />
+        {shouldLoad ? (
+          <iframe
+            ref={iframeRef}
+            title={decorative ? "" : title}
+            src={src || undefined}
+            srcDoc={src ? undefined : html}
+            tabIndex={-1}
+            loading="lazy"
+          />
+        ) : (
+          <div className="sx-preview-skeleton" aria-hidden="true" />
+        )}
       </div>
       {showBeats ? (
         <div className="sx-beats" aria-hidden="true">

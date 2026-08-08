@@ -89,6 +89,31 @@ export function detectFindings(
     }));
   }
 
+  /*
+   * BoilerplateCopyTell — shared AI-marketing proof titles / sequence headlines that survive
+   * token restyles. Scans snapshot text so a density slider cannot hide them.
+   */
+  {
+    const hay = capture.snapshotHtml ?? "";
+    const patterns: Array<{ id: string; re: RegExp; label: string }> = [
+      { id: "holds-under-review", re: /holds under review/i, label: "Shared proof title 'holds under review'" },
+      { id: "order-things-happen", re: /the order things happen in/i, label: "Shared sequence headline" },
+      { id: "everything-on-this-page", re: /everything on this page is something .+ does today/i, label: "Shared pull-quote template" },
+    ];
+    const hits = patterns.filter((p) => p.re.test(hay));
+    if (hits.length >= 1) {
+      findings.push(Finding.parse({
+        id: "tell-boilerplate-copy",
+        family: "tell",
+        detector: "BoilerplateCopyTell",
+        verdictHint: "generic",
+        severity: hits.length >= 2 ? "high" : "medium",
+        facts: { patterns: hits.map((h) => h.id), count: hits.length },
+        evidence: hits.map((h) => ({ kind: "dom" as const, label: h.label, value: h.id })),
+      }));
+    }
+  }
+
   if (fingerprint.centeredBlockRatio >= 0.7) {
     findings.push(Finding.parse({
       id: "tell-centered-everything",

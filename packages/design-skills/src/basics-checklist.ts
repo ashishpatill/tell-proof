@@ -111,13 +111,120 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "kind-figure",
       spec.brief.siteKind !== "docs-educational"
         || (
-          spec.sections.some((s) => s.kind === "figure")
+          /ds-hero-mechanism/.test(html)
           && /data-instrument="scrub"/.test(html)
-          && /ds-hero-stackfold/.test(html)
-          && /ds-hero-claimband/.test(html)
+          && /data-figure="mechanism-plate"/.test(html)
+          && !/class="[^"]*ds-hero-stackfold/.test(html)
           && !/class="[^"]*ds-hero-overfigure/.test(html)
         ),
-      "Educational offerings use stack fold + scrub figure — never absolute overfigure (CTA/label collisions).",
+      "Educational offerings use mechanism fold + scrub on the fold — never shared stackfold skeleton.",
+    ),
+    check(
+      "kind-saas-pipeline",
+      spec.brief.siteKind !== "saas-marketing"
+        || (
+          /ds-hero-pipeline/.test(html)
+          && /ds-stage-rail/.test(html)
+          && /data-figure="pipeline-board"/.test(html)
+          && !/class="[^"]*ds-hero-stackfold/.test(html)
+        ),
+      "SaaS owns a pipeline fold (stage rail + pipeline board) — not the shared stackfold skeleton.",
+    ),
+    check(
+      "kind-fintech-wire",
+      spec.brief.siteKind !== "fintech-marketing"
+        || (
+          /ds-hero-wire/.test(html)
+          && /ds-cutoff-rail/.test(html)
+          && /data-figure="wire-ledger"/.test(html)
+          && /ds-tolerance-strip/.test(html)
+          && !/class="[^"]*ds-hero-stackfold/.test(html)
+        ),
+      "Fintech owns a wire fold (cutoff rail + wire ledger) — not SaaS stackfold with extra inverse bands.",
+    ),
+    check(
+      "kind-dashboard-queue",
+      spec.brief.siteKind !== "dashboard-webapp"
+        || (
+          /ds-hero-queue/.test(html)
+          && /ds-priority-rail/.test(html)
+          && /data-figure="queue-console"/.test(html)
+          && /id="app"/.test(html)
+          && !/class="[^"]*ds-hero-stackfold/.test(html)
+        ),
+      "Dashboard owns a queue fold + app shell — not stackfold flow cards pretending to be unique.",
+    ),
+    check(
+      "kind-corporate-diligence",
+      spec.brief.siteKind !== "corporate-story"
+        || (
+          /ds-hero-diligence/.test(html)
+          && /ds-principle-spine/.test(html)
+          && /data-figure="posture-grid"/.test(html)
+          && /ds-measure-rule/.test(html)
+          && !/class="[^"]*ds-hero-stackfold/.test(html)
+        ),
+      "Corporate owns a diligence fold (principle spine + posture grid) — not editorial stackfold.",
+    ),
+    check(
+      "kind-app-id",
+      spec.brief.siteKind !== "dashboard-webapp" || /id="app"/.test(html),
+      "Dashboard app shell exposes id=app so Workspace nav has a real scroll target.",
+    ),
+    check(
+      "kind-app-sidebar-interactive",
+      spec.brief.siteKind !== "dashboard-webapp" ||
+        (
+          /ds-app-nav-item[^>]*data-view=/.test(html) &&
+          /data-app-shell/.test(html) &&
+          /setAppView\(shell/.test(html) &&
+          !/<a[^>]*class="[^"]*ds-app-nav-item/.test(html)
+        ),
+      "Dashboard sidebar views/filters must be real buttons that filter the table — not faux #app scroll links.",
+    ),
+    check(
+      "kind-priority-rail-interactive",
+      spec.brief.siteKind !== "dashboard-webapp" ||
+        (
+          /ds-priority-chip[^>]*data-rail-step=/.test(html) &&
+          /data-rail="priority"/.test(html) &&
+          !/<a[^>]*class="[^"]*ds-priority-chip/.test(html)
+        ),
+      "Dashboard priority rail chips must be buttons that select a view — never dead hash links.",
+    ),
+    check(
+      "no-footer-top-spam",
+      !/<footer[\s\S]*?<a href="#top">/.test(html),
+      "Footer links must target real sections (or be plain text) — never mass-link to #top. Brand wordmark → #top is fine.",
+    ),
+    check(
+      "no-boilerplate-proof-title",
+      !/holds under review/i.test(html),
+      "Proof titles must be siteKind-specific — never the shared 'holds under review' spam across offerings.",
+    ),
+    check(
+      "flow-band-interactive",
+      !/data-figure="flow"/.test(html) ||
+        (
+          /ds-flow-card[^>]*data-step=/.test(html) &&
+          /data-flow-caption/.test(html) &&
+          /\.ds-flow-track/.test(html) &&
+          !/<svg[^>]*data-figure="flow"/.test(html)
+        ),
+      "Flow stages must be HTML buttons with live state — never dead SVG shells that invite clicks.",
+    ),
+    check(
+      "flow-band-has-matter",
+      !/data-figure="flow"/.test(html) ||
+        ((html.match(/ds-flow-title/g) || []).length >= 2 &&
+          ((html.match(/ds-flow-body/g) || []).length >= 1 || (html.match(/ds-flow-meta/g) || []).length >= 1 || (html.match(/data-label=/g) || []).length >= 2)),
+      "Flow stage cards must carry title + body matter — never ordinal shells with empty airways.",
+    ),
+    check(
+      "scrub-steps-clickable",
+      !/data-instrument="scrub"/.test(html) ||
+        (/data-scrub/.test(html) && /go\(li\.getAttribute\('data-step'\)\)/.test(html)),
+      "Educational scrub stage list must drive the range input — dead list items fail the human click test.",
     ),
     check(
       "kind-studio",
@@ -301,9 +408,24 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         if (kind === "field-guide") {
           return /ds-press-plate/.test(html) && /ds-hero-glassine/.test(html);
         }
+        if (kind === "saas-marketing") {
+          return /ds-pipeline-fold/.test(html) && /ds-pipeline-field/.test(html) && /ds-hero-pipeline/.test(html);
+        }
+        if (kind === "dashboard-webapp") {
+          return /ds-queue-fold/.test(html) && /ds-queue-field/.test(html) && /ds-hero-queue/.test(html);
+        }
+        if (kind === "corporate-story") {
+          return /ds-diligence-fold/.test(html) && /ds-diligence-field/.test(html) && /ds-hero-diligence/.test(html);
+        }
+        if (kind === "docs-educational") {
+          return /ds-mechanism-fold/.test(html) && /ds-mechanism-stage/.test(html) && /ds-hero-mechanism/.test(html);
+        }
+        if (kind === "fintech-marketing") {
+          return /ds-wire-fold/.test(html) && /ds-wire-field/.test(html) && /ds-hero-wire/.test(html);
+        }
         return true;
       })(),
-      "Unique craft figures hang under a compact claim so the forme/plate/ledger owns the fold — not a shouty claim stack.",
+      "Unique craft figures sit beside the claim in a split fold — never a tall left-only claim with an empty right half.",
     ),
     check(
       "solid-claim-when-labeled-fold",

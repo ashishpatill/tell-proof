@@ -107,7 +107,12 @@ export type FigureKind =
   | "index-ledger"
   | "loom-weave"
   | "specimen-plate"
-  | "press-sheet";
+  | "press-sheet"
+  | "pipeline-board"
+  | "queue-console"
+  | "posture-grid"
+  | "mechanism-plate"
+  | "wire-ledger";
 
 interface FrameOptions {
   /** Named for a screen reader; omit to mark the figure decorative. */
@@ -557,86 +562,47 @@ export function seriesChart(label: string, periods: string[], seed: string, role
 /**
  * The steps of the argument as connected stages, numbered, with the pivot marked.
  *
- * In band role this drawing is the whole screen, so the stages carry what the stage actually says
- * rather than a title over reserved empty space. The card height is measured from the copy each
- * stage has: a stage with two points is taller than a stage with none, and neither leaves a gap
- * where a reader expects something to be.
+ * HTML buttons — never dead SVG shells that invite clicks. Selecting a stage updates
+ * aria-pressed + caption via the shared preview script.
  */
 export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "plate"): string {
   const items = steps.slice(0, 4);
   if (items.length < 2) return "";
   const band = role === "band";
-  const W = band ? 1200 : 720;
-  const gap = band ? 40 : 26;
-  const nodeW = (W - 8 - gap * (items.length - 1)) / items.length;
-  const top = band ? 72 : 44;
   const pivot = Math.min(items.length - 1, 1);
-  const parts: string[] = [];
-
-  /*
-   * Band role is the quiet screen — titles + ordinals only. Capability bodies in stage cards
-   * flattened section-weight variation by filling the specimen beat with paragraph characters.
-   * Plate role stays compact: name + meta, no body prose.
-   * Tall band H fills stackfold min-height so the fold does not letterbox empty airways under stages.
-   */
-  const nodeH = band ? 420 : 104;
-  const H = band ? top + nodeH + 56 : 216;
-
-  if (!band) {
-    parts.push(text("Sequence", 4, 16, { size: FT.micro, fill: QUIET, mono: true, track: 0.8 }));
-  }
-
-  items.forEach((b, i) => {
-    const x = 4 + i * (nodeW + gap);
-    const lead = i === pivot;
-    parts.push(
-      box(x + 0.5, top + 0.5, nodeW - 1, nodeH - 1, {
-        r: 8,
-        fill: lead ? ACCENT_FIELD : PAPER,
-        stroke: lead ? "var(--c-accent-border)" : LINE,
-      }),
-    );
-
-    if (band) {
-      const nameLines = wrap(b.title, Math.max(9, Math.round(nodeW / 15)), 3);
-      parts.push(text(String(i + 1).padStart(2, "0"), x + 24, top + 110, { size: FT.ordinal, fill: lead ? ACCENT : "var(--c-border-strong)", weight: 300 }));
-      parts.push(rule(x + 24, top + 140, x + nodeW - 24, top + 140));
-      nameLines.forEach((ln, j) => {
-        parts.push(text(ln, x + 24, top + 190 + j * 36, { size: FT.lead, fill: INK, weight: 600 }));
-      });
-      if (b.meta) parts.push(text(clip(b.meta, 24), x + 24, top + nodeH - 48, { size: FT.micro, fill: QUIET, mono: true }));
-      const meterY = top + nodeH - 28;
-      const meterW = nodeW - 48;
-      parts.push(box(x + 24, meterY, meterW, 4, { r: 2, fill: LINE }));
-      parts.push(box(x + 24, meterY, meterW * ((i + 1) / items.length), 4, { r: 2, fill: lead ? ACCENT : "var(--c-border-strong)" }));
-    } else {
-      parts.push(text(String(i + 1).padStart(2, "0"), x + 16, top + 28, { size: FT.micro, fill: lead ? ACCENT : QUIET, mono: true, track: 0.8 }));
-      parts.push(text(clip(b.title, 20), x + 16, top + 56, { size: FT.small, fill: INK, weight: 600 }));
-      if (b.meta) parts.push(text(clip(b.meta, 24), x + 16, top + 80, { size: FT.micro, fill: QUIET, mono: true }));
-    }
-
-    if (i < items.length - 1) {
-      const cx = x + nodeW;
-      const cy = top + nodeH / 2;
-      parts.push(rule(cx + 5, cy, cx + gap - 11, cy, LINE));
-      parts.push(
-        `<path d="M${round(cx + gap - 13)} ${cy - 3.5} L${round(cx + gap - 7)} ${cy} L${round(cx + gap - 13)} ${cy + 3.5}" fill="none" stroke="${LINE}" stroke-width="1"/>`,
-      );
-    }
-  });
-
-  parts.push(rule(4, H - 22, W - 4, H - 22));
-  parts.push(text(clip(`${items.length} stages`, 20), 4, H - 6, { size: FT.micro, fill: QUIET, mono: true, track: 0.6 }));
   void seed;
-  return frame(parts.join(""), {
-    width: W,
-    height: H,
-    kind: "flow",
-    inset: band ? BLEED_INSET : 0,
-    // Band plates are forced tall for fold coverage — stretch so stages fill the airways.
-    stretch: band,
-    label: `Sequence: ${items.map((b) => b.title).join(", ")}`,
-  });
+
+  const cards = items
+    .map((b, i) => {
+      const lead = i === pivot;
+      const matter =
+        (b.points?.[0] && String(b.points[0])) ||
+        (b.body && String(b.body)) ||
+        (b.meta && !/^0?\d+$/.test(String(b.meta)) ? String(b.meta) : "") ||
+        `What ${b.title.toLowerCase()} covers on this path.`;
+      const body = band
+        ? `<span class="ds-flow-body">${esc(clip(matter, 110))}</span>`
+        : b.meta && !/^0?\d+$/.test(String(b.meta))
+          ? `<span class="ds-flow-meta">${esc(clip(String(b.meta), 28))}</span>`
+          : "";
+      const label = clip(b.body || matter || b.title, 140);
+      return `<li class="ds-flow-item">
+        <button type="button" class="ds-flow-card${lead ? " is-live" : ""}" data-step="${i}" data-label="${esc(label)}" aria-pressed="${lead ? "true" : "false"}">
+          <span class="ds-flow-num">${String(i + 1).padStart(2, "0")}</span>
+          <span class="ds-flow-rule" aria-hidden="true"></span>
+          <strong class="ds-flow-title">${esc(b.title)}</strong>
+          ${body}
+          <span class="ds-flow-meter" aria-hidden="true"><i style="width:${Math.round(((i + 1) / items.length) * 100)}%"></i></span>
+        </button>
+      </li>`;
+    })
+    .join(`<li class="ds-flow-arrow" aria-hidden="true"><span></span></li>`);
+
+  const caption = items[pivot]?.body || items[pivot]?.title || "";
+  return `<div class="ds-flow-track" data-figure="flow" data-dense="ink" data-role="${role}" data-instrument="flow" role="group" aria-label="Sequence: ${esc(items.map((b) => b.title).join(", "))}">
+    <ol class="ds-flow-list">${cards}</ol>
+    <p class="ds-flow-caption"><span class="ds-flow-caption-meta">${items.length} stages</span><span data-flow-caption>${esc(clip(caption, 140))}</span></p>
+  </div>`;
 }
 
 /* ------------------------------------------------------------------ */
@@ -1786,6 +1752,391 @@ export function pressSheet(
 }
 
 /**
+ * Pipeline board — SaaS-marketing fold instrument.
+ * Stage columns with deal nodes and a sticky-rail-friendly ordinal strip. Not interfacePlate.
+ */
+export function pipelineBoard(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const items = features.slice(0, 5);
+  const W = role === "band" ? 1440 : role === "column" ? 720 : 920;
+  const H = role === "band" ? 780 : role === "column" ? 640 : 560;
+  const r = rng(`${seed}:pipeline`);
+  const pad = role === "band" ? W * 0.05 : W * 0.07;
+  const parts: string[] = [];
+  const stages = items.length >= 3 ? items : [
+    { title: "Inbound", body: "Accounts entering the pipe" },
+    { title: "Qualified", body: "Fit scored live" },
+    { title: "Working", body: "Owner + next action" },
+    { title: "Commit", body: "Forecast-ready" },
+  ];
+  const n = Math.min(5, Math.max(3, stages.length));
+  const colW = (W - pad * 2 - 12 * (n - 1)) / n;
+  parts.push(
+    text("PIPELINE", pad, pad + 4, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.2 }),
+  );
+  parts.push(
+    text(clip(productName, 28), W - pad, pad + 4, {
+      size: FIG_MONO_PX,
+      fill: QUIET,
+      mono: true,
+      anchor: "end",
+    }),
+  );
+  for (let i = 0; i < n; i += 1) {
+    const x = pad + i * (colW + 12);
+    const y = pad + 36;
+    const s = stages[i]!;
+    parts.push(box(x, y, colW, H - y - pad - 28, { r: 0, fill: PAPER, stroke: LINE }));
+    parts.push(
+      text(String(i + 1).padStart(2, "0"), x + 14, y + 28, {
+        size: 22,
+        fill: i === 1 ? ACCENT : "var(--c-border-strong)",
+        mono: true,
+        weight: 500,
+      }),
+    );
+    parts.push(text(clip(s.title, 18), x + 14, y + 56, { size: 14, fill: INK, weight: 600 }));
+    const matter = wrap(s.body || s.title, Math.max(10, Math.round(colW / 9)), 3);
+    matter.forEach((ln, j) => {
+      parts.push(text(ln, x + 14, y + 84 + j * 18, { size: FIG_MONO_PX, fill: BODY }));
+    });
+    // Deal nodes
+    const nodeCount = 2 + Math.floor(r() * 3);
+    for (let k = 0; k < nodeCount; k += 1) {
+      const ny = y + 160 + k * 52;
+      if (ny > H - pad - 48) break;
+      const nw = colW - 28;
+      parts.push(box(x + 14, ny, nw, 36, { r: 4, fill: i === 1 ? ACCENT_FIELD : "var(--c-paper-raised)", stroke: LINE }));
+      parts.push(
+        text(clip(`${s.title.split(/\s+/)[0] ?? "Deal"} · ${10 + Math.floor(r() * 80)}k`, 22), x + 24, ny + 22, {
+          size: FIG_MONO_PX,
+          fill: INK,
+          mono: true,
+        }),
+      );
+    }
+    if (i < n - 1) {
+      const cx = x + colW;
+      const cy = y + 48;
+      parts.push(rule(cx + 2, cy, cx + 10, cy, LINE));
+    }
+  }
+  parts.push(rule(pad, H - pad - 10, W - pad, H - pad - 10));
+  parts.push(
+    text(`${n} stages · live pipe`, pad, H - pad + 6, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 0.6 }),
+  );
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "pipeline-board",
+    label: `${productName} pipeline board`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
+ * Queue console — dashboard fold instrument. Dense operator chrome, not flow stage cards.
+ */
+export function queueConsole(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const items = features.slice(0, 6);
+  const W = role === "band" ? 1440 : role === "column" ? 720 : 920;
+  const H = role === "band" ? 760 : role === "column" ? 640 : 540;
+  const r = rng(`${seed}:queue`);
+  const pad = W * 0.04;
+  const parts: string[] = [];
+  const railW = W * 0.18;
+  parts.push(box(pad, pad, railW, H - pad * 2, { r: 0, fill: "var(--c-paper-raised)", stroke: LINE }));
+  parts.push(text("PRIORITY", pad + 16, pad + 28, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1 }));
+  items.forEach((b, i) => {
+    const y = pad + 56 + i * 44;
+    const lead = i === 1;
+    if (lead) parts.push(box(pad + 8, y - 18, railW - 16, 36, { r: 4, fill: ACCENT_FIELD, stroke: "var(--c-accent-border)" }));
+    parts.push(
+      text(String(i + 1).padStart(2, "0"), pad + 16, y, {
+        size: FIG_MONO_PX,
+        fill: lead ? ACCENT : QUIET,
+        mono: true,
+      }),
+    );
+    parts.push(text(clip(b.title, 16), pad + 48, y, { size: 13, fill: INK, weight: lead ? 600 : 500 }));
+    const delta = lead ? "+3" : r() > 0.5 ? "−1" : "0";
+    parts.push(
+      text(delta, pad + railW - 20, y, {
+        size: FIG_MONO_PX,
+        fill: lead ? ACCENT : QUIET,
+        mono: true,
+        anchor: "end",
+      }),
+    );
+  });
+  const mainX = pad + railW + 20;
+  const mainW = W - mainX - pad;
+  parts.push(box(mainX, pad, mainW, H - pad * 2, { r: 0, fill: PAPER, stroke: LINE }));
+  parts.push(text(clip(productName, 24), mainX + 20, pad + 28, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 0.8 }));
+  parts.push(text("Operator console", mainX + 20, pad + 56, { size: 18, fill: INK, weight: 600 }));
+  // Dense rows
+  for (let i = 0; i < 8; i += 1) {
+    const y = pad + 88 + i * 52;
+    if (y > H - pad - 40) break;
+    const feat = items[i % Math.max(1, items.length)]!;
+    parts.push(rule(mainX + 16, y - 12, mainX + mainW - 16, y - 12));
+    parts.push(text(clip(feat.title, 28), mainX + 20, y + 8, { size: 13, fill: INK, weight: 600 }));
+    const sub = wrap(feat.body || feat.title, Math.max(20, Math.round(mainW / 10)), 2);
+    sub.forEach((ln, j) => {
+      parts.push(text(ln, mainX + 20, y + 28 + j * 16, { size: FIG_MONO_PX, fill: BODY }));
+    });
+    parts.push(
+      text(`${40 + Math.floor(r() * 55)}m`, mainX + mainW - 24, y + 8, {
+        size: FIG_MONO_PX,
+        fill: QUIET,
+        mono: true,
+        anchor: "end",
+      }),
+    );
+  }
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "queue-console",
+    label: `${productName} queue console`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
+ * Posture grid — corporate diligence fold. Principles × outcomes matrix, not horizon ticks.
+ */
+export function postureGrid(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const items = features.slice(0, 4);
+  const W = role === "band" ? 1440 : role === "column" ? 680 : 920;
+  const H = role === "band" ? 720 : role === "column" ? 640 : 520;
+  void seed;
+  const pad = W * 0.06;
+  const parts: string[] = [];
+  parts.push(text("DILIGENCE POSTURE", pad, pad + 8, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.4 }));
+  parts.push(
+    text(clip(productName, 32), W - pad, pad + 8, { size: FIG_MONO_PX, fill: QUIET, mono: true, anchor: "end" }),
+  );
+  parts.push(rule(pad, pad + 28, W - pad, pad + 28));
+  const cols = 2;
+  const rows = 2;
+  const gap = 28;
+  const cellW = (W - pad * 2 - gap) / cols;
+  const cellH = (H - pad * 2 - 56 - gap) / rows;
+  items.slice(0, 4).forEach((b, i) => {
+    const c = i % cols;
+    const row = Math.floor(i / cols);
+    const x = pad + c * (cellW + gap);
+    const y = pad + 48 + row * (cellH + gap);
+    parts.push(box(x, y, cellW, cellH, { r: 0, fill: PAPER, stroke: LINE }));
+    parts.push(
+      text(String(i + 1).padStart(2, "0"), x + 20, y + 36, {
+        size: 28,
+        fill: i === 3 ? ACCENT : "var(--c-border-strong)",
+        mono: true,
+        weight: 500,
+      }),
+    );
+    parts.push(text(clip(b.title, 28), x + 20, y + 72, { size: 18, fill: INK, weight: 600 }));
+    const lines = wrap(b.body || b.title, Math.max(18, Math.round(cellW / 11)), 4);
+    lines.forEach((ln, j) => {
+      parts.push(text(ln, x + 20, y + 104 + j * 22, { size: 14, fill: BODY }));
+    });
+    parts.push(rule(x + 20, y + cellH - 36, x + cellW - 20, y + cellH - 36));
+    parts.push(
+      text(b.meta || `Principle ${String(i + 1).padStart(2, "0")}`, x + 20, y + cellH - 16, {
+        size: FIG_MONO_PX,
+        fill: QUIET,
+        mono: true,
+      }),
+    );
+  });
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "posture-grid",
+    label: `${productName} diligence posture`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
+ * Mechanism plate — educational fold instrument (scrub drives stages). Cost-axis stack, not empty flow cards.
+ */
+export function mechanismPlate(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const items = features.slice(0, 4);
+  const W = role === "band" ? 1440 : role === "column" ? 720 : 920;
+  const H = role === "band" ? 700 : role === "column" ? 620 : 520;
+  void seed;
+  const pad = W * 0.06;
+  const parts: string[] = [];
+  parts.push(text("COST · CUMULATIVE", pad, pad + 8, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.2 }));
+  parts.push(
+    text(clip(productName, 28), W - pad, pad + 8, { size: FIG_MONO_PX, fill: QUIET, mono: true, anchor: "end" }),
+  );
+  const axisX = pad + 48;
+  const axisY = pad + 48;
+  const axisH = H - pad * 2 - 80;
+  const axisW = W - pad * 2 - 64;
+  parts.push(rule(axisX, axisY, axisX, axisY + axisH));
+  parts.push(rule(axisX, axisY + axisH, axisX + axisW, axisY + axisH));
+  [100, 70, 40, 10].forEach((v, i) => {
+    const y = axisY + (axisH * i) / 3;
+    parts.push(rule(axisX, y, axisX + axisW, y, "var(--surface-border)"));
+    parts.push(
+      text(String(v), axisX - 12, y + 4, { size: FIG_MONO_PX, fill: QUIET, mono: true, anchor: "end" }),
+    );
+  });
+  const n = Math.max(2, items.length);
+  items.forEach((b, i) => {
+    const x = axisX + ((i + 0.5) / n) * axisW;
+    const y = axisY + axisH * (1 - (0.25 + (i / Math.max(1, n - 1)) * 0.65));
+    if (i > 0) {
+      const px = axisX + ((i - 0.5) / n) * axisW;
+      const py = axisY + axisH * (1 - (0.25 + ((i - 1) / Math.max(1, n - 1)) * 0.65));
+      parts.push(
+        `<path d="M${round(px)} ${round(py)} L${round(x)} ${round(y)}" fill="none" stroke="${ACCENT}" stroke-width="2.5" stroke-linecap="round"/>`,
+      );
+    }
+    const lead = i === 1;
+    parts.push(
+      `<circle cx="${round(x)}" cy="${round(y)}" r="${lead ? 7 : 5}" fill="${lead ? PAPER : ACCENT}" stroke="${ACCENT}" stroke-width="2"/>`,
+    );
+    parts.push(
+      text(clip(b.title, 16), x, axisY - 4, {
+        size: FIG_MONO_PX,
+        fill: lead ? ACCENT : QUIET,
+        mono: true,
+        anchor: "middle",
+      }),
+    );
+    parts.push(
+      text(String(i + 1).padStart(2, "0"), x, axisY + axisH + 22, {
+        size: FIG_MONO_PX,
+        fill: QUIET,
+        mono: true,
+        anchor: "middle",
+      }),
+    );
+  });
+  const active = items[1] ?? items[0];
+  if (active) {
+    parts.push(
+      text(clip(active.body || active.title, 64), axisX + 12, axisY + 28, {
+        size: 13,
+        fill: BODY,
+      }),
+    );
+  }
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "mechanism-plate",
+    label: `${productName} mechanism`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
+ * Wire ledger — fintech fold instrument. Multi-entity ruled ledger with cutoff ticks.
+ */
+export function wireLedger(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const items = features.slice(0, 5);
+  const W = role === "band" ? 1440 : role === "column" ? 720 : 920;
+  const H = role === "band" ? 760 : role === "column" ? 640 : 540;
+  const r = rng(`${seed}:wire`);
+  const pad = W * 0.05;
+  const parts: string[] = [];
+  parts.push(text("WIRE LEDGER", pad, pad + 8, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.4 }));
+  parts.push(
+    text(clip(productName, 28), W - pad, pad + 8, { size: FIG_MONO_PX, fill: QUIET, mono: true, anchor: "end" }),
+  );
+  // Cutoff ticks
+  const cutoffs = ["09:00", "12:00", "15:00", "17:00"];
+  cutoffs.forEach((c, i) => {
+    const x = pad + 80 + i * ((W - pad * 2 - 100) / 3);
+    parts.push(rule(x, pad + 28, x, pad + 48));
+    parts.push(text(c, x, pad + 64, { size: FIG_MONO_PX, fill: QUIET, mono: true, anchor: "middle" }));
+  });
+  parts.push(rule(pad, pad + 80, W - pad, pad + 80));
+  const headers = ["Entity", "Path", "Status", "FX"];
+  const colW = [0.28, 0.32, 0.2, 0.2].map((f) => (W - pad * 2) * f);
+  let hx = pad;
+  headers.forEach((h, i) => {
+    parts.push(text(h, hx + 8, pad + 104, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 0.8 }));
+    hx += colW[i]!;
+  });
+  parts.push(rule(pad, pad + 116, W - pad, pad + 116));
+  items.forEach((b, i) => {
+    const y = pad + 148 + i * 72;
+    const lead = i === 1;
+    if (lead) parts.push(box(pad, y - 28, W - pad * 2, 64, { r: 0, fill: ACCENT_FIELD, stroke: "none" }));
+    let x = pad;
+    const cells = [
+      clip(b.title, 22),
+      clip(b.body || "Same-day path", 28),
+      lead ? "CLEARING" : i === 0 ? "QUEUED" : "POSTED",
+      `${(0.8 + r() * 1.4).toFixed(2)}`,
+    ];
+    cells.forEach((cell, ci) => {
+      parts.push(
+        text(cell, x + 8, y, {
+          size: ci === 0 ? 14 : FIG_MONO_PX,
+          fill: lead && ci === 2 ? ACCENT : INK,
+          weight: ci === 0 ? 600 : 400,
+          mono: ci !== 0,
+        }),
+      );
+      x += colW[ci]!;
+    });
+    parts.push(rule(pad, y + 28, W - pad, y + 28));
+  });
+  parts.push(
+    text("Tolerance ±0.4% · illustrative", pad, H - pad + 4, {
+      size: FIG_MONO_PX,
+      fill: QUIET,
+      mono: true,
+    }),
+  );
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "wire-ledger",
+    label: `${productName} wire ledger`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
  * Loom weave — commerce-loom signature figure.
  *
  * Warp threads + weft SKU cells with copyright-free textile photographs clipped into the weave.
@@ -2231,7 +2582,24 @@ export interface FigurePlan {
   sparks: string[];
 }
 
-type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder" | "dossier-plate" | "signal-lattice" | "index-ledger" | "loom-weave" | "specimen-plate" | "press-sheet";
+type Kind =
+  | "interface"
+  | "series"
+  | "flow"
+  | "stack"
+  | "horizon"
+  | "type-ladder"
+  | "dossier-plate"
+  | "signal-lattice"
+  | "index-ledger"
+  | "loom-weave"
+  | "specimen-plate"
+  | "press-sheet"
+  | "pipeline-board"
+  | "queue-console"
+  | "posture-grid"
+  | "mechanism-plate"
+  | "wire-ledger";
 
 /**
  * Which drawing goes where.
@@ -2246,11 +2614,15 @@ type Kind = "interface" | "series" | "flow" | "stack" | "horizon" | "type-ladder
 const ORDER: Record<string, Kind[]> = {
   "dashboard-webapp": ["series", "flow", "stack", "interface"],
   "corporate-story": ["horizon", "stack", "series", "flow"],
-  "docs-educational": ["flow", "interface", "stack", "series"],
-  "saas-marketing": ["interface", "flow", "series", "stack"],
-  // Money products lead with the working surface and a plotted reading — fintech refs are figure-heavy.
-  "fintech-marketing": ["interface", "series", "flow", "stack"],
-  // Studio folds need a dense composed surface (flow), then a quieter horizon as specimen beat.
+  // Educational: layer stack owns the fold (mechanism), flow stays in body — never twin studio's flow hero.
+  "docs-educational": ["stack", "flow", "interface", "series"],
+  // SaaS: product surface on the fold; series as specimen — not the same band stack as fintech.
+  "saas-marketing": ["interface", "series", "flow", "stack"],
+  // Fintech: horizon cash timeline on the fold (always drawable); interface is the working surface in body.
+  // Series is preferred when metrics carry readings, but must not fall through to twin SaaS interface hero.
+  "fintech-marketing": ["horizon", "series", "interface", "flow"],
+  // Studio: filled flow stages on the fold (selected-work method) — not twin corporate/fintech horizon
+  // or educational stack. Horizon stays available as a quieter specimen beat.
   "art-directed-studio": ["flow", "horizon", "stack", "series"],
   // Consumer craft is product-surface first; horizon specimen stays type-quiet for rhythm.
   "consumer-craft": ["interface", "horizon", "flow", "stack"],
@@ -2282,7 +2654,21 @@ export function planFigures(input: {
 }): FigurePlan {
   const seed = input.productName;
   const periods = ["Q1", "Q2", "Q3", "Q4"];
-  const sequence = input.steps.length >= 2 ? input.steps : input.features;
+  /*
+   * Figure legends are often title+ordinal only (scrub labels). Flow/stack/horizon bands still need
+   * real matter under each stage — merge catalogue bodies by title so cards never ship empty.
+   */
+  const byTitle = new Map(input.features.map((b) => [b.title, b] as const));
+  const fillMatter = (steps: Block[]): Block[] =>
+    steps.map((s) => {
+      const f = byTitle.get(s.title);
+      if (!f) return s;
+      const body = (s.body && s.body.trim()) || f.body || "";
+      const points = s.points?.length ? s.points : f.points ?? [];
+      return body === s.body && points === s.points ? s : { ...s, body, points };
+    });
+  const sequence =
+    input.steps.length >= 2 ? fillMatter(input.steps) : fillMatter(input.features);
 
   const draw = (kind: Kind, role: FigureRole): string => {
     switch (kind) {
@@ -2310,6 +2696,16 @@ export function planFigures(input: {
         return specimenPlate(input.productName, input.features, seed, role);
       case "press-sheet":
         return pressSheet(input.productName, input.features, seed, role);
+      case "pipeline-board":
+        return pipelineBoard(input.productName, input.features, seed, role);
+      case "queue-console":
+        return queueConsole(input.productName, input.features, seed, role);
+      case "posture-grid":
+        return postureGrid(input.productName, input.features, seed, role);
+      case "mechanism-plate":
+        return mechanismPlate(input.productName, input.features, seed, role);
+      case "wire-ledger":
+        return wireLedger(input.productName, input.features, seed, role);
       default:
         return "";
     }
@@ -2363,15 +2759,37 @@ export function planFigures(input: {
                 ? ("specimen-plate" as Kind)
             : input.siteKind === "press-atelier"
               ? ("press-sheet" as Kind)
+            : input.siteKind === "saas-marketing"
+              ? ("pipeline-board" as Kind)
+            : input.siteKind === "dashboard-webapp"
+              ? ("queue-console" as Kind)
+            : input.siteKind === "corporate-story"
+              ? ("posture-grid" as Kind)
+            : input.siteKind === "docs-educational"
+              ? ("mechanism-plate" as Kind)
+            : input.siteKind === "fintech-marketing"
+              ? ("wire-ledger" as Kind)
       : shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;
   const afterHero = order.filter((k) => k !== heroKind);
   const bandKind = shaped(SPANNING, afterHero);
   const remaining = afterHero.filter((k) => k !== bandKind);
   const bodyKind = shaped(COLUMNAR, remaining) ?? remaining[0];
 
-  // Seam fold draws the ladder as a column (half viewport), not a full-bleed band.
-  const heroRole: FigureRole =
-    input.heroLayout === "hero-seam" ? "column" : heroSpans ? "band" : "column";
+  // Seam + first-five marketing folds draw the instrument as a column (half viewport),
+  // never a full-bleed band parked under a tall left-only claim.
+  const columnFold = new Set([
+    "hero-seam",
+    "hero-pipeline",
+    "hero-diligence",
+    "hero-queue",
+    "hero-wire",
+    "hero-mechanism",
+  ]);
+  const heroRole: FigureRole = columnFold.has(input.heroLayout)
+    ? "column"
+    : heroSpans
+      ? "band"
+      : "column";
   const hero = draw(heroKind, heroRole);
   const body = bodyKind ? draw(bodyKind, "plate") : "";
   const band = bandKind ? draw(bandKind, "band") : "";

@@ -113,11 +113,11 @@ function motionCss(motion: MotionLevel): string {
   }
 
   const interactive = `
-a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-plan,.ds-tab{
+a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-tab{
   transition:color var(--m-base) var(--m-ease),background-color var(--m-base) var(--m-ease),border-color var(--m-base) var(--m-ease),transform var(--m-fast) var(--m-ease),opacity var(--m-base) var(--m-ease);
 }
 .ds-btn-primary:hover{background:var(--c-accent-hover)}
-.ds-card-link:hover,.ds-plan:hover{border-color:var(--c-border-strong)}
+.ds-card-link:hover{border-color:var(--c-border-strong)}
 .ds-row-link:hover{background:var(--c-paper-raised)}
 `;
 
@@ -134,7 +134,7 @@ a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-plan,.ds-tab{
   return `${interactive}
 .ds-reveal{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){
-  a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-plan,.ds-tab{transition-duration:0s}
+  a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-tab{transition-duration:0s}
 }
 `;
 }
@@ -188,7 +188,8 @@ function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
 [data-lean="system-crafted"] .ds-index-row:hover{background:var(--c-paper-raised)}
 [data-lean="system-crafted"] .ds-app-top{border-bottom-color:var(--c-accent-border);box-shadow:inset 0 -2px 0 var(--c-accent)}
 [data-lean="system-crafted"] .ds-stat:first-child{border-color:var(--c-accent-border);background:var(--c-accent-surface)}
-[data-lean="system-crafted"] .ds-app-nav a[aria-current="page"]{box-shadow:inset 3px 0 0 var(--c-accent)}
+[data-lean="system-crafted"] .ds-app-nav a[aria-current="page"],
+[data-lean="system-crafted"] .ds-app-nav-item[aria-current="page"]{box-shadow:inset 3px 0 0 var(--c-accent)}
 [data-mood="dark-premium"] .ds-metric:first-child{border-color:var(--c-accent-border);background:var(--accent-soft)}
 [data-mood="dark-premium"] .ds-brand-mark{color:var(--c-accent)}
 [data-mood="dark-premium"] .ds-nav{border-bottom:2px solid var(--c-accent)}
@@ -230,7 +231,38 @@ function siteKindCss(): string {
 [data-sitekind="fintech-marketing"] .ds-metrics-band{box-shadow:inset 0 3px 0 var(--c-accent)}
 [data-sitekind="fintech-marketing"] .ds-metric{min-height:10.5rem}
 [data-sitekind="fintech-marketing"] .ds-proof{padding-block:var(--s-2xl) calc(var(--section-y) * 0.85)}
-[data-sitekind="fintech-marketing"] .ds-hero-overfigure .ds-plate-bleed .ds-fig{min-height:min(94vh,940px)}
+/* Stackfold product surface — was overfigure 94vh that collided with claim type. */
+[data-sitekind="fintech-marketing"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(82vh,860px)}
+[data-sitekind="fintech-marketing"] .ds-hero-stackfold .ds-hero-claimband{padding:var(--s-lg) 0 var(--s-md)}
+[data-sitekind="fintech-marketing"] .ds-hero-stackfold .ds-display{max-width:15ch}
+
+/* SaaS conversion — stackfold product fold; conversion-sharp accent spine; distinct from fintech inverse. */
+[data-sitekind="saas-marketing"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(80vh,840px)}
+[data-sitekind="saas-marketing"] .ds-hero-stackfold .ds-hero-claimband{
+  padding:var(--s-lg) 0 var(--s-md);
+  border-bottom:1px solid color-mix(in srgb,var(--c-accent) 28%,var(--surface-border));
+}
+[data-sitekind="saas-marketing"] .ds-hero-stackfold .ds-display{max-width:16ch;line-height:1.05}
+[data-sitekind="saas-marketing"] .ds-metrics-band{box-shadow:inset 0 2px 0 var(--c-accent)}
+[data-sitekind="saas-marketing"] .ds-proof-board{gap:0}
+[data-sitekind="saas-marketing"] .ds-plan{border-radius:var(--r-md)}
+
+/* Corporate story — editorial stackfold (serif claim), horizon figure below — no overfigure wash. */
+[data-sitekind="corporate-story"] .ds-hero-stackfold .ds-hero-claimband{
+  padding:var(--s-xl) 0 var(--s-lg);
+  background:var(--c-paper);
+}
+[data-sitekind="corporate-story"] .ds-hero-stackfold .ds-display{
+  font-size:clamp(2.4rem,4.2vw,3.75rem);max-width:14ch;line-height:1.08;
+}
+[data-sitekind="corporate-story"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(70vh,720px)}
+[data-sitekind="corporate-story"] .ds-metrics-band{background:var(--c-paper-raised)}
+[data-sitekind="corporate-story"] .ds-hero-aside{border-left:1px solid var(--surface-border);padding-left:var(--s-md)}
+
+/* Dashboard — stackfold claim then flow figure; shell owns mid-page density. */
+[data-sitekind="dashboard-webapp"] .ds-hero-stackfold .ds-hero-claimband{padding:var(--s-lg) 0 var(--s-md)}
+[data-sitekind="dashboard-webapp"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(76vh,780px)}
+[data-sitekind="dashboard-webapp"] .ds-hero-stackfold .ds-display{max-width:12ch}
 /* Studio — stack fold (claim then figure); cool stock, not cream wash. */
 [data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(88vh,900px)}
 /* Compact claim so labeled figure still enters the fold (drawn-matter band). */
@@ -844,16 +876,20 @@ ${surfaceRules()}
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-btn-secondary,
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-btn-ghost,
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-cta-note{display:none}
-[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-aside{display:none}
-[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband .ds-split{grid-template-columns:1fr}
+/* aside shown above — do not hide */
+/* Stackfold stays in document flow — never pull labeled stages under the claim (overlap regression). */
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed{
-  margin-top:calc(var(--s-2xl) * -1.35);margin-bottom:calc(var(--s-lg) * -1);
+  margin-top:0;margin-bottom:0;
   position:relative;z-index:1;
 }
+/* Content-sized figure — never force a stretched empty stage grid to 72vh. */
 [data-sitekind="docs-educational"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{
-  min-height:min(78vh,820px);height:min(78vh,820px);
+  min-height:min(52vh,560px);height:auto;max-height:none;
 }
-[data-sitekind="docs-educational"] .ds-hero{min-height:min(100vh,1040px);padding-block:0.5rem 0;align-content:start}
+/* Show mechanism aside on educational folds — stages are real scroll targets, not dead chrome. */
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-aside{display:block}
+[data-sitekind="docs-educational"] .ds-hero-stackfold .ds-hero-claimband .ds-split{grid-template-columns:minmax(0,7fr) minmax(12rem,4fr)}
+[data-sitekind="docs-educational"] .ds-hero{min-height:0;padding-block:0.5rem 0;align-content:start}
 [data-sitekind="docs-educational"] .ds-hero-aside{
   padding:var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-md);
   background:color-mix(in srgb,var(--c-paper-raised) 88%,transparent);
@@ -900,7 +936,10 @@ ${surfaceRules()}
 [data-sitekind="docs-educational"] .ds-index-row{border-top-color:transparent;border-bottom-color:transparent}
 [data-sitekind="docs-educational"] .ds-index-row:nth-child(3n+1){border-top-color:var(--surface-border)}
 [data-sitekind="docs-educational"] .ds-index-row:last-child{border-bottom-color:transparent}
-[data-sitekind="docs-educational"] .ds-figure-steps li{border:0;padding-block:0.35rem}
+[data-sitekind="docs-educational"] .ds-figure-steps li{border:0;padding-block:0.35rem;cursor:pointer}
+[data-sitekind="docs-educational"] .ds-figure-steps li:hover,
+[data-sitekind="docs-educational"] .ds-figure-steps li:focus-visible{color:var(--surface-ink)}
+[data-sitekind="docs-educational"] .ds-figure-steps li:focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
 [data-sitekind="docs-educational"] .ds-sec-meta{border-top-color:transparent;padding-top:0}
 [data-sitekind="docs-educational"] .ds-hero-facts{border-top-color:transparent}
 [data-sitekind="docs-educational"] .ds-matrix th,
@@ -1132,6 +1171,99 @@ ${surfaceRules()}
 .ds-hero-solidclaim .ds-hero-overclaim .ds-display{max-width:14ch;margin:0.4rem 0 0;padding:0;line-height:1.08}
 .ds-hero-solidclaim .ds-hero-overclaim .ds-lede{max-width:38ch;color:var(--c-ink);margin:0}
 .ds-hero-solidclaim .ds-hero-overclaim .ds-actions{margin-top:0.6rem}
+
+/* First-five marketing fold instruments — unreplicable DOM (not stackfold retunes).
+ * Split folds: claim + instrument share the viewport. Never a tall left-only claim
+ * with the craft figure shoved below the fold (empty right half / empty bottom void). */
+.ds-hero-pipeline{position:relative;isolation:isolate;padding:0;min-height:0;display:flex;flex-direction:column}
+.ds-stage-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background:var(--c-paper);border-bottom:1px solid var(--c-border)}
+.ds-stage-rail ol{list-style:none;margin:0;padding:0 var(--gutter);display:flex;min-height:3.25rem}
+.ds-stage-rail li{flex:1;display:flex}
+.ds-stage-chip{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0.15rem;padding:0.55rem 0.75rem;border:0;border-left:1px solid var(--c-border);border-radius:0;background:transparent;color:var(--c-ink-tertiary);text-decoration:none;font:inherit;font-size:11px;text-align:left;cursor:pointer}
+.ds-stage-rail li:first-child .ds-stage-chip{border-left:0}
+.ds-stage-chip.is-live,.ds-stage-chip:hover,.ds-stage-chip:focus-visible{color:var(--c-accent)}
+.ds-stage-chip:focus-visible{outline:2px solid var(--c-accent);outline-offset:-2px}
+.ds-stage-meta,.ds-stage-label{font-family:var(--f-mono);letter-spacing:0.1em}
+.ds-stage-label{text-transform:uppercase}
+.ds-rail-caption{margin:0;padding:0.35rem var(--gutter) 0;font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0.08em;text-transform:uppercase;color:var(--c-ink-tertiary)}
+.ds-hero-queue .ds-rail-caption{color:color-mix(in oklab,var(--c-paper) 55%,transparent)}
+.ds-pipeline-fold{flex:0 1 auto;display:grid;grid-template-columns:minmax(0,5.5fr) minmax(0,6.5fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:start;padding:var(--s-md) 0 var(--s-xl);min-height:0}
+.ds-pipeline-claim{padding:var(--s-sm) 0 0;display:flex;flex-direction:column;justify-content:flex-start;gap:var(--s-sm)}
+.ds-pipeline-claim .ds-display{max-width:16ch;font-size:clamp(2rem,3.4vw,3.1rem);line-height:1.05}
+.ds-pipeline-claim .ds-lede{max-width:36ch}
+.ds-pipeline-claim .ds-brand-mark{font-family:var(--f-mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase}
+.ds-pipeline-field{align-self:start;display:flex;min-height:0;width:100%}
+.ds-pipeline-field .ds-pipeline-board,.ds-pipeline-field figure{flex:1;display:flex;min-height:0;margin:0;width:100%}
+.ds-pipeline-field .ds-fig{width:100%;height:auto;min-height:min(62vh,580px);display:block}
+
+.ds-hero-queue{position:relative;isolation:isolate;padding:0;min-height:0;display:flex;flex-direction:column;background:var(--c-ink);color:var(--c-paper)}
+.ds-hero-queue .ds-display,.ds-hero-queue .ds-lede,.ds-hero-queue .ds-brand-mark,.ds-hero-queue .ds-eyebrow{color:inherit}
+.ds-hero-queue .ds-lede{opacity:0.78}
+.ds-hero-queue .ds-btn-primary{background:var(--c-accent);color:var(--c-ink)}
+.ds-priority-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background:color-mix(in oklab,var(--c-ink) 94%,var(--c-accent));border-bottom:1px solid color-mix(in oklab,var(--c-paper) 18%,transparent)}
+.ds-priority-rail ol{list-style:none;margin:0;padding:0 var(--gutter);display:flex;min-height:3.25rem;overflow-x:auto}
+.ds-priority-rail li{flex:1;min-width:7rem;display:flex}
+.ds-priority-chip{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0.15rem;padding:0.55rem 0.75rem;border:0;border-left:1px solid color-mix(in oklab,var(--c-paper) 14%,transparent);border-radius:0;background:transparent;color:color-mix(in oklab,var(--c-paper) 55%,transparent);text-decoration:none;font:inherit;font-size:11px;text-align:left;cursor:pointer}
+.ds-priority-rail li:first-child .ds-priority-chip{border-left:0}
+.ds-priority-chip.is-live,.ds-priority-chip:hover,.ds-priority-chip:focus-visible{color:var(--c-accent);background:color-mix(in oklab,var(--c-accent) 12%,transparent)}
+.ds-priority-chip:focus-visible{outline:2px solid var(--c-accent);outline-offset:-2px}
+.ds-priority-meta,.ds-priority-label{font-family:var(--f-mono);letter-spacing:0.08em}
+.ds-queue-fold{flex:0 1 auto;display:grid;grid-template-columns:minmax(0,4.5fr) minmax(0,7.5fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:start;padding:var(--s-md) 0 var(--s-xl);min-height:0}
+.ds-queue-claim{padding:var(--s-sm) 0 0;display:flex;flex-direction:column;justify-content:flex-start;gap:var(--s-sm)}
+.ds-queue-claim .ds-display{max-width:15ch;font-size:clamp(1.85rem,3.1vw,2.75rem);line-height:1.05}
+.ds-queue-field{align-self:start;display:flex;min-height:0;width:100%}
+.ds-queue-field .ds-queue-console,.ds-queue-field figure{flex:1;display:flex;min-height:0;margin:0;width:100%}
+.ds-queue-field .ds-fig{width:100%;height:auto;min-height:min(60vh,560px);display:block}
+
+.ds-hero-diligence{position:relative;isolation:isolate;padding:0;min-height:0;display:flex;flex-direction:column}
+.ds-principle-spine{position:absolute;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-md));bottom:var(--s-xl);width:3.5rem;z-index:3;pointer-events:none;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:flex-start;border-right:1px solid var(--c-border);padding:var(--s-sm) 0}
+.ds-principle-spine ol{list-style:none;margin:0;padding:0;display:flex;gap:var(--s-md)}
+.ds-principle-spine li{font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;color:var(--c-ink-tertiary);display:flex;gap:0.35rem;align-items:center}
+.ds-principle-spine li.is-live{color:var(--c-accent)}
+.ds-principle-spine b{font-weight:500;font-family:var(--f-sans)}
+.ds-diligence-fold{flex:0 1 auto;display:grid;grid-template-columns:minmax(0,5.5fr) minmax(0,6.5fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:start;padding:var(--s-md) 0 var(--s-xl);padding-left:clamp(3.25rem,5vw,4.5rem);min-height:0}
+.ds-diligence-claim{padding:var(--s-sm) 0 0;display:flex;flex-direction:column;justify-content:flex-start;gap:var(--s-sm)}
+.ds-diligence-claim .ds-display{max-width:18ch;font-family:var(--f-serif);font-size:clamp(2rem,3.6vw,3.25rem);line-height:1.08}
+.ds-diligence-claim .ds-lede{max-width:38ch}
+.ds-measure-rule{height:1px;background:var(--c-border);margin:0 var(--gutter)}
+.ds-diligence-field{align-self:start;display:flex;min-height:0;width:100%}
+.ds-diligence-field .ds-posture-plate,.ds-diligence-field figure{flex:1;display:flex;min-height:0;margin:0;width:100%}
+.ds-diligence-field .ds-fig{width:100%;height:auto;min-height:min(62vh,580px);display:block}
+
+.ds-hero-mechanism{position:relative;isolation:isolate;padding:0 0 var(--s-xl);min-height:0;display:flex;flex-direction:column}
+.ds-mechanism-fold{flex:0 1 auto;display:grid;grid-template-columns:minmax(14rem,0.95fr) minmax(0,1.55fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:start;padding:var(--s-md) 0 var(--s-lg);min-height:0}
+.ds-mechanism-claim{padding:var(--s-sm) 0 0;display:flex;flex-direction:column;justify-content:flex-start;gap:var(--s-md)}
+.ds-mechanism-claim .ds-display{max-width:16ch;font-size:clamp(1.95rem,3.4vw,3.1rem);line-height:1.05}
+.ds-mechanism-legend .ds-figure-steps{margin-top:var(--s-sm)}
+.ds-mechanism-legend .ds-figure-steps li{cursor:pointer;padding-block:0.45rem}
+.ds-mechanism-legend .ds-figure-steps li span{color:var(--c-ink-tertiary)}
+.ds-mechanism-stage{align-self:start;display:flex;min-height:0;width:100%}
+.ds-mechanism-stage .ds-mechanism-plate,.ds-mechanism-stage figure{flex:1;display:grid;gap:var(--s-sm);min-height:0;margin:0;width:100%}
+.ds-mechanism-stage .ds-fig{width:100%;height:auto;min-height:min(58vh,540px);display:block}
+.ds-mechanism-plate{display:grid;gap:var(--s-sm)}
+
+.ds-hero-wire{position:relative;isolation:isolate;padding:0;min-height:0;display:flex;flex-direction:column}
+.ds-cutoff-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background:var(--c-paper);border-bottom:1px solid var(--c-border)}
+.ds-cutoff-rail ol{list-style:none;margin:0;padding:0 var(--gutter);display:flex;min-height:3.25rem}
+.ds-cutoff-rail li{flex:1;display:flex}
+.ds-cutoff-chip{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0.15rem;padding:0.55rem 0.75rem;border-left:1px solid var(--c-border);color:var(--c-ink-tertiary);text-decoration:none;font-size:11px}
+.ds-cutoff-rail li:first-child .ds-cutoff-chip{border-left:0}
+.ds-cutoff-chip.is-live,.ds-cutoff-chip:hover{color:var(--c-accent)}
+.ds-cutoff-meta,.ds-cutoff-label{font-family:var(--f-mono);letter-spacing:0.1em}
+.ds-wire-fold{flex:0 1 auto;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:start;padding:var(--s-md) 0 var(--s-md);min-height:0}
+.ds-wire-claim{padding:var(--s-sm) 0 0;display:flex;flex-direction:column;justify-content:flex-start;gap:var(--s-sm)}
+.ds-wire-claim .ds-display{max-width:15ch;font-size:clamp(1.95rem,3.3vw,2.95rem);line-height:1.05}
+.ds-wire-field{align-self:start;display:flex;min-height:0;width:100%}
+.ds-wire-field .ds-wire-ledger,.ds-wire-field figure{flex:1;display:flex;min-height:0;margin:0;width:100%}
+.ds-wire-field .ds-fig{width:100%;height:auto;min-height:min(58vh,540px);display:block}
+.ds-tolerance-strip{display:flex;gap:var(--s-md);align-items:baseline;justify-content:flex-end;padding:0.55rem var(--gutter);border-top:1px solid var(--c-border);font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;color:var(--c-ink-tertiary);background:var(--c-paper-raised)}
+.ds-tolerance-strip b{color:var(--c-accent);font-weight:600}
+@media (max-width:900px){
+  .ds-pipeline-fold,.ds-queue-fold,.ds-diligence-fold,.ds-wire-fold,.ds-mechanism-fold{grid-template-columns:1fr;align-items:stretch}
+  .ds-principle-spine{display:none}
+  .ds-diligence-fold{padding-left:0}
+}
+
 [data-sitekind="art-directed-studio"] .ds-hero-solidclaim .ds-hero-overclaim .ds-brand-mark{
   margin-bottom:0.75rem;
 }
@@ -2103,9 +2235,13 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-proof-figure figcaption{color:var(--c-ink-tertiary)}
 .ds-proof-figure-field{opacity:.55;padding:0;border:0;background:transparent;box-shadow:none;transform:none}
 .ds-proof-board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;list-style:none;margin:0;padding:0;border-top:1px solid var(--surface-border)}
-.ds-proof-cell{display:grid;gap:var(--s-2xs);align-content:start;padding:var(--s-md) var(--s-sm);border-right:1px solid var(--surface-border);min-height:0;background:transparent;border-radius:0}
+.ds-proof-cell{display:grid;gap:var(--s-2xs);align-content:start;padding:0;border-right:1px solid var(--surface-border);min-height:0;background:transparent;border-radius:0}
 .ds-proof-cell:last-child{border-right:0}
 .ds-proof-cell.is-lead,.ds-proof-cell:first-child{background:var(--accent-soft);box-shadow:inset 0 3px 0 var(--c-accent)}
+.ds-proof-hit{display:grid;gap:var(--s-2xs);align-content:start;width:100%;height:100%;margin:0;padding:var(--s-md) var(--s-sm);border:0;border-radius:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.ds-proof-hit:hover,.ds-proof-hit:focus-visible{background:color-mix(in srgb,var(--c-accent) 8%,transparent)}
+.ds-proof-hit:focus-visible{outline:2px solid var(--c-accent);outline-offset:-2px}
+.ds-proof-hit.is-live{background:var(--accent-soft)}
 .ds-proof-mark{width:7.25rem;margin-bottom:var(--s-3xs);opacity:.95}
 .ds-proof-meta{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0;text-transform:none;color:var(--c-accent)}
 .ds-proof-cell h3{font-size:var(--t-body-size);line-height:var(--t-body-leading);letter-spacing:var(--t-body-tracking);font-weight:600;max-width:16ch}
@@ -2162,6 +2298,7 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-footer-col h4{font-size:var(--t-micro-size);text-transform:uppercase;letter-spacing:var(--t-micro-tracking);color:var(--c-ink-tertiary);font-weight:600}
 .ds-footer-col a{color:var(--c-ink-body)}
 .ds-footer-col a:hover{color:var(--c-ink)}
+.ds-footer-item{color:var(--c-ink-body);display:block}
 .ds-footer-base{display:flex;justify-content:flex-start;flex-wrap:wrap;gap:var(--s-lg);margin-top:var(--s-xl);padding-top:var(--s-sm);border-top:1px solid var(--c-border);font-size:var(--t-caption-size);color:var(--c-ink-tertiary)}
 
 /* Figure */
@@ -2174,6 +2311,39 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-figure-steps{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-2xs)}
 .ds-figure-steps li{border-radius:var(--r-xs);font-size:var(--t-bodySmall-size);color:var(--surface-body);padding-left:var(--s-md);border-left:1px solid var(--surface-border)}
 .ds-figure-steps li.is-active{color:var(--surface-ink);border-left-color:var(--c-accent)}
+.ds-figure-steps a{color:inherit;text-decoration:none}
+.ds-figure-steps a:hover{color:var(--surface-ink)}
+.ds-figure-steps a:focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
+
+/* Interactive flow stages — real buttons, never dead SVG shells */
+.ds-flow-figure{margin:0}
+.ds-flow-track{display:grid;gap:var(--s-sm)}
+.ds-flow-list{list-style:none;margin:0;padding:0;display:flex;align-items:stretch;gap:0;overflow-x:auto}
+.ds-flow-item{flex:1 1 0;min-width:8.5rem}
+.ds-flow-arrow{flex:0 0 1.25rem;display:flex;align-items:center;justify-content:center;color:var(--surface-quiet)}
+.ds-flow-arrow span{display:block;width:0.55rem;height:0.55rem;border-right:1px solid currentColor;border-top:1px solid currentColor;transform:rotate(45deg)}
+.ds-flow-card{
+  display:grid;gap:0.35rem;align-content:start;width:100%;height:100%;min-height:7.5rem;
+  margin:0;padding:0.85rem 0.9rem;border:1px solid var(--surface-border);border-radius:var(--r-md);
+  background:color-mix(in srgb,var(--surface-bg) 88%,transparent);color:var(--surface-ink);
+  font:inherit;text-align:left;cursor:pointer;
+}
+.ds-flow-card:hover,.ds-flow-card:focus-visible{border-color:color-mix(in srgb,var(--c-accent) 45%,var(--surface-border))}
+.ds-flow-card:focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
+.ds-flow-card.is-live{
+  background:color-mix(in srgb,var(--c-accent) 12%,var(--surface-bg));
+  border-color:color-mix(in srgb,var(--c-accent) 55%,var(--surface-border));
+}
+.ds-flow-num{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0.12em;color:var(--surface-quiet)}
+.ds-flow-card.is-live .ds-flow-num{color:var(--c-accent)}
+.ds-flow-rule{display:block;height:1px;width:100%;background:var(--surface-border)}
+.ds-flow-title{font-size:var(--t-body-size);line-height:var(--t-body-leading);font-weight:600}
+.ds-flow-body,.ds-flow-meta{font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--surface-muted)}
+.ds-flow-meter{display:block;height:2px;margin-top:auto;background:var(--surface-border);border-radius:1px;overflow:hidden}
+.ds-flow-meter i{display:block;height:100%;background:var(--c-accent)}
+.ds-flow-caption{display:flex;flex-wrap:wrap;gap:0.75rem;align-items:baseline;margin:0;font-size:var(--t-bodySmall-size);color:var(--surface-body)}
+.ds-flow-caption-meta{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0.08em;text-transform:uppercase;color:var(--surface-quiet)}
+body[data-mood="dark-premium"] .ds-flow-card{background:color-mix(in oklab,var(--c-paper) 8%,transparent)}
 
 /* App shell */
 .ds-app{display:grid;gap:0;border:1px solid var(--c-border);border-radius:var(--r-xl);overflow:hidden;background:var(--c-paper)}
@@ -2185,8 +2355,11 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-app-grid{display:grid;align-items:stretch;min-height:26rem}
 .ds-app-side{border-right:1px solid var(--c-border);background:var(--c-paper-raised);padding:var(--s-md) var(--s-sm);display:grid;gap:var(--s-md);align-content:start}
 .ds-app-nav{display:grid;gap:2px;list-style:none;margin:0;padding:0}
-.ds-app-nav a{display:block;padding:var(--s-2xs) var(--s-xs);border-radius:var(--r-sm);font-size:var(--t-bodySmall-size);color:var(--c-ink-body)}
-.ds-app-nav a[aria-current="page"]{background:var(--c-accent-surface);color:var(--c-ink);font-weight:600}
+.ds-app-nav a,.ds-app-nav-item{display:block;width:100%;padding:var(--s-2xs) var(--s-xs);border:0;border-radius:var(--r-sm);background:transparent;font:inherit;font-size:var(--t-bodySmall-size);color:var(--c-ink-body);text-align:left;cursor:pointer}
+.ds-app-nav a[aria-current="page"],.ds-app-nav-item[aria-current="page"],.ds-app-nav-item.is-current{background:var(--c-accent-surface);color:var(--c-ink);font-weight:600}
+.ds-app-nav-item:hover,.ds-app-nav-item:focus-visible{color:var(--c-ink)}
+.ds-app-nav-item:focus-visible{outline:2px solid var(--c-accent);outline-offset:1px}
+.ds-app-view-label{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0.08em;text-transform:uppercase;color:var(--c-accent);margin:0 0 var(--s-sm)}
 .ds-app-main{padding:var(--s-lg) var(--s-md);display:grid;gap:var(--s-lg);align-content:start}
 .ds-app-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:var(--s-sm)}
 .ds-stat{border:1px solid var(--c-border);border-radius:var(--r-md);padding:var(--s-sm);display:grid;gap:var(--s-3xs)}

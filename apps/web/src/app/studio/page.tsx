@@ -62,7 +62,7 @@ export default function StudioPage() {
   const [typographyWeight, setTypographyWeight] = useState<TypeWeight>("medium-modern");
   const [roundingDepth, setRoundingDepth] = useState<RoundingDepth>("soft");
   const [magic, setMagic] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<DesignResponse | null>(null);
   const [generation, setGeneration] = useState(0);
@@ -136,8 +136,30 @@ export default function StudioPage() {
   }, [brief, generateWith]);
 
   useEffect(() => {
-    void generateWith(brief, "create");
-    return () => abortRef.current?.abort();
+    // Defer the first /api/design call until after paint so /studio navigates instantly.
+    let cancelled = false;
+    const start = () => {
+      if (!cancelled) void generateWith(brief, "create");
+    };
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    let idleId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    if (typeof w.requestIdleCallback === "function") {
+      idleId = w.requestIdleCallback(start, { timeout: 500 });
+    } else {
+      timeoutId = setTimeout(start, 50);
+    }
+    return () => {
+      cancelled = true;
+      if (idleId != null && typeof w.cancelIdleCallback === "function") {
+        w.cancelIdleCallback(idleId);
+      }
+      if (timeoutId != null) clearTimeout(timeoutId);
+      abortRef.current?.abort();
+    };
     // initial generate only
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

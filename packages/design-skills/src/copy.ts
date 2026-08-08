@@ -172,12 +172,35 @@ export function ctaFor(
 
 /** Section eyebrows read like an index of an argument, not like decoration. */
 export function eyebrows(brief: DesignBrief): Record<string, string> {
+  const proof =
+    brief.siteKind === "saas-marketing"
+      ? "Why demos convert"
+      : brief.siteKind === "dashboard-webapp"
+        ? "Why it stays open"
+        : brief.siteKind === "corporate-story"
+          ? "Why diligence clears"
+          : brief.siteKind === "fintech-marketing"
+            ? "Why treasury short-lists"
+            : brief.siteKind === "art-directed-studio"
+              ? "Why the work holds"
+              : brief.siteKind === "docs-educational"
+                ? "Why the model holds"
+                : "Why teams keep it";
   return {
     metrics: "What changes",
     features: brief.siteKind === "docs-educational" ? "The mechanism" : "Capabilities",
-    figure: "How it works",
-    story: brief.siteKind === "corporate-story" ? "How we work" : "The sequence",
-    proof: "Why teams keep it",
+    figure: brief.siteKind === "docs-educational" ? "The scrub" : "How it works",
+    story:
+      brief.siteKind === "corporate-story"
+        ? "How we work"
+        : brief.siteKind === "docs-educational"
+          ? "The cost path"
+          : brief.siteKind === "saas-marketing"
+            ? "The pipeline"
+            : brief.siteKind === "fintech-marketing"
+              ? "The send path"
+              : "The sequence",
+    proof,
     pricing: "Scope and plans",
     compare: "What is included",
     faq: "Before you ask",
@@ -344,11 +367,39 @@ export function plans(brief: DesignBrief, features: FeatureSpec[]): Array<{ titl
  * claim: nothing here is aspirational. Restraint is the positioning.
  */
 export function pullQuote(brief: DesignBrief, features: FeatureSpec[]): { quote: string; attribution: string } {
-  return {
-    quote: `Everything on this page is something ${brief.productName} does today — ${count(features.length)} capabilities, and no roadmap standing in for one.`,
-    // Meta instructions ("how to read this page") read as a toy deck. Scope is the proof.
-    attribution: `${count(features.length)} capabilities · declared scope · ships together`,
+  const n = count(features.length);
+  const byKind: Partial<Record<DesignBrief["siteKind"], { quote: string; attribution: string }>> = {
+    "saas-marketing": {
+      quote: `${brief.productName} ships the ${n} capabilities on this page today — no forecast standing in for a product.`,
+      attribution: `${n} capabilities · demo on your data · declared scope`,
+    },
+    "dashboard-webapp": {
+      quote: `Operators keep ${brief.productName} open because every row is a live decision — not a report they refresh.`,
+      attribution: `Workspace · empty states included · ${n} views`,
+    },
+    "corporate-story": {
+      quote: `${brief.productName} holds in diligence because every claim on this page is verifiable before you commit.`,
+      attribution: `Board pack · measured outcomes · ${n} pillars`,
+    },
+    "fintech-marketing": {
+      quote: `Treasury teams short-list ${brief.productName} because wires, wallets, and approvals are one surface — not three portals.`,
+      attribution: `${n} controls · audit export · mid-market cash`,
+    },
+    "art-directed-studio": {
+      quote: `The work from ${brief.productName} survives handoff because type, colour, and motion rules are written before vendors touch the brand.`,
+      attribution: `Selected work · method notes · ${n} capabilities`,
+    },
+    "docs-educational": {
+      quote: `${brief.productName} is a mechanism you can scrub — each stage names a real cost, not a metaphor.`,
+      attribution: `Routing field · ${n} stages · engineers evaluating`,
+    },
   };
+  return (
+    byKind[brief.siteKind] ?? {
+      quote: `Everything on this page is something ${brief.productName} does today — ${n} capabilities, and no roadmap standing in for one.`,
+      attribution: `${n} capabilities · declared scope · ships together`,
+    }
+  );
 }
 
 /**
@@ -357,15 +408,37 @@ export function pullQuote(brief: DesignBrief, features: FeatureSpec[]): { quote:
  * Deduplicated by label: a page with two capability sections used to render "Capabilities" twice
  * in the primary nav, side by side, pointing at the same anchor.
  */
-export function navFor(sections: Array<{ kind: string; id: string }>): Array<{ label: string; href: string }> {
+export function navFor(
+  sections: Array<{ kind: string; id: string }>,
+  siteKind?: string,
+): Array<{ label: string; href: string }> {
+  const proofLabel =
+    siteKind === "saas-marketing"
+      ? "Why demos convert"
+      : siteKind === "dashboard-webapp"
+        ? "Why it stays open"
+        : siteKind === "corporate-story"
+          ? "Why diligence clears"
+          : siteKind === "fintech-marketing"
+            ? "Why treasury picks it"
+            : siteKind === "art-directed-studio"
+              ? "Why work holds"
+              : "Why it holds";
   const labels: Record<string, string> = {
     features: "Capabilities",
-    figure: "How it works",
-    story: "Sequence",
+    figure: siteKind === "docs-educational" ? "The scrub" : "How it works",
+    story:
+      siteKind === "saas-marketing"
+        ? "Pipeline"
+        : siteKind === "fintech-marketing"
+          ? "Send path"
+          : siteKind === "docs-educational"
+            ? "Cost path"
+            : "Sequence",
     pricing: "Plans",
     compare: "Included",
     faq: "Questions",
-    proof: "Why it holds",
+    proof: proofLabel,
     app: "Workspace",
   };
   const seen = new Set<string>();

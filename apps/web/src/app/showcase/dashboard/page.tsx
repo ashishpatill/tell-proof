@@ -1,19 +1,18 @@
-import { designFromFeatures, getTemplate } from "@tell/design-skills";
+import { getTemplate } from "@tell/design-skills";
 import { ShowcaseFrame } from "@/components/showcase/ShowcaseFrame";
 
 export const dynamic = "force-static";
 
-/** Operator console / dashboard webapp showcase. */
-export default function DashboardShowcasePage() {
-  const template = getTemplate("dashboard")!;
-  const { previewHtml } = designFromFeatures(template.brief);
+const KEY = "dashboard";
+
+export default function ShowcaseSpecimenPage() {
+  const template = getTemplate(KEY)!;
   return (
     <ShowcaseFrame
       offeringKey={template.key}
       title={template.label}
       marketJob={template.marketJob}
-      previewHtml={previewHtml}
-      testId="showcase-dashboard"
+      testId={`showcase-${template.key}`}
     />
   );
 }

@@ -265,6 +265,31 @@ export const LayoutVariant = z.enum([
    * Sticky signature rail (Sig A–H). Press-atelier signature; not register, folio, chrono, or SaaS.
    */
   "hero-press",
+  /**
+   * Pipeline fold — sticky stage rail + compact claim + spanning pipeline board.
+   * SaaS-marketing signature; not stackfold, seam, or generic feature grid.
+   */
+  "hero-pipeline",
+  /**
+   * Queue fold — sticky priority rail + compact claim + spanning operator console plate.
+   * Dashboard-webapp signature; app-shell remains the density peak below.
+   */
+  "hero-queue",
+  /**
+   * Diligence fold — sticky principle spine + hard measure rule + spanning posture grid.
+   * Corporate-story signature; paper-led, not foundry inverse seam.
+   */
+  "hero-diligence",
+  /**
+   * Mechanism fold — scrub instrument owns the fold (stage list + range + mechanism plate).
+   * Docs-educational signature; not stackfold with a scrub buried mid-page.
+   */
+  "hero-mechanism",
+  /**
+   * Wire fold — sticky cutoff rail + spanning multi-entity wire ledger + tolerance strip.
+   * Fintech-marketing signature; not SaaS stackfold with more inverse bands.
+   */
+  "hero-wire",
   "metric-band",
   "specimen-band",
   "marquee-proof",

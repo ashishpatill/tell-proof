@@ -282,3 +282,93 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 
 
 
+
+## 2026-08-07 — `template:overfigure-claim-collision` + `template:dead-affordance`
+
+- **Failure (human):** First five offerings (saas/dashboard/corporate/educational/fintech) shipped with
+  claim text painted over labeled SVG chrome (100k+ px measured overlap on Northstar), footer links
+  that all scrolled to `#top`, dashboard `#app` missing, pricing cards that hovered like links
+  without CTAs, and three products all named Northstar.
+- **Root cause:** `ds-hero-overfigure` absolute claim over `interfaceBand`/`flowDiagram`/`horizonPlot`
+  labels; footer `href="#top"` spam; app shell without `id`; `.ds-plan` in interactive selectors;
+  educational negative-margin pull-up recreated overfigure collisions despite stackfold.
+- **Fix:** Stackfold + solid claim for saas/fintech/dashboard/corporate; zero educational plate
+  pull-up; footer maps to real section ids or `<span>`; `id="app"` + static sidebar labels;
+  plan CTAs on every lane; remove plan hover affordance; distinct Queueboard/Lattice names;
+  basics gates `kind-marketing-stackfold`, `kind-app-id`, `no-footer-top-spam`.
+- **Do not:** Treat critique score as an eye pass. Absolute overfigure over labeled product SVG is
+  never "premium fold figure." Fake interactive chrome (hover without action, links to `#top`)
+  fails the human test even when anchors "work."
+
+## 2026-08-07 — `template:empty-flow-band` + `template:boilerplate-proof-spam`
+
+- **Failure (human):** Mechanism explainer showed huge empty ordinal stage cards that looked
+  clickable and weren't; templates 04 (educational) and 06 (studio) both opened on `flow` heroes;
+  every marketing proof used "Why X holds under review"; first five felt like one skeleton.
+- **Root cause:** `flowDiagram` band = title-only + `stretch:true` + CSS forced 72vh height;
+  `ORDER` collided (edu/studio → flow; saas/fintech → interface); `sections.ts` proof title had no
+  siteKind branch; shared pull-quote / "The order things happen in".
+- **Fix:** Content-sized flow cards with body lines, no stretch; educational → stack hero + visible
+  aside; fintech → horizon hero (never twin SaaS interface); siteKind proof/story/nav/quote maps;
+  basics gates `no-boilerplate-proof-title` + `flow-band-no-stretch`; detector `BoilerplateCopyTell`
+  on snapshot text; README first-five stills + craft-reel GIFs.
+- **Do not:** Stretch empty SVG shells to fake fold coverage. Do not reuse one proof title across
+  offerings. Critique score is not an eye pass for empty cards or shared copy.
+
+## 2026-08-07 — `template:figure-legend-starves-flow` + `template:scrub-dead-clicks`
+
+- **Failure (human):** Dashboard/studio flow heroes still looked like empty clickable cards; scrub
+  stage list and nodes never drove the range input ("doesn't even click").
+- **Root cause:** `sections.ts` figure blocks are title+ordinal legends; `planFigures` preferred
+  those empty steps over the catalogue bodies for flow bands. Scrub JS only listened to `<input
+  type="range">` — list items and SVG nodes were decorative.
+- **Fix:** Merge catalogue `body`/`points` into sequence steps by title before drawing; figure
+  legends carry short claim lines; scrub `go(idx)` wires steps + nodes; studio fold → filled `flow`
+  (not twin corporate/fintech `horizon`); basics `flow-band-has-matter` + `scrub-steps-clickable`.
+- **Do not:** Assume title-only figure legends are safe inputs to band drawings. Do not ship
+  affordances that look selectable without wiring paint.
+
+## 2026-08-07 — `template:order-swap-is-not-unique`
+
+- **Failure (human):** "Rarely a visual component should be reused… cheating… same template again
+  and again with minor modifications." First five still shared one conversion skeleton
+  (`nav → stackfold → metrics → features → specimen → proof → chapters → faq`) with figure ORDER
+  swaps and proof-title retunes.
+- **Root cause:** `kind-marketing-stackfold` *enforced* sameness. Craft kinds (foundry/dossier/
+  observatory/…) prove the real pattern: dedicated `hero-*` layout + dedicated SVG kind + CSS rail
+  + basics gate. Marketing kinds never got that.
+- **Fix:** Unreplicable fold instruments per siteKind — SaaS `hero-pipeline` + `pipeline-board`,
+  dashboard `hero-queue` + `queue-console`, corporate `hero-diligence` + `posture-grid`, educational
+  `hero-mechanism` + scrub-on-fold `mechanism-plate`, fintech `hero-wire` + `wire-ledger`. Basics
+  gates require the new DOM and forbid stackfold class on those kinds.
+## 2026-08-07 — `showcase:hover-reel-vs-anthology-hero`
+
+- **Failure (human):** Template filmstrip reels autoplayed the same 2–3 beats of one offering on
+  loop; the hero stage also looped a single specimen instead of touring craft across the catalog.
+- **Fix:** Filmstrip `autoplayInView={false}` — cinema only on hover. Featured stage is
+  `ShowcaseAnthologyReel`: slow (~5.2s) still-craft tour across distinct siteKinds (archive →
+  observatory → … → fintech), one best beat per offering, hover pauses. Prefer-figure stills; no
+  intra-template cinema on the hero.
+- **Do not:** Autoplay every thumb in view. Do not call a single-template 3-beat loop an "across
+  specimens" tour.
+
+## 2026-08-07 — `template:claim-band-starves-fold-instrument`
+
+- **Failure:** First-five marketing folds stacked a tall left-capped claim band *above* a full-bleed
+  instrument band. At 1440×900 the claim alone ate ~450px with an empty right half; the pipeline
+  board / posture grid / queue console / wire ledger started below the fold. Screenshots looked
+  unfinished (Northstar empty right; Lattice empty bottom).
+- **Fix:** Split folds (`ds-*-fold` grid) — claim left, instrument right, both in the first viewport.
+  Draw those instruments in the taller `column` figure role. Basics gate requires `ds-*-fold`.
+- **Do not:** Park unique fold instruments under a full-width claim with `max-width:18ch` type and
+  call the empty right half "asymmetric luxury."
+
+## 2026-08-07 — `template:dead-clickable-affordances`
+
+- **Failure (human):** Numbered stage chips (Priority queue / Deal room / …) and flow cards looked
+  like buttons but were dead — hash `<a>` scroll links or static SVG shells. Wasted demo time.
+- **Fix:** Priority/stage rails → `<button data-rail-step>` that toggles `is-live`, updates caption,
+  and syncs `[data-app-shell]` view. Flow → HTML `.ds-flow-card` buttons + caption. App nav/filters
+  filter table rows. Proof cells → `.ds-proof-hit` with `aria-pressed`. Basics gates require buttons
+  + handlers; forbid SVG `data-figure="flow"` and `<a class="ds-priority-chip">`.
+- **Do not:** Style chrome as interactive unless click/keyboard changes visible state.

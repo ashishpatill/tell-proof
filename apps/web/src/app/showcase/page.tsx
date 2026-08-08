@@ -1,64 +1,67 @@
 import Link from "next/link";
-import { designFromFeatures, listTemplates, type DesignTemplate } from "@tell/design-skills";
+import { listTemplates, type DesignTemplate } from "@tell/design-skills";
+import { ShowcaseAnthologyReel } from "@/components/showcase/ShowcaseAnthologyReel";
 import { SpecimenPreview } from "@/components/showcase/SpecimenPreview";
+import { specimenHtmlSrc } from "@/components/showcase/specimenSrc";
 import "./showcase.css";
 
 export const dynamic = "force-static";
 export const metadata = {
   title: "Tell Specimens — Craft reels, not theme packs",
   description:
-    "Fourteen research-backed site kinds — each gallery cell is a GIF-like craft reel of the best beats, not a cropped nav strip.",
+    "Fourteen research-backed site kinds — filmstrip reels play on hover; the hero slowly tours best beats across specimens.",
 };
 
-type OfferingPreview = DesignTemplate & { previewHtml: string; index: string };
+type OfferingMeta = DesignTemplate & { index: string };
 
-function buildOfferings(): OfferingPreview[] {
+function buildOfferings(): OfferingMeta[] {
   return listTemplates().map((t, i) => ({
     ...t,
-    previewHtml: designFromFeatures(t.brief).previewHtml,
     index: String(i + 1).padStart(2, "0"),
   }));
 }
 
 /**
- * Specimen gallery — one composition: brand + craft cinema stage, then a filmstrip of reels.
- * Each preview is a GIF substitute that walks the best craft beats (figure / spread / imprint),
- * never a sticky-nav thumbnail.
+ * Specimen gallery — hero anthology (slow cross-template tour) + filmstrip (hover-only reels).
+ * Metadata only in the page payload; specimen HTML loads lazily via /api/design/html.
  */
 export default function ShowcaseGalleryPage() {
   const offerings = buildOfferings();
+  const anthologySlides = offerings.map((o) => ({
+    key: o.key,
+    label: o.label,
+    marketJob: o.marketJob,
+    index: o.index,
+  }));
   const featured =
     offerings.find((o) => o.key === "herbarium") ??
     offerings.find((o) => o.key === "loom") ??
-    offerings.find((o) => o.key === "press") ??
     offerings.find((o) => o.key === "archive") ??
-    offerings.find((o) => o.key === "observatory") ??
-    offerings.find((o) => o.key === "dossier") ??
-    offerings.find((o) => o.key === "foundry") ??
-    offerings.find((o) => o.key === "studio") ??
     offerings[0]!;
-  const strip = offerings.filter((o) => o.key !== featured.key);
 
   return (
     <div className="sx-root" data-testid="showcase-gallery">
       <div className="sx-grain" aria-hidden="true" />
       <div className="sx-shell">
         <header className="sx-nav">
-          <Link className="sx-brand" href="/showcase">
+          <Link className="sx-brand" href="/showcase" prefetch={false}>
             <span className="sx-brand-mark">Tell</span>
             <span className="sx-brand-meta">Specimens</span>
           </Link>
           <nav className="sx-nav-links" aria-label="Primary">
             <a href="#reels">Reels</a>
-            <Link href="/studio">Studio</Link>
-            <Link href="/">Tell Report</Link>
-            <Link className="sx-nav-cta" href={`/showcase/${featured.key}`}>
+            <Link href="/studio" prefetch={false}>
+              Studio
+            </Link>
+            <Link href="/" prefetch={false}>
+              Tell Report
+            </Link>
+            <Link className="sx-nav-cta" href={`/showcase/${featured.key}`} prefetch={false}>
               Open featured
             </Link>
           </nav>
         </header>
 
-        {/* One composition: brand + headline + dominant cinema reel (GIF substitute). */}
         <section className="sx-stage" aria-labelledby="sx-hero-title">
           <div className="sx-stage-mast">
             <p className="sx-kicker">Craft reels · not theme packs</p>
@@ -66,20 +69,20 @@ export default function ShowcaseGalleryPage() {
               Tell Specimens
             </h1>
             <p className="sx-lede">
-              Each offering loops its best beats — plate, spread, stakes — like a GIF, without
-              shipping a media file.
+              The stage slowly tours the best craft beat from each offering. Filmstrip cells stay
+              still until you hover — then their reel plays.
             </p>
             <div className="sx-hero-actions">
-              <Link className="sx-nav-cta" href={`/showcase/${featured.key}`}>
-                Watch {featured.label}
-              </Link>
-              <a className="sx-btn-ghost" href="#reels">
+              <a className="sx-nav-cta" href="#reels">
                 Browse the filmstrip
               </a>
+              <Link className="sx-btn-ghost" href={`/showcase/${featured.key}`} prefetch={false}>
+                Open a specimen
+              </Link>
             </div>
           </div>
 
-          <article className="sx-stage-reel" aria-label={`Featured craft reel: ${featured.label}`}>
+          <article className="sx-stage-reel" aria-label="Featured craft tour across specimens">
             <div className="sx-reel-chrome" aria-hidden="true">
               <span className="sx-sprocket" />
               <span className="sx-sprocket" />
@@ -88,30 +91,7 @@ export default function ShowcaseGalleryPage() {
               <span className="sx-sprocket" />
               <span className="sx-sprocket" />
             </div>
-            <div className="sx-featured-label">
-              <span>Now playing</span>
-              <span>
-                {featured.index} / {String(offerings.length).padStart(2, "0")} · {featured.label}
-              </span>
-            </div>
-            <div className="sx-plate sx-plate-stage">
-              <SpecimenPreview
-                className="sx-plate-frame"
-                title={`${featured.label} craft reel`}
-                html={featured.previewHtml}
-                designWidth={1440}
-                designHeight={1200}
-                mode="cinema"
-                prefer="figure"
-                autoplayInView
-                testId="showcase-featured-preview"
-              />
-              <div className="sx-plate-meta">
-                <h2>{featured.label}</h2>
-                <p>{featured.marketJob}</p>
-                <Link href={`/showcase/${featured.key}`}>Open full specimen →</Link>
-              </div>
-            </div>
+            <ShowcaseAnthologyReel slides={anthologySlides} totalCount={offerings.length} dwellMs={5200} />
             <div className="sx-reel-chrome sx-reel-chrome-end" aria-hidden="true">
               <span className="sx-sprocket" />
               <span className="sx-sprocket" />
@@ -127,17 +107,18 @@ export default function ShowcaseGalleryPage() {
           <div className="sx-index-head">
             <h2 id="sx-reels-title">The filmstrip</h2>
             <p>
-              {offerings.length} offerings · each cell autoplays its craft reel in view. Hover to
-              scrub faster.
+              {offerings.length} offerings · hover a cell to play its craft reel. No autoplay in the
+              strip.
             </p>
           </div>
 
           <ol className="sx-cells">
-            {strip.map((o) => (
+            {offerings.map((o) => (
               <li key={o.key} className="sx-cell">
                 <Link
                   className="sx-cell-link"
                   href={`/showcase/${o.key}`}
+                  prefetch={false}
                   data-testid={`showcase-link-${o.key}`}
                 >
                   <div className="sx-cell-frame">
@@ -150,13 +131,13 @@ export default function ShowcaseGalleryPage() {
                     <SpecimenPreview
                       className="sx-thumb sx-thumb-reel"
                       title={`${o.label} craft reel`}
-                      html={o.previewHtml}
+                      src={specimenHtmlSrc(o.key)}
                       designWidth={1440}
                       designHeight={900}
                       mode="cinema"
                       prefer="figure"
                       decorative
-                      autoplayInView
+                      autoplayInView={false}
                       testId={`showcase-thumb-${o.key}`}
                     />
                     <div className="sx-cell-sprockets sx-cell-sprockets-end" aria-hidden="true">
@@ -184,13 +165,17 @@ export default function ShowcaseGalleryPage() {
 
         <footer className="sx-foot">
           <p>
-            Deepened by the recursive improve loop · cinema reels are live craft beats, not exported
-            GIFs.
+            Deepened by the recursive improve loop · hero tours many specimens; strip reels wait for
+            hover.
           </p>
           <p>
-            <Link href="/studio">Edit in Studio</Link>
+            <Link href="/studio" prefetch={false}>
+              Edit in Studio
+            </Link>
             {" · "}
-            <Link href="/">Back to Tell</Link>
+            <Link href="/" prefetch={false}>
+              Back to Tell
+            </Link>
           </p>
         </footer>
       </div>
