@@ -76,6 +76,17 @@ Studio UI: `/studio` · Showcases: `/showcase/saas`, `/showcase/dashboard`, `/sh
 - split-panel-technical
 - edge-fade-craft
 - elevation-depth-tokens
+- editorial-chapter-craft
+- scrub-sequence-craft
+- operational-governance-craft
+- wireframe-annotation-craft
+- surface-recipe-map
+- accent-border-craft
+- reveal-hover-craft
+- nested-frame-craft
+- image-first-fold
+- agency-minimal-grid
+- marquee-rail-craft
 - dashboard-or-webapp-ui
 - responsive-performance
 

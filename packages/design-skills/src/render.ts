@@ -772,15 +772,27 @@ function renderSpecimen(section: SectionSpec, figures: FigurePlan, spec?: Design
   }
   if (!drawing) return "";
   const quietHead = siteKind === "docs-educational";
+  const annotate =
+    spec?.taste.aestheticLean === "system-crafted" || spec?.taste.colorMood === "dark-premium";
+  const callouts = annotate
+    ? catalogue(spec!)
+        .slice(0, 4)
+        .map(
+          (b, i) =>
+            `<li class="ds-anno" style="--anno-i:${i}"><span class="ds-anno-tick" aria-hidden="true"></span><span class="ds-anno-label">${esc(b.title)}</span></li>`,
+        )
+        .join("")
+    : "";
   return `<section class="ds-section ds-specimen" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide ds-specimen-head">
       <h2 class="ds-heading">${esc(section.title)}</h2>
       ${!quietHead && section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
     </div>
-    <div class="ds-bleed">
+    <div class="ds-bleed ds-specimen-stage${annotate ? " ds-specimen-annotated" : ""}">
       <figure class="ds-plate ds-plate-bleed">
         ${drawing}
       </figure>
+      ${callouts ? `<ol class="ds-anno-rail" aria-label="Declared capability callouts">${callouts}</ol>` : ""}
     </div>
   </section>`;
 }
@@ -1080,9 +1092,9 @@ function renderChapters(section: SectionSpec, figures: FigurePlan): string {
    * count as drawn matter (premium-b2b pages carry dozens of figures, not three plates).
    */
   const count = section.blocks.length;
-  return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+  return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" data-editorial-chapters id="${esc(section.id)}">
     <div class="ds-wrap-wide">
-      ${secMeta("Sequence", `${count} steps · product order`)}
+      ${secMeta("Chapters", `${count} beats · editorial order`)}
       ${sectionHead(section, 2, true)}
       <ol class="ds-chapters">
         ${section.blocks

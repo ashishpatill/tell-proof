@@ -148,6 +148,14 @@ export const SkillNodeId = z.enum([
   "edge-fade-craft",
   /** Neutral layered elevation tokens for soft-elevation depth. */
   "elevation-depth-tokens",
+  /** Editorial chapter pacing — proof before explanation; decisive close. */
+  "editorial-chapter-craft",
+  /** Step/scrub instruments for educational mechanism folds. */
+  "scrub-sequence-craft",
+  /** Governance beats — approval, audit, rollback — corporate/fintech. */
+  "operational-governance-craft",
+  /** Sparse diagnostic annotations for system-crafted specimens. */
+  "wireframe-annotation-craft",
 ]);
 export type SkillNodeId = z.infer<typeof SkillNodeId>;
 

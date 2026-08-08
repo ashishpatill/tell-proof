@@ -2320,6 +2320,15 @@ body[data-frame="paper-technical"] #main{margin:0 auto;max-width:min(100%,calc(v
 [data-depth="soft-elevation"] .ds-workflow-panel,
 [data-depth="soft-elevation"] .ds-proof-figure{box-shadow:var(--sh-raised)}
 [data-depth="soft-elevation"] .ds-btn{box-shadow:var(--sh-sm)}
+/* Wireframe annotation craft — sparse mono callouts on specimen stages. */
+.ds-specimen-stage{position:relative}
+.ds-specimen-annotated .ds-plate-bleed{opacity:0.92}
+.ds-anno-rail{list-style:none;margin:0;padding:0;position:absolute;inset:var(--s-md) var(--s-md) auto auto;display:grid;gap:var(--s-xs);max-width:14rem;z-index:2}
+.ds-anno{display:flex;align-items:center;gap:var(--s-2xs);font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--surface-quiet);background:color-mix(in srgb,var(--c-paper) 88%,transparent);border:1px solid var(--surface-border);padding:0.35rem 0.55rem;border-radius:var(--r-sm)}
+.ds-anno-tick{width:8px;height:1px;background:var(--c-accent);flex:0 0 auto}
+.ds-anno-label{max-width:12ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Editorial chapters — stronger first beat, quieter subsequent. */
+[data-editorial-chapters] .ds-chapter:first-child h3{font-size:var(--t-subheading-size)}
 /* Bonding strip — metadata on a hairline, not empty reserved height between subjects. */
 .ds-sec-meta{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-md);margin:0 0 var(--s-md);padding:var(--s-xs) 0;border-top:1px solid var(--surface-border);font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-sec-meta b{color:var(--surface-ink);font-weight:600}

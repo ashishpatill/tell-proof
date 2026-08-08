@@ -29,6 +29,10 @@ const ALL_SKILLS: SkillNodeId[] = [
   "split-panel-technical",
   "edge-fade-craft",
   "elevation-depth-tokens",
+  "editorial-chapter-craft",
+  "scrub-sequence-craft",
+  "operational-governance-craft",
+  "wireframe-annotation-craft",
 ];
 
 const MOODS: ColorMood[] = ["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"];

@@ -3,32 +3,37 @@
 Adaptation log for external craft patterns → Tell-shaped skills.
 **Rule:** never name third-party authors, marketplaces, or source repos in committed files.
 
-| Status | Tell skill id | Improves | Notes |
-|---|---|---|---|
-| done | `product-proof-stage` | saas proof | Sample workflow + human gate + HTMX |
-| done | `conversion-landing-craft` | saas IA + FAQ + CTA | 6–8 objections + risk reversal |
-| done | `pricing-decision-craft` | pricing lanes | Cadence toggle + risk note |
-| done | `scroll-reveal-once` | restrained motion | Once-only, no blur |
-| done | `indexed-detail-markers` | metrics / workflow | Quiet 01–0N mono marks |
-| done | `honest-integration-marks` | proof | Declared names only |
-| done | `paper-technical-frame` | atmosphere | Warm paper + outer field |
-| done | `split-panel-technical` | hero splits | Tech brackets on folds |
-| done | `edge-fade-craft` | rails | Alpha masks on overflow |
-| done | `elevation-depth-tokens` | depth | Neutral `--sh-*` layers |
-| done | `gates-until-verified` | proof loop | Acceptance-gate wrapper skill |
-| queued | `editorial-chapter-craft` | story layouts | Chapter rhythm |
-| queued | `scrub-sequence-craft` | educational figures | Step instruments |
-| queued | `operational-console-craft` | dashboard | Dense operator shells |
-| queued | `wireframe-info-layout` | system-crafted | Spec denseness |
-| queued | `atmosphere-surface-craft` | backgrounds | Restrained folds (not particles) |
-| queued | `marquee-proof-rail` | proof boards | Existing marquee-proof deepen |
-| skip | continuous particles / laser / gooey orbs | — | Conflicts with restrained motion |
-| skip | purple / glass-everywhere theme packs | — | Banned AI-default cluster |
+## Engine-routed SkillNodeIds
+
+| Tell skill id | Engine effect |
+|---|---|
+| `product-proof-stage` | `workflow-proof` + HTMX |
+| `conversion-landing-craft` | FAQ objections + CTA risk |
+| `pricing-decision-craft` | Cadence toggle + risk note |
+| `scroll-reveal-once` | Once-only reveals |
+| `indexed-detail-markers` | `.ds-index-mark` |
+| `honest-integration-marks` | Declared mark row |
+| `paper-technical-frame` | `data-frame=paper-technical` |
+| `split-panel-technical` | Tech brackets on folds |
+| `edge-fade-craft` | Rail alpha masks |
+| `elevation-depth-tokens` | `--sh-sm/raised/overlay` |
+| `editorial-chapter-craft` | Chapter story pacing |
+| `scrub-sequence-craft` | Educational scrub routing |
+| `operational-governance-craft` | Governance FAQ |
+| `wireframe-annotation-craft` | Specimen annotations |
+
+## Agent playbooks (technique / remap)
+
+`gates-until-verified`, `surface-recipe-map`, `accent-border-craft`, `reveal-hover-craft`, `nested-frame-craft`, `image-first-fold`, `agency-minimal-grid`, `marquee-rail-craft`
+
+## Skipped spectacle
+
+Particles, lasers, gooey orbs, purple/glass-everywhere, dual smooth-scroll — see `surface-recipe-map`.
 
 ## How to add the next skill
 
-1. Extract principles only from the external pattern.
-2. Write Tell `SKILL.md` (agent + `.cursor/skills` when agent-invokable).
-3. Prefer improving `@tell/design-skills` over new site kinds.
-4. Add SkillNodeId only when routing must change.
+1. Extract principles only.
+2. Write Tell `SKILL.md`.
+3. Prefer `@tell/design-skills` improvements over new site kinds.
+4. SkillNodeId only when routing changes.
 5. Tests green → commit → push.

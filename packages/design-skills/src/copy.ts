@@ -353,6 +353,22 @@ export function questions(brief: DesignBrief, features: FeatureSpec[]): Array<{ 
       `Use the same ${brief.businessGoal === "demos" ? "demo" : "primary"} path on this page — a human answers scope, security, and sequencing without a separate maze`,
     ),
   });
+
+  if (brief.siteKind === "corporate-story" || brief.siteKind === "fintech-marketing") {
+    out.push({
+      title: "Who approves irreversible actions?",
+      body: sentence(
+        `A named human gate sits before apply. ${brief.productName} drafts; operators approve — nothing auto-applies behind the scenes`,
+      ),
+    });
+    out.push({
+      title: "What happens when something fails mid-flight?",
+      body: sentence(
+        `Exceptions surface with a rollback path. The page lists declared capabilities — recovery is part of the workflow, not a footnote`,
+      ),
+    });
+  }
+
   return out;
 }
 

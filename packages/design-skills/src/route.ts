@@ -63,6 +63,29 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     nodes.add("restrained-motion-micro");
   }
 
+  if (
+    analysis.siteKind === "art-directed-studio" ||
+    analysis.siteKind === "corporate-story" ||
+    analysis.siteKind === "consumer-craft" ||
+    analysis.siteKind === "editorial-foundry" ||
+    taste.aestheticLean === "refined-story"
+  ) {
+    nodes.add("editorial-chapter-craft");
+    nodes.add("content-storytelling-pages");
+  }
+
+  if (analysis.siteKind === "docs-educational") {
+    nodes.add("scrub-sequence-craft");
+  }
+
+  if (analysis.siteKind === "corporate-story" || analysis.siteKind === "fintech-marketing") {
+    nodes.add("operational-governance-craft");
+  }
+
+  if (taste.aestheticLean === "system-crafted" || taste.colorMood === "dark-premium") {
+    nodes.add("wireframe-annotation-craft");
+  }
+
   const order: SkillNodeId[] = [
     "analyze-features-requirements",
     "design-system-foundation",
@@ -70,11 +93,15 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     "navigation-header-footer",
     "hero-section",
     "split-panel-technical",
+    "scrub-sequence-craft",
     "features-benefits",
     "indexed-detail-markers",
+    "wireframe-annotation-craft",
     "product-proof-stage",
     "honest-integration-marks",
     "conversion-landing-craft",
+    "editorial-chapter-craft",
+    "operational-governance-craft",
     "pricing-or-plans",
     "pricing-decision-craft",
     "content-storytelling-pages",
