@@ -610,7 +610,10 @@ export function buildSections(
                   : sentence(`The sequence ${brief.audience} actually meet, in order`),
             blocks: chapters(editorial.features).map((c, i) =>
               block({
-                title: c.title,
+                title:
+                  brief.siteKind === "lantern-path"
+                    ? ["Threshold", "Gardens", "Craft", "Rituals", "Afterlight", "Ember"][i] ?? c.title
+                    : c.title,
                 body: c.body,
                 meta: brief.siteKind === "signal-observatory"
                   ? `T+${String(i * 6).padStart(2, "0")}h`

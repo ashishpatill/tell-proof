@@ -777,8 +777,10 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-path-claim .ds-hero-aside,
 [data-sitekind="lantern-path"] .ds-path-claim .ds-hero-facts{display:none}
 [data-sitekind="lantern-path"] .ds-path-field{
-  margin-top:calc(var(--s-3xl, 3rem) * -1.35);position:relative;z-index:1;
+  margin-top:calc(var(--s-3xl, 3rem) * -1.55);position:relative;z-index:1;
   padding-left:var(--way-rail);
+  width:100vw;margin-left:calc(50% - 50vw + var(--way-rail));
+  max-width:none;
 }
 [data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(92vh,960px)}
 [data-sitekind="lantern-path"] .ds-hero-path{min-height:min(100vh,920px)}
@@ -803,6 +805,12 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
 [data-sitekind="lantern-path"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="lantern-path"] .ds-ember-mark{margin-top:calc(var(--s-sm) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="lantern-path"] .ds-proof-figure,
+[data-sitekind="lantern-path"] .ds-plate-fold,
+[data-sitekind="lantern-path"] .ds-plate-lit,
+[data-sitekind="lantern-path"] .ds-btn{box-shadow:none!important}
+[data-sitekind="lantern-path"] .ds-proof-cell.is-lead,
+[data-sitekind="lantern-path"] .ds-proof-cell:first-child{box-shadow:inset 0 1px 0 var(--c-accent)}
 [data-sitekind="lantern-path"] .ds-path-near{
   position:absolute;left:var(--way-rail);right:0;bottom:0;height:min(22vh,180px);
   pointer-events:none;z-index:2;overflow:hidden;
@@ -2165,7 +2173,7 @@ ${surfaceRules()}
 .ds-ember-beat{position:relative;padding-left:1.75rem}
 .ds-ember-bead{
   position:absolute;left:0;top:0.35rem;width:0.75rem;height:0.75rem;border-radius:50%;
-  background:var(--c-accent);box-shadow:0 0 0 1px var(--c-paper);
+  background:var(--c-accent);border:1px solid var(--c-paper);
 }
 .ds-ember-measure h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
 .ds-ember-note{

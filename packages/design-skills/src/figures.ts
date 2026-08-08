@@ -1810,14 +1810,8 @@ export function pathPlate(
     `<rect x="${round(padX + 8)}" y="${round(H * 0.38)}" width="${round(W - padX * 2 - 16)}" height="${round(H * 0.12)}" fill="color-mix(in srgb, var(--c-paper) 8%, transparent)" opacity="0.9"/>`,
   );
 
-  const base = features.length ? features : [
-    { title: "Threshold", body: "" },
-    { title: "Gardens", body: "" },
-    { title: "Craft", body: "" },
-    { title: "Rituals", body: "" },
-    { title: "Afterlight", body: "" },
-  ] as Block[];
-  const n = Math.min(5, Math.max(3, base.length));
+  const chapterNames = ["Threshold", "Gardens", "Craft", "Rituals", "Afterlight"];
+  const n = 5;
   const pathTop = padY + 56;
   const pathBottom = H - padY - 110;
   const pathLeft = padX + 48;
@@ -1847,22 +1841,22 @@ export function pathPlate(
   );
   parts.push(text("ELEV", pathLeft, pathBottom + 52, { size: FIG_MONO_PX, fill: "color-mix(in srgb, var(--c-paper) 40%, transparent)", mono: true }));
 
-  // Winding path + lantern waypoints.
+  // Winding path + lantern waypoints — fixed chapter names (not truncated feature titles).
   const waypoints: { x: number; y: number; title: string; roman: string }[] = [];
   const romans = ["I", "II", "III", "IV", "V"];
   for (let i = 0; i < n; i += 1) {
-    const t = n === 1 ? 0.5 : i / (n - 1);
+    const t = i / (n - 1);
     const x = pathLeft + t * (pathRight - pathLeft);
     const y =
       pathTop +
-      40 +
-      Math.sin(t * Math.PI) * (pathBottom - pathTop - 80) * 0.55 +
-      (i % 2 === 0 ? 18 : -12);
+      48 +
+      Math.sin(t * Math.PI) * (pathBottom - pathTop - 100) * 0.52 +
+      (i % 2 === 0 ? 22 : -16);
     waypoints.push({
       x,
       y,
-      title: base[i % base.length]!.title,
-      roman: romans[i] ?? String(i + 1),
+      title: chapterNames[i]!,
+      roman: romans[i]!,
     });
   }
 
@@ -1897,7 +1891,7 @@ export function pathPlate(
       }),
     );
     parts.push(
-      text(clip(w.title, 14), w.x, w.y + 32, {
+      text(clip(w.title, 12), w.x, w.y + 32, {
         size: FIG_MONO_PX,
         fill: "color-mix(in srgb, var(--c-paper) 55%, transparent)",
         mono: true,
@@ -1906,26 +1900,56 @@ export function pathPlate(
     );
   }
 
+  // Terrain fill under path — denser night matter so the atlas is not a thin polyline.
+  const terrain: string[] = [`${round(pathLeft)},${round(pathBottom + 8)}`];
+  for (const w of waypoints) {
+    terrain.push(`${round(w.x)},${round(w.y + 28)}`);
+  }
+  terrain.push(`${round(pathRight)},${round(pathBottom + 8)}`);
+  parts.push(
+    `<polygon points="${terrain.join(" ")}" fill="color-mix(in srgb, ${ACCENT} 8%, transparent)" opacity="0.55"/>`,
+  );
+
+  // Feature legend chips — citeable matter from the brief, parked under waypoints (not as labels).
+  const legend = (features.length ? features : [{ title: "Waypoint" } as Block]).slice(0, 3);
+  legend.forEach((f, i) => {
+    const lx = padX + 20 + i * 160;
+    const ly = pathTop + 8;
+    parts.push(
+      `<rect x="${round(lx)}" y="${round(ly)}" width="140" height="22" fill="color-mix(in srgb, var(--c-paper) 8%, transparent)" stroke="color-mix(in srgb, var(--c-paper) 22%, transparent)" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      text(clip(f.title, 18), lx + 8, ly + 15, {
+        size: FIG_MONO_PX,
+        fill: "color-mix(in srgb, var(--c-paper) 60%, transparent)",
+        mono: true,
+      }),
+    );
+  });
+
   // Silhouette near-plane matter along the foot — gate, pines, stones (filled).
   const silY = H - padY - 28;
   const silBase = H - padY - 4;
-  // Gate silhouette
+  // Gate silhouette — denser filled matter
   parts.push(
-    `<path d="M${round(padX + 28)} ${round(silBase)} L${round(padX + 28)} ${round(silY - 36)} L${round(padX + 48)} ${round(silY - 52)} L${round(padX + 68)} ${round(silY - 36)} L${round(padX + 68)} ${round(silBase)} Z" fill="color-mix(in srgb, var(--c-ink) 70%, #000 30%)" opacity="0.95"/>`,
+    `<path d="M${round(padX + 28)} ${round(silBase)} L${round(padX + 28)} ${round(silY - 48)} L${round(padX + 52)} ${round(silY - 68)} L${round(padX + 76)} ${round(silY - 48)} L${round(padX + 76)} ${round(silBase)} Z" fill="color-mix(in srgb, var(--c-ink) 55%, #000 45%)" opacity="0.98"/>`,
   );
-  // Pines
-  for (let p = 0; p < 4; p += 1) {
-    const px = padX + 120 + p * ((W - padX * 2 - 200) / 3);
-    const ph = 48 + (p % 3) * 10 + r() * 8;
+  parts.push(
+    `<rect x="${round(padX + 40)}" y="${round(silY - 28)}" width="24" height="28" fill="color-mix(in srgb, ${ACCENT} 35%, transparent)" opacity="0.7"/>`,
+  );
+  // Pines — denser bank
+  for (let p = 0; p < 6; p += 1) {
+    const px = padX + 110 + p * ((W - padX * 2 - 220) / 5);
+    const ph = 56 + (p % 3) * 12 + r() * 10;
     parts.push(
-      `<path d="M${round(px)} ${round(silBase)} L${round(px - 16)} ${round(silBase - ph * 0.45)} L${round(px - 8)} ${round(silBase - ph * 0.45)} L${round(px - 20)} ${round(silBase - ph * 0.75)} L${round(px - 6)} ${round(silBase - ph * 0.75)} L${round(px)} ${round(silBase - ph)} L${round(px + 6)} ${round(silBase - ph * 0.75)} L${round(px + 20)} ${round(silBase - ph * 0.75)} L${round(px + 8)} ${round(silBase - ph * 0.45)} L${round(px + 16)} ${round(silBase - ph * 0.45)} Z" fill="color-mix(in srgb, var(--c-ink) 75%, #000 25%)" opacity="0.92"/>`,
+      `<path d="M${round(px)} ${round(silBase)} L${round(px - 18)} ${round(silBase - ph * 0.45)} L${round(px - 9)} ${round(silBase - ph * 0.45)} L${round(px - 22)} ${round(silBase - ph * 0.75)} L${round(px - 7)} ${round(silBase - ph * 0.75)} L${round(px)} ${round(silBase - ph)} L${round(px + 7)} ${round(silBase - ph * 0.75)} L${round(px + 22)} ${round(silBase - ph * 0.75)} L${round(px + 9)} ${round(silBase - ph * 0.45)} L${round(px + 18)} ${round(silBase - ph * 0.45)} Z" fill="color-mix(in srgb, var(--c-ink) 60%, #000 40%)" opacity="0.95"/>`,
     );
   }
   // Stones
-  for (let s = 0; s < 5; s += 1) {
-    const sx = padX + 90 + s * 38 + r() * 10;
+  for (let s = 0; s < 7; s += 1) {
+    const sx = padX + 80 + s * 42 + r() * 12;
     parts.push(
-      `<ellipse cx="${round(sx)}" cy="${round(silBase - 6)}" rx="${round(14 + r() * 8)}" ry="${round(5 + r() * 3)}" fill="color-mix(in srgb, var(--c-paper) 12%, #000 88%)" opacity="0.9"/>`,
+      `<ellipse cx="${round(sx)}" cy="${round(silBase - 7)}" rx="${round(16 + r() * 10)}" ry="${round(6 + r() * 3)}" fill="color-mix(in srgb, var(--c-paper) 14%, #000 86%)" opacity="0.92"/>`,
     );
   }
   parts.push(

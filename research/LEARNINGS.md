@@ -372,3 +372,20 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   filter table rows. Proof cells → `.ds-proof-hit` with `aria-pressed`. Basics gates require buttons
   + handlers; forbid SVG `data-figure="flow"` and `<a class="ds-priority-chip">`.
 - **Do not:** Style chrome as interactive unless click/keyboard changes visible state.
+
+## 2026-08-08 — `template:nightwalk-needs-atlas-not-webgl`
+
+- **Failure named (champion):** Soft dark cinematic tourism pages answer atmospheric scroll
+  chapters with heavy WebGL canvases, AI scene plates, and glow/particle stacks. A recolored
+  SaaS dark theme cannot beat that look either — same conversion skeleton under night paint.
+- **Challenger:** `lantern-path` — paper-led editorial page with an unreplicable **path-plate**
+  night cartograph owning the fold (elevation + lantern waypoints Threshold→Afterlight +
+  silhouette near-plane matter, `data-dense=ink`), sticky `ds-way-rail` Ch I–V, `story-ember`
+  bead essay, Ember close. Waypoint scroll + silhouette opacity handoff; reduced-motion safe.
+- **Eval:** First critique **98.0** (shadow 0.016 out); RSI fix dropped decorative shadows →
+  **98.6** (shadow 0.006 in band); foldFigure **0.71**. Playwright: plate dense, chapter labels
+  citeable, ember reveals fire, waypoint rail tracks scroll. Eye: atlas owns the fold — not
+  sticky-nav chrome or empty dark voids.
+- **Do not:** Answer atmospheric night-walk craft with WebGL tourism chrome, bloom stacks, or
+  a dark SaaS hero. Invent a citeable atlas instrument, hang it into the fold, keep the page
+  paper-led so contrast/critique bands hold.
