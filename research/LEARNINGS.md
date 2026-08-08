@@ -465,3 +465,13 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Fix:** Workflow field gap `--s-xl`, plate `transform:none`, denser chip gap, workflow proof
   `margin-bottom:0`. Basics gate `workflow-stack-clears-panel`.
 - **Do not:** Reuse proof-board hang transforms inside a vertical stack of discrete surfaces.
+
+## 2026-08-08 — `template:cast-floats-off-type`
+
+- **Failure:** Kinetic/Mote fold put Reed + Pip in a separate column/band under the headline. CSS
+  translate “overlap” still left the hand ~120×170px off “makes”; human eye read two compositions
+  (type left, cast bottom-right) plus a dead airway — not “leans on the type.”
+- **Fix:** Absolute cast over the hero; measure `.kn-makes-hook` and pin Reed’s hand with a layout
+  effect (ResizeObserver + fonts.ready). Gate: `|hand−makes.right| < 40px` and `|hand−makes.midY| < 40px`
+  at 1440×900. Brand line larger than “makes/motion.” `overflow-x: clip` (not hidden) so scrub sticky works.
+- **Do not:** Trust percentage transforms alone to sell a character–type contact; pin to the glyph box.

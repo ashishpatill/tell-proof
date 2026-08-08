@@ -50,6 +50,9 @@ export default function ShowcaseGalleryPage() {
           </Link>
           <nav className="sx-nav-links" aria-label="Primary">
             <a href="#reels">Reels</a>
+            <Link href="/kinetic" prefetch={false}>
+              Motion
+            </Link>
             <Link href="/studio" prefetch={false}>
               Studio
             </Link>
