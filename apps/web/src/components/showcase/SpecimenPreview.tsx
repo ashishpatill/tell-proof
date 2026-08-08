@@ -154,6 +154,7 @@ export function SpecimenPreview({
           .ds-tape-rail{display:none!important}
           .ds-taxon-rail{display:none!important}
           .ds-sig-rail{display:none!important}
+          .ds-way-rail{display:none!important}
           .ds-press-regs{display:none!important}
           .ds-stage-rail{display:none!important}
           .ds-priority-rail{display:none!important}

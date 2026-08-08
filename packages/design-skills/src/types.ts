@@ -110,6 +110,15 @@ export const SiteKind = z.enum([
    * alignment axes ~3–6, dense bleeds). Not SaaS, foundry, dossier, observatory, or archive.
    */
   "press-atelier",
+  /**
+   * Lantern path / cinematic night-walk craft — chapter waypoint rail, path masthead,
+   * spanning path-plate cartograph owning the fold (elevation + lanterns + silhouettes),
+   * ember essay with bead ticks, Ember close. Calibrated to art-directed-studio +
+   * editorial-longform + personal-craft (foldFigure high, figureArea ~0.4–0.7, invertedShare ~0,
+   * quiet-to-moderate display, dense plate matter, paper-led page with a night atlas figure).
+   * Not a soft dark SaaS glow page, not WebGL tourism chrome, not press/archive/loom.
+   */
+  "lantern-path",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 
@@ -385,6 +394,16 @@ export const LayoutVariant = z.enum([
    * Not entry folios, chrono beads, verso/recto, or marginalia.
    */
   "story-gather",
+  /**
+   * Path fold — sticky chapter waypoint rail + compact claim + spanning night path-plate.
+   * Lantern-path signature; not press forme, archive ledger, or soft dark hero collage.
+   */
+  "hero-path",
+  /**
+   * Ember essay — lantern bead ticks + outer chapter index — lantern-path craft.
+   * Not gather signatures, range beads, hangtag, or chrono track.
+   */
+  "story-ember",
   "pullquote",
   "pricing-lanes",
   "compare-matrix",

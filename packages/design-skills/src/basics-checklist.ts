@@ -377,13 +377,32 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Press offerings use press fold + signature rail + press sheet + gather essay + Pressroom — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
+      "kind-lantern",
+      spec.brief.siteKind !== "lantern-path"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && !spec.sections.some((s) => s.kind === "metrics")
+          && /ds-hero-path/.test(html)
+          && /ds-path-masthead/.test(html)
+          && /ds-way-rail/.test(html)
+          && /data-figure="path-plate"/.test(html)
+          && /ds-ember/.test(html)
+          && /Ember/.test(html)
+          && /ds-bleed-rule/.test(html)
+          && /ds-path-near/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length === 0
+        ),
+      "Lantern-path offerings use path fold + waypoint rail + path plate + ember essay + Ember — no pricing, no metrics theatre, zero inverse bands.",
+    ),
+    check(
       "fig-mono-floor",
       !Array.from(html.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)).some((m) => Number(m[1]) > 0 && Number(m[1]) < 11),
       "SVG figure labels stay at ≥11px — smaller mono invents a type-step the probe counts but the eye cannot use.",
     ),
     check(
       "craft-figure-dense",
-      !/data-figure="press-sheet"/.test(html) || /data-figure="press-sheet"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="press-sheet"/.test(html),
+      (!/data-figure="press-sheet"/.test(html) || /data-figure="press-sheet"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="press-sheet"/.test(html))
+        && (!/data-figure="path-plate"/.test(html) || /data-figure="path-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="path-plate"/.test(html)),
       "Cell-grid craft figures must carry drawn page matter (data-dense=ink) — empty stroked voids fail the eye.",
     ),
     check(
@@ -392,6 +411,9 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         const kind = spec.brief.siteKind;
         if (kind === "press-atelier") {
           return /ds-press-field/.test(html) && /ds-press-claim/.test(html) && /ds-hero-press \.ds-cta-note\{display:none\}/.test(html);
+        }
+        if (kind === "lantern-path") {
+          return /ds-path-field/.test(html) && /ds-path-claim/.test(html) && /ds-hero-path \.ds-cta-note\{display:none\}/.test(html);
         }
         if (kind === "archive-index") {
           return /ds-register-field/.test(html) && /ds-hero-register/.test(html);

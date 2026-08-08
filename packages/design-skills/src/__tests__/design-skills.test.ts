@@ -310,7 +310,7 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(14);
+    expect(templates).toHaveLength(15);
     expect(templates.map((t) => t.key).sort()).toEqual([
       "archive",
       "consumer",
@@ -321,6 +321,7 @@ describe("research-backed offerings + implementation basics", () => {
       "fintech",
       "foundry",
       "herbarium",
+      "lantern",
       "loom",
       "observatory",
       "press",
@@ -351,6 +352,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(herbarium.siteKind).toBe("field-guide");
     const press = templates.find((t) => t.key === "press")!;
     expect(press.siteKind).toBe("press-atelier");
+    const lantern = templates.find((t) => t.key === "lantern")!;
+    expect(lantern.siteKind).toBe("lantern-path");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -551,6 +554,35 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).not.toContain('class="ds-chapter-rail"');
     expect(previewHtml).not.toContain('class="ds-scrub-rail"');
     // Engine mono floor — no SVG figure labels below 11px.
+    const svgSizes = [...previewHtml.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)].map((m) => Number(m[1]));
+    expect(svgSizes.every((n) => n >= 11)).toBe(true);
+  });
+
+  it("gives lantern path a waypoint rail + path plate + ember plan distinct from press and soft dark heroes", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    expect(spec.brief.siteKind).toBe("lantern-path");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-path")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-ember")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="lantern-path"');
+    expect(previewHtml).toContain("ds-hero-path");
+    expect(previewHtml).toContain("ds-path-masthead");
+    expect(previewHtml).toContain("ds-way-rail");
+    expect(previewHtml).toContain('data-figure="path-plate"');
+    expect(previewHtml).toContain('data-dense="ink"');
+    expect(previewHtml).toMatch(/data-figure="path-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="path-plate"/);
+    expect(previewHtml).toContain("PATH ATLAS");
+    expect(previewHtml).toContain("ds-ember");
+    expect(previewHtml).toContain("ds-path-near");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Ember");
+    expect(previewHtml).toContain("The chapters");
+    expect(previewHtml).not.toContain('class="ds-alpha-rail"');
+    expect(previewHtml).not.toContain('class="ds-sig-rail"');
+    expect(previewHtml).not.toContain('class="ds-scrub-rail"');
     const svgSizes = [...previewHtml.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)].map((m) => Number(m[1]));
     expect(svgSizes.every((n) => n >= 11)).toBe(true);
   });

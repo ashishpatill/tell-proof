@@ -373,6 +373,35 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       },
     },
   },
+  {
+    id: "lantern-path",
+    brief: {
+      productName: "Ember Gate",
+      tagline: "The atlas that keeps every night path under one reading",
+      audience: "editors and founders staging a cinematic multi-chapter walk",
+      businessGoal: "trust",
+      siteKind: "lantern-path",
+      lockSiteKind: true,
+      brandAccent: "#B86B2E",
+      features: [
+        { id: "n1", name: "Chapter waypoints", description: "Five sticky chapter marks that keep the walk citeable without a dark SaaS sidebar.", priority: "p0" },
+        { id: "n2", name: "Path cartograph", description: "A spanning night atlas with elevation, lanterns, and silhouette matter owning the fold.", priority: "p0" },
+        { id: "n3", name: "Lantern markers", description: "Waypoint beacons that light each chapter without decorative bloom stacks.", priority: "p0" },
+        { id: "n4", name: "Silhouette near-plane", description: "Pinned foreground silhouettes that hand off between chapters without orphan layers.", priority: "p1" },
+        { id: "n5", name: "Ember essay", description: "A bead-ticked reading so the afterlight stays citeable while you decide.", priority: "p1" },
+        { id: "n6", name: "Ember close", description: "Chapter custody stamped so a reused walk cannot orphan its edition.", priority: "p2" },
+      ],
+      constraints: ["path-first", "path plate", "ember essay", "no pricing theatre", "restrained motion"],
+      taste: {
+        aestheticLean: "refined-story",
+        motion: "light-scroll-reveals",
+        density: "sparse",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    },
+  },
 ];
 
 /**

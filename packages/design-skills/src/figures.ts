@@ -108,6 +108,7 @@ export type FigureKind =
   | "loom-weave"
   | "specimen-plate"
   | "press-sheet"
+  | "path-plate"
   | "pipeline-board"
   | "queue-console"
   | "posture-grid"
@@ -1752,6 +1753,200 @@ export function pressSheet(
 }
 
 /**
+ * Path plate — lantern-path signature figure.
+ *
+ * Night cartograph: elevation ribbon, winding path, five lantern waypoints with filled
+ * silhouette near-planes (gate / pine / stone). Dense ink — not empty dark voids or soft glow cards.
+ * Mono labels only (≤11px). Theme packs restyle dark heroes; they do not invent a citeable night atlas.
+ */
+export function pathPlate(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:path-plate:${role}`);
+  const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
+  const H = role === "band" ? 860 : role === "column" ? 560 : 520;
+  const padX = role === "band" ? 40 : 24;
+  const padY = role === "band" ? 36 : 24;
+  const parts: string[] = [];
+
+  // Night field — filled matter, not an empty void.
+  parts.push(
+    `<rect x="0" y="0" width="${W}" height="${H}" fill="var(--c-ink)" opacity="0.92"/>`,
+  );
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="color-mix(in srgb, var(--c-ink) 88%, var(--c-accent) 12%)" stroke="${LINE}" stroke-width="1" opacity="0.98" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  const headY = padY + 18;
+  parts.push(text("PATH ATLAS", padX + 14, headY, { size: FIG_MONO_PX, fill: "color-mix(in srgb, var(--c-paper) 55%, transparent)", mono: true }));
+  parts.push(
+    text(clip(productName, 26), W / 2, headY, {
+      size: FIG_MONO_PX,
+      fill: "color-mix(in srgb, var(--c-paper) 70%, transparent)",
+      mono: true,
+      anchor: "middle",
+    }),
+  );
+  parts.push(
+    text("CH I–V · NIGHT WALK", W - padX - 14, headY, {
+      size: FIG_MONO_PX,
+      fill: "color-mix(in srgb, var(--c-paper) 45%, transparent)",
+      mono: true,
+      anchor: "end",
+    }),
+  );
+
+  // Moon — simple filled disc, no glow stack.
+  const moonX = W - padX - 72;
+  const moonY = padY + 72;
+  parts.push(`<circle cx="${round(moonX)}" cy="${round(moonY)}" r="22" fill="color-mix(in srgb, var(--c-paper) 82%, ${ACCENT} 18%)" opacity="0.9"/>`);
+  parts.push(`<circle cx="${round(moonX + 8)}" cy="${round(moonY - 4)}" r="22" fill="color-mix(in srgb, var(--c-ink) 88%, var(--c-accent) 12%)" opacity="0.95"/>`);
+
+  // Horizon haze band.
+  parts.push(
+    `<rect x="${round(padX + 8)}" y="${round(H * 0.38)}" width="${round(W - padX * 2 - 16)}" height="${round(H * 0.12)}" fill="color-mix(in srgb, var(--c-paper) 8%, transparent)" opacity="0.9"/>`,
+  );
+
+  const base = features.length ? features : [
+    { title: "Threshold", body: "" },
+    { title: "Gardens", body: "" },
+    { title: "Craft", body: "" },
+    { title: "Rituals", body: "" },
+    { title: "Afterlight", body: "" },
+  ] as Block[];
+  const n = Math.min(5, Math.max(3, base.length));
+  const pathTop = padY + 56;
+  const pathBottom = H - padY - 110;
+  const pathLeft = padX + 48;
+  const pathRight = W - padX - 48;
+
+  // Elevation ribbon under the path — filled contour, not hairline flood.
+  const elevPts: string[] = [];
+  const elevFill: string[] = [`${round(pathLeft)},${round(pathBottom + 36)}`];
+  for (let i = 0; i <= 24; i += 1) {
+    const t = i / 24;
+    const x = pathLeft + t * (pathRight - pathLeft);
+    const y =
+      pathBottom +
+      8 +
+      Math.sin(t * Math.PI * 2.2) * 14 +
+      Math.cos(t * Math.PI * 1.1) * 8 +
+      (r() - 0.5) * 4;
+    elevPts.push(`${round(x)},${round(y)}`);
+    elevFill.push(`${round(x)},${round(y)}`);
+  }
+  elevFill.push(`${round(pathRight)},${round(pathBottom + 36)}`);
+  parts.push(
+    `<polygon points="${elevFill.join(" ")}" fill="color-mix(in srgb, var(--c-paper) 10%, transparent)" opacity="0.95"/>`,
+  );
+  parts.push(
+    `<polyline points="${elevPts.join(" ")}" fill="none" stroke="color-mix(in srgb, var(--c-paper) 28%, transparent)" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(text("ELEV", pathLeft, pathBottom + 52, { size: FIG_MONO_PX, fill: "color-mix(in srgb, var(--c-paper) 40%, transparent)", mono: true }));
+
+  // Winding path + lantern waypoints.
+  const waypoints: { x: number; y: number; title: string; roman: string }[] = [];
+  const romans = ["I", "II", "III", "IV", "V"];
+  for (let i = 0; i < n; i += 1) {
+    const t = n === 1 ? 0.5 : i / (n - 1);
+    const x = pathLeft + t * (pathRight - pathLeft);
+    const y =
+      pathTop +
+      40 +
+      Math.sin(t * Math.PI) * (pathBottom - pathTop - 80) * 0.55 +
+      (i % 2 === 0 ? 18 : -12);
+    waypoints.push({
+      x,
+      y,
+      title: base[i % base.length]!.title,
+      roman: romans[i] ?? String(i + 1),
+    });
+  }
+
+  // Path stroke as thick filled underlay + thin edge (rule-light).
+  const pathD = waypoints
+    .map((w, i) => `${i === 0 ? "M" : "L"}${round(w.x)} ${round(w.y)}`)
+    .join(" ");
+  parts.push(
+    `<path d="${pathD}" fill="none" stroke="color-mix(in srgb, var(--c-paper) 18%, transparent)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>`,
+  );
+  parts.push(
+    `<path d="${pathD}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  for (let i = 0; i < waypoints.length; i += 1) {
+    const w = waypoints[i]!;
+    // Lantern body — filled rect + flame, not a glow blur stack.
+    parts.push(
+      `<rect x="${round(w.x - 5)}" y="${round(w.y - 18)}" width="10" height="14" rx="1" fill="color-mix(in srgb, ${ACCENT} 70%, var(--c-paper) 30%)" opacity="0.95"/>`,
+    );
+    parts.push(
+      `<rect x="${round(w.x - 3)}" y="${round(w.y - 26)}" width="6" height="8" fill="${ACCENT}" opacity="0.9"/>`,
+    );
+    parts.push(`<circle cx="${round(w.x)}" cy="${round(w.y - 28)}" r="3.5" fill="${ACCENT}" opacity="0.85"/>`);
+    parts.push(`<circle cx="${round(w.x)}" cy="${round(w.y)}" r="3" fill="var(--c-paper)" opacity="0.75"/>`);
+    parts.push(
+      text(`CH ${w.roman}`, w.x, w.y + 18, {
+        size: FIG_MONO_PX,
+        fill: "color-mix(in srgb, var(--c-paper) 75%, transparent)",
+        mono: true,
+        anchor: "middle",
+      }),
+    );
+    parts.push(
+      text(clip(w.title, 14), w.x, w.y + 32, {
+        size: FIG_MONO_PX,
+        fill: "color-mix(in srgb, var(--c-paper) 55%, transparent)",
+        mono: true,
+        anchor: "middle",
+      }),
+    );
+  }
+
+  // Silhouette near-plane matter along the foot — gate, pines, stones (filled).
+  const silY = H - padY - 28;
+  const silBase = H - padY - 4;
+  // Gate silhouette
+  parts.push(
+    `<path d="M${round(padX + 28)} ${round(silBase)} L${round(padX + 28)} ${round(silY - 36)} L${round(padX + 48)} ${round(silY - 52)} L${round(padX + 68)} ${round(silY - 36)} L${round(padX + 68)} ${round(silBase)} Z" fill="color-mix(in srgb, var(--c-ink) 70%, #000 30%)" opacity="0.95"/>`,
+  );
+  // Pines
+  for (let p = 0; p < 4; p += 1) {
+    const px = padX + 120 + p * ((W - padX * 2 - 200) / 3);
+    const ph = 48 + (p % 3) * 10 + r() * 8;
+    parts.push(
+      `<path d="M${round(px)} ${round(silBase)} L${round(px - 16)} ${round(silBase - ph * 0.45)} L${round(px - 8)} ${round(silBase - ph * 0.45)} L${round(px - 20)} ${round(silBase - ph * 0.75)} L${round(px - 6)} ${round(silBase - ph * 0.75)} L${round(px)} ${round(silBase - ph)} L${round(px + 6)} ${round(silBase - ph * 0.75)} L${round(px + 20)} ${round(silBase - ph * 0.75)} L${round(px + 8)} ${round(silBase - ph * 0.45)} L${round(px + 16)} ${round(silBase - ph * 0.45)} Z" fill="color-mix(in srgb, var(--c-ink) 75%, #000 25%)" opacity="0.92"/>`,
+    );
+  }
+  // Stones
+  for (let s = 0; s < 5; s += 1) {
+    const sx = padX + 90 + s * 38 + r() * 10;
+    parts.push(
+      `<ellipse cx="${round(sx)}" cy="${round(silBase - 6)}" rx="${round(14 + r() * 8)}" ry="${round(5 + r() * 3)}" fill="color-mix(in srgb, var(--c-paper) 12%, #000 88%)" opacity="0.9"/>`,
+    );
+  }
+  parts.push(
+    text("NEAR PLANE · SILHOUETTE", padX + 14, H - padY + 2, {
+      size: FIG_MONO_PX,
+      fill: "color-mix(in srgb, var(--c-paper) 35%, transparent)",
+      mono: true,
+    }),
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "path-plate",
+    label: `${productName} path atlas`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
  * Pipeline board — SaaS-marketing fold instrument.
  * Stage columns with deal nodes and a sticky-rail-friendly ordinal strip. Not interfacePlate.
  */
@@ -2595,6 +2790,7 @@ type Kind =
   | "loom-weave"
   | "specimen-plate"
   | "press-sheet"
+  | "path-plate"
   | "pipeline-board"
   | "queue-console"
   | "posture-grid"
@@ -2639,6 +2835,8 @@ const ORDER: Record<string, Kind[]> = {
   // Field guide: specimen plate owns the fold; horizon keeps scroll rhythm.
   "field-guide": ["specimen-plate", "horizon", "flow", "stack"],
   "press-atelier": ["press-sheet", "flow", "stack", "horizon"],
+  // Lantern path: night cartograph owns the fold; horizon keeps scroll rhythm.
+  "lantern-path": ["path-plate", "horizon", "flow", "stack"],
 };
 
 export function planFigures(input: {
@@ -2696,6 +2894,8 @@ export function planFigures(input: {
         return specimenPlate(input.productName, input.features, seed, role);
       case "press-sheet":
         return pressSheet(input.productName, input.features, seed, role);
+      case "path-plate":
+        return pathPlate(input.productName, input.features, seed, role);
       case "pipeline-board":
         return pipelineBoard(input.productName, input.features, seed, role);
       case "queue-console":
@@ -2717,8 +2917,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -2759,6 +2959,8 @@ export function planFigures(input: {
                 ? ("specimen-plate" as Kind)
             : input.siteKind === "press-atelier"
               ? ("press-sheet" as Kind)
+            : input.siteKind === "lantern-path"
+              ? ("path-plate" as Kind)
             : input.siteKind === "saas-marketing"
               ? ("pipeline-board" as Kind)
             : input.siteKind === "dashboard-webapp"
