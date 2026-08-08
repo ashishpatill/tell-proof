@@ -1,0 +1,11 @@
+---
+description: Prefer local verification; never wait on or drive GitHub Actions CI
+alwaysApply: true
+---
+
+# Local CI only
+
+- **Never** run, wait on, re-run, or gate work on GitHub Actions / `gh pr checks` / remote CI status.
+- Verify locally instead: `pnpm test`, `pnpm typecheck`, package-scoped tests (`pnpm -F @tell/design-skills test`, `pnpm -F @tell/web typecheck`), and Playwright when UI is involved.
+- Ship-loop / PR readiness uses **local green** as the gate — not Actions.
+- Reading a check URL for diagnosis is fine only if the user explicitly asks about a remote failure; do not poll CI by default.
