@@ -652,6 +652,15 @@ describe("research-backed offerings + implementation basics", () => {
     }
   });
 
+  it("keeps the workflow lit plate from hanging into the swap panel", () => {
+    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    expect(previewHtml).toContain("data-workflow-proof");
+    expect(previewHtml).toMatch(/\.ds-workflow-field \.ds-proof-figure\{transform:none/);
+    expect(previewHtml).toMatch(/\.ds-workflow-field\{[^}]*gap:var\(--s-xl\)/);
+    expect(previewHtml).toMatch(/\.ds-proof\.ds-workflow\{[^}]*margin-bottom:0/);
+    expect(previewHtml).toMatch(/\.ds-workflow-rail ol\{[^}]*gap:var\(--s-sm\)/);
+  });
+
   it("fills the proof band with a dense evidence board instead of a lonely quote", () => {
     const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
     expect(previewHtml).toContain("ds-proof-board");

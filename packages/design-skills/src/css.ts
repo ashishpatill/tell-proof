@@ -2453,28 +2453,44 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-proof-meta{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0;text-transform:none;color:var(--c-accent)}
 .ds-proof-cell h3{font-size:var(--t-body-size);line-height:var(--t-body-leading);letter-spacing:var(--t-body-tracking);font-weight:600;max-width:16ch}
 .ds-proof-cell p{font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--surface-muted);max-width:28ch}
-/* Product-proof workflow — stage chips + HTMX-swapped panel on the lit stage. */
+/* Product-proof workflow — stage chips + HTMX-swapped panel on the lit stage.
+ * The plate must NOT hang (translateY) into the panel — that cancelled the stack gap and
+ * made figure + panel read as one fused block. */
 .ds-workflow-rail{margin-top:var(--s-lg)}
-.ds-workflow-rail ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s-2xs)}
-.ds-workflow-chip{display:inline-flex;align-items:center;gap:var(--s-2xs);margin:0;padding:0.55rem 0.75rem;border:1px solid var(--surface-border);border-radius:var(--r-md);background:color-mix(in srgb,var(--surface-bg) 40%,transparent);color:var(--surface-ink);font:inherit;cursor:pointer;min-height:44px}
+.ds-workflow-rail ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s-sm)}
+.ds-workflow-chip{display:inline-flex;align-items:center;gap:var(--s-2xs);margin:0;padding:0.55rem 0.85rem;border:1px solid var(--surface-border);border-radius:var(--r-md);background:color-mix(in srgb,var(--surface-bg) 40%,transparent);color:var(--surface-ink);font:inherit;cursor:pointer;min-height:44px}
 .ds-workflow-chip:hover,.ds-workflow-chip:focus-visible{border-color:var(--c-accent);background:var(--accent-soft)}
-.ds-workflow-chip:focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
+.ds-workflow-chip:focus-visible{outline:2px solid var(--c-accent);outline-offset:3px}
 .ds-workflow-chip.is-live{border-color:var(--c-accent);background:var(--accent-soft);box-shadow:inset 0 -2px 0 var(--c-accent)}
 .ds-workflow-meta{font-family:var(--f-mono);font-size:10px;letter-spacing:0.12em;color:var(--c-accent)}
 .ds-workflow-label{font-size:var(--t-caption-size);font-weight:600}
-.ds-workflow-field{display:grid;gap:var(--s-md);align-content:start;min-width:0}
-.ds-workflow-panel{margin:0;padding:var(--s-md);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);color:var(--c-ink);box-shadow:0 20px 48px color-mix(in srgb,#000 40%,transparent);--surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border)}
-.ds-workflow-card{display:grid;gap:var(--s-sm);align-content:start}
+.ds-workflow-field{display:grid;gap:var(--s-xl);align-content:start;min-width:0}
+.ds-workflow-field .ds-proof-figure{transform:none;margin:0}
+.ds-workflow-field .ds-plate-lit{padding:var(--s-md)}
+.ds-workflow-field .ds-plate figcaption{
+  margin:0;padding:var(--s-xs) var(--s-3xs) var(--s-2xs);
+  line-height:1.35;max-width:100%;
+}
+.ds-workflow-panel{
+  margin:0;padding:var(--s-lg);border:1px solid var(--c-border);border-radius:var(--r-xl);
+  background:var(--c-paper);color:var(--c-ink);
+  box-shadow:0 20px 48px color-mix(in srgb,#000 40%,transparent);
+  --surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border)
+}
+.ds-workflow-card{display:grid;gap:var(--s-md);align-content:start}
 .ds-workflow-kicker{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0.08em;text-transform:uppercase;color:var(--c-accent);margin:0}
 .ds-workflow-card h3{margin:0;font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);max-width:16ch}
 .ds-workflow-body{margin:0;font-size:var(--t-body-size);line-height:var(--t-body-leading);color:var(--c-ink-secondary);max-width:42ch}
-.ds-workflow-points{margin:0;padding-left:1.1rem;display:grid;gap:0.25rem;color:var(--c-ink-secondary);font-size:var(--t-caption-size)}
-.ds-workflow-mark{width:min(100%,11rem);opacity:0.92}
-.ds-workflow-gate{margin:var(--s-sm) 0 0;padding:var(--s-sm);border-left:3px solid var(--c-accent);background:var(--accent-soft);font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--c-ink-secondary);max-width:40ch}
+.ds-workflow-points{margin:0;padding-left:1.1rem;display:grid;gap:0.35rem;color:var(--c-ink-secondary);font-size:var(--t-caption-size)}
+.ds-workflow-mark{width:min(100%,11rem);opacity:0.92;margin-top:var(--s-xs)}
+.ds-workflow-gate{margin:var(--s-md) 0 0;padding:var(--s-md);border-left:3px solid var(--c-accent);background:var(--accent-soft);font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--c-ink-secondary);max-width:40ch}
 .ds-workflow-gate-flag{display:inline-block;font-family:var(--f-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent);margin-right:0.5rem}
+/* Self-contained stage — do not tuck into the following section via proof hang. */
+.ds-proof.ds-workflow{margin-bottom:0;padding-block:var(--s-2xl) var(--section-y)}
+.ds-proof.ds-workflow + .ds-section{padding-top:var(--section-y)}
 @media (max-width:800px){
   .ds-workflow-stage{grid-template-columns:1fr!important}
-  .ds-workflow-rail ol{flex-wrap:nowrap;overflow-x:auto;padding-bottom:var(--s-2xs);-webkit-overflow-scrolling:touch}
+  .ds-workflow-rail ol{flex-wrap:nowrap;overflow-x:auto;padding-bottom:var(--s-2xs);-webkit-overflow-scrolling:touch;gap:var(--s-xs)}
 }
 /* Indexed detail markers — quiet architectural rhythm, never competing with headings. */
 .ds-index-mark{font-family:var(--f-mono);font-size:10px;letter-spacing:0.14em;color:var(--surface-quiet);line-height:1}

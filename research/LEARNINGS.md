@@ -423,3 +423,14 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Fix:** `clipToWidth` / `fitDealChip` (prefer `E · 84k` over `Exe… · 84k`); stage titles use the
   same budget. Vitest locks the narrow-column case. Anno labels get `min-width:0` + ellipsis.
 - **Do not:** Clip figure labels to a fixed character count without measuring the box they sit in.
+
+## 2026-08-08 — `template:workflow-plate-on-panel`
+
+- **Failure:** Northstar workflow stage: lit product plate sat flush on the HTMX panel (0px gap);
+  stage chips cramped at 8px; proof band tucked 48px into the next section.
+- **Root cause:** `.ds-proof-figure{transform:translateY(var(--s-md))}` cancelled
+  `.ds-workflow-field` gap. Proof hang (`margin-bottom: calc(var(--s-xl) * -1)`) is for marquee
+  boards, not a stacked plate+panel.
+- **Fix:** Workflow field gap `--s-xl`, plate `transform:none`, denser chip gap, workflow proof
+  `margin-bottom:0`. Basics gate `workflow-stack-clears-panel`.
+- **Do not:** Reuse proof-board hang transforms inside a vertical stack of discrete surfaces.

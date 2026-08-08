@@ -219,6 +219,14 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Lead chapter inset accent bar needs --chapter-inset padding so it does not clip Step labels.",
     ),
     check(
+      "workflow-stack-clears-panel",
+      !/data-workflow-proof/.test(html) ||
+        (/\.ds-workflow-field \.ds-proof-figure\{transform:none/.test(html) &&
+          /\.ds-workflow-field\{[^}]*gap:var\(--s-xl\)/.test(html) &&
+          /\.ds-proof\.ds-workflow\{[^}]*margin-bottom:0/.test(html)),
+      "Workflow lit plate must not hang (translateY) into the swap panel — keep stack gap and no proof tuck into the next section.",
+    ),
+    check(
       "no-boilerplate-proof-title",
       !/holds under review/i.test(html),
       "Proof titles must be siteKind-specific — never the shared 'holds under review' spam across offerings.",
