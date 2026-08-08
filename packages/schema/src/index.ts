@@ -364,6 +364,8 @@ export const RedesignProposal = z.object({
 export type RedesignProposal = z.infer<typeof RedesignProposal>;
 
 export const TellReport = z.object({
+  /** Session id for redesign → apply chains (MCP / CLI). Additive; offline fixtures omit it. */
+  id: z.string().optional(),
   capture: CapturePayload,
   fingerprint: DesignFingerprint,
   findings: z.array(Finding),
@@ -380,3 +382,6 @@ export const TellReport = z.object({
   activeDirection: ArtDirection.optional(),
 });
 export type TellReport = z.infer<typeof TellReport>;
+
+export * from "./install-info";
+export * from "./resolve-intent";

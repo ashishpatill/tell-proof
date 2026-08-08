@@ -11,6 +11,8 @@
     "test:watch": "vitest",
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "pnpm -r typecheck",
+    "tell": "pnpm -F @tell/cli exec tsx src/cli.ts",
+    "tell:build": "pnpm -F @tell/schema build && pnpm -F @tell/cli build",
     "capture:fixture": "pnpm -F @tell/core capture:fixture",
     "diagnose:fixture": "pnpm -F @tell/core diagnose:fixture",
     "dogfood:web": "pnpm -F @tell/core exec tsx src/scripts/dogfood-web.ts",

@@ -59,6 +59,6 @@ Promote only if pass; append learning; post craft-beat screenshots.
 
 ## Related
 
-- `tell-template-craft` — open-design plumbing → designer corridors
+- `tell-template-craft` — peer plumbing → designer corridors
 - `design-research-loop` — numeric craft bands
 - Gallery: `apps/web/src/components/showcase/SpecimenPreview.tsx`

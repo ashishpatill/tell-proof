@@ -261,6 +261,26 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Do not:** Split display type into per-glyph spans to fake a weave — the forensics probe will
   demote the headline.
 
+## 2026-08-07 — `platform:mcp-doc-drift`
+
+- **Failure:** Skills/agents documented 4 MCP tools while the server shipped 8 (+ growing) — agents
+  called wrong/missing tools; install was clone-and-edit-JSON only.
+- **Fix:** `McpToolName` / `MCP_TOOL_NAMES` in `@tell/schema`, `REGISTERED_MCP_TOOLS` + vitest drift
+  guard, `buildInstallInfo` + `GET /api/install-info`, `tell mcp install cursor`, `tell_voice`,
+  report `id` for redesign chain, `TELL_CAPTURE_API_TOKEN` gate.
+- **Do not:** Document MCP tools only in prose — gate names with schema + a test that reads
+  `packages/mcp/src/index.ts`.
+
+## 2026-08-07 — `platform:next-js-extension-reexports`
+
+- **Failure:** After splitting `@tell/schema` into `install-info.ts` / `resolve-intent.ts`, Next
+  `transpilePackages` failed with `Can't resolve './install-info.js'` on every API route.
+- **Fix:** Re-export with extensionless paths (`./install-info`) like `@tell/taste` — webpack maps
+  them to `.ts` under transpilePackages; tsup still bundles fine.
+- **Do not:** Use NodeNext `.js` suffixes in packages that Next transpiles from source.
+
+
+
 
 
 ## 2026-08-07 — `template:overfigure-claim-collision` + `template:dead-affordance`

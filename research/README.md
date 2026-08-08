@@ -20,6 +20,11 @@ this repository — source, docs, tests, comments, or commit messages — may na
 person, studio, company, product, host, or URL. The research is about *what premium pages measure
 like*, not about who made them.
 
+`plumbing-reference.local.json` holds the peer design-daemon checkout URL/path used for
+**layout plumbing and platform-pattern study** only (see `docs/11`–`docs/13` and
+`.cursor/rules/tell-plumbing-reference.mdc`). Same anonymity rule. A stub README lives at
+`plumbing-reference.README.md`.
+
 ## Rebuilding the corpus locally
 
 Create `research/corpus.local.json` as an array of entries:
