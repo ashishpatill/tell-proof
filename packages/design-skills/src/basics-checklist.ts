@@ -205,6 +205,20 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Paper-technical frame must paint .ds-footer with paper/ink — footer.ds-section never matched the real markup, leaving paper ink on the inverse outer field.",
     ),
     check(
+      "chapter-spine-clears-index",
+      !/\.ds-chapters::before\{/.test(html) ||
+        (!/left:calc\(var\(--align-rail\) \* 0\.35\)/.test(html) &&
+          /--chapter-inset/.test(html) &&
+          /left:calc\(var\(--chapter-inset\) \+ var\(--align-rail\)/.test(html)),
+      "Chapter spine must sit mid-gap after --chapter-inset + align-rail — never through Step labels.",
+    ),
+    check(
+      "chapter-lead-clears-index",
+      !/\.ds-chapter:first-child\{[^}]*box-shadow:inset 3px/.test(html) ||
+        /--chapter-inset:[^;]+;/.test(html),
+      "Lead chapter inset accent bar needs --chapter-inset padding so it does not clip Step labels.",
+    ),
+    check(
       "no-boilerplate-proof-title",
       !/holds under review/i.test(html),
       "Proof titles must be siteKind-specific — never the shared 'holds under review' spam across offerings.",

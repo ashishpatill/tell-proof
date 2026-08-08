@@ -2382,21 +2382,33 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 }
 .ds-story > *{position:relative;z-index:1}
 .ds-story .ds-section-head{margin-bottom:var(--s-lg)}
-/* Sequence is a single register with a spine — never a 2-col grid that leaves a hole on odd counts. */
-.ds-chapters{display:grid;grid-template-columns:1fr;gap:0;list-style:none;margin:0;padding:0;position:relative;border-top:1px solid var(--surface-border)}
+/* Sequence is a single register with a spine — never a 2-col grid that leaves a hole on odd counts.
+ * --chapter-inset clears the lead accent bar; spine sits mid-gap after the index column.
+ * Never left: calc(align-rail * 0.35) (cuts through "Step 0N") or inset bar with padding-left:0. */
+.ds-chapters{
+  --chapter-inset:1.15rem;
+  display:grid;grid-template-columns:1fr;gap:0;list-style:none;margin:0;padding:0;position:relative;border-top:1px solid var(--surface-border)
+}
 .ds-chapters::before{
-  content:"";position:absolute;left:calc(var(--align-rail) * 0.35);top:var(--s-md);bottom:var(--s-md);width:2px;
-  background:linear-gradient(180deg,var(--c-accent),color-mix(in srgb,var(--c-accent) 20%,transparent));border-radius:1px;
+  content:"";position:absolute;left:calc(var(--chapter-inset) + var(--align-rail) + (var(--s-lg) / 2));top:var(--s-md);bottom:var(--s-md);width:1px;
+  background:linear-gradient(180deg,var(--c-accent),color-mix(in srgb,var(--c-accent) 20%,transparent));
+  border-radius:1px;z-index:0;pointer-events:none;
 }
 /* Title column shares --align-rail with section-head-main — third left edge beside wrap / wrap-wide. */
-.ds-chapter{display:grid;grid-template-columns:var(--align-rail) minmax(12rem,22ch) minmax(0,1fr) minmax(7rem,9.5rem);gap:var(--s-sm) var(--s-lg);padding:var(--s-md) var(--s-sm) var(--s-md) 0;border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:center}
+.ds-chapter{display:grid;grid-template-columns:var(--align-rail) minmax(12rem,22ch) minmax(0,1fr) minmax(7rem,9.5rem);gap:var(--s-sm) var(--s-lg);padding:var(--s-md) var(--s-sm) var(--s-md) var(--chapter-inset,1.15rem);border-bottom:1px solid var(--surface-border);border-radius:0;background:transparent;position:relative;align-items:center;z-index:1}
 .ds-chapter:nth-child(odd){background:color-mix(in srgb,var(--c-paper-raised) 70%,transparent)}
-/* Lead step: accent rail + soft wash — full accent-surface cells blew accent-coverage on brand hex briefs. */
+/* Lead step: accent rail + soft wash — full accent-surface cells blew accent-coverage on brand hex briefs.
+ * Rail lives in --chapter-inset padding so it never clips "Step 01". */
 .ds-chapter:first-child{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--c-accent)}
-.ds-chapter-index{font-family:var(--f-mono);font-size:var(--t-caption-size);line-height:1;letter-spacing:0;color:var(--c-accent);font-weight:600;min-width:2.5ch;padding-left:0}
-.ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:22ch;grid-column:auto}
-.ds-chapter .ds-body{max-width:52ch;grid-column:auto}
-.ds-chapter-mark{width:9.5rem;justify-self:end;opacity:.95}
+.ds-chapter-index{
+  font-family:var(--f-mono);font-size:var(--t-caption-size);line-height:1.15;letter-spacing:0;
+  color:var(--c-accent);font-weight:600;min-width:2.5ch;max-width:100%;
+  padding:0 var(--s-sm) 0 0;margin:0;position:relative;z-index:1;
+  overflow-wrap:anywhere;
+}
+.ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:22ch;grid-column:auto;position:relative;z-index:1}
+.ds-chapter .ds-body{max-width:52ch;grid-column:auto;position:relative;z-index:1}
+.ds-chapter-mark{width:9.5rem;justify-self:end;opacity:.95;position:relative;z-index:1}
 
 /* Proof board — dense inverse surface packed with declared evidence.
  *
@@ -2707,6 +2719,7 @@ ${motionCss(spec.taste.motion)}
 @media (max-width:820px){
   .ds-split,.ds-alt-row,.ds-alt-pair,.ds-section-head-spread,.ds-proof-stage{grid-template-columns:1fr!important}
   .ds-chapter{grid-template-columns:2.75rem 1fr;row-gap:var(--s-2xs)}
+  .ds-chapters::before{left:calc(var(--chapter-inset) + 2.75rem + (var(--s-sm) / 2))}
   .ds-chapter .ds-body{grid-column:2}
   .ds-chapter-mark{display:none}
   .ds-proof-board{grid-template-columns:1fr}

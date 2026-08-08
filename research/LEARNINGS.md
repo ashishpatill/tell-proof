@@ -402,3 +402,14 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `paper-frame-footer-paint`.
 - **Do not:** Assume `footer.ds-section` matches real footer markup. Always verify the selector
   against `renderFooter` output when framing outside `#main`.
+
+## 2026-08-08 — `template:chapter-spine-through-index`
+
+- **Failure:** SaaS story `.ds-chapters` spine cut through "Step 0N" labels; lead inset bar also
+  clipped "Step 01".
+- **Root cause:** `::before` used `left: calc(var(--align-rail) * 0.35)` (through the index
+  column). Lead `box-shadow: inset 3px` sat on `padding-left: 0` rows.
+- **Fix:** `--chapter-inset` left padding on every chapter; spine at
+  `calc(var(--chapter-inset) + var(--align-rail) + (var(--s-lg) / 2))`. Basics gates
+  `chapter-spine-clears-index` + `chapter-lead-clears-index`.
+- **Do not:** Position the spine as a fraction of the index column width.
