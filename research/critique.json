@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-08-07T12:25:40.490Z",
-  "overall": 0.9897,
+  "generatedAt": "2026-08-08T18:51:20.270Z",
+  "overall": 0.9807,
   "holdout": {
     "id": "holdout-commerce",
-    "total": 0.9907,
-    "gap": -0.001
+    "total": 0.9535,
+    "gap": 0.0272
   },
   "pages": [
     {
       "id": "saas-conversion",
-      "total": 0.9968,
+      "total": 0.9801,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 6.364,
+          "value": 5,
           "band": [
             3.833,
             8.8
@@ -26,7 +26,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 13,
+          "value": 12,
           "band": [
             6,
             14
@@ -37,7 +37,7 @@
         {
           "id": "display-scale",
           "label": "Display size vs viewport",
-          "value": 4.86,
+          "value": 3.47,
           "band": [
             3.16,
             6.11
@@ -48,7 +48,7 @@
         {
           "id": "display-leading",
           "label": "Display line height",
-          "value": 0.98,
+          "value": 1.05,
           "band": [
             0.975,
             1.15
@@ -59,7 +59,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 16.5,
+          "value": 20.9,
           "band": [
             12.8,
             32.9
@@ -147,7 +147,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 15.27,
+          "value": 14.9,
           "band": [
             8.74,
             21
@@ -158,7 +158,7 @@
         {
           "id": "section-rhythm",
           "label": "Section padding",
-          "value": 92,
+          "value": 62,
           "band": [
             36,
             120
@@ -169,7 +169,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.96,
+          "value": 0.936,
           "band": [
             0.611,
             1
@@ -180,7 +180,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -191,7 +191,7 @@
         {
           "id": "layout-asymmetry",
           "label": "Asymmetric grids",
-          "value": 0.875,
+          "value": 0.917,
           "band": [
             0,
             1
@@ -202,7 +202,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.66,
+          "value": 10.39,
           "band": [
             5.99,
             12.6
@@ -213,23 +213,23 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.422,
+          "value": 0.357,
           "band": [
             0.422,
             0.896
           ],
-          "score": 1,
+          "score": 0.726,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.413,
+          "value": 0.491,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.867,
+          "score": 1,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -246,7 +246,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.007,
+          "value": 0.011,
           "band": [
             0,
             0.014
@@ -268,7 +268,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.064,
+          "value": 0.054,
           "band": [
             0.021,
             0.154
@@ -290,7 +290,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -312,7 +312,7 @@
         {
           "id": "cta-discipline",
           "label": "Above-fold CTAs",
-          "value": 4,
+          "value": 3,
           "band": [
             0,
             7
@@ -323,7 +323,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 850,
+          "value": 855,
           "band": [
             242,
             1139
@@ -345,7 +345,7 @@
         {
           "id": "micro-labels",
           "label": "Uppercase micro-labels",
-          "value": 14,
+          "value": 23,
           "band": [
             0,
             28
@@ -356,7 +356,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 8,
+          "value": 7,
           "band": [
             5,
             10
@@ -367,7 +367,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 4,
+          "value": 6,
           "band": [
             3,
             6
@@ -378,18 +378,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.643,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 90.7,
+          "value": 0,
           "band": [
             0,
             100
@@ -422,29 +422,29 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2177,
+          "value": 0.1362,
           "band": [
             0.196,
             0.778
           ],
-          "score": 1,
+          "score": 0.795,
           "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
         },
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.92,
+          "value": 0.2579,
           "band": [
             0.337,
             1
           ],
-          "score": 1,
+          "score": 0.801,
           "why": "The fold has to show the thing, not only describe it."
         },
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 20,
+          "value": 16,
           "band": [
             11,
             157
@@ -455,7 +455,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.2318,
+          "value": 0.1987,
           "band": [
             0.001,
             0.469
@@ -466,7 +466,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.04,
+          "value": 3.94,
           "band": [
             0.42,
             4.33
@@ -478,13 +478,13 @@
     },
     {
       "id": "dashboard-app",
-      "total": 0.9964,
+      "total": 0.9947,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 5.091,
+          "value": 4.4,
           "band": [
             3.833,
             8.8
@@ -495,7 +495,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 11,
+          "value": 12,
           "band": [
             6,
             14
@@ -506,18 +506,18 @@
         {
           "id": "display-scale",
           "label": "Display size vs viewport",
-          "value": 3.89,
+          "value": 3.06,
           "band": [
             3.16,
             6.11
           ],
-          "score": 1,
+          "score": 0.932,
           "why": "The headline must own the fold without shouting."
         },
         {
           "id": "display-leading",
           "label": "Display line height",
-          "value": 0.98,
+          "value": 1.05,
           "band": [
             0.975,
             1.15
@@ -528,7 +528,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 18.3,
+          "value": 17,
           "band": [
             12.8,
             32.9
@@ -539,7 +539,7 @@
         {
           "id": "body-measure",
           "label": "Body measure (ch)",
-          "value": 63.1,
+          "value": 72.9,
           "band": [
             44.4,
             82.5
@@ -561,7 +561,7 @@
         {
           "id": "weight-range",
           "label": "Weights in play",
-          "value": 7,
+          "value": 6,
           "band": [
             3,
             8
@@ -572,7 +572,7 @@
         {
           "id": "surface-layers",
           "label": "Surface layers",
-          "value": 7,
+          "value": 8,
           "band": [
             4,
             26
@@ -583,7 +583,7 @@
         {
           "id": "text-tones",
           "label": "Text tones",
-          "value": 9,
+          "value": 10,
           "band": [
             4,
             28
@@ -638,7 +638,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.835,
+          "value": 0.827,
           "band": [
             0.611,
             1
@@ -649,7 +649,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.833,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -660,7 +660,7 @@
         {
           "id": "layout-asymmetry",
           "label": "Asymmetric grids",
-          "value": 0.75,
+          "value": 0.765,
           "band": [
             0,
             1
@@ -671,7 +671,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 7.99,
+          "value": 8.71,
           "band": [
             5.99,
             12.6
@@ -682,7 +682,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.486,
+          "value": 0.539,
           "band": [
             0.422,
             0.896
@@ -693,7 +693,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.591,
+          "value": 0.721,
           "band": [
             0.447,
             0.96
@@ -715,7 +715,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.012,
+          "value": 0.013,
           "band": [
             0,
             0.014
@@ -737,7 +737,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.081,
+          "value": 0.064,
           "band": [
             0.021,
             0.154
@@ -759,7 +759,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -781,7 +781,7 @@
         {
           "id": "cta-discipline",
           "label": "Above-fold CTAs",
-          "value": 4,
+          "value": 3,
           "band": [
             0,
             7
@@ -792,7 +792,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 416,
+          "value": 1137,
           "band": [
             242,
             1139
@@ -803,7 +803,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 25,
+          "value": 29,
           "band": [
             14,
             115
@@ -814,7 +814,7 @@
         {
           "id": "micro-labels",
           "label": "Uppercase micro-labels",
-          "value": 17,
+          "value": 22,
           "band": [
             0,
             28
@@ -836,7 +836,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 3,
+          "value": 4,
           "band": [
             3,
             6
@@ -847,7 +847,7 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.538,
+          "value": 0.231,
           "band": [
             0.1,
             1.375
@@ -858,7 +858,7 @@
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 87.9,
+          "value": 0,
           "band": [
             0,
             100
@@ -880,7 +880,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.077,
+          "value": 0.154,
           "band": [
             0,
             0.5
@@ -891,7 +891,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.297,
+          "value": 0.2441,
           "band": [
             0.196,
             0.778
@@ -902,18 +902,18 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.92,
+          "value": 0.3277,
           "band": [
             0.337,
             1
           ],
-          "score": 1,
+          "score": 0.977,
           "why": "The fold has to show the thing, not only describe it."
         },
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 17,
+          "value": 16,
           "band": [
             11,
             157
@@ -924,7 +924,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0059,
+          "value": 0.0056,
           "band": [
             0.001,
             0.469
@@ -935,25 +935,25 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.63,
+          "value": 4.59,
           "band": [
             0.42,
             4.33
           ],
-          "score": 0.847,
+          "score": 0.867,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
     },
     {
       "id": "corporate-story",
-      "total": 0.9948,
+      "total": 0.9872,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 7.818,
+          "value": 5.7,
           "band": [
             3.833,
             8.8
@@ -964,18 +964,18 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 14,
+          "value": 15,
           "band": [
             6,
             14
           ],
-          "score": 1,
+          "score": 0.75,
           "why": "Too few steps reads as a template; too many reads as unmanaged."
         },
         {
           "id": "display-scale",
           "label": "Display size vs viewport",
-          "value": 5.97,
+          "value": 3.96,
           "band": [
             3.16,
             6.11
@@ -997,7 +997,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 13.4,
+          "value": 26.2,
           "band": [
             12.8,
             32.9
@@ -1030,7 +1030,7 @@
         {
           "id": "weight-range",
           "label": "Weights in play",
-          "value": 3,
+          "value": 4,
           "band": [
             3,
             8
@@ -1041,7 +1041,7 @@
         {
           "id": "surface-layers",
           "label": "Surface layers",
-          "value": 4,
+          "value": 5,
           "band": [
             4,
             26
@@ -1085,7 +1085,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 14.74,
+          "value": 15.13,
           "band": [
             8.74,
             21
@@ -1107,7 +1107,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.932,
+          "value": 0.878,
           "band": [
             0.611,
             1
@@ -1129,7 +1129,7 @@
         {
           "id": "layout-asymmetry",
           "label": "Asymmetric grids",
-          "value": 0.842,
+          "value": 0.85,
           "band": [
             0,
             1
@@ -1140,7 +1140,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 8.02,
+          "value": 8.63,
           "band": [
             5.99,
             12.6
@@ -1151,18 +1151,18 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.37,
+          "value": 0.645,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.781,
+          "score": 1,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.761,
+          "value": 0.789,
           "band": [
             0.447,
             0.96
@@ -1173,7 +1173,7 @@
         {
           "id": "radius-system",
           "label": "Radius steps",
-          "value": 5,
+          "value": 4,
           "band": [
             4,
             20
@@ -1206,7 +1206,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.065,
+          "value": 0.048,
           "band": [
             0.021,
             0.154
@@ -1228,7 +1228,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -1250,7 +1250,7 @@
         {
           "id": "cta-discipline",
           "label": "Above-fold CTAs",
-          "value": 4,
+          "value": 3,
           "band": [
             0,
             7
@@ -1261,7 +1261,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 448,
+          "value": 724,
           "band": [
             242,
             1139
@@ -1272,7 +1272,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 29,
+          "value": 35,
           "band": [
             14,
             115
@@ -1316,7 +1316,7 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.5,
+          "value": 0.375,
           "band": [
             0.1,
             1.375
@@ -1360,29 +1360,29 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2432,
+          "value": 0.1784,
           "band": [
             0.196,
             0.778
           ],
-          "score": 1,
+          "score": 0.94,
           "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
         },
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.92,
+          "value": 0.2472,
           "band": [
             0.337,
             1
           ],
-          "score": 1,
+          "score": 0.774,
           "why": "The fold has to show the thing, not only describe it."
         },
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 14,
+          "value": 12,
           "band": [
             11,
             157
@@ -1393,7 +1393,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.1395,
+          "value": 0.1256,
           "band": [
             0.001,
             0.469
@@ -1404,7 +1404,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 3.74,
+          "value": 4.29,
           "band": [
             0.42,
             4.33
@@ -1416,13 +1416,13 @@
     },
     {
       "id": "docs-educational",
-      "total": 0.999,
+      "total": 0.975,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 4.055,
+          "value": 4.455,
           "band": [
             3.833,
             8.8
@@ -1444,18 +1444,18 @@
         {
           "id": "display-scale",
           "label": "Display size vs viewport",
-          "value": 3.1,
+          "value": 3.4,
           "band": [
             3.16,
             6.11
           ],
-          "score": 0.959,
+          "score": 1,
           "why": "The headline must own the fold without shouting."
         },
         {
           "id": "display-leading",
           "label": "Display line height",
-          "value": 1.08,
+          "value": 1.05,
           "band": [
             0.975,
             1.15
@@ -1466,7 +1466,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 18.8,
+          "value": 17.2,
           "band": [
             12.8,
             32.9
@@ -1477,7 +1477,7 @@
         {
           "id": "body-measure",
           "label": "Body measure (ch)",
-          "value": 50.5,
+          "value": 49.4,
           "band": [
             44.4,
             82.5
@@ -1499,7 +1499,7 @@
         {
           "id": "weight-range",
           "label": "Weights in play",
-          "value": 6,
+          "value": 5,
           "band": [
             3,
             8
@@ -1554,7 +1554,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 15.46,
+          "value": 10.56,
           "band": [
             8.74,
             21
@@ -1565,7 +1565,7 @@
         {
           "id": "section-rhythm",
           "label": "Section padding",
-          "value": 104,
+          "value": 94,
           "band": [
             36,
             120
@@ -1576,7 +1576,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.825,
+          "value": 0.807,
           "band": [
             0.611,
             1
@@ -1587,7 +1587,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -1609,7 +1609,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 7.24,
+          "value": 6.38,
           "band": [
             5.99,
             12.6
@@ -1620,7 +1620,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.485,
+          "value": 0.524,
           "band": [
             0.422,
             0.896
@@ -1631,7 +1631,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.45,
+          "value": 0.47,
           "band": [
             0.447,
             0.96
@@ -1653,7 +1653,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.002,
+          "value": 0.005,
           "band": [
             0,
             0.014
@@ -1675,7 +1675,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -1686,7 +1686,7 @@
         {
           "id": "nav-restraint",
           "label": "Nav links",
-          "value": 4,
+          "value": 3,
           "band": [
             1,
             55
@@ -1708,7 +1708,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 309,
+          "value": 507,
           "band": [
             242,
             1139
@@ -1719,7 +1719,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 19,
+          "value": 18,
           "band": [
             14,
             115
@@ -1741,7 +1741,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 7,
+          "value": 6,
           "band": [
             5,
             10
@@ -1752,29 +1752,29 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 5,
+          "value": 7,
           "band": [
             3,
             6
           ],
-          "score": 1,
+          "score": 0.333,
           "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
         },
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.6,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 92.1,
+          "value": 0,
           "band": [
             0,
             100
@@ -1796,7 +1796,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.2,
+          "value": 0.222,
           "band": [
             0,
             0.5
@@ -1807,7 +1807,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.3284,
+          "value": 0.2954,
           "band": [
             0.196,
             0.778
@@ -1818,18 +1818,18 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.4052,
+          "value": 0.3124,
           "band": [
             0.337,
             1
           ],
-          "score": 1,
+          "score": 0.938,
           "why": "The fold has to show the thing, not only describe it."
         },
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 14,
+          "value": 11,
           "band": [
             11,
             157
@@ -1840,7 +1840,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0662,
+          "value": 0.0638,
           "band": [
             0.001,
             0.469
@@ -1851,25 +1851,25 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.28,
+          "value": 4.55,
           "band": [
             0.42,
             4.33
           ],
-          "score": 1,
+          "score": 0.887,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
     },
     {
       "id": "fintech-trust",
-      "total": 1,
+      "total": 0.9815,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 6.545,
+          "value": 5.1,
           "band": [
             3.833,
             8.8
@@ -1880,7 +1880,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 13,
+          "value": 12,
           "band": [
             6,
             14
@@ -1891,7 +1891,7 @@
         {
           "id": "display-scale",
           "label": "Display size vs viewport",
-          "value": 5,
+          "value": 3.54,
           "band": [
             3.16,
             6.11
@@ -1902,7 +1902,7 @@
         {
           "id": "display-leading",
           "label": "Display line height",
-          "value": 0.98,
+          "value": 1.05,
           "band": [
             0.975,
             1.15
@@ -1913,7 +1913,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 16,
+          "value": 21.2,
           "band": [
             12.8,
             32.9
@@ -1946,7 +1946,7 @@
         {
           "id": "weight-range",
           "label": "Weights in play",
-          "value": 5,
+          "value": 4,
           "band": [
             3,
             8
@@ -2012,7 +2012,7 @@
         {
           "id": "section-rhythm",
           "label": "Section padding",
-          "value": 64,
+          "value": 62,
           "band": [
             36,
             120
@@ -2023,7 +2023,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.971,
+          "value": 0.93,
           "band": [
             0.611,
             1
@@ -2034,7 +2034,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -2045,7 +2045,7 @@
         {
           "id": "layout-asymmetry",
           "label": "Asymmetric grids",
-          "value": 0.88,
+          "value": 0.885,
           "band": [
             0,
             1
@@ -2056,7 +2056,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 10.1,
+          "value": 11,
           "band": [
             5.99,
             12.6
@@ -2067,7 +2067,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.455,
+          "value": 0.476,
           "band": [
             0.422,
             0.896
@@ -2078,7 +2078,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.526,
+          "value": 0.618,
           "band": [
             0.447,
             0.96
@@ -2100,7 +2100,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.012,
+          "value": 0.013,
           "band": [
             0,
             0.014
@@ -2122,7 +2122,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.063,
+          "value": 0.054,
           "band": [
             0.021,
             0.154
@@ -2144,7 +2144,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -2155,7 +2155,7 @@
         {
           "id": "nav-restraint",
           "label": "Nav links",
-          "value": 5,
+          "value": 9,
           "band": [
             1,
             55
@@ -2166,7 +2166,7 @@
         {
           "id": "cta-discipline",
           "label": "Above-fold CTAs",
-          "value": 4,
+          "value": 3,
           "band": [
             0,
             7
@@ -2177,7 +2177,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 982,
+          "value": 802,
           "band": [
             242,
             1139
@@ -2188,7 +2188,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 38,
+          "value": 44,
           "band": [
             14,
             115
@@ -2199,7 +2199,7 @@
         {
           "id": "micro-labels",
           "label": "Uppercase micro-labels",
-          "value": 14,
+          "value": 15,
           "band": [
             0,
             28
@@ -2210,7 +2210,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 7,
+          "value": 8,
           "band": [
             5,
             10
@@ -2232,18 +2232,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.643,
+          "value": 0.071,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.954,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 90.7,
+          "value": 0,
           "band": [
             0,
             100
@@ -2276,29 +2276,29 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2074,
+          "value": 0.1481,
           "band": [
             0.196,
             0.778
           ],
-          "score": 1,
+          "score": 0.835,
           "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
         },
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.9278,
+          "value": 0.2855,
           "band": [
             0.337,
             1
           ],
-          "score": 1,
+          "score": 0.871,
           "why": "The fold has to show the thing, not only describe it."
         },
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 20,
+          "value": 18,
           "band": [
             11,
             157
@@ -2309,7 +2309,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.3208,
+          "value": 0.2592,
           "band": [
             0.001,
             0.469
@@ -2320,25 +2320,25 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.16,
+          "value": 5.18,
           "band": [
             0.42,
             4.33
           ],
-          "score": 1,
+          "score": 0.565,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
     },
     {
       "id": "studio-selected",
-      "total": 0.9977,
+      "total": 0.9497,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 6.018,
+          "value": 6.62,
           "band": [
             3.833,
             8.8
@@ -2393,7 +2393,7 @@
         {
           "id": "body-measure",
           "label": "Body measure (ch)",
-          "value": 68.5,
+          "value": 66.9,
           "band": [
             44.4,
             82.5
@@ -2415,7 +2415,7 @@
         {
           "id": "weight-range",
           "label": "Weights in play",
-          "value": 5,
+          "value": 4,
           "band": [
             3,
             8
@@ -2426,7 +2426,7 @@
         {
           "id": "surface-layers",
           "label": "Surface layers",
-          "value": 4,
+          "value": 5,
           "band": [
             4,
             26
@@ -2470,7 +2470,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 15.91,
+          "value": 15.46,
           "band": [
             8.74,
             21
@@ -2492,7 +2492,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.929,
+          "value": 0.896,
           "band": [
             0.611,
             1
@@ -2503,7 +2503,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -2525,7 +2525,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.95,
+          "value": 9.81,
           "band": [
             5.99,
             12.6
@@ -2536,7 +2536,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.542,
+          "value": 0.55,
           "band": [
             0.422,
             0.896
@@ -2547,12 +2547,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.921,
+          "value": 1.183,
           "band": [
             0.447,
             0.96
           ],
-          "score": 1,
+          "score": 0.129,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -2569,7 +2569,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.009,
+          "value": 0.01,
           "band": [
             0,
             0.014
@@ -2591,7 +2591,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.061,
+          "value": 0.056,
           "band": [
             0.021,
             0.154
@@ -2613,7 +2613,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -2646,7 +2646,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 413,
+          "value": 858,
           "band": [
             242,
             1139
@@ -2657,7 +2657,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 34,
+          "value": 38,
           "band": [
             14,
             115
@@ -2668,7 +2668,7 @@
         {
           "id": "micro-labels",
           "label": "Uppercase micro-labels",
-          "value": 8,
+          "value": 9,
           "band": [
             0,
             28
@@ -2679,7 +2679,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 8,
+          "value": 9,
           "band": [
             5,
             10
@@ -2701,18 +2701,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.333,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 98.6,
+          "value": 0,
           "band": [
             0,
             100
@@ -2723,7 +2723,7 @@
         {
           "id": "shape-variety",
           "label": "Section shape variety",
-          "value": 3,
+          "value": 4,
           "band": [
             2,
             7
@@ -2734,7 +2734,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.333,
+          "value": 0.222,
           "band": [
             0,
             0.5
@@ -2745,23 +2745,23 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2501,
+          "value": 0.1617,
           "band": [
             0.196,
             0.778
           ],
-          "score": 1,
+          "score": 0.882,
           "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
         },
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.3664,
+          "value": 0,
           "band": [
             0.337,
             1
           ],
-          "score": 1,
+          "score": 0.153,
           "why": "The fold has to show the thing, not only describe it."
         },
         {
@@ -2778,7 +2778,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.002,
+          "value": 0.0022,
           "band": [
             0.001,
             0.469
@@ -2789,25 +2789,25 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 3.42,
+          "value": 4.38,
           "band": [
             0.42,
             4.33
           ],
-          "score": 1,
+          "score": 0.974,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
     },
     {
       "id": "consumer-craft",
-      "total": 1,
+      "total": 0.9963,
       "holdout": false,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 5.236,
+          "value": 5.76,
           "band": [
             3.833,
             8.8
@@ -2818,7 +2818,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 11,
+          "value": 12,
           "band": [
             6,
             14
@@ -2961,7 +2961,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.968,
+          "value": 0.97,
           "band": [
             0.611,
             1
@@ -2972,7 +2972,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -2994,7 +2994,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.42,
+          "value": 9.8,
           "band": [
             5.99,
             12.6
@@ -3005,7 +3005,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.466,
+          "value": 0.543,
           "band": [
             0.422,
             0.896
@@ -3016,7 +3016,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.624,
+          "value": 0.696,
           "band": [
             0.447,
             0.96
@@ -3038,7 +3038,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.009,
+          "value": 0.01,
           "band": [
             0,
             0.014
@@ -3060,7 +3060,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.058,
+          "value": 0.048,
           "band": [
             0.021,
             0.154
@@ -3082,7 +3082,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -3115,7 +3115,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 639,
+          "value": 661,
           "band": [
             242,
             1139
@@ -3126,7 +3126,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 34,
+          "value": 38,
           "band": [
             14,
             115
@@ -3148,7 +3148,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 9,
+          "value": 7,
           "band": [
             5,
             10
@@ -3159,7 +3159,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 4,
+          "value": 5,
           "band": [
             3,
             6
@@ -3170,18 +3170,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.462,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 90,
+          "value": 0,
           "band": [
             0,
             100
@@ -3203,7 +3203,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.231,
+          "value": 0.154,
           "band": [
             0,
             0.5
@@ -3214,7 +3214,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2474,
+          "value": 0.2366,
           "band": [
             0.196,
             0.778
@@ -3247,7 +3247,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0524,
+          "value": 0.0427,
           "band": [
             0.001,
             0.469
@@ -3258,7 +3258,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.03,
+          "value": 4.29,
           "band": [
             0.42,
             4.33
@@ -3270,7 +3270,7 @@
     },
     {
       "id": "foundry-editorial",
-      "total": 0.9832,
+      "total": 0.9725,
       "holdout": false,
       "rows": [
         {
@@ -3331,7 +3331,7 @@
         {
           "id": "body-measure",
           "label": "Body measure (ch)",
-          "value": 68.5,
+          "value": 66.9,
           "band": [
             44.4,
             82.5
@@ -3430,7 +3430,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.914,
+          "value": 0.92,
           "band": [
             0.611,
             1
@@ -3441,7 +3441,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.382,
+          "value": 0.368,
           "band": [
             0.285,
             0.854
@@ -3452,7 +3452,7 @@
         {
           "id": "layout-asymmetry",
           "label": "Asymmetric grids",
-          "value": 0.842,
+          "value": 0.789,
           "band": [
             0,
             1
@@ -3463,7 +3463,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 10.72,
+          "value": 11.21,
           "band": [
             5.99,
             12.6
@@ -3474,7 +3474,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.581,
+          "value": 0.745,
           "band": [
             0.422,
             0.896
@@ -3485,12 +3485,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.141,
+          "value": 1.281,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.293,
+          "score": 0,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -3507,7 +3507,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.007,
+          "value": 0.008,
           "band": [
             0,
             0.014
@@ -3529,7 +3529,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.055,
+          "value": 0.046,
           "band": [
             0.021,
             0.154
@@ -3551,7 +3551,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -3595,7 +3595,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 33,
+          "value": 37,
           "band": [
             14,
             115
@@ -3617,7 +3617,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 7,
+          "value": 5,
           "band": [
             5,
             10
@@ -3628,7 +3628,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 3,
+          "value": 4,
           "band": [
             3,
             6
@@ -3639,18 +3639,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.125,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 98.6,
+          "value": 0,
           "band": [
             0,
             100
@@ -3683,7 +3683,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2386,
+          "value": 0.2193,
           "band": [
             0.196,
             0.778
@@ -3694,7 +3694,7 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.4639,
+          "value": 0.3911,
           "band": [
             0.337,
             1
@@ -3716,7 +3716,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0488,
+          "value": 0.0396,
           "band": [
             0.001,
             0.469
@@ -3727,7 +3727,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 2.8,
+          "value": 3.03,
           "band": [
             0.42,
             4.33
@@ -3739,7 +3739,7 @@
     },
     {
       "id": "dossier-research",
-      "total": 0.9858,
+      "total": 0.9868,
       "holdout": false,
       "rows": [
         {
@@ -3800,7 +3800,7 @@
         {
           "id": "body-measure",
           "label": "Body measure (ch)",
-          "value": 68.5,
+          "value": 66.9,
           "band": [
             44.4,
             82.5
@@ -3877,7 +3877,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 15.91,
+          "value": 15.46,
           "band": [
             8.74,
             21
@@ -3899,7 +3899,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.769,
+          "value": 0.783,
           "band": [
             0.611,
             1
@@ -3910,7 +3910,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.375,
           "band": [
             0.285,
             0.854
@@ -3932,7 +3932,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.52,
+          "value": 10.08,
           "band": [
             5.99,
             12.6
@@ -3943,23 +3943,23 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.424,
+          "value": 0.404,
           "band": [
             0.422,
             0.896
           ],
-          "score": 1,
+          "score": 0.924,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.113,
+          "value": 1.042,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.402,
+          "score": 0.68,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -3976,7 +3976,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.007,
+          "value": 0.008,
           "band": [
             0,
             0.014
@@ -3998,7 +3998,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.077,
+          "value": 0.067,
           "band": [
             0.021,
             0.154
@@ -4020,7 +4020,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -4053,7 +4053,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 483,
+          "value": 498,
           "band": [
             242,
             1139
@@ -4064,7 +4064,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 33,
+          "value": 37,
           "band": [
             14,
             115
@@ -4097,7 +4097,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 5,
+          "value": 6,
           "band": [
             3,
             6
@@ -4108,18 +4108,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.222,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 94.9,
+          "value": 0,
           "band": [
             0,
             100
@@ -4130,7 +4130,7 @@
         {
           "id": "shape-variety",
           "label": "Section shape variety",
-          "value": 4,
+          "value": 3,
           "band": [
             2,
             7
@@ -4152,7 +4152,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.251,
+          "value": 0.2354,
           "band": [
             0.196,
             0.778
@@ -4185,7 +4185,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0026,
+          "value": 0.0025,
           "band": [
             0.001,
             0.469
@@ -4196,7 +4196,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.1,
+          "value": 4.27,
           "band": [
             0.42,
             4.33
@@ -4208,7 +4208,7 @@
     },
     {
       "id": "observatory-signal",
-      "total": 0.986,
+      "total": 0.988,
       "holdout": false,
       "rows": [
         {
@@ -4346,7 +4346,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 15.1,
+          "value": 15.46,
           "band": [
             8.74,
             21
@@ -4368,7 +4368,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.852,
+          "value": 0.86,
           "band": [
             0.611,
             1
@@ -4379,7 +4379,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -4401,7 +4401,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.99,
+          "value": 10.46,
           "band": [
             5.99,
             12.6
@@ -4423,12 +4423,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.101,
+          "value": 1.015,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.449,
+          "score": 0.785,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -4445,7 +4445,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.005,
+          "value": 0.006,
           "band": [
             0,
             0.014
@@ -4467,7 +4467,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.046,
+          "value": 0.039,
           "band": [
             0.021,
             0.154
@@ -4489,7 +4489,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -4522,7 +4522,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 492,
+          "value": 505,
           "band": [
             242,
             1139
@@ -4533,7 +4533,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 33,
+          "value": 37,
           "band": [
             14,
             115
@@ -4555,7 +4555,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 7,
+          "value": 8,
           "band": [
             5,
             10
@@ -4577,18 +4577,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.25,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 94.9,
+          "value": 0,
           "band": [
             0,
             100
@@ -4621,7 +4621,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2443,
+          "value": 0.2318,
           "band": [
             0.196,
             0.778
@@ -4654,7 +4654,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.002,
+          "value": 0.0019,
           "band": [
             0.001,
             0.469
@@ -4665,19 +4665,19 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.4,
+          "value": 4.59,
           "band": [
             0.42,
             4.33
           ],
-          "score": 0.964,
+          "score": 0.867,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
     },
     {
       "id": "archive-index",
-      "total": 0.9762,
+      "total": 0.9831,
       "holdout": false,
       "rows": [
         {
@@ -4815,7 +4815,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 15.46,
+          "value": 15.1,
           "band": [
             8.74,
             21
@@ -4837,7 +4837,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.845,
+          "value": 0.855,
           "band": [
             0.611,
             1
@@ -4848,7 +4848,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.375,
           "band": [
             0.285,
             0.854
@@ -4870,7 +4870,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 10.21,
+          "value": 10.65,
           "band": [
             5.99,
             12.6
@@ -4881,7 +4881,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.55,
+          "value": 0.702,
           "band": [
             0.422,
             0.896
@@ -4892,12 +4892,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.302,
+          "value": 1.091,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0,
+          "score": 0.488,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -4914,7 +4914,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.006,
+          "value": 0.007,
           "band": [
             0,
             0.014
@@ -4936,7 +4936,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.087,
+          "value": 0.077,
           "band": [
             0.021,
             0.154
@@ -4958,7 +4958,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -5002,7 +5002,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 33,
+          "value": 37,
           "band": [
             14,
             115
@@ -5024,7 +5024,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 9,
+          "value": 8,
           "band": [
             5,
             10
@@ -5035,7 +5035,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 3,
+          "value": 6,
           "band": [
             3,
             6
@@ -5046,18 +5046,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.25,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 3.7,
+          "value": 0,
           "band": [
             0,
             100
@@ -5079,7 +5079,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.25,
+          "value": 0.125,
           "band": [
             0,
             0.5
@@ -5090,7 +5090,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2518,
+          "value": 0.2394,
           "band": [
             0.196,
             0.778
@@ -5123,7 +5123,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0017,
+          "value": 0.0016,
           "band": [
             0.001,
             0.469
@@ -5134,19 +5134,19 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.21,
+          "value": 4.41,
           "band": [
             0.42,
             4.33
           ],
-          "score": 1,
+          "score": 0.959,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
     },
     {
       "id": "loom-commerce",
-      "total": 0.9762,
+      "total": 0.9779,
       "holdout": false,
       "rows": [
         {
@@ -5207,7 +5207,7 @@
         {
           "id": "body-measure",
           "label": "Body measure (ch)",
-          "value": 68.5,
+          "value": 66.9,
           "band": [
             44.4,
             82.5
@@ -5295,7 +5295,7 @@
         {
           "id": "section-rhythm",
           "label": "Section padding",
-          "value": 65,
+          "value": 84,
           "band": [
             36,
             120
@@ -5306,7 +5306,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.772,
+          "value": 0.767,
           "band": [
             0.611,
             1
@@ -5317,7 +5317,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -5339,7 +5339,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 10.62,
+          "value": 10.82,
           "band": [
             5.99,
             12.6
@@ -5350,7 +5350,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.602,
+          "value": 0.76,
           "band": [
             0.422,
             0.896
@@ -5361,12 +5361,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.324,
+          "value": 1.058,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0,
+          "score": 0.617,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -5383,7 +5383,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.006,
+          "value": 0.007,
           "band": [
             0,
             0.014
@@ -5394,7 +5394,7 @@
         {
           "id": "hairlines",
           "label": "Hairline borders",
-          "value": 0.977,
+          "value": 0.979,
           "band": [
             0.947,
             1
@@ -5405,7 +5405,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.054,
+          "value": 0.046,
           "band": [
             0.021,
             0.154
@@ -5427,7 +5427,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -5460,7 +5460,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 434,
+          "value": 436,
           "band": [
             242,
             1139
@@ -5471,7 +5471,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 33,
+          "value": 37,
           "band": [
             14,
             115
@@ -5493,12 +5493,12 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 8,
+          "value": 11,
           "band": [
             5,
             10
           ],
-          "score": 1,
+          "score": 0.667,
           "why": "One container width for every section is the clearest structural tell there is."
         },
         {
@@ -5515,18 +5515,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.125,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 3.7,
+          "value": 0,
           "band": [
             0,
             100
@@ -5548,7 +5548,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.25,
+          "value": 0.333,
           "band": [
             0,
             0.5
@@ -5559,7 +5559,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2726,
+          "value": 0.2409,
           "band": [
             0.196,
             0.778
@@ -5570,7 +5570,7 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.7337,
+          "value": 0.6118,
           "band": [
             0.337,
             1
@@ -5592,7 +5592,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0018,
+          "value": 0.0017,
           "band": [
             0.001,
             0.469
@@ -5603,19 +5603,19 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.14,
+          "value": 4.44,
           "band": [
             0.42,
             4.33
           ],
-          "score": 1,
+          "score": 0.944,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
     },
     {
       "id": "field-herbarium",
-      "total": 0.9871,
+      "total": 0.9731,
       "holdout": false,
       "rows": [
         {
@@ -5676,7 +5676,7 @@
         {
           "id": "body-measure",
           "label": "Body measure (ch)",
-          "value": 68.5,
+          "value": 66.9,
           "band": [
             44.4,
             82.5
@@ -5775,7 +5775,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.805,
+          "value": 0.816,
           "band": [
             0.611,
             1
@@ -5786,7 +5786,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -5808,7 +5808,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 10,
+          "value": 10.48,
           "band": [
             5.99,
             12.6
@@ -5819,7 +5819,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.575,
+          "value": 0.696,
           "band": [
             0.422,
             0.896
@@ -5830,12 +5830,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.097,
+          "value": 1.207,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0.465,
+          "score": 0.035,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -5852,7 +5852,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.008,
+          "value": 0.009,
           "band": [
             0,
             0.014
@@ -5874,7 +5874,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.061,
+          "value": 0.052,
           "band": [
             0.021,
             0.154
@@ -5896,7 +5896,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -5929,7 +5929,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 582,
+          "value": 630,
           "band": [
             242,
             1139
@@ -5940,7 +5940,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 33,
+          "value": 37,
           "band": [
             14,
             115
@@ -5973,7 +5973,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 4,
+          "value": 5,
           "band": [
             3,
             6
@@ -5984,18 +5984,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.111,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 3.7,
+          "value": 0,
           "band": [
             0,
             100
@@ -6028,7 +6028,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2478,
+          "value": 0.2209,
           "band": [
             0.196,
             0.778
@@ -6039,7 +6039,7 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.6031,
+          "value": 0.4629,
           "band": [
             0.337,
             1
@@ -6061,7 +6061,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0023,
+          "value": 0.0021,
           "band": [
             0.001,
             0.469
@@ -6072,7 +6072,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 3,
+          "value": 3.24,
           "band": [
             0.42,
             4.33
@@ -6084,7 +6084,7 @@
     },
     {
       "id": "press-atelier",
-      "total": 0.9762,
+      "total": 0.9784,
       "holdout": false,
       "rows": [
         {
@@ -6101,7 +6101,7 @@
         {
           "id": "type-steps",
           "label": "Distinct type sizes",
-          "value": 14,
+          "value": 12,
           "band": [
             6,
             14
@@ -6167,7 +6167,7 @@
         {
           "id": "weight-range",
           "label": "Weights in play",
-          "value": 5,
+          "value": 4,
           "band": [
             3,
             8
@@ -6178,7 +6178,7 @@
         {
           "id": "surface-layers",
           "label": "Surface layers",
-          "value": 4,
+          "value": 5,
           "band": [
             4,
             26
@@ -6244,7 +6244,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.822,
+          "value": 0.798,
           "band": [
             0.611,
             1
@@ -6255,7 +6255,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.806,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -6277,7 +6277,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 10.17,
+          "value": 10.18,
           "band": [
             5.99,
             12.6
@@ -6288,7 +6288,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.535,
+          "value": 0.476,
           "band": [
             0.422,
             0.896
@@ -6299,12 +6299,12 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 1.269,
+          "value": 1.054,
           "band": [
             0.447,
             0.96
           ],
-          "score": 0,
+          "score": 0.633,
           "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
         },
         {
@@ -6321,7 +6321,7 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.005,
+          "value": 0.006,
           "band": [
             0,
             0.014
@@ -6343,7 +6343,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.026,
+          "value": 0.025,
           "band": [
             0.021,
             0.154
@@ -6365,7 +6365,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -6409,7 +6409,7 @@
         {
           "id": "heading-depth",
           "label": "Headings on page",
-          "value": 33,
+          "value": 37,
           "band": [
             14,
             115
@@ -6420,7 +6420,7 @@
         {
           "id": "micro-labels",
           "label": "Uppercase micro-labels",
-          "value": 22,
+          "value": 23,
           "band": [
             0,
             28
@@ -6431,7 +6431,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 6,
+          "value": 9,
           "band": [
             5,
             10
@@ -6442,7 +6442,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 3,
+          "value": 5,
           "band": [
             3,
             6
@@ -6453,18 +6453,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.222,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 3.7,
+          "value": 0,
           "band": [
             0,
             100
@@ -6497,12 +6497,12 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2593,
+          "value": 0.1862,
           "band": [
             0.196,
             0.778
           ],
-          "score": 1,
+          "score": 0.966,
           "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
         },
         {
@@ -6530,7 +6530,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0019,
+          "value": 0.002,
           "band": [
             0.001,
             0.469
@@ -6541,7 +6541,476 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.13,
+          "value": 5.01,
+          "band": [
+            0.42,
+            4.33
+          ],
+          "score": 0.652,
+          "why": "Hairline rules are how editorial pages carry structure without boxes."
+        }
+      ]
+    },
+    {
+      "id": "lantern-path",
+      "total": 0.9864,
+      "holdout": false,
+      "rows": [
+        {
+          "id": "type-scale-range",
+          "label": "Type scale range",
+          "value": 4.191,
+          "band": [
+            3.833,
+            8.8
+          ],
+          "score": 1,
+          "why": "Premium pages travel a long way between the smallest label and the display voice."
+        },
+        {
+          "id": "type-steps",
+          "label": "Distinct type sizes",
+          "value": 13,
+          "band": [
+            6,
+            14
+          ],
+          "score": 1,
+          "why": "Too few steps reads as a template; too many reads as unmanaged."
+        },
+        {
+          "id": "display-scale",
+          "label": "Display size vs viewport",
+          "value": 3.2,
+          "band": [
+            3.16,
+            6.11
+          ],
+          "score": 1,
+          "why": "The headline must own the fold without shouting."
+        },
+        {
+          "id": "display-leading",
+          "label": "Display line height",
+          "value": 1.05,
+          "band": [
+            0.975,
+            1.15
+          ],
+          "score": 1,
+          "why": "Tight leading is the single clearest signal of typographic intent."
+        },
+        {
+          "id": "display-measure",
+          "label": "Display measure (ch)",
+          "value": 18.8,
+          "band": [
+            12.8,
+            32.9
+          ],
+          "score": 1,
+          "why": "Headlines break on purpose; long single lines read as unconsidered."
+        },
+        {
+          "id": "body-measure",
+          "label": "Body measure (ch)",
+          "value": 66.9,
+          "band": [
+            44.4,
+            82.5
+          ],
+          "score": 1,
+          "why": "Readable prose stays inside a controlled measure."
+        },
+        {
+          "id": "body-leading",
+          "label": "Body line height",
+          "value": 1.48,
+          "band": [
+            1.3,
+            1.5
+          ],
+          "score": 1,
+          "why": "Comfortable leading for sustained reading."
+        },
+        {
+          "id": "weight-range",
+          "label": "Weights in play",
+          "value": 4,
+          "band": [
+            3,
+            8
+          ],
+          "score": 1,
+          "why": "A weight system, not a single default."
+        },
+        {
+          "id": "surface-layers",
+          "label": "Surface layers",
+          "value": 4,
+          "band": [
+            4,
+            26
+          ],
+          "score": 1,
+          "why": "Depth comes from layered surfaces, not from shadows."
+        },
+        {
+          "id": "text-tones",
+          "label": "Text tones",
+          "value": 6,
+          "band": [
+            4,
+            28
+          ],
+          "score": 1,
+          "why": "Primary / secondary / tertiary ink instead of one grey."
+        },
+        {
+          "id": "hue-discipline",
+          "label": "Hue discipline",
+          "value": 2,
+          "band": [
+            0,
+            5
+          ],
+          "score": 1,
+          "why": "Restrained hue count keeps a page expensive-looking."
+        },
+        {
+          "id": "neutral-temperature",
+          "label": "Neutral temperature",
+          "value": 0,
+          "band": [
+            0,
+            2.5
+          ],
+          "score": 1,
+          "why": "Pure #808080 greys are the loudest AI tell; premium neutrals carry a hue."
+        },
+        {
+          "id": "contrast-floor",
+          "label": "Median text contrast",
+          "value": 15.1,
+          "band": [
+            8.74,
+            21
+          ],
+          "score": 1,
+          "why": "Readable by default, not just at the largest sizes."
+        },
+        {
+          "id": "section-rhythm",
+          "label": "Section padding",
+          "value": 76,
+          "band": [
+            36,
+            120
+          ],
+          "score": 1,
+          "why": "Vertical breathing room separates chapters of the argument."
+        },
+        {
+          "id": "grid-conformity",
+          "label": "Spacing grid conformity",
+          "value": 0.795,
+          "band": [
+            0.611,
+            1
+          ],
+          "score": 1,
+          "why": "Spacing that lands on a scale rather than on arbitrary numbers."
+        },
+        {
+          "id": "container-control",
+          "label": "Container ratio",
+          "value": 0.375,
+          "band": [
+            0.285,
+            0.854
+          ],
+          "score": 1,
+          "why": "Content is framed, not stretched edge to edge."
+        },
+        {
+          "id": "layout-asymmetry",
+          "label": "Asymmetric grids",
+          "value": 0.889,
+          "band": [
+            0,
+            1
+          ],
+          "score": 1,
+          "why": "Equal-width card rows everywhere is the template signature."
+        },
+        {
+          "id": "scroll-length",
+          "label": "Document height (vh)",
+          "value": 10.69,
+          "band": [
+            5.99,
+            12.6
+          ],
+          "score": 1,
+          "why": "Enough argument to earn the sale, not an endless scroll."
+        },
+        {
+          "id": "band-variation",
+          "label": "Section weight variation",
+          "value": 0.607,
+          "band": [
+            0.422,
+            0.896
+          ],
+          "score": 1,
+          "why": "Sections should differ in density; uniform bands read as generated."
+        },
+        {
+          "id": "band-ink-variation",
+          "label": "Section coverage variation",
+          "value": 1.066,
+          "band": [
+            0.447,
+            0.96
+          ],
+          "score": 0.586,
+          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+        },
+        {
+          "id": "radius-system",
+          "label": "Radius steps",
+          "value": 6,
+          "band": [
+            4,
+            20
+          ],
+          "score": 1,
+          "why": "A radius scale, not one rounded value on everything."
+        },
+        {
+          "id": "shadow-restraint",
+          "label": "Shadow coverage",
+          "value": 0.006,
+          "band": [
+            0,
+            0.014
+          ],
+          "score": 1,
+          "why": "Shadow-on-everything is the clearest generic tell."
+        },
+        {
+          "id": "hairlines",
+          "label": "Hairline borders",
+          "value": 1,
+          "band": [
+            0.947,
+            1
+          ],
+          "score": 1,
+          "why": "Structure carried by 1px rules rather than heavy chrome."
+        },
+        {
+          "id": "motion-restraint",
+          "label": "Transition coverage",
+          "value": 0.056,
+          "band": [
+            0.021,
+            0.154
+          ],
+          "score": 1,
+          "why": "Motion on the things you touch, not on everything."
+        },
+        {
+          "id": "motion-speed",
+          "label": "Median transition (ms)",
+          "value": 180,
+          "band": [
+            150,
+            300
+          ],
+          "score": 1,
+          "why": "Fast enough to feel responsive, slow enough to read as intentional."
+        },
+        {
+          "id": "token-system",
+          "label": "Declared tokens",
+          "value": 129,
+          "band": [
+            87,
+            1983
+          ],
+          "score": 1,
+          "why": "A real design system is declared, not hard-coded."
+        },
+        {
+          "id": "nav-restraint",
+          "label": "Nav links",
+          "value": 10,
+          "band": [
+            1,
+            55
+          ],
+          "score": 1,
+          "why": "A navigable spine, not a sitemap in the header."
+        },
+        {
+          "id": "cta-discipline",
+          "label": "Above-fold CTAs",
+          "value": 2,
+          "band": [
+            0,
+            7
+          ],
+          "score": 1,
+          "why": "One primary decision, at most one alternative."
+        },
+        {
+          "id": "fold-density",
+          "label": "Above-fold characters",
+          "value": 368,
+          "band": [
+            242,
+            1139
+          ],
+          "score": 1,
+          "why": "Enough to orient a buyer, little enough to be read."
+        },
+        {
+          "id": "heading-depth",
+          "label": "Headings on page",
+          "value": 37,
+          "band": [
+            14,
+            115
+          ],
+          "score": 1,
+          "why": "A real argument has named parts; two headings means a stub."
+        },
+        {
+          "id": "micro-labels",
+          "label": "Uppercase micro-labels",
+          "value": 14,
+          "band": [
+            0,
+            28
+          ],
+          "score": 1,
+          "why": "Small tracked labels are how sections announce themselves without shouting."
+        },
+        {
+          "id": "width-tiers",
+          "label": "Content width tiers",
+          "value": 10,
+          "band": [
+            5,
+            10
+          ],
+          "score": 1,
+          "why": "One container width for every section is the clearest structural tell there is."
+        },
+        {
+          "id": "alignment-axes",
+          "label": "Alignment axes",
+          "value": 6,
+          "band": [
+            3,
+            6
+          ],
+          "score": 1,
+          "why": "A grid a reader can feel needs more than one left edge and fewer than a dozen."
+        },
+        {
+          "id": "bleed",
+          "label": "Full-bleed bands",
+          "value": 0,
+          "band": [
+            0.1,
+            1.375
+          ],
+          "score": 0.843,
+          "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
+        },
+        {
+          "id": "tonal-range",
+          "label": "Tonal range down the scroll",
+          "value": 0,
+          "band": [
+            0,
+            100
+          ],
+          "score": 1,
+          "why": "Premium pages change tone as you scroll; one paper stock end to end reads as a template."
+        },
+        {
+          "id": "shape-variety",
+          "label": "Section shape variety",
+          "value": 4,
+          "band": [
+            2,
+            7
+          ],
+          "score": 1,
+          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+        },
+        {
+          "id": "shape-repetition",
+          "label": "Repeated shape run",
+          "value": 0.222,
+          "band": [
+            0,
+            0.5
+          ],
+          "score": 1,
+          "why": "Three card grids in a row is the single most recognisable generated-page signature."
+        },
+        {
+          "id": "figure-weight",
+          "label": "Drawn matter (share of page)",
+          "value": 0.2559,
+          "band": [
+            0.196,
+            0.778
+          ],
+          "score": 1,
+          "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
+        },
+        {
+          "id": "fold-figure",
+          "label": "Drawn matter above the fold",
+          "value": 0.7091,
+          "band": [
+            0.337,
+            1
+          ],
+          "score": 1,
+          "why": "The fold has to show the thing, not only describe it."
+        },
+        {
+          "id": "layering",
+          "label": "Layered elements",
+          "value": 17,
+          "band": [
+            11,
+            157
+          ],
+          "score": 1,
+          "why": "Overlap across a boundary is depth that costs nothing in performance."
+        },
+        {
+          "id": "accent-coverage",
+          "label": "Accent coverage",
+          "value": 0.0023,
+          "band": [
+            0.001,
+            0.469
+          ],
+          "score": 1,
+          "why": "Colour has to appear somewhere beyond a button, without becoming the page."
+        },
+        {
+          "id": "rule-structure",
+          "label": "Rules per screen",
+          "value": 3.37,
           "band": [
             0.42,
             4.33
@@ -6553,13 +7022,13 @@
     },
     {
       "id": "holdout-commerce",
-      "total": 0.9907,
+      "total": 0.9535,
       "holdout": true,
       "rows": [
         {
           "id": "type-scale-range",
           "label": "Type scale range",
-          "value": 5.636,
+          "value": 4.9,
           "band": [
             3.833,
             8.8
@@ -6581,7 +7050,7 @@
         {
           "id": "display-scale",
           "label": "Display size vs viewport",
-          "value": 4.31,
+          "value": 3.4,
           "band": [
             3.16,
             6.11
@@ -6592,7 +7061,7 @@
         {
           "id": "display-leading",
           "label": "Display line height",
-          "value": 0.98,
+          "value": 1.05,
           "band": [
             0.975,
             1.15
@@ -6603,7 +7072,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 18.6,
+          "value": 18.7,
           "band": [
             12.8,
             32.9
@@ -6691,7 +7160,7 @@
         {
           "id": "contrast-floor",
           "label": "Median text contrast",
-          "value": 15.13,
+          "value": 14.74,
           "band": [
             8.74,
             21
@@ -6702,7 +7171,7 @@
         {
           "id": "section-rhythm",
           "label": "Section padding",
-          "value": 77,
+          "value": 53,
           "band": [
             36,
             120
@@ -6713,7 +7182,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.856,
+          "value": 0.847,
           "band": [
             0.611,
             1
@@ -6724,7 +7193,7 @@
         {
           "id": "container-control",
           "label": "Container ratio",
-          "value": 0.833,
+          "value": 0.785,
           "band": [
             0.285,
             0.854
@@ -6735,7 +7204,7 @@
         {
           "id": "layout-asymmetry",
           "label": "Asymmetric grids",
-          "value": 0.88,
+          "value": 0.92,
           "band": [
             0,
             1
@@ -6746,7 +7215,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.32,
+          "value": 9.92,
           "band": [
             5.99,
             12.6
@@ -6757,18 +7226,18 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.351,
+          "value": 0.331,
           "band": [
             0.422,
             0.896
           ],
-          "score": 0.7,
+          "score": 0.616,
           "why": "Sections should differ in density; uniform bands read as generated."
         },
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.519,
+          "value": 0.459,
           "band": [
             0.447,
             0.96
@@ -6790,12 +7259,12 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.006,
+          "value": 0.026,
           "band": [
             0,
             0.014
           ],
-          "score": 1,
+          "score": 0,
           "why": "Shadow-on-everything is the clearest generic tell."
         },
         {
@@ -6812,7 +7281,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.06,
+          "value": 0.051,
           "band": [
             0.021,
             0.154
@@ -6834,7 +7303,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 128,
+          "value": 129,
           "band": [
             87,
             1983
@@ -6856,7 +7325,7 @@
         {
           "id": "cta-discipline",
           "label": "Above-fold CTAs",
-          "value": 4,
+          "value": 3,
           "band": [
             0,
             7
@@ -6867,7 +7336,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 873,
+          "value": 877,
           "band": [
             242,
             1139
@@ -6889,7 +7358,7 @@
         {
           "id": "micro-labels",
           "label": "Uppercase micro-labels",
-          "value": 14,
+          "value": 25,
           "band": [
             0,
             28
@@ -6900,7 +7369,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 8,
+          "value": 6,
           "band": [
             5,
             10
@@ -6911,7 +7380,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 3,
+          "value": 5,
           "band": [
             3,
             6
@@ -6922,18 +7391,18 @@
         {
           "id": "bleed",
           "label": "Full-bleed bands",
-          "value": 0.643,
+          "value": 0,
           "band": [
             0.1,
             1.375
           ],
-          "score": 1,
+          "score": 0.843,
           "why": "Something has to reach the edge of the screen, or the page is a document in a frame."
         },
         {
           "id": "tonal-range",
           "label": "Tonal range down the scroll",
-          "value": 89.2,
+          "value": 0,
           "band": [
             0,
             100
@@ -6955,7 +7424,7 @@
         {
           "id": "shape-repetition",
           "label": "Repeated shape run",
-          "value": 0.214,
+          "value": 0.143,
           "band": [
             0,
             0.5
@@ -6966,29 +7435,29 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2111,
+          "value": 0.1337,
           "band": [
             0.196,
             0.778
           ],
-          "score": 1,
+          "score": 0.786,
           "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
         },
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.92,
+          "value": 0.2579,
           "band": [
             0.337,
             1
           ],
-          "score": 1,
+          "score": 0.801,
           "why": "The fold has to show the thing, not only describe it."
         },
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 19,
+          "value": 15,
           "band": [
             11,
             157
@@ -6999,7 +7468,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.2056,
+          "value": 0.1656,
           "band": [
             0.001,
             0.469
@@ -7010,12 +7479,12 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.51,
+          "value": 4.33,
           "band": [
             0.42,
             4.33
           ],
-          "score": 0.908,
+          "score": 1,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
@@ -7029,140 +7498,224 @@
         0.447,
         0.96
       ],
-      "mean": 0.632,
-      "scoredOn": 15,
+      "mean": 0.685,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.413
+          "value": 0.491
         },
         {
           "page": "dashboard-app",
-          "value": 0.591
+          "value": 0.721
         },
         {
           "page": "corporate-story",
-          "value": 0.761
+          "value": 0.789
         },
         {
           "page": "docs-educational",
-          "value": 0.45
+          "value": 0.47
         },
         {
           "page": "fintech-trust",
-          "value": 0.526
+          "value": 0.618
         },
         {
           "page": "studio-selected",
-          "value": 0.921
+          "value": 1.183
         },
         {
           "page": "consumer-craft",
-          "value": 0.624
+          "value": 0.696
         },
         {
           "page": "foundry-editorial",
-          "value": 1.141
+          "value": 1.281
         },
         {
           "page": "dossier-research",
-          "value": 1.113
+          "value": 1.042
         },
         {
           "page": "observatory-signal",
-          "value": 1.101
+          "value": 1.015
         },
         {
           "page": "archive-index",
-          "value": 1.302
+          "value": 1.091
         },
         {
           "page": "loom-commerce",
-          "value": 1.324
+          "value": 1.058
         },
         {
           "page": "field-herbarium",
-          "value": 1.097
+          "value": 1.207
         },
         {
           "page": "press-atelier",
-          "value": 1.269
+          "value": 1.054
+        },
+        {
+          "page": "lantern-path",
+          "value": 1.066
         },
         {
           "page": "holdout-commerce",
-          "value": 0.519
+          "value": 0.459
         }
       ]
     },
     {
-      "id": "band-variation",
-      "label": "Section weight variation",
+      "id": "bleed",
+      "label": "Full-bleed bands",
       "band": [
-        0.422,
-        0.896
+        0.1,
+        1.375
       ],
-      "mean": 0.965,
-      "scoredOn": 15,
+      "mean": 0.87,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.422
+          "value": 0
         },
         {
           "page": "dashboard-app",
-          "value": 0.486
+          "value": 0.231
         },
         {
           "page": "corporate-story",
-          "value": 0.37
+          "value": 0.375
         },
         {
           "page": "docs-educational",
-          "value": 0.485
+          "value": 0
         },
         {
           "page": "fintech-trust",
-          "value": 0.455
+          "value": 0.071
         },
         {
           "page": "studio-selected",
-          "value": 0.542
+          "value": 0
         },
         {
           "page": "consumer-craft",
-          "value": 0.466
+          "value": 0
         },
         {
           "page": "foundry-editorial",
-          "value": 0.581
+          "value": 0
         },
         {
           "page": "dossier-research",
-          "value": 0.424
+          "value": 0
         },
         {
           "page": "observatory-signal",
-          "value": 0.427
+          "value": 0
         },
         {
           "page": "archive-index",
-          "value": 0.55
+          "value": 0
         },
         {
           "page": "loom-commerce",
-          "value": 0.602
+          "value": 0
         },
         {
           "page": "field-herbarium",
-          "value": 0.575
+          "value": 0
         },
         {
           "page": "press-atelier",
-          "value": 0.535
+          "value": 0
+        },
+        {
+          "page": "lantern-path",
+          "value": 0
         },
         {
           "page": "holdout-commerce",
-          "value": 0.351
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "fold-figure",
+      "label": "Drawn matter above the fold",
+      "band": [
+        0.337,
+        1
+      ],
+      "mean": 0.895,
+      "scoredOn": 16,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.2579
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.3277
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.2472
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.3124
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.2855
+        },
+        {
+          "page": "studio-selected",
+          "value": 0
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.3778
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 0.3911
+        },
+        {
+          "page": "dossier-research",
+          "value": 0.3967
+        },
+        {
+          "page": "observatory-signal",
+          "value": 0.5951
+        },
+        {
+          "page": "archive-index",
+          "value": 0.4262
+        },
+        {
+          "page": "loom-commerce",
+          "value": 0.6118
+        },
+        {
+          "page": "field-herbarium",
+          "value": 0.4629
+        },
+        {
+          "page": "press-atelier",
+          "value": 0.6906
+        },
+        {
+          "page": "lantern-path",
+          "value": 0.7091
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.2579
         }
       ]
     },
@@ -7173,68 +7726,528 @@
         0.42,
         4.33
       ],
-      "mean": 0.981,
-      "scoredOn": 15,
+      "mean": 0.92,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 4.04
+          "value": 3.94
         },
         {
           "page": "dashboard-app",
-          "value": 4.63
+          "value": 4.59
         },
         {
           "page": "corporate-story",
-          "value": 3.74
+          "value": 4.29
         },
         {
           "page": "docs-educational",
-          "value": 4.28
+          "value": 4.55
         },
         {
           "page": "fintech-trust",
-          "value": 4.16
+          "value": 5.18
         },
         {
           "page": "studio-selected",
-          "value": 3.42
+          "value": 4.38
         },
         {
           "page": "consumer-craft",
-          "value": 4.03
+          "value": 4.29
         },
         {
           "page": "foundry-editorial",
-          "value": 2.8
+          "value": 3.03
         },
         {
           "page": "dossier-research",
-          "value": 4.1
+          "value": 4.27
         },
         {
           "page": "observatory-signal",
-          "value": 4.4
+          "value": 4.59
         },
         {
           "page": "archive-index",
-          "value": 4.21
+          "value": 4.41
         },
         {
           "page": "loom-commerce",
-          "value": 4.14
+          "value": 4.44
         },
         {
           "page": "field-herbarium",
-          "value": 3
+          "value": 3.24
         },
         {
           "page": "press-atelier",
-          "value": 4.13
+          "value": 5.01
+        },
+        {
+          "page": "lantern-path",
+          "value": 3.37
         },
         {
           "page": "holdout-commerce",
-          "value": 4.51
+          "value": 4.33
+        }
+      ]
+    },
+    {
+      "id": "shadow-restraint",
+      "label": "Shadow coverage",
+      "band": [
+        0,
+        0.014
+      ],
+      "mean": 0.938,
+      "scoredOn": 16,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.011
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.013
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.008
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.005
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.013
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.01
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.01
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 0.008
+        },
+        {
+          "page": "dossier-research",
+          "value": 0.008
+        },
+        {
+          "page": "observatory-signal",
+          "value": 0.006
+        },
+        {
+          "page": "archive-index",
+          "value": 0.007
+        },
+        {
+          "page": "loom-commerce",
+          "value": 0.007
+        },
+        {
+          "page": "field-herbarium",
+          "value": 0.009
+        },
+        {
+          "page": "press-atelier",
+          "value": 0.006
+        },
+        {
+          "page": "lantern-path",
+          "value": 0.006
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.026
+        }
+      ]
+    },
+    {
+      "id": "figure-weight",
+      "label": "Drawn matter (share of page)",
+      "band": [
+        0.196,
+        0.778
+      ],
+      "mean": 0.95,
+      "scoredOn": 16,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.1362
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.2441
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.1784
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.2954
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.1481
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.1617
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.2366
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 0.2193
+        },
+        {
+          "page": "dossier-research",
+          "value": 0.2354
+        },
+        {
+          "page": "observatory-signal",
+          "value": 0.2318
+        },
+        {
+          "page": "archive-index",
+          "value": 0.2394
+        },
+        {
+          "page": "loom-commerce",
+          "value": 0.2409
+        },
+        {
+          "page": "field-herbarium",
+          "value": 0.2209
+        },
+        {
+          "page": "press-atelier",
+          "value": 0.1862
+        },
+        {
+          "page": "lantern-path",
+          "value": 0.2559
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.1337
+        }
+      ]
+    },
+    {
+      "id": "band-variation",
+      "label": "Section weight variation",
+      "band": [
+        0.422,
+        0.896
+      ],
+      "mean": 0.954,
+      "scoredOn": 16,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 0.357
+        },
+        {
+          "page": "dashboard-app",
+          "value": 0.539
+        },
+        {
+          "page": "corporate-story",
+          "value": 0.645
+        },
+        {
+          "page": "docs-educational",
+          "value": 0.524
+        },
+        {
+          "page": "fintech-trust",
+          "value": 0.476
+        },
+        {
+          "page": "studio-selected",
+          "value": 0.55
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.543
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 0.745
+        },
+        {
+          "page": "dossier-research",
+          "value": 0.404
+        },
+        {
+          "page": "observatory-signal",
+          "value": 0.427
+        },
+        {
+          "page": "archive-index",
+          "value": 0.702
+        },
+        {
+          "page": "loom-commerce",
+          "value": 0.76
+        },
+        {
+          "page": "field-herbarium",
+          "value": 0.696
+        },
+        {
+          "page": "press-atelier",
+          "value": 0.476
+        },
+        {
+          "page": "lantern-path",
+          "value": 0.607
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 0.331
+        }
+      ]
+    },
+    {
+      "id": "alignment-axes",
+      "label": "Alignment axes",
+      "band": [
+        3,
+        6
+      ],
+      "mean": 0.958,
+      "scoredOn": 16,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 6
+        },
+        {
+          "page": "dashboard-app",
+          "value": 4
+        },
+        {
+          "page": "corporate-story",
+          "value": 4
+        },
+        {
+          "page": "docs-educational",
+          "value": 7
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5
+        },
+        {
+          "page": "studio-selected",
+          "value": 4
+        },
+        {
+          "page": "consumer-craft",
+          "value": 5
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 4
+        },
+        {
+          "page": "dossier-research",
+          "value": 6
+        },
+        {
+          "page": "observatory-signal",
+          "value": 4
+        },
+        {
+          "page": "archive-index",
+          "value": 6
+        },
+        {
+          "page": "loom-commerce",
+          "value": 5
+        },
+        {
+          "page": "field-herbarium",
+          "value": 5
+        },
+        {
+          "page": "press-atelier",
+          "value": 5
+        },
+        {
+          "page": "lantern-path",
+          "value": 6
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "width-tiers",
+      "label": "Content width tiers",
+      "band": [
+        5,
+        10
+      ],
+      "mean": 0.979,
+      "scoredOn": 16,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 7
+        },
+        {
+          "page": "dashboard-app",
+          "value": 7
+        },
+        {
+          "page": "corporate-story",
+          "value": 6
+        },
+        {
+          "page": "docs-educational",
+          "value": 6
+        },
+        {
+          "page": "fintech-trust",
+          "value": 8
+        },
+        {
+          "page": "studio-selected",
+          "value": 9
+        },
+        {
+          "page": "consumer-craft",
+          "value": 7
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 5
+        },
+        {
+          "page": "dossier-research",
+          "value": 7
+        },
+        {
+          "page": "observatory-signal",
+          "value": 8
+        },
+        {
+          "page": "archive-index",
+          "value": 8
+        },
+        {
+          "page": "loom-commerce",
+          "value": 11
+        },
+        {
+          "page": "field-herbarium",
+          "value": 9
+        },
+        {
+          "page": "press-atelier",
+          "value": 9
+        },
+        {
+          "page": "lantern-path",
+          "value": 10
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "type-steps",
+      "label": "Distinct type sizes",
+      "band": [
+        6,
+        14
+      ],
+      "mean": 0.984,
+      "scoredOn": 16,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 12
+        },
+        {
+          "page": "dashboard-app",
+          "value": 12
+        },
+        {
+          "page": "corporate-story",
+          "value": 15
+        },
+        {
+          "page": "docs-educational",
+          "value": 11
+        },
+        {
+          "page": "fintech-trust",
+          "value": 12
+        },
+        {
+          "page": "studio-selected",
+          "value": 14
+        },
+        {
+          "page": "consumer-craft",
+          "value": 12
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 13
+        },
+        {
+          "page": "dossier-research",
+          "value": 14
+        },
+        {
+          "page": "observatory-signal",
+          "value": 13
+        },
+        {
+          "page": "archive-index",
+          "value": 11
+        },
+        {
+          "page": "loom-commerce",
+          "value": 13
+        },
+        {
+          "page": "field-herbarium",
+          "value": 13
+        },
+        {
+          "page": "press-atelier",
+          "value": 12
+        },
+        {
+          "page": "lantern-path",
+          "value": 13
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 14
         }
       ]
     },
@@ -7246,11 +8259,11 @@
         120
       ],
       "mean": 0.994,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 92
+          "value": 62
         },
         {
           "page": "dashboard-app",
@@ -7262,11 +8275,11 @@
         },
         {
           "page": "docs-educational",
-          "value": 104
+          "value": 94
         },
         {
           "page": "fintech-trust",
-          "value": 64
+          "value": 62
         },
         {
           "page": "studio-selected",
@@ -7294,7 +8307,7 @@
         },
         {
           "page": "loom-commerce",
-          "value": 65
+          "value": 84
         },
         {
           "page": "field-herbarium",
@@ -7305,8 +8318,12 @@
           "value": 76
         },
         {
+          "page": "lantern-path",
+          "value": 76
+        },
+        {
           "page": "holdout-commerce",
-          "value": 77
+          "value": 53
         }
       ]
     },
@@ -7317,28 +8334,28 @@
         3.16,
         6.11
       ],
-      "mean": 0.997,
-      "scoredOn": 15,
+      "mean": 0.995,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 4.86
+          "value": 3.47
         },
         {
           "page": "dashboard-app",
-          "value": 3.89
+          "value": 3.06
         },
         {
           "page": "corporate-story",
-          "value": 5.97
+          "value": 3.96
         },
         {
           "page": "docs-educational",
-          "value": 3.1
+          "value": 3.4
         },
         {
           "page": "fintech-trust",
-          "value": 5
+          "value": 3.54
         },
         {
           "page": "studio-selected",
@@ -7377,8 +8394,12 @@
           "value": 3.2
         },
         {
+          "page": "lantern-path",
+          "value": 3.2
+        },
+        {
           "page": "holdout-commerce",
-          "value": 4.31
+          "value": 3.4
         }
       ]
     },
@@ -7390,35 +8411,35 @@
         8.8
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 6.364
+          "value": 5
         },
         {
           "page": "dashboard-app",
-          "value": 5.091
+          "value": 4.4
         },
         {
           "page": "corporate-story",
-          "value": 7.818
+          "value": 5.7
         },
         {
           "page": "docs-educational",
-          "value": 4.055
+          "value": 4.455
         },
         {
           "page": "fintech-trust",
-          "value": 6.545
+          "value": 5.1
         },
         {
           "page": "studio-selected",
-          "value": 6.018
+          "value": 6.62
         },
         {
           "page": "consumer-craft",
-          "value": 5.236
+          "value": 5.76
         },
         {
           "page": "foundry-editorial",
@@ -7449,80 +8470,12 @@
           "value": 4.191
         },
         {
-          "page": "holdout-commerce",
-          "value": 5.636
-        }
-      ]
-    },
-    {
-      "id": "type-steps",
-      "label": "Distinct type sizes",
-      "band": [
-        6,
-        14
-      ],
-      "mean": 1,
-      "scoredOn": 15,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 13
-        },
-        {
-          "page": "dashboard-app",
-          "value": 11
-        },
-        {
-          "page": "corporate-story",
-          "value": 14
-        },
-        {
-          "page": "docs-educational",
-          "value": 11
-        },
-        {
-          "page": "fintech-trust",
-          "value": 13
-        },
-        {
-          "page": "studio-selected",
-          "value": 14
-        },
-        {
-          "page": "consumer-craft",
-          "value": 11
-        },
-        {
-          "page": "foundry-editorial",
-          "value": 13
-        },
-        {
-          "page": "dossier-research",
-          "value": 14
-        },
-        {
-          "page": "observatory-signal",
-          "value": 13
-        },
-        {
-          "page": "archive-index",
-          "value": 11
-        },
-        {
-          "page": "loom-commerce",
-          "value": 13
-        },
-        {
-          "page": "field-herbarium",
-          "value": 13
-        },
-        {
-          "page": "press-atelier",
-          "value": 14
+          "page": "lantern-path",
+          "value": 4.191
         },
         {
           "page": "holdout-commerce",
-          "value": 14
+          "value": 4.9
         }
       ]
     },
@@ -7534,15 +8487,15 @@
         1.15
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.98
+          "value": 1.05
         },
         {
           "page": "dashboard-app",
-          "value": 0.98
+          "value": 1.05
         },
         {
           "page": "corporate-story",
@@ -7550,11 +8503,11 @@
         },
         {
           "page": "docs-educational",
-          "value": 1.08
+          "value": 1.05
         },
         {
           "page": "fintech-trust",
-          "value": 0.98
+          "value": 1.05
         },
         {
           "page": "studio-selected",
@@ -7593,8 +8546,12 @@
           "value": 1.05
         },
         {
+          "page": "lantern-path",
+          "value": 1.05
+        },
+        {
           "page": "holdout-commerce",
-          "value": 0.98
+          "value": 1.05
         }
       ]
     },
@@ -7606,27 +8563,27 @@
         32.9
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 16.5
+          "value": 20.9
         },
         {
           "page": "dashboard-app",
-          "value": 18.3
+          "value": 17
         },
         {
           "page": "corporate-story",
-          "value": 13.4
+          "value": 26.2
         },
         {
           "page": "docs-educational",
-          "value": 18.8
+          "value": 17.2
         },
         {
           "page": "fintech-trust",
-          "value": 16
+          "value": 21.2
         },
         {
           "page": "studio-selected",
@@ -7665,8 +8622,12 @@
           "value": 17.6
         },
         {
+          "page": "lantern-path",
+          "value": 18.8
+        },
+        {
           "page": "holdout-commerce",
-          "value": 18.6
+          "value": 18.7
         }
       ]
     },
@@ -7678,7 +8639,7 @@
         82.5
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -7686,7 +8647,7 @@
         },
         {
           "page": "dashboard-app",
-          "value": 63.1
+          "value": 72.9
         },
         {
           "page": "corporate-story",
@@ -7694,7 +8655,7 @@
         },
         {
           "page": "docs-educational",
-          "value": 50.5
+          "value": 49.4
         },
         {
           "page": "fintech-trust",
@@ -7702,7 +8663,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 68.5
+          "value": 66.9
         },
         {
           "page": "consumer-craft",
@@ -7710,11 +8671,11 @@
         },
         {
           "page": "foundry-editorial",
-          "value": 68.5
+          "value": 66.9
         },
         {
           "page": "dossier-research",
-          "value": 68.5
+          "value": 66.9
         },
         {
           "page": "observatory-signal",
@@ -7726,15 +8687,19 @@
         },
         {
           "page": "loom-commerce",
-          "value": 68.5
+          "value": 66.9
         },
         {
           "page": "field-herbarium",
-          "value": 68.5
+          "value": 66.9
         },
         {
           "page": "press-atelier",
           "value": 56
+        },
+        {
+          "page": "lantern-path",
+          "value": 66.9
         },
         {
           "page": "holdout-commerce",
@@ -7750,7 +8715,7 @@
         1.5
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -7806,6 +8771,10 @@
         },
         {
           "page": "press-atelier",
+          "value": 1.48
+        },
+        {
+          "page": "lantern-path",
           "value": 1.48
         },
         {
@@ -7822,7 +8791,7 @@
         8
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -7830,23 +8799,23 @@
         },
         {
           "page": "dashboard-app",
-          "value": 7
-        },
-        {
-          "page": "corporate-story",
-          "value": 3
-        },
-        {
-          "page": "docs-educational",
           "value": 6
         },
         {
-          "page": "fintech-trust",
+          "page": "corporate-story",
+          "value": 4
+        },
+        {
+          "page": "docs-educational",
           "value": 5
         },
         {
+          "page": "fintech-trust",
+          "value": 4
+        },
+        {
           "page": "studio-selected",
-          "value": 5
+          "value": 4
         },
         {
           "page": "consumer-craft",
@@ -7878,7 +8847,11 @@
         },
         {
           "page": "press-atelier",
-          "value": 5
+          "value": 4
+        },
+        {
+          "page": "lantern-path",
+          "value": 4
         },
         {
           "page": "holdout-commerce",
@@ -7894,7 +8867,7 @@
         26
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -7902,11 +8875,11 @@
         },
         {
           "page": "dashboard-app",
-          "value": 7
+          "value": 8
         },
         {
           "page": "corporate-story",
-          "value": 4
+          "value": 5
         },
         {
           "page": "docs-educational",
@@ -7918,7 +8891,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 4
+          "value": 5
         },
         {
           "page": "consumer-craft",
@@ -7950,6 +8923,10 @@
         },
         {
           "page": "press-atelier",
+          "value": 5
+        },
+        {
+          "page": "lantern-path",
           "value": 4
         },
         {
@@ -7966,7 +8943,7 @@
         28
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -7974,7 +8951,7 @@
         },
         {
           "page": "dashboard-app",
-          "value": 9
+          "value": 10
         },
         {
           "page": "corporate-story",
@@ -8025,6 +9002,10 @@
           "value": 6
         },
         {
+          "page": "lantern-path",
+          "value": 6
+        },
+        {
           "page": "holdout-commerce",
           "value": 9
         }
@@ -8038,7 +9019,7 @@
         5
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -8094,6 +9075,10 @@
         },
         {
           "page": "press-atelier",
+          "value": 2
+        },
+        {
+          "page": "lantern-path",
           "value": 2
         },
         {
@@ -8110,7 +9095,7 @@
         2.5
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -8166,6 +9151,10 @@
         },
         {
           "page": "press-atelier",
+          "value": 0
+        },
+        {
+          "page": "lantern-path",
           "value": 0
         },
         {
@@ -8182,11 +9171,11 @@
         21
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 15.27
+          "value": 14.9
         },
         {
           "page": "dashboard-app",
@@ -8194,11 +9183,11 @@
         },
         {
           "page": "corporate-story",
-          "value": 14.74
+          "value": 15.13
         },
         {
           "page": "docs-educational",
-          "value": 15.46
+          "value": 10.56
         },
         {
           "page": "fintech-trust",
@@ -8206,7 +9195,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 15.91
+          "value": 15.46
         },
         {
           "page": "consumer-craft",
@@ -8218,15 +9207,15 @@
         },
         {
           "page": "dossier-research",
-          "value": 15.91
+          "value": 15.46
         },
         {
           "page": "observatory-signal",
-          "value": 15.1
+          "value": 15.46
         },
         {
           "page": "archive-index",
-          "value": 15.46
+          "value": 15.1
         },
         {
           "page": "loom-commerce",
@@ -8241,8 +9230,12 @@
           "value": 15.46
         },
         {
+          "page": "lantern-path",
+          "value": 15.1
+        },
+        {
           "page": "holdout-commerce",
-          "value": 15.13
+          "value": 14.74
         }
       ]
     },
@@ -8254,67 +9247,71 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.96
+          "value": 0.936
         },
         {
           "page": "dashboard-app",
-          "value": 0.835
+          "value": 0.827
         },
         {
           "page": "corporate-story",
-          "value": 0.932
+          "value": 0.878
         },
         {
           "page": "docs-educational",
-          "value": 0.825
+          "value": 0.807
         },
         {
           "page": "fintech-trust",
-          "value": 0.971
+          "value": 0.93
         },
         {
           "page": "studio-selected",
-          "value": 0.929
+          "value": 0.896
         },
         {
           "page": "consumer-craft",
-          "value": 0.968
+          "value": 0.97
         },
         {
           "page": "foundry-editorial",
-          "value": 0.914
+          "value": 0.92
         },
         {
           "page": "dossier-research",
-          "value": 0.769
+          "value": 0.783
         },
         {
           "page": "observatory-signal",
-          "value": 0.852
+          "value": 0.86
         },
         {
           "page": "archive-index",
-          "value": 0.845
+          "value": 0.855
         },
         {
           "page": "loom-commerce",
-          "value": 0.772
+          "value": 0.767
         },
         {
           "page": "field-herbarium",
-          "value": 0.805
+          "value": 0.816
         },
         {
           "page": "press-atelier",
-          "value": 0.822
+          "value": 0.798
+        },
+        {
+          "page": "lantern-path",
+          "value": 0.795
         },
         {
           "page": "holdout-commerce",
-          "value": 0.856
+          "value": 0.847
         }
       ]
     },
@@ -8326,15 +9323,15 @@
         0.854
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.806
+          "value": 0.785
         },
         {
           "page": "dashboard-app",
-          "value": 0.833
+          "value": 0.785
         },
         {
           "page": "corporate-story",
@@ -8342,51 +9339,55 @@
         },
         {
           "page": "docs-educational",
-          "value": 0.806
+          "value": 0.785
         },
         {
           "page": "fintech-trust",
-          "value": 0.806
+          "value": 0.785
         },
         {
           "page": "studio-selected",
-          "value": 0.806
+          "value": 0.785
         },
         {
           "page": "consumer-craft",
-          "value": 0.806
+          "value": 0.785
         },
         {
           "page": "foundry-editorial",
-          "value": 0.382
+          "value": 0.368
         },
         {
           "page": "dossier-research",
-          "value": 0.806
+          "value": 0.375
         },
         {
           "page": "observatory-signal",
-          "value": 0.806
+          "value": 0.785
         },
         {
           "page": "archive-index",
-          "value": 0.806
+          "value": 0.375
         },
         {
           "page": "loom-commerce",
-          "value": 0.806
+          "value": 0.785
         },
         {
           "page": "field-herbarium",
-          "value": 0.806
+          "value": 0.785
         },
         {
           "page": "press-atelier",
-          "value": 0.806
+          "value": 0.785
+        },
+        {
+          "page": "lantern-path",
+          "value": 0.375
         },
         {
           "page": "holdout-commerce",
-          "value": 0.833
+          "value": 0.785
         }
       ]
     },
@@ -8398,19 +9399,19 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.875
+          "value": 0.917
         },
         {
           "page": "dashboard-app",
-          "value": 0.75
+          "value": 0.765
         },
         {
           "page": "corporate-story",
-          "value": 0.842
+          "value": 0.85
         },
         {
           "page": "docs-educational",
@@ -8418,7 +9419,7 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.88
+          "value": 0.885
         },
         {
           "page": "studio-selected",
@@ -8430,7 +9431,7 @@
         },
         {
           "page": "foundry-editorial",
-          "value": 0.842
+          "value": 0.789
         },
         {
           "page": "dossier-research",
@@ -8457,8 +9458,12 @@
           "value": 0.889
         },
         {
+          "page": "lantern-path",
+          "value": 0.889
+        },
+        {
           "page": "holdout-commerce",
-          "value": 0.88
+          "value": 0.92
         }
       ]
     },
@@ -8470,67 +9475,71 @@
         12.6
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 9.66
+          "value": 10.39
         },
         {
           "page": "dashboard-app",
-          "value": 7.99
+          "value": 8.71
         },
         {
           "page": "corporate-story",
-          "value": 8.02
+          "value": 8.63
         },
         {
           "page": "docs-educational",
-          "value": 7.24
+          "value": 6.38
         },
         {
           "page": "fintech-trust",
-          "value": 10.1
+          "value": 11
         },
         {
           "page": "studio-selected",
-          "value": 9.95
+          "value": 9.81
         },
         {
           "page": "consumer-craft",
-          "value": 9.42
+          "value": 9.8
         },
         {
           "page": "foundry-editorial",
-          "value": 10.72
+          "value": 11.21
         },
         {
           "page": "dossier-research",
-          "value": 9.52
+          "value": 10.08
         },
         {
           "page": "observatory-signal",
-          "value": 9.99
+          "value": 10.46
         },
         {
           "page": "archive-index",
-          "value": 10.21
+          "value": 10.65
         },
         {
           "page": "loom-commerce",
-          "value": 10.62
+          "value": 10.82
         },
         {
           "page": "field-herbarium",
-          "value": 10
+          "value": 10.48
         },
         {
           "page": "press-atelier",
-          "value": 10.17
+          "value": 10.18
+        },
+        {
+          "page": "lantern-path",
+          "value": 10.69
         },
         {
           "page": "holdout-commerce",
-          "value": 9.32
+          "value": 9.92
         }
       ]
     },
@@ -8542,7 +9551,7 @@
         20
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -8554,7 +9563,7 @@
         },
         {
           "page": "corporate-story",
-          "value": 5
+          "value": 4
         },
         {
           "page": "docs-educational",
@@ -8601,80 +9610,12 @@
           "value": 6
         },
         {
+          "page": "lantern-path",
+          "value": 6
+        },
+        {
           "page": "holdout-commerce",
           "value": 6
-        }
-      ]
-    },
-    {
-      "id": "shadow-restraint",
-      "label": "Shadow coverage",
-      "band": [
-        0,
-        0.014
-      ],
-      "mean": 1,
-      "scoredOn": 15,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 0.007
-        },
-        {
-          "page": "dashboard-app",
-          "value": 0.012
-        },
-        {
-          "page": "corporate-story",
-          "value": 0.008
-        },
-        {
-          "page": "docs-educational",
-          "value": 0.002
-        },
-        {
-          "page": "fintech-trust",
-          "value": 0.012
-        },
-        {
-          "page": "studio-selected",
-          "value": 0.009
-        },
-        {
-          "page": "consumer-craft",
-          "value": 0.009
-        },
-        {
-          "page": "foundry-editorial",
-          "value": 0.007
-        },
-        {
-          "page": "dossier-research",
-          "value": 0.007
-        },
-        {
-          "page": "observatory-signal",
-          "value": 0.005
-        },
-        {
-          "page": "archive-index",
-          "value": 0.006
-        },
-        {
-          "page": "loom-commerce",
-          "value": 0.006
-        },
-        {
-          "page": "field-herbarium",
-          "value": 0.008
-        },
-        {
-          "page": "press-atelier",
-          "value": 0.005
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 0.006
         }
       ]
     },
@@ -8686,7 +9627,7 @@
         1
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -8734,7 +9675,7 @@
         },
         {
           "page": "loom-commerce",
-          "value": 0.977
+          "value": 0.979
         },
         {
           "page": "field-herbarium",
@@ -8742,6 +9683,10 @@
         },
         {
           "page": "press-atelier",
+          "value": 1
+        },
+        {
+          "page": "lantern-path",
           "value": 1
         },
         {
@@ -8758,19 +9703,19 @@
         0.154
       ],
       "mean": 1,
-      "scoredOn": 14,
+      "scoredOn": 15,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.064
+          "value": 0.054
         },
         {
           "page": "dashboard-app",
-          "value": 0.081
+          "value": 0.064
         },
         {
           "page": "corporate-story",
-          "value": 0.065
+          "value": 0.048
         },
         {
           "page": "docs-educational",
@@ -8778,47 +9723,51 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.063
-        },
-        {
-          "page": "studio-selected",
-          "value": 0.061
-        },
-        {
-          "page": "consumer-craft",
-          "value": 0.058
-        },
-        {
-          "page": "foundry-editorial",
-          "value": 0.055
-        },
-        {
-          "page": "dossier-research",
-          "value": 0.077
-        },
-        {
-          "page": "observatory-signal",
-          "value": 0.046
-        },
-        {
-          "page": "archive-index",
-          "value": 0.087
-        },
-        {
-          "page": "loom-commerce",
           "value": 0.054
         },
         {
+          "page": "studio-selected",
+          "value": 0.056
+        },
+        {
+          "page": "consumer-craft",
+          "value": 0.048
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 0.046
+        },
+        {
+          "page": "dossier-research",
+          "value": 0.067
+        },
+        {
+          "page": "observatory-signal",
+          "value": 0.039
+        },
+        {
+          "page": "archive-index",
+          "value": 0.077
+        },
+        {
+          "page": "loom-commerce",
+          "value": 0.046
+        },
+        {
           "page": "field-herbarium",
-          "value": 0.061
+          "value": 0.052
         },
         {
           "page": "press-atelier",
-          "value": 0.026
+          "value": 0.025
+        },
+        {
+          "page": "lantern-path",
+          "value": 0.056
         },
         {
           "page": "holdout-commerce",
-          "value": 0.06
+          "value": 0.051
         }
       ]
     },
@@ -8830,7 +9779,7 @@
         300
       ],
       "mean": 1,
-      "scoredOn": 14,
+      "scoredOn": 15,
       "values": [
         {
           "page": "saas-conversion",
@@ -8886,6 +9835,10 @@
         },
         {
           "page": "press-atelier",
+          "value": 180
+        },
+        {
+          "page": "lantern-path",
           "value": 180
         },
         {
@@ -8902,67 +9855,71 @@
         1983
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 128
+          "value": 129
         },
         {
           "page": "dashboard-app",
-          "value": 128
+          "value": 129
         },
         {
           "page": "corporate-story",
-          "value": 128
+          "value": 129
         },
         {
           "page": "docs-educational",
-          "value": 128
+          "value": 129
         },
         {
           "page": "fintech-trust",
-          "value": 128
+          "value": 129
         },
         {
           "page": "studio-selected",
-          "value": 128
+          "value": 129
         },
         {
           "page": "consumer-craft",
-          "value": 128
+          "value": 129
         },
         {
           "page": "foundry-editorial",
-          "value": 128
+          "value": 129
         },
         {
           "page": "dossier-research",
-          "value": 128
+          "value": 129
         },
         {
           "page": "observatory-signal",
-          "value": 128
+          "value": 129
         },
         {
           "page": "archive-index",
-          "value": 128
+          "value": 129
         },
         {
           "page": "loom-commerce",
-          "value": 128
+          "value": 129
         },
         {
           "page": "field-herbarium",
-          "value": 128
+          "value": 129
         },
         {
           "page": "press-atelier",
-          "value": 128
+          "value": 129
+        },
+        {
+          "page": "lantern-path",
+          "value": 129
         },
         {
           "page": "holdout-commerce",
-          "value": 128
+          "value": 129
         }
       ]
     },
@@ -8974,7 +9931,7 @@
         55
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -8990,11 +9947,11 @@
         },
         {
           "page": "docs-educational",
-          "value": 4
+          "value": 3
         },
         {
           "page": "fintech-trust",
-          "value": 5
+          "value": 9
         },
         {
           "page": "studio-selected",
@@ -9033,6 +9990,10 @@
           "value": 13
         },
         {
+          "page": "lantern-path",
+          "value": 10
+        },
+        {
           "page": "holdout-commerce",
           "value": 5
         }
@@ -9046,19 +10007,19 @@
         7
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 4
+          "value": 3
         },
         {
           "page": "dashboard-app",
-          "value": 4
+          "value": 3
         },
         {
           "page": "corporate-story",
-          "value": 4
+          "value": 3
         },
         {
           "page": "docs-educational",
@@ -9066,7 +10027,7 @@
         },
         {
           "page": "fintech-trust",
-          "value": 4
+          "value": 3
         },
         {
           "page": "studio-selected",
@@ -9105,8 +10066,12 @@
           "value": 2
         },
         {
+          "page": "lantern-path",
+          "value": 2
+        },
+        {
           "page": "holdout-commerce",
-          "value": 4
+          "value": 3
         }
       ]
     },
@@ -9118,35 +10083,35 @@
         1139
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 850
+          "value": 855
         },
         {
           "page": "dashboard-app",
-          "value": 416
+          "value": 1137
         },
         {
           "page": "corporate-story",
-          "value": 448
+          "value": 724
         },
         {
           "page": "docs-educational",
-          "value": 309
+          "value": 507
         },
         {
           "page": "fintech-trust",
-          "value": 982
+          "value": 802
         },
         {
           "page": "studio-selected",
-          "value": 413
+          "value": 858
         },
         {
           "page": "consumer-craft",
-          "value": 639
+          "value": 661
         },
         {
           "page": "foundry-editorial",
@@ -9154,11 +10119,11 @@
         },
         {
           "page": "dossier-research",
-          "value": 483
+          "value": 498
         },
         {
           "page": "observatory-signal",
-          "value": 492
+          "value": 505
         },
         {
           "page": "archive-index",
@@ -9166,19 +10131,23 @@
         },
         {
           "page": "loom-commerce",
-          "value": 434
+          "value": 436
         },
         {
           "page": "field-herbarium",
-          "value": 582
+          "value": 630
         },
         {
           "page": "press-atelier",
           "value": 468
         },
         {
+          "page": "lantern-path",
+          "value": 368
+        },
+        {
           "page": "holdout-commerce",
-          "value": 873
+          "value": 877
         }
       ]
     },
@@ -9190,7 +10159,7 @@
         115
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -9198,55 +10167,59 @@
         },
         {
           "page": "dashboard-app",
-          "value": 25
-        },
-        {
-          "page": "corporate-story",
           "value": 29
         },
         {
+          "page": "corporate-story",
+          "value": 35
+        },
+        {
           "page": "docs-educational",
-          "value": 19
+          "value": 18
         },
         {
           "page": "fintech-trust",
-          "value": 38
+          "value": 44
         },
         {
           "page": "studio-selected",
-          "value": 34
+          "value": 38
         },
         {
           "page": "consumer-craft",
-          "value": 34
+          "value": 38
         },
         {
           "page": "foundry-editorial",
-          "value": 33
+          "value": 37
         },
         {
           "page": "dossier-research",
-          "value": 33
+          "value": 37
         },
         {
           "page": "observatory-signal",
-          "value": 33
+          "value": 37
         },
         {
           "page": "archive-index",
-          "value": 33
+          "value": 37
         },
         {
           "page": "loom-commerce",
-          "value": 33
+          "value": 37
         },
         {
           "page": "field-herbarium",
-          "value": 33
+          "value": 37
         },
         {
           "page": "press-atelier",
-          "value": 33
+          "value": 37
+        },
+        {
+          "page": "lantern-path",
+          "value": 37
         },
         {
           "page": "holdout-commerce",
@@ -9262,15 +10235,15 @@
         28
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 14
+          "value": 23
         },
         {
           "page": "dashboard-app",
-          "value": 17
+          "value": 22
         },
         {
           "page": "corporate-story",
@@ -9282,11 +10255,11 @@
         },
         {
           "page": "fintech-trust",
-          "value": 14
+          "value": 15
         },
         {
           "page": "studio-selected",
-          "value": 8
+          "value": 9
         },
         {
           "page": "consumer-craft",
@@ -9318,227 +10291,15 @@
         },
         {
           "page": "press-atelier",
-          "value": 22
+          "value": 23
         },
         {
-          "page": "holdout-commerce",
+          "page": "lantern-path",
           "value": 14
-        }
-      ]
-    },
-    {
-      "id": "width-tiers",
-      "label": "Content width tiers",
-      "band": [
-        5,
-        10
-      ],
-      "mean": 1,
-      "scoredOn": 15,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 8
-        },
-        {
-          "page": "dashboard-app",
-          "value": 7
-        },
-        {
-          "page": "corporate-story",
-          "value": 6
-        },
-        {
-          "page": "docs-educational",
-          "value": 7
-        },
-        {
-          "page": "fintech-trust",
-          "value": 7
-        },
-        {
-          "page": "studio-selected",
-          "value": 8
-        },
-        {
-          "page": "consumer-craft",
-          "value": 9
-        },
-        {
-          "page": "foundry-editorial",
-          "value": 7
-        },
-        {
-          "page": "dossier-research",
-          "value": 7
-        },
-        {
-          "page": "observatory-signal",
-          "value": 7
-        },
-        {
-          "page": "archive-index",
-          "value": 9
-        },
-        {
-          "page": "loom-commerce",
-          "value": 8
-        },
-        {
-          "page": "field-herbarium",
-          "value": 9
-        },
-        {
-          "page": "press-atelier",
-          "value": 6
         },
         {
           "page": "holdout-commerce",
-          "value": 8
-        }
-      ]
-    },
-    {
-      "id": "alignment-axes",
-      "label": "Alignment axes",
-      "band": [
-        3,
-        6
-      ],
-      "mean": 1,
-      "scoredOn": 15,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 4
-        },
-        {
-          "page": "dashboard-app",
-          "value": 3
-        },
-        {
-          "page": "corporate-story",
-          "value": 4
-        },
-        {
-          "page": "docs-educational",
-          "value": 5
-        },
-        {
-          "page": "fintech-trust",
-          "value": 5
-        },
-        {
-          "page": "studio-selected",
-          "value": 4
-        },
-        {
-          "page": "consumer-craft",
-          "value": 4
-        },
-        {
-          "page": "foundry-editorial",
-          "value": 3
-        },
-        {
-          "page": "dossier-research",
-          "value": 5
-        },
-        {
-          "page": "observatory-signal",
-          "value": 4
-        },
-        {
-          "page": "archive-index",
-          "value": 3
-        },
-        {
-          "page": "loom-commerce",
-          "value": 5
-        },
-        {
-          "page": "field-herbarium",
-          "value": 4
-        },
-        {
-          "page": "press-atelier",
-          "value": 3
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 3
-        }
-      ]
-    },
-    {
-      "id": "bleed",
-      "label": "Full-bleed bands",
-      "band": [
-        0.1,
-        1.375
-      ],
-      "mean": 1,
-      "scoredOn": 15,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 0.643
-        },
-        {
-          "page": "dashboard-app",
-          "value": 0.538
-        },
-        {
-          "page": "corporate-story",
-          "value": 0.5
-        },
-        {
-          "page": "docs-educational",
-          "value": 0.6
-        },
-        {
-          "page": "fintech-trust",
-          "value": 0.643
-        },
-        {
-          "page": "studio-selected",
-          "value": 0.333
-        },
-        {
-          "page": "consumer-craft",
-          "value": 0.462
-        },
-        {
-          "page": "foundry-editorial",
-          "value": 0.125
-        },
-        {
-          "page": "dossier-research",
-          "value": 0.222
-        },
-        {
-          "page": "observatory-signal",
-          "value": 0.25
-        },
-        {
-          "page": "archive-index",
-          "value": 0.25
-        },
-        {
-          "page": "loom-commerce",
-          "value": 0.125
-        },
-        {
-          "page": "field-herbarium",
-          "value": 0.111
-        },
-        {
-          "page": "press-atelier",
-          "value": 0.222
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 0.643
+          "value": 25
         }
       ]
     },
@@ -9550,15 +10311,15 @@
         100
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 90.7
+          "value": 0
         },
         {
           "page": "dashboard-app",
-          "value": 87.9
+          "value": 0
         },
         {
           "page": "corporate-story",
@@ -9566,51 +10327,55 @@
         },
         {
           "page": "docs-educational",
-          "value": 92.1
+          "value": 0
         },
         {
           "page": "fintech-trust",
-          "value": 90.7
+          "value": 0
         },
         {
           "page": "studio-selected",
-          "value": 98.6
+          "value": 0
         },
         {
           "page": "consumer-craft",
-          "value": 90
+          "value": 0
         },
         {
           "page": "foundry-editorial",
-          "value": 98.6
+          "value": 0
         },
         {
           "page": "dossier-research",
-          "value": 94.9
+          "value": 0
         },
         {
           "page": "observatory-signal",
-          "value": 94.9
+          "value": 0
         },
         {
           "page": "archive-index",
-          "value": 3.7
+          "value": 0
         },
         {
           "page": "loom-commerce",
-          "value": 3.7
+          "value": 0
         },
         {
           "page": "field-herbarium",
-          "value": 3.7
+          "value": 0
         },
         {
           "page": "press-atelier",
-          "value": 3.7
+          "value": 0
+        },
+        {
+          "page": "lantern-path",
+          "value": 0
         },
         {
           "page": "holdout-commerce",
-          "value": 89.2
+          "value": 0
         }
       ]
     },
@@ -9622,7 +10387,7 @@
         7
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -9646,7 +10411,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 3
+          "value": 4
         },
         {
           "page": "consumer-craft",
@@ -9658,7 +10423,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 4
+          "value": 3
         },
         {
           "page": "observatory-signal",
@@ -9678,6 +10443,10 @@
         },
         {
           "page": "press-atelier",
+          "value": 4
+        },
+        {
+          "page": "lantern-path",
           "value": 4
         },
         {
@@ -9694,7 +10463,7 @@
         0.5
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
@@ -9702,7 +10471,7 @@
         },
         {
           "page": "dashboard-app",
-          "value": 0.077
+          "value": 0.154
         },
         {
           "page": "corporate-story",
@@ -9710,7 +10479,7 @@
         },
         {
           "page": "docs-educational",
-          "value": 0.2
+          "value": 0.222
         },
         {
           "page": "fintech-trust",
@@ -9718,11 +10487,11 @@
         },
         {
           "page": "studio-selected",
-          "value": 0.333
+          "value": 0.222
         },
         {
           "page": "consumer-craft",
-          "value": 0.231
+          "value": 0.154
         },
         {
           "page": "foundry-editorial",
@@ -9738,11 +10507,11 @@
         },
         {
           "page": "archive-index",
-          "value": 0.25
+          "value": 0.125
         },
         {
           "page": "loom-commerce",
-          "value": 0.25
+          "value": 0.333
         },
         {
           "page": "field-herbarium",
@@ -9753,152 +10522,12 @@
           "value": 0.222
         },
         {
-          "page": "holdout-commerce",
-          "value": 0.214
-        }
-      ]
-    },
-    {
-      "id": "figure-weight",
-      "label": "Drawn matter (share of page)",
-      "band": [
-        0.196,
-        0.778
-      ],
-      "mean": 1,
-      "scoredOn": 15,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 0.2177
-        },
-        {
-          "page": "dashboard-app",
-          "value": 0.297
-        },
-        {
-          "page": "corporate-story",
-          "value": 0.2432
-        },
-        {
-          "page": "docs-educational",
-          "value": 0.3284
-        },
-        {
-          "page": "fintech-trust",
-          "value": 0.2074
-        },
-        {
-          "page": "studio-selected",
-          "value": 0.2501
-        },
-        {
-          "page": "consumer-craft",
-          "value": 0.2474
-        },
-        {
-          "page": "foundry-editorial",
-          "value": 0.2386
-        },
-        {
-          "page": "dossier-research",
-          "value": 0.251
-        },
-        {
-          "page": "observatory-signal",
-          "value": 0.2443
-        },
-        {
-          "page": "archive-index",
-          "value": 0.2518
-        },
-        {
-          "page": "loom-commerce",
-          "value": 0.2726
-        },
-        {
-          "page": "field-herbarium",
-          "value": 0.2478
-        },
-        {
-          "page": "press-atelier",
-          "value": 0.2593
+          "page": "lantern-path",
+          "value": 0.222
         },
         {
           "page": "holdout-commerce",
-          "value": 0.2111
-        }
-      ]
-    },
-    {
-      "id": "fold-figure",
-      "label": "Drawn matter above the fold",
-      "band": [
-        0.337,
-        1
-      ],
-      "mean": 1,
-      "scoredOn": 15,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 0.92
-        },
-        {
-          "page": "dashboard-app",
-          "value": 0.92
-        },
-        {
-          "page": "corporate-story",
-          "value": 0.92
-        },
-        {
-          "page": "docs-educational",
-          "value": 0.4052
-        },
-        {
-          "page": "fintech-trust",
-          "value": 0.9278
-        },
-        {
-          "page": "studio-selected",
-          "value": 0.3664
-        },
-        {
-          "page": "consumer-craft",
-          "value": 0.3778
-        },
-        {
-          "page": "foundry-editorial",
-          "value": 0.4639
-        },
-        {
-          "page": "dossier-research",
-          "value": 0.3967
-        },
-        {
-          "page": "observatory-signal",
-          "value": 0.5951
-        },
-        {
-          "page": "archive-index",
-          "value": 0.4262
-        },
-        {
-          "page": "loom-commerce",
-          "value": 0.7337
-        },
-        {
-          "page": "field-herbarium",
-          "value": 0.6031
-        },
-        {
-          "page": "press-atelier",
-          "value": 0.6906
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 0.92
+          "value": 0.143
         }
       ]
     },
@@ -9910,27 +10539,27 @@
         157
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 20
+          "value": 16
         },
         {
           "page": "dashboard-app",
-          "value": 17
+          "value": 16
         },
         {
           "page": "corporate-story",
-          "value": 14
+          "value": 12
         },
         {
           "page": "docs-educational",
-          "value": 14
+          "value": 11
         },
         {
           "page": "fintech-trust",
-          "value": 20
+          "value": 18
         },
         {
           "page": "studio-selected",
@@ -9969,8 +10598,12 @@
           "value": 17
         },
         {
+          "page": "lantern-path",
+          "value": 17
+        },
+        {
           "page": "holdout-commerce",
-          "value": 19
+          "value": 15
         }
       ]
     },
@@ -9982,67 +10615,71 @@
         0.469
       ],
       "mean": 1,
-      "scoredOn": 15,
+      "scoredOn": 16,
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.2318
+          "value": 0.1987
         },
         {
           "page": "dashboard-app",
-          "value": 0.0059
+          "value": 0.0056
         },
         {
           "page": "corporate-story",
-          "value": 0.1395
+          "value": 0.1256
         },
         {
           "page": "docs-educational",
-          "value": 0.0662
+          "value": 0.0638
         },
         {
           "page": "fintech-trust",
-          "value": 0.3208
+          "value": 0.2592
         },
         {
           "page": "studio-selected",
-          "value": 0.002
+          "value": 0.0022
         },
         {
           "page": "consumer-craft",
-          "value": 0.0524
+          "value": 0.0427
         },
         {
           "page": "foundry-editorial",
-          "value": 0.0488
+          "value": 0.0396
         },
         {
           "page": "dossier-research",
-          "value": 0.0026
+          "value": 0.0025
         },
         {
           "page": "observatory-signal",
-          "value": 0.002
-        },
-        {
-          "page": "archive-index",
-          "value": 0.0017
-        },
-        {
-          "page": "loom-commerce",
-          "value": 0.0018
-        },
-        {
-          "page": "field-herbarium",
-          "value": 0.0023
-        },
-        {
-          "page": "press-atelier",
           "value": 0.0019
         },
         {
+          "page": "archive-index",
+          "value": 0.0016
+        },
+        {
+          "page": "loom-commerce",
+          "value": 0.0017
+        },
+        {
+          "page": "field-herbarium",
+          "value": 0.0021
+        },
+        {
+          "page": "press-atelier",
+          "value": 0.002
+        },
+        {
+          "page": "lantern-path",
+          "value": 0.0023
+        },
+        {
           "page": "holdout-commerce",
-          "value": 0.2056
+          "value": 0.1656
         }
       ]
     }

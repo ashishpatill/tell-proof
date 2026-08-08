@@ -31,7 +31,8 @@ export type TemplateKey =
   | "archive"
   | "loom"
   | "herbarium"
-  | "press";
+  | "press"
+  | "lantern";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -883,6 +884,71 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
           id: "p6",
           name: "Pressroom close",
           description: "Plate numbers and custody stamped so a reused forme cannot orphan its edition",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "lantern",
+    label: "Lantern path",
+    marketJob:
+      "Cinematic night-walk landing — chapter waypoints, path cartograph fold, silhouette near-plane, ember essay, Ember close.",
+    siteKind: "lantern-path",
+    researchBasis:
+      "Calibrated against art-directed-studio + editorial-longform + personal-craft corridors (foldFigure high, figureArea ~0.4–0.7, invertedShare ~0, quiet-moderate display, dense plate matter). Distinct craft theme packs and soft dark glow pages miss: hero-path with sticky ds-way-rail Ch I–V, path-plate night cartograph (elevation + lantern waypoints + silhouette matter, data-dense=ink, mono ≤11px), story-ember bead essay, paper Ember close — no pricing, no metrics theatre, zero inverse bands. Not WebGL tourism chrome, not press/archive/loom.",
+    brief: DesignBrief.parse({
+      productName: "Ember Gate",
+      tagline: "The atlas that keeps every night path under one reading",
+      audience: "editors and founders staging a cinematic multi-chapter walk",
+      businessGoal: "trust",
+      siteKind: "lantern-path",
+      lockSiteKind: true,
+      // Warm amber lantern — escapes violet glow and cream/terracotta AI clusters.
+      brandAccent: "#B86B2E",
+      features: [
+        {
+          id: "n1",
+          name: "Chapter waypoints",
+          description: "Five sticky chapter marks that keep the walk citeable without a dark SaaS sidebar",
+          priority: "p0",
+        },
+        {
+          id: "n2",
+          name: "Path cartograph",
+          description: "A spanning night atlas with elevation, lanterns, and silhouette matter owning the fold",
+          priority: "p0",
+        },
+        {
+          id: "n3",
+          name: "Lantern markers",
+          description: "Waypoint beacons that light each chapter without decorative bloom stacks",
+          priority: "p0",
+        },
+        {
+          id: "n4",
+          name: "Silhouette near-plane",
+          description: "Pinned foreground silhouettes that hand off between chapters without orphan layers",
+          priority: "p1",
+        },
+        {
+          id: "n5",
+          name: "Ember essay",
+          description: "A bead-ticked reading so the afterlight stays citeable while you decide",
+          priority: "p1",
+        },
+        {
+          id: "n6",
+          name: "Ember close",
+          description: "Chapter custody stamped so a reused walk cannot orphan its edition",
           priority: "p2",
         },
       ],

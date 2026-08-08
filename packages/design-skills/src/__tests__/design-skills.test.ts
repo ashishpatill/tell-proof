@@ -310,7 +310,7 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(14);
+    expect(templates).toHaveLength(15);
     expect(templates.map((t) => t.key).sort()).toEqual([
       "archive",
       "consumer",
@@ -321,6 +321,7 @@ describe("research-backed offerings + implementation basics", () => {
       "fintech",
       "foundry",
       "herbarium",
+      "lantern",
       "loom",
       "observatory",
       "press",
@@ -351,6 +352,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(herbarium.siteKind).toBe("field-guide");
     const press = templates.find((t) => t.key === "press")!;
     expect(press.siteKind).toBe("press-atelier");
+    const lantern = templates.find((t) => t.key === "lantern")!;
+    expect(lantern.siteKind).toBe("lantern-path");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -555,6 +558,35 @@ describe("research-backed offerings + implementation basics", () => {
     expect(svgSizes.every((n) => n >= 11)).toBe(true);
   });
 
+  it("gives lantern path a waypoint rail + path plate + ember plan distinct from press and soft dark heroes", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    expect(spec.brief.siteKind).toBe("lantern-path");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-path")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-ember")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="lantern-path"');
+    expect(previewHtml).toContain("ds-hero-path");
+    expect(previewHtml).toContain("ds-path-masthead");
+    expect(previewHtml).toContain("ds-way-rail");
+    expect(previewHtml).toContain('data-figure="path-plate"');
+    expect(previewHtml).toContain('data-dense="ink"');
+    expect(previewHtml).toMatch(/data-figure="path-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="path-plate"/);
+    expect(previewHtml).toContain("PATH ATLAS");
+    expect(previewHtml).toContain("ds-ember");
+    expect(previewHtml).toContain("ds-path-near");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Ember");
+    expect(previewHtml).toContain("The chapters");
+    expect(previewHtml).not.toContain('class="ds-alpha-rail"');
+    expect(previewHtml).not.toContain('class="ds-sig-rail"');
+    expect(previewHtml).not.toContain('class="ds-scrub-rail"');
+    const svgSizes = [...previewHtml.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)].map((m) => Number(m[1]));
+    expect(svgSizes.every((n) => n >= 11)).toBe(true);
+  });
+
   it("exposes reusable densify helpers for cell-grid figures", async () => {
     const { miniPageMatter, densitometerStrip, FIG_MONO_PX } = await import("../figures");
     expect(FIG_MONO_PX).toBe(11);
@@ -567,6 +599,81 @@ describe("research-backed offerings + implementation basics", () => {
     expect(dens).toContain("GRIP");
   });
 
+  it("fits pipeline deal chips and stage titles inside narrow column pills", async () => {
+    const { fitDealChip, pipelineBoard, FIG_MONO_PX } = await import("../figures");
+    // ~66px budget (narrow column pill minus insets) must keep amount, shorten word.
+    expect(fitDealChip("Executive digest", "84k", 66)).toMatch(/84k/);
+    expect(fitDealChip("Executive digest", "84k", 66)).toBe("E · 84k");
+    expect(fitDealChip("CRM sync", "41k", 66)).toBe("CRM · 41k");
+    expect(fitDealChip("Account scoring", "18k", 120)).toBe("Account · 18k");
+
+    const features = [
+      { name: "Account scoring", description: "Ranks every open account." },
+      { name: "Pipeline coaching", description: "Flags deals that went quiet." },
+      { name: "CRM sync", description: "Writes back without a second sheet." },
+      { name: "Executive digest", description: "A weekly read for the room." },
+      { name: "Territory modelling", description: "Test a patch before you hire." },
+    ];
+    const svg = pipelineBoard(
+      "Northstar",
+      features.map((f) => ({
+        title: f.name,
+        body: f.description,
+        emphasis: "normal" as const,
+        points: [] as string[],
+      })),
+      "overflow-audit",
+      "column",
+    );
+    // Deal chips: no full long stage words that previously escaped the pill.
+    expect(svg).not.toContain(">Executive · ");
+    expect(svg).not.toContain(">Territory · ");
+    expect(svg).not.toContain(">Pipeline coaching</text>");
+    expect(svg).not.toMatch(/>[A-Za-z]{3}… · \d+k</);
+    // Amounts still present on chips.
+    expect(svg).toMatch(/· \d+k</);
+    // Mono floor preserved.
+    expect(svg).toContain(`font-size="${FIG_MONO_PX}"`);
+  });
+
+  it("keeps craft bleeds clear of left rails and press regs off the claim", () => {
+    const { previewHtml: press } = designFromFeatures(SHOWCASE_BRIEFS.press!);
+    expect(press).toMatch(/--craft-rail:var\(--sig-rail\)/);
+    expect(press).toMatch(/width:calc\(100vw - var\(--craft-rail,0px\)\)/);
+    expect(press).toMatch(/class="ds-bleed ds-press-field">[\s\S]*?ds-press-regs/);
+    expect(press).not.toMatch(/\.ds-press-regs\{[^}]*z-index:3/);
+    expect(press).toMatch(/\[data-sitekind="press-atelier"\] \.ds-press-masthead\{[^}]*padding-bottom:var\(--s-sm\)/);
+  });
+
+  it("keeps craft fold claims from pulling labeled fields underneath", () => {
+    for (const key of ["lantern", "press", "observatory", "dossier", "archive"] as const) {
+      const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS[key]!);
+      expect(previewHtml, key).not.toMatch(
+        /\.ds-(?:path|press|chrono|folio|register)-field\{[^}]*margin-top:calc\([^)]*\*\s*-/,
+      );
+    }
+    const { previewHtml: lantern } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-claim\{[^}]*background:var\(--c-paper\)/);
+    expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-field\{[^}]*margin-top:0/);
+  });
+
+  it("keeps story Note labels from sliding under capability marks", () => {
+    const noteKinds = ["observatory", "archive", "loom", "herbarium", "press", "lantern"] as const;
+    for (const key of noteKinds) {
+      const brief = SHOWCASE_BRIEFS[key];
+      if (!brief) continue;
+      const { previewHtml } = designFromFeatures(brief);
+      expect(previewHtml, key).toMatch(/Note 0\d/);
+      expect(previewHtml, key).not.toMatch(
+        /\.ds-(?:chrono|entry|hang|range|gather|ember|spread|marginalia)-mark\{[^}]*margin-top:calc\(var\(--s-(?:sm|xs|md)\) \* -1\)/,
+      );
+    }
+    const { previewHtml: chrono } = designFromFeatures(SHOWCASE_BRIEFS.observatory!);
+    expect(chrono).toMatch(/\.ds-chrono-note \+ \.ds-chrono-mark\{[^}]*margin-top:var\(--s-lg\)/);
+    const { previewHtml: ember } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    expect(ember).toMatch(/\.ds-ember-note \+ \.ds-ember-mark\{[^}]*margin-top:var\(--s-lg\)/);
+  });
+
   it("clears the implementation basics gate on every offering", () => {
     for (const t of listTemplates()) {
       const { spec, previewHtml } = designFromFeatures(t.brief);
@@ -574,6 +681,27 @@ describe("research-backed offerings + implementation basics", () => {
       const failed = report.findings.filter((f) => !f.ok).map((f) => `${t.key}:${f.id} — ${f.detail}`);
       expect(failed, failed.join("\n")).toEqual([]);
     }
+  });
+
+  it("paints paper-technical footers opaque so paper ink never sits on the inverse outer field", () => {
+    for (const key of ["saas", "dashboard"] as const) {
+      const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS[key]!);
+      expect(previewHtml).toContain('data-frame="paper-technical"');
+      expect(previewHtml).toContain('<footer class="ds-footer"');
+      expect(previewHtml).toMatch(/body\[data-frame="paper-technical"\][\s\S]*?\.ds-footer/);
+      expect(previewHtml).not.toMatch(
+        /body\[data-frame="paper-technical"\] #main,\s*body\[data-frame="paper-technical"\] \.ds-nav,\s*body\[data-frame="paper-technical"\] footer\.ds-section\{/,
+      );
+    }
+  });
+
+  it("keeps the workflow lit plate from hanging into the swap panel", () => {
+    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    expect(previewHtml).toContain("data-workflow-proof");
+    expect(previewHtml).toMatch(/\.ds-workflow-field \.ds-proof-figure\{transform:none/);
+    expect(previewHtml).toMatch(/\.ds-workflow-field\{[^}]*gap:var\(--s-xl\)/);
+    expect(previewHtml).toMatch(/\.ds-proof\.ds-workflow\{[^}]*margin-bottom:0/);
+    expect(previewHtml).toMatch(/\.ds-workflow-rail ol\{[^}]*gap:var\(--s-sm\)/);
   });
 
   it("fills the proof band with a dense evidence board instead of a lonely quote", () => {

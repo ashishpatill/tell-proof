@@ -198,6 +198,110 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Footer links must target real sections (or be plain text) — never mass-link to #top. Brand wordmark → #top is fine.",
     ),
     check(
+      "paper-frame-footer-paint",
+      !spec.routedSkills.includes("paper-technical-frame") ||
+        (/body\[data-frame="paper-technical"\][\s\S]*?\.ds-footer/.test(html) &&
+          /<footer class="ds-footer"/.test(html)),
+      "Paper-technical frame must paint .ds-footer with paper/ink — footer.ds-section never matched the real markup, leaving paper ink on the inverse outer field.",
+    ),
+    check(
+      "chapter-spine-clears-index",
+      !/\.ds-chapters::before\{/.test(html) ||
+        (!/left:calc\(var\(--align-rail\) \* 0\.35\)/.test(html) &&
+          /--chapter-inset/.test(html) &&
+          /left:calc\(var\(--chapter-inset\) \+ var\(--align-rail\)/.test(html)),
+      "Chapter spine must sit mid-gap after --chapter-inset + align-rail — never through Step labels.",
+    ),
+    check(
+      "chapter-lead-clears-index",
+      !/\.ds-chapter:first-child\{[^}]*box-shadow:inset 3px/.test(html) ||
+        /--chapter-inset:[^;]+;/.test(html),
+      "Lead chapter inset accent bar needs --chapter-inset padding so it does not clip Step labels.",
+    ),
+    check(
+      "workflow-stack-clears-panel",
+      !/data-workflow-proof/.test(html) ||
+        (/\.ds-workflow-field \.ds-proof-figure\{transform:none/.test(html) &&
+          /\.ds-workflow-field\{[^}]*gap:var\(--s-xl\)/.test(html) &&
+          /\.ds-proof\.ds-workflow\{[^}]*margin-bottom:0/.test(html)),
+      "Workflow lit plate must not hang (translateY) into the swap panel — keep stack gap and no proof tuck into the next section.",
+    ),
+    check(
+      "story-note-clears-mark",
+      !/\.ds-(?:chrono|entry|hang|range|gather|ember|spread|marginalia)-mark\{[^}]*margin-top:calc\(var\(--s-(?:sm|xs|md)\) \* -1\)/.test(
+        html,
+      ) &&
+        (
+          !/class="ds-chrono-note"/.test(html) ||
+          /\.ds-chrono-note \+ \.ds-chrono-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-entry-note"/.test(html) ||
+          /\.ds-entry-note \+ \.ds-entry-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-hang-note"/.test(html) ||
+          /\.ds-hang-note \+ \.ds-hang-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-range-note"/.test(html) ||
+          /\.ds-range-note \+ \.ds-range-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-gather-note"/.test(html) ||
+          /\.ds-gather-note \+ \.ds-gather-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-ember-note"/.test(html) ||
+          /\.ds-ember-note \+ \.ds-ember-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ),
+      "Story Note 0N labels must clear capability marks — never negative-margin the drawing under the label.",
+    ),
+    check(
+      "craft-claim-clears-field",
+      !/\.ds-(?:path|press|chrono|folio|register)-field\{[^}]*margin-top:calc\([^)]*\*\s*-/.test(html) &&
+        (
+          !/class="[^"]*ds-path-claim/.test(html) ||
+          (/\[data-sitekind="lantern-path"\] \.ds-path-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="lantern-path"\] \.ds-path-field\{[^}]*margin-top:0/.test(html))
+        ) &&
+        (
+          !/class="[^"]*ds-press-claim/.test(html) ||
+          (/\[data-sitekind="press-atelier"\] \.ds-press-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="press-atelier"\] \.ds-press-field\{[^}]*margin-top:0/.test(html))
+        ) &&
+        (
+          !/class="[^"]*ds-chrono-claim/.test(html) ||
+          (/\[data-sitekind="signal-observatory"\] \.ds-chrono-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="signal-observatory"\] \.ds-chrono-field\{[^}]*margin-top:0/.test(html))
+        ) &&
+        (
+          !/class="[^"]*ds-folio-claim/.test(html) ||
+          (/\[data-sitekind="research-dossier"\] \.ds-folio-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="research-dossier"\] \.ds-folio-field\{[^}]*margin-top:0/.test(html))
+        ) &&
+        (
+          !/class="[^"]*ds-register-claim/.test(html) ||
+          (/\[data-sitekind="archive-index"\] \.ds-register-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="archive-index"\] \.ds-register-field\{[^}]*margin-top:0/.test(html))
+        ),
+      "Craft fold claims must be opaque paper stacked above the field — never soft-fade + negative-margin over labeled figure chrome.",
+    ),
+    check(
+      "craft-rail-clears-bleed",
+      !/--craft-rail:/.test(html) ||
+        (/width:calc\(100vw - var\(--craft-rail,0px\)\)/.test(html) &&
+          /margin-left:calc\(50% - 50vw \+ var\(--craft-rail,0px\)\)/.test(html)),
+      "Craft left rails must inset .ds-bleed — full-viewport bleeds paint stages over Sig/Ch rails.",
+    ),
+    check(
+      "press-regs-frame-field",
+      !/class="[^"]*\bds-hero-press\b/.test(html) ||
+        (/class="ds-bleed ds-press-field">[\s\S]*?ds-press-regs/.test(html) &&
+          !/\.ds-press-regs\{[^}]*z-index:3/.test(html)),
+      "Press registration marks frame the sheet field only — never sit above masthead/claim type.",
+    ),
+    check(
       "no-boilerplate-proof-title",
       !/holds under review/i.test(html),
       "Proof titles must be siteKind-specific — never the shared 'holds under review' spam across offerings.",
@@ -377,13 +481,32 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Press offerings use press fold + signature rail + press sheet + gather essay + Pressroom — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
+      "kind-lantern",
+      spec.brief.siteKind !== "lantern-path"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && !spec.sections.some((s) => s.kind === "metrics")
+          && /ds-hero-path/.test(html)
+          && /ds-path-masthead/.test(html)
+          && /ds-way-rail/.test(html)
+          && /data-figure="path-plate"/.test(html)
+          && /ds-ember/.test(html)
+          && /Ember/.test(html)
+          && /ds-bleed-rule/.test(html)
+          && /ds-path-near/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length === 0
+        ),
+      "Lantern-path offerings use path fold + waypoint rail + path plate + ember essay + Ember — no pricing, no metrics theatre, zero inverse bands.",
+    ),
+    check(
       "fig-mono-floor",
       !Array.from(html.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)).some((m) => Number(m[1]) > 0 && Number(m[1]) < 11),
       "SVG figure labels stay at ≥11px — smaller mono invents a type-step the probe counts but the eye cannot use.",
     ),
     check(
       "craft-figure-dense",
-      !/data-figure="press-sheet"/.test(html) || /data-figure="press-sheet"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="press-sheet"/.test(html),
+      (!/data-figure="press-sheet"/.test(html) || /data-figure="press-sheet"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="press-sheet"/.test(html))
+        && (!/data-figure="path-plate"/.test(html) || /data-figure="path-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="path-plate"/.test(html)),
       "Cell-grid craft figures must carry drawn page matter (data-dense=ink) — empty stroked voids fail the eye.",
     ),
     check(
@@ -392,6 +515,9 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         const kind = spec.brief.siteKind;
         if (kind === "press-atelier") {
           return /ds-press-field/.test(html) && /ds-press-claim/.test(html) && /ds-hero-press \.ds-cta-note\{display:none\}/.test(html);
+        }
+        if (kind === "lantern-path") {
+          return /ds-path-field/.test(html) && /ds-path-claim/.test(html) && /ds-hero-path \.ds-cta-note\{display:none\}/.test(html);
         }
         if (kind === "archive-index") {
           return /ds-register-field/.test(html) && /ds-hero-register/.test(html);

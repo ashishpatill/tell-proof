@@ -5,6 +5,37 @@ Pattern keys match `tell-recursive-improve`.
 
 ---
 
+## 2026-08-08 — `template:craft-bleed-into-rail`
+
+- **Failure:** Forme Desk (press-atelier) full-bleed specimen/flow stages painted under the Sig
+  A–H rail; masthead border kissed the brand (2px); registration crosshairs (`z-index:3`) sat over
+  claim type. Herbarium pins/SVG head mono sat under the absolute specimen tag.
+- **Fix:** `--craft-rail` insets `.ds-bleed` / plate figs for press/lantern/archive/observatory;
+  move `.ds-press-regs` inside the field; restore masthead/claim padding; pin epins + plate head
+  mono to the right of the voucher tag. Gates `craft-rail-clears-bleed`, `press-regs-frame-field`.
+- **Do not:** Let `width:100vw` bleeds ignore a fixed left craft rail.
+
+## 2026-08-08 — `template:craft-claim-over-field`
+
+- **Failure:** Ember Gate (lantern-path) and sibling craft folds pulled the figure field under
+  the claim with `margin-top: calc(... * -N)` plus a soft paper→transparent fade. Display + CTA
+  sat on PATH ATLAS / waypoint chip labels (same class of bug as overfigure-collides-with-labels).
+- **Fix:** Opaque `background:var(--c-paper)` claim bands; `margin-top:0` on
+  path/press/chrono/folio/register fields. Basics gate `craft-claim-clears-field`.
+- **Do not:** Soft-fade a claim over any figure that carries readable chrome.
+
+## 2026-08-08 — `template:story-note-under-mark`
+
+- **Failure:** Sitekind “layered” overrides set `margin-top: calc(var(--s-sm) * -1)` on
+  chrono/entry/hang/range/gather/ember (and spread/marginalia) marks. HTML stacks
+  `Note 0N` then the capability SVG, so the drawing slid through the label (nested frames,
+  bars, junction targets). Mark SVGs also drew ink at ~4.5px from the top edge.
+- **Fix:** Drop those note-adjacent negative margins; keep band-boundary overlaps
+  (specimen / proof-figure / closing). Add `note + mark { margin-top: var(--s-lg) }`
+  clearance; pad capabilityMark to 14px; basics gate `story-note-clears-mark`. Rebuild
+  `@tell/design-skills` dist so showcase iframes pick up CSS.
+- **Do not:** Score layeredElements by pulling labeled drawings under their own captions.
+
 ## 2026-08-06 — `showcase:preview-gutter`
 
 - **Failure:** Featured + index iframes used `scale(calc(100cqw / 1440))` which never applied; fixed `0.48` / `0.14` left ~88px empty on the right of thumbs.
@@ -372,3 +403,65 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   filter table rows. Proof cells → `.ds-proof-hit` with `aria-pressed`. Basics gates require buttons
   + handlers; forbid SVG `data-figure="flow"` and `<a class="ds-priority-chip">`.
 - **Do not:** Style chrome as interactive unless click/keyboard changes visible state.
+
+## 2026-08-08 — `template:nightwalk-needs-atlas-not-webgl`
+
+- **Failure named (champion):** Soft dark cinematic tourism pages answer atmospheric scroll
+  chapters with heavy WebGL canvases, AI scene plates, and glow/particle stacks. A recolored
+  SaaS dark theme cannot beat that look either — same conversion skeleton under night paint.
+- **Challenger:** `lantern-path` — paper-led editorial page with an unreplicable **path-plate**
+  night cartograph owning the fold (elevation + lantern waypoints Threshold→Afterlight +
+  silhouette near-plane matter, `data-dense=ink`), sticky `ds-way-rail` Ch I–V, `story-ember`
+  bead essay, Ember close. Waypoint scroll + silhouette opacity handoff; reduced-motion safe.
+- **Eval:** First critique **98.0** (shadow 0.016 out); RSI fix dropped decorative shadows →
+  **98.6** (shadow 0.006 in band); foldFigure **0.71**. Playwright: plate dense, chapter labels
+  citeable, ember reveals fire, waypoint rail tracks scroll. Eye: atlas owns the fold — not
+  sticky-nav chrome or empty dark voids.
+- **Do not:** Answer atmospheric night-walk craft with WebGL tourism chrome, bloom stacks, or
+  a dark SaaS hero. Invent a citeable atlas instrument, hang it into the fold, keep the page
+  paper-led so contrast/critique bands hold.
+
+## 2026-08-08 — `template:paper-frame-footer-miss`
+
+- **Failure:** SaaS (Northstar) and dashboard (Queueboard) footers were unreadable — paper ink
+  sitting on the paper-technical *inverse outer field*. Template 1 = dark ink on dark inverse;
+  template 2 = light ink on light inverse.
+- **Root cause:** Frame CSS targeted `footer.ds-section`, but markup is `<footer class="ds-footer">`
+  outside `#main`. Combined with `[data-surface="paper"]{background:transparent}`, the footer
+  never received opaque paper paint.
+- **Fix:** Paint `.ds-footer` in the paper-technical + atmosphere rules; basics gate
+  `paper-frame-footer-paint`.
+- **Do not:** Assume `footer.ds-section` matches real footer markup. Always verify the selector
+  against `renderFooter` output when framing outside `#main`.
+
+## 2026-08-08 — `template:chapter-spine-through-index`
+
+- **Failure:** SaaS story `.ds-chapters` spine cut through "Step 0N" labels; lead inset bar also
+  clipped "Step 01".
+- **Root cause:** `::before` used `left: calc(var(--align-rail) * 0.35)` (through the index
+  column). Lead `box-shadow: inset 3px` sat on `padding-left: 0` rows.
+- **Fix:** `--chapter-inset` left padding on every chapter; spine at
+  `calc(var(--chapter-inset) + var(--align-rail) + (var(--s-lg) / 2))`. Basics gates
+  `chapter-spine-clears-index` + `chapter-lead-clears-index`.
+- **Do not:** Position the spine as a fraction of the index column width.
+
+## 2026-08-08 — `template:figure-chip-overflow`
+
+- **Failure:** Northstar (saas) pipeline-board deal pills let mono labels like "Executive · 84k"
+  paint past the rounded rect; stage titles ("Pipeline coaching") also escaped the column.
+- **Root cause:** Fixed `clip(..., 22)` / `clip(..., 18)` ignore the actual column pixel budget.
+  SVG text has no CSS ellipsis — character caps must come from width ÷ advance.
+- **Fix:** `clipToWidth` / `fitDealChip` (prefer `E · 84k` over `Exe… · 84k`); stage titles use the
+  same budget. Vitest locks the narrow-column case. Anno labels get `min-width:0` + ellipsis.
+- **Do not:** Clip figure labels to a fixed character count without measuring the box they sit in.
+
+## 2026-08-08 — `template:workflow-plate-on-panel`
+
+- **Failure:** Northstar workflow stage: lit product plate sat flush on the HTMX panel (0px gap);
+  stage chips cramped at 8px; proof band tucked 48px into the next section.
+- **Root cause:** `.ds-proof-figure{transform:translateY(var(--s-md))}` cancelled
+  `.ds-workflow-field` gap. Proof hang (`margin-bottom: calc(var(--s-xl) * -1)`) is for marquee
+  boards, not a stacked plate+panel.
+- **Fix:** Workflow field gap `--s-xl`, plate `transform:none`, denser chip gap, workflow proof
+  `margin-bottom:0`. Basics gate `workflow-stack-clears-panel`.
+- **Do not:** Reuse proof-board hang transforms inside a vertical stack of discrete surfaces.

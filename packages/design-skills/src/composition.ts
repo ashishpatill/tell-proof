@@ -706,6 +706,61 @@ export function planSections(input: CompositionInput): SectionPlan[] {
   }
 
   /*
+   * Lantern path — cinematic night-walk craft.
+   *
+   * Art-directed + editorial-longform corridors favour figure-owned folds and quiet display.
+   * Soft dark glow pages answer with WebGL tourism chrome. This offering invents an unreplicable
+   * night atlas: chapter waypoint rail, path-plate cartograph owning the fold, ember essay, Ember close.
+   */
+  if (siteKind === "lantern-path") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-path", surface: "paper", columns: split.wide });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-ember",
+      surface: "paper",
+      bond: true,
+      columns: "7fr 5fr",
+    });
+    if (featureCount >= 4) {
+      plans.push({
+        id: "features-2",
+        kind: "features",
+        layout: "feature-rows",
+        surface: "paper",
+        columns: split.wide,
+      });
+    }
+    plans.push({
+      id: "proof",
+      kind: "proof",
+      layout: "marquee-proof",
+      surface: "raised",
+      bond: true,
+      columns: split.feature,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
+  /*
    * Field guide — herbarium / voucher craft.
    *
    * Personal-craft + brand-agency corridors favour figure-dense paper surfaces and quiet display.
@@ -863,6 +918,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "field-guide") px = 50;
   // Press atelier: quiet-moderate display — brand-agency corridor; press sheet owns the fold.
   if (siteKind === "press-atelier") px = 50;
+  // Lantern path: quiet-moderate display — path plate owns the fold, not a shouty claim.
+  if (siteKind === "lantern-path") px = 50;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -876,6 +933,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "commerce-loom") return Math.max(46, Math.min(56, px));
   if (siteKind === "field-guide") return Math.max(47, Math.min(54, px));
   if (siteKind === "press-atelier") return Math.max(46, Math.min(56, px));
+  if (siteKind === "lantern-path") return Math.max(46, Math.min(56, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

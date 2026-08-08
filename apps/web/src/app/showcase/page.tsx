@@ -137,6 +137,7 @@ export default function ShowcaseGalleryPage() {
                       mode="cinema"
                       prefer="figure"
                       decorative
+                      lazy
                       autoplayInView={false}
                       testId={`showcase-thumb-${o.key}`}
                     />

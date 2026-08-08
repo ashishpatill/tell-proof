@@ -26,6 +26,7 @@ export const ANTHOLOGY_KEYS = [
   "fintech",
   "press",
   "herbarium",
+  "lantern",
 ] as const;
 
 type ShowcaseAnthologyReelProps = {
