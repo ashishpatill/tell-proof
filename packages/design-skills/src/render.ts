@@ -578,7 +578,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       <p class="ds-rail-caption ds-wrap-wide" data-rail-caption>${esc(stages[0]?.title ?? "")}</p>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-pipeline" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${rail}
-      <div class="ds-wrap-wide ds-pipeline-fold">
+      <div class="ds-wrap-wide ds-pipeline-fold ds-tech-brackets">
         <div class="ds-pipeline-claim">${copy}</div>
         <div class="ds-pipeline-field">${board}</div>
       </div>
@@ -802,6 +802,7 @@ function renderMetricBand(section: SectionSpec, figures: FigurePlan, spec?: Desi
         ${section.metrics
           .map(
             (m, i) => `<div class="ds-metric">
+              <span class="ds-index-mark" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
               <p class="ds-metric-value">${esc(m.value)}</p>
               <p class="ds-metric-label">${esc(m.label)}</p>
               ${figures.sparks[i] && isReading(m.value) ? `<div class="ds-metric-spark">${figures.sparks[i]}</div>` : ""}
@@ -1492,7 +1493,7 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
  * Product-proof workflow stage — five named handoffs with HTMX panel swaps.
  * First panel is already in the DOM (works without JS). Templates hold the rest.
  */
-function renderWorkflowProof(section: SectionSpec, figures: FigurePlan): string {
+function renderWorkflowProof(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
   const stages = section.blocks.slice(0, 5);
   const first = stages[0];
   const rail = stages.length
@@ -1551,6 +1552,18 @@ function renderWorkflowProof(section: SectionSpec, figures: FigurePlan): string 
       ? `<figure class="ds-proof-figure ds-proof-figure-field" aria-hidden="true">${figures.field}</figure>`
       : "";
 
+  // Honest integration marks — capability names only; never invent partner logos.
+  const markNames = (spec?.brief.features ?? [])
+    .filter((f) => /sync|integrat|crm|export|connect|api|sso/i.test(`${f.name} ${f.description}`))
+    .map((f) => f.name);
+  const marks =
+    markNames.length > 0
+      ? `<ul class="ds-mark-row" aria-label="Declared integrations and connectors"><li class="ds-mark-row-label">In product</li>${markNames
+          .slice(0, 6)
+          .map((n) => `<li>${esc(n)}</li>`)
+          .join("")}</ul>`
+      : "";
+
   return `<section class="ds-section ds-proof ds-workflow" data-surface="${section.surface}" data-section="${esc(section.id)}" data-workflow-proof id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${secMeta("Workflow", "Sample · five named states · human approve")}
@@ -1567,6 +1580,7 @@ function renderWorkflowProof(section: SectionSpec, figures: FigurePlan): string 
           <div id="wf-panel" class="ds-workflow-panel" aria-live="polite">${panelBody(first, 0)}</div>
         </div>
       </div>
+      ${marks}
       ${templates}
     </div>
   </section>`;
@@ -1576,6 +1590,10 @@ function renderPlans(section: SectionSpec): string {
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${sectionHead(section)}
+      <div class="ds-cadence" data-pricing-cadence role="group" aria-label="Billing cadence">
+        <button type="button" class="ds-cadence-chip is-live" data-cadence="monthly" aria-pressed="true">Monthly</button>
+        <button type="button" class="ds-cadence-chip" data-cadence="annual" aria-pressed="false">Annual <span class="ds-cadence-save">Save on annual</span></button>
+      </div>
       <ul class="ds-plans">
         ${section.blocks
           .map(
@@ -1596,6 +1614,7 @@ function renderPlans(section: SectionSpec): string {
           )
           .join("")}
       </ul>
+      <p class="ds-pricing-risk">Limits and lanes come from declared capabilities only. Cancel or pause without a surprise lock-in.</p>
     </div>
   </section>`;
 }
@@ -1953,7 +1972,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));
     case "workflow-proof":
-      return wrapped(renderWorkflowProof(section, figures));
+      return wrapped(renderWorkflowProof(section, figures, spec));
     case "pricing-lanes":
       return wrapped(renderPlans(section));
     case "compare-matrix":
@@ -2189,6 +2208,19 @@ function scripts(spec: DesignSpec): string {
       });
     });
   });
+
+  [].slice.call(document.querySelectorAll('[data-pricing-cadence]')).forEach(function(group){
+    var chips=[].slice.call(group.querySelectorAll('[data-cadence]'));
+    chips.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        chips.forEach(function(other){
+          var on=other===chip;
+          other.classList.toggle('is-live', on);
+          other.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      });
+    });
+  });
 })();
 </script>`;
 }
@@ -2198,6 +2230,8 @@ export function renderPreviewHtml(spec: DesignSpec): string {
   const fonts = spec.tokens.fontRequests.map((f) => `family=${f}`).join("&");
   const figures = figuresFor(spec);
   const needsHtmx = spec.sections.some((s) => s.layout === "workflow-proof");
+  const paperFrame = spec.routedSkills.includes("paper-technical-frame");
+  const depth = spec.taste.roundingDepth;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -2213,7 +2247,7 @@ ${needsHtmx ? `<script src="https://unpkg.com/htmx.org@2.0.4" defer></script>` :
 <noscript><style>.ds-reveal{opacity:1!important;transform:none!important}</style></noscript>
 <style>${renderCss(spec)}</style>
 </head>
-<body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-mood="${esc(spec.taste.colorMood)}" data-sitekind="${esc(spec.brief.siteKind)}">
+<body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-mood="${esc(spec.taste.colorMood)}" data-sitekind="${esc(spec.brief.siteKind)}" data-depth="${esc(depth)}"${paperFrame ? ` data-frame="paper-technical"` : ""}>
 <a class="ds-skip" href="#main">Skip to content</a>
 <p class="ds-sr">${esc(spec.summary)}</p>
 ${spec.sections

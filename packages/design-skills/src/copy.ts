@@ -285,12 +285,16 @@ export function chapters(features: FeatureCopy[]): Array<{ title: string; body: 
 /**
  * Questions a buyer actually asks.
  *
- * Deliberately about scope, sequencing and boundaries rather than about what each capability does.
- * The catalogue already answers that, and a FAQ that re-explains the feature list is the clearest
- * sign a page was assembled from a template: it is the fourth place the same sentence appears.
+ * Deliberately about scope, sequencing, limits, and risk rather than about what each capability
+ * does. The catalogue already answers that, and a FAQ that re-explains the feature list is the
+ * clearest sign a page was assembled from a template.
+ *
+ * Conversion landings need 6–8 objection answers (conversion-landing-craft). Keep every answer
+ * rooted in the brief — never invent compliance badges or customer names.
  */
 export function questions(brief: DesignBrief, features: FeatureSpec[]): Array<{ title: string; body: string }> {
   const last = features[features.length - 1];
+  const lead = features[0];
   const out: Array<{ title: string; body: string }> = [];
 
   out.push({
@@ -321,6 +325,34 @@ export function questions(brief: DesignBrief, features: FeatureSpec[]): Array<{ 
       `Anything ${brief.productName} does not do yet. This page lists capabilities, not intentions`,
     ),
   });
+  out.push({
+    title: "Can we cancel or pause without a long contract?",
+    body: sentence(
+      brief.businessGoal === "sales"
+        ? "Yes — scopes are written for the work that is live. Pause or stop without a surprise clause"
+        : "Yes — start on a reversible path. Cancel anytime; nothing here requires an annual lock to try",
+    ),
+  });
+  out.push({
+    title: "What happens if we hit a limit?",
+    body: sentence(
+      `The comparison table spells the declared capability set. Crossing a lane means adding the next named capability — not an opaque overage`,
+    ),
+  });
+  if (lead) {
+    out.push({
+      title: `Do we need ${lead.name.toLowerCase()} before the rest is useful?`,
+      body: sentence(
+        `${lead.name} is the usual first step for ${brief.audience}, but every capability on this page is available without unlocking a secret tier`,
+      ),
+    });
+  }
+  out.push({
+    title: "Who do we talk to if procurement has questions?",
+    body: sentence(
+      `Use the same ${brief.businessGoal === "demos" ? "demo" : "primary"} path on this page — a human answers scope, security, and sequencing without a separate maze`,
+    ),
+  });
   return out;
 }
 
@@ -335,25 +367,42 @@ export function plans(brief: DesignBrief, features: FeatureSpec[]): Array<{ titl
     {
       title: "Core",
       body: sentence(`The smallest version of ${brief.productName} that still solves the problem`),
-      meta: `${core.length} of ${features.length} capabilities`,
+      meta: `${core.length} of ${features.length} capabilities · billed monthly`,
       points: core.map((f) => f.name),
       recommended: false,
     },
     {
       title: "Standard",
       body: sentence(`What most ${brief.audience} run, including everything that removes manual work`),
-      meta: `${standard.length} of ${features.length} capabilities`,
+      meta: `${standard.length} of ${features.length} capabilities · save on annual`,
       points: standard.map((f) => f.name),
       recommended: true,
     },
     {
       title: "Full",
       body: sentence(`Every declared capability, including the ones that only matter at scale`),
-      meta: `${full.length} of ${features.length} capabilities`,
+      meta: `${full.length} of ${features.length} capabilities · annual preferred`,
       points: full.map((f) => f.name),
       recommended: false,
     },
   ];
+}
+
+/** Honest risk-reversal line for CTA bands — never invents guarantees the brief did not support. */
+export function riskReversal(brief: DesignBrief): string {
+  switch (brief.businessGoal) {
+    case "demos":
+      return sentence("Book a working session on your data — cancel the hold anytime");
+    case "leads":
+      return sentence("Start with a reversible trial path — no annual lock to evaluate");
+    case "sales":
+      return sentence("Scopes cover live work only — pause without a surprise clause");
+    case "activation":
+      return sentence("First useful view in one session — walk away if it does not fit");
+    case "trust":
+    default:
+      return sentence("Every claim on this page is declared scope — ask a human before you commit");
+  }
 }
 
 /**

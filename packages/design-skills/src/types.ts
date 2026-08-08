@@ -130,6 +130,24 @@ export const SkillNodeId = z.enum([
    * SaaS-marketing signature proof; HTMX-swapped panels; never invents metrics.
    */
   "product-proof-stage",
+  /** Single-offer conversion landing craft — FAQ objections + CTA risk notes. */
+  "conversion-landing-craft",
+  /** Pricing as decision support — cadence toggle, recommended lane, risk note. */
+  "pricing-decision-craft",
+  /** Once-only scroll reveals — no blur spectacle; reduced-motion settles immediately. */
+  "scroll-reveal-once",
+  /** Quiet 01–0N mono markers for process / feature rhythm. */
+  "indexed-detail-markers",
+  /** Declared integration/capability marks only — never fake logo walls. */
+  "honest-integration-marks",
+  /** Warm paper surfaces + technical bracket framing. */
+  "paper-technical-frame",
+  /** Framed dual-panel splits with mono metadata rails. */
+  "split-panel-technical",
+  /** Edge alpha fades for overflowing rails / marquees. */
+  "edge-fade-craft",
+  /** Neutral layered elevation tokens for soft-elevation depth. */
+  "elevation-depth-tokens",
 ]);
 export type SkillNodeId = z.infer<typeof SkillNodeId>;
 

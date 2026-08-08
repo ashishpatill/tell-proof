@@ -90,6 +90,9 @@ Feature workflows live in `.cursor/skills/`:
 - `tell-template-craft` — peer plumbing → measured designer corridors for templates
 - `premium-content-custom-web` — skill graph + Taste Controls for feature-true sites
 - `product-proof-stage` — SaaS product-as-proof workflow (sample path + human approve + HTMX swaps)
+- `conversion-landing-craft` — single-offer landing FAQ/CTA craft
+- `pricing-decision-craft` — cadence toggle + honest plan lanes
+- `scroll-reveal-once` / `paper-technical-frame` / `gates-until-verified` — motion, atmosphere, verify loop
 - `tell-dogfood-audit` — zero-tells self audit
 - `tell-deploy` — Vercel/Docker public URL
 - `tell-demo-script` — demo + compliance

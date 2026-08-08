@@ -20,6 +20,7 @@ import {
   plans,
   pullQuote,
   questions,
+  riskReversal,
   sentence,
 } from "./copy";
 import { catalogueBody, editorialize, type FeatureCopy } from "./editorial";
@@ -788,6 +789,11 @@ export function buildSections(
             ),
             ctaLabel: cta.primary,
             secondaryLabel: cta.secondary,
+            // Conversion landing craft — name the reversible path once, at the close.
+            ctaNote:
+              brief.siteKind === "saas-marketing" || brief.siteKind === "fintech-marketing"
+                ? riskReversal(brief)
+                : undefined,
           }),
         );
         break;

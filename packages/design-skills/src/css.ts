@@ -124,7 +124,7 @@ a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-tab{
   if (motion === "light-scroll-reveals") {
     return `${interactive}
 @media (prefers-reduced-motion: no-preference){
-  .ds-reveal{opacity:0;transform:translateY(var(--s-xs));transition:opacity var(--m-reveal) var(--m-ease-out),transform var(--m-reveal) var(--m-ease-out)}
+  .ds-reveal{opacity:0;transform:translateY(0.5rem);transition:opacity var(--m-reveal) var(--m-ease-out),transform var(--m-reveal) var(--m-ease-out)}
   .ds-reveal.is-in{opacity:1;transform:none}
 }
 @media (prefers-reduced-motion: reduce){.ds-reveal{opacity:1;transform:none}}
@@ -1062,7 +1062,7 @@ ${surfaceRules()}
  * for, which puts its labels under seven pixels — legible in a viewBox, not on a screen. Letting it
  * bleed right restores the drawing to full size, and it is the same move reference pages use to
  * stop a fold from reading as two boxes side by side. */
-.ds-plate-fold,.ds-plate-lit{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--shadow-raised,0 18px 48px color-mix(in srgb,var(--c-ink) 10%,transparent)),0 0 0 1px color-mix(in srgb,var(--c-accent) 12%,transparent);position:relative}
+.ds-plate-fold,.ds-plate-lit{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--sh-raised,var(--shadow-raised,0 18px 48px color-mix(in srgb,var(--c-ink) 10%,transparent))),0 0 0 1px color-mix(in srgb,var(--c-accent) 12%,transparent);position:relative}
 /* Corner brackets — drawn matter on the plate frame so a product surface does not read as a bare card. */
 .ds-plate-fold::before,.ds-plate-fold::after,.ds-plate-lit::before,.ds-plate-lit::after{
   content:"";position:absolute;width:1.1rem;height:1.1rem;border:1.5px solid var(--c-accent);pointer-events:none;z-index:2;
@@ -2269,6 +2269,57 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
   .ds-workflow-stage{grid-template-columns:1fr!important}
   .ds-workflow-rail ol{flex-wrap:nowrap;overflow-x:auto;padding-bottom:var(--s-2xs);-webkit-overflow-scrolling:touch}
 }
+/* Indexed detail markers — quiet architectural rhythm, never competing with headings. */
+.ds-index-mark{font-family:var(--f-mono);font-size:10px;letter-spacing:0.14em;color:var(--surface-quiet);line-height:1}
+.ds-metric .ds-index-mark{position:absolute;top:var(--s-sm);right:var(--s-sm)}
+.ds-metric{position:relative}
+/* Pricing cadence + risk note (pricing-decision-craft). */
+.ds-cadence{display:inline-flex;gap:var(--s-2xs);margin:0 0 var(--s-lg);padding:3px;border:1px solid var(--surface-border);border-radius:var(--r-md);background:color-mix(in srgb,var(--surface-ink) 3%,transparent)}
+.ds-cadence-chip{margin:0;padding:0.45rem 0.85rem;min-height:40px;border:0;border-radius:calc(var(--r-md) - 2px);background:transparent;color:var(--surface-muted);font:inherit;font-size:var(--t-caption-size);font-weight:600;cursor:pointer}
+.ds-cadence-chip.is-live{background:var(--c-paper);color:var(--surface-ink);box-shadow:var(--sh-sm,none)}
+.ds-cadence-chip:focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
+.ds-cadence-save{margin-left:0.35rem;font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--c-accent)}
+.ds-pricing-risk{margin:var(--s-lg) 0 0;max-width:52ch;font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--surface-muted)}
+/* Honest integration marks — declared capability names only; never fake logos. */
+.ds-mark-row{display:flex;flex-wrap:wrap;gap:var(--s-sm) var(--s-md);list-style:none;margin:var(--s-lg) 0 0;padding:var(--s-md) 0 0;border-top:1px solid var(--surface-border)}
+.ds-mark-row li{font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--surface-quiet)}
+.ds-mark-row-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent);width:100%;margin:0 0 var(--s-2xs)}
+/* Paper-technical frame — warm paper interior, dark outer field, quiet brackets. */
+body[data-frame="paper-technical"]{background:
+  repeating-linear-gradient(-32deg,transparent,transparent 11px,color-mix(in srgb,var(--c-ink) 2.5%,transparent) 11px,color-mix(in srgb,var(--c-ink) 2.5%,transparent) 12px),
+  var(--c-inverse)}
+body[data-frame="paper-technical"] #main,
+body[data-frame="paper-technical"] .ds-nav,
+body[data-frame="paper-technical"] footer.ds-section{background:var(--c-paper);color:var(--c-ink)}
+body[data-frame="paper-technical"] #main{margin:0 auto;max-width:min(100%,calc(var(--content-wide,72rem) + 4rem));border-inline:1px solid var(--c-border);box-shadow:var(--sh-overlay,none)}
+.ds-tech-brackets{position:relative}
+.ds-tech-brackets::before,.ds-tech-brackets::after{content:"";position:absolute;width:12px;height:12px;border-color:var(--c-accent);border-style:solid;pointer-events:none;opacity:0.55}
+.ds-tech-brackets::before{top:var(--s-sm);left:var(--s-sm);border-width:1px 0 0 1px}
+.ds-tech-brackets::after{right:var(--s-sm);bottom:var(--s-sm);border-width:0 1px 1px 0}
+/* Split-panel technical — framed halves with mono rail metadata. */
+.ds-pipeline-fold,.ds-queue-fold,.ds-diligence-fold,.ds-wire-fold{position:relative}
+.ds-pipeline-fold.ds-tech-brackets .ds-pipeline-claim,
+.ds-queue-fold.ds-tech-brackets .ds-queue-claim{padding-inline:var(--s-md)}
+/* Edge fade craft — overflowing rails mask without heavy progressive blur. */
+.ds-workflow-rail ol,
+.ds-stage-rail ol,
+.ds-priority-rail ol{
+  -webkit-mask-image:linear-gradient(to right,transparent,black 4%,black 96%,transparent);
+  mask-image:linear-gradient(to right,transparent,black 4%,black 96%,transparent);
+}
+@media (min-width:801px){
+  .ds-workflow-rail ol,
+  .ds-stage-rail ol,
+  .ds-priority-rail ol{
+    -webkit-mask-image:none;
+    mask-image:none;
+  }
+}
+/* Soft-elevation uses tokenized layered shadows on raised plates only. */
+[data-depth="soft-elevation"] .ds-plan,
+[data-depth="soft-elevation"] .ds-workflow-panel,
+[data-depth="soft-elevation"] .ds-proof-figure{box-shadow:var(--sh-raised)}
+[data-depth="soft-elevation"] .ds-btn{box-shadow:var(--sh-sm)}
 /* Bonding strip — metadata on a hairline, not empty reserved height between subjects. */
 .ds-sec-meta{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-md);margin:0 0 var(--s-md);padding:var(--s-xs) 0;border-top:1px solid var(--surface-border);font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-sec-meta b{color:var(--surface-ink);font-weight:600}

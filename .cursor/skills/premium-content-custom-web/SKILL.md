@@ -62,11 +62,20 @@ Studio UI: `/studio` · Specimen gallery: `/showcase` · Offerings: `/showcase/{
 - hero-section
 - features-benefits
 - product-proof-stage
+- conversion-landing-craft
 - pricing-or-plans
+- pricing-decision-craft
 - navigation-header-footer
 - content-storytelling-pages
 - forms-ctas-conversion
 - restrained-motion-micro
+- scroll-reveal-once
+- indexed-detail-markers
+- honest-integration-marks
+- paper-technical-frame
+- split-panel-technical
+- edge-fade-craft
+- elevation-depth-tokens
 - dashboard-or-webapp-ui
 - responsive-performance
 

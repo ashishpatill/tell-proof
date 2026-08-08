@@ -20,6 +20,15 @@ const ALL_SKILLS: SkillNodeId[] = [
   "dashboard-or-webapp-ui",
   "responsive-performance",
   "product-proof-stage",
+  "conversion-landing-craft",
+  "pricing-decision-craft",
+  "scroll-reveal-once",
+  "indexed-detail-markers",
+  "honest-integration-marks",
+  "paper-technical-frame",
+  "split-panel-technical",
+  "edge-fade-craft",
+  "elevation-depth-tokens",
 ];
 
 const MOODS: ColorMood[] = ["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"];
@@ -44,6 +53,13 @@ describe("premium-content-custom-web engine", () => {
     expect(previewHtml).toContain("Sample workflow");
     expect(previewHtml).toContain("Human gate");
     expect(previewHtml).toContain('data-workflow-step="approve"');
+    expect(spec.routedSkills).toContain("conversion-landing-craft");
+    expect(spec.routedSkills).toContain("pricing-decision-craft");
+    expect(previewHtml).toContain("data-pricing-cadence");
+    expect(previewHtml).toContain("ds-cadence");
+    expect(previewHtml).toContain("ds-index-mark");
+    expect(previewHtml).toContain("ds-tech-brackets");
+    expect(previewHtml).toMatch(/Can we cancel|reversible|Cancel anytime/i);
   });
 
   it("builds a dashboard webapp around a real application shell", () => {

@@ -47,4 +47,5 @@ description: Runs Tell Proof verification after UI changes — apply patch, reca
 
 - Skill: `tell-mcp-tools`
 - Skill: `tell-dogfood-audit`
+- Skill: `gates-until-verified` — acceptance-gate loop around this verify path
 - `packages/core/src/proof-verify.ts`
