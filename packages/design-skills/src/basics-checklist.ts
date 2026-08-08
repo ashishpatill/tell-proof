@@ -258,6 +258,36 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Story Note 0N labels must clear capability marks — never negative-margin the drawing under the label.",
     ),
     check(
+      "craft-claim-clears-field",
+      !/\.ds-(?:path|press|chrono|folio|register)-field\{[^}]*margin-top:calc\([^)]*\*\s*-/.test(html) &&
+        (
+          !/class="[^"]*ds-path-claim/.test(html) ||
+          (/\[data-sitekind="lantern-path"\] \.ds-path-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="lantern-path"\] \.ds-path-field\{[^}]*margin-top:0/.test(html))
+        ) &&
+        (
+          !/class="[^"]*ds-press-claim/.test(html) ||
+          (/\[data-sitekind="press-atelier"\] \.ds-press-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="press-atelier"\] \.ds-press-field\{[^}]*margin-top:0/.test(html))
+        ) &&
+        (
+          !/class="[^"]*ds-chrono-claim/.test(html) ||
+          (/\[data-sitekind="signal-observatory"\] \.ds-chrono-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="signal-observatory"\] \.ds-chrono-field\{[^}]*margin-top:0/.test(html))
+        ) &&
+        (
+          !/class="[^"]*ds-folio-claim/.test(html) ||
+          (/\[data-sitekind="research-dossier"\] \.ds-folio-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="research-dossier"\] \.ds-folio-field\{[^}]*margin-top:0/.test(html))
+        ) &&
+        (
+          !/class="[^"]*ds-register-claim/.test(html) ||
+          (/\[data-sitekind="archive-index"\] \.ds-register-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="archive-index"\] \.ds-register-field\{[^}]*margin-top:0/.test(html))
+        ),
+      "Craft fold claims must be opaque paper stacked above the field — never soft-fade + negative-margin over labeled figure chrome.",
+    ),
+    check(
       "no-boilerplate-proof-title",
       !/holds under review/i.test(html),
       "Proof titles must be siteKind-specific — never the shared 'holds under review' spam across offerings.",

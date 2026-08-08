@@ -5,6 +5,15 @@ Pattern keys match `tell-recursive-improve`.
 
 ---
 
+## 2026-08-08 — `template:craft-claim-over-field`
+
+- **Failure:** Ember Gate (lantern-path) and sibling craft folds pulled the figure field under
+  the claim with `margin-top: calc(... * -N)` plus a soft paper→transparent fade. Display + CTA
+  sat on PATH ATLAS / waypoint chip labels (same class of bug as overfigure-collides-with-labels).
+- **Fix:** Opaque `background:var(--c-paper)` claim bands; `margin-top:0` on
+  path/press/chrono/folio/register fields. Basics gate `craft-claim-clears-field`.
+- **Do not:** Soft-fade a claim over any figure that carries readable chrome.
+
 ## 2026-08-08 — `template:story-note-under-mark`
 
 - **Failure:** Sitekind “layered” overrides set `margin-top: calc(var(--s-sm) * -1)` on

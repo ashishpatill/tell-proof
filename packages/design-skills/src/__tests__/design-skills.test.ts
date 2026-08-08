@@ -631,6 +631,18 @@ describe("research-backed offerings + implementation basics", () => {
     expect(svg).toContain(`font-size="${FIG_MONO_PX}"`);
   });
 
+  it("keeps craft fold claims from pulling labeled fields underneath", () => {
+    for (const key of ["lantern", "press", "observatory", "dossier", "archive"] as const) {
+      const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS[key]!);
+      expect(previewHtml, key).not.toMatch(
+        /\.ds-(?:path|press|chrono|folio|register)-field\{[^}]*margin-top:calc\([^)]*\*\s*-/,
+      );
+    }
+    const { previewHtml: lantern } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-claim\{[^}]*background:var\(--c-paper\)/);
+    expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-field\{[^}]*margin-top:0/);
+  });
+
   it("keeps story Note labels from sliding under capability marks", () => {
     const noteKinds = ["observatory", "archive", "loom", "herbarium", "press", "lantern"] as const;
     for (const key of noteKinds) {
