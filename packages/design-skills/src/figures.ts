@@ -2573,29 +2573,27 @@ export function specimenPlate(
   );
 
   const headY = padY + 14;
+  // Keep head mono on the right half — left is reserved for the absolute specimen tag.
   parts.push(
-    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">Voucher · herbarium</text>`,
+    `<text class="ds-fig-mono" x="${round(W * 0.52)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">Voucher · herbarium</text>`,
   );
   parts.push(
-    `<text class="ds-fig-mono" x="${round(W / 2)}" y="${round(headY)}" font-size="11" fill="var(--surface-muted)" text-anchor="middle">${esc(clip(productName, 28))}</text>`,
-  );
-  parts.push(
-    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">Specimen</text>`,
+    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${esc(clip(productName, 22))} · Specimen</text>`,
   );
   parts.push(
     `<line x1="${round(padX)}" y1="${round(headY + 8)}" x2="${round(W - padX)}" y2="${round(headY + 8)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
 
-  // Taxon rank ticks along left.
+  // Taxon rank ticks along the right — left is reserved for the absolute specimen tag.
   const rankTop = padY + 36;
   const rankBot = H - padY - 28;
   for (let i = 0; i < ranks.length; i += 1) {
     const y = rankTop + (i / (ranks.length - 1)) * (rankBot - rankTop);
     parts.push(
-      `<line x1="${round(padX + 8)}" y1="${round(y)}" x2="${round(padX + 16)}" y2="${round(y)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      `<line x1="${round(W - padX - 16)}" y1="${round(y)}" x2="${round(W - padX - 8)}" y2="${round(y)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
     );
     parts.push(
-      `<text class="ds-fig-mono" x="${round(padX + 20)}" y="${round(y + 3)}" font-size="11" fill="var(--surface-quiet)">${ranks[i]}</text>`,
+      `<text class="ds-fig-mono" x="${round(W - padX - 20)}" y="${round(y + 3)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${ranks[i]}</text>`,
     );
   }
 

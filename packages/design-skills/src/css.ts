@@ -417,7 +417,7 @@ body[data-sitekind="signal-observatory"]{
 [data-sitekind="signal-observatory"] .ds-hero-chrono .ds-eyebrow{margin:0}
 [data-sitekind="signal-observatory"] .ds-hero-chrono .ds-actions{margin-top:0.45rem}
 [data-sitekind="signal-observatory"] .ds-chrono-claim{
-  padding:var(--s-xs,0.35rem) 0 var(--s-md);
+  padding:var(--s-md) 0 var(--s-lg);
   padding-left:var(--chrono-rail);
   position:relative;z-index:2;
   background:var(--c-paper);
@@ -506,7 +506,7 @@ body[data-sitekind="archive-index"]{
   opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
 [data-sitekind="archive-index"] .ds-register-claim{
-  padding:0.45rem 0 var(--s-md);
+  padding:var(--s-md) 0 var(--s-lg);
   padding-left:var(--alpha-rail);
   position:relative;z-index:2;
   background:var(--c-paper);
@@ -763,7 +763,7 @@ body[data-sitekind="lantern-path"]{
   opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
 [data-sitekind="lantern-path"] .ds-path-claim{
-  padding:var(--s-sm) 0 var(--s-md);
+  padding:var(--s-md) 0 var(--s-lg);
   padding-left:var(--way-rail);
   position:relative;z-index:2;
   background:var(--c-paper);
@@ -781,8 +781,8 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(92vh,960px)}
 [data-sitekind="lantern-path"] .ds-hero-path{min-height:min(100vh,920px)}
 [data-sitekind="lantern-path"] .ds-path-masthead{
-  padding-top:calc(var(--nav-h,4.5rem) + 0.25rem);
-  padding-bottom:0.25rem;
+  padding-top:calc(var(--nav-h,4.5rem) + var(--s-md));
+  padding-bottom:var(--s-sm);
   color:var(--c-ink-tertiary);
 }
 [data-sitekind="lantern-path"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
@@ -1638,7 +1638,7 @@ ${surfaceRules()}
 }
 .ds-register-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
 .ds-register-claim{
-  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding:var(--s-md) 0 var(--s-lg);
   padding-left:var(--alpha-rail,2.75rem);
 }
 .ds-register-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
@@ -1943,10 +1943,10 @@ ${surfaceRules()}
   font-family:var(--f-mono);font-size:11px;color:var(--c-accent);font-style:normal;
 }
 .ds-epin i{font-style:normal;line-height:1}
-.ds-epin[data-pin="1"]{top:18%;left:22%}
-.ds-epin[data-pin="2"]{top:28%;left:48%}
-.ds-epin[data-pin="3"]{top:46%;right:18%}
-.ds-epin[data-pin="4"]{bottom:28%;left:34%}
+.ds-epin[data-pin="1"]{top:16%;right:14%;left:auto}
+.ds-epin[data-pin="2"]{top:30%;right:28%;left:auto}
+.ds-epin[data-pin="3"]{top:48%;right:12%;left:auto}
+.ds-epin[data-pin="4"]{bottom:26%;right:22%;left:auto}
 .ds-vernier{
   position:absolute;z-index:3;left:1.1rem;right:1.1rem;bottom:calc(var(--binomial-h,3.1rem) + 0.35rem);
   pointer-events:none;display:flex;align-items:center;gap:0.5rem;
@@ -1964,7 +1964,7 @@ ${surfaceRules()}
 }
 .ds-press-label,.ds-specimen-tag{
   position:absolute;z-index:5;left:calc(var(--gutter) * 0.15 + 1.1rem);top:calc(var(--s-md) + 0.35rem);
-  max-width:min(26rem,44%);
+  max-width:min(24rem,40%);
   padding:var(--s-sm) var(--s-md);
   background:color-mix(in srgb,var(--c-paper) 96%,var(--c-accent-surface));
   border:1px solid var(--c-border);

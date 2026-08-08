@@ -9,10 +9,10 @@ Pattern keys match `tell-recursive-improve`.
 
 - **Failure:** Forme Desk (press-atelier) full-bleed specimen/flow stages painted under the Sig
   A–H rail; masthead border kissed the brand (2px); registration crosshairs (`z-index:3`) sat over
-  claim type.
+  claim type. Herbarium pins/SVG head mono sat under the absolute specimen tag.
 - **Fix:** `--craft-rail` insets `.ds-bleed` / plate figs for press/lantern/archive/observatory;
-  move `.ds-press-regs` inside the field; restore masthead/claim padding. Gates
-  `craft-rail-clears-bleed`, `press-regs-frame-field`.
+  move `.ds-press-regs` inside the field; restore masthead/claim padding; pin epins + plate head
+  mono to the right of the voucher tag. Gates `craft-rail-clears-bleed`, `press-regs-frame-field`.
 - **Do not:** Let `width:100vw` bleeds ignore a fixed left craft rail.
 
 ## 2026-08-08 — `template:craft-claim-over-field`
