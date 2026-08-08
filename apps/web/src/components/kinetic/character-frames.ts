@@ -29,8 +29,8 @@ function reedPose(frame: number): string {
   <path d="M82 118 C70 132 66 170 68 210 C70 232 74 248 82 248 C90 248 94 232 96 210 C98 170 94 132 82 118Z" fill="#f7f7f4" stroke="#141414" stroke-width="3"/>
   <path d="M70 148 H94" stroke="#141414" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
   <!-- lean arm resting on type -->
-  <path d="M68 150 C48 148 34 ${138 + armLift} 18 ${128 + armLift * 0.5}" stroke="#141414" stroke-width="3.2" stroke-linecap="round"/>
-  <circle cx="16" cy="${126 + armLift * 0.5}" r="5" fill="#f7f7f4" stroke="#141414" stroke-width="2.6"/>
+  <path d="M68 150 C44 146 22 ${132 + armLift} -4 ${118 + armLift * 0.5}" stroke="#141414" stroke-width="3.2" stroke-linecap="round"/>
+  <circle cx="-6" cy="${116 + armLift * 0.5}" r="5" fill="#f7f7f4" stroke="#141414" stroke-width="2.6"/>
   <!-- free arm -->
   <path d="M96 152 C112 160 118 ${176 + armLift} 110 ${198 + armLift * 0.4}" stroke="#141414" stroke-width="3.2" stroke-linecap="round"/>
   <!-- neck -->
