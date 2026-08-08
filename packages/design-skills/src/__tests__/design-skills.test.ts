@@ -608,6 +608,18 @@ describe("research-backed offerings + implementation basics", () => {
     }
   });
 
+  it("paints paper-technical footers opaque so paper ink never sits on the inverse outer field", () => {
+    for (const key of ["saas", "dashboard"] as const) {
+      const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS[key]!);
+      expect(previewHtml).toContain('data-frame="paper-technical"');
+      expect(previewHtml).toContain('<footer class="ds-footer"');
+      expect(previewHtml).toMatch(/body\[data-frame="paper-technical"\][\s\S]*?\.ds-footer/);
+      expect(previewHtml).not.toMatch(
+        /body\[data-frame="paper-technical"\] #main,\s*body\[data-frame="paper-technical"\] \.ds-nav,\s*body\[data-frame="paper-technical"\] footer\.ds-section\{/,
+      );
+    }
+  });
+
   it("fills the proof band with a dense evidence board instead of a lonely quote", () => {
     const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
     expect(previewHtml).toContain("ds-proof-board");

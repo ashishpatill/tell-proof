@@ -2483,8 +2483,14 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 body[data-frame="paper-technical"]{background:
   repeating-linear-gradient(-32deg,transparent,transparent 11px,color-mix(in srgb,var(--c-ink) 2.5%,transparent) 11px,color-mix(in srgb,var(--c-ink) 2.5%,transparent) 12px),
   var(--c-inverse)}
+/*
+ * Footer lives outside #main as <footer class="ds-footer"> — not footer.ds-section.
+ * Paper surfaces also set background:transparent, so a missed selector leaves the footer
+ * sitting on the outer inverse field with paper ink (light-on-light or dark-on-dark).
+ */
 body[data-frame="paper-technical"] #main,
 body[data-frame="paper-technical"] .ds-nav,
+body[data-frame="paper-technical"] .ds-footer,
 body[data-frame="paper-technical"] footer.ds-section{background:var(--c-paper);color:var(--c-ink)}
 body[data-frame="paper-technical"] #main{margin:0 auto;max-width:min(100%,calc(var(--content-wide,72rem) + 4rem));border-inline:1px solid var(--c-border);box-shadow:var(--sh-overlay,none)}
 .ds-tech-brackets{position:relative}
@@ -2534,6 +2540,7 @@ body[data-frame="paper-technical"] #main{margin:0 auto;max-width:min(100%,calc(v
   linear-gradient(90deg,transparent 68%,color-mix(in srgb,var(--c-accent) 12%,transparent) 72%,transparent 76%)}
 body[data-atmosphere] .ds-nav,
 body[data-atmosphere] #main,
+body[data-atmosphere] .ds-footer,
 body[data-atmosphere] footer.ds-section{position:relative;z-index:1}
 /* Glass shell — at most one frosted language; solid fallback if backdrop unsupported. */
 .ds-glass-panel{

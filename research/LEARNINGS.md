@@ -389,3 +389,16 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Do not:** Answer atmospheric night-walk craft with WebGL tourism chrome, bloom stacks, or
   a dark SaaS hero. Invent a citeable atlas instrument, hang it into the fold, keep the page
   paper-led so contrast/critique bands hold.
+
+## 2026-08-08 — `template:paper-frame-footer-miss`
+
+- **Failure:** SaaS (Northstar) and dashboard (Queueboard) footers were unreadable — paper ink
+  sitting on the paper-technical *inverse outer field*. Template 1 = dark ink on dark inverse;
+  template 2 = light ink on light inverse.
+- **Root cause:** Frame CSS targeted `footer.ds-section`, but markup is `<footer class="ds-footer">`
+  outside `#main`. Combined with `[data-surface="paper"]{background:transparent}`, the footer
+  never received opaque paper paint.
+- **Fix:** Paint `.ds-footer` in the paper-technical + atmosphere rules; basics gate
+  `paper-frame-footer-paint`.
+- **Do not:** Assume `footer.ds-section` matches real footer markup. Always verify the selector
+  against `renderFooter` output when framing outside `#main`.

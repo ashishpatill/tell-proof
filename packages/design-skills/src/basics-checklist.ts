@@ -198,6 +198,13 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Footer links must target real sections (or be plain text) — never mass-link to #top. Brand wordmark → #top is fine.",
     ),
     check(
+      "paper-frame-footer-paint",
+      !spec.routedSkills.includes("paper-technical-frame") ||
+        (/body\[data-frame="paper-technical"\][\s\S]*?\.ds-footer/.test(html) &&
+          /<footer class="ds-footer"/.test(html)),
+      "Paper-technical frame must paint .ds-footer with paper/ink — footer.ds-section never matched the real markup, leaving paper ink on the inverse outer field.",
+    ),
+    check(
       "no-boilerplate-proof-title",
       !/holds under review/i.test(html),
       "Proof titles must be siteKind-specific — never the shared 'holds under review' spam across offerings.",
