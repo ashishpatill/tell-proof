@@ -15,6 +15,10 @@
 | `agent-skills/web-design/premium-content-custom-web/product-proof-stage/` | SaaS product-as-proof workflow (HTMX stage swaps) |
 | `.cursor/skills/premium-content-custom-web/SKILL.md` | Agent entry skill |
 | `.cursor/skills/product-proof-stage/SKILL.md` | Product-proof workflow entry |
+| `.cursor/skills/conversion-landing-craft/SKILL.md` | Single-offer landing craft |
+| `.cursor/skills/pricing-decision-craft/SKILL.md` | Pricing decision craft |
+| `.cursor/skills/surface-recipe-map/SKILL.md` | Theme-pack remap → Taste Controls |
+| `.cursor/skills/gates-until-verified/SKILL.md` | Acceptance-gate verify loop |
 | `packages/design-skills` | Deterministic engine (`designFromFeatures`) |
 | `packages/design-skills/src/templates.ts` | Research-backed offerings (depth-first catalog across measured gaps) |
 | `packages/design-skills/src/basics-checklist.ts` | Implementation floor only (not taste) |
