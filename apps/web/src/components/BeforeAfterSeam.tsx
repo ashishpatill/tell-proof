@@ -20,11 +20,30 @@ function CropMark({ corner }: { corner: "tl" | "tr" | "bl" | "br" }) {
   return <span aria-hidden className={`pointer-events-none absolute z-[22] h-3 w-3 border-[var(--border-proof)] ${pos}`} />;
 }
 
-function ProofMark({ className = "" }: { className?: string }) {
+/**
+ * Proof mark — registration target for evidence pins.
+ * Keep the crosshair short and the mark small; a full viewBox of arms reads as clutter
+ * when many findings pin the seam at once.
+ */
+function ProofMark({ className = "", quiet = false }: { className?: string; quiet?: boolean }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden>
-      <circle cx="12" cy="12" r="6" className="fill-accent/20 stroke-accent" strokeWidth="1.5" />
-      <path d="M12 3v5M12 16v5M3 12h5M16 12h5" className="stroke-accent" strokeWidth="1.5" strokeLinecap="round" />
+      <circle
+        cx="12"
+        cy="12"
+        r={quiet ? 4.25 : 5}
+        className={quiet ? "fill-surface-raised/95 stroke-accent/65" : "fill-surface-raised stroke-accent"}
+        strokeWidth="1.25"
+      />
+      <circle cx="12" cy="12" r="1.35" className="fill-accent" />
+      {quiet ? null : (
+        <path
+          d="M12 7v2.25M12 14.75V17M7 12h2.25M14.75 12H17"
+          className="stroke-accent"
+          strokeWidth="1.25"
+          strokeLinecap="round"
+        />
+      )}
     </svg>
   );
 }
@@ -45,13 +64,38 @@ const MOCK_PIN_POSITIONS: Record<string, { x: number; y: number }> = {
   EmojiChromeTell: { x: 0.52, y: 0.16 },
   AcidAccentTell: { x: 0.66, y: 0.3 },
   FocusRingInconsistency: { x: 0.46, y: 0.64 },
+  RadiusMonotoneTell: { x: 0.72, y: 0.52 },
+  CenteredEverythingTell: { x: 0.48, y: 0.28 },
+  GrayMushTell: { x: 0.58, y: 0.7 },
 };
+
+const SEVERITY_RANK: Record<string, number> = { high: 0, medium: 1, low: 2 };
+/** Cap pins so the seam stays readable — full finding list lives in the inspector. */
+const MAX_SEAM_PINS = 5;
 
 function pinPosition(finding: Finding, index: number, total: number) {
   const named = MOCK_PIN_POSITIONS[String(finding.detector)];
   if (named) return named;
-  const y = 0.14 + (index / Math.max(total - 1, 1)) * 0.68;
-  return { x: 0.1 + (index % 3) * 0.06, y };
+  // Spread leftovers across a shallow arc — never stack in one left column.
+  const t = total <= 1 ? 0 : index / (total - 1);
+  return { x: 0.22 + t * 0.56, y: 0.2 + (index % 2) * 0.12 + t * 0.42 };
+}
+
+function pinsForSeam(findings: Finding[], selectedId: string): Finding[] {
+  if (findings.length <= MAX_SEAM_PINS) return findings;
+  const selected = findings.find((f) => f.id === selectedId);
+  const ranked = [...findings].sort((a, b) => {
+    const bySev = (SEVERITY_RANK[a.severity] ?? 1) - (SEVERITY_RANK[b.severity] ?? 1);
+    if (bySev !== 0) return bySev;
+    return String(a.detector).localeCompare(String(b.detector));
+  });
+  const out: Finding[] = [];
+  if (selected) out.push(selected);
+  for (const f of ranked) {
+    if (out.length >= MAX_SEAM_PINS) break;
+    if (!out.some((x) => x.id === f.id)) out.push(f);
+  }
+  return out;
 }
 
 type Props = {
@@ -219,18 +263,21 @@ export function BeforeAfterSeam({
       )}
 
       {hasLive
-        ? findings.map((f, index) => {
-            const pos = pinPosition(f, index, findings.length);
+        ? pinsForSeam(findings, selectedId).map((f, index, pins) => {
+            const pos = pinPosition(f, index, pins.length);
+            const active = selectedId === f.id;
             return (
               <button
                 key={f.id}
+                type="button"
                 onClick={() => onSelectFinding(f.id)}
                 aria-label={`Evidence: ${f.detector}`}
+                aria-pressed={active}
                 title={String(f.detector)}
-                className={`seam-pin absolute z-[18] -translate-x-1/2 -translate-y-1/2 rounded-full ${selectedId === f.id ? "seam-pin--active" : ""}`}
+                className={`seam-pin absolute z-[18] -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-raised/90 p-0.5 shadow-sm ring-1 ring-border/50 ${active ? "seam-pin--active" : "seam-pin--quiet"}`}
                 style={{ left: `${pos.x * 100}%`, top: `${pos.y * 100}%` }}
               >
-                <ProofMark className="h-6 w-6" />
+                <ProofMark className={active ? "h-4 w-4" : "h-3.5 w-3.5"} quiet={!active} />
               </button>
             );
           })

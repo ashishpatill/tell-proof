@@ -569,3 +569,22 @@ buckets, never names, hosts, or URLs.
   renamed sticky rail or a card collage.
 - **Next weakest:** make shed over/under more optically obvious without splitting display glyphs.
 
+
+## Loop 25 — lantern-path cinematic night-walk template (RSI)
+
+- **Goal:** Learn from atmospheric multi-chapter night-walk craft and ship a *better* Tell
+  offering: unreplicable fold instrument, accessible, critique-green, no third-party names.
+- **Failure named (champion):** Dark glow tourism pages + soft pack card collages cannot emit
+  a citeable night atlas; WebGL + AI plates are heavy and off-corridor for our engine.
+- **Challenger:** New siteKind `lantern-path` / template `lantern` — hero-path + path-plate +
+  story-ember + Ember. RSI pass: fixed chapter waypoint labels (not truncated feature titles),
+  denser silhouette matter, kill decorative shadows (ember bead / proof plates).
+- **Score:** lantern-path **98.0 → 98.6**; matrix craft **98.1**; shadow **0.016 → 0.006**;
+  foldFigure **0.69 → 0.71**. Shared bleed=0 with other craft kinds — accepted.
+- **Closed:** `template:nightwalk-needs-atlas-not-webgl`.
+- **Side effects:** band-ink-variation still slightly above corridor (1.07) — same class as
+  press/loom photo folds; accepted for figure-owned craft.
+- **Qualitative:** Fold shows Threshold→Afterlight lantern cartograph with moon + elevation —
+  not a dark SaaS glow page. Ember essay reads as chapter beads, not gather/range clones.
+- **Next weakest:** make silhouette near-plane enter the first viewport more clearly without
+  starving display bands; optional cinema beat for path waypoints.

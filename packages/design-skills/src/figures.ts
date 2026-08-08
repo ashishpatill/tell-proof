@@ -56,6 +56,36 @@ function clip(s: string, max: number): string {
   return `${t.slice(0, Math.max(1, max - 1)).trimEnd()}…`;
 }
 
+/** Approximate glyph advance for figure labels (mono tracks wider than proportional). */
+function approxAdvance(size: number, mono = false): number {
+  return size * (mono ? 0.62 : 0.55);
+}
+
+/** Clip so set width stays inside a pixel budget — SVG text has no CSS ellipsis. */
+function clipToWidth(s: string, maxPx: number, size: number, mono = false): string {
+  const maxChars = Math.max(1, Math.floor(maxPx / approxAdvance(size, mono)));
+  return clip(s, maxChars);
+}
+
+/**
+ * Deal-chip copy for pipeline nodes: keep the amount readable; shorten the stage word first.
+ * Long names like "Executive · 84k" blow past narrow column pills — prefer "E · 84k" over "Exe… · 84k".
+ */
+export function fitDealChip(stageTitle: string, amount: string, maxPx: number): string {
+  const word = stageTitle.trim().split(/\s+/)[0] || "Deal";
+  const sep = " · ";
+  const size = FIG_MONO_PX;
+  const maxChars = Math.max(4, Math.floor(maxPx / approxAdvance(size, true)));
+  const full = `${word}${sep}${amount}`;
+  if (full.length <= maxChars) return full;
+  const wordBudget = maxChars - sep.length - amount.length;
+  // Enough room for a readable stub (≥5 chars before ellipsis looks intentional).
+  if (wordBudget >= Math.min(word.length, 5)) return `${clip(word, wordBudget)}${sep}${amount}`;
+  const initial = `${word[0] ?? "D"}${sep}${amount}`;
+  if (initial.length <= maxChars) return initial;
+  return clipToWidth(amount, maxPx, size, true);
+}
+
 function round(n: number): number {
   return Math.round(n * 100) / 100;
 }
@@ -108,6 +138,7 @@ export type FigureKind =
   | "loom-weave"
   | "specimen-plate"
   | "press-sheet"
+  | "path-plate"
   | "pipeline-board"
   | "queue-console"
   | "posture-grid"
@@ -782,8 +813,10 @@ export function horizonPlot(marks: Block[], seed: string, role: FigureRole = "pl
 export function capabilityMark(b: Block, index: number, seed: string): string {
   // Marks are small schematics, not icons — sized so a register of them still registers as drawn
   // matter on a dense B2B page (references often carry dozens of figures, not three plates).
+  // pad ≥ 14 keeps stroke ink off the SVG top edge so Note 0N captions above never kiss the drawing.
   const W = 220;
-  const H = 128;
+  const H = 140;
+  const pad = 14;
   const r = rng(`${seed}:mark:${b.title}`);
   const n = Math.max(2, Math.min(5, b.points.length || 3));
   const lead = b.emphasis === "lead";
@@ -795,16 +828,16 @@ export function capabilityMark(b: Block, index: number, seed: string): string {
       // Nested frames — scope contained inside scope.
       for (let i = 0; i < n; i += 1) {
         const inset = i * 9;
-        parts.push(box(4.5 + inset, 4.5 + inset, W - 9 - inset * 2, H - 9 - inset * 2, { r: 4, stroke: i === 0 ? key : LINE }));
+        parts.push(box(pad + inset, pad + inset, W - pad * 2 - inset * 2, H - pad * 2 - inset * 2, { r: 4, stroke: i === 0 ? key : LINE }));
       }
       break;
     }
     case 1: {
       // A measured stack — quantities of unequal weight.
       for (let i = 0; i < n; i += 1) {
-        const y = 12 + i * ((H - 24) / n);
-        const w = (W - 24) * (0.3 + r() * 0.7);
-        parts.push(box(12, y, w, 6, { r: 3, fill: i === 0 ? key : LINE }));
+        const y = pad + i * ((H - pad * 2) / n);
+        const w = (W - pad * 2) * (0.3 + r() * 0.7);
+        parts.push(box(pad, y, w, 6, { r: 3, fill: i === 0 ? key : LINE }));
       }
       break;
     }
@@ -813,9 +846,9 @@ export function capabilityMark(b: Block, index: number, seed: string): string {
       const cx = W - 26;
       const cy = H / 2;
       for (let i = 0; i < n; i += 1) {
-        const y = 16 + i * ((H - 32) / Math.max(1, n - 1));
-        parts.push(`<path d="M14 ${round(y)} C ${round(W / 2)} ${round(y)}, ${round(W / 2)} ${cy}, ${cx - 8} ${cy}" fill="none" stroke="${LINE}" stroke-width="1"/>`);
-        parts.push(`<circle cx="14" cy="${round(y)}" r="2.5" fill="${LINE}"/>`);
+        const y = pad + 4 + i * ((H - pad * 2 - 8) / Math.max(1, n - 1));
+        parts.push(`<path d="M${pad} ${round(y)} C ${round(W / 2)} ${round(y)}, ${round(W / 2)} ${cy}, ${cx - 8} ${cy}" fill="none" stroke="${LINE}" stroke-width="1"/>`);
+        parts.push(`<circle cx="${pad}" cy="${round(y)}" r="2.5" fill="${LINE}"/>`);
       }
       parts.push(`<circle cx="${cx}" cy="${cy}" r="6" fill="${PAPER}" stroke="${key}" stroke-width="2"/>`);
       break;
@@ -824,12 +857,12 @@ export function capabilityMark(b: Block, index: number, seed: string): string {
       // A grid with one cell claimed.
       const cols = 4;
       const rows = 3;
-      const cw = (W - 24) / cols;
-      const ch = (H - 24) / rows;
+      const cw = (W - pad * 2) / cols;
+      const ch = (H - pad * 2) / rows;
       const pick = Math.floor(r() * cols * rows);
       for (let i = 0; i < cols * rows; i += 1) {
-        const x = 12 + (i % cols) * cw;
-        const y = 12 + Math.floor(i / cols) * ch;
+        const x = pad + (i % cols) * cw;
+        const y = pad + Math.floor(i / cols) * ch;
         parts.push(box(x + 1, y + 1, cw - 2, ch - 2, { r: 2, fill: i === pick ? key : "none", stroke: i === pick ? "none" : LINE }));
       }
       break;
@@ -839,21 +872,21 @@ export function capabilityMark(b: Block, index: number, seed: string): string {
       const pts: string[] = [];
       const steps = 14;
       for (let i = 0; i <= steps; i += 1) {
-        const x = 12 + (i / steps) * (W - 24);
-        const y = H - 18 - ((i / steps) ** 1.4) * (H - 42) * (0.6 + r() * 0.5);
-        pts.push(`${i === 0 ? "M" : "L"}${round(x)} ${round(Math.max(14, y))}`);
+        const x = pad + (i / steps) * (W - pad * 2);
+        const y = H - pad - ((i / steps) ** 1.4) * (H - pad * 2 - 12) * (0.6 + r() * 0.5);
+        pts.push(`${i === 0 ? "M" : "L"}${round(x)} ${round(Math.max(pad, y))}`);
       }
-      parts.push(`<line x1="12" y1="${round(H / 2)}" x2="${W - 12}" y2="${round(H / 2)}" stroke="${LINE}" stroke-width="1" stroke-dasharray="3 4"/>`);
+      parts.push(`<line x1="${pad}" y1="${round(H / 2)}" x2="${W - pad}" y2="${round(H / 2)}" stroke="${LINE}" stroke-width="1" stroke-dasharray="3 4"/>`);
       parts.push(`<path d="${pts.join(" ")}" fill="none" stroke="${key}" stroke-width="2" stroke-linecap="round"/>`);
       break;
     }
     default: {
       // A spine with hung entries — a register.
-      parts.push(rule(20, 12, 20, H - 12));
+      parts.push(rule(pad + 6, pad, pad + 6, H - pad));
       for (let i = 0; i < n; i += 1) {
-        const y = 18 + i * ((H - 36) / Math.max(1, n - 1));
-        parts.push(rule(20, y, 20 + 16, y));
-        parts.push(box(40, y - 5, (W - 56) * (0.42 + r() * 0.56), 10, { r: 5, fill: i === 0 ? key : LINE }));
+        const y = pad + 6 + i * ((H - pad * 2 - 12) / Math.max(1, n - 1));
+        parts.push(rule(pad + 6, y, pad + 22, y));
+        parts.push(box(pad + 26, y - 5, (W - pad * 2 - 32) * (0.42 + r() * 0.56), 10, { r: 5, fill: i === 0 ? key : LINE }));
       }
       break;
     }
@@ -1752,6 +1785,224 @@ export function pressSheet(
 }
 
 /**
+ * Path plate — lantern-path signature figure.
+ *
+ * Night cartograph: elevation ribbon, winding path, five lantern waypoints with filled
+ * silhouette near-planes (gate / pine / stone). Dense ink — not empty dark voids or soft glow cards.
+ * Mono labels only (≤11px). Theme packs restyle dark heroes; they do not invent a citeable night atlas.
+ */
+export function pathPlate(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:path-plate:${role}`);
+  const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
+  const H = role === "band" ? 860 : role === "column" ? 560 : 520;
+  const padX = role === "band" ? 40 : 24;
+  const padY = role === "band" ? 36 : 24;
+  const parts: string[] = [];
+
+  // Night field — filled matter, not an empty void.
+  parts.push(
+    `<rect x="0" y="0" width="${W}" height="${H}" fill="var(--c-ink)" opacity="0.92"/>`,
+  );
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="color-mix(in srgb, var(--c-ink) 88%, var(--c-accent) 12%)" stroke="${LINE}" stroke-width="1" opacity="0.98" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  const headY = padY + 18;
+  parts.push(text("PATH ATLAS", padX + 14, headY, { size: FIG_MONO_PX, fill: "color-mix(in srgb, var(--c-paper) 55%, transparent)", mono: true }));
+  parts.push(
+    text(clip(productName, 26), W / 2, headY, {
+      size: FIG_MONO_PX,
+      fill: "color-mix(in srgb, var(--c-paper) 70%, transparent)",
+      mono: true,
+      anchor: "middle",
+    }),
+  );
+  parts.push(
+    text("CH I–V · NIGHT WALK", W - padX - 14, headY, {
+      size: FIG_MONO_PX,
+      fill: "color-mix(in srgb, var(--c-paper) 45%, transparent)",
+      mono: true,
+      anchor: "end",
+    }),
+  );
+
+  // Moon — simple filled disc, no glow stack.
+  const moonX = W - padX - 72;
+  const moonY = padY + 72;
+  parts.push(`<circle cx="${round(moonX)}" cy="${round(moonY)}" r="22" fill="color-mix(in srgb, var(--c-paper) 82%, ${ACCENT} 18%)" opacity="0.9"/>`);
+  parts.push(`<circle cx="${round(moonX + 8)}" cy="${round(moonY - 4)}" r="22" fill="color-mix(in srgb, var(--c-ink) 88%, var(--c-accent) 12%)" opacity="0.95"/>`);
+
+  // Horizon haze band.
+  parts.push(
+    `<rect x="${round(padX + 8)}" y="${round(H * 0.38)}" width="${round(W - padX * 2 - 16)}" height="${round(H * 0.12)}" fill="color-mix(in srgb, var(--c-paper) 8%, transparent)" opacity="0.9"/>`,
+  );
+
+  const chapterNames = ["Threshold", "Gardens", "Craft", "Rituals", "Afterlight"];
+  const n = 5;
+  const pathTop = padY + 56;
+  const pathBottom = H - padY - 110;
+  const pathLeft = padX + 48;
+  const pathRight = W - padX - 48;
+
+  // Elevation ribbon under the path — filled contour, not hairline flood.
+  const elevPts: string[] = [];
+  const elevFill: string[] = [`${round(pathLeft)},${round(pathBottom + 36)}`];
+  for (let i = 0; i <= 24; i += 1) {
+    const t = i / 24;
+    const x = pathLeft + t * (pathRight - pathLeft);
+    const y =
+      pathBottom +
+      8 +
+      Math.sin(t * Math.PI * 2.2) * 14 +
+      Math.cos(t * Math.PI * 1.1) * 8 +
+      (r() - 0.5) * 4;
+    elevPts.push(`${round(x)},${round(y)}`);
+    elevFill.push(`${round(x)},${round(y)}`);
+  }
+  elevFill.push(`${round(pathRight)},${round(pathBottom + 36)}`);
+  parts.push(
+    `<polygon points="${elevFill.join(" ")}" fill="color-mix(in srgb, var(--c-paper) 10%, transparent)" opacity="0.95"/>`,
+  );
+  parts.push(
+    `<polyline points="${elevPts.join(" ")}" fill="none" stroke="color-mix(in srgb, var(--c-paper) 28%, transparent)" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(text("ELEV", pathLeft, pathBottom + 52, { size: FIG_MONO_PX, fill: "color-mix(in srgb, var(--c-paper) 40%, transparent)", mono: true }));
+
+  // Winding path + lantern waypoints — fixed chapter names (not truncated feature titles).
+  const waypoints: { x: number; y: number; title: string; roman: string }[] = [];
+  const romans = ["I", "II", "III", "IV", "V"];
+  for (let i = 0; i < n; i += 1) {
+    const t = i / (n - 1);
+    const x = pathLeft + t * (pathRight - pathLeft);
+    const y =
+      pathTop +
+      48 +
+      Math.sin(t * Math.PI) * (pathBottom - pathTop - 100) * 0.52 +
+      (i % 2 === 0 ? 22 : -16);
+    waypoints.push({
+      x,
+      y,
+      title: chapterNames[i]!,
+      roman: romans[i]!,
+    });
+  }
+
+  // Path stroke as thick filled underlay + thin edge (rule-light).
+  const pathD = waypoints
+    .map((w, i) => `${i === 0 ? "M" : "L"}${round(w.x)} ${round(w.y)}`)
+    .join(" ");
+  parts.push(
+    `<path d="${pathD}" fill="none" stroke="color-mix(in srgb, var(--c-paper) 18%, transparent)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>`,
+  );
+  parts.push(
+    `<path d="${pathD}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  for (let i = 0; i < waypoints.length; i += 1) {
+    const w = waypoints[i]!;
+    // Lantern body — filled rect + flame, not a glow blur stack.
+    parts.push(
+      `<rect x="${round(w.x - 5)}" y="${round(w.y - 18)}" width="10" height="14" rx="1" fill="color-mix(in srgb, ${ACCENT} 70%, var(--c-paper) 30%)" opacity="0.95"/>`,
+    );
+    parts.push(
+      `<rect x="${round(w.x - 3)}" y="${round(w.y - 26)}" width="6" height="8" fill="${ACCENT}" opacity="0.9"/>`,
+    );
+    parts.push(`<circle cx="${round(w.x)}" cy="${round(w.y - 28)}" r="3.5" fill="${ACCENT}" opacity="0.85"/>`);
+    parts.push(`<circle cx="${round(w.x)}" cy="${round(w.y)}" r="3" fill="var(--c-paper)" opacity="0.75"/>`);
+    parts.push(
+      text(`CH ${w.roman}`, w.x, w.y + 18, {
+        size: FIG_MONO_PX,
+        fill: "color-mix(in srgb, var(--c-paper) 75%, transparent)",
+        mono: true,
+        anchor: "middle",
+      }),
+    );
+    parts.push(
+      text(clip(w.title, 12), w.x, w.y + 32, {
+        size: FIG_MONO_PX,
+        fill: "color-mix(in srgb, var(--c-paper) 55%, transparent)",
+        mono: true,
+        anchor: "middle",
+      }),
+    );
+  }
+
+  // Terrain fill under path — denser night matter so the atlas is not a thin polyline.
+  const terrain: string[] = [`${round(pathLeft)},${round(pathBottom + 8)}`];
+  for (const w of waypoints) {
+    terrain.push(`${round(w.x)},${round(w.y + 28)}`);
+  }
+  terrain.push(`${round(pathRight)},${round(pathBottom + 8)}`);
+  parts.push(
+    `<polygon points="${terrain.join(" ")}" fill="color-mix(in srgb, ${ACCENT} 8%, transparent)" opacity="0.55"/>`,
+  );
+
+  // Feature legend chips — citeable matter from the brief, parked under waypoints (not as labels).
+  const legend = (features.length ? features : [{ title: "Waypoint" } as Block]).slice(0, 3);
+  legend.forEach((f, i) => {
+    const lx = padX + 20 + i * 160;
+    const ly = pathTop + 8;
+    parts.push(
+      `<rect x="${round(lx)}" y="${round(ly)}" width="140" height="22" fill="color-mix(in srgb, var(--c-paper) 8%, transparent)" stroke="color-mix(in srgb, var(--c-paper) 22%, transparent)" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      text(clip(f.title, 18), lx + 8, ly + 15, {
+        size: FIG_MONO_PX,
+        fill: "color-mix(in srgb, var(--c-paper) 60%, transparent)",
+        mono: true,
+      }),
+    );
+  });
+
+  // Silhouette near-plane matter along the foot — gate, pines, stones (filled).
+  const silY = H - padY - 28;
+  const silBase = H - padY - 4;
+  // Gate silhouette — denser filled matter
+  parts.push(
+    `<path d="M${round(padX + 28)} ${round(silBase)} L${round(padX + 28)} ${round(silY - 48)} L${round(padX + 52)} ${round(silY - 68)} L${round(padX + 76)} ${round(silY - 48)} L${round(padX + 76)} ${round(silBase)} Z" fill="color-mix(in srgb, var(--c-ink) 55%, #000 45%)" opacity="0.98"/>`,
+  );
+  parts.push(
+    `<rect x="${round(padX + 40)}" y="${round(silY - 28)}" width="24" height="28" fill="color-mix(in srgb, ${ACCENT} 35%, transparent)" opacity="0.7"/>`,
+  );
+  // Pines — denser bank
+  for (let p = 0; p < 6; p += 1) {
+    const px = padX + 110 + p * ((W - padX * 2 - 220) / 5);
+    const ph = 56 + (p % 3) * 12 + r() * 10;
+    parts.push(
+      `<path d="M${round(px)} ${round(silBase)} L${round(px - 18)} ${round(silBase - ph * 0.45)} L${round(px - 9)} ${round(silBase - ph * 0.45)} L${round(px - 22)} ${round(silBase - ph * 0.75)} L${round(px - 7)} ${round(silBase - ph * 0.75)} L${round(px)} ${round(silBase - ph)} L${round(px + 7)} ${round(silBase - ph * 0.75)} L${round(px + 22)} ${round(silBase - ph * 0.75)} L${round(px + 9)} ${round(silBase - ph * 0.45)} L${round(px + 18)} ${round(silBase - ph * 0.45)} Z" fill="color-mix(in srgb, var(--c-ink) 60%, #000 40%)" opacity="0.95"/>`,
+    );
+  }
+  // Stones
+  for (let s = 0; s < 7; s += 1) {
+    const sx = padX + 80 + s * 42 + r() * 12;
+    parts.push(
+      `<ellipse cx="${round(sx)}" cy="${round(silBase - 7)}" rx="${round(16 + r() * 10)}" ry="${round(6 + r() * 3)}" fill="color-mix(in srgb, var(--c-paper) 14%, #000 86%)" opacity="0.92"/>`,
+    );
+  }
+  parts.push(
+    text("NEAR PLANE · SILHOUETTE", padX + 14, H - padY + 2, {
+      size: FIG_MONO_PX,
+      fill: "color-mix(in srgb, var(--c-paper) 35%, transparent)",
+      mono: true,
+    }),
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "path-plate",
+    label: `${productName} path atlas`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
  * Pipeline board — SaaS-marketing fold instrument.
  * Stage columns with deal nodes and a sticky-rail-friendly ordinal strip. Not interfacePlate.
  */
@@ -1790,29 +2041,47 @@ export function pipelineBoard(
     const x = pad + i * (colW + 12);
     const y = pad + 36;
     const s = stages[i]!;
+    const colInset = 12;
+    const contentW = Math.max(40, colW - colInset * 2);
     parts.push(box(x, y, colW, H - y - pad - 28, { r: 0, fill: PAPER, stroke: LINE }));
     parts.push(
-      text(String(i + 1).padStart(2, "0"), x + 14, y + 28, {
+      text(String(i + 1).padStart(2, "0"), x + colInset, y + 28, {
         size: 22,
         fill: i === 1 ? ACCENT : "var(--c-border-strong)",
         mono: true,
         weight: 500,
       }),
     );
-    parts.push(text(clip(s.title, 18), x + 14, y + 56, { size: 14, fill: INK, weight: 600 }));
-    const matter = wrap(s.body || s.title, Math.max(10, Math.round(colW / 9)), 3);
-    matter.forEach((ln, j) => {
-      parts.push(text(ln, x + 14, y + 84 + j * 18, { size: FIG_MONO_PX, fill: BODY }));
-    });
-    // Deal nodes
-    const nodeCount = 2 + Math.floor(r() * 3);
-    for (let k = 0; k < nodeCount; k += 1) {
-      const ny = y + 160 + k * 52;
-      if (ny > H - pad - 48) break;
-      const nw = colW - 28;
-      parts.push(box(x + 14, ny, nw, 36, { r: 4, fill: i === 1 ? ACCENT_FIELD : "var(--c-paper-raised)", stroke: LINE }));
+    const titleCols = Math.max(6, Math.floor(contentW / approxAdvance(14, false)));
+    const titleLines = wrap(s.title, titleCols, 2);
+    titleLines.forEach((ln, j) => {
       parts.push(
-        text(clip(`${s.title.split(/\s+/)[0] ?? "Deal"} · ${10 + Math.floor(r() * 80)}k`, 22), x + 24, ny + 22, {
+        text(ln, x + colInset, y + 52 + j * 16, {
+          size: 14,
+          fill: INK,
+          weight: 600,
+        }),
+      );
+    });
+    const bodyTop = y + 52 + titleLines.length * 16 + 12;
+    const bodyCols = Math.max(8, Math.floor(contentW / approxAdvance(FIG_MONO_PX, true)));
+    const matter = wrap(s.body || s.title, bodyCols, 3);
+    matter.forEach((ln, j) => {
+      parts.push(text(ln, x + colInset, bodyTop + j * 16, { size: FIG_MONO_PX, fill: BODY }));
+    });
+    // Deal nodes — chip width and label share one budget so text never escapes the pill.
+    const nodeCount = 2 + Math.floor(r() * 3);
+    const nodeInset = 10;
+    const nw = contentW;
+    const nodesTop = Math.max(y + 150, bodyTop + matter.length * 16 + 16);
+    for (let k = 0; k < nodeCount; k += 1) {
+      const ny = nodesTop + k * 52;
+      if (ny > H - pad - 48) break;
+      const amount = `${10 + Math.floor(r() * 80)}k`;
+      const label = fitDealChip(s.title, amount, nw - nodeInset * 2);
+      parts.push(box(x + colInset, ny, nw, 36, { r: 4, fill: i === 1 ? ACCENT_FIELD : "var(--c-paper-raised)", stroke: LINE }));
+      parts.push(
+        text(label, x + colInset + nodeInset, ny + 22, {
           size: FIG_MONO_PX,
           fill: INK,
           mono: true,
@@ -2304,29 +2573,27 @@ export function specimenPlate(
   );
 
   const headY = padY + 14;
+  // Keep head mono on the right half — left is reserved for the absolute specimen tag.
   parts.push(
-    `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">Voucher · herbarium</text>`,
+    `<text class="ds-fig-mono" x="${round(W * 0.52)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">Voucher · herbarium</text>`,
   );
   parts.push(
-    `<text class="ds-fig-mono" x="${round(W / 2)}" y="${round(headY)}" font-size="11" fill="var(--surface-muted)" text-anchor="middle">${esc(clip(productName, 28))}</text>`,
-  );
-  parts.push(
-    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">Specimen</text>`,
+    `<text class="ds-fig-mono" x="${round(W - padX - 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${esc(clip(productName, 22))} · Specimen</text>`,
   );
   parts.push(
     `<line x1="${round(padX)}" y1="${round(headY + 8)}" x2="${round(W - padX)}" y2="${round(headY + 8)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
 
-  // Taxon rank ticks along left.
+  // Taxon rank ticks along the right — left is reserved for the absolute specimen tag.
   const rankTop = padY + 36;
   const rankBot = H - padY - 28;
   for (let i = 0; i < ranks.length; i += 1) {
     const y = rankTop + (i / (ranks.length - 1)) * (rankBot - rankTop);
     parts.push(
-      `<line x1="${round(padX + 8)}" y1="${round(y)}" x2="${round(padX + 16)}" y2="${round(y)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      `<line x1="${round(W - padX - 16)}" y1="${round(y)}" x2="${round(W - padX - 8)}" y2="${round(y)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
     );
     parts.push(
-      `<text class="ds-fig-mono" x="${round(padX + 20)}" y="${round(y + 3)}" font-size="11" fill="var(--surface-quiet)">${ranks[i]}</text>`,
+      `<text class="ds-fig-mono" x="${round(W - padX - 20)}" y="${round(y + 3)}" font-size="11" fill="var(--surface-quiet)" text-anchor="end">${ranks[i]}</text>`,
     );
   }
 
@@ -2595,6 +2862,7 @@ type Kind =
   | "loom-weave"
   | "specimen-plate"
   | "press-sheet"
+  | "path-plate"
   | "pipeline-board"
   | "queue-console"
   | "posture-grid"
@@ -2639,6 +2907,8 @@ const ORDER: Record<string, Kind[]> = {
   // Field guide: specimen plate owns the fold; horizon keeps scroll rhythm.
   "field-guide": ["specimen-plate", "horizon", "flow", "stack"],
   "press-atelier": ["press-sheet", "flow", "stack", "horizon"],
+  // Lantern path: night cartograph owns the fold; horizon keeps scroll rhythm.
+  "lantern-path": ["path-plate", "horizon", "flow", "stack"],
 };
 
 export function planFigures(input: {
@@ -2696,6 +2966,8 @@ export function planFigures(input: {
         return specimenPlate(input.productName, input.features, seed, role);
       case "press-sheet":
         return pressSheet(input.productName, input.features, seed, role);
+      case "path-plate":
+        return pathPlate(input.productName, input.features, seed, role);
       case "pipeline-board":
         return pipelineBoard(input.productName, input.features, seed, role);
       case "queue-console":
@@ -2717,8 +2989,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -2759,6 +3031,8 @@ export function planFigures(input: {
                 ? ("specimen-plate" as Kind)
             : input.siteKind === "press-atelier"
               ? ("press-sheet" as Kind)
+            : input.siteKind === "lantern-path"
+              ? ("path-plate" as Kind)
             : input.siteKind === "saas-marketing"
               ? ("pipeline-board" as Kind)
             : input.siteKind === "dashboard-webapp"

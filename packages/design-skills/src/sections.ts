@@ -151,13 +151,14 @@ export function buildSections(
         const isLoom = brief.siteKind === "commerce-loom";
         const isField = brief.siteKind === "field-guide";
         const isPress = brief.siteKind === "press-atelier";
+        const isLantern = brief.siteKind === "lantern-path";
         const isPipeline = brief.siteKind === "saas-marketing";
         const isQueue = brief.siteKind === "dashboard-webapp";
         const isDiligence = brief.siteKind === "corporate-story";
         const isMechanism = brief.siteKind === "docs-educational";
         const isWire = brief.siteKind === "fintech-marketing";
         const craftFold =
-          isDossier || isObservatory || isArchive || isLoom || isField || isPress
+          isDossier || isObservatory || isArchive || isLoom || isField || isPress || isLantern
           || isPipeline || isQueue || isDiligence || isMechanism || isWire;
         sections.push(
           SectionSpec.parse({
@@ -240,6 +241,7 @@ export function buildSections(
         const isLoom = brief.siteKind === "commerce-loom";
         const isField = brief.siteKind === "field-guide";
         const isPress = brief.siteKind === "press-atelier";
+        const isLantern = brief.siteKind === "lantern-path";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -262,6 +264,8 @@ export function buildSections(
                               ? "Also on the plate"
                           : isPress
                             ? "Also on the forme"
+                          : isLantern
+                            ? "Also on the path"
                     : "Also included"
               : isStudio
                 ? "Selected work"
@@ -281,6 +285,8 @@ export function buildSections(
                               ? "The traits"
                           : isPress
                             ? "The plates"
+                          : isLantern
+                            ? "The chapters"
                     : eyebrow.features,
             title: isSecond
               ? isStudio
@@ -301,6 +307,8 @@ export function buildSections(
                             ? sentence(`The quieter traits that keep a voucher honest`)
                         : isPress
                           ? sentence(`The quieter plates that keep a forme honest`)
+                        : isLantern
+                          ? sentence(`The quieter waypoints that keep a walk honest`)
                   : sentence(`The rest of what ships with ${brief.productName}`)
               : isStudio
                 ? sentence(`Work that still holds after the launch week`)
@@ -318,6 +326,8 @@ export function buildSections(
                           ? sentence(`Lines a merchandising loom actually cuts`)
                           : isField
                             ? sentence(`Traits a field voucher actually keeps`)
+                        : isLantern
+                          ? sentence(`Chapters a night walk actually keeps`)
                   : featuresTitle(brief, features),
             body: isSecond
               ? isStudio
@@ -338,6 +348,8 @@ export function buildSections(
                             ? sentence(`Range marks, synonyms, and the rails that stop a plate from inventing completeness`)
                         : isPress
                           ? sentence(`Gather ticks, densitometer marks, and the rails that stop a forme from inventing registration`)
+                        : isLantern
+                          ? sentence(`Waypoint beads, silhouette handoffs, and the rails that stop a walk from inventing atmosphere`)
                   : sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
               : isStudio
                 ? sentence(`Each engagement is a composed surface — identity, product, and motion under one grid`)
@@ -357,6 +369,8 @@ export function buildSections(
                             ? sentence(`Each trait is a pressed voucher — not a nature photo dressed as science`)
                         : isPress
                           ? sentence(`Each plate is a numbered signature — not a gallery dressed as a pressroom`)
+                        : isLantern
+                          ? sentence(`Each chapter is a lantern waypoint — not a dark glow page dressed as cinema`)
                   : featuresLede(brief, features),
             blocks: slice,
           }),
@@ -390,6 +404,8 @@ export function buildSections(
                   ? sentence(`${brief.productName} specimen field`)
                 : brief.siteKind === "press-atelier"
                   ? sentence(`${brief.productName} forme field`)
+                : brief.siteKind === "lantern-path"
+                  ? sentence(`${brief.productName} path field`)
                 // Dashboard specimen is the quiet valley before the shell — short mark, not a claim.
                 : brief.siteKind === "dashboard-webapp"
                   ? brief.productName.split(/\s+/)[0] ?? brief.productName
@@ -409,6 +425,7 @@ export function buildSections(
         const isLoom = brief.siteKind === "commerce-loom";
         const isField = brief.siteKind === "field-guide";
         const isPress = brief.siteKind === "press-atelier";
+        const isLantern = brief.siteKind === "lantern-path";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -426,6 +443,8 @@ export function buildSections(
                         ? "Trait legend"
                     : isPress
                       ? "Forme legend"
+                    : isLantern
+                      ? "Waypoint legend"
                   : eyebrow.figure,
             title: isFoundry
               ? sentence(`How ${brief.productName} changes with size`)
@@ -441,6 +460,8 @@ export function buildSections(
                         ? sentence(`How ${brief.productName} presses a voucher`)
                     : isPress
                       ? sentence(`How ${brief.productName} locks a forme`)
+                    : isLantern
+                      ? sentence(`How ${brief.productName} maps a night walk`)
               : sentence(`${focal?.name ?? brief.productName}, step by step`),
             body: isFoundry
               ? sentence(`The same face at display, title, deck, text, and caption — drawn, not described`)
@@ -456,6 +477,8 @@ export function buildSections(
                         ? sentence(`Pressed silhouette, plate inset, and range ticks — the voucher drawn rather than claimed`)
                     : isPress
                       ? sentence(`Signatures, crop marks, and densitometer patches — the forme drawn rather than claimed`)
+                    : isLantern
+                      ? sentence(`Elevation, lanterns, and silhouette matter — the atlas drawn rather than claimed`)
               : sentence(
                   `The path work takes through ${brief.productName}, drawn rather than described`,
                 ),
@@ -483,6 +506,8 @@ export function buildSections(
                         ? sentence(`Read the traits that mark each voucher on the plate`)
                     : isPress
                       ? sentence(`Read the signatures that mark each plate on the forme`)
+                    : isLantern
+                      ? sentence(`Read the lanterns that mark each chapter on the atlas`)
               : sentence(
                   `Drag to step through how ${brief.productName} moves work from ${
                     features[0]?.name.toLowerCase() ?? "input"
@@ -516,6 +541,8 @@ export function buildSections(
                             ? "Range notes"
                         : brief.siteKind === "press-atelier"
                           ? "Gather notes"
+                        : brief.siteKind === "lantern-path"
+                          ? "Ember notes"
                   : eyebrow.story,
             title:
               brief.siteKind === "art-directed-studio"
@@ -536,6 +563,8 @@ export function buildSections(
                             ? sentence(`How a voucher is actually read`)
                         : brief.siteKind === "press-atelier"
                           ? sentence(`How a signature is actually gathered`)
+                        : brief.siteKind === "lantern-path"
+                          ? sentence(`How a night walk is actually read`)
                   : brief.siteKind === "saas-marketing"
                     ? sentence(`How ${brief.productName} moves an account`)
                     : brief.siteKind === "dashboard-webapp"
@@ -566,6 +595,8 @@ export function buildSections(
                             ? sentence(`Range beads, taxon ranks, and the notes that keep a voucher honest`)
                         : brief.siteKind === "press-atelier"
                           ? sentence(`Fold ticks, plate index, and the gathers that keep a forme honest`)
+                        : brief.siteKind === "lantern-path"
+                          ? sentence(`Lantern beads, chapter index, and the embers that keep a walk honest`)
                   : brief.siteKind === "saas-marketing"
                     ? sentence(`From first signal to booked walkthrough — the path revenue leaders actually take`)
                     : brief.siteKind === "dashboard-webapp"
@@ -579,7 +610,10 @@ export function buildSections(
                   : sentence(`The sequence ${brief.audience} actually meet, in order`),
             blocks: chapters(editorial.features).map((c, i) =>
               block({
-                title: c.title,
+                title:
+                  brief.siteKind === "lantern-path"
+                    ? ["Threshold", "Gardens", "Craft", "Rituals", "Afterlight", "Ember"][i] ?? c.title
+                    : c.title,
                 body: c.body,
                 meta: brief.siteKind === "signal-observatory"
                   ? `T+${String(i * 6).padStart(2, "0")}h`
@@ -591,9 +625,11 @@ export function buildSections(
                         ? ["K", "P", "C", "O", "F", "G"][i % 6]
                         : brief.siteKind === "press-atelier"
                           ? `Sig ${"ABCDEFGH"[i] ?? String(i + 1)}`
+                        : brief.siteKind === "lantern-path"
+                          ? `Ch ${["I","II","III","IV","V","VI"][i] ?? String(i + 1)}`
                   : c.meta,
                 kicker:
-                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier" || brief.siteKind === "signal-observatory" || brief.siteKind === "archive-index" || brief.siteKind === "commerce-loom" || brief.siteKind === "field-guide" || brief.siteKind === "press-atelier"
+                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier" || brief.siteKind === "signal-observatory" || brief.siteKind === "archive-index" || brief.siteKind === "commerce-loom" || brief.siteKind === "field-guide" || brief.siteKind === "press-atelier" || brief.siteKind === "lantern-path"
                     ? `Note ${String(i + 1).padStart(2, "0")}`
                     : undefined,
               }),
@@ -748,6 +784,8 @@ export function buildSections(
                           ? "Voucher"
                       : brief.siteKind === "press-atelier"
                         ? "Pressroom"
+                      : brief.siteKind === "lantern-path"
+                        ? "Ember"
                   : eyebrow.cta,
             title: sentence(
               brief.siteKind === "editorial-foundry"
@@ -764,6 +802,8 @@ export function buildSections(
                           ? `Request a voucher of ${brief.productName}`
                       : brief.siteKind === "press-atelier"
                         ? `Lock a forme on ${brief.productName}`
+                      : brief.siteKind === "lantern-path"
+                        ? `Walk the next ${brief.productName} chapter`
                 : brief.businessGoal === "trust"
                   ? `See it against your own material`
                   : `Put ${brief.productName} in front of your ${brief.audience.split(" ").slice(-1)[0] ?? "team"}`,
@@ -785,6 +825,8 @@ export function buildSections(
                           ? `Pressed plates, range notes, and the vouchers ${brief.audience} actually keep`
                       : brief.siteKind === "press-atelier"
                         ? `Plate numbers, densitometer marks, and the formes ${brief.audience} actually run`
+                      : brief.siteKind === "lantern-path"
+                        ? `Waypoint marks, path plates, and the chapters ${brief.audience} actually walk`
                 : `${count(features.length)[0]!.toUpperCase()}${count(features.length).slice(1)} capabilities, one conversation`,
             ),
             ctaLabel: cta.primary,

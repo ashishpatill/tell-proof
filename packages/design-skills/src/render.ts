@@ -547,14 +547,53 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       <span class="ds-press-date">Press sheet</span>
       <span class="ds-press-mark">${esc(spec.brief.productName)}</span>
     </header>`;
-    // Registration corner marks in the DOM — reinforce the figure craft (decorative).
+    // Registration corner marks frame the sheet only — never the claim or masthead.
     const regs = `<div class="ds-press-regs" aria-hidden="true"><span></span><span></span><span></span><span></span></div>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-press" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${rail}
-      ${regs}
       ${mast}
       <div class="ds-press-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-bleed ds-press-field">${sheetFig}</div>
+      <div class="ds-bleed ds-press-field">${regs}${sheetFig}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
+   * Path fold — the lantern-path signature.
+   *
+   * Quiet masthead + compact claim, then a spanning night path-plate that OWNS the fold
+   * (the atlas IS the figure). Sticky Ch I–V waypoint rail. Not press, register, or soft dark collage.
+   */
+  if (section.layout === "hero-path") {
+    const plateFig = figures.hero
+      ? `<figure class="ds-path-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const romans = ["I", "II", "III", "IV", "V"];
+    const labels = ["Threshold", "Gardens", "Craft", "Rituals", "Afterlight"];
+    const hrefs = ["#features", "#figure", "#specimen", "#story", "#cta"];
+    const rail = `<nav class="ds-way-rail" aria-label="Chapter waypoints"><ol>${romans
+      .map((R, i) => {
+        const href = hrefs[i] ?? "#features";
+        return `<li><a href="${href}" class="ds-way-mark${i === 0 ? " is-active" : ""}" data-way="${R}" aria-label="Chapter ${R}: ${labels[i]}"><span class="ds-way-num">Ch ${R}</span><span class="ds-way-label">${labels[i]}</span></a></li>`;
+      })
+      .join("")}</ol></nav>`;
+    const mast = `<header class="ds-path-masthead" aria-label="Path masthead">
+      <span class="ds-path-vol">Night walk</span>
+      <span class="ds-path-issue">Ch I–V</span>
+      <span class="ds-path-date">Path atlas</span>
+      <span class="ds-path-mark">${esc(spec.brief.productName)}</span>
+    </header>`;
+    // Silhouette near-plane — pinned DOM layer under the plate (CSS crossfade on scroll).
+    const near = `<div class="ds-path-near" aria-hidden="true" data-near="active">
+      <span class="ds-sil ds-sil-gate"></span>
+      <span class="ds-sil ds-sil-pine"></span>
+      <span class="ds-sil ds-sil-stone"></span>
+    </div>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-path" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      ${mast}
+      <div class="ds-path-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-path-field">${plateFig}${near}</div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
@@ -1413,6 +1452,54 @@ function renderGather(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
+ * Ember essay with lantern bead ticks + outer chapter index — lantern-path signature.
+ * Not gather signatures, range beads, hangtag, or chrono track.
+ */
+function renderEmber(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const count = blocks.length || 1;
+  const romans = ["I", "II", "III", "IV", "V", "VI"];
+  const essay = blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-ember-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const ch = esc(b.meta ?? `Ch ${romans[i] ?? String(i + 1)}`);
+      return `<article class="ds-ember-beat" style="--i:${i}">
+        <span class="ds-ember-bead" aria-hidden="true"></span>
+        <div class="ds-ember-measure">
+          <p class="ds-chapter-index">${ch}</p>
+          <h3>${esc(b.title)}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${b.kicker ? `<p class="ds-ember-note">${esc(b.kicker)}</p>` : ""}
+          ${mark}
+        </div>
+      </article>`;
+    })
+    .join("");
+  const aside = blocks
+    .map((b, i) => {
+      const ch = esc(b.meta ?? `Ch ${romans[i] ?? String(i + 1)}`);
+      return `<li class="ds-ember-aside-item">
+        <span class="ds-ember-aside-ch">${ch}</span>
+        <span class="ds-ember-aside-title">${esc(b.title)}</span>
+      </li>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-ember" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
+    <div class="ds-wrap-wide">
+      ${secMeta("Ember", `${count} chapters · lantern beads`)}
+      ${sectionHead(section, 2, true)}
+      <div class="ds-ember-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
+        <div class="ds-ember-essay">${essay}</div>
+        <aside class="ds-ember-aside" aria-label="Chapter index">
+          <ol class="ds-ember-aside-list">${aside}</ol>
+        </aside>
+      </div>
+    </div>
+  </section>`;
+}
+
+/**
  * Range essay — field-guide signature.
  * Distribution beads + outer taxon index. Not hangtag, entry, or verso/recto.
  */
@@ -1947,6 +2034,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "hero-loom":
     case "hero-voucher":
     case "hero-press":
+    case "hero-path":
     case "hero-pipeline":
     case "hero-queue":
     case "hero-diligence":
@@ -1980,6 +2068,8 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderRange(section, figures));
     case "story-gather":
       return wrapped(renderGather(section, figures));
+    case "story-ember":
+      return wrapped(renderEmber(section, figures));
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));
@@ -2233,6 +2323,39 @@ function scripts(spec: DesignSpec): string {
       });
     });
   });
+
+  /* Lantern-path: waypoint rail active chapter + silhouette near-plane handoff. */
+  (function(){
+    var marks=[].slice.call(document.querySelectorAll('.ds-way-mark[data-way]'));
+    var sils=[].slice.call(document.querySelectorAll('.ds-path-near .ds-sil'));
+    if(!marks.length) return;
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function setActive(i){
+      marks.forEach(function(m, idx){ m.classList.toggle('is-active', idx===i); });
+      if(sils.length){
+        sils.forEach(function(s, idx){
+          var on=idx===i%sils.length;
+          s.style.opacity = on ? '0.7' : '0.28';
+          if(!reduce) s.style.transform = on ? 'translateY(0)' : 'translateY(8px)';
+        });
+      }
+    }
+    marks.forEach(function(m, i){
+      m.addEventListener('click', function(){ setActive(i); });
+    });
+    var sections=['#features','#figure','#specimen','#story','#cta'].map(function(sel){ return document.querySelector(sel); });
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(!e.isIntersecting) return;
+          var idx=sections.indexOf(e.target);
+          if(idx>=0) setActive(idx);
+        });
+      },{threshold:0.25,rootMargin:'-20% 0px -40% 0px'});
+      sections.forEach(function(el){ if(el) io.observe(el); });
+    }
+    setActive(0);
+  })();
 })();
 </script>`;
 }

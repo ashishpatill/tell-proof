@@ -35,6 +35,9 @@ export function inferSiteKind(brief: DesignBrief): SiteKind {
   if (/\b(press.?room|press.?sheet|imposition|signature rail|densitometer|forme desk|gather essay|registration mark|crop mark|press atelier)\b/.test(blob)) {
     return "press-atelier";
   }
+  if (/\b(lantern.?path|night.?walk|chapter waypoint|path cartograph|ember essay|silhouette near.?plane|ember gate|afterlight)\b/.test(blob)) {
+    return "lantern-path";
+  }
   if (/\b(fintech|treasury|payments?|banking|ledger|payroll|expense|card|wire|ach|fx|currency)\b/.test(blob)) {
     return "fintech-marketing";
   }
@@ -85,7 +88,7 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
                       ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                       : siteKind === "archive-index" || siteKind === "commerce-loom" || siteKind === "field-guide"
                         ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
-                        : siteKind === "press-atelier"
+                        : siteKind === "press-atelier" || siteKind === "lantern-path"
                           ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                 : ["nav", "hero", "features", "workflow-proof", "proof", "pricing", "cta", "footer"];
 

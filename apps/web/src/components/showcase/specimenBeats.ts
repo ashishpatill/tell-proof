@@ -9,6 +9,7 @@ export type SpecimenPrefer = "hero" | "figure" | "auto";
 
 /** How far into a craft figure the still/cinema should land past claim chrome. */
 export function craftFigureFloor(doc: Pick<Document, "querySelector">): number {
+  if (doc.querySelector(".ds-path-plate, [data-sitekind='lantern-path']")) return 360;
   if (doc.querySelector(".ds-press-sheet, [data-sitekind='press-atelier']")) return 360;
   if (doc.querySelector(".ds-register-ledger, [data-sitekind='archive-index']")) return 300;
   if (doc.querySelector(".ds-chrono-lattice, [data-sitekind='signal-observatory']")) return 300;
@@ -41,6 +42,7 @@ export function discoverBeats(doc: Document): SpecimenBeat[] {
   if (hero) beats.push(hero);
 
   const figureRaw =
+    pick(".ds-hero .ds-path-plate .ds-fig, .ds-path-plate", "figure", "Atlas") ||
     pick(".ds-hero .ds-press-sheet .ds-fig, .ds-press-sheet", "figure", "Forme") ||
     pick(".ds-hero .ds-press-plate .ds-fig, .ds-press-plate, .ds-voucher-plate, .ds-tray-well", "figure", "Specimen") ||
     pick(".ds-hero .ds-drawloom-cloth .ds-fig, .ds-drawloom-cloth, .ds-loom-plate, .ds-shed-stage", "figure", "Loom") ||
@@ -76,7 +78,7 @@ export function discoverBeats(doc: Document): SpecimenBeat[] {
   if (specimen && !hasCraftFigure) beats.push(specimen);
 
   const spread = pick(
-    ".ds-spread, .ds-marginalia, .ds-chrono, .ds-entry, .ds-hangtag, .ds-range, .ds-gather, [data-section='story']",
+    ".ds-spread, .ds-marginalia, .ds-chrono, .ds-entry, .ds-hangtag, .ds-range, .ds-gather, .ds-ember, [data-section='story']",
     "spread",
     "Spread",
   );
