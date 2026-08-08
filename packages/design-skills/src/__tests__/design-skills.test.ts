@@ -616,7 +616,12 @@ describe("research-backed offerings + implementation basics", () => {
     ];
     const svg = pipelineBoard(
       "Northstar",
-      features.map((f) => ({ title: f.name, body: f.description })),
+      features.map((f) => ({
+        title: f.name,
+        body: f.description,
+        emphasis: "normal" as const,
+        points: [] as string[],
+      })),
       "overflow-audit",
       "column",
     );
