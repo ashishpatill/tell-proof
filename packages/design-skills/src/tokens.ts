@@ -147,14 +147,29 @@ function radiusScale(rounding: RoundingDepth): Record<string, string> {
  * and the renderer applies them only where an element genuinely floats above the page.
  */
 function shadowScale(rounding: RoundingDepth, dark: boolean): Record<string, string> {
-  if (rounding === "sharp") return { raised: "none", overlay: dark ? "0 12px 32px rgba(0,0,0,0.5)" : "0 12px 32px rgba(15,17,26,0.12)" };
-  if (rounding === "soft-elevation") {
+  if (rounding === "sharp") {
     return {
-      raised: dark ? "0 1px 2px rgba(0,0,0,0.4)" : "0 1px 2px rgba(15,17,26,0.05), 0 8px 24px rgba(15,17,26,0.06)",
-      overlay: dark ? "0 24px 60px rgba(0,0,0,0.55)" : "0 24px 60px rgba(15,17,26,0.14)",
+      sm: "none",
+      raised: "none",
+      overlay: dark ? "0 12px 32px rgba(0,0,0,0.5)" : "0 12px 32px rgba(15,17,26,0.12)",
+    };
+  }
+  if (rounding === "soft-elevation") {
+    // Neutral layered elevation — quiet sm for controls, raised for panels, overlay for hero plates.
+    return {
+      sm: dark
+        ? "0 1px 2px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.04)"
+        : "0 2px 3px -1px rgba(0,0,0,0.08), 0 1px 0 rgba(25,28,33,0.02), 0 0 0 1px rgba(25,28,33,0.06)",
+      raised: dark
+        ? "0 1px 2px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.35)"
+        : "0 0 0 1px rgba(0,0,0,0.05), 0 1px 1px -0.5px rgba(0,0,0,0.05), 0 3px 3px -1.5px rgba(0,0,0,0.05), 0 6px 6px -3px rgba(0,0,0,0.05), 0 12px 12px -6px rgba(0,0,0,0.05)",
+      overlay: dark
+        ? "0 24px 60px rgba(0,0,0,0.55)"
+        : "0 2.8px 2.2px rgba(0,0,0,0.03), 0 6.7px 5.3px rgba(0,0,0,0.04), 0 12.5px 10px rgba(0,0,0,0.05), 0 22.3px 17.9px rgba(0,0,0,0.06), 0 41.8px 33.4px rgba(0,0,0,0.07), 0 48px 40px rgba(0,0,0,0.08)",
     };
   }
   return {
+    sm: dark ? "0 1px 0 rgba(255,255,255,0.04)" : "0 1px 0 rgba(15,17,26,0.04)",
     raised: dark ? "0 1px 0 rgba(255,255,255,0.04)" : "0 1px 0 rgba(15,17,26,0.04)",
     overlay: dark ? "0 18px 44px rgba(0,0,0,0.5)" : "0 18px 44px rgba(15,17,26,0.10)",
   };

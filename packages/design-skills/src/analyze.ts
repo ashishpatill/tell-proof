@@ -87,7 +87,7 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
                         ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                         : siteKind === "press-atelier"
                           ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
-                : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
+                : ["nav", "hero", "features", "workflow-proof", "proof", "pricing", "cta", "footer"];
 
   const goals = [
     `Serve ${brief.audience}`,

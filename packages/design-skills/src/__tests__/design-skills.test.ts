@@ -19,6 +19,24 @@ const ALL_SKILLS: SkillNodeId[] = [
   "restrained-motion-micro",
   "dashboard-or-webapp-ui",
   "responsive-performance",
+  "product-proof-stage",
+  "conversion-landing-craft",
+  "pricing-decision-craft",
+  "scroll-reveal-once",
+  "indexed-detail-markers",
+  "honest-integration-marks",
+  "paper-technical-frame",
+  "split-panel-technical",
+  "edge-fade-craft",
+  "elevation-depth-tokens",
+  "editorial-chapter-craft",
+  "scrub-sequence-craft",
+  "operational-governance-craft",
+  "wireframe-annotation-craft",
+  "ambient-atmosphere-craft",
+  "signal-beam-craft",
+  "glass-shell-craft",
+  "container-tech-shell",
 ];
 
 const MOODS: ColorMood[] = ["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"];
@@ -30,12 +48,26 @@ describe("premium-content-custom-web engine", () => {
     expect(spec.routedSkills).toContain("hero-section");
     expect(spec.routedSkills).toContain("pricing-or-plans");
     expect(spec.routedSkills).toContain("design-system-foundation");
+    expect(spec.routedSkills).toContain("product-proof-stage");
     expect(spec.sections.some((s) => s.kind === "hero")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "workflow-proof")).toBe(true);
     expect(previewHtml).toContain("Northstar");
     expect(previewHtml).toContain("Account scoring");
     expect(previewHtml).toContain('data-motion="subtle-micro"');
     expect(previewHtml).toContain(":focus-visible");
     expect(previewHtml).toContain("Skip to content");
+    expect(previewHtml).toContain("data-workflow-proof");
+    expect(previewHtml).toContain("htmx.org");
+    expect(previewHtml).toContain("Sample workflow");
+    expect(previewHtml).toContain("Human gate");
+    expect(previewHtml).toContain('data-workflow-step="approve"');
+    expect(spec.routedSkills).toContain("conversion-landing-craft");
+    expect(spec.routedSkills).toContain("pricing-decision-craft");
+    expect(previewHtml).toContain("data-pricing-cadence");
+    expect(previewHtml).toContain("ds-cadence");
+    expect(previewHtml).toContain("ds-index-mark");
+    expect(previewHtml).toContain("ds-tech-brackets");
+    expect(previewHtml).toMatch(/Can we cancel|reversible|Cancel anytime/i);
   });
 
   it("builds a dashboard webapp around a real application shell", () => {
@@ -43,6 +75,9 @@ describe("premium-content-custom-web engine", () => {
     expect(spec.brief.siteKind).toBe("dashboard-webapp");
     expect(spec.routedSkills).toContain("dashboard-or-webapp-ui");
     expect(spec.routedSkills).not.toContain("pricing-or-plans");
+    expect(spec.routedSkills).toContain("ambient-atmosphere-craft");
+    expect(spec.routedSkills).toContain("signal-beam-craft");
+    expect(spec.routedSkills).toContain("glass-shell-craft");
     expect(spec.sections.filter((s) => s.layout === "app-shell")).toHaveLength(1);
     expect(previewHtml).toContain("Priority queue");
     expect(previewHtml).toContain("ds-app-side");
@@ -54,6 +89,10 @@ describe("premium-content-custom-web engine", () => {
     expect(previewHtml).toMatch(/<button[^>]*class="[^"]*ds-app-nav-item[^"]*"[^>]*data-view=/);
     // Dense product surfaces still need an empty state, not just a happy path.
     expect(previewHtml).toContain("ds-empty");
+    // Constrained atmosphere learned from particle/beam crafts — static, not spectacle.
+    expect(previewHtml).toContain('data-atmosphere="static"');
+    expect(previewHtml).toContain("ds-atmosphere-motes");
+    expect(previewHtml).toContain("ds-accent-beam");
   });
 
   it("builds a corporate story surface with editorial chapters", () => {

@@ -125,6 +125,45 @@ export const SkillNodeId = z.enum([
   "restrained-motion-micro",
   "dashboard-or-webapp-ui",
   "responsive-performance",
+  /**
+   * Product-as-proof workflow stage — input → process → draft → review → approve.
+   * SaaS-marketing signature proof; HTMX-swapped panels; never invents metrics.
+   */
+  "product-proof-stage",
+  /** Single-offer conversion landing craft — FAQ objections + CTA risk notes. */
+  "conversion-landing-craft",
+  /** Pricing as decision support — cadence toggle, recommended lane, risk note. */
+  "pricing-decision-craft",
+  /** Once-only scroll reveals — no blur spectacle; reduced-motion settles immediately. */
+  "scroll-reveal-once",
+  /** Quiet 01–0N mono markers for process / feature rhythm. */
+  "indexed-detail-markers",
+  /** Declared integration/capability marks only — never fake logo walls. */
+  "honest-integration-marks",
+  /** Warm paper surfaces + technical bracket framing. */
+  "paper-technical-frame",
+  /** Framed dual-panel splits with mono metadata rails. */
+  "split-panel-technical",
+  /** Edge alpha fades for overflowing rails / marquees. */
+  "edge-fade-craft",
+  /** Neutral layered elevation tokens for soft-elevation depth. */
+  "elevation-depth-tokens",
+  /** Editorial chapter pacing — proof before explanation; decisive close. */
+  "editorial-chapter-craft",
+  /** Step/scrub instruments for educational mechanism folds. */
+  "scrub-sequence-craft",
+  /** Governance beats — approval, audit, rollback — corporate/fintech. */
+  "operational-governance-craft",
+  /** Sparse diagnostic annotations for system-crafted specimens. */
+  "wireframe-annotation-craft",
+  /** Section-bounded ambient atmosphere (static default; full sim in skill). */
+  "ambient-atmosphere-craft",
+  /** Brand-accent beam/vignette atmosphere. */
+  "signal-beam-craft",
+  /** At-most-one frosted glass shell. */
+  "glass-shell-craft",
+  /** Container-led technical shell hierarchy. */
+  "container-tech-shell",
 ]);
 export type SkillNodeId = z.infer<typeof SkillNodeId>;
 
@@ -293,6 +332,11 @@ export const LayoutVariant = z.enum([
   "metric-band",
   "specimen-band",
   "marquee-proof",
+  /**
+   * Interactive product-proof workflow — stage chips swap HTMX panels
+   * (input → process → draft → review → approve). SaaS-marketing proof signature.
+   */
+  "workflow-proof",
   "feature-alternating",
   "feature-bento",
   "feature-index",

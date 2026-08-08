@@ -124,7 +124,7 @@ a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-tab{
   if (motion === "light-scroll-reveals") {
     return `${interactive}
 @media (prefers-reduced-motion: no-preference){
-  .ds-reveal{opacity:0;transform:translateY(var(--s-xs));transition:opacity var(--m-reveal) var(--m-ease-out),transform var(--m-reveal) var(--m-ease-out)}
+  .ds-reveal{opacity:0;transform:translateY(0.5rem);transition:opacity var(--m-reveal) var(--m-ease-out),transform var(--m-reveal) var(--m-ease-out)}
   .ds-reveal.is-in{opacity:1;transform:none}
 }
 @media (prefers-reduced-motion: reduce){.ds-reveal{opacity:1;transform:none}}
@@ -1062,7 +1062,7 @@ ${surfaceRules()}
  * for, which puts its labels under seven pixels — legible in a viewBox, not on a screen. Letting it
  * bleed right restores the drawing to full size, and it is the same move reference pages use to
  * stop a fold from reading as two boxes side by side. */
-.ds-plate-fold,.ds-plate-lit{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--shadow-raised,0 18px 48px color-mix(in srgb,var(--c-ink) 10%,transparent)),0 0 0 1px color-mix(in srgb,var(--c-accent) 12%,transparent);position:relative}
+.ds-plate-fold,.ds-plate-lit{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--sh-raised,var(--shadow-raised,0 18px 48px color-mix(in srgb,var(--c-ink) 10%,transparent))),0 0 0 1px color-mix(in srgb,var(--c-accent) 12%,transparent);position:relative}
 /* Corner brackets — drawn matter on the plate frame so a product surface does not read as a bare card. */
 .ds-plate-fold::before,.ds-plate-fold::after,.ds-plate-lit::before,.ds-plate-lit::after{
   content:"";position:absolute;width:1.1rem;height:1.1rem;border:1.5px solid var(--c-accent);pointer-events:none;z-index:2;
@@ -2246,6 +2246,117 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-proof-meta{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0;text-transform:none;color:var(--c-accent)}
 .ds-proof-cell h3{font-size:var(--t-body-size);line-height:var(--t-body-leading);letter-spacing:var(--t-body-tracking);font-weight:600;max-width:16ch}
 .ds-proof-cell p{font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--surface-muted);max-width:28ch}
+/* Product-proof workflow — stage chips + HTMX-swapped panel on the lit stage. */
+.ds-workflow-rail{margin-top:var(--s-lg)}
+.ds-workflow-rail ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s-2xs)}
+.ds-workflow-chip{display:inline-flex;align-items:center;gap:var(--s-2xs);margin:0;padding:0.55rem 0.75rem;border:1px solid var(--surface-border);border-radius:var(--r-md);background:color-mix(in srgb,var(--surface-bg) 40%,transparent);color:var(--surface-ink);font:inherit;cursor:pointer;min-height:44px}
+.ds-workflow-chip:hover,.ds-workflow-chip:focus-visible{border-color:var(--c-accent);background:var(--accent-soft)}
+.ds-workflow-chip:focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
+.ds-workflow-chip.is-live{border-color:var(--c-accent);background:var(--accent-soft);box-shadow:inset 0 -2px 0 var(--c-accent)}
+.ds-workflow-meta{font-family:var(--f-mono);font-size:10px;letter-spacing:0.12em;color:var(--c-accent)}
+.ds-workflow-label{font-size:var(--t-caption-size);font-weight:600}
+.ds-workflow-field{display:grid;gap:var(--s-md);align-content:start;min-width:0}
+.ds-workflow-panel{margin:0;padding:var(--s-md);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);color:var(--c-ink);box-shadow:0 20px 48px color-mix(in srgb,#000 40%,transparent);--surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border)}
+.ds-workflow-card{display:grid;gap:var(--s-sm);align-content:start}
+.ds-workflow-kicker{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0.08em;text-transform:uppercase;color:var(--c-accent);margin:0}
+.ds-workflow-card h3{margin:0;font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);max-width:16ch}
+.ds-workflow-body{margin:0;font-size:var(--t-body-size);line-height:var(--t-body-leading);color:var(--c-ink-secondary);max-width:42ch}
+.ds-workflow-points{margin:0;padding-left:1.1rem;display:grid;gap:0.25rem;color:var(--c-ink-secondary);font-size:var(--t-caption-size)}
+.ds-workflow-mark{width:min(100%,11rem);opacity:0.92}
+.ds-workflow-gate{margin:var(--s-sm) 0 0;padding:var(--s-sm);border-left:3px solid var(--c-accent);background:var(--accent-soft);font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--c-ink-secondary);max-width:40ch}
+.ds-workflow-gate-flag{display:inline-block;font-family:var(--f-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent);margin-right:0.5rem}
+@media (max-width:800px){
+  .ds-workflow-stage{grid-template-columns:1fr!important}
+  .ds-workflow-rail ol{flex-wrap:nowrap;overflow-x:auto;padding-bottom:var(--s-2xs);-webkit-overflow-scrolling:touch}
+}
+/* Indexed detail markers — quiet architectural rhythm, never competing with headings. */
+.ds-index-mark{font-family:var(--f-mono);font-size:10px;letter-spacing:0.14em;color:var(--surface-quiet);line-height:1}
+.ds-metric .ds-index-mark{position:absolute;top:var(--s-sm);right:var(--s-sm)}
+.ds-metric{position:relative}
+/* Pricing cadence + risk note (pricing-decision-craft). */
+.ds-cadence{display:inline-flex;gap:var(--s-2xs);margin:0 0 var(--s-lg);padding:3px;border:1px solid var(--surface-border);border-radius:var(--r-md);background:color-mix(in srgb,var(--surface-ink) 3%,transparent)}
+.ds-cadence-chip{margin:0;padding:0.45rem 0.85rem;min-height:40px;border:0;border-radius:calc(var(--r-md) - 2px);background:transparent;color:var(--surface-muted);font:inherit;font-size:var(--t-caption-size);font-weight:600;cursor:pointer}
+.ds-cadence-chip.is-live{background:var(--c-paper);color:var(--surface-ink);box-shadow:var(--sh-sm,none)}
+.ds-cadence-chip:focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
+.ds-cadence-save{margin-left:0.35rem;font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--c-accent)}
+.ds-pricing-risk{margin:var(--s-lg) 0 0;max-width:52ch;font-size:var(--t-caption-size);line-height:var(--t-caption-leading);color:var(--surface-muted)}
+/* Honest integration marks — declared capability names only; never fake logos. */
+.ds-mark-row{display:flex;flex-wrap:wrap;gap:var(--s-sm) var(--s-md);list-style:none;margin:var(--s-lg) 0 0;padding:var(--s-md) 0 0;border-top:1px solid var(--surface-border)}
+.ds-mark-row li{font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--surface-quiet)}
+.ds-mark-row-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent);width:100%;margin:0 0 var(--s-2xs)}
+/* Paper-technical frame — warm paper interior, dark outer field, quiet brackets. */
+body[data-frame="paper-technical"]{background:
+  repeating-linear-gradient(-32deg,transparent,transparent 11px,color-mix(in srgb,var(--c-ink) 2.5%,transparent) 11px,color-mix(in srgb,var(--c-ink) 2.5%,transparent) 12px),
+  var(--c-inverse)}
+body[data-frame="paper-technical"] #main,
+body[data-frame="paper-technical"] .ds-nav,
+body[data-frame="paper-technical"] footer.ds-section{background:var(--c-paper);color:var(--c-ink)}
+body[data-frame="paper-technical"] #main{margin:0 auto;max-width:min(100%,calc(var(--content-wide,72rem) + 4rem));border-inline:1px solid var(--c-border);box-shadow:var(--sh-overlay,none)}
+.ds-tech-brackets{position:relative}
+.ds-tech-brackets::before,.ds-tech-brackets::after{content:"";position:absolute;width:12px;height:12px;border-color:var(--c-accent);border-style:solid;pointer-events:none;opacity:0.55}
+.ds-tech-brackets::before{top:var(--s-sm);left:var(--s-sm);border-width:1px 0 0 1px}
+.ds-tech-brackets::after{right:var(--s-sm);bottom:var(--s-sm);border-width:0 1px 1px 0}
+/* Split-panel technical — framed halves with mono rail metadata. */
+.ds-pipeline-fold,.ds-queue-fold,.ds-diligence-fold,.ds-wire-fold{position:relative}
+.ds-pipeline-fold.ds-tech-brackets .ds-pipeline-claim,
+.ds-queue-fold.ds-tech-brackets .ds-queue-claim{padding-inline:var(--s-md)}
+/* Edge fade craft — overflowing rails mask without heavy progressive blur. */
+.ds-workflow-rail ol,
+.ds-stage-rail ol,
+.ds-priority-rail ol{
+  -webkit-mask-image:linear-gradient(to right,transparent,black 4%,black 96%,transparent);
+  mask-image:linear-gradient(to right,transparent,black 4%,black 96%,transparent);
+}
+@media (min-width:801px){
+  .ds-workflow-rail ol,
+  .ds-stage-rail ol,
+  .ds-priority-rail ol{
+    -webkit-mask-image:none;
+    mask-image:none;
+  }
+}
+/* Soft-elevation uses tokenized layered shadows on raised plates only. */
+[data-depth="soft-elevation"] .ds-plan,
+[data-depth="soft-elevation"] .ds-workflow-panel,
+[data-depth="soft-elevation"] .ds-proof-figure{box-shadow:var(--sh-raised)}
+[data-depth="soft-elevation"] .ds-btn{box-shadow:var(--sh-sm)}
+/* Wireframe annotation craft — sparse mono callouts on specimen stages. */
+.ds-specimen-stage{position:relative}
+.ds-specimen-annotated .ds-plate-bleed{opacity:0.92}
+.ds-anno-rail{list-style:none;margin:0;padding:0;position:absolute;inset:var(--s-md) var(--s-md) auto auto;display:grid;gap:var(--s-xs);max-width:14rem;z-index:2}
+.ds-anno{display:flex;align-items:center;gap:var(--s-2xs);font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--surface-quiet);background:color-mix(in srgb,var(--c-paper) 88%,transparent);border:1px solid var(--surface-border);padding:0.35rem 0.55rem;border-radius:var(--r-sm)}
+.ds-anno-tick{width:8px;height:1px;background:var(--c-accent);flex:0 0 auto}
+.ds-anno-label{max-width:12ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Editorial chapters — stronger first beat, quieter subsequent. */
+[data-editorial-chapters] .ds-chapter:first-child h3{font-size:var(--t-subheading-size)}
+/* Ambient atmosphere — static sparse motes (full canvas sim lives in ambient-atmosphere-craft). */
+.ds-atmosphere{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.ds-atmosphere-motes{position:absolute;inset:0;background-image:radial-gradient(circle,color-mix(in srgb,var(--c-accent) 35%,transparent) 0 1px,transparent 1.5px);background-size:72px 84px;background-position:0 0,36px 42px;opacity:0.22}
+.ds-atmosphere-motes::after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,color-mix(in srgb,var(--surface-ink) 40%,transparent) 0 1px,transparent 1.5px);background-size:96px 110px;background-position:18px 22px;opacity:0.5}
+/* Signal beam — CSS accent vignette (full WebGL path in signal-beam-craft). */
+.ds-accent-beam{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(ellipse 18% 70% at 72% 45%,color-mix(in srgb,var(--c-accent) 28%,transparent),transparent 70%),
+  linear-gradient(90deg,transparent 68%,color-mix(in srgb,var(--c-accent) 12%,transparent) 72%,transparent 76%)}
+body[data-atmosphere] .ds-nav,
+body[data-atmosphere] #main,
+body[data-atmosphere] footer.ds-section{position:relative;z-index:1}
+/* Glass shell — at most one frosted language; solid fallback if backdrop unsupported. */
+.ds-glass-panel{
+  background:linear-gradient(180deg,color-mix(in srgb,#fff 8%,transparent),color-mix(in srgb,#fff 2%,transparent));
+  background-color:color-mix(in srgb,var(--c-paper-raised) 62%,transparent);
+  border:1px solid color-mix(in srgb,var(--c-border) 80%,transparent);
+  border-radius:var(--r-xl);
+  box-shadow:var(--sh-raised),inset 0 1px 0 color-mix(in srgb,#fff 10%,transparent);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  .ds-glass-panel{background:var(--c-paper-raised);backdrop-filter:none;-webkit-backdrop-filter:none}
+}
+/* Sticky nav stays opaque (basics gate). Glass is opt-in via .ds-glass-panel only — never glass-everywhere. */
+@media (prefers-reduced-motion:reduce){
+  .ds-atmosphere-motes,.ds-accent-beam{opacity:0.12}
+}
 /* Bonding strip — metadata on a hairline, not empty reserved height between subjects. */
 .ds-sec-meta{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-md);margin:0 0 var(--s-md);padding:var(--s-xs) 0;border-top:1px solid var(--surface-border);font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-sec-meta b{color:var(--surface-ink);font-weight:600}

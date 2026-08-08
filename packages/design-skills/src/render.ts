@@ -578,7 +578,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       <p class="ds-rail-caption ds-wrap-wide" data-rail-caption>${esc(stages[0]?.title ?? "")}</p>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-pipeline" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${rail}
-      <div class="ds-wrap-wide ds-pipeline-fold">
+      <div class="ds-wrap-wide ds-pipeline-fold ds-tech-brackets">
         <div class="ds-pipeline-claim">${copy}</div>
         <div class="ds-pipeline-field">${board}</div>
       </div>
@@ -772,15 +772,27 @@ function renderSpecimen(section: SectionSpec, figures: FigurePlan, spec?: Design
   }
   if (!drawing) return "";
   const quietHead = siteKind === "docs-educational";
+  const annotate =
+    spec?.taste.aestheticLean === "system-crafted" || spec?.taste.colorMood === "dark-premium";
+  const callouts = annotate
+    ? catalogue(spec!)
+        .slice(0, 4)
+        .map(
+          (b, i) =>
+            `<li class="ds-anno" style="--anno-i:${i}"><span class="ds-anno-tick" aria-hidden="true"></span><span class="ds-anno-label">${esc(b.title)}</span></li>`,
+        )
+        .join("")
+    : "";
   return `<section class="ds-section ds-specimen" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide ds-specimen-head">
       <h2 class="ds-heading">${esc(section.title)}</h2>
       ${!quietHead && section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
     </div>
-    <div class="ds-bleed">
+    <div class="ds-bleed ds-specimen-stage${annotate ? " ds-specimen-annotated" : ""}">
       <figure class="ds-plate ds-plate-bleed">
         ${drawing}
       </figure>
+      ${callouts ? `<ol class="ds-anno-rail" aria-label="Declared capability callouts">${callouts}</ol>` : ""}
     </div>
   </section>`;
 }
@@ -802,6 +814,7 @@ function renderMetricBand(section: SectionSpec, figures: FigurePlan, spec?: Desi
         ${section.metrics
           .map(
             (m, i) => `<div class="ds-metric">
+              <span class="ds-index-mark" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
               <p class="ds-metric-value">${esc(m.value)}</p>
               <p class="ds-metric-label">${esc(m.label)}</p>
               ${figures.sparks[i] && isReading(m.value) ? `<div class="ds-metric-spark">${figures.sparks[i]}</div>` : ""}
@@ -851,6 +864,7 @@ function frame(section: SectionSpec): string {
     case "metric-band":
     case "specimen-band":
     case "marquee-proof":
+    case "workflow-proof":
     case "pricing-lanes":
     case "app-shell":
     case "footer-columns":
@@ -1078,9 +1092,9 @@ function renderChapters(section: SectionSpec, figures: FigurePlan): string {
    * count as drawn matter (premium-b2b pages carry dozens of figures, not three plates).
    */
   const count = section.blocks.length;
-  return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+  return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" data-editorial-chapters id="${esc(section.id)}">
     <div class="ds-wrap-wide">
-      ${secMeta("Sequence", `${count} steps · product order`)}
+      ${secMeta("Chapters", `${count} beats · editorial order`)}
       ${sectionHead(section, 2, true)}
       <ol class="ds-chapters">
         ${section.blocks
@@ -1487,10 +1501,111 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
   </section>`;
 }
 
+/**
+ * Product-proof workflow stage — five named handoffs with HTMX panel swaps.
+ * First panel is already in the DOM (works without JS). Templates hold the rest.
+ */
+function renderWorkflowProof(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
+  const stages = section.blocks.slice(0, 5);
+  const first = stages[0];
+  const rail = stages.length
+    ? `<nav class="ds-workflow-rail" aria-label="Sample workflow stages" data-workflow-rail>
+        <ol>${stages
+          .map((b, i) => {
+            const id = (b.meta || `step-${i}`).replace(/[^a-z0-9-]/gi, "").toLowerCase() || `step-${i}`;
+            const live = i === 0;
+            return `<li>
+              <button type="button"
+                class="ds-workflow-chip${live ? " is-live" : ""}"
+                data-workflow-step="${esc(id)}"
+                data-frag="wf-frag-${esc(id)}"
+                aria-pressed="${live ? "true" : "false"}"
+                aria-controls="wf-panel">
+                <span class="ds-workflow-meta">${String(i + 1).padStart(2, "0")}</span>
+                <span class="ds-workflow-label">${esc(b.title)}</span>
+              </button>
+            </li>`;
+          })
+          .join("")}</ol>
+      </nav>`
+    : "";
+
+  const panelBody = (b: (typeof stages)[number] | undefined, i: number): string => {
+    if (!b) return "";
+    const mark = figures.marks[i] ?? "";
+    return `<article class="ds-workflow-card" data-workflow-state="${esc(b.meta ?? b.title)}">
+      <p class="ds-workflow-kicker">${esc(b.kicker ?? "Declared capability")}</p>
+      <h3>${esc(b.title)}</h3>
+      ${b.body ? `<p class="ds-workflow-body">${esc(b.body)}</p>` : ""}
+      ${
+        b.points.length
+          ? `<ul class="ds-workflow-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>`
+          : ""
+      }
+      ${mark ? `<div class="ds-workflow-mark" aria-hidden="true">${mark}</div>` : ""}
+      ${
+        (b.meta ?? "").toLowerCase() === "approve"
+          ? `<p class="ds-workflow-gate"><span class="ds-workflow-gate-flag">Human gate</span> Review the draft, then approve — nothing applies itself.</p>`
+          : ""
+      }
+    </article>`;
+  };
+
+  const templates = stages
+    .map((b, i) => {
+      const id = (b.meta || `step-${i}`).replace(/[^a-z0-9-]/gi, "").toLowerCase() || `step-${i}`;
+      return `<template id="wf-frag-${esc(id)}">${panelBody(b, i)}</template>`;
+    })
+    .join("");
+
+  const figure = figures.body
+    ? plate(figures.body, section.quoteAttribution ?? "Sample workflow", "ds-proof-figure ds-plate-lit")
+    : figures.field
+      ? `<figure class="ds-proof-figure ds-proof-figure-field" aria-hidden="true">${figures.field}</figure>`
+      : "";
+
+  // Honest integration marks — capability names only; never invent partner logos.
+  const markNames = (spec?.brief.features ?? [])
+    .filter((f) => /sync|integrat|crm|export|connect|api|sso/i.test(`${f.name} ${f.description}`))
+    .map((f) => f.name);
+  const marks =
+    markNames.length > 0
+      ? `<ul class="ds-mark-row" aria-label="Declared integrations and connectors"><li class="ds-mark-row-label">In product</li>${markNames
+          .slice(0, 6)
+          .map((n) => `<li>${esc(n)}</li>`)
+          .join("")}</ul>`
+      : "";
+
+  return `<section class="ds-section ds-proof ds-workflow" data-surface="${section.surface}" data-section="${esc(section.id)}" data-workflow-proof id="${esc(section.id)}">
+    <div class="ds-wrap-wide">
+      ${secMeta("Workflow", "Sample · five named states · human approve")}
+      <div class="ds-proof-stage ds-workflow-stage" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
+        <header class="ds-proof-head">
+          ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+          <h2 class="ds-heading">${esc(section.title)}</h2>
+          <p class="ds-proof-claim">${esc(section.body || "")}</p>
+          ${section.quoteAttribution ? `<p class="ds-proof-foot">${esc(section.quoteAttribution)}</p>` : ""}
+          ${rail}
+        </header>
+        <div class="ds-workflow-field">
+          ${figure}
+          <div id="wf-panel" class="ds-workflow-panel" aria-live="polite">${panelBody(first, 0)}</div>
+        </div>
+      </div>
+      ${marks}
+      ${templates}
+    </div>
+  </section>`;
+}
+
 function renderPlans(section: SectionSpec): string {
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${sectionHead(section)}
+      <div class="ds-cadence" data-pricing-cadence role="group" aria-label="Billing cadence">
+        <button type="button" class="ds-cadence-chip is-live" data-cadence="monthly" aria-pressed="true">Monthly</button>
+        <button type="button" class="ds-cadence-chip" data-cadence="annual" aria-pressed="false">Annual <span class="ds-cadence-save">Save on annual</span></button>
+      </div>
       <ul class="ds-plans">
         ${section.blocks
           .map(
@@ -1511,6 +1626,7 @@ function renderPlans(section: SectionSpec): string {
           )
           .join("")}
       </ul>
+      <p class="ds-pricing-risk">Limits and lanes come from declared capabilities only. Cancel or pause without a surprise lock-in.</p>
     </div>
   </section>`;
 }
@@ -1867,6 +1983,8 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));
+    case "workflow-proof":
+      return wrapped(renderWorkflowProof(section, figures, spec));
     case "pricing-lanes":
       return wrapped(renderPlans(section));
     case "compare-matrix":
@@ -2078,6 +2196,43 @@ function scripts(spec: DesignSpec): string {
       });
     });
   });
+
+  /* Product-proof workflow — prefer htmx.swap when HTMX is present; DOM fallback otherwise. */
+  [].slice.call(document.querySelectorAll('[data-workflow-proof]')).forEach(function(root){
+    var chips=[].slice.call(root.querySelectorAll('[data-workflow-step]'));
+    var panel=root.querySelector('#wf-panel') || document.getElementById('wf-panel');
+    chips.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        chips.forEach(function(other){
+          var on=other===chip;
+          other.classList.toggle('is-live', on);
+          other.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        var fragId=chip.getAttribute('data-frag');
+        var frag=fragId ? document.getElementById(fragId) : null;
+        if(!frag || !panel) return;
+        var html=frag.innerHTML;
+        if(window.htmx && typeof window.htmx.swap==='function'){
+          window.htmx.swap('#wf-panel', html, {swapStyle:'innerHTML'});
+        } else {
+          panel.innerHTML=html;
+        }
+      });
+    });
+  });
+
+  [].slice.call(document.querySelectorAll('[data-pricing-cadence]')).forEach(function(group){
+    var chips=[].slice.call(group.querySelectorAll('[data-cadence]'));
+    chips.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        chips.forEach(function(other){
+          var on=other===chip;
+          other.classList.toggle('is-live', on);
+          other.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      });
+    });
+  });
 })();
 </script>`;
 }
@@ -2086,6 +2241,15 @@ function scripts(spec: DesignSpec): string {
 export function renderPreviewHtml(spec: DesignSpec): string {
   const fonts = spec.tokens.fontRequests.map((f) => `family=${f}`).join("&");
   const figures = figuresFor(spec);
+  const needsHtmx = spec.sections.some((s) => s.layout === "workflow-proof");
+  const paperFrame = spec.routedSkills.includes("paper-technical-frame");
+  const atmosphere =
+    spec.routedSkills.includes("ambient-atmosphere-craft") ||
+    spec.routedSkills.includes("signal-beam-craft");
+  const depth = spec.taste.roundingDepth;
+  const atmosphereLayer = atmosphere
+    ? `<div class="ds-atmosphere" aria-hidden="true"><div class="ds-atmosphere-motes"></div><div class="ds-accent-beam"></div></div>`
+    : "";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -2097,10 +2261,12 @@ export function renderPreviewHtml(spec: DesignSpec): string {
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fonts}&display=swap"/>
+${needsHtmx ? `<script src="https://unpkg.com/htmx.org@2.0.4" defer></script>` : ""}
 <noscript><style>.ds-reveal{opacity:1!important;transform:none!important}</style></noscript>
 <style>${renderCss(spec)}</style>
 </head>
-<body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-mood="${esc(spec.taste.colorMood)}" data-sitekind="${esc(spec.brief.siteKind)}">
+<body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-mood="${esc(spec.taste.colorMood)}" data-sitekind="${esc(spec.brief.siteKind)}" data-depth="${esc(depth)}"${paperFrame ? ` data-frame="paper-technical"` : ""}${atmosphere ? ` data-atmosphere="static"` : ""}>
+${atmosphereLayer}
 <a class="ds-skip" href="#main">Skip to content</a>
 <p class="ds-sr">${esc(spec.summary)}</p>
 ${spec.sections

@@ -25,6 +25,16 @@ description: Implements Tell rendered UI capture and deterministic fingerprintin
 
 Aggregate fonts, colors, shadows, radii, spacing, type scale, gradient detection, near-duplicate grays, focus-ring coverage, and state coverage. No network or LLM.
 
+## Full-page capture (stitched)
+
+When a page is taller than one viewport or uses lazy/sticky stages:
+
+1. Prefer Playwright `fullPage: true` screenshot as the primary artifact
+2. Scroll the document once before capture so lazy sections mount
+3. After fonts and sticky measurements settle, re-measure and capture again if the first pass clipped
+4. Keep the same URL and viewport width for before/after proof compares
+5. Never claim a stitched panorama if only the fold was captured — set `meta` honestly
+
 ## Rules
 
 1. Capture may use Playwright; unit tests must use committed JSON only
