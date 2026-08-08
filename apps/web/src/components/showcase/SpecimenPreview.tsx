@@ -101,7 +101,8 @@ export function SpecimenPreview({
           setShouldLoad(true);
         }
       },
-      { rootMargin: "240px 0px", threshold: 0.01 },
+      /* Eagerly reveal loaders + start fetch well before cells enter the fold. */
+      { rootMargin: "480px 0px", threshold: 0.01 },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -232,6 +233,7 @@ export function SpecimenPreview({
   const scaled = scale !== null && scale > 0;
   const ready = scaled && docReady;
   const showLoading = !docReady;
+  const compact = /\bsx-thumb\b/.test(className ?? "");
   const style = {
     ["--sx-scale"]: scaled ? scale : 0,
     ["--sx-design-w"]: `${designWidth}px`,
@@ -255,6 +257,7 @@ export function SpecimenPreview({
       data-playing={cinemaOn && !reducedMotion ? "true" : "false"}
       data-lazy={lazyLoad && !shouldLoad ? "pending" : "loaded"}
       data-loading={showLoading ? "true" : "false"}
+      data-compact={compact ? "true" : "false"}
       aria-busy={decorative ? undefined : showLoading}
       style={style}
       aria-hidden={decorative || undefined}
@@ -263,11 +266,21 @@ export function SpecimenPreview({
     >
       {showLoading ? (
         <div
-          className="sx-preview-loading"
+          className={`sx-preview-loading${compact ? " sx-preview-loading-compact" : ""}`}
           role={decorative ? undefined : "status"}
           aria-live={decorative ? undefined : "polite"}
           aria-hidden={decorative || undefined}
         >
+          <div className="sx-preview-loading-wire" aria-hidden="true">
+            <span className="sx-preview-loading-bar is-wide" />
+            <span className="sx-preview-loading-bar" />
+            <span className="sx-preview-loading-bar is-mid" />
+            <span className="sx-preview-loading-tiles">
+              <i />
+              <i />
+              <i />
+            </span>
+          </div>
           <span className="sx-preview-loading-mark" aria-hidden="true" />
           <span className="sx-preview-loading-label">Loading specimen</span>
         </div>
@@ -280,7 +293,8 @@ export function SpecimenPreview({
             src={src || undefined}
             srcDoc={src ? undefined : html}
             tabIndex={-1}
-            loading="lazy"
+            /* Our IntersectionObserver already decided to load — don't double-defer. */
+            loading={lazyLoad ? "lazy" : "eager"}
           />
         ) : null}
       </div>

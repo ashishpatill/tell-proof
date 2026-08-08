@@ -453,6 +453,8 @@
 /*
  * Loading chrome lives ON the frame (not inside .sx-scale-surface).
  * The scale surface stays opacity:0 until data-ready — a skeleton inside it was invisible.
+ * Filmstrip thumbs + featured stage share this; compact adds wireframe bars so cells never
+ * read as an empty paper plate.
  */
 .sx-preview-loading {
   position: absolute;
@@ -461,12 +463,80 @@
   display: grid;
   place-content: center;
   justify-items: center;
-  gap: 0.85rem;
+  align-content: center;
+  gap: 0.75rem;
   padding: 1.25rem;
   background:
     linear-gradient(165deg, #f3ebe0 0%, #ebe4d8 45%, #e2d8c8 100%);
   color: #8a4b2e;
   pointer-events: none;
+}
+
+.sx-preview-loading-wire {
+  display: none;
+  width: min(100%, 16rem);
+  gap: 0.45rem;
+}
+
+.sx-preview-loading-compact {
+  gap: 0.55rem;
+  padding: 0.85rem;
+  background:
+    linear-gradient(180deg, #f6eee4 0%, #ebe4d8 55%, #e4d9c6 100%),
+    repeating-linear-gradient(
+      -32deg,
+      transparent,
+      transparent 9px,
+      rgb(138 75 46 / 0.04) 9px,
+      rgb(138 75 46 / 0.04) 10px
+    );
+}
+
+.sx-preview-loading-compact .sx-preview-loading-wire {
+  display: grid;
+  width: 78%;
+  margin-bottom: 0.15rem;
+}
+
+.sx-preview-loading-bar {
+  display: block;
+  height: 0.55rem;
+  border-radius: 0.2rem;
+  background: rgb(138 75 46 / 0.14);
+  width: 62%;
+  animation: sx-shimmer-bar 1.15s ease-in-out infinite;
+}
+
+.sx-preview-loading-bar.is-wide {
+  width: 88%;
+  height: 0.7rem;
+}
+
+.sx-preview-loading-bar.is-mid {
+  width: 48%;
+}
+
+.sx-preview-loading-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+}
+
+.sx-preview-loading-tiles i {
+  display: block;
+  height: 1.65rem;
+  border-radius: 0.2rem;
+  background: rgb(138 75 46 / 0.1);
+  animation: sx-shimmer-bar 1.15s ease-in-out infinite;
+}
+
+.sx-preview-loading-tiles i:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.sx-preview-loading-tiles i:nth-child(3) {
+  animation-delay: 0.24s;
 }
 
 .sx-preview-loading-mark {
@@ -478,6 +548,11 @@
   animation: sx-spin 0.85s linear infinite;
 }
 
+.sx-preview-loading-compact .sx-preview-loading-mark {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
 .sx-preview-loading-label {
   margin: 0;
   font-family: var(--font-mono), ui-monospace, monospace;
@@ -485,6 +560,21 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #8a4b2e;
+}
+
+.sx-preview-loading-compact .sx-preview-loading-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+}
+
+/* Cell frame reacts while its thumb is still resolving. */
+.sx-cell-frame:has([data-loading="true"]) {
+  border-color: rgb(var(--accent) / 0.45);
+}
+
+.sx-cell-frame:has([data-loading="true"]) .sx-thumb,
+.sx-cell-frame:has([data-loading="true"]) .sx-thumb-reel {
+  background: #ebe4d8;
 }
 
 /* Legacy shimmer block — kept for any external references; prefer .sx-preview-loading. */
@@ -513,6 +603,16 @@
   }
 }
 
+@keyframes sx-shimmer-bar {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sx-preview-skeleton {
     animation: none;
@@ -521,6 +621,10 @@
     animation: none;
     border-color: #c45c26;
     opacity: 0.85;
+  }
+  .sx-preview-loading-bar,
+  .sx-preview-loading-tiles i {
+    animation: none;
   }
 }
 
