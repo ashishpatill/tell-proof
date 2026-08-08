@@ -72,6 +72,8 @@ export function SpecimenPreview({
   const lazyDefault = Boolean(src) && html == null;
   const lazyLoad = lazy ?? lazyDefault;
   const [shouldLoad, setShouldLoad] = useState(!lazyLoad);
+  /** Specimen document painted + scrolled to craft beat — not merely iframe mounted. */
+  const [docReady, setDocReady] = useState(false);
 
   const playInView = autoplayInView;
   const gapMs = dwellMs ?? (playInView ? 4200 : 1600);
@@ -81,6 +83,13 @@ export function SpecimenPreview({
   useEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
+
+  useEffect(() => {
+    setDocReady(false);
+    setBeats([]);
+    setActive(0);
+    indexRef.current = 0;
+  }, [docKey]);
 
   useEffect(() => {
     if (!lazyLoad || shouldLoad) return;
@@ -136,6 +145,7 @@ export function SpecimenPreview({
     const iframe = iframeRef.current;
     if (!iframe) return;
 
+    let cancelled = false;
     const onLoad = () => {
       const doc = iframe.contentDocument;
       const win = iframe.contentWindow;
@@ -165,6 +175,7 @@ export function SpecimenPreview({
         doc.head.appendChild(style);
       }
       window.setTimeout(() => {
+        if (cancelled) return;
         const found = orderCinemaBeats(discoverBeats(doc), prefer);
         setBeats(found);
         const still = pickStill(found, prefer);
@@ -172,6 +183,7 @@ export function SpecimenPreview({
         indexRef.current = idx;
         setActive(idx);
         win.scrollTo({ top: still.y, left: 0 });
+        setDocReady(true);
       }, 80);
     };
 
@@ -179,7 +191,10 @@ export function SpecimenPreview({
     if (iframe.contentDocument?.readyState === "complete" && iframe.contentDocument.body?.childNodes.length) {
       onLoad();
     }
-    return () => iframe.removeEventListener("load", onLoad);
+    return () => {
+      cancelled = true;
+      iframe.removeEventListener("load", onLoad);
+    };
   }, [docKey, prefer, shouldLoad]);
 
   const cinemaOn =
@@ -214,9 +229,11 @@ export function SpecimenPreview({
     };
   }, [cinemaOn, reducedMotion, beats, gapMs, firstDwellMs]);
 
-  const ready = scale !== null && scale > 0;
+  const scaled = scale !== null && scale > 0;
+  const ready = scaled && docReady;
+  const showLoading = !docReady;
   const style = {
-    ["--sx-scale"]: ready ? scale : 0,
+    ["--sx-scale"]: scaled ? scale : 0,
     ["--sx-design-w"]: `${designWidth}px`,
     ["--sx-design-h"]: `${designHeight}px`,
   } as CSSProperties;
@@ -232,16 +249,29 @@ export function SpecimenPreview({
       ref={frameRef}
       className={className}
       data-testid={testId}
-      data-ready={ready && shouldLoad ? "true" : "false"}
+      data-ready={ready ? "true" : "false"}
       data-mode={mode}
       data-beat={beats[active]?.id ?? ""}
       data-playing={cinemaOn && !reducedMotion ? "true" : "false"}
       data-lazy={lazyLoad && !shouldLoad ? "pending" : "loaded"}
+      data-loading={showLoading ? "true" : "false"}
+      aria-busy={decorative ? undefined : showLoading}
       style={style}
       aria-hidden={decorative || undefined}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
+      {showLoading ? (
+        <div
+          className="sx-preview-loading"
+          role={decorative ? undefined : "status"}
+          aria-live={decorative ? undefined : "polite"}
+          aria-hidden={decorative || undefined}
+        >
+          <span className="sx-preview-loading-mark" aria-hidden="true" />
+          <span className="sx-preview-loading-label">Loading specimen</span>
+        </div>
+      ) : null}
       <div className="sx-scale-surface">
         {shouldLoad ? (
           <iframe
@@ -252,9 +282,7 @@ export function SpecimenPreview({
             tabIndex={-1}
             loading="lazy"
           />
-        ) : (
-          <div className="sx-preview-skeleton" aria-hidden="true" />
-        )}
+        ) : null}
       </div>
       {showBeats ? (
         <div className="sx-beats" aria-hidden="true">
