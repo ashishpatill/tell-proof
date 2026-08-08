@@ -2050,24 +2050,30 @@ export function pipelineBoard(
         weight: 500,
       }),
     );
-    parts.push(
-      text(clipToWidth(s.title, contentW, 14, false), x + colInset, y + 56, {
-        size: 14,
-        fill: INK,
-        weight: 600,
-      }),
-    );
+    const titleCols = Math.max(6, Math.floor(contentW / approxAdvance(14, false)));
+    const titleLines = wrap(s.title, titleCols, 2);
+    titleLines.forEach((ln, j) => {
+      parts.push(
+        text(ln, x + colInset, y + 52 + j * 16, {
+          size: 14,
+          fill: INK,
+          weight: 600,
+        }),
+      );
+    });
+    const bodyTop = y + 52 + titleLines.length * 16 + 12;
     const bodyCols = Math.max(8, Math.floor(contentW / approxAdvance(FIG_MONO_PX, true)));
     const matter = wrap(s.body || s.title, bodyCols, 3);
     matter.forEach((ln, j) => {
-      parts.push(text(ln, x + colInset, y + 84 + j * 18, { size: FIG_MONO_PX, fill: BODY }));
+      parts.push(text(ln, x + colInset, bodyTop + j * 16, { size: FIG_MONO_PX, fill: BODY }));
     });
     // Deal nodes — chip width and label share one budget so text never escapes the pill.
     const nodeCount = 2 + Math.floor(r() * 3);
     const nodeInset = 10;
     const nw = contentW;
+    const nodesTop = Math.max(y + 150, bodyTop + matter.length * 16 + 16);
     for (let k = 0; k < nodeCount; k += 1) {
-      const ny = y + 160 + k * 52;
+      const ny = nodesTop + k * 52;
       if (ny > H - pad - 48) break;
       const amount = `${10 + Math.floor(r() * 80)}k`;
       const label = fitDealChip(s.title, amount, nw - nodeInset * 2);
