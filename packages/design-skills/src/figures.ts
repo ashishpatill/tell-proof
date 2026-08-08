@@ -56,6 +56,36 @@ function clip(s: string, max: number): string {
   return `${t.slice(0, Math.max(1, max - 1)).trimEnd()}…`;
 }
 
+/** Approximate glyph advance for figure labels (mono tracks wider than proportional). */
+function approxAdvance(size: number, mono = false): number {
+  return size * (mono ? 0.62 : 0.55);
+}
+
+/** Clip so set width stays inside a pixel budget — SVG text has no CSS ellipsis. */
+function clipToWidth(s: string, maxPx: number, size: number, mono = false): string {
+  const maxChars = Math.max(1, Math.floor(maxPx / approxAdvance(size, mono)));
+  return clip(s, maxChars);
+}
+
+/**
+ * Deal-chip copy for pipeline nodes: keep the amount readable; shorten the stage word first.
+ * Long names like "Executive · 84k" blow past narrow column pills — prefer "E · 84k" over "Exe… · 84k".
+ */
+export function fitDealChip(stageTitle: string, amount: string, maxPx: number): string {
+  const word = stageTitle.trim().split(/\s+/)[0] || "Deal";
+  const sep = " · ";
+  const size = FIG_MONO_PX;
+  const maxChars = Math.max(4, Math.floor(maxPx / approxAdvance(size, true)));
+  const full = `${word}${sep}${amount}`;
+  if (full.length <= maxChars) return full;
+  const wordBudget = maxChars - sep.length - amount.length;
+  // Enough room for a readable stub (≥5 chars before ellipsis looks intentional).
+  if (wordBudget >= Math.min(word.length, 5)) return `${clip(word, wordBudget)}${sep}${amount}`;
+  const initial = `${word[0] ?? "D"}${sep}${amount}`;
+  if (initial.length <= maxChars) return initial;
+  return clipToWidth(amount, maxPx, size, true);
+}
+
 function round(n: number): number {
   return Math.round(n * 100) / 100;
 }
@@ -2009,29 +2039,41 @@ export function pipelineBoard(
     const x = pad + i * (colW + 12);
     const y = pad + 36;
     const s = stages[i]!;
+    const colInset = 12;
+    const contentW = Math.max(40, colW - colInset * 2);
     parts.push(box(x, y, colW, H - y - pad - 28, { r: 0, fill: PAPER, stroke: LINE }));
     parts.push(
-      text(String(i + 1).padStart(2, "0"), x + 14, y + 28, {
+      text(String(i + 1).padStart(2, "0"), x + colInset, y + 28, {
         size: 22,
         fill: i === 1 ? ACCENT : "var(--c-border-strong)",
         mono: true,
         weight: 500,
       }),
     );
-    parts.push(text(clip(s.title, 18), x + 14, y + 56, { size: 14, fill: INK, weight: 600 }));
-    const matter = wrap(s.body || s.title, Math.max(10, Math.round(colW / 9)), 3);
+    parts.push(
+      text(clipToWidth(s.title, contentW, 14, false), x + colInset, y + 56, {
+        size: 14,
+        fill: INK,
+        weight: 600,
+      }),
+    );
+    const bodyCols = Math.max(8, Math.floor(contentW / approxAdvance(FIG_MONO_PX, true)));
+    const matter = wrap(s.body || s.title, bodyCols, 3);
     matter.forEach((ln, j) => {
-      parts.push(text(ln, x + 14, y + 84 + j * 18, { size: FIG_MONO_PX, fill: BODY }));
+      parts.push(text(ln, x + colInset, y + 84 + j * 18, { size: FIG_MONO_PX, fill: BODY }));
     });
-    // Deal nodes
+    // Deal nodes — chip width and label share one budget so text never escapes the pill.
     const nodeCount = 2 + Math.floor(r() * 3);
+    const nodeInset = 10;
+    const nw = contentW;
     for (let k = 0; k < nodeCount; k += 1) {
       const ny = y + 160 + k * 52;
       if (ny > H - pad - 48) break;
-      const nw = colW - 28;
-      parts.push(box(x + 14, ny, nw, 36, { r: 4, fill: i === 1 ? ACCENT_FIELD : "var(--c-paper-raised)", stroke: LINE }));
+      const amount = `${10 + Math.floor(r() * 80)}k`;
+      const label = fitDealChip(s.title, amount, nw - nodeInset * 2);
+      parts.push(box(x + colInset, ny, nw, 36, { r: 4, fill: i === 1 ? ACCENT_FIELD : "var(--c-paper-raised)", stroke: LINE }));
       parts.push(
-        text(clip(`${s.title.split(/\s+/)[0] ?? "Deal"} · ${10 + Math.floor(r() * 80)}k`, 22), x + 24, ny + 22, {
+        text(label, x + colInset + nodeInset, ny + 22, {
           size: FIG_MONO_PX,
           fill: INK,
           mono: true,

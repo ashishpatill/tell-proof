@@ -413,3 +413,13 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `calc(var(--chapter-inset) + var(--align-rail) + (var(--s-lg) / 2))`. Basics gates
   `chapter-spine-clears-index` + `chapter-lead-clears-index`.
 - **Do not:** Position the spine as a fraction of the index column width.
+
+## 2026-08-08 — `template:figure-chip-overflow`
+
+- **Failure:** Northstar (saas) pipeline-board deal pills let mono labels like "Executive · 84k"
+  paint past the rounded rect; stage titles ("Pipeline coaching") also escaped the column.
+- **Root cause:** Fixed `clip(..., 22)` / `clip(..., 18)` ignore the actual column pixel budget.
+  SVG text has no CSS ellipsis — character caps must come from width ÷ advance.
+- **Fix:** `clipToWidth` / `fitDealChip` (prefer `E · 84k` over `Exe… · 84k`); stage titles use the
+  same budget. Vitest locks the narrow-column case. Anno labels get `min-width:0` + ellipsis.
+- **Do not:** Clip figure labels to a fixed character count without measuring the box they sit in.

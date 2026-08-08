@@ -599,6 +599,38 @@ describe("research-backed offerings + implementation basics", () => {
     expect(dens).toContain("GRIP");
   });
 
+  it("fits pipeline deal chips and stage titles inside narrow column pills", async () => {
+    const { fitDealChip, pipelineBoard, FIG_MONO_PX } = await import("../figures");
+    // ~66px budget (narrow column pill minus insets) must keep amount, shorten word.
+    expect(fitDealChip("Executive digest", "84k", 66)).toMatch(/84k/);
+    expect(fitDealChip("Executive digest", "84k", 66)).toBe("E · 84k");
+    expect(fitDealChip("CRM sync", "41k", 66)).toBe("CRM · 41k");
+    expect(fitDealChip("Account scoring", "18k", 120)).toBe("Account · 18k");
+
+    const features = [
+      { name: "Account scoring", description: "Ranks every open account." },
+      { name: "Pipeline coaching", description: "Flags deals that went quiet." },
+      { name: "CRM sync", description: "Writes back without a second sheet." },
+      { name: "Executive digest", description: "A weekly read for the room." },
+      { name: "Territory modelling", description: "Test a patch before you hire." },
+    ];
+    const svg = pipelineBoard(
+      "Northstar",
+      features.map((f) => ({ title: f.name, body: f.description })),
+      "overflow-audit",
+      "column",
+    );
+    // Deal chips: no full long stage words that previously escaped the pill.
+    expect(svg).not.toContain(">Executive · ");
+    expect(svg).not.toContain(">Territory · ");
+    expect(svg).not.toContain(">Pipeline coaching</text>");
+    expect(svg).not.toMatch(/>[A-Za-z]{3}… · \d+k</);
+    // Amounts still present on chips.
+    expect(svg).toMatch(/· \d+k</);
+    // Mono floor preserved.
+    expect(svg).toContain(`font-size="${FIG_MONO_PX}"`);
+  });
+
   it("clears the implementation basics gate on every offering", () => {
     for (const t of listTemplates()) {
       const { spec, previewHtml } = designFromFeatures(t.brief);
