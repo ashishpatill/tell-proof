@@ -15,11 +15,11 @@ function reedPose(frame: number): string {
   const headY = Math.sin(t) * 6;
   const pupilX = Math.cos(t) * 3.2;
   const pupilY = Math.sin(t) * 2.4;
-  const armLift = Math.sin(t) * 4;
+  const armLift = Math.sin(t) * 3;
   const legKick = Math.max(0, Math.sin(t + 0.4)) * 8;
   const smile = 0.35 + Math.cos(t) * 0.15;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 280" fill="none" aria-hidden="true">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-24 0 184 280" fill="none" aria-hidden="true" overflow="visible">
   <!-- grounded stance -->
   <path d="M72 248 L68 278" stroke="#141414" stroke-width="3.2" stroke-linecap="round"/>
   <path d="M92 248 L96 ${278 - legKick}" stroke="#141414" stroke-width="3.2" stroke-linecap="round"/>
@@ -28,9 +28,9 @@ function reedPose(frame: number): string {
   <!-- torso -->
   <path d="M82 118 C70 132 66 170 68 210 C70 232 74 248 82 248 C90 248 94 232 96 210 C98 170 94 132 82 118Z" fill="#f7f7f4" stroke="#141414" stroke-width="3"/>
   <path d="M70 148 H94" stroke="#141414" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
-  <!-- lean arm resting on type -->
-  <path d="M68 150 C44 146 22 ${132 + armLift} -4 ${118 + armLift * 0.5}" stroke="#141414" stroke-width="3.2" stroke-linecap="round"/>
-  <circle cx="-6" cy="${116 + armLift * 0.5}" r="5" fill="#f7f7f4" stroke="#141414" stroke-width="2.6"/>
+  <!-- lean arm resting on type — extends past left of viewBox into the headline -->
+  <path d="M68 148 C40 142 10 ${136 + armLift} -18 ${130 + armLift * 0.4}" stroke="#141414" stroke-width="3.2" stroke-linecap="round"/>
+  <circle cx="-20" cy="${128 + armLift * 0.4}" r="5.5" fill="#f7f7f4" stroke="#141414" stroke-width="2.6"/>
   <!-- free arm -->
   <path d="M96 152 C112 160 118 ${176 + armLift} 110 ${198 + armLift * 0.4}" stroke="#141414" stroke-width="3.2" stroke-linecap="round"/>
   <!-- neck -->

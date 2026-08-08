@@ -2,9 +2,9 @@
 
 .kn-root {
   --kn-ink: #141414;
-  --kn-paper: #f6f7f4;
-  --kn-muted: #7a7872;
-  --kn-line: rgba(20, 20, 20, 0.12);
+  --kn-paper: #f4f5f2;
+  --kn-muted: #5c5a55;
+  --kn-line: rgba(20, 20, 20, 0.14);
   --kn-accent: #c45a12;
   --kn-accent-soft: #f0a24a;
   --kn-teal: #1f6f6a;
@@ -155,14 +155,15 @@
 }
 
 .kn-plate {
-  --kn-paper: #f6f7f4;
+  --kn-paper: #f4f5f2;
+  position: relative;
   max-width: 1120px;
   min-height: calc(100svh - 4.5rem);
   margin: 0.4rem auto 2.5rem;
-  padding: clamp(1.35rem, 3.5vw, 2.6rem) clamp(1.35rem, 4vw, 3rem);
+  padding: clamp(1.2rem, 3vw, 2.4rem) clamp(1.2rem, 3.5vw, 2.8rem) 1.1rem;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 28px;
-  background: color-mix(in srgb, var(--kn-paper) 94%, white);
+  background: color-mix(in srgb, var(--kn-paper) 96%, white);
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.65);
@@ -171,88 +172,122 @@
   grid-template-rows: 1fr auto;
 }
 
+/* One composition: type owns the left; cast overlaps the “makes” line */
 .kn-hero {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-  gap: 0;
-  align-items: center;
-  min-height: 68svh;
-  padding-top: 0.5rem;
+  display: block;
+  min-height: min(74svh, 640px);
+  padding-top: clamp(0.5rem, 2vh, 1.5rem);
 }
 
 .kn-copy {
   position: relative;
-  z-index: 3;
-  align-self: center;
-  padding-bottom: 1.5rem;
+  z-index: 2;
+  max-width: min(22ch, 54%);
+  padding-top: clamp(1rem, 4vh, 2.5rem);
 }
 
 .kn-display {
   margin: 0;
   font-family: var(--kn-display);
-  font-size: clamp(3.6rem, 9.5vw, 7.2rem);
   font-weight: 400;
-  line-height: 0.9;
+  line-height: 0.88;
   letter-spacing: -0.045em;
   display: flex;
   flex-direction: column;
 }
 
-.kn-cast {
+.kn-display-brand {
+  font-style: italic;
+  font-size: clamp(4.2rem, 11vw, 8rem);
+}
+
+.kn-display-brand sup {
+  font-size: 0.28em;
+  vertical-align: super;
+  margin-left: 0.12em;
+  font-style: normal;
+}
+
+.kn-display-makes,
+.kn-display-motion {
+  font-size: clamp(3.2rem, 8.2vw, 6.2rem);
+}
+
+.kn-display-makes {
   position: relative;
-  min-height: 340px;
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  align-items: end;
-  justify-items: start;
-  gap: 0;
-  margin-left: -18%;
+  display: inline-block;
+  width: fit-content;
+}
+
+.kn-makes-hook {
+  position: absolute;
+  right: -0.15em;
+  top: 50%;
+  width: 0.35em;
+  height: 0.35em;
+  pointer-events: none;
+}
+
+.kn-cast {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: block;
+  pointer-events: none;
+}
+
+.kn-reed-wrap,
+.kn-pip-wrap {
+  position: absolute;
+  pointer-events: none;
 }
 
 .kn-reed-wrap {
-  /* Overlap the stacked display so the hand reads as resting on “makes” */
-  transform: translate(-26%, 6%) scale(1.08);
-  transform-origin: bottom left;
+  /* Default before JS pin; desktop pin overrides left/top in px */
+  left: 36%;
+  top: 12%;
+  width: min(300px, 34%);
   z-index: 2;
-  max-width: 260px;
 }
 
 .kn-pip-wrap {
-  max-width: 220px;
-  transform: translate(-14%, 12%);
+  right: 3%;
+  bottom: 2%;
+  width: min(230px, 26%);
   z-index: 1;
 }
 
 .kn-lean-note {
   position: absolute;
-  left: -4%;
-  top: 42%;
+  left: -12%;
+  top: 44%;
   font-family: var(--kn-mono);
   font-size: 0.62rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--kn-muted);
   white-space: nowrap;
-  transform: rotate(-10deg);
+  transform: rotate(-12deg);
 }
 
 .kn-hint {
   position: absolute;
-  left: 8%;
-  bottom: -0.5rem;
-  transform: none;
+  left: 18%;
+  bottom: 0;
   margin: 0;
-  padding: 0.4rem 0.75rem;
+  padding: 0.45rem 0.85rem;
   border: 1px solid var(--kn-line);
   border-radius: 999px;
-  background: rgba(246, 247, 244, 0.92);
-  color: var(--kn-muted);
+  background: rgba(244, 245, 242, 0.95);
+  color: var(--kn-ink);
   font-family: var(--kn-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
   white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(20, 20, 20, 0.08);
   animation: kn-hint-pulse 2.4s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .kn-grid {
@@ -266,19 +301,8 @@
   pointer-events: none;
 }
 
-.kn-display-brand {
-  font-style: italic;
-}
-
-.kn-display-brand sup {
-  font-size: 0.28em;
-  vertical-align: super;
-  margin-left: 0.15em;
-  font-style: normal;
-}
-
 .kn-meta {
-  margin: 1.4rem 0 0;
+  margin: 1.15rem 0 0;
   color: var(--kn-muted);
   font-family: var(--kn-mono);
   font-size: 0.72rem;
@@ -289,12 +313,6 @@
 .kn-meta-name {
   margin-right: 0.75rem;
   color: var(--kn-ink);
-}
-
-.kn-reed-wrap,
-.kn-pip-wrap {
-  position: relative;
-  width: 100%;
 }
 
 .kn-reed,
@@ -310,6 +328,7 @@
   width: 100%;
   height: auto;
   display: block;
+  overflow: visible;
 }
 
 @keyframes kn-hint-pulse {
@@ -324,12 +343,14 @@
 
 .kn-scroll-cue {
   position: relative;
-  margin: 1.5rem 0 0;
-  color: var(--kn-muted);
+  z-index: 4;
+  margin: 0.35rem 0 0;
+  color: var(--kn-ink);
   font-family: var(--kn-mono);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  opacity: 0.72;
 }
 
 .kn-scrub {
@@ -389,6 +410,25 @@
   gap: 0.45rem;
   margin-top: 1.5rem;
   font-family: var(--kn-mono);
+}
+
+.kn-readout strong {
+  font-size: 1.85rem;
+  letter-spacing: -0.02em;
+}
+
+.kn-readout span {
+  color: rgba(244, 240, 232, 0.5);
+  font-size: 0.85rem;
+}
+
+.kn-scrub-hint {
+  margin: 0.65rem 0 0;
+  font-family: var(--kn-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(244, 240, 232, 0.55);
 }
 
 .kn-readout strong {
@@ -535,7 +575,6 @@
 }
 
 @media (max-width: 900px) {
-  .kn-hero,
   .kn-scrub-sticky,
   .kn-steps,
   .kn-drivers {
@@ -543,26 +582,44 @@
   }
 
   .kn-hero {
-    align-items: start;
     min-height: auto;
-    gap: 0.5rem;
+    padding-bottom: 12rem;
   }
 
   .kn-copy {
-    padding-bottom: 0.25rem;
+    max-width: 100%;
+    padding-top: 0.5rem;
+  }
+
+  .kn-display-brand {
+    font-size: clamp(3.2rem, 16vw, 4.6rem);
+  }
+
+  .kn-display-makes,
+  .kn-display-motion {
+    font-size: clamp(2.6rem, 13vw, 3.6rem);
   }
 
   .kn-cast {
-    min-height: 240px;
-    margin-left: 0;
-    margin-top: 0.25rem;
-    justify-items: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0.25rem;
+    height: 11.5rem;
   }
 
-  .kn-reed-wrap,
+  .kn-reed-wrap {
+    left: 8%;
+    top: auto;
+    bottom: 0;
+    width: 42%;
+  }
+
   .kn-pip-wrap {
-    transform: none;
-    max-width: 160px;
+    right: 6%;
+    bottom: 0;
+    width: 38%;
   }
 
   .kn-lean-note {
@@ -572,18 +629,14 @@
   .kn-hint {
     left: 50%;
     transform: translateX(-50%);
-    bottom: -0.75rem;
-    max-width: 92%;
+    bottom: -0.15rem;
+    max-width: 94%;
     white-space: normal;
     text-align: center;
   }
 
   .kn-scrub {
     min-height: 160svh;
-  }
-
-  .kn-display {
-    font-size: clamp(2.8rem, 14vw, 4.4rem);
   }
 }
 

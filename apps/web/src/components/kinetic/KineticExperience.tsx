@@ -40,6 +40,8 @@ function SpriteHost({
 
 export function KineticExperience() {
   const stageRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const makesHookRef = useRef<HTMLSpanElement>(null);
   const reedAnchorRef = useRef<HTMLDivElement>(null);
   const pipAnchorRef = useRef<HTMLDivElement>(null);
   const scrubRef = useRef<HTMLElement>(null);
@@ -49,6 +51,54 @@ export function KineticExperience() {
   const [progress, setProgress] = useState(0);
   const [pointerHint, setPointerHint] = useState(true);
   const reduced = useRef(false);
+
+  /** Pin Reed's hand to the right edge of “makes” — composition lock, not free float. */
+  useEffect(() => {
+    const pinReedToMakes = () => {
+      const hero = heroRef.current;
+      const hook = makesHookRef.current;
+      const reed = reedAnchorRef.current;
+      if (!hero || !hook || !reed) return;
+      if (window.matchMedia("(max-width: 900px)").matches) {
+        reed.style.removeProperty("left");
+        reed.style.removeProperty("top");
+        return;
+      }
+      const hr = hero.getBoundingClientRect();
+      const hk = hook.getBoundingClientRect();
+      const reedW = Math.max(reed.offsetWidth, 1);
+      const reedH = Math.max(reed.offsetHeight, 1);
+      // viewBox hand (~ -20) maps near the left of the SVG box
+      const handFracX = 0.03;
+      const handFracY = 0.4;
+      const left = hk.left - hr.left - reedW * handFracX;
+      const top = hk.top + hk.height * 0.5 - hr.top - reedH * handFracY;
+      reed.style.setProperty("left", `${Math.round(left)}px`);
+      reed.style.setProperty("top", `${Math.round(top)}px`);
+    };
+
+    let raf = 0;
+    const schedule = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => requestAnimationFrame(pinReedToMakes));
+    };
+
+    schedule();
+    const ro = new ResizeObserver(schedule);
+    if (heroRef.current) ro.observe(heroRef.current);
+    if (reedAnchorRef.current) ro.observe(reedAnchorRef.current);
+    window.addEventListener("resize", schedule);
+    document.fonts?.ready?.then(schedule);
+    const t1 = window.setTimeout(schedule, 50);
+    const t2 = window.setTimeout(schedule, 300);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", schedule);
+      cancelAnimationFrame(raf);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, []);
 
   useEffect(() => {
     reduced.current = prefersReducedMotion();
@@ -170,14 +220,17 @@ export function KineticExperience() {
 
       <section className="kn-plate" id="stage" ref={stageRef} aria-labelledby="kn-hero-title">
         <div className="kn-grid" aria-hidden="true" />
-        <div className="kn-hero">
+        <div className="kn-hero" ref={heroRef}>
           <div className="kn-copy">
             <h1 id="kn-hero-title" className="kn-display">
               <span className="kn-display-brand">
                 Mote<sup>®</sup>
               </span>
-              <span>makes</span>
-              <span>motion.</span>
+              <span className="kn-display-makes">
+                makes
+                <span className="kn-makes-hook" ref={makesHookRef} aria-hidden="true" />
+              </span>
+              <span className="kn-display-motion">motion.</span>
             </h1>
             <p className="kn-meta">
               <span className="kn-meta-name">MO · TE</span>
@@ -207,7 +260,7 @@ export function KineticExperience() {
             </div>
             {pointerHint ? (
               <p className="kn-hint">
-                Move the pointer — Reed and Pip turn to follow
+                Move the pointer — they turn to follow
               </p>
             ) : null}
           </div>
@@ -239,6 +292,7 @@ export function KineticExperience() {
                 <i style={{ width: `${Math.round(progress * 100)}%` }} />
               </span>
             </div>
+            <p className="kn-scrub-hint">Scroll to scrub · reverse to rewind</p>
           </div>
           <div className="kn-scrub-stage">
             <div className="kn-film">
