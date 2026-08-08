@@ -61,6 +61,7 @@ Studio UI: `/studio` · Specimen gallery: `/showcase` · Offerings: `/showcase/{
 - design-system-foundation
 - hero-section
 - features-benefits
+- product-proof-stage
 - pricing-or-plans
 - navigation-header-footer
 - content-storytelling-pages

@@ -125,6 +125,11 @@ export const SkillNodeId = z.enum([
   "restrained-motion-micro",
   "dashboard-or-webapp-ui",
   "responsive-performance",
+  /**
+   * Product-as-proof workflow stage — input → process → draft → review → approve.
+   * SaaS-marketing signature proof; HTMX-swapped panels; never invents metrics.
+   */
+  "product-proof-stage",
 ]);
 export type SkillNodeId = z.infer<typeof SkillNodeId>;
 
@@ -293,6 +298,11 @@ export const LayoutVariant = z.enum([
   "metric-band",
   "specimen-band",
   "marquee-proof",
+  /**
+   * Interactive product-proof workflow — stage chips swap HTMX panels
+   * (input → process → draft → review → approve). SaaS-marketing proof signature.
+   */
+  "workflow-proof",
   "feature-alternating",
   "feature-bento",
   "feature-index",

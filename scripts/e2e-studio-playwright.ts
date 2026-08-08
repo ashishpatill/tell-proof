@@ -106,6 +106,7 @@ async function main() {
       "design-system-foundation",
       "hero-section",
       "features-benefits",
+      "product-proof-stage",
       "pricing-or-plans",
       "navigation-header-footer",
       "forms-ctas-conversion",
@@ -119,6 +120,9 @@ async function main() {
     if (!saas.previewHtml.includes("ds-brand-mark")) throw new Error("saas missing brand-first hero mark");
     if (!saas.previewHtml.includes(":focus-visible")) throw new Error("saas missing focus-visible styles");
     if (saas.previewHtml.includes("Starter — core features")) throw new Error("saas invented filler pricing");
+    if (!saas.previewHtml.includes("data-workflow-proof")) throw new Error("saas missing product-proof workflow");
+    if (!saas.previewHtml.includes("Sample workflow")) throw new Error("saas workflow must be labeled sample");
+    if (!saas.previewHtml.includes("htmx.org")) throw new Error("saas workflow should load HTMX for panel swaps");
 
     const dash = await apiDesign(request, {
       productName: "Atlas",

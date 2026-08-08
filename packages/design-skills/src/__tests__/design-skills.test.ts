@@ -19,6 +19,7 @@ const ALL_SKILLS: SkillNodeId[] = [
   "restrained-motion-micro",
   "dashboard-or-webapp-ui",
   "responsive-performance",
+  "product-proof-stage",
 ];
 
 const MOODS: ColorMood[] = ["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"];
@@ -30,12 +31,19 @@ describe("premium-content-custom-web engine", () => {
     expect(spec.routedSkills).toContain("hero-section");
     expect(spec.routedSkills).toContain("pricing-or-plans");
     expect(spec.routedSkills).toContain("design-system-foundation");
+    expect(spec.routedSkills).toContain("product-proof-stage");
     expect(spec.sections.some((s) => s.kind === "hero")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "workflow-proof")).toBe(true);
     expect(previewHtml).toContain("Northstar");
     expect(previewHtml).toContain("Account scoring");
     expect(previewHtml).toContain('data-motion="subtle-micro"');
     expect(previewHtml).toContain(":focus-visible");
     expect(previewHtml).toContain("Skip to content");
+    expect(previewHtml).toContain("data-workflow-proof");
+    expect(previewHtml).toContain("htmx.org");
+    expect(previewHtml).toContain("Sample workflow");
+    expect(previewHtml).toContain("Human gate");
+    expect(previewHtml).toContain('data-workflow-step="approve"');
   });
 
   it("builds a dashboard webapp around a real application shell", () => {

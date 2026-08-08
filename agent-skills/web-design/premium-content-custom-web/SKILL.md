@@ -61,6 +61,7 @@ Studio UI: `/studio` · Showcases: `/showcase/saas`, `/showcase/dashboard`, `/sh
 - design-system-foundation
 - hero-section
 - features-benefits
+- product-proof-stage
 - pricing-or-plans
 - navigation-header-footer
 - content-storytelling-pages

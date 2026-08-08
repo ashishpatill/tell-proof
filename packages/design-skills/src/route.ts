@@ -16,9 +16,15 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     if (section === "pricing") nodes.add("pricing-or-plans");
     if (section === "story" || section === "figure") nodes.add("content-storytelling-pages");
     if (section === "cta" || section === "proof") nodes.add("forms-ctas-conversion");
+    if (section === "workflow-proof") nodes.add("product-proof-stage");
     if (section === "dashboard-shell" || section === "dashboard-main") {
       nodes.add("dashboard-or-webapp-ui");
     }
+  }
+
+  if (analysis.siteKind === "saas-marketing") {
+    nodes.add("product-proof-stage");
+    nodes.add("forms-ctas-conversion");
   }
 
   if (taste.motion !== "none") nodes.add("restrained-motion-micro");
@@ -29,6 +35,7 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     "navigation-header-footer",
     "hero-section",
     "features-benefits",
+    "product-proof-stage",
     "pricing-or-plans",
     "content-storytelling-pages",
     "forms-ctas-conversion",

@@ -790,11 +790,12 @@ export function planSections(input: CompositionInput): SectionPlan[] {
   });
 
   // Dense proof board on inverse — never a lonely quote floating in a dark void.
+  // SaaS uses the interactive workflow-proof stage (product-as-evidence); other kinds keep marquee.
   // Bonded to the specimen above so a light airway cannot open between drawn product and proof.
   plans.push({
     id: "proof",
     kind: "proof",
-    layout: "marquee-proof",
+    layout: siteKind === "saas-marketing" ? "workflow-proof" : "marquee-proof",
     surface: "inverse",
     bond: true,
     columns: split.feature,

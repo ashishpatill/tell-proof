@@ -31,7 +31,8 @@ function block(input: Partial<Block> & { title: string }): Block {
   return Block.parse(input);
 }
 
-function skillFor(kind: SectionPlan["kind"]): SkillNodeId {
+function skillFor(kind: SectionPlan["kind"], layout?: SectionPlan["layout"]): SkillNodeId {
+  if (layout === "workflow-proof") return "product-proof-stage";
   switch (kind) {
     case "nav":
     case "footer":
@@ -108,6 +109,7 @@ export function buildSections(
   let featureCursor = 0;
 
   for (const p of plan) {
+    const node = skillFor(p.kind, p.layout);
     const base = {
       id: p.id,
       kind: p.kind,
@@ -115,8 +117,8 @@ export function buildSections(
       surface: p.surface,
       columns: p.columns,
       bond: p.bond ?? false,
-      skillNode: skillFor(p.kind),
-      inspirationNotes: inspiration(taste.aestheticLean, skillFor(p.kind), p.layout),
+      skillNode: node,
+      inspirationNotes: inspiration(taste.aestheticLean, node, p.layout),
     };
 
     switch (p.kind) {
@@ -613,9 +615,40 @@ export function buildSections(
             emphasis: f.priority === "p0" ? "lead" : "normal",
           }),
         );
+        const isWorkflow = p.layout === "workflow-proof";
+        /*
+         * Workflow proof stages — five named handoffs that mirror how a careful product ships work.
+         * Titles stay fixed (mechanism vocabulary); bodies come only from declared features.
+         */
+        const workflowBodies = features.slice(0, 5);
+        const workflowStages = isWorkflow
+          ? (
+              [
+                { id: "input", title: "Input", role: "Capture what the operator already knows" },
+                { id: "process", title: "Process", role: "Run the declared mechanism — no magic" },
+                { id: "draft", title: "Draft", role: "Surface a reviewable result" },
+                { id: "review", title: "Review", role: "Human edits before anything ships" },
+                { id: "approve", title: "Approve", role: "Explicit gate — never auto-apply" },
+              ] as const
+            ).map((stage, i) => {
+              const src = workflowBodies[i] ?? workflowBodies[workflowBodies.length - 1] ?? features[0];
+              return block({
+                title: stage.title,
+                body: src
+                  ? sentence(`${stage.role}. Uses ${src.name}: ${src.description || src.name}`)
+                  : sentence(stage.role),
+                meta: stage.id,
+                kicker: src?.name ?? "Sample",
+                emphasis: i === 0 ? "lead" : i === 4 ? "lead" : "normal",
+                points: src ? [src.name, stage.role] : [stage.role],
+              });
+            })
+          : [];
         const proofTitle =
           brief.siteKind === "saas-marketing"
-            ? sentence(`Why ${brief.productName} earns the second meeting`)
+            ? isWorkflow
+              ? sentence(`Walk the ${brief.productName} loop once`)
+              : sentence(`Why ${brief.productName} earns the second meeting`)
             : brief.siteKind === "dashboard-webapp"
               ? sentence(`Why operators keep ${brief.productName} open all day`)
               : brief.siteKind === "corporate-story"
@@ -630,12 +663,16 @@ export function buildSections(
         sections.push(
           SectionSpec.parse({
             ...base,
-            eyebrow: eyebrow.proof,
+            eyebrow: isWorkflow ? "Sample workflow" : eyebrow.proof,
             title: proofTitle,
-            body: q.quote,
-            quote: q.quote,
-            quoteAttribution: q.attribution,
-            blocks: evidence,
+            body: isWorkflow
+              ? sentence(
+                  `Five named states. Every panel traces to a declared capability — nothing invented for theatre`,
+                )
+              : q.quote,
+            quote: isWorkflow ? undefined : q.quote,
+            quoteAttribution: isWorkflow ? "Human approves before apply" : q.attribution,
+            blocks: isWorkflow ? workflowStages : evidence,
           }),
         );
         break;

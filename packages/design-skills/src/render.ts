@@ -851,6 +851,7 @@ function frame(section: SectionSpec): string {
     case "metric-band":
     case "specimen-band":
     case "marquee-proof":
+    case "workflow-proof":
     case "pricing-lanes":
     case "app-shell":
     case "footer-columns":
@@ -1487,6 +1488,90 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
   </section>`;
 }
 
+/**
+ * Product-proof workflow stage — five named handoffs with HTMX panel swaps.
+ * First panel is already in the DOM (works without JS). Templates hold the rest.
+ */
+function renderWorkflowProof(section: SectionSpec, figures: FigurePlan): string {
+  const stages = section.blocks.slice(0, 5);
+  const first = stages[0];
+  const rail = stages.length
+    ? `<nav class="ds-workflow-rail" aria-label="Sample workflow stages" data-workflow-rail>
+        <ol>${stages
+          .map((b, i) => {
+            const id = (b.meta || `step-${i}`).replace(/[^a-z0-9-]/gi, "").toLowerCase() || `step-${i}`;
+            const live = i === 0;
+            return `<li>
+              <button type="button"
+                class="ds-workflow-chip${live ? " is-live" : ""}"
+                data-workflow-step="${esc(id)}"
+                data-frag="wf-frag-${esc(id)}"
+                aria-pressed="${live ? "true" : "false"}"
+                aria-controls="wf-panel">
+                <span class="ds-workflow-meta">${String(i + 1).padStart(2, "0")}</span>
+                <span class="ds-workflow-label">${esc(b.title)}</span>
+              </button>
+            </li>`;
+          })
+          .join("")}</ol>
+      </nav>`
+    : "";
+
+  const panelBody = (b: (typeof stages)[number] | undefined, i: number): string => {
+    if (!b) return "";
+    const mark = figures.marks[i] ?? "";
+    return `<article class="ds-workflow-card" data-workflow-state="${esc(b.meta ?? b.title)}">
+      <p class="ds-workflow-kicker">${esc(b.kicker ?? "Declared capability")}</p>
+      <h3>${esc(b.title)}</h3>
+      ${b.body ? `<p class="ds-workflow-body">${esc(b.body)}</p>` : ""}
+      ${
+        b.points.length
+          ? `<ul class="ds-workflow-points">${b.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>`
+          : ""
+      }
+      ${mark ? `<div class="ds-workflow-mark" aria-hidden="true">${mark}</div>` : ""}
+      ${
+        (b.meta ?? "").toLowerCase() === "approve"
+          ? `<p class="ds-workflow-gate"><span class="ds-workflow-gate-flag">Human gate</span> Review the draft, then approve — nothing applies itself.</p>`
+          : ""
+      }
+    </article>`;
+  };
+
+  const templates = stages
+    .map((b, i) => {
+      const id = (b.meta || `step-${i}`).replace(/[^a-z0-9-]/gi, "").toLowerCase() || `step-${i}`;
+      return `<template id="wf-frag-${esc(id)}">${panelBody(b, i)}</template>`;
+    })
+    .join("");
+
+  const figure = figures.body
+    ? plate(figures.body, section.quoteAttribution ?? "Sample workflow", "ds-proof-figure ds-plate-lit")
+    : figures.field
+      ? `<figure class="ds-proof-figure ds-proof-figure-field" aria-hidden="true">${figures.field}</figure>`
+      : "";
+
+  return `<section class="ds-section ds-proof ds-workflow" data-surface="${section.surface}" data-section="${esc(section.id)}" data-workflow-proof id="${esc(section.id)}">
+    <div class="ds-wrap-wide">
+      ${secMeta("Workflow", "Sample · five named states · human approve")}
+      <div class="ds-proof-stage ds-workflow-stage" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
+        <header class="ds-proof-head">
+          ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
+          <h2 class="ds-heading">${esc(section.title)}</h2>
+          <p class="ds-proof-claim">${esc(section.body || "")}</p>
+          ${section.quoteAttribution ? `<p class="ds-proof-foot">${esc(section.quoteAttribution)}</p>` : ""}
+          ${rail}
+        </header>
+        <div class="ds-workflow-field">
+          ${figure}
+          <div id="wf-panel" class="ds-workflow-panel" aria-live="polite">${panelBody(first, 0)}</div>
+        </div>
+      </div>
+      ${templates}
+    </div>
+  </section>`;
+}
+
 function renderPlans(section: SectionSpec): string {
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
@@ -1867,6 +1952,8 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures));
+    case "workflow-proof":
+      return wrapped(renderWorkflowProof(section, figures));
     case "pricing-lanes":
       return wrapped(renderPlans(section));
     case "compare-matrix":
@@ -2078,6 +2165,30 @@ function scripts(spec: DesignSpec): string {
       });
     });
   });
+
+  /* Product-proof workflow — prefer htmx.swap when HTMX is present; DOM fallback otherwise. */
+  [].slice.call(document.querySelectorAll('[data-workflow-proof]')).forEach(function(root){
+    var chips=[].slice.call(root.querySelectorAll('[data-workflow-step]'));
+    var panel=root.querySelector('#wf-panel') || document.getElementById('wf-panel');
+    chips.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        chips.forEach(function(other){
+          var on=other===chip;
+          other.classList.toggle('is-live', on);
+          other.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        var fragId=chip.getAttribute('data-frag');
+        var frag=fragId ? document.getElementById(fragId) : null;
+        if(!frag || !panel) return;
+        var html=frag.innerHTML;
+        if(window.htmx && typeof window.htmx.swap==='function'){
+          window.htmx.swap('#wf-panel', html, {swapStyle:'innerHTML'});
+        } else {
+          panel.innerHTML=html;
+        }
+      });
+    });
+  });
 })();
 </script>`;
 }
@@ -2086,6 +2197,7 @@ function scripts(spec: DesignSpec): string {
 export function renderPreviewHtml(spec: DesignSpec): string {
   const fonts = spec.tokens.fontRequests.map((f) => `family=${f}`).join("&");
   const figures = figuresFor(spec);
+  const needsHtmx = spec.sections.some((s) => s.layout === "workflow-proof");
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -2097,6 +2209,7 @@ export function renderPreviewHtml(spec: DesignSpec): string {
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fonts}&display=swap"/>
+${needsHtmx ? `<script src="https://unpkg.com/htmx.org@2.0.4" defer></script>` : ""}
 <noscript><style>.ds-reveal{opacity:1!important;transform:none!important}</style></noscript>
 <style>${renderCss(spec)}</style>
 </head>
