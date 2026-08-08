@@ -5,6 +5,16 @@ Pattern keys match `tell-recursive-improve`.
 
 ---
 
+## 2026-08-08 — `template:craft-bleed-into-rail`
+
+- **Failure:** Forme Desk (press-atelier) full-bleed specimen/flow stages painted under the Sig
+  A–H rail; masthead border kissed the brand (2px); registration crosshairs (`z-index:3`) sat over
+  claim type.
+- **Fix:** `--craft-rail` insets `.ds-bleed` / plate figs for press/lantern/archive/observatory;
+  move `.ds-press-regs` inside the field; restore masthead/claim padding. Gates
+  `craft-rail-clears-bleed`, `press-regs-frame-field`.
+- **Do not:** Let `width:100vw` bleeds ignore a fixed left craft rail.
+
 ## 2026-08-08 — `template:craft-claim-over-field`
 
 - **Failure:** Ember Gate (lantern-path) and sibling craft folds pulled the figure field under

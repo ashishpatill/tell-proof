@@ -288,6 +288,20 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Craft fold claims must be opaque paper stacked above the field — never soft-fade + negative-margin over labeled figure chrome.",
     ),
     check(
+      "craft-rail-clears-bleed",
+      !/--craft-rail:/.test(html) ||
+        (/width:calc\(100vw - var\(--craft-rail,0px\)\)/.test(html) &&
+          /margin-left:calc\(50% - 50vw \+ var\(--craft-rail,0px\)\)/.test(html)),
+      "Craft left rails must inset .ds-bleed — full-viewport bleeds paint stages over Sig/Ch rails.",
+    ),
+    check(
+      "press-regs-frame-field",
+      !/class="[^"]*\bds-hero-press\b/.test(html) ||
+        (/class="ds-bleed ds-press-field">[\s\S]*?ds-press-regs/.test(html) &&
+          !/\.ds-press-regs\{[^}]*z-index:3/.test(html)),
+      "Press registration marks frame the sheet field only — never sit above masthead/claim type.",
+    ),
+    check(
       "no-boilerplate-proof-title",
       !/holds under review/i.test(html),
       "Proof titles must be siteKind-specific — never the shared 'holds under review' spam across offerings.",

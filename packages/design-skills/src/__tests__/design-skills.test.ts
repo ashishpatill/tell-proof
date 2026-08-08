@@ -631,6 +631,15 @@ describe("research-backed offerings + implementation basics", () => {
     expect(svg).toContain(`font-size="${FIG_MONO_PX}"`);
   });
 
+  it("keeps craft bleeds clear of left rails and press regs off the claim", () => {
+    const { previewHtml: press } = designFromFeatures(SHOWCASE_BRIEFS.press!);
+    expect(press).toMatch(/--craft-rail:var\(--sig-rail\)/);
+    expect(press).toMatch(/width:calc\(100vw - var\(--craft-rail,0px\)\)/);
+    expect(press).toMatch(/class="ds-bleed ds-press-field">[\s\S]*?ds-press-regs/);
+    expect(press).not.toMatch(/\.ds-press-regs\{[^}]*z-index:3/);
+    expect(press).toMatch(/\[data-sitekind="press-atelier"\] \.ds-press-masthead\{[^}]*padding-bottom:var\(--s-sm\)/);
+  });
+
   it("keeps craft fold claims from pulling labeled fields underneath", () => {
     for (const key of ["lantern", "press", "observatory", "dossier", "archive"] as const) {
       const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS[key]!);

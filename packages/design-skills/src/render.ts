@@ -547,14 +547,13 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       <span class="ds-press-date">Press sheet</span>
       <span class="ds-press-mark">${esc(spec.brief.productName)}</span>
     </header>`;
-    // Registration corner marks in the DOM — reinforce the figure craft (decorative).
+    // Registration corner marks frame the sheet only — never the claim or masthead.
     const regs = `<div class="ds-press-regs" aria-hidden="true"><span></span><span></span><span></span><span></span></div>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-press" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${rail}
-      ${regs}
       ${mast}
       <div class="ds-press-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-bleed ds-press-field">${sheetFig}</div>
+      <div class="ds-bleed ds-press-field">${regs}${sheetFig}</div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }

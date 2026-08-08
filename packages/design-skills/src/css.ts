@@ -397,6 +397,7 @@ body[data-sitekind="research-dossier"]{
 [data-sitekind="signal-observatory"]{
   --chrono-rail:3.25rem;
   --scrub-rail:3.5rem;
+  --craft-rail:var(--chrono-rail);
 }
 body[data-sitekind="signal-observatory"]{
   background:
@@ -423,7 +424,7 @@ body[data-sitekind="signal-observatory"]{
 }
 [data-sitekind="signal-observatory"] .ds-chrono-field{
   margin-top:0;position:relative;z-index:1;
-  padding-left:var(--chrono-rail);
+  padding-left:0;
 }
 [data-sitekind="signal-observatory"] .ds-chrono-lattice .ds-fig{min-height:min(88vh,920px)}
 [data-sitekind="signal-observatory"] .ds-hero-chrono{min-height:min(100vh,900px);padding-bottom:var(--scrub-rail)}
@@ -477,6 +478,7 @@ body[data-sitekind="signal-observatory"]{
 /* Archive index — quiet register, alpha rail, index ledger, entry essay, Registry. */
 [data-sitekind="archive-index"]{
   --alpha-rail:2.75rem;
+  --craft-rail:var(--alpha-rail);
 }
 body[data-sitekind="archive-index"]{
   background-image:
@@ -514,7 +516,7 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-register-claim .ds-btn-secondary{display:none}
 [data-sitekind="archive-index"] .ds-register-field{
   margin-top:0;position:relative;z-index:1;
-  padding-left:var(--alpha-rail);
+  padding-left:0;
 }
 [data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(72vh,760px)}
 [data-sitekind="archive-index"] .ds-hero-register{min-height:min(98vh,900px)}
@@ -652,6 +654,7 @@ body[data-sitekind="field-guide"]{
 /* Press atelier — registration fold, signature rail, press sheet, gather essay, Pressroom. */
 [data-sitekind="press-atelier"]{
   --sig-rail:3.25rem;
+  --craft-rail:var(--sig-rail);
 }
 body[data-sitekind="press-atelier"]{
   background-image:
@@ -687,12 +690,12 @@ body[data-sitekind="press-atelier"]{
   opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
 [data-sitekind="press-atelier"] .ds-press-claim{
-  padding:0.15rem 0 var(--s-md);
+  padding:var(--s-md) 0 var(--s-lg);
   padding-left:var(--sig-rail);
   position:relative;z-index:2;
   background:var(--c-paper);
 }
-[data-sitekind="press-atelier"] .ds-press-claim .ds-actions{margin-top:0.2rem}
+[data-sitekind="press-atelier"] .ds-press-claim .ds-actions{margin-top:0.35rem}
 [data-sitekind="press-atelier"] .ds-press-claim .ds-actions .ds-btn{padding:0.45rem 0.95rem}
 [data-sitekind="press-atelier"] .ds-press-claim .ds-hero-chips,
 [data-sitekind="press-atelier"] .ds-press-claim .ds-capability-list,
@@ -700,13 +703,13 @@ body[data-sitekind="press-atelier"]{
 [data-sitekind="press-atelier"] .ds-press-claim .ds-hero-facts{display:none}
 [data-sitekind="press-atelier"] .ds-press-field{
   margin-top:0;position:relative;z-index:1;
-  padding-left:var(--sig-rail);
+  padding-left:0;
 }
 [data-sitekind="press-atelier"] .ds-press-sheet .ds-fig{min-height:min(92vh,960px)}
 [data-sitekind="press-atelier"] .ds-hero-press{min-height:min(100vh,920px)}
 [data-sitekind="press-atelier"] .ds-press-masthead{
-  padding-top:calc(var(--nav-h,4.5rem) + 0.25rem);
-  padding-bottom:0.25rem;
+  padding-top:calc(var(--nav-h,4.5rem) + var(--s-md));
+  padding-bottom:var(--s-sm);
   color:var(--c-ink-tertiary);
 }
 [data-sitekind="press-atelier"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
@@ -727,6 +730,7 @@ body[data-sitekind="press-atelier"]{
 /* Lantern path — chapter waypoints, path atlas fold, silhouette near-plane, ember essay, Ember. */
 [data-sitekind="lantern-path"]{
   --way-rail:3.5rem;
+  --craft-rail:var(--way-rail);
 }
 body[data-sitekind="lantern-path"]{
   background-image:
@@ -772,9 +776,7 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-path-claim .ds-hero-facts{display:none}
 [data-sitekind="lantern-path"] .ds-path-field{
   margin-top:0;position:relative;z-index:1;
-  padding-left:var(--way-rail);
-  width:100vw;margin-left:calc(50% - 50vw + var(--way-rail));
-  max-width:none;
+  padding-left:0;
 }
 [data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(92vh,960px)}
 [data-sitekind="lantern-path"] .ds-hero-path{min-height:min(100vh,920px)}
@@ -1186,6 +1188,30 @@ ${surfaceRules()}
 .ds-bleed{width:100vw;margin-left:calc(50% - 50vw)}
 .ds-plate-bleed .ds-fig{width:100vw}
 .ds-plate-bleed figcaption{width:min(100% - (var(--gutter) * 2),var(--w-wide));margin-inline:auto}
+/* Left craft rails (sig / way / alpha / chrono) — bleeds and plates must clear the rail column. */
+[data-sitekind="press-atelier"] .ds-bleed,
+[data-sitekind="lantern-path"] .ds-bleed,
+[data-sitekind="archive-index"] .ds-bleed,
+[data-sitekind="signal-observatory"] .ds-bleed{
+  width:calc(100vw - var(--craft-rail,0px));
+  margin-left:calc(50% - 50vw + var(--craft-rail,0px));
+  max-width:none;
+  box-sizing:border-box;
+}
+[data-sitekind="press-atelier"] .ds-plate-bleed .ds-fig,
+[data-sitekind="lantern-path"] .ds-plate-bleed .ds-fig,
+[data-sitekind="archive-index"] .ds-plate-bleed .ds-fig,
+[data-sitekind="signal-observatory"] .ds-plate-bleed .ds-fig{
+  width:calc(100vw - var(--craft-rail,0px));
+  max-width:none;
+}
+[data-sitekind="press-atelier"] .ds-flow-track,
+[data-sitekind="lantern-path"] .ds-flow-track,
+[data-sitekind="archive-index"] .ds-flow-track,
+[data-sitekind="signal-observatory"] .ds-flow-track{
+  padding-inline:var(--gutter);
+  box-sizing:border-box;
+}
 /* The fold plate hangs across the seam into the next band. Overlap is the cheapest depth there
  * is — no shadow, no blur, nothing to repaint on scroll — and it is what stops an opening screen
  * from reading as two stacked rectangles. */
@@ -1532,7 +1558,7 @@ ${surfaceRules()}
   padding-left:var(--chrono-rail,3.25rem);
 }
 .ds-chrono-claim .ds-hero-copy{max-width:32rem;gap:0.5rem}
-.ds-chrono-field{margin-top:0;padding-left:var(--chrono-rail,3.25rem)}
+.ds-chrono-field{margin-top:0}
 .ds-chrono-lattice{margin:0;width:100%;display:block}
 .ds-chrono-lattice .ds-fig{width:100%;min-height:min(82vh,860px);display:block}
 .ds-scrub-rail{
@@ -1616,7 +1642,7 @@ ${surfaceRules()}
   padding-left:var(--alpha-rail,2.75rem);
 }
 .ds-register-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
-.ds-register-field{margin-top:0;padding-left:var(--alpha-rail,2.75rem)}
+.ds-register-field{margin-top:0}
 .ds-register-ledger{margin:0;width:100%;display:block}
 .ds-register-ledger .ds-fig{width:100%;min-height:min(80vh,840px);display:block}
 .ds-alpha-rail{
@@ -2032,16 +2058,15 @@ ${surfaceRules()}
 }
 .ds-press-mark{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
 .ds-press-claim{
-  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding:var(--s-md) 0 var(--s-lg);
   padding-left:var(--sig-rail,3.25rem);
 }
-.ds-press-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
-.ds-press-field{margin-top:0;padding-left:var(--sig-rail,3.25rem)}
+.ds-press-claim .ds-hero-copy{max-width:30rem;gap:0.55rem}
+.ds-press-field{margin-top:0;position:relative}
 .ds-press-sheet{margin:0;width:100%;display:block}
 .ds-press-sheet .ds-fig{width:100%;min-height:min(80vh,840px);display:block}
 .ds-press-regs{
-  position:absolute;inset:calc(var(--nav-h,4.5rem) + 0.5rem) 0.75rem 0.75rem;
-  pointer-events:none;z-index:3;
+  position:absolute;inset:0.65rem;pointer-events:none;z-index:1;
 }
 .ds-press-regs span{
   position:absolute;width:14px;height:14px;
@@ -2053,9 +2078,9 @@ ${surfaceRules()}
 }
 .ds-press-regs span::before{width:1px;height:18px;left:50%;top:50%;transform:translate(-50%,-50%)}
 .ds-press-regs span::after{height:1px;width:18px;left:50%;top:50%;transform:translate(-50%,-50%)}
-.ds-press-regs span:nth-child(1){top:0;left:var(--sig-rail,3.25rem)}
+.ds-press-regs span:nth-child(1){top:0;left:0}
 .ds-press-regs span:nth-child(2){top:0;right:0}
-.ds-press-regs span:nth-child(3){bottom:0;left:var(--sig-rail,3.25rem)}
+.ds-press-regs span:nth-child(3){bottom:0;left:0}
 .ds-press-regs span:nth-child(4){bottom:0;right:0}
 .ds-sig-rail{
   position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
@@ -2136,7 +2161,7 @@ ${surfaceRules()}
   padding-left:var(--way-rail,3.5rem);
 }
 .ds-path-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
-.ds-path-field{margin-top:0;padding-left:var(--way-rail,3.5rem);position:relative}
+.ds-path-field{margin-top:0;position:relative}
 .ds-path-plate{margin:0;width:100%;display:block}
 .ds-path-plate .ds-fig{width:100%;min-height:min(80vh,840px);display:block}
 .ds-way-rail{
