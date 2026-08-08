@@ -81,6 +81,15 @@ Studio UI: `/studio` · Specimen gallery: `/showcase` · Offerings: `/showcase/{
 - operational-governance-craft
 - wireframe-annotation-craft
 - surface-recipe-map
+- ambient-atmosphere-craft
+- signal-beam-craft
+- organic-merge-craft
+- pointer-field-craft
+- glass-shell-craft
+- container-tech-shell
+- beam-state-craft
+- dither-field-craft
+- mesh-field-craft
 - accent-border-craft
 - reveal-hover-craft
 - nested-frame-craft

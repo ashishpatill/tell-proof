@@ -156,6 +156,14 @@ export const SkillNodeId = z.enum([
   "operational-governance-craft",
   /** Sparse diagnostic annotations for system-crafted specimens. */
   "wireframe-annotation-craft",
+  /** Section-bounded ambient atmosphere (static default; full sim in skill). */
+  "ambient-atmosphere-craft",
+  /** Brand-accent beam/vignette atmosphere. */
+  "signal-beam-craft",
+  /** At-most-one frosted glass shell. */
+  "glass-shell-craft",
+  /** Container-led technical shell hierarchy. */
+  "container-tech-shell",
 ]);
 export type SkillNodeId = z.infer<typeof SkillNodeId>;
 

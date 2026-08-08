@@ -86,10 +86,22 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     nodes.add("wireframe-annotation-craft");
   }
 
+  // Formerly "skipped" crafts — routed as constrained defaults for dark-premium.
+  if (taste.colorMood === "dark-premium") {
+    nodes.add("ambient-atmosphere-craft");
+    nodes.add("signal-beam-craft");
+    nodes.add("glass-shell-craft");
+    nodes.add("container-tech-shell");
+  }
+
   const order: SkillNodeId[] = [
     "analyze-features-requirements",
     "design-system-foundation",
     "paper-technical-frame",
+    "container-tech-shell",
+    "ambient-atmosphere-craft",
+    "signal-beam-craft",
+    "glass-shell-craft",
     "navigation-header-footer",
     "hero-section",
     "split-panel-technical",

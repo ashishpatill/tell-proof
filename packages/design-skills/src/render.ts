@@ -2243,7 +2243,13 @@ export function renderPreviewHtml(spec: DesignSpec): string {
   const figures = figuresFor(spec);
   const needsHtmx = spec.sections.some((s) => s.layout === "workflow-proof");
   const paperFrame = spec.routedSkills.includes("paper-technical-frame");
+  const atmosphere =
+    spec.routedSkills.includes("ambient-atmosphere-craft") ||
+    spec.routedSkills.includes("signal-beam-craft");
   const depth = spec.taste.roundingDepth;
+  const atmosphereLayer = atmosphere
+    ? `<div class="ds-atmosphere" aria-hidden="true"><div class="ds-atmosphere-motes"></div><div class="ds-accent-beam"></div></div>`
+    : "";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -2259,7 +2265,8 @@ ${needsHtmx ? `<script src="https://unpkg.com/htmx.org@2.0.4" defer></script>` :
 <noscript><style>.ds-reveal{opacity:1!important;transform:none!important}</style></noscript>
 <style>${renderCss(spec)}</style>
 </head>
-<body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-mood="${esc(spec.taste.colorMood)}" data-sitekind="${esc(spec.brief.siteKind)}" data-depth="${esc(depth)}"${paperFrame ? ` data-frame="paper-technical"` : ""}>
+<body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-mood="${esc(spec.taste.colorMood)}" data-sitekind="${esc(spec.brief.siteKind)}" data-depth="${esc(depth)}"${paperFrame ? ` data-frame="paper-technical"` : ""}${atmosphere ? ` data-atmosphere="static"` : ""}>
+${atmosphereLayer}
 <a class="ds-skip" href="#main">Skip to content</a>
 <p class="ds-sr">${esc(spec.summary)}</p>
 ${spec.sections

@@ -33,6 +33,10 @@ const ALL_SKILLS: SkillNodeId[] = [
   "scrub-sequence-craft",
   "operational-governance-craft",
   "wireframe-annotation-craft",
+  "ambient-atmosphere-craft",
+  "signal-beam-craft",
+  "glass-shell-craft",
+  "container-tech-shell",
 ];
 
 const MOODS: ColorMood[] = ["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"];
@@ -71,6 +75,9 @@ describe("premium-content-custom-web engine", () => {
     expect(spec.brief.siteKind).toBe("dashboard-webapp");
     expect(spec.routedSkills).toContain("dashboard-or-webapp-ui");
     expect(spec.routedSkills).not.toContain("pricing-or-plans");
+    expect(spec.routedSkills).toContain("ambient-atmosphere-craft");
+    expect(spec.routedSkills).toContain("signal-beam-craft");
+    expect(spec.routedSkills).toContain("glass-shell-craft");
     expect(spec.sections.filter((s) => s.layout === "app-shell")).toHaveLength(1);
     expect(previewHtml).toContain("Priority queue");
     expect(previewHtml).toContain("ds-app-side");
@@ -82,6 +89,10 @@ describe("premium-content-custom-web engine", () => {
     expect(previewHtml).toMatch(/<button[^>]*class="[^"]*ds-app-nav-item[^"]*"[^>]*data-view=/);
     // Dense product surfaces still need an empty state, not just a happy path.
     expect(previewHtml).toContain("ds-empty");
+    // Constrained atmosphere learned from particle/beam crafts — static, not spectacle.
+    expect(previewHtml).toContain('data-atmosphere="static"');
+    expect(previewHtml).toContain("ds-atmosphere-motes");
+    expect(previewHtml).toContain("ds-accent-beam");
   });
 
   it("builds a corporate story surface with editorial chapters", () => {

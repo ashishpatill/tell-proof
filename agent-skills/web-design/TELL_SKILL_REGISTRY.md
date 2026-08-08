@@ -1,7 +1,8 @@
 # Tell web-design skill registry
 
-Adaptation log for external craft patterns → Tell-shaped skills.
-**Rule:** never name third-party authors, marketplaces, or source repos in committed files.
+**Policy:** Learn every part of every script. Constrain shipping defaults. Do not skip techniques.
+
+Coverage table (82/82): `agent-skills/web-design/COVERAGE.md`
 
 ## Engine-routed SkillNodeIds
 
@@ -19,21 +20,23 @@ Adaptation log for external craft patterns → Tell-shaped skills.
 | `elevation-depth-tokens` | `--sh-sm/raised/overlay` |
 | `editorial-chapter-craft` | Chapter story pacing |
 | `scrub-sequence-craft` | Educational scrub routing |
-| `operational-governance-craft` | Governance FAQ |
+| `operational-governance-craft` | Approval + rollback FAQ |
 | `wireframe-annotation-craft` | Specimen annotations |
+| `ambient-atmosphere-craft` | Static mote field (`data-atmosphere`) |
+| `signal-beam-craft` | CSS accent beam vignette |
+| `glass-shell-craft` | Nav frost + `.ds-glass-panel` |
+| `container-tech-shell` | Framed shell hierarchy (dark-premium) |
 
-## Agent playbooks (technique / remap)
+## Agent playbooks (full script duties)
 
-`gates-until-verified`, `surface-recipe-map`, `accent-border-craft`, `reveal-hover-craft`, `nested-frame-craft`, `image-first-fold`, `agency-minimal-grid`, `marquee-rail-craft`
+`gates-until-verified`, `surface-recipe-map`, technique packs, plus formerly avoided crafts now fully documented:
 
-## Skipped spectacle
-
-Particles, lasers, gooey orbs, purple/glass-everywhere, dual smooth-scroll — see `surface-recipe-map`.
+`organic-merge-craft`, `pointer-field-craft`, `beam-state-craft`, `dither-field-craft`, `mesh-field-craft`
 
 ## How to add the next skill
 
-1. Extract principles only.
-2. Write Tell `SKILL.md`.
-3. Prefer `@tell/design-skills` improvements over new site kinds.
-4. SkillNodeId only when routing changes.
+1. Extract **all** knobs, pause/cleanup, reduced-motion, brand-accent rules from the source script.
+2. Write Tell `SKILL.md` with complete duties + Tell shipping defaults.
+3. Prefer `@tell/design-skills` static/CSS approximations; keep full sims in the skill for agents.
+4. Map the folder in `COVERAGE.md`.
 5. Tests green → commit → push.

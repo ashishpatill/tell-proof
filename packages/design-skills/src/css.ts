@@ -2329,6 +2329,34 @@ body[data-frame="paper-technical"] #main{margin:0 auto;max-width:min(100%,calc(v
 .ds-anno-label{max-width:12ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* Editorial chapters — stronger first beat, quieter subsequent. */
 [data-editorial-chapters] .ds-chapter:first-child h3{font-size:var(--t-subheading-size)}
+/* Ambient atmosphere — static sparse motes (full canvas sim lives in ambient-atmosphere-craft). */
+.ds-atmosphere{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.ds-atmosphere-motes{position:absolute;inset:0;background-image:radial-gradient(circle,color-mix(in srgb,var(--c-accent) 35%,transparent) 0 1px,transparent 1.5px);background-size:72px 84px;background-position:0 0,36px 42px;opacity:0.22}
+.ds-atmosphere-motes::after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,color-mix(in srgb,var(--surface-ink) 40%,transparent) 0 1px,transparent 1.5px);background-size:96px 110px;background-position:18px 22px;opacity:0.5}
+/* Signal beam — CSS accent vignette (full WebGL path in signal-beam-craft). */
+.ds-accent-beam{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(ellipse 18% 70% at 72% 45%,color-mix(in srgb,var(--c-accent) 28%,transparent),transparent 70%),
+  linear-gradient(90deg,transparent 68%,color-mix(in srgb,var(--c-accent) 12%,transparent) 72%,transparent 76%)}
+body[data-atmosphere] .ds-nav,
+body[data-atmosphere] #main,
+body[data-atmosphere] footer.ds-section{position:relative;z-index:1}
+/* Glass shell — at most one frosted language; solid fallback if backdrop unsupported. */
+.ds-glass-panel{
+  background:linear-gradient(180deg,color-mix(in srgb,#fff 8%,transparent),color-mix(in srgb,#fff 2%,transparent));
+  background-color:color-mix(in srgb,var(--c-paper-raised) 62%,transparent);
+  border:1px solid color-mix(in srgb,var(--c-border) 80%,transparent);
+  border-radius:var(--r-xl);
+  box-shadow:var(--sh-raised),inset 0 1px 0 color-mix(in srgb,#fff 10%,transparent);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  .ds-glass-panel{background:var(--c-paper-raised);backdrop-filter:none;-webkit-backdrop-filter:none}
+}
+/* Sticky nav stays opaque (basics gate). Glass is opt-in via .ds-glass-panel only — never glass-everywhere. */
+@media (prefers-reduced-motion:reduce){
+  .ds-atmosphere-motes,.ds-accent-beam{opacity:0.12}
+}
 /* Bonding strip — metadata on a hairline, not empty reserved height between subjects. */
 .ds-sec-meta{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-md);margin:0 0 var(--s-md);padding:var(--s-xs) 0;border-top:1px solid var(--surface-border);font-family:var(--f-mono);font-size:var(--t-caption-size);color:var(--surface-quiet)}
 .ds-sec-meta b{color:var(--surface-ink);font-weight:600}
