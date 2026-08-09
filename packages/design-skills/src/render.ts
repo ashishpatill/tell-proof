@@ -1160,6 +1160,7 @@ function renderChapters(section: SectionSpec, figures: FigurePlan): string {
  */
 function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
   const count = section.blocks.length;
+  const cuts = ["Display", "Title", "Deck", "Text", "Caption", "Tabular"];
   const notes = section.blocks
     .map((b, i) => {
       const note = b.kicker || b.meta || `Cut ${String(i + 1).padStart(2, "0")}`;
@@ -1172,10 +1173,28 @@ function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
   const essay = section.blocks
     .map((b, i) => {
       const mark = figures.marks[i] ? `<div class="ds-marginalia-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      // Cut slips — optical-size companions that travel with the reading (foundry mid-page proof).
+      const related = section.blocks
+        .map((other, j) => ({ other, j }))
+        .filter(({ j }) => j !== i)
+        .slice(0, 3);
+      const slips =
+        related.length > 0
+          ? `<ul class="ds-cut-slips" aria-label="Optical-size slips for ${esc(b.title)}">${related
+              .map(({ other, j }) => {
+                const cut = esc(other.meta || cuts[j % cuts.length]!);
+                return `<li class="ds-cut-slip">
+                  <span class="ds-cut-size" aria-hidden="true">${cut}</span>
+                  <span class="ds-cut-name">${esc(other.title)}</span>
+                </li>`;
+              })
+              .join("")}</ul>`
+          : "";
       return `<article class="ds-marginalia-beat">
         <p class="ds-chapter-index">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
         <h3>${esc(b.title)}</h3>
         ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+        ${slips}
         ${mark}
         ${i < count - 1 ? `<hr class="ds-marginalia-rule" aria-hidden="true"/>` : ""}
       </article>`;
@@ -1318,6 +1337,24 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
     .map((b, i) => {
       const mark = figures.marks[i] ? `<div class="ds-entry-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
       const folio = esc(b.meta ?? String(i + 1).padStart(3, "0"));
+      // Cross stamps — related entries that travel with this reading (archive signature, not a card grid).
+      const related = blocks
+        .map((other, j) => ({ other, j }))
+        .filter(({ j }) => j !== i)
+        .slice(0, 3);
+      const stamps =
+        related.length > 0
+          ? `<ul class="ds-cross-stamps" aria-label="Cross-referenced stamps for ${esc(b.title)}">${related
+              .map(({ other, j }) => {
+                const relFolio = esc(other.meta ?? String(j + 1).padStart(3, "0"));
+                return `<li class="ds-cross-stamp">
+                  <span class="ds-stamp-seal" aria-hidden="true"></span>
+                  <span class="ds-stamp-folio">${relFolio}</span>
+                  <span class="ds-stamp-name">${esc(other.title)}</span>
+                </li>`;
+              })
+              .join("")}</ul>`
+          : "";
       return `<article class="ds-entry-beat" style="--i:${i}">
         <span class="ds-entry-folio" aria-hidden="true">${folio}</span>
         <div class="ds-entry-measure">
@@ -1325,6 +1362,7 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
           <h3>${esc(b.title)}</h3>
           ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
           ${b.kicker ? `<p class="ds-entry-note">${esc(b.kicker)}</p>` : ""}
+          ${stamps}
           ${mark}
         </div>
       </article>`;
@@ -1336,6 +1374,7 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
       return `<li class="ds-entry-aside-item">
         <span class="ds-entry-aside-folio">${folio}</span>
         <span class="ds-entry-aside-title">${esc(b.title)}</span>
+        <span class="ds-entry-aside-seal" aria-hidden="true"></span>
       </li>`;
     })
     .join("");
@@ -1347,6 +1386,7 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
       <div class="ds-entry-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
         <div class="ds-entry-essay">${essay}</div>
         <aside class="ds-entry-aside" aria-label="Entry index">
+          <p class="ds-entry-aside-kicker">Shelf index</p>
           <ol class="ds-entry-aside-list">${aside}</ol>
         </aside>
       </div>
@@ -1549,10 +1589,19 @@ function renderRange(section: SectionSpec, figures: FigurePlan): string {
   </section>`;
 }
 
-function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
+function renderProofBoard(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
   const cells = section.blocks.slice(0, 5);
+  const kind = spec?.brief.siteKind;
+  const boardClass =
+    kind === "dashboard-webapp"
+      ? "ds-proof-board ds-proof-board-stack"
+      : kind === "fintech-marketing"
+        ? "ds-proof-board ds-proof-board-wire"
+        : kind === "corporate-story"
+          ? "ds-proof-board ds-proof-board-spine"
+          : "ds-proof-board";
   const board = cells.length
-    ? `<ul class="ds-proof-board" data-proof-board>${cells
+    ? `<ul class="${boardClass}" data-proof-board>${cells
         .map((b, i) => {
           const mark = figures.marks[i] ?? "";
           return `<li class="ds-proof-cell${b.emphasis === "lead" ? " is-lead" : ""}">
@@ -1567,13 +1616,40 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
         .join("")}</ul>`
     : "";
   const figure = figures.body
-    ? plate(figures.body, section.quoteAttribution ?? "Declared scope", "ds-proof-figure ds-plate-lit")
+    ? plate(
+        figures.body,
+        section.quoteAttribution ??
+          (kind === "dashboard-webapp"
+            ? "Live desk"
+            : kind === "fintech-marketing"
+              ? "Treasury controls"
+              : kind === "corporate-story"
+                ? "Diligence pack"
+                : "Declared scope"),
+        "ds-proof-figure ds-plate-lit",
+      )
     : figures.field
       ? `<figure class="ds-proof-figure ds-proof-figure-field" aria-hidden="true">${figures.field}</figure>`
       : "";
+  const metaLabel =
+    kind === "dashboard-webapp"
+      ? "Desk"
+      : kind === "fintech-marketing"
+        ? "Treasury"
+        : kind === "corporate-story"
+          ? "Diligence"
+          : "Proof";
+  const metaDetail =
+    kind === "dashboard-webapp"
+      ? `${cells.length} views · stays open`
+      : kind === "fintech-marketing"
+        ? `${cells.length} controls · audit-ready`
+        : kind === "corporate-story"
+          ? `${cells.length} pillars · verifiable`
+          : `${cells.length} capabilities · declared scope`;
   return `<section class="ds-section ds-proof" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
-      ${secMeta("Proof", `${cells.length} capabilities · declared scope`)}
+      ${secMeta(metaLabel, metaDetail)}
       <div class="ds-proof-stage" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
         <header class="ds-proof-head">
           ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
@@ -2072,7 +2148,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderEmber(section, figures));
     case "pullquote":
     case "marquee-proof":
-      return wrapped(renderProofBoard(section, figures));
+      return wrapped(renderProofBoard(section, figures, spec));
     case "workflow-proof":
       return wrapped(renderWorkflowProof(section, figures, spec));
     case "pricing-lanes":

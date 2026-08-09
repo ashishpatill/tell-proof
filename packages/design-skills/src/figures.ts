@@ -143,7 +143,8 @@ export type FigureKind =
   | "queue-console"
   | "posture-grid"
   | "mechanism-plate"
-  | "wire-ledger";
+  | "wire-ledger"
+  | "work-board";
 
 interface FrameOptions {
   /** Named for a screen reader; omit to mark the figure decorative. */
@@ -2406,6 +2407,131 @@ export function wireLedger(
 }
 
 /**
+ * Work board — art-directed-studio fold instrument.
+ *
+ * Selected-work wall: crop-marked plates with mono captions and a method rail. HTML flow steppers
+ * do not count as drawn matter (foldFigure=0); this SVG board owns the fold the way a studio wall
+ * owns a pitch room. Theme packs invent process steppers; they do not invent a crop-marked board.
+ */
+export function workBoard(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const items = features.slice(0, 6);
+  const W = role === "band" ? 1440 : role === "column" ? 720 : 960;
+  const H = role === "band" ? 780 : role === "column" ? 640 : 560;
+  const pad = role === "band" ? 36 : 28;
+  const r = rng(`${seed}:work-board`);
+  const parts: string[] = [];
+  const cols = items.length >= 5 ? 3 : 2;
+  const rows = Math.ceil(Math.max(items.length, 4) / cols);
+  const gap = 18;
+  const railH = 28;
+  const gridTop = pad + railH + 16;
+  const gridH = H - gridTop - pad - 20;
+  const cellW = (W - pad * 2 - gap * (cols - 1)) / cols;
+  const cellH = (gridH - gap * (rows - 1)) / rows;
+
+  // Method rail — studio signature, not a SaaS stage strip.
+  parts.push(rule(pad, pad + 10, W - pad, pad + 10));
+  parts.push(
+    text("SELECTED WORK · METHOD BOARD", pad, pad + 8, {
+      size: FIG_MONO_PX,
+      fill: QUIET,
+      mono: true,
+      track: 1.2,
+    }),
+  );
+  parts.push(
+    text(clip(productName, 28), W - pad, pad + 8, {
+      size: FIG_MONO_PX,
+      fill: QUIET,
+      mono: true,
+      anchor: "end",
+    }),
+  );
+
+  for (let i = 0; i < cols * rows; i += 1) {
+    const c = i % cols;
+    const row = Math.floor(i / cols);
+    const x = pad + c * (cellW + gap);
+    const y = gridTop + row * (cellH + gap);
+    const f = items[i % Math.max(items.length, 1)];
+    const lead = i === 0;
+    // Crop marks
+    const m = 8;
+    parts.push(rule(x - 2, y, x + m, y));
+    parts.push(rule(x, y - 2, x, y + m));
+    parts.push(rule(x + cellW - m, y, x + cellW + 2, y));
+    parts.push(rule(x + cellW, y - 2, x + cellW, y + m));
+    parts.push(rule(x - 2, y + cellH, x + m, y + cellH));
+    parts.push(rule(x, y + cellH - m, x, y + cellH + 2));
+    parts.push(rule(x + cellW - m, y + cellH, x + cellW + 2, y + cellH));
+    parts.push(rule(x + cellW, y + cellH - m, x + cellW, y + cellH + 2));
+    // Plate
+    parts.push(
+      box(x, y, cellW, cellH, {
+        fill: lead ? ACCENT_FIELD : PAPER,
+        stroke: lead ? "var(--c-accent-border)" : LINE,
+      }),
+    );
+    // Inner figure matter — abstract composition, not empty void
+    const ix = x + 14;
+    const iy = y + 14;
+    const iw = cellW - 28;
+    const ih = cellH - 52;
+    parts.push(
+      `<rect x="${round(ix)}" y="${round(iy)}" width="${round(iw)}" height="${round(ih * 0.55)}" fill="${lead ? ACCENT : "var(--c-border-strong)"}" opacity="${lead ? 0.35 : 0.18}"/>`,
+    );
+    parts.push(
+      `<rect x="${round(ix)}" y="${round(iy + ih * 0.6)}" width="${round(iw * (0.45 + r() * 0.25))}" height="${round(ih * 0.28)}" fill="${LINE}" opacity="0.55"/>`,
+    );
+    parts.push(
+      text(String(i + 1).padStart(2, "0"), ix, iy + 14, {
+        size: FIG_MONO_PX,
+        fill: QUIET,
+        mono: true,
+      }),
+    );
+    const title = clip(f?.title ?? `Plate ${i + 1}`, role === "band" ? 22 : 14);
+    parts.push(
+      text(title, x + 12, y + cellH - 18, {
+        size: FIG_MONO_PX,
+        fill: INK,
+        mono: true,
+      }),
+    );
+    parts.push(
+      text(clip(f?.meta ?? "method", 12), x + cellW - 12, y + cellH - 18, {
+        size: FIG_MONO_PX,
+        fill: QUIET,
+        mono: true,
+        anchor: "end",
+      }),
+    );
+  }
+
+  parts.push(
+    text(`${Math.min(items.length, cols * rows)} plates · handoff-safe`, pad, H - 8, {
+      size: FIG_MONO_PX,
+      fill: QUIET,
+      mono: true,
+    }),
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "work-board",
+    label: `${productName} selected work board`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
  * Loom weave — commerce-loom signature figure.
  *
  * Warp threads + weft SKU cells with copyright-free textile photographs clipped into the weave.
@@ -2867,7 +2993,8 @@ type Kind =
   | "queue-console"
   | "posture-grid"
   | "mechanism-plate"
-  | "wire-ledger";
+  | "wire-ledger"
+  | "work-board";
 
 /**
  * Which drawing goes where.
@@ -2889,9 +3016,9 @@ const ORDER: Record<string, Kind[]> = {
   // Fintech: horizon cash timeline on the fold (always drawable); interface is the working surface in body.
   // Series is preferred when metrics carry readings, but must not fall through to twin SaaS interface hero.
   "fintech-marketing": ["horizon", "series", "interface", "flow"],
-  // Studio: filled flow stages on the fold (selected-work method) — not twin corporate/fintech horizon
-  // or educational stack. Horizon stays available as a quieter specimen beat.
-  "art-directed-studio": ["flow", "horizon", "stack", "series"],
+  // Studio: crop-marked selected-work board owns the fold; flow stays interactive mid-page.
+  // HTML flow steppers do not count as drawn matter (foldFigure=0).
+  "art-directed-studio": ["work-board", "flow", "horizon", "stack"],
   // Consumer craft is product-surface first; horizon specimen stays type-quiet for rhythm.
   "consumer-craft": ["interface", "horizon", "flow", "stack"],
   // Foundry: optical-size ladder owns the fold; horizon/stack keep scroll beats distinct.
@@ -2978,6 +3105,8 @@ export function planFigures(input: {
         return mechanismPlate(input.productName, input.features, seed, role);
       case "wire-ledger":
         return wireLedger(input.productName, input.features, seed, role);
+      case "work-board":
+        return workBoard(input.productName, input.features, seed, role);
       default:
         return "";
     }
@@ -2989,8 +3118,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -3043,6 +3172,8 @@ export function planFigures(input: {
               ? ("mechanism-plate" as Kind)
             : input.siteKind === "fintech-marketing"
               ? ("wire-ledger" as Kind)
+            : input.siteKind === "art-directed-studio"
+              ? ("work-board" as Kind)
       : shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;
   const afterHero = order.filter((k) => k !== heroKind);
   const bandKind = shaped(SPANNING, afterHero);

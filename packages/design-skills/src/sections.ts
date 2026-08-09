@@ -696,7 +696,25 @@ export function buildSections(
                     ? sentence(`Why work from ${brief.productName} survives the handoff`)
                     : brief.siteKind === "docs-educational"
                       ? sentence(`Why the ${brief.productName} model holds under load`)
-                      : sentence(`Why ${brief.productName} earns trust in review`);
+                      : brief.siteKind === "consumer-craft"
+                        ? sentence(`Why ${brief.productName} earns a place on the shelf`)
+                        : brief.siteKind === "editorial-foundry"
+                          ? sentence(`Why setters keep a ${brief.productName} specimen`)
+                          : brief.siteKind === "research-dossier"
+                            ? sentence(`Why ${brief.productName} clears the briefing`)
+                            : brief.siteKind === "signal-observatory"
+                              ? sentence(`Why desks keep ${brief.productName} calibrated`)
+                              : brief.siteKind === "archive-index"
+                                ? sentence(`Why ${brief.productName} earns a cite`)
+                                : brief.siteKind === "commerce-loom"
+                                  ? sentence(`Why buyers keep a ${brief.productName} cut`)
+                                  : brief.siteKind === "field-guide"
+                                    ? sentence(`Why a ${brief.productName} voucher stands`)
+                                    : brief.siteKind === "press-atelier"
+                                      ? sentence(`Why ${brief.productName} locks the forme`)
+                                      : brief.siteKind === "lantern-path"
+                                        ? sentence(`Why ${brief.productName} holds the walk`)
+                                        : sentence(`Why ${brief.productName} states only what it ships`);
         sections.push(
           SectionSpec.parse({
             ...base,

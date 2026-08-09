@@ -529,3 +529,52 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `<img>` (SVG fallback if storage lacks a thumb). Offline fixture uses violet→ink plate so the
   generic "before" reads as content.
 - **Do not:** Ship recent/session galleries as blank surface tiles and call the shell done.
+
+## 2026-08-09 — `template:shared-marquee-proof-is-not-unique`
+
+- **Failure (human):** Stamp Roll's "Why … earns trust in review / Why teams keep it / Proof ·
+  declared scope" board appeared across almost every craft template — same page with product-name
+  swaps after unique fold instruments.
+- **Root cause:** Composition bolted shared `marquee-proof` onto archive, observatory, loom, field,
+  press, lantern, foundry, dossier, studio, and consumer after their signature story sections.
+  Fallback copy (`Why teams keep it`, `earns trust in review`, `declared scope · ships together`)
+  made the clone unmistakable.
+- **Fix:** Remove marquee-proof from craft kinds — entry / chrono / hangtag / range / gather / ember /
+  marginalia / spread / chapters already prove. Keep marquee only for dashboard / fintech /
+  corporate, each with distinct board chrome (stack / wire / spine). Expand per-siteKind eyebrows +
+  pullQuotes. Basics gate now *forbids* `data-proof-board` on craft kinds and requires workflow or
+  board on marketing kinds.
+- **Do not:** Answer "make templates unique" by appending the same Proof board with renamed titles.
+  Signature story instruments are the proof; a shared evidence marquee is cheating.
+
+## 2026-08-09 — `template:archive-feature-rows-void-after-marquee-cut`
+
+- **Failure:** After removing shared marquee-proof, Stamp Roll mid-page `feature-rows` left
+  Cross stamps / Registry close as huge empty airways; entry folio was under-owned as proof.
+- **Fix (Phase 9 loop 1):** Drop archive `features-2` feature-rows. Deepen `story-entry` with
+  `ds-cross-stamps` seal strip + shelf-index aside. Shorten register claim (hide lede) so ledger
+  owns more fold; keep display ≥3.16vw; thin stamp borders so rules/screen stays near band.
+- **Eval:** archive **95.7 → 97.4**; foldFigure **0.34 → 0.43**; matrix **98.0**. Eye: fold shows
+  register+ledger; mid-page shows hanging folio with related stamp seals (not empty rows).
+- **Do not:** Fill a craft mid-page gap with a second generic feature catalogue. Put concept ink
+  inside the signature instrument.
+
+## 2026-08-09 — `template:studio-html-flow-foldfigure-zero`
+
+- **Failure:** Fieldmark fold used HTML `flow` stage cards (interactive stepper). Critique
+  `foldFigure=0` / score **94.5** — process steppers are not drawn matter and read as SaaS.
+- **Fix (Phase 9 loop 2):** New SVG `work-board` (crop-marked selected-work plates + method rail)
+  forced as studio hero; flow stays mid-page. Compact claim band so board enters the fold.
+- **Eval:** studio **94.5 → 99.0**; foldFigure **0 → 0.38**; matrix **98.3**. Eye: fold shows
+  crop-marked board, not a 01–04 stage strip.
+- **Do not:** Park HTML steppers as the studio fold instrument and call it selected-work craft.
+
+## 2026-08-09 — `template:foundry-cut-slips-not-second-catalogue`
+
+- **Failure:** Glyph Press kept a second `feature-alternating` catalogue after marquee removal —
+  same sparse-airway class as archive feature-rows.
+- **Fix:** Drop foundry features-2. Add `ds-cut-slips` (optical-size companions) inside
+  marginalia beats. Strip remaining craft `features-2` feature-rows across dossier/observatory/
+  loom/herbarium/press/lantern/consumer.
+- **Eval:** foundry held **96.7** (no regression); eye shows cut slips on the measure. Matrix **98.3**.
+- **Do not:** Answer a thin craft mid-page by appending another generic feature catalogue.
