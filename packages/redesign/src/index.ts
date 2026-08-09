@@ -1,6 +1,7 @@
 import { ArtDirection, BrandDNA, RedesignProposal, TellReport } from "@tell/schema";
 import { buildOverridesPatch, reconcile, resolveDirection } from "./reconcile";
 import { buildAppendedOverridePatch, buildSourcePatch, type SourceFile } from "./source-patch";
+import { buildStateGapPatch } from "./state-gap-patch";
 
 export * from "./reconcile";
 export * from "./scales";
@@ -10,6 +11,7 @@ export { buildRestylePlan, emitRestyleCss, afterAxes } from "./restyle";
 export type { RestylePlan, ElOp } from "./restyle";
 export { buildAppendedOverridePatch, buildSourcePatch } from "./source-patch";
 export type { SourceFile, PatchFile } from "./source-patch";
+export { buildStateGapPatch, stateGapCss } from "./state-gap-patch";
 export * as color from "./color";
 
 export interface RedesignGenerator {
@@ -23,10 +25,33 @@ export interface RedesignGenerator {
  * falls back to the drop-in override sheet — the same CSS the live "after" preview injects, so
  * the patch and the preview agree. When a Brand DNA is supplied, it becomes the target and
  * scoring yardstick.
+ *
+ * Finding-scoped exception: StateGap (`drift-state-gap`) returns a control state-matrix
+ * patch only — never a full-page palette restyle.
  */
 export class OfflineRedesignGenerator implements RedesignGenerator {
   async propose(report: TellReport, direction: ArtDirection, findingId?: string, dna?: BrandDNA, sources?: SourceFile[]): Promise<RedesignProposal> {
     const dir = resolveDirection(direction.id) ?? resolveDirection("editorial");
+
+    if (findingId === "drift-state-gap") {
+      const finding = report.findings.find((f) => f.id === findingId || f.detector === "StateGap");
+      const facts = (finding?.facts ?? {}) as {
+        missingHover?: number;
+        probeCount?: number;
+        stateCoverage?: { hover: number; focus: number; disabled: number };
+      };
+      const coverage = facts.stateCoverage ?? report.fingerprint.stateCoverage;
+      return RedesignProposal.parse({
+        id: `proposal_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
+        findingId,
+        direction,
+        files: buildStateGapPatch(report.capture.url, coverage, {
+          missingHover: facts.missingHover,
+          probeCount: facts.probeCount,
+        }),
+      });
+    }
+
     const recon = reconcile(report.capture, report.fingerprint, report.findings, dir.id, dna);
 
     const sourceFiles = sources?.length

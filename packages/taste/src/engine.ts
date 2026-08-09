@@ -14,6 +14,20 @@ export interface TasteEngine {
 
 export function deterministicRationale(finding: Finding): string {
   const detector = String(finding.detector);
+  if (detector === "StateGap") {
+    const facts = finding.facts as {
+      missingHover?: number;
+      probeCount?: number;
+      coveredHover?: number;
+      stateCoverage?: { hover?: number };
+    };
+    const missing = facts.missingHover;
+    const total = facts.probeCount;
+    if (typeof missing === "number" && typeof total === "number" && total > 0) {
+      return `StateGap: ${missing} of ${total} interactive controls have no :hover treatment (${Math.round((facts.stateCoverage?.hover ?? 0) * 100)}% covered). Add a real hover + :focus-visible matrix on buttons and links — do not recolor the page.`;
+    }
+    return "StateGap: interactive controls are missing hover or focus-visible feedback. Fix the state matrix on controls, not the page palette.";
+  }
   if (finding.verdictHint === "generic") {
     return `${detector} matches a common AI-built UI tell. The evidence is rendered, not guessed, so the fix can target the surface users actually see.`;
   }
