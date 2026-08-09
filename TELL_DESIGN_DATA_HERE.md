@@ -1,16 +1,15 @@
-# tell-design-data harness location
+# tell-design-data harness
 
-Open either:
+**Your path:** `/volumes/developer/workspace/tell-design-data`  
+**Same folder on the agent:** `/workspace/tell-design-data`
 
-1. **`tell-design-data/`** at repo root (separate git checkout — push this to GitHub), or
-2. **`developer-drop/tell-design-data/`** (same source, browsable mirror for the IDE), or
-3. **`developer-drop/tell-design-data.tar.gz`**
+Also mirrored at `developer-drop/tell-design-data/` (committed into the Tell research branch for visibility).
 
-Push:
+## Push to private GitHub
 
 ```bash
-cd tell-design-data
+cd /volumes/developer/workspace/tell-design-data
 git push -u origin main
 ```
 
-Do not merge `tell-design-data/` or `developer-drop/` into Tell product packages.
+If auth fails: `gh auth login`, then push again.

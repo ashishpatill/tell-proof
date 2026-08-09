@@ -52,5 +52,3 @@ scripts/tmp/
 
 research/training.local/
 
-# Nested private-harness checkout (use developer-drop/ to browse; push from tell-design-data/)
-tell-design-data/
