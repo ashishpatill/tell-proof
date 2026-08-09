@@ -10,7 +10,8 @@
  *  - derived from the brief, so it says something true about the product rather than decorating it
  *  - deterministic from a seed, so the same brief always draws the same figure
  *  - painted only in tokens, so it re-themes with the page and never contradicts the system
- *  - static, because a diagram that moves is a diagram competing with the argument beside it
+ *  - still-first: the drawing reads complete with motion off; product instruments
+ *    (stroke-draw, lattice enter) may animate once when Taste motion allows — never ambient loops
  */
 import type { Block, MetricSpec } from "./types";
 import { FREE_PHOTOS } from "./free-assets";
@@ -569,7 +570,9 @@ export function seriesChart(label: string, periods: string[], seed: string, role
   parts.push(
     `<path d="${line} L${round(x(n - 1))} ${bottom} L${round(x(0))} ${bottom} Z" fill="${ACCENT_FIELD}"/>`,
   );
-  parts.push(`<path d="${line}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
+  parts.push(
+    `<path class="ds-draw" pathLength="1" d="${line}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`,
+  );
 
   const mark = n - 1;
   parts.push(rule(x(mark), top, x(mark), bottom));
@@ -916,7 +919,7 @@ export function metricSpark(index: number, seed: string): string {
   const y = (t: number) => H - 4 - t * (H - 10);
   const d = vals.map((t, i) => `${i === 0 ? "M" : "L"}${round(x(i))} ${round(y(t))}`).join(" ");
   return frame(
-    `<path d="${d}" fill="none" stroke="var(--c-border-strong)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+    `<path class="ds-draw" pathLength="1" d="${d}" fill="none" stroke="var(--c-border-strong)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
      <circle cx="${round(x(n - 1))}" cy="${round(y(vals[n - 1]!))}" r="3" fill="${ACCENT}"/>`,
     { width: W, height: H, kind: "spark" },
   );
@@ -1322,7 +1325,7 @@ export function signalLattice(
       const y = mid - h / 2;
       const hot = b > bars * 0.62 && b < bars * 0.78;
       parts.push(
-        `<rect x="${round(x)}" y="${round(y)}" width="${round(gap * 0.55)}" height="${round(h)}" fill="${hot ? ACCENT : LINE}" opacity="${hot ? 0.85 : round(0.35 + r() * 0.35)}"/>`,
+        `<rect class="ds-lattice-bar" style="--bar-i:${b}" x="${round(x)}" y="${round(y)}" width="${round(gap * 0.55)}" height="${round(h)}" fill="${hot ? ACCENT : LINE}" opacity="${hot ? 0.85 : round(0.35 + r() * 0.35)}"/>`,
       );
     }
 
@@ -2286,7 +2289,7 @@ export function mechanismPlate(
       const px = axisX + ((i - 0.5) / n) * axisW;
       const py = axisY + axisH * (1 - (0.25 + ((i - 1) / Math.max(1, n - 1)) * 0.65));
       parts.push(
-        `<path d="M${round(px)} ${round(py)} L${round(x)} ${round(y)}" fill="none" stroke="${ACCENT}" stroke-width="2.5" stroke-linecap="round"/>`,
+        `<path class="ds-draw" pathLength="1" d="M${round(px)} ${round(py)} L${round(x)} ${round(y)}" fill="none" stroke="${ACCENT}" stroke-width="2.5" stroke-linecap="round"/>`,
       );
     }
     const lead = i === 1;

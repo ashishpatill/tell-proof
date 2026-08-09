@@ -427,6 +427,62 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
   return table[siteKind] ?? "";
 }
 
+/**
+ * Product-custom instruments (D3/SVG-draw patterns, lattice enter, flow meters).
+ * Gated by motion-stack-craft + MotionLevel via data-motion on body; reduced-motion safe.
+ */
+function productInstrumentCss(): string {
+  return `
+/* --- motion-stack-craft instruments (feature-true, once) --- */
+@media (prefers-reduced-motion: no-preference){
+  .ds-draw{
+    stroke-dasharray:1;
+    stroke-dashoffset:1;
+    transition:stroke-dashoffset var(--m-entrance,420ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1));
+  }
+  .ds-reveal.is-in .ds-draw,
+  .ds-fig.is-armed .ds-draw,
+  [data-motion-instrument].is-armed .ds-draw{stroke-dashoffset:0}
+
+  .ds-lattice-bar{
+    transform-box:fill-box;
+    transform-origin:center bottom;
+    transform:scaleY(0.12);
+    transition:transform 420ms calc(var(--bar-i,0) * 18ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)),
+      opacity 320ms calc(var(--bar-i,0) * 18ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1));
+  }
+  .ds-reveal.is-in .ds-lattice-bar,
+  .ds-fig.is-armed .ds-lattice-bar{transform:scaleY(1)}
+
+  [data-sitekind="saas-marketing"] .ds-flow-meter > i{
+    transform-origin:left center;
+    transform:scaleX(0.08);
+    transition:transform 480ms var(--m-ease-out,cubic-bezier(0.22,1,0.36,1));
+  }
+  [data-sitekind="saas-marketing"] .ds-reveal.is-in .ds-flow-meter > i,
+  [data-sitekind="saas-marketing"] .ds-flow-track.is-armed .ds-flow-meter > i{transform:scaleX(1)}
+
+  [data-sitekind="fintech-marketing"] .ds-metric .ds-fig.is-armed .ds-draw{transition-duration:360ms}
+
+  [data-sitekind="docs-educational"] .ds-scrub-stem{
+    transition:opacity 220ms var(--m-ease),stroke-dashoffset 360ms var(--m-ease-out,cubic-bezier(0.22,1,0.36,1));
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  .ds-draw{stroke-dashoffset:0!important;transition:none!important}
+  .ds-lattice-bar{transform:none!important;transition:none!important}
+  .ds-flow-meter > i{transform:none!important;transition:none!important}
+}
+.ds-motion-field{
+  position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.55;
+  mix-blend-mode:multiply;
+}
+[data-mood="dark-premium"] .ds-motion-field{mix-blend-mode:screen;opacity:0.35}
+@media (prefers-reduced-motion: reduce){
+  .ds-motion-field{display:none}
+}
+`;
+}
 
 function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
   if (lean === "minimal-clean") {
@@ -3035,6 +3091,7 @@ ${leanCss(spec.taste.aestheticLean)}
 ${siteKindCss()}
 ${motionCss(spec.taste.motion)}
 ${motionSignatureCss(spec.brief.siteKind)}
+${spec.routedSkills.includes("motion-stack-craft") ? productInstrumentCss() : ""}
 
 @media (max-width:1080px){
   .ds-bento{grid-template-columns:repeat(4,1fr)}

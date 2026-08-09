@@ -577,3 +577,14 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `/opt/cursor/artifacts/motion-clips/`.
 - **Do not:** Trust var-only travel deltas as “unique motion”; verify computed animation-name
   (and a clip) before claiming uniqueness.
+
+## 2026-08-09 — `motion:stack-craft-skill-and-instruments`
+
+- **Failure:** Templates had signature keyframes but no skill encoding Three.js / D3 /
+  free OSS motion stacks; instruments were not systematically customized per product.
+- **Fix:** Ship `motion-stack-craft` skill + playbook; route whenever motion ≠ `none`;
+  add product instruments (`.ds-draw` stroke-draw, `.ds-lattice-bar` enter, SaaS flow
+  meters, immersive canvas2d field on lantern). Survey §§3.5–3.6 document D3 + OSS
+  template adaptation rules. Tests 62 green.
+- **Do not:** Paste OSS kits unchanged; do not CDN Three into marketing HTML by default;
+  do not use D3 for non-data decoration.

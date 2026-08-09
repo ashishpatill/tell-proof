@@ -160,7 +160,32 @@ Lenis + GSAP (timeline + ScrollTrigger + SplitText)
 
 - Fine-grained JS control without a framework; pairs with scroll timelines
 
-### 3.4 Accessibility & performance non-negotiables (every stack)
+### 3.4 D3.js + data-viz motion
+
+| Job | Prefer | Tell adaptation |
+|---|---|---|
+| Scales, axes, joins, path generators | **D3** in product/research apps | Marketing HTML: vanilla SVG + D3 *patterns* (stroke-draw via `pathLength`, bar enter, scrub) — no D3 bundle by default |
+| Series / sparkline claim | Stroke-draw once on enter | `.ds-draw` + reveal arming |
+| Dense instrument desks (lattices) | Staggered bar/scale enter | `.ds-lattice-bar` with `--bar-i` delay |
+| Interactive mechanism | Brush / scrub / step | Existing scrub instruments + educational siteKind |
+
+D3’s enter/update/exit model maps cleanly to once-only reveals + reader-driven scrub — not ambient morph loops.
+
+### 3.5 Free OSS motion templates (study → rebuild)
+
+Open demos (Codrops-class tutorials, GSAP showcase, Motion examples, community Three/R3F kits) are **technique schools**:
+
+1. Name the job (mask wipe, path draw, stagger grid, chapter pin).
+2. Strip foreign brand, fonts, glow defaults.
+3. Re-time into restraint band; kill uncontrolled loops.
+4. Bind to product features / siteKind instruments.
+5. Ship static-first + reduced-motion.
+
+Never treat a kit as the system of record for Tell templates. Encode judgment in
+`motion-stack-craft` (`.cursor/skills/motion-stack-craft`, agent playbook under
+`premium-content-custom-web/motion-stack-craft`).
+
+### 3.6 Accessibility & performance non-negotiables (every stack)
 
 1. `prefers-reduced-motion: reduce` → jump to final states (not “shorter”).
 2. Animate compositor properties; avoid layout-thrashing props for continuous motion.

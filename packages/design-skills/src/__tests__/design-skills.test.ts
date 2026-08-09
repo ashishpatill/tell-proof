@@ -27,6 +27,7 @@ const ALL_SKILLS: SkillNodeId[] = [
   "section-stagger-enter",
   "scroll-narrative-craft",
   "authored-motion-slot",
+  "motion-stack-craft",
   "indexed-detail-markers",
   "honest-integration-marks",
   "paper-technical-frame",
@@ -328,6 +329,21 @@ describe("measured craft floors", () => {
     expect(spec.taste.motion).toBe("immersive");
     expect(spec.routedSkills).toContain("authored-motion-slot");
     expect(previewHtml).toContain('data-authored-slot="empty"');
+  });
+
+  it("routes motion-stack-craft and ships product instruments", () => {
+    const saas = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    const observatory = designFromFeatures(SHOWCASE_BRIEFS.observatory!);
+    const edu = designFromFeatures(SHOWCASE_BRIEFS.educational!);
+    const lantern = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    const dash = designFromFeatures(SHOWCASE_BRIEFS.dashboard!);
+    expect(saas.spec.routedSkills).toContain("motion-stack-craft");
+    expect(dash.spec.routedSkills).toContain("motion-stack-craft");
+    expect(saas.previewHtml).toMatch(/ds-draw|ds-flow-meter/);
+    expect(observatory.previewHtml).toContain("ds-lattice-bar");
+    expect(edu.previewHtml).toMatch(/ds-draw|data-scrub/);
+    expect(lantern.previewHtml).toContain('data-motion-instrument="field"');
+    expect(saas.previewHtml).toContain("stroke-dashoffset");
   });
 
   it("emits no raw hex outside the token block", () => {

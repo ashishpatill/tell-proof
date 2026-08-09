@@ -175,6 +175,11 @@ export const SkillNodeId = z.enum([
   "scroll-narrative-craft",
   /** Optional authored vector mount (Rive/Lottie) — poster frame when empty. */
   "authored-motion-slot",
+  /**
+   * Motion stack craft — Three/D3/GSAP-class/OSS-template judgment + product instruments.
+   * Native CSS/SVG first; heavy libs only when metaphor or data earns them.
+   */
+  "motion-stack-craft",
   /** Quiet 01–0N mono markers for process / feature rhythm. */
   "indexed-detail-markers",
   /** Declared integration/capability marks only — never fake logo walls. */

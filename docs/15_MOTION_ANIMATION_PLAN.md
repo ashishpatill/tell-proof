@@ -113,6 +113,7 @@ Bundle rule: marketing templates must not import a React motion library. Keep HT
 
 - [x] Expand `MotionLevel` zod enum; wire MCP + Studio taste controls
 - [x] Rewrite motion sub-skills; add `scroll-narrative-craft`
+- [x] Add `motion-stack-craft` skill (Three.js / D3 / GSAP-class / free OSS templates → project-custom instruments)
 - [x] Upgrade agency Phase `3c-motion` Goal/Loop
 
 ### W3 — CSS-native template upgrade (highest ROI)
@@ -120,6 +121,7 @@ Bundle rule: marketing templates must not import a React motion library. Keep HT
 - [x] Emit `@supports (animation-timeline: view())` reveals
 - [x] Stagger via `--m-stagger` / `--enter-i`
 - [x] Hero entrance once (`ds-enter`)
+- [x] Per–siteKind signature keyframes + product instruments (stroke-draw, lattice bars, flow meters, immersive field)
 - [x] Verify `prefers-reduced-motion` + no-JS paths
 
 ### W4 — Narrative tier (optional dependency)

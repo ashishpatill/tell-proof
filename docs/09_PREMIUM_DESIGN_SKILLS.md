@@ -19,6 +19,8 @@
 | `.cursor/skills/conversion-landing-craft/SKILL.md` | Single-offer landing craft |
 | `.cursor/skills/pricing-decision-craft/SKILL.md` | Pricing decision craft |
 | `.cursor/skills/surface-recipe-map/SKILL.md` | Theme-pack remap → Taste Controls |
+| `.cursor/skills/scroll-reveal-once/SKILL.md` | Once-only scroll reveals |
+| `.cursor/skills/motion-stack-craft/SKILL.md` | Three.js / D3 / OSS motion stack craft — customize per project |
 | `.cursor/skills/gates-until-verified/SKILL.md` | Acceptance-gate verify loop |
 | `packages/design-skills` | Deterministic engine (`designFromFeatures`) |
 | `packages/design-skills/src/templates.ts` | Research-backed offerings (depth-first catalog across measured gaps) |
