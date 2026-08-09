@@ -408,7 +408,9 @@ export function CreaseExperience() {
           <a href="#rankings">Rankings</a>
           <a href="/showcase">Tell Specimens</a>
         </nav>
-        <p className="cr-footer-note">Demo content · not a live scoring feed</p>
+        <p className="cr-footer-note">
+          Demo content · not a live scoring feed · photography via Wikimedia Commons &amp; Unsplash
+        </p>
       </footer>
     </div>
   );
