@@ -3,6 +3,9 @@
 Auto-filled by **tell-proof** while you run `pnpm dev`, when this repo sits next to
 Tell (or `TELL_DESIGN_DATA_REPO` points here).
 
+Every Capture, voice direction, redesign, restyle, and proof/matrix run writes here
+automatically — no extra command.
+
 ## Layout
 
 ```
@@ -12,7 +15,11 @@ training-data/
     shots/        # PNG screenshots
     voice/        # voice / art-direction parses
     redesign/     # redesign proposals
-  sessions/       # sess_*/diagnose|voice|redesign|shot grouped by session
+    restyle/      # LLM restyle CSS drafts
+    proof/        # prove-patch / verify / compare outcomes
+    matrix/       # scenario-matrix captures
+  by-day/YYYY-MM-DD/<kind>/   # same events grouped by calendar day
+  sessions/       # sess_*/… grouped by in-process session
   inbox/          # drop zone for `tell-design-data watch` / convert
   curated/        # SFT / DPO JSONL after `tell-design-data convert`
   meta/
@@ -37,7 +44,10 @@ Or set in tell-proof `.env.local`:
 TELL_DESIGN_DATA_REPO=/absolute/path/to/tell-design-data
 # optional force on/off:
 # TELL_TRAINING_DATA=1
+# TELL_TRAINING_DATA=0
 ```
+
+Confirm with `GET http://localhost:3000/api/health/capture` → `trainingData.enabled: true`.
 
 ## Convert to training JSONL
 

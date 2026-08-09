@@ -1,6 +1,7 @@
 # Training data (local Tell sessions) — never commit raw captures / screenshots
 training-data/raw/
 training-data/sessions/
+training-data/by-day/
 training-data/inbox/
 training-data/curated/
 training-data/meta/ledger.jsonl

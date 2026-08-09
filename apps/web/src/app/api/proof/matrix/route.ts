@@ -8,6 +8,7 @@ import {
 } from "@tell/core";
 import { CaptureScenario, ProofMatrixResult, ScenarioMatrix } from "@tell/schema";
 import { hasRemoteBackend, proxyRemoteBackend } from "@/lib/remote-api";
+import { recordTrainingEvent } from "@/lib/training-data-sink";
 
 export const maxDuration = 180;
 
@@ -111,14 +112,24 @@ export async function POST(request: Request) {
       ? ProofMatrixResult.parse(compareProofMatrices(parsed, parsed))
       : undefined;
 
+    const meta = {
+      live: true,
+      cellCount: parsed.cells.length,
+      authStorage: Boolean(storageState),
+    };
+    recordTrainingEvent(
+      "matrix",
+      {
+        matrix: parsed,
+        proof: proof ?? null,
+        routes,
+      },
+      { ...meta, url },
+    );
     return NextResponse.json({
       matrix: parsed,
       proof,
-      meta: {
-        live: true,
-        cellCount: parsed.cells.length,
-        authStorage: Boolean(storageState),
-      },
+      meta,
     });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);

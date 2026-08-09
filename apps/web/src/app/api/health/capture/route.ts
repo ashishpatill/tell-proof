@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createRequire } from "node:module";
 import { hasRemoteCaptureBackend } from "@/lib/run-diagnose-remote";
 import { remoteBackendBaseUrl } from "@/lib/remote-api";
+import { trainingSinkStatus } from "@/lib/training-data-sink";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,7 @@ export async function GET() {
           ...payload,
           backend: "remote",
           remoteStatus: res.status,
+          trainingData: trainingSinkStatus(),
         },
         { status: res.ok ? 200 : 502 },
       );
@@ -30,6 +32,7 @@ export async function GET() {
           ok: false,
           backend: "remote",
           error: error instanceof Error ? error.message : String(error),
+          trainingData: trainingSinkStatus(),
         },
         { status: 502 },
       );
@@ -46,6 +49,7 @@ export async function GET() {
       ok: true,
       playwrightBrowsersPath: process.env.PLAYWRIGHT_BROWSERS_PATH ?? "(default)",
       tellRepoRoot: process.env.TELL_REPO_ROOT ?? "(auto)",
+      trainingData: trainingSinkStatus(),
     });
   } catch (error) {
     return NextResponse.json(
@@ -53,6 +57,7 @@ export async function GET() {
         ok: false,
         error: error instanceof Error ? error.message : String(error),
         playwrightBrowsersPath: process.env.PLAYWRIGHT_BROWSERS_PATH ?? "(default)",
+        trainingData: trainingSinkStatus(),
       },
       { status: 500 },
     );

@@ -3,6 +3,7 @@ import { TellReport } from "@tell/schema";
 import { compareProofReports, verifyProofPatch } from "@tell/core";
 import { hasRemoteBackend, proxyRemoteBackend } from "@/lib/remote-api";
 import { assertRepoSetupEnabled } from "@/lib/setup-guard";
+import { recordTrainingEvent } from "@/lib/training-data-sink";
 
 export const runtime = "nodejs";
 export const maxDuration = 180;
@@ -20,6 +21,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Compare mode needs url, beforeReport, and afterReport." }, { status: 400 });
     }
     const { status, proof } = compareProofReports(parsedBefore.data, parsedAfter.data, url);
+    recordTrainingEvent(
+      "proof",
+      {
+        mode: "compare",
+        status,
+        proof,
+        beforeReport: parsedBefore.data,
+        afterReport: parsedAfter.data,
+      },
+      { url },
+    );
     return NextResponse.json({
       status,
       beforeReport: parsedBefore.data,
@@ -57,6 +69,19 @@ export async function POST(request: Request) {
 
   try {
     const result = await verifyProofPatch({ url, patch, projectRoot, waitMs, revertOnFail });
+    recordTrainingEvent(
+      "proof",
+      {
+        mode: "patch",
+        status: result.status,
+        proof: result.proof,
+        beforeReport: result.beforeReport,
+        afterReport: result.afterReport,
+        patch,
+        reverted: result.reverted,
+      },
+      { url, projectRoot },
+    );
     return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json(

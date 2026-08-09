@@ -20,25 +20,29 @@
 
 | Lives in Tell (`tell-proof`) | Lives in `tell-design-data` (private/dev repo) |
 |---|---|
-| Literature survey + this plan | Auto ingest / watch / proxy |
-| Product loop (diagnose → redesign) | Reward scoring + SFT/DPO export |
-| Anonymised craft measurements | Raw episodes + curated JSONL |
-| Nothing that writes training corpora | All local data generation |
+| Literature survey + this plan | Convert / watch / reward / SFT·DPO export CLI |
+| Product loop (diagnose → redesign → proof) | Raw episodes + curated JSONL store |
+| Thin **local-only** sink (`training-data-sink.ts`) writing into the sibling repo | Schema for curated rows + anonymisation |
+| Nothing committed as training JSONL | All local data under `training-data/` |
 
-**Do not** merge the harness into `packages/*`, `apps/web`, or `@tell/mcp`.  
-**Do not** commit training JSONL anywhere in Tell.
+**Do not** commit training JSONL anywhere in Tell.  
+**Do not** enable the sink on Vercel by default (requires `TELL_TRAINING_DATA=1`).
 
 ---
 
 ## 1. How auto collection works (developer machine)
 
 **Built into tell-proof (local/dev):** when this repo is checked out next to Tell as
-`../tell-design-data` (or `TELL_DESIGN_DATA_REPO` is set), `/api/diagnose`,
-`/api/voice`, and `/api/redesign` automatically write into:
+`../tell-design-data` (or `TELL_DESIGN_DATA_REPO` is set), these routes write
+automatically on every successful run:
+
+- `/api/diagnose` · `/api/voice` · `/api/redesign` · `/api/restyle`
+- `/api/proof/apply` · `/api/proof/verify` · `/api/proof/matrix`
 
 ```text
 tell-design-data/training-data/
-  raw/episodes|shots|voice|redesign/
+  raw/episodes|shots|voice|redesign|restyle|proof|matrix/
+  by-day/YYYY-MM-DD/<kind>/
   sessions/<sess_id>/
   inbox/          # for CLI convert/watch
   curated/        # after tell-design-data convert
@@ -46,6 +50,7 @@ tell-design-data/training-data/
 ```
 
 Off on Vercel unless `TELL_TRAINING_DATA=1`. Disable locally with `TELL_TRAINING_DATA=0`.
+Confirm: `GET /api/health/capture` → `trainingData.enabled`.
 
 Optional CLI (same repo):
 

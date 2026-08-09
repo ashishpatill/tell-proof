@@ -9,11 +9,17 @@ import { repoRoot } from "./repo-root";
  * Writes Tell session artifacts into a sibling `tell-design-data` checkout:
  *   {TELL_DESIGN_DATA_REPO}/training-data/...
  *
- * Never runs on Vercel unless TELL_TRAINING_DATA=1 is forced.
  * Auto-enables in local/dev when the sibling repo (or env path) exists.
+ * Never runs on Vercel unless TELL_TRAINING_DATA=1 is forced.
  */
 
-export type TrainingSinkKind = "diagnose" | "voice" | "redesign";
+export type TrainingSinkKind =
+  | "diagnose"
+  | "voice"
+  | "redesign"
+  | "restyle"
+  | "proof"
+  | "matrix";
 
 type SinkPaths = {
   repo: string;
@@ -22,13 +28,18 @@ type SinkPaths = {
   rawShots: string;
   rawVoice: string;
   rawRedesign: string;
+  rawRestyle: string;
+  rawProof: string;
+  rawMatrix: string;
   sessions: string;
+  byDay: string;
   meta: string;
   ledger: string;
 };
 
 let cached: SinkPaths | null | undefined;
 let lastSessionId: string | null = null;
+let loggedReady = false;
 
 function disabledExplicitly(): boolean {
   const flag = process.env.TELL_TRAINING_DATA?.trim().toLowerCase();
@@ -67,9 +78,17 @@ export function resolveDesignDataRepo(): string | null {
     return existsSync(resolved) ? resolved : null;
   }
 
+  const root = repoRoot();
   const candidates = [
-    path.resolve(repoRoot(), "..", "tell-design-data"),
+    // Preferred: sibling of tell-proof
+    path.resolve(root, "..", "tell-design-data"),
+    // Cursor multi-root / volumes layout
     path.resolve("/volumes/developer/workspace/tell-design-data"),
+    // Nested checkout inside tell-proof (dev mirror)
+    path.resolve(root, "tell-design-data"),
+    // cwd walkups (Next often runs from apps/web)
+    path.resolve(process.cwd(), "..", "tell-design-data"),
+    path.resolve(process.cwd(), "..", "..", "tell-design-data"),
     path.resolve(process.cwd(), "..", "..", "..", "tell-design-data"),
   ];
   for (const c of candidates) {
@@ -106,11 +125,51 @@ export function resolveTrainingSink(): SinkPaths | null {
     rawShots: path.join(root, "raw", "shots"),
     rawVoice: path.join(root, "raw", "voice"),
     rawRedesign: path.join(root, "raw", "redesign"),
+    rawRestyle: path.join(root, "raw", "restyle"),
+    rawProof: path.join(root, "raw", "proof"),
+    rawMatrix: path.join(root, "raw", "matrix"),
     sessions: path.join(root, "sessions"),
+    byDay: path.join(root, "by-day"),
     meta: path.join(root, "meta"),
     ledger: path.join(root, "meta", "ledger.jsonl"),
   };
+
+  if (!loggedReady) {
+    loggedReady = true;
+    console.info(`[training-data-sink] writing → ${cached.root}`);
+  }
+
   return cached;
+}
+
+/** Status payload for health / debugging. */
+export function trainingSinkStatus(): {
+  enabled: boolean;
+  repo: string | null;
+  root: string | null;
+  reason: string;
+} {
+  if (disabledExplicitly()) {
+    return { enabled: false, repo: null, root: null, reason: "TELL_TRAINING_DATA=0" };
+  }
+  if (process.env.VERCEL && !forcedOn()) {
+    return { enabled: false, repo: null, root: null, reason: "vercel_default_off" };
+  }
+  const repo = resolveDesignDataRepo();
+  if (!repo) {
+    return {
+      enabled: false,
+      repo: null,
+      root: null,
+      reason: "tell-design-data_not_found",
+    };
+  }
+  return {
+    enabled: true,
+    repo,
+    root: path.join(repo, "training-data"),
+    reason: "ok",
+  };
 }
 
 async function ensureDirs(sink: SinkPaths): Promise<void> {
@@ -119,7 +178,11 @@ async function ensureDirs(sink: SinkPaths): Promise<void> {
     mkdir(sink.rawShots, { recursive: true }),
     mkdir(sink.rawVoice, { recursive: true }),
     mkdir(sink.rawRedesign, { recursive: true }),
+    mkdir(sink.rawRestyle, { recursive: true }),
+    mkdir(sink.rawProof, { recursive: true }),
+    mkdir(sink.rawMatrix, { recursive: true }),
     mkdir(sink.sessions, { recursive: true }),
+    mkdir(sink.byDay, { recursive: true }),
     mkdir(sink.meta, { recursive: true }),
     mkdir(path.join(sink.root, "curated"), { recursive: true }),
     mkdir(path.join(sink.root, "inbox"), { recursive: true }),
@@ -128,6 +191,10 @@ async function ensureDirs(sink: SinkPaths): Promise<void> {
 
 function stamp(): string {
   return new Date().toISOString().replace(/[:.]/g, "-");
+}
+
+function dayKey(): string {
+  return new Date().toISOString().slice(0, 10);
 }
 
 function hash(value: unknown): string {
@@ -148,7 +215,6 @@ function stripHeavyCapture(report: Record<string, unknown>): {
   if (capture && typeof capture.screenshotBase64 === "string") {
     screenshotBase64 = capture.screenshotBase64;
     capture.screenshotBase64 = `[external:shots]`;
-    // Keep HTML but cap extreme size
     if (typeof capture.snapshotHtml === "string" && capture.snapshotHtml.length > 400_000) {
       capture.snapshotHtml = `${capture.snapshotHtml.slice(0, 400_000)}\n<!-- truncated for training-data sink -->`;
     }
@@ -156,11 +222,33 @@ function stripHeavyCapture(report: Record<string, unknown>): {
   return { report: clone, screenshotBase64 };
 }
 
+/** Strip screenshots from nested TellReport-like objects without writing PNGs. */
+function slimReport(value: unknown): unknown {
+  if (!value || typeof value !== "object") return value;
+  const obj = value as Record<string, unknown>;
+  if (obj.capture && typeof obj.capture === "object") {
+    const { report } = stripHeavyCapture(obj);
+    return report;
+  }
+  return value;
+}
+
 async function appendLedger(
   sink: SinkPaths,
   row: Record<string, unknown>,
 ): Promise<void> {
   await appendFile(sink.ledger, `${JSON.stringify({ at: new Date().toISOString(), ...row })}\n`, "utf8");
+}
+
+async function mirrorByDay(
+  sink: SinkPaths,
+  kind: string,
+  id: string,
+  body: unknown,
+): Promise<void> {
+  const dir = path.join(sink.byDay, dayKey(), kind);
+  await mkdir(dir, { recursive: true });
+  await writeFile(path.join(dir, `${id}.json`), JSON.stringify(body, null, 2), "utf8");
 }
 
 /**
@@ -220,12 +308,12 @@ export async function writeTrainingEvent(
     const episodePath = path.join(sink.rawEpisodes, `${id}.json`);
     await writeFile(episodePath, JSON.stringify(episode, null, 2), "utf8");
     await writeFile(path.join(sessionDir, "diagnose.json"), JSON.stringify(episode, null, 2), "utf8");
-    // Drop a copy in inbox for tell-design-data watch/convert
     await writeFile(
       path.join(sink.root, "inbox", `${id}.json`),
       JSON.stringify({ report, meta: episode.meta }, null, 2),
       "utf8",
     );
+    await mirrorByDay(sink, "episodes", id, episode);
     await appendLedger(sink, {
       kind,
       session_id: sessionId,
@@ -237,7 +325,37 @@ export async function writeTrainingEvent(
     return { sessionId, path: episodePath };
   }
 
-  const outDir = kind === "voice" ? sink.rawVoice : sink.rawRedesign;
+  const outDir =
+    kind === "voice"
+      ? sink.rawVoice
+      : kind === "redesign"
+        ? sink.rawRedesign
+        : kind === "restyle"
+          ? sink.rawRestyle
+          : kind === "proof"
+            ? sink.rawProof
+            : sink.rawMatrix;
+
+  const slimPayload: Record<string, unknown> = { ...payload };
+  for (const key of ["report", "beforeReport", "afterReport", "matrix"] as const) {
+    if (key in slimPayload) {
+      slimPayload[key] = slimReport(slimPayload[key]);
+    }
+  }
+  // Matrix cells can be huge — keep summary fields when present
+  if (kind === "matrix" && slimPayload.matrix && typeof slimPayload.matrix === "object") {
+    const matrix = slimPayload.matrix as Record<string, unknown>;
+    if (Array.isArray(matrix.cells)) {
+      matrix.cells = matrix.cells.map((cell) => {
+        if (!cell || typeof cell !== "object") return cell;
+        const c = { ...(cell as Record<string, unknown>) };
+        if (c.report) c.report = slimReport(c.report);
+        if (typeof c.screenshotBase64 === "string") c.screenshotBase64 = "[external:shots]";
+        return c;
+      });
+    }
+  }
+
   const outPath = path.join(outDir, `${id}.json`);
   const body = {
     id,
@@ -246,10 +364,18 @@ export async function writeTrainingEvent(
     created_at: new Date().toISOString(),
     source: "tell-proof",
     meta,
-    payload,
+    payload: slimPayload,
   };
   await writeFile(outPath, JSON.stringify(body, null, 2), "utf8");
   await writeFile(path.join(sessionDir, `${kind}.json`), JSON.stringify(body, null, 2), "utf8");
+  await mirrorByDay(sink, kind, id, body);
+  if (kind === "proof" || kind === "matrix") {
+    await writeFile(
+      path.join(sink.root, "inbox", `${id}.json`),
+      JSON.stringify(body, null, 2),
+      "utf8",
+    );
+  }
   await appendLedger(sink, {
     kind,
     session_id: sessionId,
@@ -263,4 +389,5 @@ export async function writeTrainingEvent(
 export function resetTrainingSinkCache(): void {
   cached = undefined;
   lastSessionId = null;
+  loggedReady = false;
 }
