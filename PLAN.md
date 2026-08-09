@@ -173,7 +173,8 @@ If blocked: note in Status log and continue with the next unchecked item.
 - [x] Agent executes Lensroom brief **one phase at a time** through `4-ship` (STATE + PHASE_LEDGER)
 - [x] Repeatable misses encoded back into gates / LEARNINGS
 - [x] `agency:run` orchestrator — query → niche/brief/DIRECTION → local seeds/corridor → phase loop + auto mark-pass
-- [x] `agency-run-learn` — post-run signals → engine memory + LEARNINGS; feeds next run
+- [x] `agency-run-learn` — **developer-only** automatic learn + design-data corpus (gated; not Vercel users)
+- [x] `tell-user-session-learn` — **end-user** browser profile (directions, priorities, tool prefs)
 
 ### Goal prompt (autonomous)
 
@@ -183,10 +184,11 @@ If blocked: note in Status log and continue with the next unchecked item.
 GOAL: Run the autonomous agency pipeline for the named requirement.
 
 pnpm agency:run -- --query "<requirement>" --fresh
-# optional: --product Name --cta "Book a call" --max-attempts 3 --brief <existing>
-# learns into research/agency-engine-memory.json + LEARNINGS.md (agency-run-learn)
+# Learn is automatic (agency-run-learn). Optional: TELL_DESIGN_DATA=/path/to/tell-design-data
+# Dry smoke only: AGENCY_SKIP_LEARN=1 …
 
-Done when research/boards/<run-id>/STATE.json passed[] includes 4-ship and SHIP.html exists.
+Done when research/boards/<run-id>/STATE.json passed[] includes 4-ship, SHIP.html exists,
+and LEARN.md was written by the automatic learn pass.
 ```
 
 ### Goal prompt (manual orchestrator — paste once, still one phase per cycle)

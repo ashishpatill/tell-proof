@@ -26,8 +26,15 @@ import {
   type NichePreset,
 } from "./niche";
 import { PHASE_ORDER, type PhaseId } from "./phases";
-import { loadMemory } from "./memory";
+import { saveMemory } from "./memory";
 import { learnFromRun } from "./learn";
+import {
+  corridorDigest,
+  ensureDesignData,
+  loadDesignDataSeeds,
+  mergeDesignDataMemory,
+  writeBackDesignData,
+} from "./design-data";
 
 function repoRoot(from = process.cwd()): string {
   let dir = from;
@@ -65,10 +72,12 @@ function hasFlag(flag: string): boolean {
 }
 
 function pipeline(args: string[]): { ok: boolean; output: string } {
+  // Parent agency:run owns the single learn pass — suppress nested 4-ship learn.
+  const env = { ...process.env, AGENCY_SKIP_LEARN: "1" };
   const result = spawnSync(
     "pnpm",
     ["-F", "@tell/design-skills", "exec", "tsx", "../../scripts/agency-pipeline/run.ts", "--", ...args],
-    { cwd: root, encoding: "utf8", maxBuffer: 10 * 1024 * 1024 },
+    { cwd: root, encoding: "utf8", maxBuffer: 10 * 1024 * 1024, env },
   );
   const output = `${result.stdout ?? ""}${result.stderr ?? ""}`;
   return { ok: result.status === 0, output };
@@ -99,22 +108,40 @@ function writeBrief(runId: string, brief: ReturnType<typeof briefFromNiche>): st
 }
 
 function selectAndWriteRefs(preset: NichePreset, runId: string): string {
-  const seedsPath = resolve(root, "research/boards.seeds.local.json");
+  const fromData = loadDesignDataSeeds(preset.seedCategory, root);
   let refs: Array<{ id: string; url: string; note?: string }> = [];
   let mode = "corridor-fallback";
 
-  if (existsSync(seedsPath)) {
-    const seeds = JSON.parse(readFileSync(seedsPath, "utf8")) as SeedFile;
-    const pool =
-      seeds.categories?.[preset.seedCategory] ??
-      seeds.categories?.default ??
-      [];
-    refs = pool.slice(0, 3).map((entry, i) => ({
+  if (fromData.refs.length > 0) {
+    refs = fromData.refs.map((entry, i) => ({
       id: `ref-${i + 1}`,
       url: entry.url,
       note: entry.note ?? preset.seedCategory,
     }));
-    if (refs.length > 0) mode = `seeds:${preset.seedCategory} (${refs.length})`;
+    mode = fromData.mode;
+  } else {
+    const seedsPath = resolve(root, "research/boards.seeds.local.json");
+    if (existsSync(seedsPath)) {
+      const seeds = JSON.parse(readFileSync(seedsPath, "utf8")) as SeedFile;
+      const pool =
+        seeds.categories?.[preset.seedCategory] ??
+        seeds.categories?.default ??
+        [];
+      refs = pool.slice(0, 3).map((entry, i) => ({
+        id: `ref-${i + 1}`,
+        url: entry.url,
+        note: entry.note ?? preset.seedCategory,
+      }));
+      if (refs.length > 0) mode = `seeds:${preset.seedCategory} (${refs.length})`;
+    }
+  }
+
+  if (refs.length === 0) {
+    const digest = corridorDigest(preset.corridorHint, root);
+    mode =
+      digest.source === "none"
+        ? "corridor-fallback"
+        : `corridor-fallback+${digest.source}:${preset.corridorHint}`;
   }
 
   const boardsLocal = {
@@ -185,10 +212,11 @@ function ensureDirection(
   query: string,
   refMode: string,
 ): void {
-  const memory = loadMemory(root);
+  const memory = mergeDesignDataMemory(root);
+  const digest = corridorDigest(preset.corridorHint, root);
   writeFileSync(
     resolve(outDir, "DIRECTION.md"),
-    directionMarkdown(preset, query, refMode, memory),
+    directionMarkdown(preset, query, refMode, memory, digest),
     "utf8",
   );
 }
@@ -201,7 +229,7 @@ function adaptBriefPaths(briefRel: string, runId: string): void {
     `research/boards/${runId}/ref-2-hero.png`,
     `research/boards/${runId}/ref-3-hero.png`,
   ];
-  const memory = loadMemory(root);
+  const memory = mergeDesignDataMemory(root);
   if (memory.bansExtra.length) {
     const existing = Array.isArray(brief.banList)
       ? (brief.banList as string[])
@@ -225,8 +253,13 @@ async function main(): Promise<void> {
   const runIdArg = argValue("--run-id");
   const fresh = hasFlag("--fresh");
 
-  const skipLearn = hasFlag("--skip-learn");
-  const memory = loadMemory(root);
+  // Learn is automatic. Opt out only with AGENCY_SKIP_LEARN=1 (or legacy --skip-learn).
+  const skipLearn =
+    process.env.AGENCY_SKIP_LEARN === "1" || hasFlag("--skip-learn");
+  const dataStatus = ensureDesignData(root);
+  const memory = mergeDesignDataMemory(root);
+  // Persist merged memory into Tell so niche/brief and later learn share one snapshot.
+  saveMemory(root, memory);
 
   if (!query && !briefArg) {
     console.error(
@@ -294,8 +327,12 @@ async function main(): Promise<void> {
   console.log(`craft: ${preset.craftNodes.join(", ")}`);
   console.log(`brief: ${briefRel}`);
   console.log(`refs:  ${refMode}`);
+  console.log(
+    `design-data: ${dataStatus.ok ? dataStatus.root : "not configured"} (${dataStatus.detail})`,
+  );
   console.log(`memory bans: ${memory.bansExtra.length} · boosts: ${memory.nicheBoosts.length}`);
-  console.log(`plan:  research/boards/${runId}/AUTO_PLAN.md\n`);
+  console.log(`plan:  research/boards/${runId}/AUTO_PLAN.md`);
+  console.log(`learn: automatic at end${skipLearn ? " (SKIPPED via AGENCY_SKIP_LEARN)" : ""}\n`);
 
   const orchLog: string[] = [
     `# Orchestrator log — ${runId}`,
@@ -381,17 +418,24 @@ async function main(): Promise<void> {
         siteKind: preset.siteKind,
         seedCategory: preset.seedCategory,
       });
-      console.log(`\n=== agency:learn ===`);
+      console.log(`\n=== agency:learn (automatic) ===`);
       console.log(
         `signals: ${learned.signals.length} · LEARNINGS: ${learned.writtenLearnings.join(", ") || "(none new)"}`,
       );
       console.log(`memory: research/agency-engine-memory.json`);
       console.log(`board:  research/boards/${runId}/LEARN.md`);
+      const learnMd = existsSync(resolve(outDir, "LEARN.md"))
+        ? readFileSync(resolve(outDir, "LEARN.md"), "utf8")
+        : undefined;
+      const wb = writeBackDesignData(root, { runId, learnMarkdown: learnMd });
+      console.log(`design-data: ${wb}`);
     } catch (err) {
       console.warn(
-        `agency:learn skipped: ${err instanceof Error ? err.message : String(err)}`,
+        `agency:learn failed: ${err instanceof Error ? err.message : String(err)}`,
       );
     }
+  } else {
+    console.log("\n=== agency:learn skipped (AGENCY_SKIP_LEARN=1) ===");
   }
 
   const final = loadState(outDir);

@@ -12,7 +12,7 @@ Agencies bill for the polish stage because **quality compounds across isolated p
 **Parent:** `premium-content-custom-web`  
 **Verify:** `gates-until-verified` · `tell-proof-verify` · `tell-recursive-improve`  
 **Runner:** `pnpm agency:pipeline -- --brief <path> --phase <id>`  
-**Autonomous:** `pnpm agency:run -- --query "<requirement>"` (niche → brief → DIRECTION → refs → phase loop with auto `--mark-pass` → **agency:learn**)
+**Autonomous:** `pnpm agency:run -- --query "<requirement>"` (niche → brief → DIRECTION → refs → phase loop with auto `--mark-pass` → **automatic agency:learn** → design-data write-back)
 
 ---
 
@@ -24,7 +24,8 @@ Agencies bill for the polish stage because **quality compounds across isolated p
 4. **Touch only that phase's axis.** Typography pass must not change spacing/motion; etc.
 5. **Read the PNGs.** Score/gates ≠ quality. Cap **3 loop attempts** per phase, then stop with a named blocker.
 6. Direction line always: *Match typography scale, spacing rhythm, and motion of the refs. Do not copy the layouts.*
-7. **Every run learns** — `agency-run-learn` updates `research/agency-engine-memory.json` + `LEARNINGS.md`. Do not skip unless `--skip-learn`.
+7. **Learn is automatic** — every `agency:run` and every `--mark-pass 4-ship`. Do not schedule a separate learn step. Opt out only with `AGENCY_SKIP_LEARN=1`.
+8. **Personal design-data** — `TELL_DESIGN_DATA` / `research/design-data.local.json` supplies seeds + memory + corridor bands (see `research/design-data.README.md`).
 
 ### Autonomous entry (`agency:run`)
 
@@ -32,18 +33,20 @@ Agencies bill for the polish stage because **quality compounds across isolated p
 pnpm agency:run -- --query "freelance photographer booking site" --fresh
 pnpm agency:run -- --query "B2B SaaS demo landing" --product Acme --cta "Book a demo"
 pnpm agency:run -- --brief scripts/agency-pipeline/briefs/lensroom.json --fresh
-pnpm agency:learn -- --run-id <id>   # re-run learning only
+# Learn already ran. Optional re-learn:
+pnpm agency:learn -- --run-id <id>
 ```
 
 What it does:
 
 1. Match niche preset (Tell `siteKind` / taste / lane / craft nodes) — no third-party hosts in committed maps.
 2. Write brief JSON + `DIRECTION.md` (DESIGN_RIGOR fields) + `AUTO_PLAN.md`.
-3. Select refs from gitignored `research/boards.seeds.local.json` into `boards.local.json`; empty seeds → corridor fallback.
+3. Select refs from personal design-data seeds (or `boards.seeds.local.json`) into `boards.local.json`; empty → corridor fallback using measured bands.
 4. Run each phase → verify gates → retry ≤ `--max-attempts` (default 3) → `--mark-pass` → next.
-5. Artifacts under `research/boards/<run-id>/` (gitignored).
+5. **Automatic learn** → update engine memory + LEARNINGS → write-back to design-data if configured.
+6. Artifacts under `research/boards/<run-id>/` (gitignored).
 
-Copy `research/boards.seeds.local.example.json` → `boards.seeds.local.json` and add live URLs locally. Never commit award-site hosts.
+Copy `research/boards.seeds.local.example.json` → `boards.seeds.local.json` **or** put seeds in your design-data repo. Never commit award-site hosts into Tell.
 
 ### Phase order
 
@@ -301,4 +304,4 @@ Orchestration:
 
 ## Improving Tell proof
 
-Repeatable misses → `agency-run-learn` → `assertAgencyDelivery` / `assertBasics` / axis polish helpers → `tell-proof-verify` checklist → `research/LEARNINGS.md` + `research/agency-engine-memory.json`. Do not vendor external skill DBs.
+Repeatable misses → **automatic** `agency-run-learn` → `assertAgencyDelivery` / `assertBasics` / axis polish helpers → `tell-proof-verify` checklist → `research/LEARNINGS.md` + `research/agency-engine-memory.json` (+ design-data write-back). Do not vendor external skill DBs.

@@ -1,65 +1,41 @@
 ---
 name: agency-run-learn
-description: After every agency-quality site run, extract learnings and improve the design engine + pipeline memory. Use when agency:run finishes, a phase fails repeatedly, or a human names a craft miss on a board run.
+description: Developer-only automatic learn after agency:run — improves shared engine memory from corpus/runs. Not end-user session learning (see tell-user-session-learn).
 ---
 
 # agency-run-learn
 
-Each user query / board run must leave the **engine smarter** — not only a prettier HTML file.
+**Developer / maintainer loop.** Each `agency:run` on a workstation with a design-data
+pointer ends with learn → `agency-engine-memory.json` + `LEARNINGS.md` (+ write-back).
 
-**Integrates with:** `agency-quality-site` · `tell-recursive-improve` · `gates-until-verified`  
-**Runner:** `pnpm agency:learn` (also auto-invoked at the end of `pnpm agency:run`)
+**Not for Priya's browser.** Her preferences use `tell-user-session-learn`.
 
-## What it improves
+| Loop | Skill | Where |
+|---|---|---|
+| Dev corpus + pipeline | `agency-run-learn` | `research/*`, design-data checkout |
+| User sessions | `tell-user-session-learn` | `localStorage` `tell:user-design-profile` |
 
-| Artifact | Role |
-|---|---|
-| `research/agency-engine-memory.json` | Machine memory — bans, niche boosts, craft hints, pipeline notes |
-| `research/LEARNINGS.md` | Human narrative (pattern keys) |
-| `research/boards/<run-id>/LEARN.md` | Per-run signal dump |
-| Next `agency:run` | Merges memory into brief bans + DIRECTION + niche matching |
+**Automatic** on `pnpm agency:run` and `--mark-pass 4-ship`. Opt out: `AGENCY_SKIP_LEARN=1`.  
+Dev corpus itself requires `research/design-data.local.json` or `TELL_DESIGN_DATA` + `TELL_DEV_CORPUS=1`.
 
 ## Hard rules
 
-1. **Learn on every run** — success and early stop. Use `--skip-learn` only for dry smokes.
-2. **Do not weaken gates** to make a run green — encode the miss instead.
-3. **No third-party hosts** in memory, LEARNINGS, or commits.
-4. **Dedup** by pattern key — do not spam LEARNINGS with the same failure.
-5. **Champion/challenger** for code changes to `@tell/design-skills` — memory auto-applies; gate code still needs a measured patch + vitest.
+1. Learn is automatic on agency runs — do not schedule a separate agent step.
+2. Never enable design-data pull/write-back on public demos (`VERCEL` / `TELL_PUBLIC_DEMO`).
+3. Do not weaken gates to make a run green.
+4. No third-party hosts in Tell commits.
+5. Do not store end-user profiles in the design-data repo.
 
-## Loop
-
-```
-1. Finish agency:run (or stop on a named blocker)
-2. pnpm agency:learn -- --run-id <id>   # auto if you used agency:run
-3. Read research/boards/<id>/LEARN.md + new LEARNINGS entries
-4. If severity=encode and a gate is missing: patch assertAgencyDelivery / polish + test
-5. If thin-board: fill boards.seeds.local.json for that seedCategory (local only)
-6. Re-run the same query once to prove the memory/gate helped
-```
-
-## Session prompt
-
-```
-Use agency-run-learn + agency-quality-site.
-
-Just finished run <run-id> for query: <…>
-1. Confirm LEARN.md + agency-engine-memory.json updated
-2. If encode signals name a missing gate, patch @tell/design-skills and vitest
-3. Append only novel pattern keys to LEARNINGS.md
-4. Do not vendor external skill DBs
-```
-
-## Manual
+## Commands
 
 ```bash
-pnpm agency:learn -- --run-id orch-proof --query "freelance photographer booking site"
-pnpm agency:run -- --query "…" --fresh          # learns at end
-pnpm agency:run -- --query "…" --skip-learn     # opt out
+pnpm agency:run -- --query "<requirement>" --fresh   # learn automatic
+pnpm agency:learn -- --run-id <id>                   # re-learn only
+AGENCY_SKIP_LEARN=1 pnpm agency:run -- --query "…"   # dry smoke
 ```
 
 ## Related
 
+- `research/design-data.README.md` — developer corpus wiring
+- `tell-user-session-learn` — per-user product learning
 - `agency-quality-site` — phased craft + autonomous run
-- `tell-recursive-improve` — champion/challenger for template/showcase misses
-- `docs/08_AI_DESIGN_METHODS.md` — packaged judgment, no trophy copy

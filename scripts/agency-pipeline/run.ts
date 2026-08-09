@@ -575,6 +575,26 @@ async function main(): Promise<void> {
     });
     saveState(outDir, state);
     printStatus(state, outDir);
+
+    // Automatic learn when a manual pipeline run completes 4-ship
+    if (mark === "4-ship" && process.env.AGENCY_SKIP_LEARN !== "1") {
+      try {
+        const { learnFromRun } = await import("./learn");
+        const { writeBackDesignData } = await import("./design-data");
+        const learned = learnFromRun({ runId });
+        console.log(
+          `\nagency:learn (automatic after 4-ship): ${learned.signals.length} signals; LEARNINGS: ${learned.writtenLearnings.join(", ") || "(none new)"}`,
+        );
+        const learnMd = existsSync(resolve(outDir, "LEARN.md"))
+          ? readFileSync(resolve(outDir, "LEARN.md"), "utf8")
+          : undefined;
+        console.log(writeBackDesignData(root, { runId, learnMarkdown: learnMd }));
+      } catch (err) {
+        console.warn(
+          `agency:learn after 4-ship failed: ${err instanceof Error ? err.message : String(err)}`,
+        );
+      }
+    }
     return;
   }
 

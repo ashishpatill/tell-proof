@@ -341,6 +341,7 @@ export function directionMarkdown(
   query: string,
   refMode: string,
   memory?: EngineMemory,
+  corridor?: { category: string; source: string; notes: string[] },
 ): string {
   const mem = memory ?? loadMemory(repoRoot());
   const hints = mem.craftHints
@@ -351,6 +352,16 @@ export function directionMarkdown(
     .filter((n) => n.key.includes(preset.seedCategory) || n.key.includes(preset.key))
     .slice(-3)
     .map((n) => `- Pipeline: ${n.detail}`);
+  const corridorLines =
+    corridor && corridor.notes.length
+      ? [
+          "## Measured corridor",
+          "",
+          `Source: \`${corridor.source}\` · category \`${corridor.category}\``,
+          ...corridor.notes.map((n) => `- ${n}`),
+          "",
+        ]
+      : [];
 
   return [
     `# Direction note — ${preset.productName}`,
@@ -376,6 +387,7 @@ export function directionMarkdown(
     "",
     `\`${preset.corridorHint}\` — use measured bands when live refs are thin.`,
     "",
+    ...corridorLines,
     ...(hints.length || pipeline.length
       ? ["## Engine memory (from prior runs)", "", ...hints, ...pipeline, ""]
       : []),

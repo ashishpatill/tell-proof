@@ -28,6 +28,7 @@ research/boards.local.json
 research/boards.seeds.local.json
 research/boards/
 research/raw/
+research/design-data.local.json
 
 # Peer plumbing reference identity (URL + checkout path). Committed plans are
 # anonymised in docs/11–13; never commit this file.
