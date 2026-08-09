@@ -53,6 +53,9 @@ export default function ShowcaseGalleryPage() {
             <Link href="/kinetic" prefetch={false}>
               Motion
             </Link>
+            <Link href="/crease" prefetch={false}>
+              Crease
+            </Link>
             <Link href="/studio" prefetch={false}>
               Studio
             </Link>
