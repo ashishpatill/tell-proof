@@ -1,6 +1,6 @@
 ---
 name: tell-github-setup
-description: Implements Tell GitHub repo setup flow — clone, install, detect dev command, spawn localhost, auto-capture. Use when working on repo-runner.ts, setup-guard.ts, /api/setup routes, or Priya's "Set up & run" journey.
+description: Implements Tell GitHub repo setup flow — clone, install, detect dev command, spawn localhost, auto-capture. Use when working on repo-runner.ts, setup-guard.ts, /api/setup routes, or Ashish's "Set up & run" journey.
 ---
 
 # Tell GitHub setup
@@ -13,7 +13,7 @@ description: Implements Tell GitHub repo setup flow — clone, install, detect d
 
 ## User journey
 
-Priya pastes `github.com/owner/repo` → Tell clones, reads README + `package.json`, installs deps, starts dev server on a free port, waits for reachable URL, then captures localhost.
+Ashish pastes `github.com/owner/repo` → Tell clones, reads README + `package.json`, installs deps, starts dev server on a free port, waits for reachable URL, then captures localhost.
 
 ## Security
 

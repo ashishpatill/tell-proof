@@ -8,13 +8,13 @@
 >
 > Authority chain: `USER_STORY.md` → this plan → `BUILD.md` / `PLAN.md` cut line.
 > Non-negotiables: deterministic core, never auto-apply, `@tell/schema` at
-> every boundary, offline fixture fallback, Priya loop first.
+> every boundary, offline fixture fallback, Ashish loop first.
 
 ---
 
 ## 0. Why this plan exists
 
-Priya’s loop today works **inside this monorepo** (stdio MCP + web + fixtures).
+Ashish's loop today works **inside this monorepo** (stdio MCP + web + fixtures).
 Distribution and multi-harness ergonomics are the gap: clone-or-bust MCP
 registration, Cursor-only agent surface, fragmented `pnpm` scripts, and no
 single source of truth for install snippets.
@@ -51,7 +51,7 @@ This plan turns peer learnings into a **Tell-shaped** platform layer:
 
 ### 1.1 MCP tools inventory (source of truth = code)
 
-| Tool | Role in Priya loop |
+| Tool | Role in Ashish loop |
 |---|---|
 | `tell_capture` | Capture rendered URL → fingerprint input |
 | `tell_diagnose` | Capture + detect (+ optional taste) → report |
@@ -167,7 +167,7 @@ Peer lesson: three strategies — **cli** (agent owns config), **json** (merge i
 - [ ] `install.sh` that: checks Node 20+, installs CLI or clones shallow, `playwright install chromium`, runs `tell mcp install "$1"`
 - [ ] Idempotent; refuses unknown agents; documents `/usr/bin/od`-style PATH collisions generically (“shadowed binary names”)
 
-**DoD:** From a clean machine, Priya (or a judge) can connect Cursor MCP without hand-editing JSON.
+**DoD:** From a clean machine, Ashish (or a judge) can connect Cursor MCP without hand-editing JSON.
 
 **Cut line:** If behind, ship Cursor project `.cursor/mcp.json` writer + deeplink only; keep other agents as print-config.
 
@@ -202,7 +202,7 @@ Peer lesson: GUI-stripped PATH + user toolchain dirs (`~/.local/bin`, mise/nvm/f
 - [ ] Prepend well-known toolchain bins when spawning capture/setup children (extend `repo-runner` pattern)
 - [ ] Emit adapter-specific fix hints from install-info
 
-**DoD:** Doctor output is copy-pasteable into a Chat reply for Priya.
+**DoD:** Doctor output is copy-pasteable into a Chat reply for Ashish.
 
 ### Wave 5 — Skills packaging & run staging
 
@@ -239,12 +239,12 @@ Peer lesson: GUI-stripped PATH + user toolchain dirs (`~/.local/bin`, mise/nvm/f
 ### Wave 6 — Bidirectional MCP (optional, careful)
 
 - [ ] MCP **client** config store (user-added external servers) — stdio / SSE / HTTP
-- [ ] Templates limited to **read-only** connectors useful to Priya (deploy status, capture host health)
+- [ ] Templates limited to **read-only** connectors useful to Ashish (deploy status, capture host health)
 - [ ] Never import a tool that can write patches into user repos
 - [ ] If OAuth needed for connectors: daemon/web owns OAuth (PKCE); tokens chmod 0600; not agent-subprocess localhost listeners
 - [ ] Imported results wrap through `@tell/schema` before entering report UI
 
-**Cut line:** Skip entirely if Wave 2–3 unfinished. Priya does not need Figma/media MCP imports for the core demo.
+**Cut line:** Skip entirely if Wave 2–3 unfinished. Ashish does not need Figma/media MCP imports for the core demo.
 
 ### Wave 7 — MCP ↔ web parity
 
@@ -279,13 +279,13 @@ Peer lesson: GUI-stripped PATH + user toolchain dirs (`~/.local/bin`, mise/nvm/f
 | Scope | When | Path |
 |---|---|---|
 | Project (default for Tell demo) | Repo already open | `.cursor/mcp.json` |
-| User | Priya wants Tell on every repo | `~/.cursor/mcp.json` merge |
+| User | Ashish wants Tell on every repo | `~/.cursor/mcp.json` merge |
 
 Merge rules: never delete unrelated servers; upsert key `"tell"` only; validate JSON before write; backup `.bak` once.
 
 ### 4.3 Failure modes (must have copy)
 
-| Failure | Priya-facing copy |
+| Failure | Ashish-facing copy |
 |---|---|
 | No Node / wrong version | “Tell needs Node 20+. Run `tell doctor`.” |
 | No Playwright | “Live capture needs Chromium. Offline report still works.” |

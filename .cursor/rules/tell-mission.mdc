@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Tell — always apply
 
-Read USER_STORY.md: we build for **Priya** (solo founder, AI-built UI looks generic, demo tomorrow).
+Read USER_STORY.md: we build for **Ashish** (solo founder, AI-built UI looks generic, demo tomorrow).
 
 ## Golden rules
 1. Product = capture -> diagnose -> art-direct -> reconcile; the report serves the loop, not a dashboard.

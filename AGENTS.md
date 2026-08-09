@@ -1,6 +1,6 @@
 # AGENTS.md — Cursor Agent instructions
 
-You are building **Tell**: an AI taste critic for rendered UI. Read [USER_STORY.md](./USER_STORY.md) first — every feature serves Priya's journey (solo founder, shipped with Cursor, UI looks generic, demo tomorrow).
+You are building **Tell**: an AI taste critic for rendered UI. Read [USER_STORY.md](./USER_STORY.md) first — every feature serves Ashish's journey (solo founder, shipped with Cursor, UI looks generic, demo tomorrow).
 
 ## Mission
 
@@ -26,7 +26,7 @@ Capture rendered UI → deterministic fingerprint → detect tells + drift → t
 | `packages/redesign` | Contrast-grounded reconciliation + diff generation |
 | `packages/mcp` | Cursor MCP server |
 | `packages/cli` | `tell` CLI — diagnose, voice, mcp install, doctor, install-info |
-| `apps/web` | Priya-facing UI + `/api/diagnose`, `/api/setup/*`, `/api/voice`, `/api/redesign`, `/api/install-info` |
+| `apps/web` | Ashish-facing UI + `/api/diagnose`, `/api/setup/*`, `/api/voice`, `/api/redesign`, `/api/install-info` |
 | `apps/web/src/lib/cursor-redesign.ts` | Cursor-SDK-backed patch drafting with deterministic fallback |
 | `apps/web/src/lib/repo-runner.ts` | GitHub clone → install → reachable dev server (local only) |
 | `apps/web/src/lib/discover-routes.ts` | Multi-page route discovery from snapshot HTML |
@@ -113,7 +113,7 @@ Role agents live in `.cursor/agents/`:
 - `redesign-engineer` — reconciliation + diffs
 - `mcp-engineer` — MCP server + Cursor tools
 - `ui-builder` — Tell Report UI
-- `ux-copywriter` — Priya-facing copy
+- `ux-copywriter` — Ashish-facing copy
 - `fixture-smith` — bland demo app
 - `deploy-engineer` — public demo URL
 - `demo-director` — rehearsal + compliance

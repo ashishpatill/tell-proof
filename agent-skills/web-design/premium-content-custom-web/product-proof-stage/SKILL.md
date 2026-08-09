@@ -7,7 +7,7 @@ description: Sub-skill of premium-content-custom-web — put a real product work
 
 Show the product mechanism before making broad claims. The interface is the evidence.
 
-Priya’s buyer does not trust another feature grid. They trust a path they can step through:
+Ashish's buyer does not trust another feature grid. They trust a path they can step through:
 **input → process → draft → review → approve** — with a human gate before anything ships.
 
 ## When to use

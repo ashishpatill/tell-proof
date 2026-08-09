@@ -16,7 +16,7 @@ export default function AccountRoute() {
         <section className="cards" data-tell-auth="authenticated">
           <header className="hero" style={{ padding: "48px 24px" }}>
             <p className="pill">Signed in</p>
-            <h1 style={{ fontSize: 42 }}>Welcome back, Priya ✨</h1>
+            <h1 style={{ fontSize: 42 }}>Welcome back, Ashish ✨</h1>
             <p className="muted-a">Your workspace settings and billing live here.</p>
           </header>
           <article className="card">

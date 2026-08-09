@@ -384,7 +384,7 @@ export const TellReport = z.object({
 export type TellReport = z.infer<typeof TellReport>;
 
 /**
- * Per-user design learning — browser/local only (Priya's machine or future account).
+ * Per-user design learning — browser/local only (Ashish's machine or future account).
  * Distinct from developer corpus learning (`research/design-data.local.json`).
  * Never write this into the monorepo or a shared design-data checkout.
  */

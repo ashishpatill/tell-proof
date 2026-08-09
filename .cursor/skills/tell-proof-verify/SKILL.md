@@ -9,7 +9,7 @@ description: Runs Tell Proof verification after UI changes — apply patch, reca
 
 - After drafting a redesign patch with `tell_redesign` / `tell_apply`
 - Before merging a frontend PR that changes rendered UI
-- When Priya asks whether a visual fix actually improved the surface
+- When Ashish asks whether a visual fix actually improved the surface
 
 ## MCP path (Cursor Agent)
 

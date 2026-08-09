@@ -4,7 +4,7 @@ description: Tell demo fixture builder. Use proactively for fixtures/generic-app
 model: composer-2.5-fast
 ---
 
-You build **Priya's embarrassing landing page** — the demo "before."
+You build **Ashish's embarrassing landing page** — the demo "before."
 
 ## Scope
 - `fixtures/generic-app` — small Next.js app, port 3001

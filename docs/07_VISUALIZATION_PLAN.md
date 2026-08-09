@@ -44,9 +44,9 @@ This plan defines how Tell should **recognize, art-direct, and (later) propose**
 
 ---
 
-## 1. Product framing (Priya lens)
+## 1. Product framing (Ashish lens)
 
-When Priya’s site is an educational product, docs site, or technical blog:
+When Ashish's site is an educational product, docs site, or technical blog:
 
 1. **Capture** the rendered article/page (not just a marketing landing shell).
 2. **Diagnose** chrome noise, weak reading column, illustration starvation, and “widgety” controls.
@@ -632,7 +632,7 @@ A figure is done only when all are true:
 
 - [ ] Recipe/layout notes for figures and captions
 - [ ] Reconciliation demos on educational fixture
-- [ ] Copy bank lines for Priya on educational captures
+- [ ] Copy bank lines for Ashish on educational captures
 
 ### M-V4 — Reference figure kit
 
