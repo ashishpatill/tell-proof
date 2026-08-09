@@ -475,3 +475,14 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   effect (ResizeObserver + fonts.ready). Gate: `|hand−makes.right| < 40px` and `|hand−makes.midY| < 40px`
   at 1440×900. Brand line larger than “makes/motion.” `overflow-x: clip` (not hidden) so scrub sticky works.
 - **Do not:** Trust percentage transforms alone to sell a character–type contact; pin to the glyph box.
+
+## 2026-08-09 — `pipeline:agency-axis-isolation`
+
+- **Failure:** Collapsing typography + spacing + motion into one “polish” pass (or a vibe prompt)
+  produced one decent axis and two soft ones; marketing pages still read as first-draft AI.
+- **Fix:** `agency-quality-site` skill + `pnpm agency:pipeline` enforce Phase 0 ban list, 3-ref
+  board, five-block brief, then typography-only → spacing-only → motion-only → 375px with
+  screenshots. `assertAgencyDelivery` + `applyAgencyPolish` encode the gates in
+  `@tell/design-skills`. `primaryCta` on `DesignBrief` keeps the one action repeated.
+- **Do not:** Ask for type, space, and motion in the same message; do not install external skill
+  marketplaces into the repo — encode principles and run Tell gates.

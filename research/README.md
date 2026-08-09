@@ -13,6 +13,14 @@ measurements instead of taste claims.
 | `critique.json` | Latest score of our own generated pages against those bands |
 | `LOOP_LEDGER.md` | One row per research loop: goal, score movement, what changed |
 
+## Agency reference boards (local)
+
+`research/boards.local.json` lists up to three reference URLs for a pipeline run (gitignored).
+Screenshots land in `research/boards/<run-id>/` (also gitignored). Committed artifacts are the
+skill, runner, brief JSON under `scripts/agency-pipeline/briefs/`, and anonymised learnings.
+
+Run: `pnpm agency:pipeline -- --brief scripts/agency-pipeline/briefs/lensroom.json`
+
 ## What is never committed
 
 `corpus.local.json` holds the reference URLs. It is git-ignored on purpose. No committed file in

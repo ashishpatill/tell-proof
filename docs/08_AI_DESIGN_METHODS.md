@@ -210,6 +210,7 @@ AI synthesizes a direction for *this* product without copying any one reference.
 - Board → inferred keywords + token biases + recipe hints (deterministic scoring first).
 - Gemini (optional) refines a `DirectionPlan`; fallback stays deterministic.
 - Explicit copy: board quality caps result quality.
+- **Cursor pipeline:** `agency-quality-site` + `pnpm agency:pipeline` runs board intake → constrained build → typography-only → spacing-only → motion-only → 375px with screenshot gates (`assertAgencyDelivery`).
 
 ---
 
