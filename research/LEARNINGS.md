@@ -568,3 +568,13 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Eval:** studio **94.5 → 99.0**; foldFigure **0 → 0.38**; matrix **98.3**. Eye: fold shows
   crop-marked board, not a 01–04 stage strip.
 - **Do not:** Park HTML steppers as the studio fold instrument and call it selected-work craft.
+
+## 2026-08-09 — `template:foundry-cut-slips-not-second-catalogue`
+
+- **Failure:** Glyph Press kept a second `feature-alternating` catalogue after marquee removal —
+  same sparse-airway class as archive feature-rows.
+- **Fix:** Drop foundry features-2. Add `ds-cut-slips` (optical-size companions) inside
+  marginalia beats. Strip remaining craft `features-2` feature-rows across dossier/observatory/
+  loom/herbarium/press/lantern/consumer.
+- **Eval:** foundry held **96.7** (no regression); eye shows cut slips on the measure. Matrix **98.3**.
+- **Do not:** Answer a thin craft mid-page by appending another generic feature catalogue.

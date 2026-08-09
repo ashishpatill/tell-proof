@@ -282,14 +282,15 @@ concept until eye + critique clear — one template per loop, never a new shared
 
 - [x] Archive (Stamp Roll) — cross-stamp entry + no feature-rows voids; critique **97.4** (foldFigure 0.43)
 - [x] Studio (Fieldmark) — work-board owns fold; critique **94.5 → 99.0** (foldFigure 0 → 0.38)
-- [ ] Foundry (Glyph Press) — marginalia mid-page proof
-- [ ] Observatory (Nightglass) — chrono ownership
+- [x] Foundry (Glyph Press) — cut slips in marginalia; drop second catalogue; score held **96.7**
+- [x] Craft kinds — strip remaining `features-2` feature-rows (dossier/observatory/loom/herbarium/press/lantern/consumer)
+- [ ] Observatory (Nightglass) — deepen chrono ownership (next loop)
 - [ ] Press (Forme Desk) — gather densify
 - [ ] Dossier (Meridian Atlas) — spread citeability
 - [ ] Lantern (Ember Gate) — silhouette in first viewport
-- [ ] Herbarium / Loom / Consumer — polish only if eye miss
+- [ ] Herbarium / Loom / Consumer — polish only if eye miss after catalogue strip
 - [ ] Marketing kinds — stack/wire/spine/workflow stay distinct; no craft marquee return
-- [ ] LEARNINGS + LOOP_LEDGER updated per promoted loop
+- [x] LEARNINGS + LOOP_LEDGER updated for loops 26–28
 
 ### Goal prompt (paste once per template)
 
@@ -360,6 +361,8 @@ no "Next" blockers for matrix/auth.
 ## Status log
 
 ```
+[2026-08-09] Phase 9 opened — concept-true template uniqueness via tell-recursive-improve.
+[2026-08-09] Phase 9 loops 1–3: archive cross-stamps, studio work-board (94.5→99.0), foundry cut slips + craft feature-rows strip.
 [2026-08-07] Phase 8 stretch shipped — `resolveIntent` + `tell_resolve_intent` MCP + `tell resolve` CLI + Connect Agent UI (11 tools).
 [2026-08-07] Phase 8 Waves 0–2/A0/C0 implemented — install-info, Cursor mcp install, tell CLI, tell_voice, capture token, MCP drift guard (10 tools).
 [2026-08-07] Opened Phase 8 — agent platform distribution plans (docs/11–13) + plumbing reference memory (gitignored local pointer).

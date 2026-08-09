@@ -611,3 +611,13 @@ buckets, never names, hosts, or URLs.
 - **Closed:** `template:studio-html-flow-foldfigure-zero`.
 - **Next weakest:** foundry-editorial **96.7** (marginalia mid-page deepen).
 
+## Loop 28 — Phase 9 foundry cut slips + craft catalogue strip
+
+- **Goal:** Customise Glyph Press mid-page; prevent sparse feature-rows across remaining craft kinds.
+- **Failure named:** Second feature catalogue after marquee cut = empty airways.
+- **Challenger:** `ds-cut-slips` in marginalia; drop foundry features-2; strip craft feature-rows
+  catalogues (dossier/observatory/loom/herbarium/press/lantern/consumer).
+- **Score:** foundry held **96.7**; matrix **98.3**; studio/archive unchanged.
+- **Closed:** `template:foundry-cut-slips-not-second-catalogue`.
+- **Next weakest:** observatory chrono ownership; press gather densify; dossier spread citeability.
+
