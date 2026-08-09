@@ -578,3 +578,9 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   loom/herbarium/press/lantern/consumer.
 - **Eval:** foundry held **96.7** (no regression); eye shows cut slips on the measure. Matrix **98.3**.
 - **Do not:** Answer a thin craft mid-page by appending another generic feature catalogue.
+
+## 2026-08-09 — `platform:mcp-compat-catalog`
+
+- **Failure:** Tell only wrote Cursor MCP config; other hosts (Claude, Codex, OpenCode, Grok, Cline, …) had no `tell mcp install` parity with mainstream agent-compat tables.
+- **Fix:** `PlatformId` + `buildPlatformCatalog` in `@tell/schema`, `platforms[]` on `InstallInfo`, CLI writers for json/toml/yaml/opencode/openclaw, README + Connect Agent table. Muse/Z Code remain snippet-only until paths are verified.
+- **Do not:** Spawn third-party coding agents as Tell subprocesses — compatibility = MCP install into the agent Ashish already uses.
