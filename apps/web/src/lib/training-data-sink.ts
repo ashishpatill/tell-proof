@@ -1,3 +1,4 @@
+import { spawn } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { appendFile, mkdir, writeFile } from "node:fs/promises";
@@ -6,11 +7,8 @@ import { repoRoot } from "./repo-root";
 
 /**
  * Local-only training-data sink.
- * Writes Tell session artifacts into a sibling `tell-design-data` checkout:
- *   {TELL_DESIGN_DATA_REPO}/training-data/...
- *
- * Auto-enables in local/dev when the sibling repo (or env path) exists.
- * Never runs on Vercel unless TELL_TRAINING_DATA=1 is forced.
+ * Writes Tell session + design artifacts into a sibling `tell-design-data` checkout,
+ * then triggers that repo's `sync` (inbox ingest + curated JSONL convert).
  */
 
 export type TrainingSinkKind =
@@ -19,7 +17,8 @@ export type TrainingSinkKind =
   | "redesign"
   | "restyle"
   | "proof"
-  | "matrix";
+  | "matrix"
+  | "design";
 
 type SinkPaths = {
   repo: string;
@@ -31,6 +30,7 @@ type SinkPaths = {
   rawRestyle: string;
   rawProof: string;
   rawMatrix: string;
+  rawDesign: string;
   sessions: string;
   byDay: string;
   meta: string;
@@ -40,6 +40,8 @@ type SinkPaths = {
 let cached: SinkPaths | null | undefined;
 let lastSessionId: string | null = null;
 let loggedReady = false;
+let harnessTimer: ReturnType<typeof setTimeout> | null = null;
+let harnessRunning = false;
 
 function disabledExplicitly(): boolean {
   const flag = process.env.TELL_TRAINING_DATA?.trim().toLowerCase();
@@ -80,13 +82,9 @@ export function resolveDesignDataRepo(): string | null {
 
   const root = repoRoot();
   const candidates = [
-    // Preferred: sibling of tell-proof
     path.resolve(root, "..", "tell-design-data"),
-    // Cursor multi-root / volumes layout
     path.resolve("/volumes/developer/workspace/tell-design-data"),
-    // Nested checkout inside tell-proof (dev mirror)
     path.resolve(root, "tell-design-data"),
-    // cwd walkups (Next often runs from apps/web)
     path.resolve(process.cwd(), "..", "tell-design-data"),
     path.resolve(process.cwd(), "..", "..", "tell-design-data"),
     path.resolve(process.cwd(), "..", "..", "..", "tell-design-data"),
@@ -105,7 +103,6 @@ export function resolveTrainingSink(): SinkPaths | null {
     return cached;
   }
 
-  // Production SaaS: off unless forced
   if (process.env.VERCEL && !forcedOn()) {
     cached = null;
     return cached;
@@ -128,6 +125,7 @@ export function resolveTrainingSink(): SinkPaths | null {
     rawRestyle: path.join(root, "raw", "restyle"),
     rawProof: path.join(root, "raw", "proof"),
     rawMatrix: path.join(root, "raw", "matrix"),
+    rawDesign: path.join(root, "raw", "design"),
     sessions: path.join(root, "sessions"),
     byDay: path.join(root, "by-day"),
     meta: path.join(root, "meta"),
@@ -142,7 +140,6 @@ export function resolveTrainingSink(): SinkPaths | null {
   return cached;
 }
 
-/** Status payload for health / debugging. */
 export function trainingSinkStatus(): {
   enabled: boolean;
   repo: string | null;
@@ -181,6 +178,7 @@ async function ensureDirs(sink: SinkPaths): Promise<void> {
     mkdir(sink.rawRestyle, { recursive: true }),
     mkdir(sink.rawProof, { recursive: true }),
     mkdir(sink.rawMatrix, { recursive: true }),
+    mkdir(sink.rawDesign, { recursive: true }),
     mkdir(sink.sessions, { recursive: true }),
     mkdir(sink.byDay, { recursive: true }),
     mkdir(sink.meta, { recursive: true }),
@@ -222,7 +220,6 @@ function stripHeavyCapture(report: Record<string, unknown>): {
   return { report: clone, screenshotBase64 };
 }
 
-/** Strip screenshots from nested TellReport-like objects without writing PNGs. */
 function slimReport(value: unknown): unknown {
   if (!value || typeof value !== "object") return value;
   const obj = value as Record<string, unknown>;
@@ -252,8 +249,87 @@ async function mirrorByDay(
 }
 
 /**
- * Fire-and-forget safe writer. Never throws into the request path.
+ * Debounced spawn of `tell-design-data sync` so inbox → curated JSONL stays fresh
+ * whenever Tell creates designs or session artifacts.
  */
+export function scheduleDesignDataHarness(sink: SinkPaths = resolveTrainingSink()!): void {
+  if (!sink) return;
+  if (process.env.TELL_TRAINING_DATA_SYNC === "0") return;
+
+  if (harnessTimer) clearTimeout(harnessTimer);
+  harnessTimer = setTimeout(() => {
+    harnessTimer = null;
+    void runDesignDataHarness(sink);
+  }, 1200);
+}
+
+function resolveHarnessCommand(repo: string): { cmd: string; args: string[]; cwd: string } | null {
+  const home = path.join(repo, "training-data");
+  const distCli = path.join(repo, "dist", "cli", "index.js");
+  const srcCli = path.join(repo, "src", "cli", "index.ts");
+  const tsxBin = path.join(repo, "node_modules", ".bin", "tsx");
+
+  if (existsSync(distCli)) {
+    return { cmd: process.execPath, args: [distCli, "sync", "--home", home], cwd: repo };
+  }
+  if (existsSync(tsxBin) && existsSync(srcCli)) {
+    return { cmd: tsxBin, args: [srcCli, "sync", "--home", home], cwd: repo };
+  }
+  if (existsSync(srcCli)) {
+    // Last resort: npx tsx from the harness repo
+    return {
+      cmd: "npx",
+      args: ["--yes", "tsx", srcCli, "sync", "--home", home],
+      cwd: repo,
+    };
+  }
+  return null;
+}
+
+export function runDesignDataHarness(sink: SinkPaths): Promise<void> {
+  if (harnessRunning) {
+    scheduleDesignDataHarness(sink);
+    return Promise.resolve();
+  }
+  const launch = resolveHarnessCommand(sink.repo);
+  if (!launch) {
+    console.warn("[training-data-sink] tell-design-data CLI not found; raw files written only");
+    return Promise.resolve();
+  }
+
+  harnessRunning = true;
+  return new Promise((resolve) => {
+    const child = spawn(launch.cmd, launch.args, {
+      cwd: launch.cwd,
+      env: {
+        ...process.env,
+        TELL_DESIGN_DATA_HOME: sink.root,
+      },
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    let stderr = "";
+    child.stderr?.on("data", (chunk: Buffer) => {
+      stderr += chunk.toString();
+    });
+    child.on("error", (err) => {
+      harnessRunning = false;
+      console.warn("[training-data-sink] harness spawn failed:", err.message);
+      resolve();
+    });
+    child.on("close", (code) => {
+      harnessRunning = false;
+      if (code === 0) {
+        console.info("[training-data-sink] tell-design-data sync ok");
+      } else {
+        console.warn(
+          `[training-data-sink] tell-design-data sync exit ${code}${stderr ? `: ${stderr.slice(0, 400)}` : ""}`,
+        );
+      }
+      resolve();
+    });
+  });
+}
+
 export function recordTrainingEvent(
   kind: TrainingSinkKind,
   payload: Record<string, unknown>,
@@ -322,7 +398,61 @@ export async function writeTrainingEvent(
       live: meta.live,
       url: episode.url,
     });
+    scheduleDesignDataHarness(sink);
     return { sessionId, path: episodePath };
+  }
+
+  if (kind === "design") {
+    const previewHtml = typeof payload.previewHtml === "string" ? payload.previewHtml : "";
+    const spec = (payload.spec as Record<string, unknown> | undefined) ?? undefined;
+    const brief = payload.brief;
+    let htmlRel: string | undefined;
+    if (previewHtml) {
+      const htmlPath = path.join(sink.rawDesign, `${id}.html`);
+      await writeFile(htmlPath, previewHtml, "utf8");
+      htmlRel = path.relative(sink.root, htmlPath);
+      await writeFile(path.join(sessionDir, "preview.html"), previewHtml, "utf8");
+    }
+
+    const body = {
+      id,
+      session_id: sessionId,
+      kind: "design" as const,
+      artifact_kind: "design" as const,
+      created_at: new Date().toISOString(),
+      source: "tell-proof",
+      meta: {
+        ...meta,
+        artifact_kind: "design",
+        htmlPath: htmlRel,
+        htmlBytes: previewHtml.length,
+      },
+      payload: {
+        brief,
+        spec,
+        showcaseKey: payload.showcaseKey ?? meta.showcaseKey ?? null,
+        siteKind: payload.siteKind ?? meta.siteKind ?? null,
+        productName: payload.productName ?? meta.productName ?? null,
+        // Prefer path over embedding huge HTML twice in inbox
+        previewHtml: previewHtml.length <= 80_000 ? previewHtml : undefined,
+        htmlPath: htmlRel,
+      },
+    };
+
+    const outPath = path.join(sink.rawDesign, `${id}.json`);
+    await writeFile(outPath, JSON.stringify(body, null, 2), "utf8");
+    await writeFile(path.join(sessionDir, "design.json"), JSON.stringify(body, null, 2), "utf8");
+    await writeFile(path.join(sink.root, "inbox", `${id}.json`), JSON.stringify(body, null, 2), "utf8");
+    await mirrorByDay(sink, "design", id, { ...body, payload: { ...body.payload, previewHtml: undefined } });
+    await appendLedger(sink, {
+      kind,
+      session_id: sessionId,
+      id,
+      path: path.relative(sink.root, outPath),
+      showcaseKey: body.payload.showcaseKey,
+    });
+    scheduleDesignDataHarness(sink);
+    return { sessionId, path: outPath };
   }
 
   const outDir =
@@ -342,7 +472,6 @@ export async function writeTrainingEvent(
       slimPayload[key] = slimReport(slimPayload[key]);
     }
   }
-  // Matrix cells can be huge — keep summary fields when present
   if (kind === "matrix" && slimPayload.matrix && typeof slimPayload.matrix === "object") {
     const matrix = slimPayload.matrix as Record<string, unknown>;
     if (Array.isArray(matrix.cells)) {
@@ -369,19 +498,14 @@ export async function writeTrainingEvent(
   await writeFile(outPath, JSON.stringify(body, null, 2), "utf8");
   await writeFile(path.join(sessionDir, `${kind}.json`), JSON.stringify(body, null, 2), "utf8");
   await mirrorByDay(sink, kind, id, body);
-  if (kind === "proof" || kind === "matrix") {
-    await writeFile(
-      path.join(sink.root, "inbox", `${id}.json`),
-      JSON.stringify(body, null, 2),
-      "utf8",
-    );
-  }
+  // Inbox is only for harness ingest (TellReport envelopes + design artifacts).
   await appendLedger(sink, {
     kind,
     session_id: sessionId,
     id,
     path: path.relative(sink.root, outPath),
   });
+  scheduleDesignDataHarness(sink);
   return { sessionId, path: outPath };
 }
 
@@ -390,4 +514,8 @@ export function resetTrainingSinkCache(): void {
   cached = undefined;
   lastSessionId = null;
   loggedReady = false;
+  if (harnessTimer) {
+    clearTimeout(harnessTimer);
+    harnessTimer = null;
+  }
 }

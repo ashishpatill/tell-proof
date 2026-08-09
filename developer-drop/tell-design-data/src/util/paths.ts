@@ -7,6 +7,7 @@ export type DataPaths = {
   home: string;
   inbox: string;
   rawEpisodes: string;
+  rawDesign: string;
   curated: string;
   meta: string;
   ledger: string;
@@ -32,6 +33,7 @@ export function pathsFor(home = resolveDataHome()): DataPaths {
     home,
     inbox: path.join(home, "inbox"),
     rawEpisodes: path.join(home, "raw", "episodes"),
+    rawDesign: path.join(home, "raw", "design"),
     curated: path.join(home, "curated"),
     meta: path.join(home, "meta"),
     ledger: path.join(home, "meta", "ledger.jsonl"),
@@ -43,6 +45,7 @@ export async function ensureDataDirs(home = resolveDataHome()): Promise<DataPath
   const p = pathsFor(home);
   await mkdir(p.inbox, { recursive: true });
   await mkdir(p.rawEpisodes, { recursive: true });
+  await mkdir(p.rawDesign, { recursive: true });
   await mkdir(p.curated, { recursive: true });
   await mkdir(p.meta, { recursive: true });
   return p;

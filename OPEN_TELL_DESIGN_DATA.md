@@ -8,19 +8,21 @@ workspace/
   tell-design-data/
 ```
 
-running `pnpm dev` in Tell **automatically** writes every session into:
+running `pnpm dev` in Tell **automatically**:
 
-`tell-design-data/training-data/`
+1. Writes session + design artifacts into `tell-design-data/training-data/`
+2. Triggers `tell-design-data sync` (inbox ingest → curated SFT/DPO JSONL)
 
-Covered flows: Capture/diagnose · voice · redesign · restyle · prove patch · proof verify · scenario matrix.
+Covered flows: Capture · voice · redesign · restyle · prove/verify/matrix ·
+**Studio / showcase / template HTML** (`/api/design`, `/api/design/html`).
 
 Optional `.env.local` in tell-proof:
 
 ```bash
 TELL_DESIGN_DATA_REPO=/absolute/path/to/tell-design-data
-# TELL_TRAINING_DATA=0   # disable
+# TELL_TRAINING_DATA=0        # disable sink
+# TELL_TRAINING_DATA_SYNC=0   # write raw files but skip harness sync
 ```
 
-Check: `GET /api/health/capture` → `trainingData.enabled` should be `true`.
-After a Capture, look under `training-data/raw/episodes/` and `training-data/sessions/`.
-After Prove patch, look under `training-data/raw/proof/`.
+Check: `GET /api/health/capture` → `trainingData.enabled`.
+After generating a template: `training-data/raw/design/` + `training-data/curated/sft.jsonl`.

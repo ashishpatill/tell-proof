@@ -38,18 +38,22 @@ automatically on every successful run:
 
 - `/api/diagnose` · `/api/voice` · `/api/redesign` · `/api/restyle`
 - `/api/proof/apply` · `/api/proof/verify` · `/api/proof/matrix`
+- `/api/design` · `/api/design/html` (templates / studio / showcase websites)
+
+After each write Tell debounces **`tell-design-data sync`** (inbox ingest + curated JSONL).
 
 ```text
 tell-design-data/training-data/
-  raw/episodes|shots|voice|redesign|restyle|proof|matrix/
+  raw/episodes|shots|voice|redesign|restyle|proof|matrix|design/
   by-day/YYYY-MM-DD/<kind>/
   sessions/<sess_id>/
-  inbox/          # for CLI convert/watch
-  curated/        # after tell-design-data convert
+  inbox/          # for CLI convert/watch/sync
+  curated/        # after tell-design-data sync|convert
   meta/ledger.jsonl
 ```
 
 Off on Vercel unless `TELL_TRAINING_DATA=1`. Disable locally with `TELL_TRAINING_DATA=0`.
+Skip harness spawn with `TELL_TRAINING_DATA_SYNC=0`.
 Confirm: `GET /api/health/capture` → `trainingData.enabled`.
 
 Optional CLI (same repo):

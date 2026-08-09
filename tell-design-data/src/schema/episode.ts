@@ -65,7 +65,9 @@ export type RewardComponents = z.infer<typeof RewardComponents>;
 export const DesignEpisode = z.object({
   episode_id: z.string(),
   created_at: z.string(),
-  source: z.enum(["ingest", "watch", "proxy", "manual"]),
+  source: z.enum(["ingest", "watch", "proxy", "manual", "tell-sink", "design"]),
+  /** diagnose loop vs studio/template generation */
+  artifact_kind: z.enum(["diagnose", "design"]).default("diagnose"),
   brief: z.string().default(""),
   url: z.string().default(""),
   viewport: z
@@ -76,11 +78,13 @@ export const DesignEpisode = z.object({
     .optional(),
   outcome: Outcome.default("unknown"),
   reward: RewardComponents,
-  report: LooseTellReport,
+  report: LooseTellReport.default({ findings: [], verdicts: [] }),
   direction: z.record(z.any()).optional(),
   proposal: z.record(z.any()).optional(),
   final_artifact: z.string().optional(),
   proposal_artifact: z.string().optional(),
+  /** Relative path under training-data/ when HTML is externalized */
+  artifact_path: z.string().optional(),
   meta: z.record(z.any()).default({}),
 });
 export type DesignEpisode = z.infer<typeof DesignEpisode>;

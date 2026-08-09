@@ -61,7 +61,34 @@ export function rescoreEpisode(ep: DesignEpisode, thrashHints = 0): DesignEpisod
   };
 }
 
+export function scoreDesignArtifact(opts: {
+  outcome?: Outcome;
+  siteKind?: string;
+  htmlBytes?: number;
+}): RewardComponents {
+  const outcome = opts.outcome ?? "accepted";
+  const humanAccept = outcome === "accepted" || outcome === "edited" ? 1 : outcome === "discarded" ? -0.5 : 0.4;
+  const sizeOk =
+    typeof opts.htmlBytes === "number" && opts.htmlBytes > 2_000 && opts.htmlBytes < 2_000_000 ? 0.85 : 0.5;
+  const total =
+    0.45 * humanAccept +
+    0.35 * sizeOk +
+    0.2 * (opts.siteKind ? 0.8 : 0.4);
+  return {
+    humanAccept,
+    contrastProxy: sizeOk,
+    detectorClearance: 0.75,
+    genericPenalty: 0,
+    thrashPenalty: 0,
+    total: Number(total.toFixed(4)),
+  };
+}
+
 export function isRetainable(ep: DesignEpisode): boolean {
+  if (ep.artifact_kind === "design" || ep.meta?.artifact_kind === "design") {
+    if (ep.outcome === "discarded" && ep.reward.total < 0) return false;
+    return Boolean(ep.final_artifact || ep.artifact_path || ep.proposal);
+  }
   const url = ep.url || ep.report.capture?.url;
   if (!url) return false;
   if (ep.outcome === "discarded" && ep.reward.total < 0) return false;

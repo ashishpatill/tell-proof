@@ -13,6 +13,7 @@ describe("training-data-sink", () => {
   const prevRepo = process.env.TELL_DESIGN_DATA_REPO;
   const prevFlag = process.env.TELL_TRAINING_DATA;
   const prevVercel = process.env.VERCEL;
+  const prevSync = process.env.TELL_TRAINING_DATA_SYNC;
   let tmp: string | undefined;
 
   afterEach(async () => {
@@ -23,6 +24,8 @@ describe("training-data-sink", () => {
     else process.env.TELL_TRAINING_DATA = prevFlag;
     if (prevVercel === undefined) delete process.env.VERCEL;
     else process.env.VERCEL = prevVercel;
+    if (prevSync === undefined) delete process.env.TELL_TRAINING_DATA_SYNC;
+    else process.env.TELL_TRAINING_DATA_SYNC = prevSync;
     if (tmp) await rm(tmp, { recursive: true, force: true });
   });
 
@@ -35,6 +38,7 @@ describe("training-data-sink", () => {
     );
     process.env.TELL_DESIGN_DATA_REPO = tmp;
     process.env.TELL_TRAINING_DATA = "1";
+    process.env.TELL_TRAINING_DATA_SYNC = "0";
     delete process.env.VERCEL;
     resetTrainingSinkCache();
     return tmp;
@@ -96,6 +100,25 @@ describe("training-data-sink", () => {
     const dayDirs = await readdir(path.join(repo, "training-data", "by-day"));
     expect(dayDirs.length).toBeGreaterThan(0);
     expect(trainingSinkStatus().enabled).toBe(true);
+  });
+
+  it("writes design artifacts for template/website generation", async () => {
+    const repo = await seedRepo();
+    const result = await writeTrainingEvent(
+      "design",
+      {
+        brief: { productName: "Northstar", siteKind: "saas-marketing" },
+        spec: { brief: { productName: "Northstar" } },
+        previewHtml: "<html><body>hi</body></html>",
+        showcaseKey: "saas",
+        productName: "Northstar",
+      },
+      { via: "test" },
+    );
+    expect(result).not.toBeNull();
+    expect(result!.path).toContain(`${path.sep}raw${path.sep}design${path.sep}`);
+    const inbox = await readdir(path.join(repo, "training-data", "inbox"));
+    expect(inbox.some((f) => f.startsWith("design_"))).toBe(true);
   });
 
   it("stays off on Vercel by default", async () => {

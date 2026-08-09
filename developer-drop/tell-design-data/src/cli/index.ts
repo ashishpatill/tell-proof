@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 import { readFile } from "node:fs/promises";
-import { ingestReportFile, loadAllEpisodes, updateOutcome } from "../collect/ingest.js";
+import {
+  ingestDesignArtifact,
+  ingestReportFile,
+  loadAllEpisodes,
+  processInbox,
+  updateOutcome,
+} from "../collect/ingest.js";
 import { watchInbox } from "../collect/watch.js";
 import { startProxy } from "../collect/proxy.js";
 import { convertAll, scrubCurated } from "../convert/to-jsonl.js";
@@ -13,6 +19,8 @@ function usage(): never {
 
 Usage:
   tell-design-data ingest <report.json> [--outcome accepted|discarded|edited|unknown] [--brief "..."]
+  tell-design-data ingest-design <design.json>   # { brief, spec, previewHtml, showcaseKey? }
+  tell-design-data sync [--home DIR]            # process inbox + convert curated JSONL
   tell-design-data watch [--home DIR]
   tell-design-data proxy [--listen 3100] [--target http://127.0.0.1:3000]
   tell-design-data convert [--home DIR]
@@ -21,7 +29,7 @@ Usage:
   tell-design-data scrub [--home DIR]
 
 Env:
-  TELL_DESIGN_DATA_HOME   default ~/.tell-design-data
+  TELL_DESIGN_DATA_HOME   default ./training-data when in this repo, else ~/.tell-design-data
   TELL_REPO               optional path to Tell checkout (docs only)
 `);
   process.exit(1);
@@ -52,6 +60,40 @@ async function main(): Promise<void> {
       home,
     });
     console.log(JSON.stringify({ episode_id: ep.episode_id, reward: ep.reward, bucket: retentionBucket(ep) }, null, 2));
+    return;
+  }
+
+  if (cmd === "ingest-design") {
+    const file = rest.find((a) => !a.startsWith("--"));
+    if (!file) usage();
+    const raw = JSON.parse(await readFile(file!, "utf8")) as Record<string, unknown>;
+    const payload =
+      raw.payload && typeof raw.payload === "object" ? (raw.payload as Record<string, unknown>) : raw;
+    const ep = await ingestDesignArtifact({
+      brief: payload.brief as string | Record<string, unknown> | undefined,
+      spec: payload.spec as Record<string, unknown> | undefined,
+      previewHtml: typeof payload.previewHtml === "string" ? payload.previewHtml : undefined,
+      showcaseKey: typeof payload.showcaseKey === "string" ? payload.showcaseKey : undefined,
+      siteKind: typeof payload.siteKind === "string" ? payload.siteKind : undefined,
+      productName: typeof payload.productName === "string" ? payload.productName : undefined,
+      source: "design",
+      home,
+      meta: (raw.meta as Record<string, unknown> | undefined) ?? {},
+    });
+    console.log(
+      JSON.stringify(
+        { episode_id: ep.episode_id, reward: ep.reward, bucket: retentionBucket(ep), artifact_path: ep.artifact_path },
+        null,
+        2,
+      ),
+    );
+    return;
+  }
+
+  if (cmd === "sync") {
+    const inbox = await processInbox(home);
+    const stats = await convertAll(home);
+    console.log(JSON.stringify({ inbox, convert: stats, home }, null, 2));
     return;
   }
 

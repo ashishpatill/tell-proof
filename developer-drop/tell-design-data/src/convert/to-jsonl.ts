@@ -20,6 +20,45 @@ function taskKey(ep: DesignEpisode): string {
 }
 
 function sftRow(ep: DesignEpisode): Record<string, unknown> {
+  if (ep.artifact_kind === "design" || ep.meta?.artifact_kind === "design") {
+    const spec = (ep.proposal as { spec?: Record<string, unknown> } | undefined)?.spec;
+    const user = {
+      role: "user",
+      content: [
+        ep.brief ? `Brief: ${ep.brief}` : null,
+        ep.meta?.siteKind ? `siteKind: ${String(ep.meta.siteKind)}` : null,
+        ep.meta?.showcaseKey ? `template: ${String(ep.meta.showcaseKey)}` : null,
+        spec ? `DesignSpec (JSON): ${JSON.stringify(spec).slice(0, 12_000)}` : null,
+        "Generate a distinctive, feature-true website specimen (HTML/CSS). Prefer measured craft over generic SaaS chrome. Never auto-apply to user repos.",
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    };
+    const assistantPayload = {
+      summary: `Design specimen for ${ep.meta?.productName ?? ep.url}`,
+      artifact_kind: "design",
+      artifact_path: ep.artifact_path,
+      final_artifact: ep.final_artifact,
+      spec,
+    };
+    return scrubJson({
+      episode_id: ep.episode_id,
+      task_id: taskKey(ep),
+      bucket: retentionBucket(ep),
+      reward: ep.reward.total,
+      artifact_kind: "design",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a premium web designer. Build feature-true templates with strong brand presence, intentional type, and anti-generic composition. Output reviewable HTML/CSS only.",
+        },
+        user,
+        { role: "assistant", content: JSON.stringify(assistantPayload) },
+      ],
+    });
+  }
+
   const findings = (ep.report.findings ?? []).slice(0, 12).map((f) => ({
     detector: f["detector"],
     severity: f["severity"],

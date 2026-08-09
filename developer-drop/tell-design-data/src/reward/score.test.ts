@@ -3,7 +3,7 @@ import { mkdtemp, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { ingestReportFile } from "../collect/ingest.js";
+import { ingestDesignArtifact, ingestReportFile } from "../collect/ingest.js";
 import { convertAll } from "../convert/to-jsonl.js";
 import { scoreReport } from "../reward/score.js";
 import { scrubText } from "../scrub/scrub.js";
@@ -55,5 +55,30 @@ test("ingest + convert writes sft jsonl", async () => {
 
   const stats = await convertAll(home);
   assert.equal(stats.sft, 1);
+  await rm(home, { recursive: true, force: true });
+});
+
+test("ingest design artifact + convert writes sft", async () => {
+  const home = await mkdtemp(path.join(tmpdir(), "tdd-design-"));
+  const ep = await ingestDesignArtifact({
+    home,
+    brief: {
+      productName: "Northstar",
+      tagline: "Ship taste",
+      siteKind: "saas-marketing",
+      features: [{ name: "Scoring" }],
+    },
+    spec: {
+      brief: { productName: "Northstar", siteKind: "saas-marketing" },
+      taste: { aestheticLean: "minimal-clean" },
+    },
+    previewHtml: "<!doctype html><html><body><h1>Northstar</h1></body></html>".repeat(40),
+    showcaseKey: "saas",
+    source: "design",
+  });
+  assert.equal(ep.artifact_kind, "design");
+  assert.ok(ep.artifact_path);
+  const stats = await convertAll(home);
+  assert.ok(stats.sft >= 1);
   await rm(home, { recursive: true, force: true });
 });
