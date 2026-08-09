@@ -1,1 +1,1 @@
-harness files are in tell-design-data/ and developer-drop/tell-design-data/
+tell-design-data ready 2026-08-09T21:46:31Z
