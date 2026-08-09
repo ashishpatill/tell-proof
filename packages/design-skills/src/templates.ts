@@ -247,7 +247,7 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
           priority: "p1",
         },
       ],
-      taste: { aestheticLean: "minimal-clean", density: "balanced", motion: "subtle-micro", colorMood: "light-airy" },
+      taste: { aestheticLean: "minimal-clean", density: "balanced", motion: "light-scroll-reveals", colorMood: "light-airy" },
     }),
   },
   {
@@ -306,7 +306,7 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
       taste: {
         aestheticLean: "conversion-sharp",
         density: "balanced",
-        motion: "subtle-micro",
+        motion: "light-scroll-reveals",
         colorMood: "neutral-professional",
         typographyWeight: "bold-confident",
         roundingDepth: "soft",

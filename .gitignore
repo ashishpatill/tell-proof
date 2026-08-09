@@ -51,6 +51,9 @@ docs/04_CLAUDE_PROJECT.md
 data/shared-reports/
 research/shots/
 
+# Local motion verification clips (binaries) — regenerate via pnpm record:template-motion
+docs/media/motion-clips/
+
 # Throwaway probes written during a research loop to answer one question.
 # Anything worth keeping graduates into scripts/design-research/.
 scripts/tmp/

@@ -554,3 +554,26 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   Unit tests 60/60; critique matrix ~96.5 with motion dims no longer in the weakest set.
 - **Do not:** Import React Motion into HTML templates; do not dual smooth-scroll; do not
   weaken restraint bands to fake presence.
+
+## 2026-08-09 — `motion:sitekind-signature-clips`
+
+- **Failure:** Every revealing template shared the same translateY fade — clips of SaaS,
+  consumer, foundry, etc. were interchangeable.
+- **Fix:** `motionSignatureCss(siteKind)` overrides travel/easing/stagger/origin (and a few
+  unique keyframes: foundry mask, press snap, dossier vertical chapter ink). Recorder
+  `pnpm record:template-motion` writes `/opt/cursor/artifacts/motion-clips/*-motion.webm`
+  plus manifest. Educational/fintech bumped to light-scroll-reveals so signatures play.
+- **Do not:** Ship one shared fade for all offerings; do not add infinite ambient loops
+  to “look different.”
+
+## 2026-08-09 — `motion:unique-keyframes-verified`
+
+- **Failure:** First signature pass only tweaked CSS vars; on-camera the clips still read as
+  one vertical fade. Video review rejected uniqueness.
+- **Fix:** Dedicated `@keyframes` per siteKind (`ds-saas-in`, `ds-consumer-in`,
+  `ds-foundry-mask`, `ds-fin-in`, …) forced via `animation-name` on `.ds-reveal`/`.ds-enter`.
+  Chromium probe confirms distinct `getComputedStyle().animationName` per template.
+  `pnpm record:template-motion` writes 15 slowed clips + manifest under
+  `/opt/cursor/artifacts/motion-clips/`.
+- **Do not:** Trust var-only travel deltas as “unique motion”; verify computed animation-name
+  (and a clip) before claiming uniqueness.

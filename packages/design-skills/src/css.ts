@@ -137,22 +137,30 @@ ${reducedInteractive}
 `;
   }
 
-  /* light-scroll-reveals | scroll-narrative | immersive — shared reveal + entrance grammar */
+  /* Shared grammar — siteKind signatures override travel/easing/stagger via CSS vars. */
   const reveals = `
-@keyframes ds-reveal-in{from{opacity:0;transform:translateY(0.5rem)}to{opacity:1;transform:none}}
-@keyframes ds-enter-in{from{opacity:0;transform:translateY(0.4rem)}to{opacity:1;transform:none}}
+:root,body{
+  --m-enter-x:0px;
+  --m-enter-y:0.4rem;
+  --m-reveal-x:0px;
+  --m-reveal-y:0.5rem;
+  --m-reveal-scale:1;
+  --m-origin:center bottom;
+}
+@keyframes ds-reveal-in{from{opacity:0;transform:translate(var(--m-reveal-x),var(--m-reveal-y)) scale(var(--m-reveal-scale));transform-origin:var(--m-origin)}to{opacity:1;transform:none}}
+@keyframes ds-enter-in{from{opacity:0;transform:translate(var(--m-enter-x),var(--m-enter-y)) scale(var(--m-reveal-scale));transform-origin:var(--m-origin)}to{opacity:1;transform:none}}
 @keyframes ds-chapter-fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @media (prefers-reduced-motion: no-preference){
-  .ds-reveal{opacity:0;transform:translateY(0.5rem);transition:opacity var(--m-reveal) var(--m-ease-out),transform var(--m-reveal) var(--m-ease-out)}
+  .ds-reveal{opacity:0;transform:translate(var(--m-reveal-x),var(--m-reveal-y)) scale(var(--m-reveal-scale));transition:opacity var(--m-reveal) var(--m-ease-out),transform var(--m-reveal) var(--m-ease-out)}
   .ds-reveal.is-in{opacity:1;transform:none}
-  .ds-enter{opacity:0;transform:translateY(0.4rem);animation:ds-enter-in var(--m-entrance) var(--m-ease-out) forwards;animation-delay:calc(var(--enter-i,0) * var(--m-stagger))}
+  .ds-enter{opacity:0;transform:translate(var(--m-enter-x),var(--m-enter-y)) scale(var(--m-reveal-scale));animation:ds-enter-in var(--m-entrance) var(--m-ease-out) forwards;animation-delay:calc(var(--enter-i,0) * var(--m-stagger))}
   .ds-stagger > *:nth-child(1){transition-delay:calc(0 * var(--m-stagger))}
   .ds-stagger > *:nth-child(2){transition-delay:calc(1 * var(--m-stagger))}
   .ds-stagger > *:nth-child(3){transition-delay:calc(2 * var(--m-stagger))}
   .ds-stagger > *:nth-child(4){transition-delay:calc(3 * var(--m-stagger))}
   .ds-stagger > *:nth-child(5){transition-delay:calc(4 * var(--m-stagger))}
   .ds-stagger > *:nth-child(6){transition-delay:calc(5 * var(--m-stagger))}
-  .ds-reveal:not(.is-in) .ds-stagger > *{opacity:0;transform:translateY(0.4rem)}
+  .ds-reveal:not(.is-in) .ds-stagger > *{opacity:0;transform:translate(var(--m-enter-x),var(--m-enter-y)) scale(var(--m-reveal-scale))}
   .ds-reveal.is-in .ds-stagger > *{opacity:1;transform:none;transition:opacity var(--m-reveal) var(--m-ease-out),transform var(--m-reveal) var(--m-ease-out)}
 }
 @supports (animation-timeline: view()){
@@ -231,9 +239,195 @@ ${reducedInteractive}
 }
 
 /**
- * Lean-specific art direction. These are the differences a reader would describe in words —
- * how structure is drawn, how headings sit, what a card is — rather than incidental tweaks.
+ * Per–siteKind motion signatures — dedicated keyframes + travel so each offering
+ * is visually unique on camera (not one shared translateY fade).
  */
+function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
+  const table: Record<string, string> = {
+    "saas-marketing": `
+@keyframes ds-saas-in{from{opacity:0;transform:translateY(1.25rem)}to{opacity:1;transform:none}}
+[data-sitekind="saas-marketing"]{--m-stagger:48ms;--m-entrance:420ms;--m-reveal:360ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="saas-marketing"] .ds-enter,
+  [data-sitekind="saas-marketing"] .ds-reveal,
+  [data-sitekind="saas-marketing"] .ds-reveal .ds-stagger > *{animation-name:ds-saas-in}
+  [data-sitekind="saas-marketing"] .ds-reveal:not(.is-in),
+  [data-sitekind="saas-marketing"] .ds-reveal:not(.is-in) .ds-stagger > *{transform:translateY(1.25rem)}
+}
+[data-sitekind="saas-marketing"] .ds-btn:hover{transform:translateY(-2px)}
+`,
+    "dashboard-webapp": `
+[data-sitekind="dashboard-webapp"] .ds-reveal,
+[data-sitekind="dashboard-webapp"] .ds-enter{opacity:1!important;transform:none!important;animation:none!important}
+[data-sitekind="dashboard-webapp"] .ds-priority-chip,
+[data-sitekind="dashboard-webapp"] .ds-app-nav-item{transition:transform 140ms var(--m-ease),box-shadow 140ms var(--m-ease),background-color 140ms var(--m-ease)}
+[data-sitekind="dashboard-webapp"] .ds-priority-chip:hover,
+[data-sitekind="dashboard-webapp"] .ds-app-nav-item:hover{transform:translateX(3px)}
+[data-sitekind="dashboard-webapp"] .ds-priority-chip.is-live{box-shadow:inset 3px 0 0 var(--c-accent)}
+`,
+    "corporate-story": `
+@keyframes ds-corp-in{from{opacity:0;transform:translateY(2rem);filter:blur(0)}to{opacity:1;transform:none}}
+[data-sitekind="corporate-story"]{--m-stagger:96ms;--m-entrance:720ms;--m-reveal:580ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="corporate-story"] .ds-enter,
+  [data-sitekind="corporate-story"] .ds-reveal,
+  [data-sitekind="corporate-story"] .ds-reveal .ds-stagger > *{animation-name:ds-corp-in}
+  [data-sitekind="corporate-story"] .ds-reveal:not(.is-in){transform:translateY(2rem)}
+}
+@supports (animation-timeline: view()){
+  [data-sitekind="corporate-story"] .ds-reveal{animation-range:entry 10% cover 55%}
+}
+`,
+    "docs-educational": `
+@keyframes ds-edu-in{from{opacity:0;transform:translateX(-0.75rem)}to{opacity:1;transform:none}}
+[data-sitekind="docs-educational"]{--m-stagger:36ms;--m-entrance:340ms;--m-reveal:300ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="docs-educational"] .ds-enter,
+  [data-sitekind="docs-educational"] .ds-reveal,
+  [data-sitekind="docs-educational"] .ds-reveal .ds-stagger > *{animation-name:ds-edu-in}
+  [data-sitekind="docs-educational"] .ds-reveal:not(.is-in){transform:translateX(-0.75rem)}
+  [data-sitekind="docs-educational"] .ds-figure-steps [data-step].is-active{transform:translateX(6px)}
+}
+`,
+    "fintech-marketing": `
+@keyframes ds-fin-in{from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:none}}
+[data-sitekind="fintech-marketing"]{--m-stagger:40ms;--m-entrance:300ms;--m-reveal:260ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="fintech-marketing"] .ds-enter,
+  [data-sitekind="fintech-marketing"] .ds-reveal,
+  [data-sitekind="fintech-marketing"] .ds-reveal .ds-stagger > *{animation-name:ds-fin-in;transform-origin:center center}
+  [data-sitekind="fintech-marketing"] .ds-reveal:not(.is-in){transform:scale(0.94)}
+  [data-sitekind="fintech-marketing"] .ds-metric:hover{transform:scale(1.015)}
+}
+`,
+    "art-directed-studio": `
+@keyframes ds-studio-in{from{opacity:0;transform:translateY(2.5rem)}to{opacity:1;transform:none}}
+[data-sitekind="art-directed-studio"]{--m-stagger:80ms;--m-entrance:760ms;--m-reveal:600ms}
+[data-sitekind="art-directed-studio"] .ds-chapter-pin{min-height:160vh}
+[data-sitekind="art-directed-studio"] .ds-chapter-progress{height:4px;background:var(--c-accent)}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="art-directed-studio"] .ds-enter,
+  [data-sitekind="art-directed-studio"] .ds-reveal,
+  [data-sitekind="art-directed-studio"] .ds-reveal .ds-stagger > *{animation-name:ds-studio-in}
+  [data-sitekind="art-directed-studio"] .ds-reveal:not(.is-in){transform:translateY(2.5rem)}
+}
+`,
+    "consumer-craft": `
+@keyframes ds-consumer-in{from{opacity:0;transform:translateX(-1.75rem)}to{opacity:1;transform:none}}
+@keyframes ds-consumer-in-alt{from{opacity:0;transform:translateX(1.75rem)}to{opacity:1;transform:none}}
+[data-sitekind="consumer-craft"]{--m-stagger:56ms;--m-entrance:540ms;--m-reveal:440ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="consumer-craft"] .ds-enter,
+  [data-sitekind="consumer-craft"] .ds-reveal{animation-name:ds-consumer-in}
+  [data-sitekind="consumer-craft"] .ds-reveal .ds-stagger > *:nth-child(odd){animation-name:ds-consumer-in}
+  [data-sitekind="consumer-craft"] .ds-reveal .ds-stagger > *:nth-child(even){animation-name:ds-consumer-in-alt}
+  [data-sitekind="consumer-craft"] .ds-reveal:not(.is-in){transform:translateX(-1.75rem)}
+  [data-sitekind="consumer-craft"] .ds-reveal:not(.is-in) .ds-stagger > *:nth-child(even){transform:translateX(1.75rem)}
+}
+`,
+    "editorial-foundry": `
+@keyframes ds-foundry-mask{from{opacity:0;clip-path:inset(0 0 92% 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
+[data-sitekind="editorial-foundry"]{--m-stagger:28ms;--m-entrance:480ms;--m-reveal:400ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="editorial-foundry"] .ds-enter,
+  [data-sitekind="editorial-foundry"] .ds-reveal,
+  [data-sitekind="editorial-foundry"] .ds-reveal .ds-stagger > *{
+    animation-name:ds-foundry-mask;
+  }
+  [data-sitekind="editorial-foundry"] .ds-reveal:not(.is-in){clip-path:inset(0 0 92% 0);opacity:0}
+}
+`,
+    "research-dossier": `
+@keyframes ds-dossier-in{from{opacity:0;transform:translateX(1.5rem)}to{opacity:1;transform:none}}
+[data-sitekind="research-dossier"]{--m-stagger:44ms;--m-entrance:480ms;--m-reveal:400ms}
+[data-sitekind="research-dossier"] .ds-chapter-progress{
+  left:auto;right:0;top:0;bottom:0;width:3px;height:auto;transform-origin:top center;background:var(--c-accent);
+}
+@keyframes ds-chapter-fill-y{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="research-dossier"] .ds-enter,
+  [data-sitekind="research-dossier"] .ds-reveal,
+  [data-sitekind="research-dossier"] .ds-reveal .ds-stagger > *{animation-name:ds-dossier-in}
+  [data-sitekind="research-dossier"] .ds-reveal:not(.is-in){transform:translateX(1.5rem)}
+}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    [data-sitekind="research-dossier"] .ds-chapter-progress{animation-name:ds-chapter-fill-y}
+  }
+}
+`,
+    "signal-observatory": `
+@keyframes ds-obs-in{from{opacity:0;transform:translateY(0.35rem) scale(0.98)}to{opacity:1;transform:none}}
+[data-sitekind="signal-observatory"]{--m-stagger:28ms;--m-entrance:280ms;--m-reveal:240ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="signal-observatory"] .ds-enter,
+  [data-sitekind="signal-observatory"] .ds-reveal,
+  [data-sitekind="signal-observatory"] .ds-reveal .ds-stagger > *{animation-name:ds-obs-in}
+  [data-sitekind="signal-observatory"] .ds-reveal.is-in .ds-cal-tol,
+  [data-sitekind="signal-observatory"] .ds-reveal.is-in .ds-index-mark{letter-spacing:0.16em}
+}
+`,
+    "archive-index": `
+@keyframes ds-archive-in{from{opacity:0;transform:translateX(-1.25rem)}to{opacity:1;transform:none}}
+[data-sitekind="archive-index"]{--m-stagger:22ms;--m-entrance:320ms;--m-reveal:280ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="archive-index"] .ds-enter,
+  [data-sitekind="archive-index"] .ds-reveal,
+  [data-sitekind="archive-index"] .ds-reveal .ds-stagger > *{animation-name:ds-archive-in}
+  [data-sitekind="archive-index"] .ds-reveal:not(.is-in){transform:translateX(-1.25rem)}
+  [data-sitekind="archive-index"] .ds-index-row:hover{transform:translateX(4px)}
+}
+`,
+    "commerce-loom": `
+@keyframes ds-loom-a{from{opacity:0;transform:translate(-1.4rem,0.4rem)}to{opacity:1;transform:none}}
+@keyframes ds-loom-b{from{opacity:0;transform:translate(1.4rem,0.4rem)}to{opacity:1;transform:none}}
+[data-sitekind="commerce-loom"]{--m-stagger:52ms;--m-entrance:500ms;--m-reveal:420ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="commerce-loom"] .ds-enter{animation-name:ds-loom-a}
+  [data-sitekind="commerce-loom"] .ds-reveal{animation-name:ds-loom-a}
+  [data-sitekind="commerce-loom"] .ds-reveal .ds-stagger > *:nth-child(odd){animation-name:ds-loom-a}
+  [data-sitekind="commerce-loom"] .ds-reveal .ds-stagger > *:nth-child(even){animation-name:ds-loom-b}
+  [data-sitekind="commerce-loom"] .ds-reveal:not(.is-in) .ds-stagger > *:nth-child(odd){transform:translate(-1.4rem,0.4rem)}
+  [data-sitekind="commerce-loom"] .ds-reveal:not(.is-in) .ds-stagger > *:nth-child(even){transform:translate(1.4rem,0.4rem)}
+}
+`,
+    "field-guide": `
+@keyframes ds-field-in{from{opacity:0;transform:translateY(2.1rem) scale(0.97)}to{opacity:1;transform:none}}
+[data-sitekind="field-guide"]{--m-stagger:70ms;--m-entrance:640ms;--m-reveal:520ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="field-guide"] .ds-enter,
+  [data-sitekind="field-guide"] .ds-reveal,
+  [data-sitekind="field-guide"] .ds-reveal .ds-stagger > *{animation-name:ds-field-in}
+  [data-sitekind="field-guide"] .ds-reveal:not(.is-in){transform:translateY(2.1rem) scale(0.97)}
+}
+`,
+    "press-atelier": `
+@keyframes ds-press-snap{0%{opacity:0;transform:translateY(0.55rem)}55%{opacity:1;transform:translateY(-0.12rem)}100%{opacity:1;transform:none}}
+[data-sitekind="press-atelier"]{--m-stagger:16ms;--m-entrance:260ms;--m-reveal:220ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="press-atelier"] .ds-enter,
+  [data-sitekind="press-atelier"] .ds-reveal,
+  [data-sitekind="press-atelier"] .ds-reveal .ds-stagger > *{animation-name:ds-press-snap}
+}
+`,
+    "lantern-path": `
+@keyframes ds-lantern-in{from{opacity:0;transform:translateY(1.6rem) scale(0.985)}to{opacity:1;transform:none}}
+[data-sitekind="lantern-path"]{--m-stagger:64ms;--m-entrance:600ms;--m-reveal:500ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="lantern-path"] .ds-enter,
+  [data-sitekind="lantern-path"] .ds-reveal,
+  [data-sitekind="lantern-path"] .ds-reveal .ds-stagger > *{animation-name:ds-lantern-in}
+  [data-sitekind="lantern-path"] .ds-reveal:not(.is-in){transform:translateY(1.6rem) scale(0.985)}
+  [data-sitekind="lantern-path"] .ds-way-mark.is-active{transform:translateX(4px)}
+  [data-sitekind="lantern-path"] .ds-path-near .ds-sil{transition:opacity 480ms var(--m-ease-out),transform 480ms var(--m-ease-out)}
+}
+`,
+  };
+
+  return table[siteKind] ?? "";
+}
+
+
 function leanCss(lean: DesignSpec["taste"]["aestheticLean"]): string {
   if (lean === "minimal-clean") {
     return `
@@ -2840,6 +3034,7 @@ body[data-mood="dark-premium"] .ds-flow-card{background:color-mix(in oklab,var(-
 ${leanCss(spec.taste.aestheticLean)}
 ${siteKindCss()}
 ${motionCss(spec.taste.motion)}
+${motionSignatureCss(spec.brief.siteKind)}
 
 @media (max-width:1080px){
   .ds-bento{grid-template-columns:repeat(4,1fr)}

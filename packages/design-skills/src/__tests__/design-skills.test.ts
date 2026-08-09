@@ -289,6 +289,21 @@ describe("measured craft floors", () => {
     expect(previewHtml).not.toContain("animation-iteration-count:infinite");
   });
 
+  it("ships distinct motion signatures per site kind", () => {
+    const saas = designFromFeatures(SHOWCASE_BRIEFS.saas!).previewHtml;
+    const consumer = designFromFeatures(SHOWCASE_BRIEFS.consumer!).previewHtml;
+    const foundry = designFromFeatures(SHOWCASE_BRIEFS.foundry!).previewHtml;
+    const fintech = designFromFeatures(SHOWCASE_BRIEFS.fintech!).previewHtml;
+    expect(saas).toContain("ds-saas-in");
+    expect(consumer).toContain("ds-consumer-in");
+    expect(consumer).toContain("ds-consumer-in-alt");
+    expect(foundry).toContain("ds-foundry-mask");
+    expect(fintech).toContain("ds-fin-in");
+    expect(saas).not.toContain("ds-consumer-in");
+    expect(consumer).not.toContain("ds-fin-in");
+    expect(foundry).not.toContain("ds-saas-in");
+  });
+
   it("ships hero entrance + stagger + view-timeline for scroll reveals", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
     expect(spec.taste.motion).toBe("light-scroll-reveals");
