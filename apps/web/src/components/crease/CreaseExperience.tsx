@@ -202,7 +202,7 @@ export function CreaseExperience() {
           <div className="cr-hero-media" id="featured">
             <img
               src={HERO_IMAGE}
-              alt="Floodlit cricket stadium on match night"
+              alt="Cricket match underway on a green oval beneath a city skyline"
               width={2000}
               height={1200}
               fetchPriority="high"
@@ -223,11 +223,11 @@ export function CreaseExperience() {
               CREASE
             </p>
             <h1 id="cr-hero-title" className="cr-display">
-              India chase 287 under Adelaide lights
+              India chase 287 beneath the skyline
             </h1>
             <p className="cr-lede">
               {FEATURED.teamA.name} {FEATURED.teamA.score} ({FEATURED.teamA.overs}) need 73 from 70
-              against {FEATURED.teamB.name}. The middle overs decide who owns the night.
+              against {FEATURED.teamB.name}. The middle overs decide who owns the afternoon.
             </p>
             <div className="cr-hero-actions">
               <a className="cr-btn cr-btn-primary" href={`#match-${FEATURED.id}`}>

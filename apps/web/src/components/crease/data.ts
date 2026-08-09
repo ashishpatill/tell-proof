@@ -36,8 +36,8 @@ export const LIVE_MATCHES: LiveMatch[] = [
     id: "ind-aus-2",
     status: "live",
     format: "ODI",
-    series: "India tour of Australia · 2nd ODI",
-    venue: "Adelaide Oval",
+    series: "Asia Cup warm-up · India v Australia",
+    venue: "The Padang, Singapore",
     teamA: { code: "IND", name: "India", score: "214/4", overs: "38.2" },
     teamB: { code: "AUS", name: "Australia", score: "286/8", overs: "50.0" },
     note: "India need 73 from 70 balls",
@@ -91,11 +91,10 @@ export const STORIES: Story[] = [
   {
     id: "s1",
     kicker: "Match notebook",
-    title: "Kohli’s tempo under lights — calm until the required rate asks a question",
-    dek: "India’s chase in Adelaide is being built in partnerships, not panic. The middle overs are the story.",
-    image:
-      "https://images.unsplash.com/photo-1540747916308-c4bcf7c3d28c?auto=format&fit=crop&w=1400&q=80",
-    imageAlt: "Floodlit cricket stadium packed for a night match",
+    title: "Kohli’s tempo in the chase — calm until the required rate asks a question",
+    dek: "India’s reply at the Padang is being built in partnerships, not panic. The middle overs are the story.",
+    image: "/crease/hero-match.jpg",
+    imageAlt: "Cricket match in progress on a green oval with city skyline beyond the trees",
     read: "6 min",
   },
   {
@@ -103,19 +102,17 @@ export const STORIES: Story[] = [
     kicker: "Technique",
     title: "Why the short ball still owns evening cricket",
     dek: "Pace into the pitch, carry into the gloves — and a cordon that refuses to blink.",
-    image:
-      "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Cricket bat and ball on grass",
+    image: "/crease/ball-grass.jpg",
+    imageAlt: "Cherry cricket ball resting on green outfield grass",
     read: "4 min",
   },
   {
     id: "s3",
     kicker: "Series frame",
-    title: "Adelaide’s square boundaries rewrite who gets to clear the rope",
-    dek: "A ground that rewards timing over muscle — and punishes the mistimed slog.",
-    image:
-      "https://images.unsplash.com/photo-1624526267942-ab0ff8a3e972?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Cricket bowler in delivery stride",
+    title: "Square boundaries rewrite who gets to clear the rope",
+    dek: "Grounds that reward timing over muscle — and punish the mistimed slog.",
+    image: "/crease/sweep-shot.jpg",
+    imageAlt: "Batter playing a sweep shot in cricket whites",
     read: "5 min",
   },
   {
@@ -123,9 +120,8 @@ export const STORIES: Story[] = [
     kicker: "Voices",
     title: "The quiet craft of a good nightwatchman",
     dek: "Not heroism — occupation. Leaving a morning for the proper batters.",
-    image:
-      "https://images.unsplash.com/photo-1593766788306-28561086693e?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Cricket players walking on the field",
+    image: "/crease/batter-stance.jpg",
+    imageAlt: "Batter in whites waiting at the crease beside the stumps",
     read: "3 min",
   },
 ];
@@ -157,9 +153,9 @@ export const T20_RANKINGS: RankingRow[] = [
 export const SERIES = [
   {
     id: "ser1",
-    name: "India in Australia",
-    window: "Now · ODIs",
-    detail: "2nd of 3 · Adelaide live",
+    name: "India v Australia",
+    window: "Now · ODI",
+    detail: "Warm-up · Padang live",
   },
   {
     id: "ser2",
@@ -181,5 +177,4 @@ export const SERIES = [
   },
 ];
 
-export const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1540747916308-c4bcf7c3d28c?auto=format&fit=crop&w=2000&q=80";
+export const HERO_IMAGE = "/crease/hero-match.jpg";
