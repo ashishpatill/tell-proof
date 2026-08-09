@@ -31,15 +31,18 @@ const DEFAULT_BANS = [
   "centered-everything",
   "equal three-card feature grids",
   "shadow-everywhere",
+  "award claims without evidence",
+  "fake logo-wall theater",
 ];
 
-/** Detect common AI-default / ban-list failures in emitted HTML. */
+/** Detect common AI-default / ban-list / design-rigor failures in emitted HTML. */
 export function assertAgencyDelivery(
   spec: DesignSpec,
   html: string,
   options: {
     requirePolishAxes?: boolean;
     banList?: string[];
+    requireRigor?: boolean;
   } = {},
 ): AgencyDeliveryReport {
   const banList = [...DEFAULT_BANS, ...(options.banList ?? []), ...(spec.brief.banList ?? [])];
@@ -62,6 +65,24 @@ export function assertAgencyDelivery(
     /#([cC]26[bB]4[aA]|[eE]07[aA]5[fF]|[dD]46[aA]3[aA]|terracotta)/i.test(html);
 
   const deadHash = /\shref=["']#["']/.test(html);
+
+  const awardClaims =
+    /award[- ]winning|awwwards|site of the day|sotd|css design awards|honors? recognition/i.test(
+      html,
+    );
+
+  const fakeTrustTheater =
+    /trusted by (thousands|millions|fortune|industry leaders)|logos? of (our )?(partners|customers) you('ll)? recognize/i.test(
+      html,
+    );
+
+  const dualSmoothScroll =
+    (/locomotive/i.test(html) && /lenis/i.test(html)) ||
+    (/data-scroll-container/i.test(html) && /lenis/i.test(html) && /locomotive/i.test(html));
+
+  const glassPanelUses = (html.match(/\bclass="[^"]*\bds-glass[\w-]*/g) ?? []).length;
+  const blurCount = (html.match(/backdrop-filter:\s*blur/gi) ?? []).length;
+  const glassEverywhere = glassPanelUses >= 4 || (blurCount >= 10 && glassPanelUses >= 2);
 
   const findings: AgencyFinding[] = [
     check(
@@ -118,6 +139,37 @@ export function assertAgencyDelivery(
       "Ban list is explicit — constraints beat vibes.",
     ),
   ];
+
+  if (options.requireRigor !== false) {
+    findings.push(
+      check(
+        "rigor-no-award-claims",
+        !awardClaims,
+        "No award/recognition claims without verifiable evidence — quality bar ≠ trophy copy.",
+      ),
+      check(
+        "rigor-no-fake-trust",
+        !fakeTrustTheater,
+        "No invented trust theater — omit logo walls when proof is not declared.",
+      ),
+      check(
+        "rigor-one-motion-system",
+        !dualSmoothScroll,
+        "At most one smooth-scroll / motion engine — never dual scroll stacks.",
+      ),
+      check(
+        "rigor-no-glass-everywhere",
+        !glassEverywhere,
+        "Glass/frost is punctuation, not the whole surface language.",
+      ),
+      check(
+        "rigor-hero-authored",
+        /ds-hero|data-section="hero"|id="top"/.test(html) &&
+          (/ds-display|<h1/i.test(html)),
+        "First viewport has an authored hero with a real display claim.",
+      ),
+    );
+  }
 
   if (options.requirePolishAxes) {
     const axes = agencyPolishAxesPresent(html);

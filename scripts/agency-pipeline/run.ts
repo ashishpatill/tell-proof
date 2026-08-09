@@ -277,11 +277,15 @@ async function captureRefs(refs: NonNullable<BoardsLocal["refs"]>, outDir: strin
         "Match the typography scale, spacing rhythm, and motion of the reference board.",
         "Do not copy the layouts.",
         "",
-        "From the refs, note (agent fills after eye review):",
+        "Fill after eye review (see DESIGN_RIGOR.md):",
+        "- Visual thesis: …",
+        "- Compositional lane: minimal editorial grid | nested premium shells | image-first stage | documentary chapters | conversion landing",
+        "- Craft nodes (1–2 Tell skills): …",
         "- Type: …",
         "- Spacing: …",
         "- Motion: …",
         "- Signature to invent for THIS subject (not cloned): …",
+        "- Asset honesty: …",
         "",
       ].join("\n"),
       "utf8",
@@ -469,7 +473,7 @@ async function runPhase(opts: {
   // 4-ship
   const html = readCurrentHtml(outDir, state);
   writeFileSync(resolve(outDir, "phase4-final.html"), html, "utf8");
-  copyFileSync(resolve(outDir, state.currentHtml), resolve(outDir, "SHIP.html"), "utf8");
+  writeFileSync(resolve(outDir, "SHIP.html"), html, "utf8");
   return {
     row: {
       phase,

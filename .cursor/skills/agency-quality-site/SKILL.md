@@ -6,25 +6,27 @@ description: Cursor-native agency marketing-site pipeline — ONE PHASE AT A TIM
 # agency-quality-site
 
 Full playbook: `agent-skills/web-design/premium-content-custom-web/agency-quality-site/SKILL.md`  
-Copy/paste prompts: `…/agency-quality-site/PROMPTS.md`
+Copy/paste prompts: `…/agency-quality-site/PROMPTS.md`  
+Design rigor: `…/agency-quality-site/DESIGN_RIGOR.md`
 
 ## Quick contract
 
 1. **One phase per cycle** — Goal → run → read screenshots → Loop ≤3 → `--mark-pass` → next.
 2. Phases: `1-refs` → `2-build` → `3a-typography` → `3b-spacing` → `3c-motion` → `3d-mobile` → `4-ship`
 3. Each phase starts from `current.html` of the last **passed** phase.
-4. Never combine axes. Never craft `--all`.
-5. Status: `pnpm agency:pipeline -- --brief <brief> --status`
+4. Phase 0 reads `DESIGN_RIGOR.md` — pick one lane + 1–2 craft nodes before build.
+5. Never combine axes. Never craft `--all`.
+6. Status: `pnpm agency:pipeline -- --brief <brief> --status`
 
 ## Session opener
 
 ```
 Use agency-quality-site.
 Brief: scripts/agency-pipeline/briefs/lensroom.json
---status, then Goal/Loop ONLY the current phase until --mark-pass; repeat.
+Read DESIGN_RIGOR.md. --status, then Goal/Loop ONLY the current phase until --mark-pass; repeat.
 ```
 
 ## Related
 
-- `premium-content-custom-web`, `gates-until-verified`, `tell-proof-verify`, `design-research-loop`
+- `premium-content-custom-web`, `agency-minimal-grid`, `gates-until-verified`, `tell-proof-verify`, `design-research-loop`
 - `docs/08_AI_DESIGN_METHODS.md` (reference board + compose slices)

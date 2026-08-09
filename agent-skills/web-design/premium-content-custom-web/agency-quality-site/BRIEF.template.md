@@ -22,4 +22,6 @@ Tell default: `@tell/design-skills` preview HTML + token CSS, served locally for
 
 ## 5. Ban list
 
-Banned: purple/violet gradients · emoji as icons · Inter as the display font · generic stock-photo placeholders · centered-everything layouts · equal 3-feature card grids · shadow-everywhere · cream+#F4F1EA paper with terracotta accent · broadsheet hairline-only dense columns as a default when the brief did not ask for them.
+Banned: purple/violet gradients · emoji as icons · Inter as the display font · generic stock-photo placeholders · centered-everything layouts · equal three-card feature grids · shadow-everywhere · cream+#F4F1EA paper with terracotta accent · broadsheet hairline-only dense columns as a default when the brief did not ask for them · award claims without evidence · fake logo-wall theater.
+
+Also read `DESIGN_RIGOR.md` — pick one compositional lane and 1–2 Tell craft nodes before building.

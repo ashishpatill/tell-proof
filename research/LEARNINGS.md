@@ -496,3 +496,14 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `--all` refused. Skill + PROMPTS.md give Goal + Loop per phase; `current.html` carries
   forward only after `--mark-pass`. PLAN.md orchestrator Goal/Loop added.
 - **Do not:** Execute the whole agency recipe in one agent turn and call it polished.
+
+## 2026-08-09 — `pipeline:design-rigor-lanes`
+
+- **Failure:** Agency pipeline had ban lists and polish axes but no explicit compositional
+  lane / craft-node choice — builds stayed competent without a unique spatial thesis.
+- **Fix:** `DESIGN_RIGOR.md` (thesis, one lane, 1–2 Tell crafts, honest assets, reject list).
+  `DIRECTION.md` template requires those fields. `assertAgencyDelivery` adds rigor gates
+  (no award claims, no fake trust theater, one motion system, authored hero). Glass check
+  counts `.ds-glass*` markup only (shared CSS comments false-fired).
+- **Do not:** Mix unrelated aesthetic systems in one pass; do not claim awards; do not
+  treat quality as a trophy string in copy.

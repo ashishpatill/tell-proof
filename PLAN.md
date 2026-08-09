@@ -168,8 +168,9 @@ If blocked: note in Status log and continue with the next unchecked item.
 - [x] Skill + PROMPTS.md with Goal/Loop per phase
 - [x] Runner is phase-gated (`--phase`, `--reshoot`, `--mark-pass`, `--status`); craft `--all` refused
 - [x] `assertAgencyDelivery` + axis polish helpers in `@tell/design-skills`
-- [ ] Agent executes Lensroom (or next brief) **one phase at a time** with eye loops until `4-ship` marked pass
-- [ ] Repeatable misses encoded back into gates / LEARNINGS
+- [x] `DESIGN_RIGOR.md` — compositional lanes + honesty bar (principle-only)
+- [x] Agent executes Lensroom brief **one phase at a time** through `4-ship` (STATE + PHASE_LEDGER)
+- [x] Repeatable misses encoded back into gates / LEARNINGS
 
 ### Goal prompt (orchestrator — paste once, still one phase per cycle)
 

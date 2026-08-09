@@ -44,12 +44,14 @@ State lives in `research/boards/<run-id>/STATE.json` (gitignored boards dir). Le
 
 Read once per run (not a `--phase`, but required):
 
-1. This skill + `BRIEF.template.md` + `PROMPTS.md`
+1. This skill + `BRIEF.template.md` + `PROMPTS.md` + **`DESIGN_RIGOR.md`**
 2. `premium-content-custom-web`, `design-system-foundation`, `conversion-landing-craft` (if one CTA)
-3. Ban list: purple/violet gradients · emoji icons · Inter as display · stock placeholders · centered-everything · equal 3-card grids · shadow-everywhere · cream+terracotta default · dead `href="#"`
+3. Compositional lane crafts as needed: `agency-minimal-grid`, `nested-frame-craft`, `image-first-fold`, `editorial-chapter-craft`
+4. Ban list: purple/violet gradients · emoji icons · Inter as display · stock placeholders · centered-everything · equal 3-card grids · shadow-everywhere · cream+terracotta default · dead `href="#"` · award claims · fake logo-wall theater
 
 Packaged judgment: subject vernacular → hero thesis → deliberate type pair → one signature → plan then build.  
-UX priorities: a11y → touch → performance → style → layout → type/color → motion → forms → nav.
+UX priorities: a11y → touch → performance → style → layout → type/color → motion → forms → nav.  
+**Design rigor:** pick **one** compositional lane + **1–2** Tell craft nodes in `DIRECTION.md` before Phase 2 — never pile unrelated aesthetics.
 
 ---
 
@@ -64,7 +66,8 @@ Brief: <path to brief json>
 Niche: <e.g. freelance photography booking>
 
 GOAL: Capture exactly 3 reference sites (hero + mid + footer each). Write DIRECTION.md
-with type / spacing / motion observations. Do not copy layouts.
+using DESIGN_RIGOR.md fields: visual thesis, compositional lane, 1–2 craft nodes,
+type / spacing / motion, signature. Do not copy layouts.
 
 Run:
   pnpm agency:pipeline -- --brief <brief> --phase 1-refs
@@ -81,7 +84,7 @@ Phase 1-refs LOOP (attempt <n>/3).
 What failed: <bot wall | wrong niche | too few frames | DIRECTION.md empty>
 Fix: replace URL in research/boards.local.json OR recapture OR finish DIRECTION.md.
 Re-run: pnpm agency:pipeline -- --brief <brief> --phase 1-refs
-Stop when ≥6 frames exist AND DIRECTION.md has type/spacing/motion/signature notes.
+Stop when ≥6 frames exist AND DIRECTION.md has thesis + lane + craft nodes + type/spacing/motion/signature.
 Then: pnpm agency:pipeline -- --brief <brief> --mark-pass 1-refs
 ```
 
@@ -96,8 +99,9 @@ Then: pnpm agency:pipeline -- --brief <brief> --mark-pass 1-refs
 ```
 Use agency-quality-site + premium-content-custom-web. Phase 2-build ONLY.
 
-Read: brief five blocks + research/boards/<run>/DIRECTION.md + ref screenshots.
+Read: brief five blocks + research/boards/<run>/DIRECTION.md + DESIGN_RIGOR.md + ref screenshots.
 GOAL: First working site from designFromFeatures. Expect ~70%. Lock Audience + One CTA + Ban list.
+Execute the chosen lane/craft nodes. Honest assets. Hero = strongest authored moment.
 
 Run:
   pnpm agency:pipeline -- --brief <brief> --phase 2-build

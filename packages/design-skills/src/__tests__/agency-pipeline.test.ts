@@ -84,4 +84,15 @@ describe("agency polish + delivery", () => {
     expect(report.findings.find((f) => f.id === "ban-emoji-icons")?.ok).toBe(false);
     expect(AGENCY_DEFAULT_BAN_LIST.length).toBeGreaterThan(3);
   });
+
+  it("flags award claims and fake trust theater (design rigor)", () => {
+    const { spec, previewHtml } = designFromFeatures(lensBrief);
+    const dirty =
+      previewHtml +
+      `<p>Award-winning studio trusted by thousands of Fortune partners.</p>`;
+    const report = assertAgencyDelivery(spec, dirty);
+    expect(report.findings.find((f) => f.id === "rigor-no-award-claims")?.ok).toBe(false);
+    expect(report.findings.find((f) => f.id === "rigor-no-fake-trust")?.ok).toBe(false);
+    expect(report.findings.find((f) => f.id === "rigor-hero-authored")?.ok).toBe(true);
+  });
 });

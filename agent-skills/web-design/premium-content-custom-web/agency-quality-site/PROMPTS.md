@@ -4,6 +4,8 @@ One phase per cycle. After Goal → run → eye → Loop ≤3 → `--mark-pass` 
 
 Replace `<brief>` with e.g. `scripts/agency-pipeline/briefs/lensroom.json`.
 
+Read `DESIGN_RIGOR.md` in Phase 0 and when filling `DIRECTION.md`.
+
 ---
 
 ## Orchestrator (session start)
@@ -13,6 +15,7 @@ Use agency-quality-site.
 
 Brief: <brief>
 
+0. Read DESIGN_RIGOR.md (thesis, lane, craft nodes, reject list).
 1. pnpm agency:pipeline -- --brief <brief> --status
 2. Run ONLY the current phase Goal prompt from the skill.
 3. Loop that phase until eye+gates pass (≤3 attempts).
@@ -30,7 +33,8 @@ Never --all. Never combine type+spacing+motion.
 ```
 Use agency-quality-site. Phase 1-refs ONLY.
 Brief: <brief>
-GOAL: 3 refs × (hero+mid+footer); fill DIRECTION.md (type/spacing/motion/signature).
+GOAL: 3 refs × (hero+mid+footer); fill DIRECTION.md per DESIGN_RIGOR
+(thesis, lane, 1–2 craft nodes, type/spacing/motion/signature).
 pnpm agency:pipeline -- --brief <brief> --phase 1-refs
 Do not start Phase 2.
 ```
@@ -38,8 +42,8 @@ Do not start Phase 2.
 **Loop**
 
 ```
-Phase 1-refs LOOP (attempt n/3). Fix board gaps or DIRECTION.md.
-Re-run --phase 1-refs. When ≥6 frames + DIRECTION.md done: --mark-pass 1-refs
+Phase 1-refs LOOP (attempt n/3). Fix board gaps or DIRECTION.md rigor fields.
+Re-run --phase 1-refs. When ≥6 frames + DIRECTION.md complete: --mark-pass 1-refs
 ```
 
 ---
@@ -50,16 +54,17 @@ Re-run --phase 1-refs. When ≥6 frames + DIRECTION.md done: --mark-pass 1-refs
 
 ```
 Use agency-quality-site + premium-content-custom-web. Phase 2-build ONLY.
-Read DIRECTION.md + refs. First cut ~70%. No polish axes yet.
+Read DIRECTION.md + DESIGN_RIGOR.md + refs. First cut ~70%. Execute chosen lane.
+No polish axes yet.
 pnpm agency:pipeline -- --brief <brief> --phase 2-build
 ```
 
 **Loop**
 
 ```
-Phase 2-build LOOP (attempt n/3). Eye misses: …
-Smallest content/layout fix only. Re-run --phase 2-build.
-When first-cut eye + basics/delivery green: --mark-pass 2-build
+Phase 2-build LOOP (attempt n/3). Eye misses vs thesis/lane: …
+Smallest content/layout fix only. Re-run --phase 2-build (or --reshoot after editing current.html).
+When first-cut eye + basics/delivery/rigor green: --mark-pass 2-build
 ```
 
 ---
@@ -87,7 +92,7 @@ Edit type only → --phase 3a-typography --reshoot → --mark-pass when eye pass
 **Goal**
 
 ```
-Phase 3b-spacing ONLY. Vertical rhythm. Touch nothing else.
+Phase 3b-spacing ONLY. Vertical rhythm / open spans. Touch nothing else.
 pnpm agency:pipeline -- --brief <brief> --phase 3b-spacing
 ```
 
@@ -105,7 +110,7 @@ Spacing only → --reshoot → --mark-pass 3b-spacing
 **Goal**
 
 ```
-Phase 3c-motion ONLY. 200–300ms reveals/hover. No bounce. reduced-motion safe.
+Phase 3c-motion ONLY. 200–300ms reveals/hover. One motion system. No bounce. reduced-motion safe.
 pnpm agency:pipeline -- --brief <brief> --phase 3c-motion
 ```
 
@@ -142,6 +147,7 @@ Responsive only → --reshoot → --mark-pass 3d-mobile
 
 ```
 Phase 4-ship ONLY. Bundle + tests + artifact shots + LEARNINGS if needed.
+Confirm DESIGN_RIGOR validate list (no award claims, one motion system, craft nodes noted).
 pnpm agency:pipeline -- --brief <brief> --phase 4-ship
 ```
 
