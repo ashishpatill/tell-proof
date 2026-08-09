@@ -1549,10 +1549,19 @@ function renderRange(section: SectionSpec, figures: FigurePlan): string {
   </section>`;
 }
 
-function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
+function renderProofBoard(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
   const cells = section.blocks.slice(0, 5);
+  const kind = spec?.brief.siteKind;
+  const boardClass =
+    kind === "dashboard-webapp"
+      ? "ds-proof-board ds-proof-board-stack"
+      : kind === "fintech-marketing"
+        ? "ds-proof-board ds-proof-board-wire"
+        : kind === "corporate-story"
+          ? "ds-proof-board ds-proof-board-spine"
+          : "ds-proof-board";
   const board = cells.length
-    ? `<ul class="ds-proof-board" data-proof-board>${cells
+    ? `<ul class="${boardClass}" data-proof-board>${cells
         .map((b, i) => {
           const mark = figures.marks[i] ?? "";
           return `<li class="ds-proof-cell${b.emphasis === "lead" ? " is-lead" : ""}">
@@ -1567,13 +1576,40 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
         .join("")}</ul>`
     : "";
   const figure = figures.body
-    ? plate(figures.body, section.quoteAttribution ?? "Declared scope", "ds-proof-figure ds-plate-lit")
+    ? plate(
+        figures.body,
+        section.quoteAttribution ??
+          (kind === "dashboard-webapp"
+            ? "Live desk"
+            : kind === "fintech-marketing"
+              ? "Treasury controls"
+              : kind === "corporate-story"
+                ? "Diligence pack"
+                : "Declared scope"),
+        "ds-proof-figure ds-plate-lit",
+      )
     : figures.field
       ? `<figure class="ds-proof-figure ds-proof-figure-field" aria-hidden="true">${figures.field}</figure>`
       : "";
+  const metaLabel =
+    kind === "dashboard-webapp"
+      ? "Desk"
+      : kind === "fintech-marketing"
+        ? "Treasury"
+        : kind === "corporate-story"
+          ? "Diligence"
+          : "Proof";
+  const metaDetail =
+    kind === "dashboard-webapp"
+      ? `${cells.length} views · stays open`
+      : kind === "fintech-marketing"
+        ? `${cells.length} controls · audit-ready`
+        : kind === "corporate-story"
+          ? `${cells.length} pillars · verifiable`
+          : `${cells.length} capabilities · declared scope`;
   return `<section class="ds-section ds-proof" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
-      ${secMeta("Proof", `${cells.length} capabilities · declared scope`)}
+      ${secMeta(metaLabel, metaDetail)}
       <div class="ds-proof-stage" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
         <header class="ds-proof-head">
           ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
@@ -2072,7 +2108,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderEmber(section, figures));
     case "pullquote":
     case "marquee-proof":
-      return wrapped(renderProofBoard(section, figures));
+      return wrapped(renderProofBoard(section, figures, spec));
     case "workflow-proof":
       return wrapped(renderWorkflowProof(section, figures, spec));
     case "pricing-lanes":

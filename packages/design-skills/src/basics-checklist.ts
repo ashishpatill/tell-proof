@@ -589,8 +589,31 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     ),
     check(
       "proof-board",
-      spec.brief.siteKind === "docs-educational" || /ds-proof-board/.test(html),
-      "Marketing and product pages carry a filled proof board, not a lonely quote on an empty band.",
+      // Craft kinds prove via signature story instruments (entry, chrono, hangtag, …) — they must
+      // NOT reuse the shared marquee evidence board. Marketing kinds that keep a proof section
+      // still need a filled board (or SaaS workflow stage) rather than a lonely quote.
+      // Match the live <ul … data-proof-board> — the shared script also mentions the attribute.
+      (() => {
+        const kind = spec.brief.siteKind;
+        const hasBoard = /<ul[^>]*\bdata-proof-board\b/.test(html);
+        const craftProof = [
+          "docs-educational",
+          "art-directed-studio",
+          "consumer-craft",
+          "editorial-foundry",
+          "research-dossier",
+          "signal-observatory",
+          "archive-index",
+          "commerce-loom",
+          "field-guide",
+          "press-atelier",
+          "lantern-path",
+        ].includes(kind);
+        if (craftProof) return !hasBoard;
+        if (kind === "saas-marketing") return /data-workflow-proof/.test(html) && !hasBoard;
+        return hasBoard;
+      })(),
+      "Craft templates prove with their own story instrument; marketing pages keep a filled proof board or workflow stage — never a lonely quote, never one shared board on every offering.",
     ),
   ];
 

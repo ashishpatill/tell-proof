@@ -2466,6 +2466,22 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-proof-figure figcaption{color:var(--c-ink-tertiary)}
 .ds-proof-figure-field{opacity:.55;padding:0;border:0;background:transparent;box-shadow:none;transform:none}
 .ds-proof-board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;list-style:none;margin:0;padding:0;border-top:1px solid var(--surface-border)}
+/* Dashboard: stacked register — not the same 5-column marketing board as fintech/corporate. */
+.ds-proof-board-stack{grid-template-columns:1fr;border-top:0;gap:0}
+.ds-proof-board-stack .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border);grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.ds-proof-board-stack .ds-proof-cell:last-child{border-bottom:0}
+.ds-proof-board-stack .ds-proof-hit{grid-template-columns:minmax(0,1fr) 7.25rem;align-items:center;padding:var(--s-sm) var(--s-md)}
+.ds-proof-board-stack .ds-proof-mark{margin:0;justify-self:end}
+/* Fintech: ruled wire rows with accent ticks — ledger rhythm, not a card grid. */
+.ds-proof-board-wire{grid-template-columns:1fr;border-top:2px solid var(--c-accent)}
+.ds-proof-board-wire .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border);box-shadow:inset 3px 0 0 transparent}
+.ds-proof-board-wire .ds-proof-cell.is-lead,.ds-proof-board-wire .ds-proof-cell:first-child{box-shadow:inset 3px 0 0 var(--c-accent);background:transparent}
+.ds-proof-board-wire .ds-proof-hit{grid-template-columns:4rem minmax(0,1fr) 7rem;padding:var(--s-sm) 0}
+/* Corporate: vertical spine index — diligence pillars, not a five-cell marquee. */
+.ds-proof-board-spine{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-md);border-top:0;padding-top:var(--s-md)}
+.ds-proof-board-spine .ds-proof-cell{border-right:0;border-left:2px solid var(--surface-border);padding-left:0;border-radius:0;background:transparent;box-shadow:none}
+.ds-proof-board-spine .ds-proof-cell.is-lead,.ds-proof-board-spine .ds-proof-cell:first-child{background:transparent;box-shadow:none;border-left-color:var(--c-accent)}
+.ds-proof-board-spine .ds-proof-hit{padding:var(--s-sm) var(--s-md)}
 .ds-proof-cell{display:grid;gap:var(--s-2xs);align-content:start;padding:0;border-right:1px solid var(--surface-border);min-height:0;background:transparent;border-radius:0}
 .ds-proof-cell:last-child{border-right:0}
 .ds-proof-cell.is-lead,.ds-proof-cell:first-child{background:var(--accent-soft);box-shadow:inset 0 3px 0 var(--c-accent)}

@@ -191,7 +191,25 @@ export function eyebrows(brief: DesignBrief): Record<string, string> {
               ? "Why the work holds"
               : brief.siteKind === "docs-educational"
                 ? "Why the model holds"
-                : "Why teams keep it";
+                : brief.siteKind === "consumer-craft"
+                  ? "Why it earns a place"
+                  : brief.siteKind === "editorial-foundry"
+                    ? "Why the cuts hold"
+                    : brief.siteKind === "research-dossier"
+                      ? "Why the folio clears"
+                      : brief.siteKind === "signal-observatory"
+                        ? "Why the desk trusts it"
+                        : brief.siteKind === "archive-index"
+                          ? "Why the register holds"
+                          : brief.siteKind === "commerce-loom"
+                            ? "Why buyers keep the cut"
+                            : brief.siteKind === "field-guide"
+                              ? "Why the voucher stands"
+                              : brief.siteKind === "press-atelier"
+                                ? "Why the forme locks"
+                                : brief.siteKind === "lantern-path"
+                                  ? "Why the path holds"
+                                  : "Why the argument holds";
   return {
     metrics: "What changes",
     features: brief.siteKind === "docs-educational" ? "The mechanism" : "Capabilities",
@@ -205,7 +223,23 @@ export function eyebrows(brief: DesignBrief): Record<string, string> {
             ? "The pipeline"
             : brief.siteKind === "fintech-marketing"
               ? "The send path"
-              : "The sequence",
+              : brief.siteKind === "archive-index"
+                ? "The entry"
+                : brief.siteKind === "signal-observatory"
+                  ? "The chronology"
+                  : brief.siteKind === "commerce-loom"
+                    ? "The hangtag"
+                    : brief.siteKind === "field-guide"
+                      ? "The range"
+                      : brief.siteKind === "press-atelier"
+                        ? "The gather"
+                        : brief.siteKind === "lantern-path"
+                          ? "The ember walk"
+                          : brief.siteKind === "editorial-foundry"
+                            ? "The marginalia"
+                            : brief.siteKind === "research-dossier"
+                              ? "The spread"
+                              : "The sequence",
     proof,
     pricing: "Scope and plans",
     compare: "What is included",
@@ -464,11 +498,47 @@ export function pullQuote(brief: DesignBrief, features: FeatureSpec[]): { quote:
       quote: `${brief.productName} is a mechanism you can scrub — each stage names a real cost, not a metaphor.`,
       attribution: `Routing field · ${n} stages · engineers evaluating`,
     },
+    "consumer-craft": {
+      quote: `${brief.productName} earns a place on the shelf because every claim here is something you can hold — not a lifestyle collage.`,
+      attribution: `In hand · ${n} details · paper-led`,
+    },
+    "editorial-foundry": {
+      quote: `${brief.productName} earns a specimen request because the cuts on this page are the ones setters actually use.`,
+      attribution: `Trial files · optical sizes · ${n} cuts`,
+    },
+    "research-dossier": {
+      quote: `${brief.productName} clears a briefing because every folio names its instruments — nothing stands in for a source.`,
+      attribution: `Numbered folios · ${n} instruments · imprint ready`,
+    },
+    "signal-observatory": {
+      quote: `Desks keep ${brief.productName} calibrated because every channel on this page has a tolerance — not a quiet chart costume.`,
+      attribution: `Channel map · ${n} signals · calibration strip`,
+    },
+    "archive-index": {
+      quote: `${brief.productName} earns a cite because every entry sits under one quiet spine — the register, not a search box costume.`,
+      attribution: `Index ledger · ${n} stamps · registry close`,
+    },
+    "commerce-loom": {
+      quote: `Buyers keep a ${brief.productName} cut because size, weave, and care notes travel with the SKU — not a glass card grid.`,
+      attribution: `Size treadles · ${n} cells · care label`,
+    },
+    "field-guide": {
+      quote: `${brief.productName} stands as a voucher because every plate names its taxon — pressed matter, not a lifestyle float.`,
+      attribution: `Range beads · ${n} vouchers · pressed plate`,
+    },
+    "press-atelier": {
+      quote: `${brief.productName} locks a forme because every plate on this page carries registration — not a mock imposition.`,
+      attribution: `Sig rail · ${n} formes · pressroom close`,
+    },
+    "lantern-path": {
+      quote: `${brief.productName} holds the walk because every waypoint is on the atlas — not a dark SaaS theme with glow.`,
+      attribution: `Path plate · ${n} chapters · ember close`,
+    },
   };
   return (
     byKind[brief.siteKind] ?? {
-      quote: `Everything on this page is something ${brief.productName} does today — ${n} capabilities, and no roadmap standing in for one.`,
-      attribution: `${n} capabilities · declared scope · ships together`,
+      quote: `${brief.productName} states only what it does today — ${n} declared pieces, and nothing staged behind a later phase.`,
+      attribution: `${n} pieces · declared today · no roadmap costume`,
     }
   );
 }

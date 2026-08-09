@@ -529,3 +529,20 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `<img>` (SVG fallback if storage lacks a thumb). Offline fixture uses violet→ink plate so the
   generic "before" reads as content.
 - **Do not:** Ship recent/session galleries as blank surface tiles and call the shell done.
+
+## 2026-08-09 — `template:shared-marquee-proof-is-not-unique`
+
+- **Failure (human):** Stamp Roll's "Why … earns trust in review / Why teams keep it / Proof ·
+  declared scope" board appeared across almost every craft template — same page with product-name
+  swaps after unique fold instruments.
+- **Root cause:** Composition bolted shared `marquee-proof` onto archive, observatory, loom, field,
+  press, lantern, foundry, dossier, studio, and consumer after their signature story sections.
+  Fallback copy (`Why teams keep it`, `earns trust in review`, `declared scope · ships together`)
+  made the clone unmistakable.
+- **Fix:** Remove marquee-proof from craft kinds — entry / chrono / hangtag / range / gather / ember /
+  marginalia / spread / chapters already prove. Keep marquee only for dashboard / fintech /
+  corporate, each with distinct board chrome (stack / wire / spine). Expand per-siteKind eyebrows +
+  pullQuotes. Basics gate now *forbids* `data-proof-board` on craft kinds and requires workflow or
+  board on marketing kinds.
+- **Do not:** Answer "make templates unique" by appending the same Proof board with renamed titles.
+  Signature story instruments are the proof; a shared evidence marquee is cheating.
