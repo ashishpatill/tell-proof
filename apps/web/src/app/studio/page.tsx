@@ -71,6 +71,17 @@ export default function StudioPage() {
   const lastSpecRef = useRef<DesignSpec | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const requestIdRef = useRef(0);
+  const briefBootstrapped = useRef(false);
+
+  useEffect(() => {
+    if (briefBootstrapped.current || typeof window === "undefined") return;
+    briefBootstrapped.current = true;
+    const fromQuery = new URLSearchParams(window.location.search).get("brief")?.trim();
+    if (fromQuery) {
+      setMagic(fromQuery);
+      setTagline(fromQuery.slice(0, 120));
+    }
+  }, []);
 
   const brief = useMemo(
     () => ({

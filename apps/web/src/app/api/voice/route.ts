@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { trace, SpanStatusCode, type Span } from "@opentelemetry/api";
 import { parseDirectionPlan, parseDirectionWithGemini } from "@tell/taste";
+import { resolveGeminiKey } from "@/lib/byok";
 
 const tracer = trace.getTracer("tell.voice");
 
@@ -12,7 +13,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "transcript required" }, { status: 400 });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY?.trim();
+  const apiKey = resolveGeminiKey(request);
   const source = apiKey ? "gemini" : "local";
 
   return tracer.startActiveSpan("tell.voice", async (span: Span) => {
