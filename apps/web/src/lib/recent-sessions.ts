@@ -14,6 +14,8 @@ export const RecentSession = z.object({
   brief: z.string().optional(),
   findingCount: z.number().int().nonnegative().optional(),
   live: z.boolean().optional(),
+  /** Compact JPEG/SVG data URL — craft beat for recent strip (never empty chrome). */
+  thumbDataUrl: z.string().optional(),
   updatedAt: z.string(),
 });
 export type RecentSession = z.infer<typeof RecentSession>;
@@ -35,7 +37,14 @@ export function upsertRecentSession(entry: RecentSession): RecentSession[] {
   try {
     localStorage.setItem(RECENT_SESSIONS_KEY, JSON.stringify(next));
   } catch {
-    /* storage full / unavailable */
+    // Quota: drop thumbs from older entries and retry once.
+    try {
+      const slim = next.map((s, i) => (i === 0 ? s : { ...s, thumbDataUrl: undefined }));
+      localStorage.setItem(RECENT_SESSIONS_KEY, JSON.stringify(slim));
+      return slim;
+    } catch {
+      /* storage unavailable */
+    }
   }
   return next;
 }

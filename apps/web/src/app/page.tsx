@@ -44,6 +44,7 @@ import {
   type ComposerMode,
   type RecentSession,
 } from "@/lib/recent-sessions";
+import { svgSessionThumb, thumbFromScreenshotBase64 } from "@/lib/session-thumb";
 import {
   AppShell,
   EntryHome,
@@ -442,9 +443,33 @@ export default function HomePage() {
             url: payload.report.capture.url,
             findingCount: payload.report.score.total,
             live: payload.meta.live,
+            thumbDataUrl: svgSessionThumb({
+              title,
+              findingCount: payload.report.score.total,
+              live: payload.meta.live,
+              accent: payload.report.capture.surfaceTokens?.accent?.includes("rgb")
+                ? "#D4714A"
+                : payload.report.capture.surfaceTokens?.accent || "#D4714A",
+              surface: "#221F1C",
+            }),
             updatedAt: new Date().toISOString(),
           }),
         );
+        void thumbFromScreenshotBase64(payload.report.capture.screenshotBase64 || "").then((thumb) => {
+          if (!thumb) return;
+          setRecent(
+            upsertRecentSession({
+              id: sid,
+              title,
+              mode: isGitHubRepoUrl(target) ? "github" : "url",
+              url: payload.report.capture.url,
+              findingCount: payload.report.score.total,
+              live: payload.meta.live,
+              thumbDataUrl: thumb,
+              updatedAt: new Date().toISOString(),
+            }),
+          );
+        });
         if (payload.meta.live) {
           setPages(discoverRoutes(payload.report.capture.snapshotHtml, payload.report.capture.url));
           setDraftError("");
@@ -649,6 +674,13 @@ export default function HomePage() {
         url: demoReport.capture.url,
         findingCount: demoReport.score.total,
         live: false,
+        thumbDataUrl: svgSessionThumb({
+          title: siteLabel(demoReport.capture.url),
+          findingCount: demoReport.score.total,
+          live: false,
+          accent: "#8B5CF6",
+          surface: "#0F0F0F",
+        }),
         updatedAt: new Date().toISOString(),
       }),
     );
@@ -683,6 +715,11 @@ export default function HomePage() {
           title,
           mode: "design",
           brief: text,
+          thumbDataUrl: svgSessionThumb({
+            title,
+            accent: "#D4714A",
+            surface: "#221F1C",
+          }),
           updatedAt: new Date().toISOString(),
         }),
       );

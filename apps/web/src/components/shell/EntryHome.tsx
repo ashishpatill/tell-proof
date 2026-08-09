@@ -2,6 +2,7 @@
 
 import { ArrowUp, FileCode2, Github, ImageIcon, PenLine } from "lucide-react";
 import type { ComposerMode, RecentSession } from "@/lib/recent-sessions";
+import { svgSessionThumb } from "@/lib/session-thumb";
 
 const MODES: { id: ComposerMode; label: string; icon: typeof PenLine }[] = [
   { id: "design", label: "Design brief", icon: PenLine },
@@ -126,22 +127,35 @@ export function EntryHome({
             ) : null}
           </div>
           <div className="tell-recent__grid">
-            {visible.map((session) => (
+            {visible.map((session) => {
+              const thumb =
+                session.thumbDataUrl ||
+                svgSessionThumb({
+                  title: session.title,
+                  findingCount: session.findingCount,
+                  live: session.live,
+                  accent: session.mode === "offline" ? "#8B5CF6" : "#D4714A",
+                });
+              return (
               <button
                 key={session.id}
                 type="button"
                 className="tell-recent__card"
                 onClick={() => onOpenRecent(session)}
               >
-                <div className="tell-recent__thumb" aria-hidden />
+                <div className="tell-recent__thumb" aria-hidden>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={thumb} alt="" className="tell-recent__thumb-img" />
+                </div>
                 <span className="tell-recent__meta">
                   {session.mode}
                   {typeof session.findingCount === "number" ? ` · ${session.findingCount}` : ""}
-                  {session.live === false ? " · offline" : session.live ? " · live" : ""}
+                  {session.live === true ? " · live" : ""}
                 </span>
                 <span className="tell-recent__name">{session.title}</span>
               </button>
-            ))}
+              );
+            })}
           </div>
         </section>
       ) : null}
