@@ -486,3 +486,13 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `@tell/design-skills`. `primaryCta` on `DesignBrief` keeps the one action repeated.
 - **Do not:** Ask for type, space, and motion in the same message; do not install external skill
   marketplaces into the repo — encode principles and run Tell gates.
+
+## 2026-08-09 — `pipeline:one-phase-goal-loop`
+
+- **Failure:** Running refs→build→type→spacing→motion→mobile in one `agency:pipeline` pass
+  produced green gates but did not compound quality — polish CSS was applied without eye
+  loops between axes, same failure mode as the article's "ask for all three at once."
+- **Fix:** Phase-gated runner (`--phase` / `--reshoot` / `--mark-pass` / `--status`); craft
+  `--all` refused. Skill + PROMPTS.md give Goal + Loop per phase; `current.html` carries
+  forward only after `--mark-pass`. PLAN.md orchestrator Goal/Loop added.
+- **Do not:** Execute the whole agency recipe in one agent turn and call it polished.

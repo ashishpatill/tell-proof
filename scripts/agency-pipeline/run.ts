@@ -1,15 +1,18 @@
 /**
- * Agency-quality site pipeline — article phases as a runnable Cursor loop.
+ * Agency-quality site pipeline — ONE PHASE AT A TIME.
  *
- * Phase 1: capture up to 3 reference boards (URLs from gitignored boards.local.json)
- * Phase 2: constrained designFromFeatures build
- * Phase 3a–3c: typography → spacing → motion polish (axis-isolated)
- * Phase 3d: mobile 375 screenshots + horizontal-scroll gate
- * Phase 4: ledger + copy craft shots to artifacts
+ * Quality compounds only when each phase starts from the previous phase's
+ * passed artifacts and is looped until its own gates pass. Do NOT run --all
+ * for craft work; --all is a smoke path that skips human eye loops.
  *
  * Usage:
- *   pnpm agency:pipeline -- --brief scripts/agency-pipeline/briefs/lensroom.json
- *   pnpm agency:pipeline -- --brief … --skip-refs
+ *   pnpm agency:pipeline -- --brief scripts/agency-pipeline/briefs/lensroom.json --status
+ *   pnpm agency:pipeline -- --brief … --phase 1-refs
+ *   pnpm agency:pipeline -- --brief … --phase 2-build
+ *   pnpm agency:pipeline -- --brief … --phase 3a-typography
+ *   pnpm agency:pipeline -- --brief … --phase 3a-typography --reshoot
+ *   pnpm agency:pipeline -- --brief … --mark-pass 3a-typography
+ *   pnpm agency:pipeline -- --brief … --phase next
  */
 import { createServer } from "node:http";
 import {
@@ -28,6 +31,7 @@ import {
   assertAgencyDelivery,
   applyAgencyPolish,
   type AgencyPolishAxis,
+  type DesignSpec,
 } from "../../packages/design-skills/src/index";
 
 function repoRoot(from = process.cwd()): string {
@@ -43,6 +47,18 @@ function repoRoot(from = process.cwd()): string {
 
 const root = repoRoot();
 
+export const PHASE_ORDER = [
+  "1-refs",
+  "2-build",
+  "3a-typography",
+  "3b-spacing",
+  "3c-motion",
+  "3d-mobile",
+  "4-ship",
+] as const;
+
+export type PhaseId = (typeof PHASE_ORDER)[number];
+
 type BoardsLocal = {
   runId?: string;
   refs?: Array<{ id: string; url: string; note?: string }>;
@@ -50,9 +66,25 @@ type BoardsLocal = {
 
 type LedgerRow = {
   phase: string;
-  status: "pass" | "fail" | "skip";
+  status: "pass" | "fail" | "skip" | "loop";
   detail: string;
+  attempt?: number;
   shots?: string[];
+  at: string;
+};
+
+type RunState = {
+  runId: string;
+  briefPath: string;
+  passed: PhaseId[];
+  /** Next phase the agent must work on. */
+  current: PhaseId;
+  attempts: Partial<Record<PhaseId, number>>;
+  /** Working HTML path relative to outDir — always the latest improved artifact. */
+  currentHtml: string;
+  /** Last phase that produced currentHtml. */
+  currentHtmlFrom: PhaseId | null;
+  updatedAt: string;
 };
 
 function argValue(flag: string): string | null {
@@ -61,11 +93,75 @@ function argValue(flag: string): string | null {
   return process.argv[i + 1] ?? null;
 }
 
-async function shotSet(
-  page: Page,
-  outDir: string,
-  prefix: string,
-): Promise<string[]> {
+function hasFlag(flag: string): boolean {
+  return process.argv.includes(flag);
+}
+
+function now(): string {
+  return new Date().toISOString();
+}
+
+function isPhaseId(value: string): value is PhaseId {
+  return (PHASE_ORDER as readonly string[]).includes(value);
+}
+
+function prerequisite(phase: PhaseId): PhaseId | null {
+  const i = PHASE_ORDER.indexOf(phase);
+  return i <= 0 ? null : PHASE_ORDER[i - 1]!;
+}
+
+function loadState(outDir: string, runId: string, briefPath: string): RunState {
+  const path = resolve(outDir, "STATE.json");
+  if (existsSync(path)) {
+    return JSON.parse(readFileSync(path, "utf8")) as RunState;
+  }
+  return {
+    runId,
+    briefPath,
+    passed: [],
+    current: "1-refs",
+    attempts: {},
+    currentHtml: "current.html",
+    currentHtmlFrom: null,
+    updatedAt: now(),
+  };
+}
+
+function saveState(outDir: string, state: RunState): void {
+  state.updatedAt = now();
+  writeFileSync(resolve(outDir, "STATE.json"), JSON.stringify(state, null, 2), "utf8");
+}
+
+function appendLedger(outDir: string, row: LedgerRow): void {
+  const path = resolve(outDir, "PHASE_LEDGER.md");
+  const line = `| ${row.at.slice(0, 19)} | ${row.phase} | ${row.status} | a${row.attempt ?? 1} | ${row.detail.replace(/\|/g, "/")} |\n`;
+  if (!existsSync(path)) {
+    writeFileSync(
+      path,
+      `# Agency phase ledger — ${basename(outDir)}\n\nOne row per attempt. Advance only after a phase is marked pass.\n\n| At | Phase | Status | Attempt | Detail |\n|---|---|---|---|---|\n`,
+      "utf8",
+    );
+  }
+  writeFileSync(path, readFileSync(path, "utf8") + line, "utf8");
+}
+
+function readCurrentHtml(outDir: string, state: RunState): string {
+  const path = resolve(outDir, state.currentHtml);
+  if (!existsSync(path)) {
+    throw new Error(
+      `Missing ${state.currentHtml}. Finish and pass the previous phase before ${state.current}.`,
+    );
+  }
+  return readFileSync(path, "utf8");
+}
+
+function writeCurrentHtml(outDir: string, state: RunState, html: string, from: PhaseId): void {
+  writeFileSync(resolve(outDir, state.currentHtml), html, "utf8");
+  writeFileSync(resolve(outDir, `${from}.html`), html, "utf8");
+  state.currentHtmlFrom = from;
+}
+
+async function shotSet(page: Page, outDir: string, prefix: string): Promise<string[]> {
   const paths: string[] = [];
   const fold = resolve(outDir, `${prefix}-fold.png`);
   const full = resolve(outDir, `${prefix}-full.png`);
@@ -88,18 +184,43 @@ async function shotSet(
   return paths;
 }
 
-async function captureRefs(
-  refs: NonNullable<BoardsLocal["refs"]>,
-  outDir: string,
-  ledger: LedgerRow[],
-): Promise<void> {
+async function withServer<T>(
+  html: string,
+  fn: (goto: (viewport: { width: number; height: number; dpr?: number }) => Promise<Page>) => Promise<T>,
+): Promise<T> {
+  const browser = await chromium.launch();
+  const serveHtml = { current: html };
+  const server = createServer((_req, res) => {
+    res.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+    res.end(serveHtml.current);
+  });
+  await new Promise<void>((r) => server.listen(4331, "127.0.0.1", r));
+  try {
+    const goto = async (viewport: { width: number; height: number; dpr?: number }) => {
+      const context = await browser.newContext({
+        viewport: { width: viewport.width, height: viewport.height },
+        deviceScaleFactor: viewport.dpr ?? 1,
+      });
+      const page = await context.newPage();
+      await page.goto("http://127.0.0.1:4331/", { waitUntil: "networkidle", timeout: 30_000 });
+      await page.waitForTimeout(400);
+      return page;
+    };
+    return await fn(goto);
+  } finally {
+    await browser.close();
+    server.close();
+  }
+}
+
+async function captureRefs(refs: NonNullable<BoardsLocal["refs"]>, outDir: string): Promise<LedgerRow> {
   if (refs.length === 0) {
-    ledger.push({
+    return {
       phase: "1-refs",
       status: "skip",
-      detail: "No refs in boards.local.json — using measured corridor fallback / subject vernacular.",
-    });
-    return;
+      detail: "No refs in boards.local.json — write DIRECTION.md from measured corridors + subject vernacular.",
+      at: now(),
+    };
   }
   const browser = await chromium.launch();
   const shots: string[] = [];
@@ -123,7 +244,6 @@ async function captureRefs(
         bodyText.includes("cf-browser-verification")
       ) {
         failures.push(`${ref.id}: bot wall`);
-        await context.close();
         continue;
       }
       const hero = resolve(outDir, `${ref.id}-hero.png`);
@@ -146,188 +266,339 @@ async function captureRefs(
     }
   }
   await browser.close();
-  const ok = shots.length >= 6 && failures.length === 0;
-  ledger.push({
+
+  const directionPath = resolve(outDir, "DIRECTION.md");
+  if (!existsSync(directionPath)) {
+    writeFileSync(
+      directionPath,
+      [
+        "# Direction note",
+        "",
+        "Match the typography scale, spacing rhythm, and motion of the reference board.",
+        "Do not copy the layouts.",
+        "",
+        "From the refs, note (agent fills after eye review):",
+        "- Type: …",
+        "- Spacing: …",
+        "- Motion: …",
+        "- Signature to invent for THIS subject (not cloned): …",
+        "",
+      ].join("\n"),
+      "utf8",
+    );
+  }
+
+  const ok = shots.length >= 6;
+  return {
     phase: "1-refs",
-    status: ok ? "pass" : shots.length > 0 ? "pass" : "fail",
+    status: ok ? "pass" : "fail",
     detail: ok
-      ? `Captured ${shots.length} reference frames from ${picked.length} sites. Match type/spacing/motion — do not copy layouts.`
-      : shots.length > 0
-        ? `Partial board: ${shots.length} frames; issues: ${failures.join("; ") || "none"}. Continue with captured refs + corridor fallback.`
-        : `No reference frames captured. ${failures.join("; ")}`,
+      ? `Captured ${shots.length} frames from ${picked.length} sites.${failures.length ? ` Issues: ${failures.join("; ")}` : ""} Fill DIRECTION.md before Phase 2.`
+      : `Need ≥6 frames (hero/mid/footer × refs). Got ${shots.length}. ${failures.join("; ")}`,
     shots,
-  });
+    at: now(),
+  };
+}
+
+function assertCanRun(state: RunState, phase: PhaseId): void {
+  const prev = prerequisite(phase);
+  if (prev && !state.passed.includes(prev)) {
+    throw new Error(
+      `Cannot run ${phase}: prerequisite ${prev} is not marked pass. ` +
+        `Finish ${prev} (goal → loop until green → --mark-pass ${prev}). ` +
+        `Passed so far: [${state.passed.join(", ") || "none"}].`,
+    );
+  }
+}
+
+function printStatus(state: RunState, outDir: string): void {
+  console.log(`Agency run: ${state.runId}`);
+  console.log(`Brief: ${state.briefPath}`);
+  console.log(`Current phase (work here): ${state.current}`);
+  console.log(`Passed: ${state.passed.join(" → ") || "(none)"}`);
+  console.log(`current.html from: ${state.currentHtmlFrom ?? "(none yet)"}`);
+  console.log(`Attempts: ${JSON.stringify(state.attempts)}`);
+  console.log(`Out: ${outDir}`);
+  console.log("");
+  console.log("Next agent step:");
+  console.log(`  1. Paste Goal prompt for ${state.current} from agency-quality-site SKILL.md`);
+  console.log(`  2. pnpm agency:pipeline -- --brief ${state.briefPath} --phase ${state.current}`);
+  console.log(`  3. Read screenshots + paste Loop prompt; improve ONLY that axis; --reshoot`);
+  console.log(`  4. When gates+eye pass: --mark-pass ${state.current}`);
+}
+
+async function runPhase(opts: {
+  phase: PhaseId;
+  brief: ReturnType<typeof DesignBrief.parse>;
+  outDir: string;
+  state: RunState;
+  boardsLocal: BoardsLocal;
+  reshoot: boolean;
+  artifactDir: string;
+}): Promise<{ row: LedgerRow; spec?: DesignSpec }> {
+  const { phase, brief, outDir, state, boardsLocal, reshoot, artifactDir } = opts;
+  assertCanRun(state, phase);
+  const attempt = (state.attempts[phase] ?? 0) + 1;
+  state.attempts[phase] = attempt;
+  const prefix = `${phase}-a${attempt}`;
+
+  if (phase === "1-refs") {
+    const row = await captureRefs(boardsLocal.refs ?? [], outDir);
+    row.attempt = attempt;
+    return { row };
+  }
+
+  if (phase === "2-build") {
+    let html: string;
+    let builtSpec: DesignSpec;
+    if (reshoot && existsSync(resolve(outDir, state.currentHtml))) {
+      html = readCurrentHtml(outDir, state);
+      builtSpec = JSON.parse(readFileSync(resolve(outDir, "spec.json"), "utf8")) as DesignSpec;
+      writeFileSync(resolve(outDir, "2-build.html"), html, "utf8");
+      state.currentHtmlFrom = "2-build";
+    } else {
+      const built = designFromFeatures(brief);
+      html = built.previewHtml;
+      builtSpec = built.spec;
+      writeCurrentHtml(outDir, state, html, "2-build");
+      writeFileSync(resolve(outDir, "spec.json"), JSON.stringify(built.spec, null, 2), "utf8");
+    }
+    const basics = assertBasics(builtSpec, html);
+    const delivery = assertAgencyDelivery(builtSpec, html);
+    const shots = await withServer(html, async (goto) => {
+      const page = await goto({ width: 1440, height: 900 });
+      const s = await shotSet(page, outDir, prefix);
+      await page.context().close();
+      return s;
+    });
+    copyFileSync(shots[0]!, resolve(artifactDir, `agency-${state.runId}-${phase}-fold.png`));
+    const ok = basics.passed && delivery.passed;
+    return {
+      spec: builtSpec,
+      row: {
+        phase,
+        status: ok ? "loop" : "fail",
+        attempt,
+        detail: ok
+          ? `Build ok. READ ${prefix}-fold.png + refs + DIRECTION.md. Loop: fix content/layout only if eye fails; then --mark-pass when ready.`
+          : `basics/delivery failed: ${[...basics.findings, ...delivery.findings]
+              .filter((f) => !f.ok)
+              .map((f) => f.id)
+              .join(",")}`,
+        shots,
+        at: now(),
+      },
+    };
+  }
+
+  if (phase === "3a-typography" || phase === "3b-spacing" || phase === "3c-motion") {
+    const axis = phase.slice(3) as AgencyPolishAxis;
+    let html = readCurrentHtml(outDir, state);
+    if (!reshoot) {
+      html = applyAgencyPolish(html, axis);
+      writeCurrentHtml(outDir, state, html, phase);
+    } else {
+      // Agent already edited current.html for this axis — only re-screenshot + gate.
+      writeFileSync(resolve(outDir, `${phase}.html`), html, "utf8");
+      state.currentHtmlFrom = phase;
+    }
+    const spec = JSON.parse(readFileSync(resolve(outDir, "spec.json"), "utf8")) as DesignSpec;
+    const shots = await withServer(html, async (goto) => {
+      const page = await goto({ width: 1440, height: 900 });
+      const s = await shotSet(page, outDir, prefix);
+      await page.context().close();
+      return s;
+    });
+    copyFileSync(shots[0]!, resolve(artifactDir, `agency-${state.runId}-${phase}-fold.png`));
+    const gate = assertAgencyDelivery(spec, html, { requirePolishAxes: false });
+    return {
+      spec,
+      row: {
+        phase,
+        status: gate.passed ? "loop" : "fail",
+        attempt,
+        detail: gate.passed
+          ? `${axis} attempt ${attempt}. READ fold+slices vs previous phase. Improve ONLY ${axis}; --reshoot; --mark-pass when eye+gates green.`
+          : `Delivery failed: ${gate.findings
+              .filter((f) => !f.ok)
+              .map((f) => f.id)
+              .join(",")}`,
+        shots,
+        at: now(),
+      },
+    };
+  }
+
+  if (phase === "3d-mobile") {
+    const html = readCurrentHtml(outDir, state);
+    const spec = JSON.parse(readFileSync(resolve(outDir, "spec.json"), "utf8")) as DesignSpec;
+    const result = await withServer(html, async (goto) => {
+      const page = await goto({ width: 375, height: 812, dpr: 2 });
+      const overflowX = await page.evaluate(
+        () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+      );
+      const fold = resolve(outDir, `${prefix}-fold.png`);
+      const full = resolve(outDir, `${prefix}-full.png`);
+      await page.screenshot({ path: fold });
+      await page.screenshot({ path: full, fullPage: true });
+      await page.context().close();
+      return { overflowX, shots: [fold, full] };
+    });
+    copyFileSync(result.shots[0]!, resolve(artifactDir, `agency-${state.runId}-mobile-375-fold.png`));
+    writeFileSync(resolve(outDir, "3d-mobile.html"), html, "utf8");
+    const delivery = assertAgencyDelivery(spec, html, { requirePolishAxes: true });
+    const ok = !result.overflowX && delivery.passed;
+    return {
+      spec,
+      row: {
+        phase,
+        status: ok ? "loop" : "fail",
+        attempt,
+        detail: ok
+          ? `375 OK attempt ${attempt}. READ mobile shots; fix only responsive breaks; --reshoot; --mark-pass when eye green.`
+          : `${result.overflowX ? "horizontal overflow; " : ""}${delivery.findings
+              .filter((f) => !f.ok)
+              .map((f) => f.id)
+              .join(",")}`,
+        shots: result.shots,
+        at: now(),
+      },
+    };
+  }
+
+  // 4-ship
+  const html = readCurrentHtml(outDir, state);
+  writeFileSync(resolve(outDir, "phase4-final.html"), html, "utf8");
+  copyFileSync(resolve(outDir, state.currentHtml), resolve(outDir, "SHIP.html"), "utf8");
+  return {
+    row: {
+      phase,
+      status: "loop",
+      attempt,
+      detail: "Ship bundle written (SHIP.html + phase4-final.html). Run design-skills tests; --mark-pass 4-ship when evidence posted.",
+      at: now(),
+    },
+  };
+}
+
+function markPass(state: RunState, phase: PhaseId): void {
+  if (state.current !== phase && !state.passed.includes(phase)) {
+    // Allow mark-pass only for current phase (or re-mark).
+    if (state.current !== phase) {
+      throw new Error(`Can only --mark-pass the current phase (${state.current}), not ${phase}.`);
+    }
+  }
+  if (state.current !== phase) {
+    throw new Error(`Can only --mark-pass the current phase (${state.current}), not ${phase}.`);
+  }
+  if (!state.passed.includes(phase)) state.passed.push(phase);
+  const i = PHASE_ORDER.indexOf(phase);
+  const next = PHASE_ORDER[i + 1];
+  if (next) {
+    state.current = next;
+  }
 }
 
 async function main(): Promise<void> {
   const briefPath = argValue("--brief");
   if (!briefPath) {
-    console.error("Usage: pnpm agency:pipeline -- --brief scripts/agency-pipeline/briefs/<id>.json");
+    console.error(
+      "Usage: pnpm agency:pipeline -- --brief <path> [--status | --phase <id> | --mark-pass <id>] [--reshoot]\n" +
+        `Phases: ${PHASE_ORDER.join(", ")}`,
+    );
     process.exit(1);
   }
-  const skipRefs = process.argv.includes("--skip-refs");
+
   const absBrief = resolve(root, briefPath);
-  const briefJson = JSON.parse(readFileSync(absBrief, "utf8"));
-  const brief = DesignBrief.parse(briefJson);
+  const brief = DesignBrief.parse(JSON.parse(readFileSync(absBrief, "utf8")));
   const runId = basename(briefPath, ".json");
   const outDir = resolve(root, "research/boards", runId);
   mkdirSync(outDir, { recursive: true });
   const artifactDir = "/opt/cursor/artifacts/screenshots";
   mkdirSync(artifactDir, { recursive: true });
 
-  const ledger: LedgerRow[] = [];
+  const state = loadState(outDir, runId, briefPath);
+  state.briefPath = briefPath;
+
   const boardsLocalPath = resolve(root, "research/boards.local.json");
   let boardsLocal: BoardsLocal = {};
   if (existsSync(boardsLocalPath)) {
     boardsLocal = JSON.parse(readFileSync(boardsLocalPath, "utf8")) as BoardsLocal;
   }
 
-  // Phase 1
-  if (!skipRefs) {
-    await captureRefs(boardsLocal.refs ?? [], outDir, ledger);
-  } else {
-    ledger.push({ phase: "1-refs", status: "skip", detail: "--skip-refs" });
+  if (hasFlag("--status") || (!argValue("--phase") && !argValue("--mark-pass") && !hasFlag("--all"))) {
+    printStatus(state, outDir);
+    saveState(outDir, state);
+    return;
   }
 
-  // Phase 2 — constrained build
-  const built = designFromFeatures(brief);
-  let html = built.previewHtml;
-  const basics = assertBasics(built.spec, html);
-  const delivery = assertAgencyDelivery(built.spec, html);
-  writeFileSync(resolve(outDir, "phase2-build.html"), html, "utf8");
-  ledger.push({
-    phase: "2-build",
-    status: basics.passed && delivery.passed ? "pass" : "fail",
-    detail: `basics=${basics.passed} delivery=${delivery.passed}; failed=${[...basics.findings, ...delivery.findings]
-      .filter((f) => !f.ok)
-      .map((f) => f.id)
-      .join(",") || "none"}`,
-  });
-  if (!basics.passed || !delivery.passed) {
-    console.error("Phase 2 gates failed", ledger.at(-1));
-  }
-
-  const browser = await chromium.launch();
-  const serveHtml = { current: html };
-  const server = createServer((req, res) => {
-    res.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-    res.end(serveHtml.current);
-  });
-  await new Promise<void>((r) => server.listen(4331, "127.0.0.1", r));
-
-  async function openDesktop(): Promise<Page> {
-    const context = await browser.newContext({
-      viewport: { width: 1440, height: 900 },
-      deviceScaleFactor: 1,
-    });
-    const page = await context.newPage();
-    await page.goto("http://127.0.0.1:4331/", { waitUntil: "networkidle", timeout: 30_000 });
-    await page.waitForTimeout(400);
-    return page;
-  }
-
-  // Phase 2 screenshots
-  {
-    const page = await openDesktop();
-    const shots = await shotSet(page, outDir, "phase2");
-    for (const s of shots.slice(0, 2)) {
-      copyFileSync(s, resolve(artifactDir, `agency-${runId}-${basename(s)}`));
+  const mark = argValue("--mark-pass");
+  if (mark) {
+    if (!isPhaseId(mark)) {
+      console.error(`Unknown phase ${mark}`);
+      process.exit(1);
     }
-    ledger.push({
-      phase: "2-shots",
+    markPass(state, mark);
+    appendLedger(outDir, {
+      phase: mark,
       status: "pass",
-      detail: "Desktop fold + scroll slices after constrained build.",
-      shots,
+      detail: `Marked pass. Advanced current → ${state.current}`,
+      attempt: state.attempts[mark],
+      at: now(),
     });
-    await page.context().close();
+    saveState(outDir, state);
+    printStatus(state, outDir);
+    return;
   }
 
-  // Phase 3a–3c — axis-isolated polish
-  const axes: AgencyPolishAxis[] = ["typography", "spacing", "motion"];
-  for (const axis of axes) {
-    html = applyAgencyPolish(html, axis);
-    serveHtml.current = html;
-    writeFileSync(resolve(outDir, `phase3-${axis}.html`), html, "utf8");
-    const page = await openDesktop();
-    const shots = await shotSet(page, outDir, `phase3-${axis}`);
-    copyFileSync(shots[0]!, resolve(artifactDir, `agency-${runId}-phase3-${axis}-fold.png`));
-    const gate = assertAgencyDelivery(built.spec, html, { requirePolishAxes: false });
-    ledger.push({
-      phase: `3-${axis}`,
-      status: gate.passed ? "pass" : "fail",
-      detail: `Applied ${axis}-only polish. Touch nothing else.`,
-      shots,
-    });
-    await page.context().close();
-  }
-
-  // Final delivery gate requiring all polish axes
-  const finalDelivery = assertAgencyDelivery(built.spec, html, { requirePolishAxes: true });
-  ledger.push({
-    phase: "3-delivery",
-    status: finalDelivery.passed ? "pass" : "fail",
-    detail: finalDelivery.findings.filter((f) => !f.ok).map((f) => f.id).join(",") || "all agency delivery gates green",
-  });
-
-  // Phase 3d — mobile 375
-  {
-    const context = await browser.newContext({
-      viewport: { width: 375, height: 812 },
-      deviceScaleFactor: 2,
-    });
-    const page = await context.newPage();
-    serveHtml.current = html;
-    await page.goto("http://127.0.0.1:4331/", { waitUntil: "networkidle", timeout: 30_000 });
-    await page.waitForTimeout(400);
-    const overflowX = await page.evaluate(
-      () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+  if (hasFlag("--all")) {
+    console.error(
+      "Refusing craft --all. Run one --phase at a time with Goal/Loop prompts so quality compounds.\n" +
+        "For CI smoke only, set AGENCY_ALLOW_ALL=1.",
     );
-    const fold = resolve(outDir, "phase3d-mobile-fold.png");
-    const full = resolve(outDir, "phase3d-mobile-full.png");
-    await page.screenshot({ path: fold });
-    await page.screenshot({ path: full, fullPage: true });
-    copyFileSync(fold, resolve(artifactDir, `agency-${runId}-mobile-375-fold.png`));
-    ledger.push({
-      phase: "3d-mobile-375",
-      status: overflowX ? "fail" : "pass",
-      detail: overflowX
-        ? "Horizontal overflow at 375px — fix stacking / gutters."
-        : "No horizontal overflow at 375px.",
-      shots: [fold, full],
-    });
-    await context.close();
+    if (process.env.AGENCY_ALLOW_ALL !== "1") process.exit(2);
   }
 
-  writeFileSync(resolve(outDir, "phase4-final.html"), html, "utf8");
-  await browser.close();
-  server.close();
-
-  const failed = ledger.filter((r) => r.status === "fail");
-  const md = [
-    `# Agency pipeline ledger — ${runId}`,
-    "",
-    `Product: **${brief.productName}**`,
-    `Audience: ${brief.audience}`,
-    `One CTA: ${brief.primaryCta ?? "(from sections)"}`,
-    "",
-    "| Phase | Status | Detail |",
-    "|---|---|---|",
-    ...ledger.map(
-      (r) =>
-        `| ${r.phase} | ${r.status} | ${r.detail.replace(/\|/g, "/")} |`,
-    ),
-    "",
-    failed.length === 0
-      ? "All required gates passed (or skipped with note)."
-      : `Failed phases: ${failed.map((f) => f.phase).join(", ")}`,
-    "",
-    "Direction: Match typography scale, spacing rhythm, and motion of references. Do not copy layouts.",
-  ].join("\n");
-  writeFileSync(resolve(outDir, "LEDGER.md"), md, "utf8");
-  console.log(md);
-  if (failed.some((f) => f.phase !== "1-refs")) {
-    process.exitCode = 1;
+  let phaseArg = argValue("--phase");
+  if (phaseArg === "next") phaseArg = state.current;
+  if (!phaseArg || !isPhaseId(phaseArg)) {
+    console.error(`Need --phase <${PHASE_ORDER.join("|")}|next>`);
+    process.exit(1);
   }
+  if (phaseArg !== state.current) {
+    console.error(
+      `Refusing to run ${phaseArg} while current phase is ${state.current}. ` +
+        `Finish the current phase first (or --mark-pass ${state.current} if it already passed eye+gates).`,
+    );
+    process.exit(2);
+  }
+
+  const reshoot = hasFlag("--reshoot");
+  const { row } = await runPhase({
+    phase: phaseArg,
+    brief,
+    outDir,
+    state,
+    boardsLocal,
+    reshoot,
+    artifactDir,
+  });
+  appendLedger(outDir, row);
+  saveState(outDir, state);
+
+  console.log("");
+  console.log(`Phase ${phaseArg} attempt ${row.attempt ?? 1}: ${row.status}`);
+  console.log(row.detail);
+  if (row.shots?.length) {
+    console.log(`Shots: ${row.shots.map((s) => basename(s)).join(", ")}`);
+  }
+  console.log("");
+  console.log("Do NOT advance yet. Paste the Loop prompt, read the screenshots, improve this axis only,");
+  console.log(`then: pnpm agency:pipeline -- --brief ${briefPath} --phase ${phaseArg} --reshoot`);
+  console.log(`When eye + gates pass: pnpm agency:pipeline -- --brief ${briefPath} --mark-pass ${phaseArg}`);
+  printStatus(state, outDir);
+
+  if (row.status === "fail") process.exitCode = 1;
 }
 
 main().catch((err) => {

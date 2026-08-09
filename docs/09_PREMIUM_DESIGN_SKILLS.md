@@ -100,7 +100,8 @@ Or open `/studio` and generate interactively.
 
 ## Goal + loop
 
-See `PLAN.md` **Phase 7** goal prompt and loop prompt. Execute until the checklist is green.
+- Premium engine / Studio craft: `PLAN.md` **Phase 7**
+- Agency marketing sites (phased, compounding): `PLAN.md` **Agency-quality site pipeline** + `agency-quality-site` PROMPTS.md — **one phase per cycle**
 
 ## E2E
 
