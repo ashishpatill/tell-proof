@@ -4,6 +4,7 @@ import { z } from "zod";
 import { BrandDNA, CapturePayload, DesignFingerprint } from "@tell/schema";
 import { restyleWithGemini } from "@tell/redesign/llm";
 import { resolveGeminiKey } from "@/lib/byok";
+import { recordTrainingEvent } from "@/lib/training-data-sink";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -56,6 +57,18 @@ export async function POST(request: Request) {
       if (!result.ok) {
         return NextResponse.json({ ok: false, reason: result.reason });
       }
+      recordTrainingEvent(
+        "restyle",
+        {
+          directionId,
+          dna: dna ?? null,
+          css: result.css,
+          fontImport: result.fontImport,
+          notes: result.notes,
+          url: capture.url,
+        },
+        { directionId },
+      );
       return NextResponse.json({
         ok: true,
         css: result.css,

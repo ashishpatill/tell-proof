@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { trace, SpanStatusCode, type Span } from "@opentelemetry/api";
 import { parseDirectionPlan, parseDirectionWithGemini } from "@tell/taste";
 import { resolveGeminiKey } from "@/lib/byok";
+import { recordTrainingEvent } from "@/lib/training-data-sink";
 
 const tracer = trace.getTracer("tell.voice");
 
@@ -30,6 +31,12 @@ export async function POST(request: Request) {
       span.setAttributes({ "tell.voice.preset": plan.presetId ?? "(none)" });
       span.setStatus({ code: SpanStatusCode.OK });
       span.end();
+
+      recordTrainingEvent(
+        "voice",
+        { transcript, plan, source },
+        { presetId: plan.presetId ?? null },
+      );
 
       return NextResponse.json({ ...plan, source });
     } catch (error) {

@@ -1,0 +1,25 @@
+# Training data (local Tell sessions) — never commit raw captures / screenshots
+training-data/raw/
+training-data/sessions/
+training-data/by-day/
+training-data/inbox/
+training-data/curated/
+training-data/meta/ledger.jsonl
+!training-data/README.md
+!training-data/**/.gitkeep
+
+# Dependencies & build
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Legacy home (if someone pointed TELL_DESIGN_DATA_HOME here)
+data/
+*.jsonl
+.env
+.env.local
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

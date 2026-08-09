@@ -30,6 +30,11 @@ research/boards/
 research/raw/
 research/design-data.local.json
 
+# Training episode dumps must NOT live in Tell. Use the separate developer
+# harness `tell-design-data` → ~/.tell-design-data/. Keep any accidental local
+# drops out of git just in case:
+research/training.local/
+
 # Peer plumbing reference identity (URL + checkout path). Committed plans are
 # anonymised in docs/11–13; never commit this file.
 research/plumbing-reference.local.json
@@ -48,3 +53,6 @@ research/shots/
 # Throwaway probes written during a research loop to answer one question.
 # Anything worth keeping graduates into scripts/design-research/.
 scripts/tmp/
+
+research/training.local/
+

@@ -1,0 +1,32 @@
+{
+  "name": "tell-design-data",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Developer-only local harness: auto-collect Tell sessions into design-LLM training data. Never ships inside Tell.",
+  "type": "module",
+  "bin": {
+    "tell-design-data": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/cli/index.ts",
+    "start": "node dist/cli/index.js",
+    "convert": "tsx src/cli/index.ts convert --home ./training-data",
+    "sync": "tsx src/cli/index.ts sync --home ./training-data",
+    "watch": "tsx src/cli/index.ts watch --home ./training-data",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test src/**/*.test.ts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "chokidar": "^4.0.3",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

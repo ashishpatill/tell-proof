@@ -56,8 +56,9 @@ flowchart TB
 | **`docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md`** | MCP / one-click install / CLI / skills / multi-agent | **Keep — separate plan** |
 | **`docs/12_AUTH_SECURITY_BOUNDARIES_PLAN.md`** | Capture/API/agent trust envelopes (not product login) | **Keep — separate plan** |
 | **`docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`** | Common + complex design-task flows for Ashish loop | **Keep — separate plan** |
+| **`docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`** | Research plan; collector is external `tell-design-data` repo | **Keep — research only (no collector code)** |
+| **`research/DESIGN_LLM_TRAINING_DATA_SURVEY.md`** | Cited literature survey (papers, datasets, practitioner guides) | **Keep — research literature** |
 | `DESIGN.md`, `PITCH.md` | Dogfood contract / pitch | **Keep** |
-
 ---
 
 ## Phase 6 checklist (DoD) — closed

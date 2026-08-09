@@ -5,6 +5,7 @@ import { runDiagnose } from "@/lib/run-diagnose";
 import { applyPatchToWorkspace, revertWorkspacePatch } from "@/lib/source-worktree";
 import { hasRemoteBackend, proxyRemoteBackend } from "@/lib/remote-api";
 import { assertRepoSetupEnabled } from "@/lib/setup-guard";
+import { recordTrainingEvent } from "@/lib/training-data-sink";
 
 export const runtime = "nodejs";
 export const maxDuration = 180;
@@ -66,28 +67,43 @@ export async function POST(request: Request) {
         ? "review"
         : "failed";
 
+    const proof = {
+      beforeScore,
+      afterScore,
+      scoreDelta,
+      findingsBefore: before.score.total,
+      findingsAfter: afterReport.score.total,
+      focusBefore,
+      focusAfter,
+      focusRegressed,
+      screenshotsDiffer,
+      structureRegressed,
+      headingsBefore: beforeStructure.headingCount,
+      headingsAfter: afterStructure.headingCount,
+      buttonsBefore: beforeStructure.buttonCount,
+      buttonsAfter: afterStructure.buttonCount,
+      changedFiles: applied.files,
+      capturedAt: afterReport.capture.capturedAt,
+      url: proofUrl,
+    };
+
+    recordTrainingEvent(
+      "proof",
+      {
+        mode: "apply",
+        status,
+        proof,
+        beforeReport: before,
+        afterReport,
+        patch,
+      },
+      { jobId, url: proofUrl },
+    );
+
     return NextResponse.json({
       status,
       afterReport,
-      proof: {
-        beforeScore,
-        afterScore,
-        scoreDelta,
-        findingsBefore: before.score.total,
-        findingsAfter: afterReport.score.total,
-        focusBefore,
-        focusAfter,
-        focusRegressed,
-        screenshotsDiffer,
-        structureRegressed,
-        headingsBefore: beforeStructure.headingCount,
-        headingsAfter: afterStructure.headingCount,
-        buttonsBefore: beforeStructure.buttonCount,
-        buttonsAfter: afterStructure.buttonCount,
-        changedFiles: applied.files,
-        capturedAt: afterReport.capture.capturedAt,
-        url: proofUrl,
-      },
+      proof,
     });
   } catch (error) {
     if (applied) await revertWorkspacePatch(jobId).catch(() => {});

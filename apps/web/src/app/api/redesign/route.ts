@@ -8,6 +8,7 @@ import { collectProjectSources, rankSourcesForReport } from "@/lib/source-worktr
 import { fetchRemoteBackend, hasRemoteBackend } from "@/lib/remote-api";
 import { assertRepoSetupEnabled } from "@/lib/setup-guard";
 import { resolveCursorKey } from "@/lib/byok";
+import { recordTrainingEvent } from "@/lib/training-data-sink";
 
 const tracer = trace.getTracer("tell.redesign");
 
@@ -78,17 +79,31 @@ export async function POST(request: Request) {
       });
       span.setStatus({ code: SpanStatusCode.OK });
       span.end();
+      const sourceContextMeta = sourceContext
+        ? {
+            filesLoaded: sourceContext.files.length,
+            filesDiscovered: sourceContext.scannedFiles,
+            matchedFiles: ranked?.matchedFiles ?? 0,
+            totalBytes: sourceContext.totalBytes,
+            mode: "repo" as const,
+          }
+        : { filesLoaded: 0, filesDiscovered: 0, matchedFiles: 0, totalBytes: 0, mode: "capture" as const };
+      recordTrainingEvent(
+        "redesign",
+        {
+          directionText,
+          findingId,
+          direction,
+          directionPlan: directionPlan ?? null,
+          dna: dna ?? null,
+          proposal,
+          reportUrl: report.capture.url,
+        },
+        { setupJobId: setupJobId || null, ...sourceContextMeta },
+      );
       return NextResponse.json({
         ...proposal,
-        sourceContext: sourceContext
-          ? {
-              filesLoaded: sourceContext.files.length,
-              filesDiscovered: sourceContext.scannedFiles,
-              matchedFiles: ranked?.matchedFiles ?? 0,
-              totalBytes: sourceContext.totalBytes,
-              mode: "repo",
-            }
-          : { filesLoaded: 0, filesDiscovered: 0, matchedFiles: 0, totalBytes: 0, mode: "capture" },
+        sourceContext: sourceContextMeta,
       });
     } catch (error) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: String(error) });

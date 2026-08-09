@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { designFromFeatures, getTemplate } from "@tell/design-skills";
+import { recordTrainingEvent } from "@/lib/training-data-sink";
 
 export const runtime = "nodejs";
 
@@ -18,7 +19,19 @@ export async function GET(req: Request) {
     if (!template) {
       return new NextResponse(`Unknown showcase "${key}"`, { status: 404 });
     }
-    const { previewHtml } = designFromFeatures(template.brief);
+    const { spec, previewHtml } = designFromFeatures(template.brief);
+    recordTrainingEvent(
+      "design",
+      {
+        brief: template.brief,
+        spec,
+        previewHtml,
+        showcaseKey: key,
+        siteKind: template.brief.siteKind,
+        productName: template.brief.productName,
+      },
+      { via: "api.design.html", showcaseKey: key },
+    );
     return new NextResponse(previewHtml, {
       status: 200,
       headers: {
