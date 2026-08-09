@@ -12,7 +12,7 @@ Agencies bill for the polish stage because **quality compounds across isolated p
 **Parent:** `premium-content-custom-web`  
 **Verify:** `gates-until-verified` · `tell-proof-verify` · `tell-recursive-improve`  
 **Runner:** `pnpm agency:pipeline -- --brief <path> --phase <id>`  
-**Autonomous:** `pnpm agency:run -- --query "<requirement>"` (niche → brief → DIRECTION → refs → phase loop with auto `--mark-pass`)
+**Autonomous:** `pnpm agency:run -- --query "<requirement>"` (niche → brief → DIRECTION → refs → phase loop with auto `--mark-pass` → **agency:learn**)
 
 ---
 
@@ -24,6 +24,7 @@ Agencies bill for the polish stage because **quality compounds across isolated p
 4. **Touch only that phase's axis.** Typography pass must not change spacing/motion; etc.
 5. **Read the PNGs.** Score/gates ≠ quality. Cap **3 loop attempts** per phase, then stop with a named blocker.
 6. Direction line always: *Match typography scale, spacing rhythm, and motion of the refs. Do not copy the layouts.*
+7. **Every run learns** — `agency-run-learn` updates `research/agency-engine-memory.json` + `LEARNINGS.md`. Do not skip unless `--skip-learn`.
 
 ### Autonomous entry (`agency:run`)
 
@@ -31,6 +32,7 @@ Agencies bill for the polish stage because **quality compounds across isolated p
 pnpm agency:run -- --query "freelance photographer booking site" --fresh
 pnpm agency:run -- --query "B2B SaaS demo landing" --product Acme --cta "Book a demo"
 pnpm agency:run -- --brief scripts/agency-pipeline/briefs/lensroom.json --fresh
+pnpm agency:learn -- --run-id <id>   # re-run learning only
 ```
 
 What it does:
@@ -299,4 +301,4 @@ Orchestration:
 
 ## Improving Tell proof
 
-Repeatable misses → `assertAgencyDelivery` / `assertBasics` / axis polish helpers → `tell-proof-verify` checklist → `research/LEARNINGS.md`. Do not vendor external skill DBs.
+Repeatable misses → `agency-run-learn` → `assertAgencyDelivery` / `assertBasics` / axis polish helpers → `tell-proof-verify` checklist → `research/LEARNINGS.md` + `research/agency-engine-memory.json`. Do not vendor external skill DBs.

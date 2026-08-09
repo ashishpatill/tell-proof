@@ -2,8 +2,23 @@
  * Niche presets — map a free-text requirement to Tell brief + design-rigor lane.
  * No third-party hosts or product names here. Live reference URLs live only in
  * gitignored `research/boards.seeds.local.json` / `research/boards.local.json`.
+ * Learned boosts come from research/agency-engine-memory.json (agency:learn).
  */
+import { existsSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import type { DesignBrief } from "../../packages/design-skills/src/types";
+import { compileBoost, loadMemory, type EngineMemory } from "./memory";
+
+function repoRoot(from = process.cwd()): string {
+  let dir = from;
+  for (let i = 0; i < 8; i += 1) {
+    if (existsSync(resolve(dir, "pnpm-workspace.yaml"))) return dir;
+    const parent = dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  return from;
+}
 
 export type CompositionalLane =
   | "minimal-editorial-grid"
@@ -240,10 +255,20 @@ export const NICHE_PRESETS: NichePreset[] = [
 
 export const DEFAULT_NICHE = NICHE_PRESETS[0]!;
 
-export function matchNiche(query: string): NichePreset {
+export function matchNiche(query: string, memory?: EngineMemory): NichePreset {
   const q = query.trim();
+  const mem = memory ?? loadMemory(repoRoot());
+
+  // Learned boosts win only when they hit — checked before default fallthrough,
+  // after explicit preset regexes so hand-authored presets stay primary.
   for (const preset of NICHE_PRESETS) {
     if (preset.match.test(q)) return preset;
+  }
+  for (const boost of mem.nicheBoosts) {
+    const re = compileBoost(boost.pattern);
+    if (!re?.test(q)) continue;
+    const hit = NICHE_PRESETS.find((p) => p.key === boost.nicheKey);
+    if (hit) return hit;
   }
   return DEFAULT_NICHE;
 }
@@ -260,11 +285,33 @@ export function slugifyRunId(input: string): string {
 
 export function briefFromNiche(
   preset: NichePreset,
-  opts: { productName?: string; primaryCta?: string; audience?: string; query: string },
+  opts: {
+    productName?: string;
+    primaryCta?: string;
+    audience?: string;
+    query: string;
+    memory?: EngineMemory;
+  },
 ): DesignBrief {
   const productName = opts.productName?.trim() || preset.productName;
   const primaryCta = opts.primaryCta?.trim() || preset.primaryCta;
   const audience = opts.audience?.trim() || preset.audience;
+  const mem = opts.memory ?? loadMemory(repoRoot());
+  const bans = [
+    "purple gradients",
+    "emoji as icons",
+    "Inter as the display font",
+    "generic stock-photo placeholders",
+    "centered-everything layouts",
+    "equal three-card feature grids",
+    "award claims without evidence",
+    "fake logo-wall theater",
+    ...mem.bansExtra,
+  ];
+  // de-dupe case-insensitive
+  const banList = bans.filter(
+    (b, i) => bans.findIndex((x) => x.toLowerCase() === b.toLowerCase()) === i,
+  );
   return {
     productName,
     tagline: preset.tagline,
@@ -273,16 +320,7 @@ export function briefFromNiche(
     siteKind: preset.siteKind,
     lockSiteKind: true,
     primaryCta,
-    banList: [
-      "purple gradients",
-      "emoji as icons",
-      "Inter as the display font",
-      "generic stock-photo placeholders",
-      "centered-everything layouts",
-      "equal three-card feature grids",
-      "award claims without evidence",
-      "fake logo-wall theater",
-    ],
+    banList,
     brandAccent: preset.brandAccent,
     taste: preset.taste,
     features: preset.features,
@@ -298,7 +336,22 @@ export function briefFromNiche(
   };
 }
 
-export function directionMarkdown(preset: NichePreset, query: string, refMode: string): string {
+export function directionMarkdown(
+  preset: NichePreset,
+  query: string,
+  refMode: string,
+  memory?: EngineMemory,
+): string {
+  const mem = memory ?? loadMemory(repoRoot());
+  const hints = mem.craftHints
+    .filter((h) => h.siteKind === preset.siteKind)
+    .slice(-3)
+    .map((h) => `- Learned: ${h.note}`);
+  const pipeline = mem.pipelineNotes
+    .filter((n) => n.key.includes(preset.seedCategory) || n.key.includes(preset.key))
+    .slice(-3)
+    .map((n) => `- Pipeline: ${n.detail}`);
+
   return [
     `# Direction note — ${preset.productName}`,
     "",
@@ -323,5 +376,8 @@ export function directionMarkdown(preset: NichePreset, query: string, refMode: s
     "",
     `\`${preset.corridorHint}\` — use measured bands when live refs are thin.`,
     "",
+    ...(hints.length || pipeline.length
+      ? ["## Engine memory (from prior runs)", "", ...hints, ...pipeline, ""]
+      : []),
   ].join("\n");
 }

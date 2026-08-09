@@ -206,10 +206,23 @@ async function withServer<T>(
 
 async function captureRefs(refs: NonNullable<BoardsLocal["refs"]>, outDir: string): Promise<LedgerRow> {
   if (refs.length === 0) {
+    writeFileSync(
+      resolve(outDir, "BOARD_STATUS.md"),
+      [
+        "# Board status",
+        "",
+        "mode: corridor-fallback",
+        "reason: no refs in boards.local.json (fill research/boards.seeds.local.json locally)",
+        "honesty: Phase 1 craft board is thin — DIRECTION must name corridor bands + subject vernacular.",
+        "",
+      ].join("\n"),
+      "utf8",
+    );
     return {
       phase: "1-refs",
       status: "skip",
-      detail: "No refs in boards.local.json — write DIRECTION.md from measured corridors + subject vernacular.",
+      detail:
+        "No refs in boards.local.json — corridor-fallback. Write DIRECTION.md from measured corridors + subject vernacular.",
       at: now(),
     };
   }
@@ -284,12 +297,27 @@ async function captureRefs(refs: NonNullable<BoardsLocal["refs"]>, outDir: strin
   }
 
   const ok = shots.length >= 6;
+  writeFileSync(
+    resolve(outDir, "BOARD_STATUS.md"),
+    [
+      "# Board status",
+      "",
+      `mode: ${ok ? "live-board" : "thin-board"}`,
+      `frames: ${shots.length}`,
+      failures.length ? `issues: ${failures.join("; ")}` : "issues: none",
+      ok
+        ? "honesty: live reference frames captured — fill DIRECTION from eye, do not clone layouts."
+        : "honesty: thin board — use measured corridor bands + subject vernacular; fill seeds locally next time.",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
   return {
     phase: "1-refs",
     status: ok ? "pass" : "fail",
     detail: ok
       ? `Captured ${shots.length} frames from ${picked.length} sites.${failures.length ? ` Issues: ${failures.join("; ")}` : ""} Fill DIRECTION.md before Phase 2.`
-      : `Need ≥6 frames (hero/mid/footer × refs). Got ${shots.length}. ${failures.join("; ")}`,
+      : `Need ≥6 frames (hero/mid/footer × refs). Got ${shots.length}. corridor-fallback recommended. ${failures.join("; ")}`,
     shots,
     at: now(),
   };

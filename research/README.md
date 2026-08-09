@@ -12,14 +12,20 @@ measurements instead of taste claims.
 | `aggregate.json` | Distributions, per-category signatures, calibrated craft bands |
 | `critique.json` | Latest score of our own generated pages against those bands |
 | `LOOP_LEDGER.md` | One row per research loop: goal, score movement, what changed |
+| `LEARNINGS.md` | Human narrative lessons (recursive improve + agency-run-learn) |
+| `agency-engine-memory.json` | Machine memory from agency runs (bans, niche boosts, craft hints) |
 
 ## Agency reference boards (local)
 
 `research/boards.local.json` lists up to three reference URLs for a pipeline run (gitignored).
 Screenshots land in `research/boards/<run-id>/` (also gitignored). Committed artifacts are the
-skill, runner, brief JSON under `scripts/agency-pipeline/briefs/`, and anonymised learnings.
+skill, runner, brief JSON under `scripts/agency-pipeline/briefs/`, engine memory, and anonymised learnings.
 
-Run: `pnpm agency:pipeline -- --brief scripts/agency-pipeline/briefs/lensroom.json`
+```bash
+pnpm agency:run -- --query "freelance photographer booking site" --fresh
+pnpm agency:learn -- --run-id <id>    # re-learn only
+pnpm agency:pipeline -- --brief scripts/agency-pipeline/briefs/lensroom.json --status
+```
 
 ## What is never committed
 

@@ -173,6 +173,7 @@ If blocked: note in Status log and continue with the next unchecked item.
 - [x] Agent executes Lensroom brief **one phase at a time** through `4-ship` (STATE + PHASE_LEDGER)
 - [x] Repeatable misses encoded back into gates / LEARNINGS
 - [x] `agency:run` orchestrator — query → niche/brief/DIRECTION → local seeds/corridor → phase loop + auto mark-pass
+- [x] `agency-run-learn` — post-run signals → engine memory + LEARNINGS; feeds next run
 
 ### Goal prompt (autonomous)
 
@@ -182,7 +183,8 @@ If blocked: note in Status log and continue with the next unchecked item.
 GOAL: Run the autonomous agency pipeline for the named requirement.
 
 pnpm agency:run -- --query "<requirement>" --fresh
-Optional: --product --cta --audience --max-attempts 3
+# optional: --product Name --cta "Book a call" --max-attempts 3 --brief <existing>
+# learns into research/agency-engine-memory.json + LEARNINGS.md (agency-run-learn)
 
 Done when research/boards/<run-id>/STATE.json passed[] includes 4-ship and SHIP.html exists.
 ```

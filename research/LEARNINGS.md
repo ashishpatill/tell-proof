@@ -507,3 +507,9 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   counts `.ds-glass*` markup only (shared CSS comments false-fired).
 - **Do not:** Mix unrelated aesthetic systems in one pass; do not claim awards; do not
   treat quality as a trophy string in copy.
+
+## 2026-08-09 — `agency:thin-board:portfolio-photography`
+
+- **Failure:** Run orch-learn advanced with a thin/corridor reference board (category portfolio-photography).
+- **Fix:** Fill research/boards.seeds.local.json for this category; keep corridor bands as fallback only.
+- **Do not:** Treat empty seeds as a finished Phase 1 craft board.

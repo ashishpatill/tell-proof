@@ -26,6 +26,11 @@ Write, then build:
 Extract from references only: hierarchy, pacing, contrast, image treatment, motion principles.
 Generate a **new** identity/layout/copy/imagery. Never trace or clone a ref.
 
+**Thin board honesty:** If live refs are missing (empty seeds / bot walls), say so in
+`BOARD_STATUS.md` and write DIRECTION from measured corridor bands + subject vernacular.
+Never pretend a corridor fallback was a finished craft board. `agency-run-learn` records
+`agency:thin-board:*` so the next run can fill `boards.seeds.local.json`.
+
 ---
 
 ## 2. Honest assets

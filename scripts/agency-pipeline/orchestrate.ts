@@ -26,6 +26,8 @@ import {
   type NichePreset,
 } from "./niche";
 import { PHASE_ORDER, type PhaseId } from "./phases";
+import { loadMemory } from "./memory";
+import { learnFromRun } from "./learn";
 
 function repoRoot(from = process.cwd()): string {
   let dir = from;
@@ -141,12 +143,14 @@ function writePlan(outDir: string, preset: NichePreset, query: string, refMode: 
     `Craft: ${preset.craftNodes.join(", ")}`,
     `Site kind: ${preset.siteKind}`,
     `Ref mode: ${refMode}`,
+    `Seed category: ${preset.seedCategory}`,
     "",
     "## Phase plan",
     "",
     ...PHASE_ORDER.map((p, i) => `${i + 1}. \`${p}\` — run → verify gates → retry ≤3 → mark-pass`),
     "",
     "Auto-advance when deterministic gates are green. Live refs optional via local seeds.",
+    "After ship: `agency:learn` updates engine memory + LEARNINGS.",
     "",
   ];
   writeFileSync(resolve(outDir, "AUTO_PLAN.md"), lines.join("\n"), "utf8");
@@ -175,8 +179,18 @@ function phaseSucceeded(outDir: string, phase: PhaseId, output: string): boolean
   return Boolean(state && state.currentHtmlFrom === phase);
 }
 
-function ensureDirection(outDir: string, preset: NichePreset, query: string, refMode: string): void {
-  writeFileSync(resolve(outDir, "DIRECTION.md"), directionMarkdown(preset, query, refMode), "utf8");
+function ensureDirection(
+  outDir: string,
+  preset: NichePreset,
+  query: string,
+  refMode: string,
+): void {
+  const memory = loadMemory(root);
+  writeFileSync(
+    resolve(outDir, "DIRECTION.md"),
+    directionMarkdown(preset, query, refMode, memory),
+    "utf8",
+  );
 }
 
 function adaptBriefPaths(briefRel: string, runId: string): void {
@@ -187,6 +201,17 @@ function adaptBriefPaths(briefRel: string, runId: string): void {
     `research/boards/${runId}/ref-2-hero.png`,
     `research/boards/${runId}/ref-3-hero.png`,
   ];
+  const memory = loadMemory(root);
+  if (memory.bansExtra.length) {
+    const existing = Array.isArray(brief.banList)
+      ? (brief.banList as string[])
+      : [];
+    const merged = [...existing];
+    for (const ban of memory.bansExtra) {
+      if (!merged.some((b) => b.toLowerCase() === ban.toLowerCase())) merged.push(ban);
+    }
+    brief.banList = merged;
+  }
   writeFileSync(abs, `${JSON.stringify(brief, null, 2)}\n`, "utf8");
 }
 
@@ -200,6 +225,9 @@ async function main(): Promise<void> {
   const runIdArg = argValue("--run-id");
   const fresh = hasFlag("--fresh");
 
+  const skipLearn = hasFlag("--skip-learn");
+  const memory = loadMemory(root);
+
   if (!query && !briefArg) {
     console.error(
       'Usage: pnpm agency:run -- --query "freelance photographer booking site"\n' +
@@ -208,10 +236,14 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  const preset = matchNiche(query || "photography portfolio booking");
-  const runId =
-    runIdArg ||
-    (briefArg ? basename(briefArg, ".json") : slugifyRunId(productName || preset.productName));
+  const preset = matchNiche(query || "photography portfolio booking", memory);
+  let runId = runIdArg ?? "";
+  if (!runId && briefArg) {
+    const stem = basename(briefArg, ".json");
+    runId =
+      stem === "brief" ? basename(dirname(resolve(root, briefArg))) : stem;
+  }
+  if (!runId) runId = slugifyRunId(productName || preset.productName);
 
   const outDir = resolve(root, "research/boards", runId);
   mkdirSync(outDir, { recursive: true });
@@ -246,6 +278,7 @@ async function main(): Promise<void> {
       productName,
       primaryCta,
       audience,
+      memory,
     });
     briefRel = writeBrief(runId, brief);
   }
@@ -261,6 +294,7 @@ async function main(): Promise<void> {
   console.log(`craft: ${preset.craftNodes.join(", ")}`);
   console.log(`brief: ${briefRel}`);
   console.log(`refs:  ${refMode}`);
+  console.log(`memory bans: ${memory.bansExtra.length} · boosts: ${memory.nicheBoosts.length}`);
   console.log(`plan:  research/boards/${runId}/AUTO_PLAN.md\n`);
 
   const orchLog: string[] = [
@@ -270,6 +304,7 @@ async function main(): Promise<void> {
     `|---|---|---|`,
   ];
 
+  let stoppedEarly = false;
   for (const phase of PHASE_ORDER) {
     const state = loadState(outDir);
     if (state?.passed.includes(phase)) {
@@ -314,7 +349,8 @@ async function main(): Promise<void> {
       } else {
         writeFileSync(resolve(outDir, "ORCH_LOG.md"), `${orchLog.join("\n")}\n`, "utf8");
         console.error(`\nStopped on ${phase} after ${maxAttempts} attempts.`);
-        process.exit(1);
+        stoppedEarly = true;
+        break;
       }
     }
 
@@ -327,14 +363,43 @@ async function main(): Promise<void> {
     }
   }
 
-  orchLog.push("", "Done: all phases marked or corridor-fallback applied.", "");
+  orchLog.push(
+    "",
+    stoppedEarly
+      ? "Stopped early — learn still runs to capture gate pressure."
+      : "Done: all phases marked or corridor-fallback applied.",
+    "",
+  );
   writeFileSync(resolve(outDir, "ORCH_LOG.md"), `${orchLog.join("\n")}\n`, "utf8");
+
+  if (!skipLearn) {
+    try {
+      const learned = learnFromRun({
+        runId,
+        query: query || undefined,
+        nicheKey: preset.key,
+        siteKind: preset.siteKind,
+        seedCategory: preset.seedCategory,
+      });
+      console.log(`\n=== agency:learn ===`);
+      console.log(
+        `signals: ${learned.signals.length} · LEARNINGS: ${learned.writtenLearnings.join(", ") || "(none new)"}`,
+      );
+      console.log(`memory: research/agency-engine-memory.json`);
+      console.log(`board:  research/boards/${runId}/LEARN.md`);
+    } catch (err) {
+      console.warn(
+        `agency:learn skipped: ${err instanceof Error ? err.message : String(err)}`,
+      );
+    }
+  }
 
   const final = loadState(outDir);
   console.log(`\n=== complete ===`);
   console.log(`passed: ${final?.passed.join(" → ") ?? "(unknown)"}`);
   console.log(`artifacts: research/boards/${runId}/`);
   console.log(`ship: research/boards/${runId}/SHIP.html`);
+  if (stoppedEarly) process.exit(1);
 }
 
 main().catch((err) => {

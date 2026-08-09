@@ -17,7 +17,8 @@ pnpm agency:run -- --query "<requirement>" --fresh
 # optional: --product Name --cta "Book a call" --max-attempts 3 --brief <existing>
 
 Reads niche presets → brief + DIRECTION (DESIGN_RIGOR) → local seeds/corridor refs →
-phase loop with gate verify + auto --mark-pass through 4-ship.
+phase loop with gate verify + auto --mark-pass through 4-ship → agency:learn
+(engine memory + LEARNINGS).
 
 Still one phase at a time under the hood. Never craft --all.
 Live ref URLs only in research/boards.seeds.local.json (gitignored).

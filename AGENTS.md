@@ -97,6 +97,8 @@ Feature workflows live in `.cursor/skills/`:
 - `tell-deploy` — Vercel/Docker public URL
 - `tell-demo-script` — demo + compliance
 - `tell-template-craft` — peer plumbing first, then top-designer craft iteration + screenshot proof
+- `agency-quality-site` — phased agency marketing-site pipeline (Goal/Loop + `agency:run`)
+- `agency-run-learn` — post-run engine memory + LEARNINGS (wired into `agency:run`)
 - `tell-recursive-improve` — champion/challenger loop + `research/LEARNINGS.md` (no nav-only showcase shots)
 - `ship-loop` — analyze PR → fix → semantic commits → push → re-check → merge
 
