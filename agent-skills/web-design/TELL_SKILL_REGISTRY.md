@@ -29,7 +29,7 @@ Coverage table (82/82): `agent-skills/web-design/COVERAGE.md`
 
 ## Agent playbooks (full script duties)
 
-`gates-until-verified`, `surface-recipe-map`, technique packs, plus formerly avoided crafts now fully documented:
+`gates-until-verified`, `agency-quality-site`, `surface-recipe-map`, technique packs, plus formerly avoided crafts now fully documented:
 
 `organic-merge-craft`, `pointer-field-craft`, `beam-state-craft`, `dither-field-craft`, `mesh-field-craft`
 

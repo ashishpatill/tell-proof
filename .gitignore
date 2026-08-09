@@ -24,6 +24,9 @@ tell-preview-report.json
 # Design research corpus: holds third-party URLs, never committed.
 # Only anonymised measurements (research/measurements/*.json) are shipped.
 research/corpus.local.json
+research/boards.local.json
+research/boards.seeds.local.json
+research/boards/
 research/raw/
 
 # Peer plumbing reference identity (URL + checkout path). Committed plans are

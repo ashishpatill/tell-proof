@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T13:54:30.158Z",
+  "bansExtra": [],
+  "nicheBoosts": [],
+  "craftHints": [
+    {
+      "siteKind": "art-directed-studio",
+      "note": "Prefer compositional lane “image-first-stage” when query maps here.",
+      "fromRun": "orch-learn"
+    }
+  ],
+  "pipelineNotes": [
+    {
+      "key": "thin-board:portfolio-photography",
+      "detail": "Corridor/thin board for portfolio-photography",
+      "fromRun": "orch-learn",
+      "at": "2026-08-09T13:53:40.282Z"
+    }
+  ],
+  "seenPatternKeys": [
+    "agency:thin-board:portfolio-photography"
+  ]
+}

@@ -18,7 +18,7 @@ full script duties (pause, cleanup, brand accent, reduced motion) live in the ma
 | `blue-laser-clean-glass-layout` | `signal-beam-craft` + `glass-shell-craft` + `container-tech-shell` |
 | `book-serif-index` | editorial-chapter-craft + archive/foundry kinds |
 | `bright-green-tech-system-webgl` | mesh-field-craft + container-tech-shell (accent=brand) |
-| `build-awwwards-quality-sites` | premium-content-custom-web + gates-until-verified (quality bar, not award claims) |
+| `build-awwwards-quality-sites` | premium-content-custom-web + agency-quality-site + DESIGN_RIGOR.md + gates-until-verified (phased polish + honesty bar, not award claims) |
 | `build-threejs-scroll-worlds` | scrub-sequence-craft + mesh-field-craft |
 | `cinematic-gsap-lenis-motion-system` | scrub-sequence-craft (one scroll engine only; never dual) |
 | `cinematic-scroll-storytelling` | editorial-chapter-craft + scrub-sequence-craft |

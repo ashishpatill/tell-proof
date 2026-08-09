@@ -98,7 +98,7 @@ export function buildSections(
   });
 
   const eyebrow = eyebrows(brief);
-  const cta = ctaFor(brief.businessGoal, brief.siteKind);
+  const cta = ctaFor(brief.businessGoal, brief.siteKind, brief.primaryCta);
   const navItems = navFor(
     plan.map((p) => ({ kind: p.kind, id: p.id })),
     brief.siteKind,

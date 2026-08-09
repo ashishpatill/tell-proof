@@ -158,6 +158,72 @@ If blocked: note in Status log and continue with the next unchecked item.
 
 ---
 
+## Agency-quality site pipeline (Cursor — phased Goal/Loop + autonomous run)
+
+**Authority:** `.cursor/skills/agency-quality-site` · `agent-skills/web-design/premium-content-custom-web/agency-quality-site/`  
+**Why separate:** One full-pipeline pass does not compound quality. Each phase must Goal → run → eye → Loop ≤3 → `--mark-pass` before the next phase starts from `current.html`.  
+**Autonomous:** `pnpm agency:run -- --query "…"` packages niche → refs → plan → execute → verify → advance.
+
+### Checklist
+
+- [x] Skill + PROMPTS.md with Goal/Loop per phase
+- [x] Runner is phase-gated (`--phase`, `--reshoot`, `--mark-pass`, `--status`); craft `--all` refused
+- [x] `assertAgencyDelivery` + axis polish helpers in `@tell/design-skills`
+- [x] `DESIGN_RIGOR.md` — compositional lanes + honesty bar (principle-only)
+- [x] Agent executes Lensroom brief **one phase at a time** through `4-ship` (STATE + PHASE_LEDGER)
+- [x] Repeatable misses encoded back into gates / LEARNINGS
+- [x] `agency:run` orchestrator — query → niche/brief/DIRECTION → local seeds/corridor → phase loop + auto mark-pass
+- [x] `agency-run-learn` — post-run signals → engine memory + LEARNINGS; feeds next run
+
+### Goal prompt (autonomous)
+
+```
+@PLAN.md @.cursor/skills/agency-quality-site/SKILL.md
+
+GOAL: Run the autonomous agency pipeline for the named requirement.
+
+pnpm agency:run -- --query "<requirement>" --fresh
+# optional: --product Name --cta "Book a call" --max-attempts 3 --brief <existing>
+# learns into research/agency-engine-memory.json + LEARNINGS.md (agency-run-learn)
+
+Done when research/boards/<run-id>/STATE.json passed[] includes 4-ship and SHIP.html exists.
+```
+
+### Goal prompt (manual orchestrator — paste once, still one phase per cycle)
+
+```
+@PLAN.md @.cursor/skills/agency-quality-site/SKILL.md
+@agent-skills/web-design/premium-content-custom-web/agency-quality-site/PROMPTS.md
+@docs/08_AI_DESIGN_METHODS.md @USER_STORY.md
+
+GOAL: Agency-quality site pipeline — execute ONLY the current phase for brief
+scripts/agency-pipeline/briefs/lensroom.json (or the brief named in the task).
+
+Rules:
+1. pnpm agency:pipeline -- --brief <brief> --status
+2. Paste that phase's Goal prompt; run --phase <current>
+3. READ screenshots; paste Loop prompt; improve ONLY that axis; --reshoot; ≤3 attempts
+4. --mark-pass <current> only when eye + gates pass
+5. Repeat until 4-ship is passed
+6. Never --all. Never combine typography + spacing + motion in one edit.
+
+Done when STATE.json shows all phases in passed[] through 4-ship and craft shots are posted.
+```
+
+### Loop prompt (between phases)
+
+```
+@agent-skills/web-design/premium-content-custom-web/agency-quality-site/PROMPTS.md
+
+LOOP:
+1. --status — note current phase and attempts
+2. If current phase not yet run this cycle: run its Goal prompt
+3. Else: run its Loop prompt against the latest PNGs
+4. Stop the whole session only when 4-ship is marked pass OR a named blocker after 3 attempts
+```
+
+---
+
 ## Phase 8 — Agent platform distribution (planned)
 
 Make Tell reachable from coding agents without monorepo archaeology — install-info,

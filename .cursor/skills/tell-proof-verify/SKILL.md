@@ -48,4 +48,14 @@ description: Runs Tell Proof verification after UI changes — apply patch, reca
 - Skill: `tell-mcp-tools`
 - Skill: `tell-dogfood-audit`
 - Skill: `gates-until-verified` — acceptance-gate loop around this verify path
+- Skill: `agency-quality-site` — for **new** marketing sites, run typography → spacing → motion → 375px polish *before* proof-verify; keep axes isolated
 - `packages/core/src/proof-verify.ts`
+
+## Agency polish (when verifying a built marketing page)
+
+If the change set is a greenfield / redesign marketing surface (not a one-line patch):
+
+1. Confirm `agency-quality-site` phases 0–3 completed (or run `pnpm agency:pipeline`)
+2. Proof-verify the **final** HTML/URL after axis-isolated polish — not the raw first build
+3. Fail proof if ban-list / `assertAgencyDelivery` regressions appear after the patch
+4. Prefer separate commits or ledger rows per polish axis when iterating

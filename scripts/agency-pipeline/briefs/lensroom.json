@@ -1,0 +1,70 @@
+{
+  "runId": "lensroom",
+  "productName": "Lensroom",
+  "tagline": "Sessions that earn the wall",
+  "audience": "freelance photographers charging $2K+ per shoot",
+  "businessGoal": "leads",
+  "siteKind": "art-directed-studio",
+  "lockSiteKind": true,
+  "primaryCta": "Book a call",
+  "banList": [
+    "purple gradients",
+    "emoji as icons",
+    "Inter as the display font",
+    "generic stock-photo placeholders",
+    "centered-everything layouts",
+    "equal three-card feature grids"
+  ],
+  "referenceBoardPaths": [
+    "research/boards/lensroom/ref-1-hero.png",
+    "research/boards/lensroom/ref-2-hero.png",
+    "research/boards/lensroom/ref-3-hero.png"
+  ],
+  "brandAccent": "#1A3A4A",
+  "taste": {
+    "aestheticLean": "refined-story",
+    "density": "sparse",
+    "motion": "light-scroll-reveals",
+    "colorMood": "light-airy",
+    "typographyWeight": "light-elegant",
+    "roundingDepth": "sharp"
+  },
+  "features": [
+    {
+      "id": "p1",
+      "name": "Daylight sessions",
+      "description": "Location work timed to the hour the room actually looks expensive",
+      "priority": "p0"
+    },
+    {
+      "id": "p2",
+      "name": "Print-ready selects",
+      "description": "A shortlist graded for gallery walls, not social crops",
+      "priority": "p0"
+    },
+    {
+      "id": "p3",
+      "name": "Booking that respects the calendar",
+      "description": "One call to lock date, retainer, and shot list — no endless threads",
+      "priority": "p0"
+    },
+    {
+      "id": "p4",
+      "name": "Retainer weeks",
+      "description": "Multi-day brand stories with the same lighting language throughout",
+      "priority": "p1"
+    },
+    {
+      "id": "p5",
+      "name": "Archive handoff",
+      "description": "RAWs and selects labeled so your team can find last spring's campaign",
+      "priority": "p1"
+    }
+  ],
+  "constraints": [
+    "totally customized to content",
+    "not distracting with too many animations",
+    "multi-million-dollar business quality",
+    "figure-led fold grounded in photography materials — aperture, negative, paper"
+  ]
+}
