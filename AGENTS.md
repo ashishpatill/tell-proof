@@ -98,7 +98,8 @@ Feature workflows live in `.cursor/skills/`:
 - `tell-demo-script` — demo + compliance
 - `tell-template-craft` — peer plumbing first, then top-designer craft iteration + screenshot proof
 - `agency-quality-site` — phased agency marketing-site pipeline (Goal/Loop + `agency:run`)
-- `agency-run-learn` — **automatic** after every run / `4-ship`; engine memory + personal design-data write-back
+- `agency-run-learn` — **developer-only** automatic learn after `agency:run` (corpus/engine memory)
+- `tell-user-session-learn` — **end-user** localStorage learning (directions, priorities, tools)
 - `tell-recursive-improve` — champion/challenger loop + `research/LEARNINGS.md` (no nav-only showcase shots)
 - `ship-loop` — analyze PR → fix → semantic commits → push → re-check → merge
 

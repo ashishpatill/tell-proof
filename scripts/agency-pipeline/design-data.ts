@@ -1,10 +1,15 @@
 /**
- * Personal design-data companion checkout (gitignored pointer).
+ * Personal design-data companion checkout — **developer machine only**.
  *
- * Operator keeps a private/local repo of seeds, anonymised measurements,
- * aggregate bands, and engine memory. Tell reads it on agency:run and
- * write-backs memory after agency:learn — without copying third-party URLs
- * into committed Tell files.
+ * This is NOT end-user product learning. It exists so Tell maintainers can
+ * improve the design engine from a private corpus checkout. End-user sessions
+ * learn separately via browser `UserDesignProfile` (see apps/web
+ * `user-session-learn.ts`).
+ *
+ * Enabled only when:
+ *   - Not a public deploy (`VERCEL` / `TELL_DISABLE_DEV_CORPUS=1`), AND
+ *   - `research/design-data.local.json` exists, OR
+ *   - `TELL_DESIGN_DATA` is set with `TELL_DEV_CORPUS=1`
  *
  * Pointer: research/design-data.local.json  OR  env TELL_DESIGN_DATA=/abs/path
  */
@@ -25,6 +30,21 @@ import {
   mergeUniqueStrings,
   saveMemory,
 } from "./memory";
+
+/** True only on a developer workstation with an explicit corpus pointer. */
+export function isDevCorpusEnabled(root = repoRoot()): boolean {
+  if (process.env.TELL_DISABLE_DEV_CORPUS === "1") return false;
+  // Public/demo hosts must never pull or write a private corpus.
+  if (process.env.VERCEL === "1" && process.env.TELL_DEV_CORPUS !== "1") return false;
+  if (process.env.TELL_PUBLIC_DEMO === "1") return false;
+
+  const envPath = process.env.TELL_DESIGN_DATA?.trim();
+  if (envPath) {
+    // Env alone is easy to set accidentally in CI — require explicit opt-in.
+    return process.env.TELL_DEV_CORPUS === "1" || existsSync(pointerPath(root));
+  }
+  return existsSync(pointerPath(root));
+}
 
 export type DesignDataPointer = {
   /** Absolute or repo-relative path to the checkout root */
@@ -67,10 +87,11 @@ function pointerPath(root: string): string {
 }
 
 export function readPointer(root = repoRoot()): DesignDataPointer | null {
-  const env = process.env.TELL_DESIGN_DATA?.trim();
-  if (env) {
+  if (!isDevCorpusEnabled(root)) return null;
+  const envPath = process.env.TELL_DESIGN_DATA?.trim();
+  if (envPath && (process.env.TELL_DEV_CORPUS === "1" || existsSync(pointerPath(root)))) {
     return {
-      path: env,
+      path: envPath,
       pull: process.env.TELL_DESIGN_DATA_PULL !== "0",
     };
   }
@@ -153,6 +174,20 @@ function firstExisting(root: string, names: string[]): string | null {
 }
 
 export function ensureDesignData(tellRoot = repoRoot()): DesignDataStatus {
+  if (!isDevCorpusEnabled(tellRoot)) {
+    return {
+      ok: false,
+      root: null,
+      source: "missing",
+      pulled: false,
+      seedsCategories: [],
+      hasAggregate: false,
+      hasMemory: false,
+      hasMeasurements: false,
+      detail:
+        "Dev corpus disabled (developer-only). End-user learning uses browser UserDesignProfile.",
+    };
+  }
   const { root, source, pointer } = resolveDesignDataRoot(tellRoot);
   if (!pointer || !root) {
     return {
@@ -165,7 +200,7 @@ export function ensureDesignData(tellRoot = repoRoot()): DesignDataStatus {
       hasMemory: false,
       hasMeasurements: false,
       detail:
-        "No design-data pointer. Create research/design-data.local.json or set TELL_DESIGN_DATA.",
+        "No design-data pointer. Create research/design-data.local.json (dev machine) or set TELL_DESIGN_DATA + TELL_DEV_CORPUS=1.",
     };
   }
   const { pulled, detail } = tryCloneOrPull(tellRoot, pointer, root);

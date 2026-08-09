@@ -23,6 +23,8 @@ describe("design-data companion", () => {
     for (const d of dirs.splice(0)) rmSync(d, { recursive: true, force: true });
     delete process.env.TELL_DESIGN_DATA;
     delete process.env.TELL_DESIGN_DATA_COMMIT;
+    delete process.env.TELL_DEV_CORPUS;
+    delete process.env.TELL_PUBLIC_DEMO;
   });
 
   function makeTellRoot(): { tellRoot: string; dataRoot: string } {
@@ -100,6 +102,7 @@ describe("design-data companion", () => {
   it("write-backs memory into design-data runs/", () => {
     const { tellRoot, dataRoot } = makeTellRoot();
     process.env.TELL_DESIGN_DATA_COMMIT = "0";
+    process.env.TELL_DEV_CORPUS = "1";
     saveMemory(tellRoot, {
       ...EMPTY_MEMORY(),
       bansExtra: ["after-learn-ban"],
@@ -115,5 +118,22 @@ describe("design-data companion", () => {
     ) as { bansExtra: string[] };
     expect(back.bansExtra).toContain("after-learn-ban");
     expect(existsSync(join(dataRoot, "runs/unit-run/LEARN.md"))).toBe(true);
+  });
+
+  it("stays off without developer gate even if TELL_DESIGN_DATA is set", async () => {
+    const { loadDesignDataSeeds, isDevCorpusEnabled } = await import(
+      "../../../../scripts/agency-pipeline/design-data"
+    );
+    const tellRoot = mkdtempSync(join(tmpdir(), "tell-no-dev-"));
+    dirs.push(tellRoot);
+    mkdirSync(join(tellRoot, "research"), { recursive: true });
+    writeFileSync(join(tellRoot, "pnpm-workspace.yaml"), "packages: []\n");
+    process.env.TELL_DESIGN_DATA = "/tmp/does-not-matter";
+    delete process.env.TELL_DEV_CORPUS;
+    process.env.TELL_PUBLIC_DEMO = "1";
+    expect(isDevCorpusEnabled(tellRoot)).toBe(false);
+    expect(loadDesignDataSeeds("portfolio-photography", tellRoot).refs).toHaveLength(0);
+    delete process.env.TELL_PUBLIC_DEMO;
+    delete process.env.TELL_DESIGN_DATA;
   });
 });

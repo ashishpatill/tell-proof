@@ -1,11 +1,22 @@
-# Personal design-data companion (local only)
+# Personal design-data companion — **developer machine only**
 
-Wire your private design corpus checkout so `agency:run` can learn from **your**
-collected seeds, anonymised measurements, and engine memory.
+This checkout improves the **Tell design engine** for maintainers. It does **not**
+run for end users on Vercel/demo hosts.
 
-## Pointer (gitignored)
+End-user learning (Priya's directions, priorities, tools) lives in the browser as
+`UserDesignProfile` — see `.cursor/skills/tell-user-session-learn` and
+`apps/web/src/lib/user-session-learn.ts`.
 
-Create `research/design-data.local.json` (never commit):
+## Two loops
+
+| Loop | Audience | Storage | Trigger |
+|---|---|---|---|
+| **Dev corpus** | Tell developers | Private `tell-design-data` checkout | `agency:run` when pointer present |
+| **User session** | Product users | `localStorage` on their machine | Voice/direction/tool use in the web app |
+
+## Enable (developer workstation)
+
+Create gitignored `research/design-data.local.json`:
 
 ```json
 {
@@ -15,36 +26,31 @@ Create `research/design-data.local.json` (never commit):
 }
 ```
 
-Or set env:
+Or:
 
 ```bash
 export TELL_DESIGN_DATA=/absolute/path/to/tell-design-data
-# optional: TELL_DESIGN_DATA_PULL=0   # skip git pull
-# optional: TELL_DESIGN_DATA_COMMIT=0  # skip auto-commit write-back
+export TELL_DEV_CORPUS=1   # required when using env alone
 ```
+
+Disabled automatically when `VERCEL=1` (unless `TELL_DEV_CORPUS=1`), `TELL_PUBLIC_DEMO=1`,
+or `TELL_DISABLE_DEV_CORPUS=1`.
 
 ## Expected layout in the data repo
 
 ```
 tell-design-data/
-  boards.seeds.json            # categories → [{ url, note }]  (local URLs OK)
-  agency-engine-memory.json    # shared with Tell after each learn
-  LEARNINGS.md                 # mirrored from Tell after learn
-  aggregate.json               # optional; anonymised bands by category
-  measurements/ref-*.json      # optional; anonymised forensics
-  runs/<run-id>/LEARN.md       # per-run learn dumps written back
+  boards.seeds.json
+  agency-engine-memory.json
+  LEARNINGS.md
+  aggregate.json               # optional
+  measurements/ref-*.json      # optional
+  runs/<run-id>/LEARN.md
 ```
 
-Same shape as Tell’s `research/boards.seeds.local.example.json` for seeds.
+## What Tell does (dev only)
 
-## What Tell does
+1. **Start of `agency:run`** — merge memory, prefer design-data seeds, corridor digests.
+2. **End of every run** — automatic `agency:learn`, then write-back memory/LEARNINGS.
 
-1. **Start of `agency:run`** — ensure checkout (clone/pull), merge memory, prefer
-   design-data seeds for Phase 1, inject corridor band digests into `DIRECTION.md`.
-2. **End of every run** — `agency:learn` runs **automatically**, then write-backs
-   memory + LEARNINGS (+ `runs/<id>/LEARN.md`) into the data repo.
-
-Third-party URLs stay in the data repo / gitignored `boards.local.json` only.
-Never copy award-site hosts into committed Tell files.
-
-See also: `.cursor/skills/agency-run-learn/SKILL.md`
+Third-party URLs stay in the data repo / gitignored boards files only.

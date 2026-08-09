@@ -173,7 +173,8 @@ If blocked: note in Status log and continue with the next unchecked item.
 - [x] Agent executes Lensroom brief **one phase at a time** through `4-ship` (STATE + PHASE_LEDGER)
 - [x] Repeatable misses encoded back into gates / LEARNINGS
 - [x] `agency:run` orchestrator — query → niche/brief/DIRECTION → local seeds/corridor → phase loop + auto mark-pass
-- [x] `agency-run-learn` — **automatic** after every `agency:run` and `--mark-pass 4-ship`; engine memory + LEARNINGS; personal design-data read/write-back
+- [x] `agency-run-learn` — **developer-only** automatic learn + design-data corpus (gated; not Vercel users)
+- [x] `tell-user-session-learn` — **end-user** browser profile (directions, priorities, tool prefs)
 
 ### Goal prompt (autonomous)
 

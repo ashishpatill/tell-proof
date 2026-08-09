@@ -26,7 +26,7 @@ import {
   TerminalSquare,
   Wand2,
 } from "lucide-react";
-import type { BrandDNA, Reconciliation, RedesignProposal, TellReport, Verdict } from "@tell/schema";
+import type { BrandDNA, Reconciliation, RedesignProposal, TellReport, UserDesignProfile, Verdict } from "@tell/schema";
 import { DIRECTION_PRESETS, parseDirectionPlan, type DirectionPlan } from "@tell/taste";
 import { RECONCILE_DIRECTIONS, buildOverridesPatch, learnBrandDNA, reconcile, resolveDirection } from "@tell/redesign";
 import { demoReport } from "@/lib/demo-report";
@@ -37,6 +37,13 @@ import { useVoice } from "@/lib/use-voice";
 import { SETUP_ACTIVE_STATES, type SetupJob } from "@/lib/setup-types";
 import { discoverRoutes, routeFromInput, type DiscoveredRoute } from "@/lib/discover-routes";
 import { matrixTarget } from "@/lib/matrix-target";
+import {
+  loadUserDesignProfile,
+  recordDirectionSession,
+  recordToolPreference,
+  suggestedDirectionId,
+  topPriorities,
+} from "@/lib/user-session-learn";
 
 const BeforeAfterSeam = dynamic(
   () => import("@/components/BeforeAfterSeam").then((m) => m.BeforeAfterSeam),
@@ -212,6 +219,8 @@ export default function HomePage() {
 
   // ── Brand DNA memory (learned once, used as the redesign target + scoring yardstick) ──
   const [brandDna, setBrandDna] = useState<BrandDNA | null>(null);
+  // ── Per-user session learning (browser-local; not developer corpus) ──
+  const [userProfile, setUserProfile] = useState<UserDesignProfile | null>(null);
   useEffect(() => {
     try {
       const raw = localStorage.getItem("tell:brand-dna");
@@ -219,6 +228,22 @@ export default function HomePage() {
     } catch {
       /* ignore malformed cache */
     }
+    const profile = loadUserDesignProfile();
+    setUserProfile(profile);
+    const suggested = suggestedDirectionId(profile);
+    if (suggested && Object.prototype.hasOwnProperty.call(RECONCILE_DIRECTIONS, suggested)) {
+      setDirectionId(suggested);
+    }
+  }, []);
+
+  const learnFromDirection = useCallback((plan: DirectionPlan, phrase: string) => {
+    setUserProfile((prev) =>
+      recordDirectionSession(prev ?? loadUserDesignProfile(), {
+        presetId: plan.presetId,
+        phrase,
+        actionCategories: plan.actionItems.map((a) => a.category),
+      }),
+    );
   }, []);
 
   const reconciliation = useMemo(
@@ -273,15 +298,23 @@ export default function HomePage() {
             const payload = (await res.json()) as DirectionPlan & { source?: "gemini" | "local" };
             applyDirectionPlan(payload);
             setDirectionSource(payload.source ?? "local");
+            learnFromDirection(payload, trimmed);
+            setUserProfile((prev) =>
+              recordToolPreference(prev ?? loadUserDesignProfile(), "voice"),
+            );
+          } else {
+            const local = parseDirectionPlan(trimmed);
+            learnFromDirection(local, trimmed);
           }
         } catch {
-          /* local parse already applied */
+          const local = parseDirectionPlan(trimmed);
+          learnFromDirection(local, trimmed);
         } finally {
           setDirectionParsing(false);
         }
       }, 650);
     },
-    [applyDirectionPlan],
+    [applyDirectionPlan, learnFromDirection],
   );
 
   const onVoiceTranscript = useCallback(
@@ -1143,7 +1176,9 @@ export default function HomePage() {
                         const preset = DIRECTION_PRESETS[chip.key as keyof typeof DIRECTION_PRESETS];
                         const text = preset?.summary ?? chip.label;
                         voice.setTranscript(text);
-                        applyDirectionPlan(parseDirectionPlan(text));
+                        const plan = parseDirectionPlan(text);
+                        applyDirectionPlan(plan);
+                        learnFromDirection(plan, text);
                       }}
                       className={`rounded-full border px-3 py-2 font-mono text-xs transition ${
                         active ? "border-accent bg-accent/10 text-accent" : "border-border text-secondary hover:border-accent hover:text-accent"
@@ -1154,6 +1189,20 @@ export default function HomePage() {
                   );
                 })}
               </div>
+              {userProfile && userProfile.sessionCount > 0 ? (
+                <p className="mt-2 font-mono text-[10px] tracking-wide text-muted">
+                  Your sessions remember this machine
+                  {userProfile.preferredDirectionId
+                    ? ` · lean ${userProfile.preferredDirectionId}`
+                    : ""}
+                  {topPriorities(userProfile)[0]
+                    ? ` · priority ${topPriorities(userProfile)[0]!.key}`
+                    : ""}
+                  {userProfile.phraseBans.length
+                    ? ` · avoid ${userProfile.phraseBans.slice(0, 3).join(", ")}`
+                    : ""}
+                </p>
+              ) : null}
             </div>
             {directionPlan?.actionItems.length ? (
               <div className="mt-3 space-y-2">

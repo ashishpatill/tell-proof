@@ -1,15 +1,17 @@
 ---
 name: agency-run-learn
-description: Automatic post-run learning for the agency pipeline — always fires after agency:run and after --mark-pass 4-ship. Merges personal design-data corpus, updates engine memory + LEARNINGS, write-backs to the data checkout.
+description: Automatic post-run learning for the **developer** agency pipeline — corpus memory + LEARNINGS. End-user prefs use tell-user-session-learn (browser). Gates design-data to maintainer machines only.
 ---
 
 # agency-run-learn
 
-Agencies compound quality across projects. Tell compounds quality across **runs**.
+**Developer loop.** After `agency:run` / `--mark-pass 4-ship`, extract signals → engine memory →
+optional write-back to a private design-data checkout.
 
-**Learn is not optional.** Agents must not “remember to run learn” — `agency:run` and
-`agency:pipeline --mark-pass 4-ship` invoke it automatically. Opt out only with
-`AGENCY_SKIP_LEARN=1`.
+**User loop (separate):** `.cursor/skills/tell-user-session-learn` — localStorage on Priya's machine.
+
+See `research/design-data.README.md` for the two-loop table and enablement gates
+(`design-data.local.json` or `TELL_DESIGN_DATA` + `TELL_DEV_CORPUS=1`; off on Vercel/public demo).
 
 After `1-refs`…`4-ship` (or an honest stop), this skill turns the run into:
 
