@@ -19,8 +19,9 @@ Learn (automatic): `.cursor/skills/agency-run-learn` · `research/design-data.RE
 5. Phase 0 reads `DESIGN_RIGOR.md` — lane + craft nodes (auto-filled by `agency:run`).
 6. Never combine axes. Never craft `--all`.
 7. Status: `pnpm agency:pipeline -- --brief <brief> --status`
-8. **Learn is automatic** — do not ask the agent to run `agency:learn` as a separate step. Opt out only with `AGENCY_SKIP_LEARN=1`.
-9. **Personal corpus:** `TELL_DESIGN_DATA` or `research/design-data.local.json` feeds seeds/memory/corridors.
+8. **Learn is automatic** on agency runs (`agency-run-learn`) — developer corpus only when design-data pointer is set.
+9. **User sessions** learn separately in the browser (`tell-user-session-learn`) — never via design-data checkout.
+10. **Personal corpus (dev):** `TELL_DESIGN_DATA` + `TELL_DEV_CORPUS=1` or `research/design-data.local.json`.
 
 ## Session opener (auto)
 
