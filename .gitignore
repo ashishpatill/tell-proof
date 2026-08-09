@@ -44,3 +44,5 @@ research/shots/
 # Throwaway probes written during a research loop to answer one question.
 # Anything worth keeping graduates into scripts/design-research/.
 scripts/tmp/
+
+research/training.local/
