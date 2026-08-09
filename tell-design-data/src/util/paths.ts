@@ -1,6 +1,7 @@
+import { existsSync } from "node:fs";
+import { mkdir } from "node:fs/promises";
 import { homedir } from "node:os";
 import path from "node:path";
-import { mkdir } from "node:fs/promises";
 
 export type DataPaths = {
   home: string;
@@ -13,11 +14,17 @@ export type DataPaths = {
 };
 
 export function resolveDataHome(override?: string): string {
-  return (
-    override?.trim() ||
-    process.env.TELL_DESIGN_DATA_HOME?.trim() ||
-    path.join(homedir(), ".tell-design-data")
-  );
+  const fromArg = override?.trim();
+  if (fromArg) return fromArg;
+  if (process.env.TELL_DESIGN_DATA_HOME?.trim()) {
+    return process.env.TELL_DESIGN_DATA_HOME.trim();
+  }
+  // Prefer repo-local training-data/ when cwd is the tell-design-data checkout
+  const here = path.resolve(process.cwd(), "training-data");
+  if (existsSync(path.join(process.cwd(), "package.json")) && existsSync(here)) {
+    return here;
+  }
+  return path.join(homedir(), ".tell-design-data");
 }
 
 export function pathsFor(home = resolveDataHome()): DataPaths {

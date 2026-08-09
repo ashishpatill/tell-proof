@@ -11,6 +11,8 @@
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli/index.ts",
     "start": "node dist/cli/index.js",
+    "convert": "tsx src/cli/index.ts convert",
+    "watch": "tsx src/cli/index.ts watch --home ./training-data",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "tsx --test src/**/*.test.ts"
   },

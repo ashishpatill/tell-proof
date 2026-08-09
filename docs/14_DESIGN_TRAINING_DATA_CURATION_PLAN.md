@@ -32,15 +32,27 @@
 
 ## 1. How auto collection works (developer machine)
 
-Zero Tell code changes:
+**Built into tell-proof (local/dev):** when this repo is checked out next to Tell as
+`../tell-design-data` (or `TELL_DESIGN_DATA_REPO` is set), `/api/diagnose`,
+`/api/voice`, and `/api/redesign` automatically write into:
 
-1. **Inbox watch** — drop report JSON into `~/.tell-design-data/inbox/`  
-2. **API sidecar** — `tell-design-data proxy --listen 3100 --target http://127.0.0.1:3000`  
-   Browse Tell via `:3100`; diagnose/voice/redesign responses are recorded locally  
-3. Mark outcomes: `tell-design-data outcome <id> accepted|edited|discarded`  
-4. Export: `tell-design-data convert` → `curated/sft.jsonl`, `dpo.jsonl`, `corrections.jsonl`
+```text
+tell-design-data/training-data/
+  raw/episodes|shots|voice|redesign/
+  sessions/<sess_id>/
+  inbox/          # for CLI convert/watch
+  curated/        # after tell-design-data convert
+  meta/ledger.jsonl
+```
 
-Quality gates follow the survey (LIMA gold, same-task DPO, μ−2σ rejects, scrub).
+Off on Vercel unless `TELL_TRAINING_DATA=1`. Disable locally with `TELL_TRAINING_DATA=0`.
+
+Optional CLI (same repo):
+
+```bash
+cd tell-design-data && npm run build
+tell-design-data convert   # uses ./training-data by default
+```
 
 ---
 

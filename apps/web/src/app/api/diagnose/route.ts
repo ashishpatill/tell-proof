@@ -3,6 +3,7 @@ import { trace, SpanStatusCode, type Span } from "@opentelemetry/api";
 import { hasRemoteCaptureBackend, runDiagnoseRemote } from "@/lib/run-diagnose-remote";
 import { demoReport } from "@/lib/demo-report";
 import { assertCaptureApiAuthorized } from "@/lib/capture-auth";
+import { recordTrainingEvent } from "@/lib/training-data-sink";
 
 /** A remote capture backend can take ~90s (Playwright cold start). */
 export const maxDuration = 90;
@@ -55,14 +56,17 @@ export async function POST(request: Request) {
       span.setStatus({ code: SpanStatusCode.OK });
       span.end();
 
+      const meta = {
+        live: true,
+        requestedUrl: url,
+        capturedUrl: report.capture.url,
+        backend,
+      };
+      recordTrainingEvent("diagnose", { report }, meta);
+
       return NextResponse.json({
         report,
-        meta: {
-          live: true,
-          requestedUrl: url,
-          capturedUrl: report.capture.url,
-          backend,
-        },
+        meta,
       });
     } catch (error) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: String(error) });
@@ -73,9 +77,19 @@ export async function POST(request: Request) {
       console.error("[/api/diagnose]", error);
       const detail = error instanceof Error ? error.message : String(error);
       const message = captureErrorMessage(url, error, backend);
+      const meta = {
+        live: false,
+        requestedUrl: url,
+        capturedUrl: demoReport.capture.url,
+        error: message,
+        detail,
+        backend,
+      };
+      // Still record offline fallback runs — useful as labeled "fixture" episodes.
+      recordTrainingEvent("diagnose", { report: demoReport }, meta);
       return NextResponse.json({
         report: demoReport,
-        meta: { live: false, requestedUrl: url, capturedUrl: demoReport.capture.url, error: message, detail, backend },
+        meta,
       });
     }
   });
