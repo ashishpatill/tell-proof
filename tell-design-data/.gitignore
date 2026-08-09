@@ -1,0 +1,15 @@
+# Dependencies & build
+node_modules/
+dist/
+*.tsbuildinfo
+
+# ALL training data stays local — never commit
+data/
+*.jsonl
+.env
+.env.local
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
