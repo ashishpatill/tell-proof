@@ -131,6 +131,7 @@ See `ORCHESTRATION.md` for model routing and when to invoke each.
 - Agent/platform integration: `docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md`
 - Auth/security envelopes: `docs/12_AUTH_SECURITY_BOUNDARIES_PLAN.md`
 - Design capability flows: `docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`
+- Design training-data curation (research): `docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`
 - Peer plumbing identity: gitignored `research/plumbing-reference.local.json` (never name the peer in commits)
 
 ## Cursor Cloud specific instructions

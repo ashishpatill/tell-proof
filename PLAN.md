@@ -56,6 +56,7 @@ flowchart TB
 | **`docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md`** | MCP / one-click install / CLI / skills / multi-agent | **Keep — separate plan** |
 | **`docs/12_AUTH_SECURITY_BOUNDARIES_PLAN.md`** | Capture/API/agent trust envelopes (not product login) | **Keep — separate plan** |
 | **`docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`** | Common + complex design-task flows for Priya loop | **Keep — separate plan** |
+| **`docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`** | Research plan: session/harness → local design-model training data | **Keep — separate research plan** |
 | `DESIGN.md`, `PITCH.md` | Dogfood contract / pitch | **Keep** |
 
 ---
