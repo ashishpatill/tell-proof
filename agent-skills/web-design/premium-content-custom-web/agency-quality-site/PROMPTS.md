@@ -8,7 +8,24 @@ Read `DESIGN_RIGOR.md` in Phase 0 and when filling `DIRECTION.md`.
 
 ---
 
-## Orchestrator (session start)
+## Orchestrator (autonomous — preferred when unattended)
+
+```
+Use agency-quality-site.
+
+pnpm agency:run -- --query "<requirement>" --fresh
+# optional: --product Name --cta "Book a call" --max-attempts 3 --brief <existing>
+
+Reads niche presets → brief + DIRECTION (DESIGN_RIGOR) → local seeds/corridor refs →
+phase loop with gate verify + auto --mark-pass through 4-ship.
+
+Still one phase at a time under the hood. Never craft --all.
+Live ref URLs only in research/boards.seeds.local.json (gitignored).
+```
+
+---
+
+## Orchestrator (manual session start)
 
 ```
 Use agency-quality-site.

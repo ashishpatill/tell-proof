@@ -158,10 +158,11 @@ If blocked: note in Status log and continue with the next unchecked item.
 
 ---
 
-## Agency-quality site pipeline (Cursor — phased Goal/Loop)
+## Agency-quality site pipeline (Cursor — phased Goal/Loop + autonomous run)
 
 **Authority:** `.cursor/skills/agency-quality-site` · `agent-skills/web-design/premium-content-custom-web/agency-quality-site/`  
-**Why separate:** One full-pipeline pass does not compound quality. Each phase must Goal → run → eye → Loop ≤3 → `--mark-pass` before the next phase starts from `current.html`.
+**Why separate:** One full-pipeline pass does not compound quality. Each phase must Goal → run → eye → Loop ≤3 → `--mark-pass` before the next phase starts from `current.html`.  
+**Autonomous:** `pnpm agency:run -- --query "…"` packages niche → refs → plan → execute → verify → advance.
 
 ### Checklist
 
@@ -171,8 +172,22 @@ If blocked: note in Status log and continue with the next unchecked item.
 - [x] `DESIGN_RIGOR.md` — compositional lanes + honesty bar (principle-only)
 - [x] Agent executes Lensroom brief **one phase at a time** through `4-ship` (STATE + PHASE_LEDGER)
 - [x] Repeatable misses encoded back into gates / LEARNINGS
+- [x] `agency:run` orchestrator — query → niche/brief/DIRECTION → local seeds/corridor → phase loop + auto mark-pass
 
-### Goal prompt (orchestrator — paste once, still one phase per cycle)
+### Goal prompt (autonomous)
+
+```
+@PLAN.md @.cursor/skills/agency-quality-site/SKILL.md
+
+GOAL: Run the autonomous agency pipeline for the named requirement.
+
+pnpm agency:run -- --query "<requirement>" --fresh
+Optional: --product --cta --audience --max-attempts 3
+
+Done when research/boards/<run-id>/STATE.json passed[] includes 4-ship and SHIP.html exists.
+```
+
+### Goal prompt (manual orchestrator — paste once, still one phase per cycle)
 
 ```
 @PLAN.md @.cursor/skills/agency-quality-site/SKILL.md

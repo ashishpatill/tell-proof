@@ -11,7 +11,8 @@ Agencies bill for the polish stage because **quality compounds across isolated p
 
 **Parent:** `premium-content-custom-web`  
 **Verify:** `gates-until-verified` · `tell-proof-verify` · `tell-recursive-improve`  
-**Runner:** `pnpm agency:pipeline -- --brief <path> --phase <id>`
+**Runner:** `pnpm agency:pipeline -- --brief <path> --phase <id>`  
+**Autonomous:** `pnpm agency:run -- --query "<requirement>"` (niche → brief → DIRECTION → refs → phase loop with auto `--mark-pass`)
 
 ---
 
@@ -19,10 +20,28 @@ Agencies bill for the polish stage because **quality compounds across isolated p
 
 1. **Never craft `--all`.** One `--phase` at a time. (`AGENCY_ALLOW_ALL=1` is CI smoke only.)
 2. **Each phase starts from `current.html` produced by the previous passed phase.**
-3. **Goal prompt opens a phase. Loop prompt iterates until green.** Then `--mark-pass`.
+3. **Goal prompt opens a phase. Loop prompt iterates until green.** Then `--mark-pass`. (`agency:run` auto-advances when deterministic gates are green.)
 4. **Touch only that phase's axis.** Typography pass must not change spacing/motion; etc.
 5. **Read the PNGs.** Score/gates ≠ quality. Cap **3 loop attempts** per phase, then stop with a named blocker.
 6. Direction line always: *Match typography scale, spacing rhythm, and motion of the refs. Do not copy the layouts.*
+
+### Autonomous entry (`agency:run`)
+
+```bash
+pnpm agency:run -- --query "freelance photographer booking site" --fresh
+pnpm agency:run -- --query "B2B SaaS demo landing" --product Acme --cta "Book a demo"
+pnpm agency:run -- --brief scripts/agency-pipeline/briefs/lensroom.json --fresh
+```
+
+What it does:
+
+1. Match niche preset (Tell `siteKind` / taste / lane / craft nodes) — no third-party hosts in committed maps.
+2. Write brief JSON + `DIRECTION.md` (DESIGN_RIGOR fields) + `AUTO_PLAN.md`.
+3. Select refs from gitignored `research/boards.seeds.local.json` into `boards.local.json`; empty seeds → corridor fallback.
+4. Run each phase → verify gates → retry ≤ `--max-attempts` (default 3) → `--mark-pass` → next.
+5. Artifacts under `research/boards/<run-id>/` (gitignored).
+
+Copy `research/boards.seeds.local.example.json` → `boards.seeds.local.json` and add live URLs locally. Never commit award-site hosts.
 
 ### Phase order
 

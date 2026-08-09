@@ -33,6 +33,9 @@ import {
   type AgencyPolishAxis,
   type DesignSpec,
 } from "../../packages/design-skills/src/index";
+import { PHASE_ORDER, type PhaseId } from "./phases";
+
+export { PHASE_ORDER, type PhaseId };
 
 function repoRoot(from = process.cwd()): string {
   let dir = from;
@@ -46,18 +49,6 @@ function repoRoot(from = process.cwd()): string {
 }
 
 const root = repoRoot();
-
-export const PHASE_ORDER = [
-  "1-refs",
-  "2-build",
-  "3a-typography",
-  "3b-spacing",
-  "3c-motion",
-  "3d-mobile",
-  "4-ship",
-] as const;
-
-export type PhaseId = (typeof PHASE_ORDER)[number];
 
 type BoardsLocal = {
   runId?: string;
@@ -605,7 +596,13 @@ async function main(): Promise<void> {
   if (row.status === "fail") process.exitCode = 1;
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+const invokedDirectly =
+  typeof process.argv[1] === "string" &&
+  /agency-pipeline[/\\]run\.(ts|js|mjs|cjs)$/.test(process.argv[1]);
+
+if (invokedDirectly) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

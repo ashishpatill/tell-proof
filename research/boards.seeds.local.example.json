@@ -1,0 +1,10 @@
+{
+  "_comment": "Gitignored twin is research/boards.seeds.local.json — copy this file and fill live reference URLs locally. Never commit third-party award-site hosts into the repo.",
+  "categories": {
+    "portfolio-photography": [],
+    "saas-landing": [],
+    "agency-editorial": [],
+    "fintech-trust": [],
+    "default": []
+  }
+}

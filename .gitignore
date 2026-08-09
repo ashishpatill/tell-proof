@@ -25,6 +25,7 @@ tell-preview-report.json
 # Only anonymised measurements (research/measurements/*.json) are shipped.
 research/corpus.local.json
 research/boards.local.json
+research/boards.seeds.local.json
 research/boards/
 research/raw/
 

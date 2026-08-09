@@ -35,7 +35,8 @@
     "research:shots": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/shots.ts",
     "research:audit": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/layout-audit.ts",
     "research:inspect": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/inspect.ts",
-    "agency:pipeline": "pnpm -F @tell/design-skills exec tsx ../../scripts/agency-pipeline/run.ts"
+    "agency:pipeline": "pnpm -F @tell/design-skills exec tsx ../../scripts/agency-pipeline/run.ts",
+    "agency:run": "pnpm -F @tell/design-skills exec tsx ../../scripts/agency-pipeline/orchestrate.ts"
   },
   "devDependencies": {
     "playwright": "^1.49.1",

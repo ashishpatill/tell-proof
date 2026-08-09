@@ -1,6 +1,6 @@
 ---
 name: agency-quality-site
-description: Cursor-native agency marketing-site pipeline — ONE PHASE AT A TIME with Goal + Loop prompts so each pass improves the previous phase's artifacts. Never run the full pipeline in one craft pass.
+description: Cursor-native agency marketing-site pipeline — autonomous agency:run (query→refs→plan→phases) or ONE PHASE AT A TIME with Goal + Loop prompts. Quality compounds per phase; never craft --all.
 ---
 
 # agency-quality-site
@@ -11,14 +11,23 @@ Design rigor: `…/agency-quality-site/DESIGN_RIGOR.md`
 
 ## Quick contract
 
-1. **One phase per cycle** — Goal → run → read screenshots → Loop ≤3 → `--mark-pass` → next.
-2. Phases: `1-refs` → `2-build` → `3a-typography` → `3b-spacing` → `3c-motion` → `3d-mobile` → `4-ship`
-3. Each phase starts from `current.html` of the last **passed** phase.
-4. Phase 0 reads `DESIGN_RIGOR.md` — pick one lane + 1–2 craft nodes before build.
-5. Never combine axes. Never craft `--all`.
-6. Status: `pnpm agency:pipeline -- --brief <brief> --status`
+1. **Autonomous:** `pnpm agency:run -- --query "freelance photographer booking site" --fresh`
+2. **Manual craft:** one phase per cycle — Goal → run → read screenshots → Loop ≤3 → `--mark-pass` → next.
+3. Phases: `1-refs` → `2-build` → `3a-typography` → `3b-spacing` → `3c-motion` → `3d-mobile` → `4-ship`
+4. Each phase starts from `current.html` of the last **passed** phase.
+5. Phase 0 reads `DESIGN_RIGOR.md` — pick one lane + 1–2 craft nodes before build (auto-filled by `agency:run`).
+6. Never combine axes. Never craft `--all`.
+7. Status: `pnpm agency:pipeline -- --brief <brief> --status`
 
-## Session opener
+## Session opener (auto)
+
+```
+Use agency-quality-site.
+pnpm agency:run -- --query "<requirement>" --fresh
+Live refs optional via research/boards.seeds.local.json (gitignored); corridor fallback if thin.
+```
+
+## Session opener (manual)
 
 ```
 Use agency-quality-site.
