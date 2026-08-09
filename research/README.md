@@ -15,7 +15,8 @@ measurements instead of taste claims.
 | `DESIGN_LLM_TRAINING_DATA_SURVEY.md` | Literature survey: papers, datasets, and techniques for design-LLM training data (cited) |
 | `LEARNINGS.md` | Persistent craft lessons from recursive-improve sessions |
 
-Raw training episodes stay in gitignored `training.local/` — see
+**Training data generation does not live in this repo.** Use the separate developer
+harness `tell-design-data` (local `~/.tell-design-data/`). See
 `docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`.
 
 ## What is never committed

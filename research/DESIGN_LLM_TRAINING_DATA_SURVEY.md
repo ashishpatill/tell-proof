@@ -5,6 +5,8 @@
 > agent/harness sessions and design interactions into accurate local training data for a
 > model that generates high-quality websites and web apps.  
 > **Companion product plan:** [`docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`](../docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md)  
+> **Collector implementation:** separate developer repo `tell-design-data` (local-only;
+> does **not** ship inside Tell).  
 > **Note:** This survey deliberately names papers, datasets, and guides. Product-facing
 > Tell docs normally avoid third-party product names; this file is research literature.
 
