@@ -25,7 +25,6 @@ import {
   recordDirectionSession,
   recordToolPreference,
   suggestedDirectionId,
-  topPriorities,
 } from "@/lib/user-session-learn";
 import { byokHeaders } from "@/lib/byok";
 import {
@@ -1068,57 +1067,63 @@ export default function HomePage() {
     ? `/studio?brief=${encodeURIComponent(designBrief)}`
     : "/studio";
 
+  const showProofWorkflow = Boolean(proposal) || proofState !== "idle";
+  const showStateProbes = selectedFinding?.detector === "StateGap";
+
   const criticPane = (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <div className="flex flex-wrap items-center gap-2">
         <span
-          className={`rounded-full border px-3 py-1.5 font-mono text-xs ${
+          className={`font-mono text-meta ${
             operationActive
-              ? "border-accent/40 bg-accent/10 text-accent"
+              ? "text-accent"
               : captureMeta?.live
-                ? "border-ok/40 bg-ok/10 text-ok"
-                : "border-drift/40 bg-drift/10 text-drift"
+                ? "text-ok"
+                : captureMeta
+                  ? "text-drift"
+                  : "text-muted"
           }`}
         >
-          {operationActive ? "Working" : captureMeta?.live ? "Live capture" : captureMeta ? "Offline fallback" : designBrief ? "Brief only" : "Ready"}
+          {operationActive ? "Working…" : captureMeta?.live ? "Live" : captureMeta ? "Offline" : designBrief ? "Brief" : "Ready"}
+          {report.findings.length ? ` · ${scoreLine}` : null}
         </span>
         {captureState === "done" && report.findings.length > 0 ? (
           <button
             type="button"
             onClick={shareReport}
             disabled={sharingReport || operationActive}
-            className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-1.5 font-mono text-meta text-secondary transition hover:border-accent hover:text-accent disabled:opacity-60"
+            className="ml-auto inline-flex items-center gap-1.5 font-mono text-meta text-muted transition hover:text-accent disabled:opacity-60"
           >
             <Link2 className="h-3.5 w-3.5" />
-            {sharingReport ? "Sharing…" : shareUrl ? "Copy share link" : "Share"}
+            {sharingReport ? "Sharing…" : shareUrl ? "Copy link" : "Share"}
           </button>
         ) : null}
       </div>
 
       <ConnectAgent />
 
-      <WorkflowRail
-        captured={liveCapture}
-        sourceMapped={sourceContext?.mode === "repo" && sourceContext.filesLoaded > 0}
-        patchReady={Boolean(proposal)}
-        proofState={proofState}
-      />
+      {showProofWorkflow ? (
+        <WorkflowRail
+          captured={liveCapture}
+          sourceMapped={sourceContext?.mode === "repo" && sourceContext.filesLoaded > 0}
+          patchReady={Boolean(proposal)}
+          proofState={proofState}
+        />
+      ) : null}
 
       {designBrief && !captureMeta ? (
-        <div className="rounded-card border border-border bg-surface p-4">
-          <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary">Waiting on capture</p>
-          <p className="mt-2 text-sm text-secondary">
-            Direction is primed. Capture a rendered URL to attach named tells and evidence to this brief.
+        <div className="border-y border-border py-3">
+          <p className="text-sm text-secondary">
+            Direction is primed. Capture a rendered URL to attach named tells.
           </p>
-          <a className="mt-3 inline-block font-mono text-meta text-accent underline-offset-2 hover:underline" href={studioBriefHref}>
+          <a className="mt-2 inline-block font-mono text-meta text-accent underline-offset-2 hover:underline" href={studioBriefHref}>
             Open in Studio
           </a>
         </div>
       ) : (
-      <div className="rounded-card border border-border bg-surface p-4">
-        <p className="mb-3 font-mono text-xs uppercase tracking-[0.16em] text-secondary">Findings</p>
-        <p className="mb-3 font-mono text-meta text-muted">{scoreLine}</p>
-        <div className="space-y-2">
+      <div>
+        <p className="mb-2 font-mono text-meta uppercase tracking-[0.14em] text-muted">Findings</p>
+        <div className="divide-y divide-border border-y border-border">
           {report.findings.map((finding) => {
             const itemVerdict = verdictOf(finding.id);
             return (
@@ -1126,101 +1131,63 @@ export default function HomePage() {
                 key={finding.id}
                 type="button"
                 onClick={() => setSelectedId(finding.id)}
-                className={`w-full rounded-md border px-3 py-2 text-left transition hover:border-accent ${
-                  selectedId === finding.id ? "border-accent bg-accent/10" : "border-border bg-bg/60"
+                className={`flex w-full items-center justify-between gap-3 px-1 py-2.5 text-left transition ${
+                  selectedId === finding.id ? "bg-accent/10 text-text" : "text-secondary hover:text-text"
                 }`}
               >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-mono text-sm">{finding.detector}</span>
-                  <VerdictBadge verdict={itemVerdict} />
-                </div>
-                <p className="mt-2 line-clamp-2 text-sm text-secondary">
-                  {report.verdicts.find((v) => v.findingId === finding.id)?.rationale}
-                </p>
+                <span className="font-mono text-sm">{finding.detector}</span>
+                <VerdictBadge verdict={itemVerdict} />
               </button>
             );
           })}
           {!report.findings.length ? (
-            <p className="font-mono text-meta text-muted">No findings yet — capture a page to populate this rail.</p>
+            <p className="py-3 font-mono text-meta text-muted">Capture a page to name the tells.</p>
           ) : null}
         </div>
       </div>
       )}
 
       {!(designBrief && !captureMeta) && selectedFinding && verdict ? (
-        <section className="min-w-0 rounded-card border border-accent/40 bg-surface-raised p-4 shadow-signal">
+        <section className="min-w-0 border-l-2 border-accent pl-3">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="font-mono text-lg">{selectedFinding.detector}</h2>
+            <h2 className="font-display text-xl text-text">{selectedFinding.detector}</h2>
             <VerdictBadge verdict={verdict.verdict} />
           </div>
           <ConfidenceMeter value={verdict.confidence} />
-          <p className="mt-4 text-secondary">{verdict.rationale}</p>
-          <div className="mt-5 overflow-hidden rounded-md border border-border bg-bg p-4">
-            <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted">Evidence</p>
-            {selectedFinding.evidence.map((evidence) => (
-              <p key={`${evidence.label}-${evidence.value}`} className="mt-2 break-words font-mono text-sm text-secondary">
-                <span className="text-accent">⊕</span> {evidence.label}: {evidence.value}
-              </p>
-            ))}
-            {report.capture.stateShots.length > 0 ? (
-              <div className="mt-4 border-t border-border pt-4">
-                <p className="font-mono text-meta uppercase tracking-[0.14em] text-muted">State probes</p>
-                {report.capture.stateShots.some((shot) => shot.imageBase64) ? (
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {report.capture.stateShots.filter((shot) => shot.imageBase64).slice(0, 9).map((shot) => (
-                      <figure key={`${shot.selector}-${shot.state}`} className="rounded border border-border bg-surface p-1.5">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          alt={`${shot.selector} ${shot.state}`}
-                          src={`data:image/png;base64,${shot.imageBase64}`}
-                          className="h-14 max-w-[120px] object-contain"
-                        />
-                        <figcaption className="mt-1 text-center font-mono text-meta text-muted">{shot.state}</figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                ) : (
-                  <ul className="mt-2 flex flex-wrap gap-2">
-                    {report.capture.stateShots.slice(0, 9).map((shot) => (
-                      <li key={`${shot.selector}-${shot.state}`} className="rounded-full border border-border px-3 py-1 font-mono text-meta text-secondary">
-                        {shot.state}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ) : null}
-            {report.capture.viewportMatrix.length > 0 ? (
-              <div className="mt-4 border-t border-border pt-4">
-                <p className="font-mono text-meta uppercase tracking-[0.14em] text-muted">Viewport matrix</p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {report.capture.viewportMatrix.map((entry) => (
-                    <figure key={entry.preset} className="rounded border border-border bg-surface p-1.5">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        alt={`${entry.preset} ${entry.width}×${entry.height}`}
-                        src={`data:image/png;base64,${entry.screenshotBase64}`}
-                        className="h-20 max-w-[140px] object-contain object-top"
-                      />
-                      <figcaption className="mt-1 text-center font-mono text-meta text-muted">
-                        {entry.preset} · {entry.width}×{entry.height}
-                      </figcaption>
-                    </figure>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </div>
-          <div className="mt-5 flex flex-wrap gap-2">
+          <p className="mt-3 text-sm leading-relaxed text-secondary">{verdict.rationale}</p>
+          {selectedFinding.evidence.length ? (
+            <ul className="mt-3 space-y-1.5">
+              {selectedFinding.evidence.map((evidence) => (
+                <li key={`${evidence.label}-${evidence.value}`} className="break-words font-mono text-meta text-muted">
+                  <span className="text-accent">{evidence.label}</span>
+                  {" · "}
+                  {evidence.value}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {showStateProbes && report.capture.stateShots.length > 0 ? (
+            <details className="mt-3">
+              <summary className="cursor-pointer font-mono text-meta text-muted hover:text-secondary">State probes</summary>
+              <ul className="mt-2 flex flex-wrap gap-1.5">
+                {report.capture.stateShots.slice(0, 9).map((shot) => (
+                  <li key={`${shot.selector}-${shot.state}`} className="rounded-sm border border-border px-2 py-0.5 font-mono text-meta text-secondary">
+                    {shot.state}
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ) : null}
+          <div className="mt-4 flex flex-wrap gap-2">
             <button
               type="button"
               onClick={draftFix}
               disabled={draftState === "drafting" || operationActive}
-              className="flex items-center gap-2 rounded-md bg-accent px-3 py-2 font-semibold text-white transition hover:bg-accent-hover disabled:opacity-60"
+              className="flex items-center gap-2 rounded-sm bg-accent px-3 py-2 text-sm font-semibold text-white transition hover:bg-accent-hover disabled:opacity-60"
             >
               <Wand2 className="h-4 w-4" /> {draftState === "drafting" ? "Mapping source…" : setupJob?.state === "ready" ? "Plan source fix" : "Draft fix"}
             </button>
-            <button type="button" onClick={markIntentional} className="rounded-md border border-border px-3 py-2 text-secondary transition hover:text-text">
+            <button type="button" onClick={markIntentional} className="rounded-sm border border-border px-3 py-2 text-sm text-secondary transition hover:text-text">
               Mark intentional
             </button>
           </div>
@@ -1240,36 +1207,36 @@ export default function HomePage() {
         </section>
       ) : null}
 
-      <section className="rounded-card border border-border bg-surface p-4">
-        <div className="mb-4 flex items-center justify-between gap-3">
+      <section className="border-t border-border pt-3">
+        <div className="mb-2 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Mic className="h-4 w-4 text-accent" />
-            <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary">Voice director</p>
+            <p className="font-mono text-meta uppercase tracking-[0.14em] text-muted">Direction</p>
           </div>
           {directionPlan ? (
             <span className="font-mono text-meta text-muted">
-              direction: {resolveDirection(directionPlan.presetId).label.toLowerCase()}
-              {directionParsing ? " · refining…" : directionSource === "gemini" ? " · gemini" : null}
+              {resolveDirection(directionPlan.presetId).label.toLowerCase()}
+              {directionParsing ? " · …" : null}
             </span>
           ) : null}
         </div>
         {designBrief ? (
-          <p className="mb-3 rounded-md border border-border bg-bg/70 px-3 py-2 font-mono text-meta text-secondary">
+          <p className="mb-2 font-mono text-meta text-secondary">
             Brief: {designBrief}
             {" · "}
             <a className="text-accent underline-offset-2 hover:underline" href={studioBriefHref}>
-              Open in Studio
+              Studio
             </a>
           </p>
         ) : null}
-        <div className="grid gap-3">
-          <div className="flex gap-3 rounded-md border border-border bg-bg px-3 py-2 text-secondary">
+        <div className="grid gap-2">
+          <div className="flex gap-2 border border-border bg-bg/50 px-2 py-2 text-secondary">
             {voice.supported ? (
               <button
                 type="button"
                 onClick={voice.listening ? voice.stop : voice.start}
                 aria-label={voice.listening ? "Stop listening" : "Start voice direction"}
-                className={`mt-0.5 grid h-9 w-9 shrink-0 place-items-center self-start rounded-full border transition ${
+                className={`mt-0.5 grid h-8 w-8 shrink-0 place-items-center self-start rounded-sm border transition ${
                   voice.listening ? "animate-pulse border-accent bg-accent/20 text-accent" : "border-border text-secondary hover:border-accent hover:text-accent"
                 }`}
               >
@@ -1282,12 +1249,12 @@ export default function HomePage() {
                 voice.setTranscript(event.target.value);
                 scheduleDirectionParse(event.target.value);
               }}
-              rows={3}
-              placeholder={voice.listening ? "Listening… keep speaking to append more direction." : "Describe the direction — warmer, more editorial, less shadow…"}
-              className="min-h-[4.5rem] max-h-28 w-full resize-none overflow-y-auto bg-transparent text-sm leading-relaxed text-secondary placeholder:text-muted focus:outline-none"
+              rows={2}
+              placeholder={voice.listening ? "Listening…" : "Warmer, more editorial, less shadow…"}
+              className="min-h-[3rem] max-h-24 w-full resize-none overflow-y-auto bg-transparent text-sm leading-relaxed text-secondary placeholder:text-muted focus:outline-none"
             />
           </div>
-          <div className="flex flex-wrap content-start gap-2">
+          <div className="flex flex-wrap content-start gap-1.5">
             {PRESET_CHIPS.map((chip) => {
               const active = directionId === chip.key;
               return (
@@ -1302,7 +1269,7 @@ export default function HomePage() {
                     applyDirectionPlan(plan);
                     learnFromDirection(plan, text);
                   }}
-                  className={`rounded-full border px-3 py-2 font-mono text-xs transition ${
+                  className={`rounded-sm border px-2.5 py-1 font-mono text-meta transition ${
                     active ? "border-accent bg-accent/10 text-accent" : "border-border text-secondary hover:border-accent hover:text-accent"
                   }`}
                 >
@@ -1311,42 +1278,35 @@ export default function HomePage() {
               );
             })}
           </div>
-          {userProfile && userProfile.sessionCount > 0 ? (
-            <p className="font-mono text-[10px] tracking-wide text-muted">
-              Your sessions remember this machine
-              {userProfile.preferredDirectionId ? ` · lean ${userProfile.preferredDirectionId}` : ""}
-              {topPriorities(userProfile)[0] ? ` · priority ${topPriorities(userProfile)[0]!.key}` : ""}
-              {userProfile.phraseBans.length ? ` · avoid ${userProfile.phraseBans.slice(0, 3).join(", ")}` : ""}
-            </p>
-          ) : null}
         </div>
         {directionPlan?.actionItems.length ? (
-          <div className="mt-3 space-y-2">
-            <p className="font-mono text-meta uppercase tracking-[0.14em] text-muted">Action items</p>
-            <ul className="flex flex-wrap gap-2">
-              {directionPlan.actionItems.map((item) => (
-                <li key={item.id} className="rounded-md border border-border bg-bg/70 px-2 py-2 font-mono text-meta text-secondary">
-                  <span className="mr-1.5 text-muted">{item.category}</span>
-                  {item.label}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul className="mt-2 flex flex-wrap gap-1.5">
+            {directionPlan.actionItems.map((item) => (
+              <li key={item.id} className="font-mono text-meta text-muted">
+                {item.label}
+              </li>
+            ))}
+          </ul>
         ) : null}
       </section>
 
-      <BrandDnaBar dna={brandDna} onLearn={learnDna} onClear={clearDna} live={liveCapture} />
-      {!proofResult ? <Scorecard reconciliation={reconciliation} live={liveCapture} /> : null}
-      {!proofResult ? (
-        <WhatChangedList
-          notes={
-            llmRestyle.mode === "ai" && llmRestyle.sheet?.notes.length
-              ? llmRestyle.sheet.notes
-              : reconciliation?.directionNotes ?? []
-          }
-        />
-      ) : null}
-      {!proofResult ? <ReconciliationTable reconciliation={reconciliation} live={liveCapture} /> : null}
+      <details className="border-t border-border pt-2">
+        <summary className="cursor-pointer font-mono text-meta text-muted hover:text-secondary">More — brand DNA & measured change</summary>
+        <div className="mt-3 space-y-3">
+          <BrandDnaBar dna={brandDna} onLearn={learnDna} onClear={clearDna} live={liveCapture} />
+          {!proofResult ? <Scorecard reconciliation={reconciliation} live={liveCapture} /> : null}
+          {!proofResult ? (
+            <WhatChangedList
+              notes={
+                llmRestyle.mode === "ai" && llmRestyle.sheet?.notes.length
+                  ? llmRestyle.sheet.notes
+                  : reconciliation?.directionNotes ?? []
+              }
+            />
+          ) : null}
+          {!proofResult ? <ReconciliationTable reconciliation={reconciliation} live={liveCapture} /> : null}
+        </div>
+      </details>
     </div>
   );
 
