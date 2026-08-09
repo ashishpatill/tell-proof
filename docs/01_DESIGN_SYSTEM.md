@@ -408,6 +408,26 @@ not a chatbot.
 
 ---
 
+## 10.5 App shell (entry + split project)
+
+Tell Proof’s primary surface is an **entry-rail / split-shell**, not a KPI dashboard:
+
+| Region | Role |
+|---|---|
+| Icon rail | Home, Showcase, Studio, Kinetic, Settings |
+| Workspace tabs | Pinned Home + open diagnose sessions |
+| Entry home | Centered composer (“What do you want to design?”) + mode pills + recent sessions |
+| Critic pane | Findings, voice director, draft fix, Connect Agent |
+| Proof canvas | Capture / setup, pages strip, reveal seam, verified proof |
+
+Shell chrome may use warm **`--surface-glass`** frosted panels derived from paper tokens. Do not
+adopt cool slate SaaS chrome, Inter, violet gradients, or shadow-everywhere. Split resize and
+canvas focus mode are first-class; mobile stacks panes with Critic / Canvas switcher.
+
+BYOK keys live in browser `localStorage` only; deterministic core needs no keys.
+
+---
+
 ## 11. Tailwind token wiring (reference)
 
 Map semantic tokens to CSS variables in `:root`, expose to Tailwind via `theme.extend.colors` using

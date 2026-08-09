@@ -3,6 +3,7 @@ import { trace, SpanStatusCode, type Span } from "@opentelemetry/api";
 import { z } from "zod";
 import { BrandDNA, CapturePayload, DesignFingerprint } from "@tell/schema";
 import { restyleWithGemini } from "@tell/redesign/llm";
+import { resolveGeminiKey } from "@/lib/byok";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
   }
   const { capture, fingerprint, directionId, dna } = parsed.data;
 
-  const apiKey = process.env.GEMINI_API_KEY?.trim();
+  const apiKey = resolveGeminiKey(request);
   if (!apiKey) {
     return NextResponse.json({ ok: false, reason: "GEMINI_API_KEY not configured" });
   }

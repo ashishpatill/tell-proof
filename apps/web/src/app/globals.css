@@ -22,6 +22,8 @@
   --shadow-card: 0 2px 8px rgba(0,0,0,.25);
   --border-proof: rgb(115 102 90 / 0.55);
   --surface-paper: #F3EDE4;
+  --surface-glass: rgb(243 237 228 / 0.72);
+  --surface-glass-strong: rgb(243 237 228 / 0.92);
 }
 
 * {
@@ -38,6 +40,13 @@ body {
 button,
 input {
   font: inherit;
+}
+
+button:disabled,
+input:disabled,
+textarea:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 :focus-visible {

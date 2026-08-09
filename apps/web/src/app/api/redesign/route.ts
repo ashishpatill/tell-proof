@@ -7,6 +7,7 @@ import { proposeWithCursorAgent } from "@/lib/cursor-redesign";
 import { collectProjectSources, rankSourcesForReport } from "@/lib/source-worktree";
 import { fetchRemoteBackend, hasRemoteBackend } from "@/lib/remote-api";
 import { assertRepoSetupEnabled } from "@/lib/setup-guard";
+import { resolveCursorKey } from "@/lib/byok";
 
 const tracer = trace.getTracer("tell.redesign");
 
@@ -69,6 +70,7 @@ export async function POST(request: Request) {
         directionPlan?.actionItems,
         directionPlan?.summary ?? directionText,
         ranked?.files,
+        resolveCursorKey(request),
       );
       span.setAttributes({
         "tell.source_files": sourceContext?.files.length ?? 0,

@@ -519,3 +519,13 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Failure:** Run dd-smoke advanced with a thin/corridor reference board (category photography).
 - **Fix:** Fill research/boards.seeds.local.json for this category; keep corridor bands as fallback only.
 - **Do not:** Treat empty seeds as a finished Phase 1 craft board.
+
+## 2026-08-09 — `shell:empty-recent-thumb`
+
+- **Failure:** Entry-home "Recent diagnoses" cards used empty flat `.tell-recent__thumb` fills —
+  only mode/count chrome, no capture craft beat (same class as `showcase:nav-only-thumb`).
+- **Fix:** `svgSessionThumb` / `thumbFromScreenshotBase64` write a compact craft plate (accent
+  field + title + findings) into `RecentSession.thumbDataUrl`; EntryHome always renders an
+  `<img>` (SVG fallback if storage lacks a thumb). Offline fixture uses violet→ink plate so the
+  generic "before" reads as content.
+- **Do not:** Ship recent/session galleries as blank surface tiles and call the shell done.
