@@ -1,13 +1,15 @@
 /**
  * Post-run learning for the agency pipeline.
  *
+ * Invoked **automatically** at the end of `agency:run` and after
+ * `agency:pipeline --mark-pass 4-ship`. Manual re-run:
+ *   pnpm agency:learn -- --run-id orch-proof
+ *
  * Reads a completed (or failed) board run → extracts signals → updates
  * research/agency-engine-memory.json + research/LEARNINGS.md → writes LEARN.md
  * on the board. Safe improvements feed the next agency:run via memory.
- *
- * Usage:
- *   pnpm agency:learn -- --run-id orch-proof
- *   pnpm agency:learn -- --run-id orch-proof --query "…" --niche photography
+ * When research/design-data.local.json (or TELL_DESIGN_DATA) is set, memory is
+ * also write-backed to the personal design-data checkout.
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";

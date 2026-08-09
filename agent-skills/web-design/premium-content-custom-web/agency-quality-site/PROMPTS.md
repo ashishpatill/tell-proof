@@ -16,12 +16,13 @@ Use agency-quality-site.
 pnpm agency:run -- --query "<requirement>" --fresh
 # optional: --product Name --cta "Book a call" --max-attempts 3 --brief <existing>
 
-Reads niche presets → brief + DIRECTION (DESIGN_RIGOR) → local seeds/corridor refs →
-phase loop with gate verify + auto --mark-pass through 4-ship → agency:learn
-(engine memory + LEARNINGS).
+Reads niche presets → brief + DIRECTION (DESIGN_RIGOR) → design-data/local seeds/corridor refs →
+phase loop with gate verify + auto --mark-pass through 4-ship → **automatic agency:learn**
+(engine memory + LEARNINGS + design-data write-back).
 
 Still one phase at a time under the hood. Never craft --all.
-Live ref URLs only in research/boards.seeds.local.json (gitignored).
+Live ref URLs only in design-data seeds or research/boards.seeds.local.json (gitignored).
+Do not schedule a separate learn step.
 ```
 
 ---
