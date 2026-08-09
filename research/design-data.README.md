@@ -3,7 +3,7 @@
 This checkout improves the **Tell design engine** for maintainers. It does **not**
 run for end users on Vercel/demo hosts.
 
-End-user learning (Priya's directions, priorities, tools) lives in the browser as
+End-user learning (Ashish's directions, priorities, tools) lives in the browser as
 `UserDesignProfile` — see `.cursor/skills/tell-user-session-learn` and
 `apps/web/src/lib/user-session-learn.ts`.
 

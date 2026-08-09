@@ -1,6 +1,6 @@
 ---
 name: tell-user-session-learn
-description: Per-user design learning on Priya's machine — remembers direction prefs, priorities, and tool/workflow choices in localStorage. Distinct from developer design-data corpus learning.
+description: Per-user design learning on Ashish's machine — remembers direction prefs, priorities, and tool/workflow choices in localStorage. Distinct from developer design-data corpus learning.
 ---
 
 # tell-user-session-learn
@@ -11,7 +11,7 @@ This is **not** the developer corpus loop (`agency-run-learn` + `research/design
 
 | Loop | Who | Where | Improves |
 |---|---|---|---|
-| User session | Priya (product user) | `localStorage` `tell:user-design-profile` | Her directions, priorities, tools |
+| User session | Ashish (product user) | `localStorage` `tell:user-design-profile` | His directions, priorities, tools |
 | Dev corpus | Tell maintainer | `TELL_DESIGN_DATA` / `design-data.local.json` | Shared engine memory, gates, seeds |
 
 ## What is remembered (user machine only)

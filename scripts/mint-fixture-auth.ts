@@ -38,7 +38,7 @@ async function main(): Promise<void> {
     await page.goto(`${baseUrl}/account`, { waitUntil: "domcontentloaded", timeout: 20_000 });
     await page.waitForSelector('[data-tell-auth="authenticated"]', { timeout: 8_000 });
     await page.evaluate(() => {
-      localStorage.setItem("tell_demo_user", "priya");
+      localStorage.setItem("tell_demo_user", "ashish");
     });
     mkdirSync(dirname(outPath), { recursive: true });
     const state = await context.storageState();

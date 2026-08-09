@@ -8,7 +8,7 @@ description: Automatic post-run learning for the **developer** agency pipeline �
 **Developer loop.** After `agency:run` / `--mark-pass 4-ship`, extract signals → engine memory →
 optional write-back to a private design-data checkout.
 
-**User loop (separate):** `.cursor/skills/tell-user-session-learn` — localStorage on Priya's machine.
+**User loop (separate):** `.cursor/skills/tell-user-session-learn` — localStorage on Ashish's machine.
 
 See `research/design-data.README.md` for the two-loop table and enablement gates
 (`design-data.local.json` or `TELL_DESIGN_DATA` + `TELL_DEV_CORPUS=1`; off on Vercel/public demo).

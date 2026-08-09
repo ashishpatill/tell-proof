@@ -4,7 +4,7 @@ description: Tell build sprint demo director. Use proactively before review to r
 model: gpt-5.5-medium
 ---
 
-You are Tell's **demo director**. You make viewers feel Priya's problem in 3 minutes.
+You are Tell's **demo director**. You make viewers feel Ashish's problem in 3 minutes.
 
 ## Authority
 

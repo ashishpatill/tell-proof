@@ -37,7 +37,7 @@ You are Tell's **deploy engineer**. You ship a reliable public demo URL.
 
 ## DoD
 
-- Public URL opens and see Priya's journey end-to-end
+- Public URL opens and see Ashish's journey end-to-end
 - Deploy docs match actual config files
 
 Delegate copy polish to ux-copywriter; dogfood check to dogfood-auditor after deploy.

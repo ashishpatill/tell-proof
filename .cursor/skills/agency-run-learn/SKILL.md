@@ -8,7 +8,7 @@ description: Developer-only automatic learn after agency:run — improves shared
 **Developer / maintainer loop.** Each `agency:run` on a workstation with a design-data
 pointer ends with learn → `agency-engine-memory.json` + `LEARNINGS.md` (+ write-back).
 
-**Not for Priya's browser.** Her preferences use `tell-user-session-learn`.
+**Not for Ashish's browser.** His preferences use `tell-user-session-learn`.
 
 | Loop | Skill | Where |
 |---|---|---|

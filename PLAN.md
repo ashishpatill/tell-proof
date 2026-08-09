@@ -44,7 +44,7 @@ flowchart TB
 | **`PLAN.md` (this file)** | Consolidated remaining-work plan | **Keep — primary** |
 | **`BUILD.md`** | Engineering contracts + M1–M10 DoD | **Keep — never archive** |
 | **`ORCHESTRATION.md`** | Agent/model routing | **Keep** |
-| **`USER_STORY.md`** | Priya north star / copy | **Keep** |
+| **`USER_STORY.md`** | Ashish north star / copy | **Keep** |
 | **`README.md` Product Status** | Public shipped/next list | Keep in sync with this file |
 | `docs/02_CURSOR_BUILD_INSTRUCTIONS.md` | Exact duplicate of `BUILD.md` | **Archived** → stub |
 | `docs/04_CLAUDE_PROJECT.md` §12 tracker | Live tracker | Keep in sync |
@@ -55,7 +55,7 @@ flowchart TB
 | **`docs/09_PREMIUM_DESIGN_SKILLS.md`** | Premium content-custom skill graph + studio | **Keep — separate plan** |
 | **`docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md`** | MCP / one-click install / CLI / skills / multi-agent | **Keep — separate plan** |
 | **`docs/12_AUTH_SECURITY_BOUNDARIES_PLAN.md`** | Capture/API/agent trust envelopes (not product login) | **Keep — separate plan** |
-| **`docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`** | Common + complex design-task flows for Priya loop | **Keep — separate plan** |
+| **`docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`** | Common + complex design-task flows for Ashish loop | **Keep — separate plan** |
 | `DESIGN.md`, `PITCH.md` | Dogfood contract / pitch | **Keep** |
 
 ---

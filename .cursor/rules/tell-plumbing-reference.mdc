@@ -15,7 +15,7 @@ auth, design-task flow shapes). Use it when building agent/platform features.
 |---|---|
 | `docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md` | MCP, one-click/deeplink install, CLI, skills packaging, multi-agent hosts |
 | `docs/12_AUTH_SECURITY_BOUNDARIES_PLAN.md` | Capture tokens, origins, run-scoped capabilities, pairing — **not** product login |
-| `docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md` | Common/complex design tasks mapped onto Priya’s loop |
+| `docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md` | Common/complex design tasks mapped onto Ashish's loop |
 
 ## Where the peer identity lives (never commit)
 

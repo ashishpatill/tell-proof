@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Docs authority
 
-- Start with `AGENTS.md` and `USER_STORY.md`: Priya's journey is the north star.
+- Start with `AGENTS.md` and `USER_STORY.md`: Ashish's journey is the north star.
 - Visual and interaction contract: `docs/01_DESIGN_SYSTEM.md`.
 - Engineering rules, stack, milestones, and cut line: `BUILD.md`.
 - Remaining work / goal+loop prompts: `PLAN.md` (consolidated). `docs/02_*` is an archive stub.

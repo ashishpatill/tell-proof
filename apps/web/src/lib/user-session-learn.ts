@@ -4,7 +4,7 @@
  * This is NOT the developer design-data corpus loop. Corpus improvement runs
  * only on maintainer machines via research/design-data.local.json.
  *
- * Priya's directions, tool choices, and priorities accumulate here so the next
+ * Ashish's directions, tool choices, and priorities accumulate here so the next
  * session opens closer to how she works.
  */
 import {

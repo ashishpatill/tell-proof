@@ -1,6 +1,6 @@
 # Tell — Agent Orchestration
 
-> How to use **Composer 2.5**, **Opus 4.8**, and **GPT 5.5** with role-specific subagents for a 2-day build sprint. Priya's user story is the north star — every agent role exists to ship her journey.
+> How to use **Composer 2.5**, **Opus 4.8**, and **GPT 5.5** with role-specific subagents for a 2-day build sprint. Ashish's user story is the north star — every agent role exists to ship his journey.
 
 ---
 
@@ -43,7 +43,7 @@ Run **4 parallel Tasks** from Composer orchestrator after M1 schema is merged:
 ```
 Task 1 [Opus · core-engineer]  → packages/core capture + fingerprint + detectors
 Task 2 [Opus · taste-engineer]  → packages/taste mock engine + direction presets (parallel to core)
-Task 3 [Composer · ui-builder]  → apps/web shell + CaptureBar + empty state (Priya copy)
+Task 3 [Composer · ui-builder]  → apps/web shell + CaptureBar + empty state (Ashish copy)
 Task 4 [Composer · fixture-smith] → fixtures/generic-app (all planted tells)
 ```
 
@@ -76,7 +76,7 @@ Task 8 [Opus · dogfood-auditor] → M10 zero tells on apps/web
 | **AGENTS.md** | repo root | Composer reads first every session |
 | **CLAUDE.md** | repo root | Claude Code / Project parity |
 | **BUILD.md** | repo root | Milestone DoD |
-| **USER_STORY.md** | repo root | Priya journey — copy authority for GPT 5.5 |
+| **USER_STORY.md** | repo root | Ashish journey — copy authority for GPT 5.5 |
 
 ---
 
@@ -99,7 +99,7 @@ Add vitest golden test against fixtures/reports/capture.json.
 ### GPT copy pass
 ```
 Use ux-copywriter subagent (GPT 5.5). @USER_STORY.md copy bank.
-Rewrite empty/loading/error states in apps/web for Priya's voice. No emoji. Critic tone.
+Rewrite empty/loading/error states in apps/web for Ashish's voice. No emoji. Critic tone.
 ```
 
 ### Pre-demo dogfood
@@ -145,4 +145,4 @@ Invoke: *"@tell-detector-authoring add StateGap threshold tuning"* or let Cursor
 
 ## Cut line reminder
 
-Live URL capture, GitHub repo setup, contrast-grounded token reconciliation, voice/text direction parsing, and draft-fix diffs are shipped. If something breaks at demo time: fall back to the committed `fixtures/reports/tell-report.json` artifact and the seeded fixture — the offline path still lands Priya's journey.
+Live URL capture, GitHub repo setup, contrast-grounded token reconciliation, voice/text direction parsing, and draft-fix diffs are shipped. If something breaks at demo time: fall back to the committed `fixtures/reports/tell-report.json` artifact and the seeded fixture — the offline path still lands Ashish's journey.

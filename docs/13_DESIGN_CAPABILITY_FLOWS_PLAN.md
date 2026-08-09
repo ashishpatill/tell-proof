@@ -30,7 +30,7 @@
 | Plugin pipeline atoms | Tell keeps packages, not plugin marketplace | Non-goal for MVP |
 | Library / clipper | Future tab capture | Missing |
 
-**Product identity check:** Tell is a **taste critic + measurable redesign**, not a general design IDE. Prefer deepening the Priya loop over cloning peer surfaces.
+**Product identity check:** Tell is a **taste critic + measurable redesign**, not a general design IDE. Prefer deepening the Ashish loop over cloning peer surfaces.
 
 ---
 
@@ -40,7 +40,7 @@
 
 **Happy path**
 
-1. Priya pastes `http://localhost:3001` (or public URL)
+1. Ashish pastes `http://localhost:3001` (or public URL)
 2. CaptureBar → `POST /api/diagnose` **or** MCP `tell_diagnose` **or** `tell diagnose`
 3. Playwright capture → fingerprint → detectors → optional taste
 4. Report UI: named tells + evidence on real page
@@ -201,7 +201,7 @@ Peer “design jury” uses tagged multi-role stream. Tell already has:
 
 - [ ] Do **not** port multi-panelist theater into product MVP
 - [ ] Optionally add MCP `tell_critique_research` for engine maintainers (internal)
-- [ ] Product: keep critic voice single-narrator (Priya clarity)
+- [ ] Product: keep critic voice single-narrator (Ashish clarity)
 
 ### 2.5 Brand / system extraction
 
@@ -211,7 +211,7 @@ Peer brand-extract measures DOM. Tell fingerprint + detectors already measure re
 
 - [ ] Expose “design system drift” evidence more actionably in report
 - [ ] Optional export: `DESIGN.md` stub from fingerprint tokens (Phase 2 already touched DesignSystemDrift)
-- [ ] Do not build full brand-kit library product unless Priya loop demands it
+- [ ] Do not build full brand-kit library product unless Ashish loop demands it
 
 ### 2.6 Live artifacts / connectors
 
@@ -300,7 +300,7 @@ Authority: `tell-template-craft` + `design-research-loop`.
 1. Becoming a general design IDE or media generator
 2. Plugin marketplace / atom pipelines as a product
 3. Porting peer theme packs or named craft templates
-4. Multi-agent critique theater in the Priya UI
+4. Multi-agent critique theater in the Ashish UI
 5. Electron desktop shell
 6. Auto-applying surgical edits from iframe selection
 
@@ -312,7 +312,7 @@ Authority: `tell-template-craft` + `design-research-loop`.
 @docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md @docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md
 @USER_STORY.md @packages/design-skills @packages/mcp
 
-GOAL: Execute the next unchecked Wave C* item. Prefer Priya-loop depth over new
+GOAL: Execute the next unchecked Wave C* item. Prefer Ashish-loop depth over new
 surfaces. Do not name or vendor the peer reference. Never auto-apply.
 
 Done when Wave DoD is met and tests stay green.
