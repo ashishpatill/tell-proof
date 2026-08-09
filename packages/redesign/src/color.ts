@@ -8,11 +8,20 @@ export function parseColor(input: string): Rgb | null {
   if (!input) return null;
   const s = input.trim().toLowerCase();
   if (s === "transparent") return null;
+  if (s === "white") return { r: 255, g: 255, b: 255 };
+  if (s === "black") return { r: 0, g: 0, b: 0 };
   const rgb = s.match(/rgba?\(\s*(\d+(?:\.\d+)?)[,\s]+(\d+(?:\.\d+)?)[,\s]+(\d+(?:\.\d+)?)(?:[,\s/]+([\d.]+))?/);
   if (rgb) {
     const a = rgb[4] !== undefined ? Number(rgb[4]) : 1;
     if (a === 0) return null; // fully transparent carries no color
     return { r: +rgb[1]!, g: +rgb[2]!, b: +rgb[3]! };
+  }
+  const hex8 = s.match(/^#([0-9a-f]{8})$/);
+  if (hex8) {
+    const n = parseInt(hex8[1]!.slice(0, 6), 16);
+    const a = parseInt(hex8[1]!.slice(6, 8), 16) / 255;
+    if (a === 0) return null;
+    return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
   }
   const hex6 = s.match(/^#([0-9a-f]{6})$/);
   if (hex6) {

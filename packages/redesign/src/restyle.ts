@@ -14,7 +14,7 @@ import type { Direction } from "./directions";
 import { analyzeLayout, fitHeroSize } from "./layout";
 import {
   badgeDecls, buttonDecls, cardDecls, footerDecls, headingRules, heroRules, inputDecls,
-  linkRules, navDecls, numeralRule, pageRules, sectionDecls, selectionRule,
+  linkRules, navDecls, navRules, numeralRule, pageRules, sectionDecls, selectionRule,
   type EmittedRule, type Palette,
 } from "./recipes";
 
@@ -161,15 +161,17 @@ export function buildRestylePlan(
   const notePad = (arr: number[]) => arr.forEach((v) => v > 0 && spaces.add(v));
   const noteShadow = (v?: string) => { if (v && v !== "none") shadows.add(v.replace(/\s+/g, " ").trim()); };
 
-  // ── (contrast + globals) page, selection, headings, links ──
-  rules.push(...pageRules(p), ...selectionRule(p), ...headingRules(p), ...linkRules(p));
+  // ── (contrast + globals) page, selection, headings, links, nav language ──
+  rules.push(...pageRules(p), ...selectionRule(p), ...headingRules(p), ...linkRules(p), ...navRules(p));
 
-  // ── (legibility net) unsampled elements the page's own CSS fills dark ──
+  // ── (legibility net) unsampled elements the page's own CSS fills dark OR paints light ──
   // Only ~30 selector kinds get sampled + stamped; anything else keeps its authored fill
-  // while inheriting the new ink (dark-on-dark chips). Read the snapshot's inlined
-  // stylesheet and counter simple selectors whose solid fill the ink can't read on.
+  // while inheriting the new ink (dark-on-dark chips) or keeps authored light text on the
+  // new paper (white-on-cream). Read the snapshot's inlined stylesheet and counter simple
+  // selectors whose solid fill / text color the new paper can't read.
   // Element-precise [data-tell-id] ops are emitted later, so they win ties.
   rules.push(...counterUnsampledFills(capture.snapshotHtml ?? "", p));
+  rules.push(...counterUnsampledLightText(capture.snapshotHtml ?? "", p));
 
   // ── (recipes) hero ──
   const heroHeading = styles.find((s) => s.tellId === layout.heroHeadingId);
@@ -218,7 +220,19 @@ export function buildRestylePlan(
       if (primary) {
         Object.assign(decls, buttonDecls(p));
       } else {
-        Object.assign(decls, { "background-color": "transparent", color: p.accentText, border: `1px solid ${p.hairlineStrong}`, "border-radius": p.radius, "box-shadow": "none", "background-image": "none", "font-weight": String(dir.recipe.button.weight), "text-transform": dir.recipe.button.transform, "letter-spacing": dir.recipe.button.tracking });
+        // Secondary controls: sharp ink outline — not soft SaaS ghost pills
+        Object.assign(decls, {
+          "background-color": "transparent",
+          color: p.ink,
+          border: `1.5px solid ${p.ink}`,
+          "border-radius": p.radius,
+          "box-shadow": "none",
+          "background-image": "none",
+          "font-weight": String(dir.recipe.button.weight),
+          "text-transform": dir.recipe.button.transform,
+          "letter-spacing": dir.recipe.button.tracking,
+          "font-family": `"${p.body}", ui-sans-serif, sans-serif`,
+        });
       }
       noteShadow(decls["box-shadow"]);
     } else if (isBadge) {
@@ -267,6 +281,12 @@ export function buildRestylePlan(
     } else if (s.role === "link") {
       // covered by global `a`, but ensure readable color on the new paper
       decls["color"] = p.accentText;
+    } else if (s.role === "other") {
+      // Unclassified nodes often carry dark-theme text colors (placeholders, muted labels).
+      // Force ink when the captured color would vanish on the new paper.
+      if (parseColor(s.color) && contrastRatio(s.color, p.paper) < 4.5) {
+        decls["color"] = p.ink;
+      }
     }
 
     // (depth) collapse stray shadows on anything not intentionally floated
@@ -284,6 +304,19 @@ export function buildRestylePlan(
       decls["background-color"] = "transparent";
       decls["background-image"] = "none";
       decls["border"] = `1px solid ${p.hairlineStrong}`;
+    }
+
+    // (legibility) force ink when captured text would vanish on the effective after-background
+    // — the white-on-cream bug from dark captures that keep authored light colors.
+    if (decls["color"] === undefined && parseColor(s.color)) {
+      const ownedBg = decls["background-color"] && decls["background-color"] !== "transparent"
+        ? decls["background-color"]
+        : null;
+      const retainedBg = parseColor(s.backgroundColor) ? s.backgroundColor : null;
+      const effectiveBg = ownedBg ?? retainedBg ?? p.paper;
+      if (contrastRatio(s.color, effectiveBg) < 4.5) {
+        decls["color"] = p.ink;
+      }
     }
 
     // radius unification for controls that still lack one
@@ -354,7 +387,7 @@ function counterUnsampledFills(snapshotHtml: string, p: Palette): EmittedRule[] 
     // pseudo-classes, or attribute selectors; never the page roots.
     if (!/^[.#]?[a-z][\w-]*(\s*,\s*[.#]?[a-z][\w-]*)*$/i.test(selector)) continue;
     if (/\b(html|body)\b/i.test(selector)) continue;
-    const bg = m[2]!.match(/background(?:-color)?:\s*(rgba?\([^)]+\)|#[0-9a-f]{3,8})\s*;?/i);
+    const bg = m[2]!.match(/background(?:-color)?:\s*(rgba?\([^)]+\)|#[0-9a-f]{3,8}|white|black)\s*;?/i);
     if (!bg || !parseColor(bg[1]!)) continue;
     if (contrastRatio(p.ink, bg[1]!) >= 4.5) continue; // ink reads fine → authored fill survives
     if (seen.has(selector)) continue;
@@ -370,6 +403,36 @@ function counterUnsampledFills(snapshotHtml: string, p: Palette): EmittedRule[] 
       },
     });
     if (out.length >= 24) break;
+  }
+  return out;
+}
+
+/**
+ * Flip authored light text colors that vanish on the new paper (white-on-cream).
+ * Complements counterUnsampledFills: that one owns dark fills; this owns color-only rules
+ * and also allows simple descendant forms like `.nav a` / `.hero h1`.
+ */
+function counterUnsampledLightText(snapshotHtml: string, p: Palette): EmittedRule[] {
+  const inlined = snapshotHtml.match(/<style[^>]*data-tell-inlined[^>]*>([\s\S]*?)<\/style>/i);
+  if (!inlined) return [];
+  const out: EmittedRule[] = [];
+  const seen = new Set<string>();
+  for (const m of inlined[1]!.matchAll(/([^{}@]+)\{([^{}]*)\}/g)) {
+    const selector = m[1]!.trim();
+    // Allow simple descendant (at most one space) so `.nav a` / `.hero-title` are covered.
+    if (!/^[.#]?[a-z][\w-]*(\s+[.#]?[a-z][\w-]*)?(\s*,\s*[.#]?[a-z][\w-]*(\s+[.#]?[a-z][\w-]*)?)*$/i.test(selector)) continue;
+    if (/\b(html|body)\b/i.test(selector)) continue;
+    // Skip if the rule already owns a dark fill we handle elsewhere.
+    const bg = m[2]!.match(/background(?:-color)?:\s*(rgba?\([^)]+\)|#[0-9a-f]{3,8}|white|black)\s*;?/i);
+    if (bg && parseColor(bg[1]!) && contrastRatio(p.ink, bg[1]!) < 4.5) continue;
+    const colorMatch = m[2]!.match(/(?:^|;)\s*color:\s*(rgba?\([^)]+\)|#[0-9a-f]{3,8}|white|black)\s*;?/i);
+    if (!colorMatch || !parseColor(colorMatch[1]!)) continue;
+    const against = bg && parseColor(bg[1]!) ? bg[1]! : p.paper;
+    if (contrastRatio(colorMatch[1]!, against) >= 4.5) continue;
+    if (seen.has(selector)) continue;
+    seen.add(selector);
+    out.push({ selector, decls: { color: p.ink } });
+    if (out.length >= 48) break;
   }
   return out;
 }
