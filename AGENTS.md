@@ -136,6 +136,8 @@ See `ORCHESTRATION.md` for model routing and when to invoke each.
 - Design capability flows: `docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`
 - Design training-data curation (research only; collector is separate `tell-design-data` repo): `docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`
 - Design training-data literature survey (cited): `research/DESIGN_LLM_TRAINING_DATA_SURVEY.md`
+- Motion/animation capability plan: `docs/15_MOTION_ANIMATION_PLAN.md`
+- Motion/animation experts + 2026 stacks survey (named; research-only): `research/MOTION_ANIMATION_SURVEY.md`
 - Peer plumbing identity: gitignored `research/plumbing-reference.local.json` (never name the peer in commits)
 
 ## Cursor Cloud specific instructions

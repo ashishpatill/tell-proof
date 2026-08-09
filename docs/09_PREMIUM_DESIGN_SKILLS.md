@@ -80,7 +80,7 @@ Preview HTML must clear this craft floor — routing alone is not enough:
 5. Offer Taste Controls  
 6. Optional: Tell diagnose / redesign using `spec.tellDirectionId`
 
-For **full marketing sites** that need agency polish (reference board + axis-isolated type/spacing/motion/mobile), use `agency-quality-site` and `pnpm agency:pipeline` — do not collapse polish axes into one pass. Load `DESIGN_RIGOR.md` before Phase 2 (one compositional lane + 1–2 craft nodes).
+For **full marketing sites** that need agency polish (reference board + axis-isolated type/spacing/motion/mobile), use `agency-quality-site` and `pnpm agency:pipeline` — do not collapse polish axes into one pass. Load `DESIGN_RIGOR.md` before Phase 2 (one compositional lane + 1–2 craft nodes). Motion ladder and stack policy: `docs/15_MOTION_ANIMATION_PLAN.md` (experts/stacks survey: `research/MOTION_ANIMATION_SURVEY.md`).
 
 ## Taste Controls
 

@@ -13,6 +13,8 @@ measurements instead of taste claims.
 | `critique.json` | Latest score of our own generated pages against those bands |
 | `LOOP_LEDGER.md` | One row per research loop: goal, score movement, what changed |
 | `DESIGN_LLM_TRAINING_DATA_SURVEY.md` | Literature survey: papers, datasets, and techniques for design-LLM training data (cited) |
+| `MOTION_ANIMATION_SURVEY.md` | Motion/animation experts, studios, and 2026 tech stacks (named; research-only) |
+| `motion-corpus.local.example.json` | Example seed shape for motion-heavy reference URLs |
 | `LEARNINGS.md` | Human narrative lessons (recursive improve + agency-run-learn) |
 | `agency-engine-memory.json` | Machine memory from agency runs (bans, niche boosts, craft hints) |
 | `design-data.README.md` | How to wire a personal design-data checkout for seeds + learn write-back |
@@ -39,10 +41,14 @@ pnpm agency:pipeline -- --brief scripts/agency-pipeline/briefs/lensroom.json --s
 
 ## What is never committed
 
-`corpus.local.json` holds the reference URLs. It is git-ignored on purpose. No committed file in
-this repository — source, docs, tests, comments, or commit messages — may name a third-party
-person, studio, company, product, host, or URL. The research is about *what premium pages measure
-like*, not about who made them.
+`corpus.local.json` holds the reference URLs. It is git-ignored on purpose. Measured corridors
+and engine code stay anonymised (`ref-*` + category only). Research *surveys* (training-data
+literature, motion/animation stack) may name sources explicitly — they are not the measurement
+corpus.
+
+`motion-corpus.local.json` is an optional gitignored seed list of motion-heavy pages (see
+`motion-corpus.local.example.json` and `MOTION_ANIMATION_SURVEY.md`). Merge those URLs into
+`corpus.local.json` (or point forensics at them) before changing motion defaults.
 
 `plumbing-reference.local.json` holds the peer design-daemon checkout URL/path used for
 **layout plumbing and platform-pattern study** only (see `docs/11`–`docs/13` and

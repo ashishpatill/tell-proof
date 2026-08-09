@@ -529,3 +529,16 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `<img>` (SVG fallback if storage lacks a thumb). Offline fixture uses violet→ink plate so the
   generic "before" reads as content.
 - **Do not:** Ship recent/session galleries as blank surface tiles and call the shell done.
+
+## 2026-08-09 — `motion:restraint-band-masks-lifeless-pages`
+
+- **Failure:** Critique `motion-restraint` / `motion-speed` score 1.0 across briefs while templates
+  still feel static — metrics only measure CSS transition share and duration, not choreography
+  (hero entrance, stagger, scroll chapters, missable beats). Agency `3c-motion` Goal was
+  “scroll-reveal + hover,” which capped craft at the same thin ceiling.
+- **Fix:** Survey experts + 2026 stacks (`research/MOTION_ANIMATION_SURVEY.md`); product ladder
+  in `docs/15_MOTION_ANIMATION_PLAN.md`; raise `3c-motion` contract; thicken motion sub-skills;
+  seed gitignored `motion-corpus.local.json` for forensics. Next: presence metrics + CSS
+  view-timeline / stagger render (W1–W3).
+- **Do not:** Spray transitions to “fix” coverage; do not default WebGL; do not treat
+  in-band restraint as proof that motion exists.

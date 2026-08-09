@@ -57,11 +57,17 @@ Never pretend a corridor fallback was a finished craft board. `agency-run-learn`
 ## 4. Motion discipline
 
 - One motion system. No dual smooth-scroll engines. No competing libraries on the same property.
-- CSS for simple hover/focus/tap; scroll choreography only when justified.
+- Prefer native CSS scroll-driven / view timelines before timeline engines; timeline engines before WebGL.
+- Marketing floor: hero entrance once + section stagger enters + control micro-feedback
+  (`docs/15_MOTION_ANIMATION_PLAN.md`). “Add hover” alone is not a pass.
+- Eye test: ≥2 beats a reader would miss if deleted — while staying inside `docs/10` restraint
+  bands (transition coverage ~2–15%, median duration ~150–300ms).
+- CSS for simple hover/focus/tap; scroll choreography when the brief is narrative.
 - `prefers-reduced-motion: reduce` → final states immediately (not “slightly shorter”).
 - Staggered/split text must keep an unsplit accessible name; never split links.
 - Pause offscreen work; clean up observers / rAF / WebGL on teardown.
 - Reject motion with no narrative role.
+- Named experts and 2026 stacks (research-only): `research/MOTION_ANIMATION_SURVEY.md`.
 
 ---
 

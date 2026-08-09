@@ -69,4 +69,5 @@ When I paste status, give ONE next action and what to cut if behind. Protect BUI
 2. `BUILD.md` (engineering). `docs/02_CURSOR_BUILD_INSTRUCTIONS.md` is a stub → archive.
 3. `PLAN.md` — consolidated remaining-work plan + goal/loop prompts
 4. `USER_STORY.md`
-5. This file
+5. `docs/15_MOTION_ANIMATION_PLAN.md` + `research/MOTION_ANIMATION_SURVEY.md` (motion craft)
+6. This file
