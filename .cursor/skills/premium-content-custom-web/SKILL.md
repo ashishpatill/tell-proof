@@ -10,7 +10,7 @@ Entry skill for multi-million-dollar-quality marketing sites, corporate stories,
 ## Non-negotiables
 
 1. Content and declared features drive every layout decision
-2. Motion stays restrained: `none`, `subtle-micro`, or `light-scroll-reveals` only — never continuous spectacle
+2. Motion stays restrained but present: `none` | `subtle-micro` | `light-scroll-reveals` | `scroll-narrative` | `immersive` (gated) — never continuous spectacle
 3. Fully customized to the product — no generic template filler
 4. Strong hierarchy, whitespace, conversion clarity, performance, accessibility
 5. Always end with **Taste Controls** the developer can adjust
@@ -49,7 +49,7 @@ Studio UI: `/studio` · Specimen gallery: `/showcase` · Offerings: `/showcase/{
 ## Taste Controls (always offer)
 
 - Density: `sparse` | `balanced` | `information-rich`
-- Motion: `none` | `subtle-micro` | `light-scroll-reveals`
+- Motion: `none` | `subtle-micro` | `light-scroll-reveals` | `scroll-narrative` | `immersive`
 - Aesthetic lean: `minimal-clean` | `conversion-sharp` | `system-crafted` | `refined-story`
 - Color mood: `neutral-professional` | `soft-brand-accent` | `dark-premium` | `light-airy`
 - Typography weight: `light-elegant` | `medium-modern` | `bold-confident`
@@ -70,6 +70,7 @@ Studio UI: `/studio` · Specimen gallery: `/showcase` · Offerings: `/showcase/{
 - forms-ctas-conversion
 - restrained-motion-micro
 - scroll-reveal-once
+- scroll-narrative-craft
 - indexed-detail-markers
 - honest-integration-marks
 - paper-technical-frame

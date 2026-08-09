@@ -58,7 +58,16 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
 
   if (taste.motion === "light-scroll-reveals") {
     nodes.add("scroll-reveal-once");
+    nodes.add("hero-entrance-once");
+    nodes.add("section-stagger-enter");
     nodes.add("restrained-motion-micro");
+  } else if (taste.motion === "scroll-narrative" || taste.motion === "immersive") {
+    nodes.add("scroll-reveal-once");
+    nodes.add("hero-entrance-once");
+    nodes.add("section-stagger-enter");
+    nodes.add("scroll-narrative-craft");
+    nodes.add("restrained-motion-micro");
+    if (taste.motion === "immersive") nodes.add("authored-motion-slot");
   } else if (taste.motion !== "none") {
     nodes.add("restrained-motion-micro");
   }
@@ -120,6 +129,10 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     "forms-ctas-conversion",
     "dashboard-or-webapp-ui",
     "scroll-reveal-once",
+    "hero-entrance-once",
+    "section-stagger-enter",
+    "scroll-narrative-craft",
+    "authored-motion-slot",
     "restrained-motion-micro",
     "edge-fade-craft",
     "elevation-depth-tokens",

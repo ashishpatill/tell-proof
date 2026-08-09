@@ -12,8 +12,30 @@ export type AestheticLean = z.infer<typeof AestheticLean>;
 export const Density = z.enum(["sparse", "balanced", "information-rich"]);
 export type Density = z.infer<typeof Density>;
 
-export const MotionLevel = z.enum(["none", "subtle-micro", "light-scroll-reveals"]);
+export const MotionLevel = z.enum([
+  "none",
+  "subtle-micro",
+  "light-scroll-reveals",
+  /** Pinned/scrub chapter + hero entrance + stagger (CSS-native; no heavy deps). */
+  "scroll-narrative",
+  /** Gated metaphor tier — still CSS-first; WebGL only behind explicit brief flags later. */
+  "immersive",
+]);
 export type MotionLevel = z.infer<typeof MotionLevel>;
+
+/** Once-only section enters + hero entrance (not micro-only). */
+export function motionHasReveals(motion: MotionLevel): boolean {
+  return (
+    motion === "light-scroll-reveals" ||
+    motion === "scroll-narrative" ||
+    motion === "immersive"
+  );
+}
+
+/** Scroll chapters / pin grammar. */
+export function motionHasNarrative(motion: MotionLevel): boolean {
+  return motion === "scroll-narrative" || motion === "immersive";
+}
 
 export const ColorMood = z.enum([
   "neutral-professional",
@@ -145,6 +167,14 @@ export const SkillNodeId = z.enum([
   "pricing-decision-craft",
   /** Once-only scroll reveals — no blur spectacle; reduced-motion settles immediately. */
   "scroll-reveal-once",
+  /** Hero brand→claim→CTA entrance once on load. */
+  "hero-entrance-once",
+  /** Staggered children inside revealed sections. */
+  "section-stagger-enter",
+  /** CSS sticky chapter + progress for scroll-narrative / immersive. */
+  "scroll-narrative-craft",
+  /** Optional authored vector mount (Rive/Lottie) — poster frame when empty. */
+  "authored-motion-slot",
   /** Quiet 01–0N mono markers for process / feature rhythm. */
   "indexed-detail-markers",
   /** Declared integration/capability marks only — never fake logo walls. */

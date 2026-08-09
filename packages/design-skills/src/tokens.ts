@@ -182,6 +182,10 @@ function motionScale(): Record<string, string> {
     base: "180ms",
     slow: "260ms",
     reveal: "420ms",
+    /** Full hero entrance sequence budget (≤800ms including stagger). */
+    entrance: "520ms",
+    /** Per-child stagger step for hero + section grids. */
+    stagger: "64ms",
     ease: "cubic-bezier(0.2, 0, 0, 1)",
     easeOut: "cubic-bezier(0.16, 1, 0.3, 1)",
   };

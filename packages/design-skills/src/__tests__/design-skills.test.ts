@@ -23,6 +23,10 @@ const ALL_SKILLS: SkillNodeId[] = [
   "conversion-landing-craft",
   "pricing-decision-craft",
   "scroll-reveal-once",
+  "hero-entrance-once",
+  "section-stagger-enter",
+  "scroll-narrative-craft",
+  "authored-motion-slot",
   "indexed-detail-markers",
   "honest-integration-marks",
   "paper-technical-frame",
@@ -53,7 +57,9 @@ describe("premium-content-custom-web engine", () => {
     expect(spec.sections.some((s) => s.layout === "workflow-proof")).toBe(true);
     expect(previewHtml).toContain("Northstar");
     expect(previewHtml).toContain("Account scoring");
-    expect(previewHtml).toContain('data-motion="subtle-micro"');
+    expect(previewHtml).toContain('data-motion="light-scroll-reveals"');
+    expect(previewHtml).toContain("ds-enter");
+    expect(previewHtml).toContain("animation-timeline:view()");
     expect(previewHtml).toContain(":focus-visible");
     expect(previewHtml).toContain("Skip to content");
     expect(previewHtml).toContain("data-workflow-proof");
@@ -277,8 +283,36 @@ describe("measured craft floors", () => {
   it("keeps motion off anything the reader cannot touch", () => {
     const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
     expect(previewHtml).toContain("prefers-reduced-motion");
-    expect(previewHtml).not.toMatch(/\*\s*\{[^}]*transition:/);
+    // Ban universal `* { transition }` — not child combinators like `.ds-stagger > *`.
+    expect(previewHtml).not.toMatch(/(?:^|[,{;])\s*\*\s*\{[^}]*\btransition\s*:/m);
+    expect(previewHtml).not.toMatch(/\*,\*?::before,\*?::after\{[^}]*\btransition\s*:/);
     expect(previewHtml).not.toContain("animation-iteration-count:infinite");
+  });
+
+  it("ships hero entrance + stagger + view-timeline for scroll reveals", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    expect(spec.taste.motion).toBe("light-scroll-reveals");
+    expect(spec.routedSkills).toContain("hero-entrance-once");
+    expect(spec.routedSkills).toContain("section-stagger-enter");
+    expect(previewHtml).toContain("ds-reveal");
+    expect(previewHtml).toContain("ds-stagger");
+    expect(previewHtml).toContain("--m-stagger");
+    expect(previewHtml).toContain("--enter-i:");
+  });
+
+  it("pins one scroll chapter for narrative motion", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.studio!);
+    expect(spec.taste.motion).toBe("scroll-narrative");
+    expect(spec.routedSkills).toContain("scroll-narrative-craft");
+    expect(previewHtml).toContain("ds-chapter-pin");
+    expect(previewHtml).toContain("ds-chapter-progress");
+  });
+
+  it("reserves authored motion slot for immersive tier", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    expect(spec.taste.motion).toBe("immersive");
+    expect(spec.routedSkills).toContain("authored-motion-slot");
+    expect(previewHtml).toContain('data-authored-slot="empty"');
   });
 
   it("emits no raw hex outside the token block", () => {

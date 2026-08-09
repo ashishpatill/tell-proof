@@ -542,3 +542,15 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   view-timeline / stagger render (W1–W3).
 - **Do not:** Spray transitions to “fix” coverage; do not default WebGL; do not treat
   in-band restraint as proof that motion exists.
+
+## 2026-08-09 — `motion:engine-choreography-ship`
+
+- **Failure:** Templates only offered CSS hover + optional IO opacity fades; Taste enum stopped
+  at `light-scroll-reveals`; critique could not fail “lifeless but restrained” pages.
+- **Fix (RSI challenger):** Expand `MotionLevel` (+`scroll-narrative`,`immersive`); emit hero
+  `ds-enter`, section `ds-stagger`, CSS `animation-timeline: view()` with IO fallback, one
+  sticky `ds-chapter-pin` + progress; Studio/MCP options; forensics `choreographyScore` /
+  `revealNodes` + critique dims (skipped for `none`/`subtle-micro`). Agency polish aligned.
+  Unit tests 60/60; critique matrix ~96.5 with motion dims no longer in the weakest set.
+- **Do not:** Import React Motion into HTML templates; do not dual smooth-scroll; do not
+  weaken restraint bands to fake presence.

@@ -115,7 +115,8 @@ with lean-distinct layouts, restrained motion, and Studio craft tools.
 - [x] Studio: viewport preview widths, copy HTML, businessGoal control; e2e covers craft assertions
 - [x] `pnpm test` + `pnpm e2e:studio` + web typecheck green
 - [x] Motion research: experts + 2026 stacks surveyed (`research/MOTION_ANIMATION_SURVEY.md`); capability ladder planned (`docs/15_MOTION_ANIMATION_PLAN.md`); agency `3c-motion` contract raised
-- [ ] Motion engine W1–W3: widen motion corpus metrics, expand `MotionLevel`, CSS view-timeline + stagger in template render (see `docs/15`)
+- [x] Motion engine W1–W4 (CSS-native): expanded `MotionLevel`, hero entrance + view-timeline + stagger + scroll-narrative pin, critique presence/choreography dims; `pnpm -F @tell/design-skills test` green; critique ~96.5
+- [ ] Optional GSAP/Lenis + Rive runtime + Tell Report route VT (docs/15 W4–W6 remainder)
 
 ### Goal prompt (Phase 7 — paste into Composer / Cloud Agent)
 

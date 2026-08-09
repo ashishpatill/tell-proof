@@ -7,7 +7,13 @@
  */
 import { renderCss } from "./css";
 import { horizonPlot, isReading, planFigures, type FigurePlan } from "./figures";
-import type { Block, DesignSpec, SectionSpec } from "./types";
+import {
+  motionHasNarrative,
+  motionHasReveals,
+  type Block,
+  type DesignSpec,
+  type SectionSpec,
+} from "./types";
 
 function esc(s: string): string {
   return s
@@ -33,13 +39,41 @@ function clip(s: string, n: number): string {
  * lost its layout: no section padding, no minimum heights, and no positioning context — which is
  * how a background field two screens down ended up painting on the fold.
  */
-function revealAttrs(spec: DesignSpec, index: number, html: string): string {
-  if (spec.taste.motion !== "light-scroll-reveals") return html;
+function revealAttrs(
+  spec: DesignSpec,
+  index: number,
+  html: string,
+  opts: { pinChapter?: boolean } = {},
+): string {
+  if (!motionHasReveals(spec.taste.motion)) return html;
   const delay = Math.min(index, 5) * 60;
-  return html.replace(
+  const extra = opts.pinChapter ? "ds-reveal ds-stagger ds-chapter-pin" : "ds-reveal ds-stagger";
+  let next = html.replace(
     /^<(section|footer)\s+class="/,
-    (_m, tag: string) => `<${tag} style="transition-delay:${delay}ms" class="ds-reveal `,
+    (_m, tag: string) => `<${tag} style="transition-delay:${delay}ms" class="${extra} `,
   );
+  if (opts.pinChapter) {
+    next = next.replace(
+      /^(<(?:section|footer)\b[^>]*>)/,
+      `$1<div class="ds-chapter-progress" aria-hidden="true"></div><div class="ds-chapter-pin-inner">`,
+    );
+    next = next.replace(/<\/(section|footer)>$/, `</div></$1>`);
+  }
+  return next;
+}
+
+function enterAttr(spec: DesignSpec, i: number, baseClass: string): string {
+  if (!motionHasReveals(spec.taste.motion)) return `class="${baseClass}"`;
+  return `class="${baseClass} ds-enter" style="--enter-i:${i}"`;
+}
+
+/** Stamp hero-entrance delay onto an existing opening tag that already has class="…". */
+function withEnter(spec: DesignSpec, i: number, html: string): string {
+  if (!html || !motionHasReveals(spec.taste.motion)) return html;
+  return html.replace(/^<([a-z0-9]+)(\s+class="[^"]*")/i, (_m, tag: string, cls: string) => {
+    if (/\bds-enter\b/.test(cls)) return `<${tag}${cls}`;
+    return `<${tag}${cls.slice(0, -1)} ds-enter" style="--enter-i:${i}"`;
+  });
 }
 
 /**
@@ -204,12 +238,13 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       ? `<ul class="ds-hero-facts">${section.blocks.map((b) => `<li>${esc(b.title)}</li>`).join("")}</ul>`
       : "";
 
+  const actI = section.eyebrow ? 4 : 3;
   const copy = `<div class="ds-hero-copy">
-    <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
-    ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
-    <h1 class="ds-display">${esc(section.title)}</h1>
-    <p class="ds-lede">${esc(section.body)}</p>
-    ${actions(section)}
+    <p ${enterAttr(spec, 0, "ds-brand-mark")}>${esc(spec.brief.productName)}</p>
+    ${section.eyebrow ? `<p ${enterAttr(spec, 1, "ds-eyebrow")}>${esc(section.eyebrow)}</p>` : ""}
+    <h1 ${enterAttr(spec, section.eyebrow ? 2 : 1, "ds-display")}>${esc(section.title)}</h1>
+    <p ${enterAttr(spec, section.eyebrow ? 3 : 2, "ds-lede")}>${esc(section.body)}</p>
+    ${withEnter(spec, actI, actions(section))}
     ${meta}
   </div>`;
 
@@ -2015,10 +2050,16 @@ function bondAttr(section: SectionSpec, html: string): string {
   return html.replace(/^<(section|footer)\s/, (_m, tag: string) => `<${tag} data-bond="continues" `);
 }
 
-function renderSection(section: SectionSpec, index: number, spec: DesignSpec, figures: FigurePlan): string {
+function renderSection(
+  section: SectionSpec,
+  index: number,
+  spec: DesignSpec,
+  figures: FigurePlan,
+  opts: { pinChapter?: boolean } = {},
+): string {
   const wrapped = (html: string): string => {
     if (section.layout === "nav") return html;
-    return revealAttrs(spec, index, bondAttr(section, html));
+    return revealAttrs(spec, index, bondAttr(section, html), opts);
   };
 
   switch (section.layout) {
@@ -2093,11 +2134,16 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
 }
 
 function scripts(spec: DesignSpec): string {
-  const revealJs =
-    spec.taste.motion === "light-scroll-reveals"
+  const revealJs = motionHasReveals(spec.taste.motion)
       ? `var nodes=[].slice.call(document.querySelectorAll('.ds-reveal'));
   if(nodes.length){
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)){
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var scrollDriven=false;
+    try{ scrollDriven=CSS.supports('animation-timeline','view()'); }catch(e){}
+    if(reduce || !('IntersectionObserver' in window)){
+      nodes.forEach(function(n){n.classList.add('is-in')});
+    } else if(scrollDriven){
+      /* CSS view() timelines own the reveal; still mark is-in for stagger fallbacks */
       nodes.forEach(function(n){n.classList.add('is-in')});
     } else {
       var io=new IntersectionObserver(function(entries){
@@ -2373,6 +2419,9 @@ export function renderPreviewHtml(spec: DesignSpec): string {
   const atmosphereLayer = atmosphere
     ? `<div class="ds-atmosphere" aria-hidden="true"><div class="ds-atmosphere-motes"></div><div class="ds-accent-beam"></div></div>`
     : "";
+  const authoredSlot = spec.routedSkills.includes("authored-motion-slot")
+    ? `<aside class="ds-authored-motion" data-authored-slot="empty" aria-label="Authored motion poster"><span class="ds-sr">Authored motion slot — poster frame until a runtime asset is mounted</span></aside>`
+    : "";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -2385,22 +2434,33 @@ export function renderPreviewHtml(spec: DesignSpec): string {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fonts}&display=swap"/>
 ${needsHtmx ? `<script src="https://unpkg.com/htmx.org@2.0.4" defer></script>` : ""}
-<noscript><style>.ds-reveal{opacity:1!important;transform:none!important}</style></noscript>
+<noscript><style>.ds-reveal,.ds-enter,.ds-stagger > *{opacity:1!important;transform:none!important;animation:none!important}.ds-chapter-pin{min-height:0!important}.ds-chapter-pin-inner{position:static!important}.ds-chapter-progress{display:none!important}</style></noscript>
 <style>${renderCss(spec)}</style>
 </head>
 <body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-mood="${esc(spec.taste.colorMood)}" data-sitekind="${esc(spec.brief.siteKind)}" data-depth="${esc(depth)}"${paperFrame ? ` data-frame="paper-technical"` : ""}${atmosphere ? ` data-atmosphere="static"` : ""}>
 ${atmosphereLayer}
 <a class="ds-skip" href="#main">Skip to content</a>
 <p class="ds-sr">${esc(spec.summary)}</p>
+${authoredSlot}
 ${spec.sections
   .filter((s) => s.layout === "nav")
   .map((s, i) => renderSection(s, i, spec, figures))
   .join("\n")}
 <main id="main">
-${spec.sections
-  .filter((s) => s.layout !== "nav" && s.layout !== "footer-columns")
-  .map((s, i) => renderSection(s, i, spec, figures))
-  .join("\n")}
+${(() => {
+  let pinned = false;
+  return spec.sections
+    .filter((s) => s.layout !== "nav" && s.layout !== "footer-columns")
+    .map((s, i) => {
+      const pinChapter =
+        motionHasNarrative(spec.taste.motion) &&
+        !pinned &&
+        (s.kind === "story" || s.kind === "features");
+      if (pinChapter) pinned = true;
+      return renderSection(s, i, spec, figures, { pinChapter });
+    })
+    .join("\n");
+})()}
 </main>
 ${spec.sections
   .filter((s) => s.layout === "footer-columns")

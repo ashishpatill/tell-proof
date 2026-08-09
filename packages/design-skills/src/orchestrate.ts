@@ -40,11 +40,25 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
           : "balanced"),
     motion:
       brief.taste?.motion ??
-      (siteKind === "editorial-foundry" || siteKind === "research-dossier" || siteKind === "signal-observatory" || siteKind === "archive-index" || siteKind === "commerce-loom" || siteKind === "field-guide" || siteKind === "press-atelier" || siteKind === "lantern-path"
-        ? "light-scroll-reveals"
-        : siteKind === "dashboard-webapp"
-          ? "subtle-micro"
-          : "subtle-micro"),
+      (siteKind === "dashboard-webapp"
+        ? "subtle-micro"
+        : siteKind === "art-directed-studio" ||
+            siteKind === "editorial-foundry" ||
+            siteKind === "press-atelier" ||
+            siteKind === "lantern-path" ||
+            siteKind === "consumer-craft"
+          ? "scroll-narrative"
+          : siteKind === "saas-marketing" ||
+              siteKind === "corporate-story" ||
+              siteKind === "docs-educational" ||
+              siteKind === "fintech-marketing" ||
+              siteKind === "research-dossier" ||
+              siteKind === "signal-observatory" ||
+              siteKind === "archive-index" ||
+              siteKind === "commerce-loom" ||
+              siteKind === "field-guide"
+            ? "light-scroll-reveals"
+            : "subtle-micro"),
     aestheticLean: brief.taste?.aestheticLean ?? leanDefault,
     colorMood:
       brief.taste?.colorMood ??
@@ -99,17 +113,32 @@ export function designFromFeatures(
   const motionNotes =
     taste.motion === "none"
       ? ["Motion disabled — every affordance reads as static, and no transition is emitted"]
-      : taste.motion === "light-scroll-reveals"
+      : taste.motion === "immersive"
         ? [
-            "Sections fade in once at 8% visibility, then never animate again",
-            "Interactive elements keep 120–260ms transitions; nothing else moves",
-            "prefers-reduced-motion removes reveals entirely",
+            "Hero entrance + section stagger + sticky scroll chapter with progress",
+            "Authored-motion slot reserved for product proof (poster when empty)",
+            "CSS view() timelines when supported; IntersectionObserver fallback",
+            "prefers-reduced-motion jumps to final states; static first frame still reads",
           ]
-        : [
-            "Transitions apply only to elements the reader can touch",
-            "120–260ms with a single easing curve across the whole page",
-            "prefers-reduced-motion collapses every duration to zero",
-          ];
+        : taste.motion === "scroll-narrative"
+          ? [
+              "Hero entrance once (brand → claim → CTA), then section stagger enters",
+              "One sticky scroll chapter with a progress rule",
+              "CSS view() timelines when supported; IntersectionObserver fallback",
+              "prefers-reduced-motion removes travel; content stays at final opacity",
+            ]
+          : taste.motion === "light-scroll-reveals"
+            ? [
+                "Hero entrance once; sections fade in once at ~8% visibility",
+                "Children stagger ≤6 items; interactive controls keep 120–260ms feedback",
+                "CSS view() timelines when supported; IntersectionObserver fallback",
+                "prefers-reduced-motion removes reveals entirely",
+              ]
+            : [
+                "Transitions apply only to elements the reader can touch",
+                "120–260ms with a single easing curve across the whole page",
+                "prefers-reduced-motion collapses every duration to zero",
+              ];
 
   const customizationHints = [
     `Density: ${taste.density}`,

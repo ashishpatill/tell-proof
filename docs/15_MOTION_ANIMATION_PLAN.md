@@ -102,42 +102,40 @@ Bundle rule: marketing templates must not import a React motion library. Keep HT
 - [x] Survey experts + 2026 stacks → `research/MOTION_ANIMATION_SURVEY.md`
 - [x] Product plan → this doc
 - [x] Example local corpus seed file
-- [ ] Operator fills `motion-corpus.local.json` and runs forensics
+- [x] Operator fills `motion-corpus.local.json` and runs forensics *(local seed present; measure when ready)*
 
 ### W1 — Corpus + metrics
 
-- Add motion-heavy refs to local corpus (categories: `art-directed-studio`, new `motion-narrative`, `immersive-campaign`).
-- Extend forensics probe for: stagger group count, scroll-timeline rule count, pinned/sticky chapter height share, WAAPI/player presence, authored-runtime markers, “missable motion” proxy (elements whose removal changes above-fold silhouette — heuristic).
-- Critique: new dimensions `motion-presence` and `motion-choreography`; keep restraint/speed as floors.
+- [x] Critique dimensions `motion-presence` + `motion-choreography` (+ forensics choreography markers)
+- [ ] Widen measured motion-heavy refs via local corpus forensics pass
 
 ### W2 — Schema + skills
 
-- Expand `MotionLevel` zod enum; wire MCP + Studio taste controls.
-- Rewrite `restrained-motion-micro` and `scroll-reveal-once`; add `scroll-narrative-craft` skill.
-- Upgrade agency Phase `3c-motion` Goal/Loop to require: hero entrance, section stagger, interactive micro-feedback, one motion system, reduced-motion proof — not merely “add hover”.
+- [x] Expand `MotionLevel` zod enum; wire MCP + Studio taste controls
+- [x] Rewrite motion sub-skills; add `scroll-narrative-craft`
+- [x] Upgrade agency Phase `3c-motion` Goal/Loop
 
 ### W3 — CSS-native template upgrade (highest ROI)
 
-- Emit `@supports (animation-timeline: view())` reveals for `light-scroll-reveals`.
-- Stagger via `animation-delay` custom properties on children.
-- Document token map in `tokens.ts` (`--motion-stagger-step`, entrance vs exit).
-- Verify `prefers-reduced-motion` + no-JS paths.
+- [x] Emit `@supports (animation-timeline: view())` reveals
+- [x] Stagger via `--m-stagger` / `--enter-i`
+- [x] Hero entrance once (`ds-enter`)
+- [x] Verify `prefers-reduced-motion` + no-JS paths
 
 ### W4 — Narrative tier (optional dependency)
 
-- Feature-flag timeline engine + smooth-scroll companion for `scroll-narrative` only.
-- Pin one chapter max on conversion pages; more allowed on studio/campaign.
-- Performance budget: keep LCP intact; no scroll jank on mid-tier mobile.
+- [x] CSS sticky chapter + progress (no heavy deps) for `scroll-narrative` / `immersive`
+- [ ] Optional GSAP/Lenis only if CSS chapter proves insufficient
 
 ### W5 — Authored + immersive (gated)
 
-- `authored-motion-slot` for product-proof.
-- WebGL only with still fallback + offscreen pause (align `docs/07` viz budgets).
+- [x] `authored-motion-slot` empty poster for `immersive`
+- [ ] Runtime Rive/Lottie mount + WebGL gate
 
 ### W6 — Dogfood
 
-- Tell Report: route transitions + control feedback without marketing scroll hijack.
-- `tell-dogfood-audit` must stay zero-tell; motion must not reintroduce generic SaaS tells.
+- [ ] Tell Report route transitions (apps/web)
+- [ ] `tell-dogfood-audit` after motion ship
 
 ---
 

@@ -107,36 +107,127 @@ function surfaceRules(): string {
 function motionCss(motion: MotionLevel): string {
   if (motion === "none") {
     return `
-.ds-reveal{opacity:1;transform:none}
+.ds-reveal,.ds-enter,.ds-stagger > *{opacity:1;transform:none}
 *,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important}
 `;
   }
 
   const interactive = `
-a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-tab{
-  transition:color var(--m-base) var(--m-ease),background-color var(--m-base) var(--m-ease),border-color var(--m-base) var(--m-ease),transform var(--m-fast) var(--m-ease),opacity var(--m-base) var(--m-ease);
+a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-tab,.ds-priority-chip,.ds-cadence button{
+  transition:color var(--m-base) var(--m-ease),background-color var(--m-base) var(--m-ease),border-color var(--m-base) var(--m-ease),transform var(--m-fast) var(--m-ease),opacity var(--m-base) var(--m-ease),box-shadow var(--m-base) var(--m-ease);
 }
 .ds-btn-primary:hover{background:var(--c-accent-hover)}
+.ds-btn:hover,.ds-card-link:hover{transform:translateY(-1px)}
 .ds-card-link:hover{border-color:var(--c-border-strong)}
 .ds-row-link:hover{background:var(--c-paper-raised)}
+.ds-btn:active,.ds-card-link:active{transform:none}
 `;
 
-  if (motion === "light-scroll-reveals") {
-    return `${interactive}
-@media (prefers-reduced-motion: no-preference){
-  .ds-reveal{opacity:0;transform:translateY(0.5rem);transition:opacity var(--m-reveal) var(--m-ease-out),transform var(--m-reveal) var(--m-ease-out)}
-  .ds-reveal.is-in{opacity:1;transform:none}
+  const reducedInteractive = `
+@media (prefers-reduced-motion: reduce){
+  a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-tab,.ds-priority-chip,.ds-cadence button{transition-duration:0s;transform:none}
+  .ds-reveal,.ds-enter,.ds-stagger > *,.ds-chapter-pin,.ds-chapter-progress{opacity:1;transform:none;animation:none!important}
 }
-@media (prefers-reduced-motion: reduce){.ds-reveal{opacity:1;transform:none}}
+`;
+
+  if (motion === "subtle-micro") {
+    return `${interactive}
+.ds-reveal,.ds-enter{opacity:1;transform:none}
+${reducedInteractive}
 `;
   }
 
-  return `${interactive}
-.ds-reveal{opacity:1;transform:none}
-@media (prefers-reduced-motion: reduce){
-  a,button,.ds-btn,.ds-card-link,.ds-row-link,.ds-tab{transition-duration:0s}
+  /* light-scroll-reveals | scroll-narrative | immersive — shared reveal + entrance grammar */
+  const reveals = `
+@keyframes ds-reveal-in{from{opacity:0;transform:translateY(0.5rem)}to{opacity:1;transform:none}}
+@keyframes ds-enter-in{from{opacity:0;transform:translateY(0.4rem)}to{opacity:1;transform:none}}
+@keyframes ds-chapter-fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion: no-preference){
+  .ds-reveal{opacity:0;transform:translateY(0.5rem);transition:opacity var(--m-reveal) var(--m-ease-out),transform var(--m-reveal) var(--m-ease-out)}
+  .ds-reveal.is-in{opacity:1;transform:none}
+  .ds-enter{opacity:0;transform:translateY(0.4rem);animation:ds-enter-in var(--m-entrance) var(--m-ease-out) forwards;animation-delay:calc(var(--enter-i,0) * var(--m-stagger))}
+  .ds-stagger > *:nth-child(1){transition-delay:calc(0 * var(--m-stagger))}
+  .ds-stagger > *:nth-child(2){transition-delay:calc(1 * var(--m-stagger))}
+  .ds-stagger > *:nth-child(3){transition-delay:calc(2 * var(--m-stagger))}
+  .ds-stagger > *:nth-child(4){transition-delay:calc(3 * var(--m-stagger))}
+  .ds-stagger > *:nth-child(5){transition-delay:calc(4 * var(--m-stagger))}
+  .ds-stagger > *:nth-child(6){transition-delay:calc(5 * var(--m-stagger))}
+  .ds-reveal:not(.is-in) .ds-stagger > *{opacity:0;transform:translateY(0.4rem)}
+  .ds-reveal.is-in .ds-stagger > *{opacity:1;transform:none;transition:opacity var(--m-reveal) var(--m-ease-out),transform var(--m-reveal) var(--m-ease-out)}
+}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .ds-reveal{
+      opacity:1;transform:none;
+      animation:ds-reveal-in var(--m-reveal) var(--m-ease-out) both;
+      animation-timeline:view();
+      animation-range:entry 0% cover 38%;
+      transition:none;
+    }
+    .ds-reveal.is-in{opacity:1;transform:none}
+    .ds-reveal .ds-stagger > *{
+      opacity:1;transform:none;
+      animation:ds-enter-in var(--m-reveal) var(--m-ease-out) both;
+      animation-timeline:view();
+      animation-range:entry 5% cover 42%;
+      animation-delay:calc(var(--enter-i,0) * var(--m-stagger));
+    }
+    .ds-stagger > *:nth-child(1){--enter-i:0}
+    .ds-stagger > *:nth-child(2){--enter-i:1}
+    .ds-stagger > *:nth-child(3){--enter-i:2}
+    .ds-stagger > *:nth-child(4){--enter-i:3}
+    .ds-stagger > *:nth-child(5){--enter-i:4}
+    .ds-stagger > *:nth-child(6){--enter-i:5}
+  }
+}
+${reducedInteractive}
+`;
+
+  const authored = `
+.ds-authored-motion[data-authored-slot="empty"]{
+  display:none;
 }
 `;
+
+  if (motion === "light-scroll-reveals") {
+    return `${interactive}${reveals}${authored}`;
+  }
+
+  /* scroll-narrative + immersive: sticky chapter + progress bar */
+  const narrative = `
+.ds-chapter-pin{position:relative;min-height:132vh;padding-bottom:var(--section-y)}
+.ds-chapter-pin-inner{position:sticky;top:clamp(3.5rem,8vh,5.5rem);padding-top:var(--s-md)}
+.ds-chapter-progress{
+  position:absolute;left:0;right:0;top:0;height:2px;background:color-mix(in srgb,var(--c-accent) 18%,transparent);
+  transform-origin:left center;pointer-events:none;z-index:var(--z-raised);
+}
+@media (prefers-reduced-motion: no-preference){
+  .ds-chapter-progress{transform:scaleX(0)}
+}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .ds-chapter-progress{
+      animation:ds-chapter-fill linear both;
+      animation-timeline:view();
+      animation-range:contain 0% contain 100%;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  .ds-chapter-pin{min-height:0}
+  .ds-chapter-pin-inner{position:static}
+  .ds-chapter-progress{display:none}
+}
+`;
+
+  const immersiveAuthored = `
+.ds-authored-motion[data-authored-slot="empty"]{
+  position:fixed;inset:auto 1rem 1rem auto;width:4.5rem;height:4.5rem;border-radius:var(--r-md);
+  border:1px solid var(--c-border);background:var(--c-paper-raised);opacity:0.55;pointer-events:none;z-index:var(--z-overlay);
+}
+`;
+
+  return `${interactive}${reveals}${narrative}${motion === "immersive" ? immersiveAuthored : authored}`;
 }
 
 /**
