@@ -79,9 +79,9 @@ function loadState(outDir: string): RunState | null {
 }
 
 function writeBrief(runId: string, brief: ReturnType<typeof briefFromNiche>): string {
-  const dir = resolve(root, "scripts/agency-pipeline/briefs");
+  const dir = resolve(root, "research/boards", runId);
   mkdirSync(dir, { recursive: true });
-  const path = resolve(dir, `${runId}.json`);
+  const path = resolve(dir, "brief.json");
   const payload = {
     runId,
     ...brief,
@@ -92,7 +92,8 @@ function writeBrief(runId: string, brief: ReturnType<typeof briefFromNiche>): st
     ],
   };
   writeFileSync(path, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
-  return path.startsWith(root) ? path.slice(root.length + 1) : path;
+  // Runner resolves brief paths from repo root.
+  return `research/boards/${runId}/brief.json`;
 }
 
 function selectAndWriteRefs(preset: NichePreset, runId: string): string {

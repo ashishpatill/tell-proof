@@ -505,8 +505,12 @@ async function main(): Promise<void> {
   }
 
   const absBrief = resolve(root, briefPath);
-  const brief = DesignBrief.parse(JSON.parse(readFileSync(absBrief, "utf8")));
-  const runId = basename(briefPath, ".json");
+  const rawBrief = JSON.parse(readFileSync(absBrief, "utf8")) as Record<string, unknown>;
+  const brief = DesignBrief.parse(rawBrief);
+  const fileStem = basename(briefPath, ".json");
+  const runId =
+    (typeof rawBrief.runId === "string" && rawBrief.runId.trim()) ||
+    (fileStem === "brief" ? basename(dirname(absBrief)) : fileStem);
   const outDir = resolve(root, "research/boards", runId);
   mkdirSync(outDir, { recursive: true });
   const artifactDir = "/opt/cursor/artifacts/screenshots";
