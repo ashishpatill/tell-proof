@@ -13,6 +13,7 @@ import type { BrandDNA, RedesignProposal, TellReport, UserDesignProfile, Verdict
 import { DIRECTION_PRESETS, parseDirectionPlan, type DirectionPlan } from "@tell/taste";
 import { RECONCILE_DIRECTIONS, buildOverridesPatch, learnBrandDNA, reconcile, resolveDirection } from "@tell/redesign";
 import { demoReport } from "@/lib/demo-report";
+import { emptyReport } from "@/lib/empty-report";
 import dynamic from "next/dynamic";
 import { ConnectAgent } from "@/components/ConnectAgent";
 import { useLlmRestyle } from "@/lib/use-llm-restyle";
@@ -29,7 +30,6 @@ import {
 } from "@/lib/user-session-learn";
 import { byokHeaders } from "@/lib/byok";
 import {
-  DEFAULT_CAPTURE_URL,
   isGitHubRepoUrl,
   normalizeCaptureUrl,
   sameOrigin,
@@ -107,13 +107,14 @@ const PRESET_CHIPS: { key: string; label: string }[] = [
 ];
 
 export default function HomePage() {
-  const [report, setReport] = useState<TellReport>(demoReport);
-  const [inputUrl, setInputUrl] = useState(DEFAULT_CAPTURE_URL);
+  const [report, setReport] = useState<TellReport>(emptyReport);
+  const [inputUrl, setInputUrl] = useState("");
   const [captureMeta, setCaptureMeta] = useState<CaptureMeta | null>(null);
-  const [selectedId, setSelectedId] = useState(demoReport.findings[0]?.id ?? "");
+  const [selectedId, setSelectedId] = useState("");
   const [seam, setSeam] = useState(50);
   const [directionId, setDirectionId] = useState("editorial");
-  const [captureState, setCaptureState] = useState<CaptureState>("done");
+  const [captureState, setCaptureState] = useState<CaptureState>("idle");
+  const [offlineDemo, setOfflineDemo] = useState(false);
   const [captureNote, setCaptureNote] = useState("");
   const [proposal, setProposal] = useState<RedesignProposal | null>(null);
   const [draftState, setDraftState] = useState<DraftState>("idle");
@@ -400,6 +401,7 @@ export default function HomePage() {
         });
         return;
       }
+      setOfflineDemo(false);
       setCaptureState("capturing");
       setCaptureNote(`Launching headless browser for ${siteLabel(target)}…`);
       setDraftError("");
@@ -412,24 +414,60 @@ export default function HomePage() {
           headers: byokHeaders(),
           body: JSON.stringify({ url: target }),
         });
-        const payload = (await res.json()) as { report: TellReport; meta: CaptureMeta };
+        const payload = (await res.json()) as {
+          report: TellReport | null;
+          meta: CaptureMeta;
+        };
+
+        if (!res.ok || !payload.meta?.live || !payload.report) {
+          setCaptureNote(payload.meta?.error ?? `Capture failed for ${siteLabel(target)}.`);
+          setCaptureMeta({
+            live: false,
+            requestedUrl: payload.meta?.requestedUrl || target,
+            capturedUrl: "",
+            error: payload.meta?.error ?? `Capture failed for ${target}.`,
+            detail: payload.meta?.detail,
+            backend: payload.meta?.backend,
+          });
+          setReport(emptyReport);
+          setSelectedId("");
+          setCaptureState("idle");
+          setDraftState("idle");
+          setDraftError(payload.meta?.error ?? `Tell could not capture ${target}.`);
+          const sid = sessionId || newSessionId();
+          setSessionId(sid);
+          const title = sessionTitleFromUrl(target);
+          setSessionTitle(title);
+          setOpenTabs((tabs) => {
+            const next = tabs.some((t) => t.id === sid) ? tabs : [...tabs, { id: sid, title }];
+            return next.map((t) => (t.id === sid ? { ...t, title } : t));
+          });
+          showNotice({
+            tone: "error",
+            title: "Capture failed",
+            message:
+              payload.meta?.error ??
+              `Tell could not reach ${siteLabel(target)}. Fix the URL or capture backend — the demo fixture was not loaded.`,
+          });
+          return;
+        }
+
+        const liveReport = payload.report;
         setCaptureNote(
-          payload.meta.live
-            ? payload.meta.backend === "remote"
-              ? "Capture complete — live diagnosis via capture backend."
-              : "Capture complete."
-            : "Capture failed — loaded offline demo.",
+          payload.meta.backend === "remote"
+            ? "Capture complete — live diagnosis via capture backend."
+            : "Capture complete.",
         );
-        setReport(payload.report);
+        setReport(liveReport);
         setCaptureMeta(payload.meta);
-        setSelectedId(payload.report.findings[0]?.id ?? "");
+        setSelectedId(liveReport.findings[0]?.id ?? "");
         setDraftState("idle");
         setSeam(50);
         setCaptureState("done");
 
         const sid = sessionId || newSessionId();
         setSessionId(sid);
-        const title = sessionTitleFromUrl(payload.report.capture.url);
+        const title = sessionTitleFromUrl(liveReport.capture.url);
         setSessionTitle(title);
         setOpenTabs((tabs) => {
           const next = tabs.some((t) => t.id === sid) ? tabs : [...tabs, { id: sid, title }];
@@ -440,65 +478,63 @@ export default function HomePage() {
             id: sid,
             title,
             mode: isGitHubRepoUrl(target) ? "github" : "url",
-            url: payload.report.capture.url,
-            findingCount: payload.report.score.total,
-            live: payload.meta.live,
+            url: liveReport.capture.url,
+            findingCount: liveReport.score.total,
+            live: true,
             thumbDataUrl: svgSessionThumb({
               title,
-              findingCount: payload.report.score.total,
-              live: payload.meta.live,
-              accent: payload.report.capture.surfaceTokens?.accent?.includes("rgb")
+              findingCount: liveReport.score.total,
+              live: true,
+              accent: liveReport.capture.surfaceTokens?.accent?.includes("rgb")
                 ? "#D4714A"
-                : payload.report.capture.surfaceTokens?.accent || "#D4714A",
+                : liveReport.capture.surfaceTokens?.accent || "#D4714A",
               surface: "#221F1C",
             }),
             updatedAt: new Date().toISOString(),
           }),
         );
-        void thumbFromScreenshotBase64(payload.report.capture.screenshotBase64 || "").then((thumb) => {
+        void thumbFromScreenshotBase64(liveReport.capture.screenshotBase64 || "").then((thumb) => {
           if (!thumb) return;
           setRecent(
             upsertRecentSession({
               id: sid,
               title,
               mode: isGitHubRepoUrl(target) ? "github" : "url",
-              url: payload.report.capture.url,
-              findingCount: payload.report.score.total,
-              live: payload.meta.live,
+              url: liveReport.capture.url,
+              findingCount: liveReport.score.total,
+              live: true,
               thumbDataUrl: thumb,
               updatedAt: new Date().toISOString(),
             }),
           );
         });
-        if (payload.meta.live) {
-          setPages(discoverRoutes(payload.report.capture.snapshotHtml, payload.report.capture.url));
-          setDraftError("");
-          showNotice({
-            tone: "success",
-            title: "Capture complete",
-            message: `Tell scanned ${siteLabel(payload.report.capture.url)} and found ${payload.report.score.total} findings.`,
-          });
-        }
-        if (!payload.meta.live) {
-          setDraftError(payload.meta.error ?? "Live capture failed. Fix Playwright or paste a reachable URL.");
-          showNotice({
-            tone: "error",
-            title: "Capture failed",
-            message: payload.meta.error ?? `Tell could not reach ${target}. The offline demo report is showing instead.`,
-          });
-        }
+        setPages(discoverRoutes(liveReport.capture.snapshotHtml, liveReport.capture.url));
+        setDraftError("");
+        showNotice({
+          tone: "success",
+          title: "Capture complete",
+          message: `Tell scanned ${siteLabel(liveReport.capture.url)} and found ${liveReport.score.total} findings.`,
+        });
       } catch {
-        setCaptureNote("Capture failed — showing the last committed report.");
-        setCaptureState("done");
+        setCaptureNote(`Capture failed for ${siteLabel(target)}.`);
+        setCaptureMeta({
+          live: false,
+          requestedUrl: target,
+          capturedUrl: "",
+          error: "Network error while contacting Tell's capture API.",
+        });
+        setReport(emptyReport);
+        setSelectedId("");
+        setCaptureState("idle");
         setDraftError("Network error while contacting Tell's capture API.");
         showNotice({
           tone: "error",
           title: "Capture failed",
-          message: `Network error while capturing ${target}. Check the capture backend and try again.`,
+          message: `Network error while capturing ${siteLabel(target)}. Check the capture backend and try again.`,
         });
       }
     },
-    [proofResult, showNotice],
+    [proofResult, sessionId, showNotice],
   );
 
   const pollSetup = useCallback(
@@ -654,6 +690,7 @@ export default function HomePage() {
   const loadOfflineFixture = useCallback(() => {
     const id = newSessionId();
     const title = "Offline fixture";
+    setOfflineDemo(true);
     setReport(demoReport);
     setSelectedId(demoReport.findings[0]?.id ?? "");
     setCaptureState("done");
@@ -661,6 +698,7 @@ export default function HomePage() {
       live: false,
       requestedUrl: demoReport.capture.url,
       capturedUrl: demoReport.capture.url,
+      fallback: "offline-fixture",
     });
     setProposal(null);
     setDraftState("idle");
@@ -687,7 +725,7 @@ export default function HomePage() {
     showNotice({
       tone: "info",
       title: "Offline demo loaded",
-      message: "Committed fixture report — live capture still available from the composer.",
+      message: "Committed fixture report — choose Live URL to capture a real site.",
     });
   }, [openProjectTab, showNotice]);
 
@@ -705,7 +743,9 @@ export default function HomePage() {
       setDesignBrief(text);
       voice.setTranscript(text);
       scheduleDirectionParse(text);
-      setReport(demoReport);
+      setOfflineDemo(false);
+      setReport(emptyReport);
+      setSelectedId("");
       setCaptureMeta(null);
       setCaptureState("idle");
       openProjectTab(id, title);
@@ -809,7 +849,12 @@ export default function HomePage() {
   }
 
   const liveCapture = captureMeta?.live === true && Boolean(report.capture.snapshotHtml || report.capture.screenshotBase64);
-  const scannedSite = captureMeta?.live ? siteLabel(report.capture.url) : null;
+  const hasProofSurface = (liveCapture || offlineDemo) && captureState === "done" && Boolean(report.capture.snapshotHtml || report.capture.screenshotBase64);
+  const scannedSite = hasProofSurface
+    ? siteLabel(report.capture.url)
+    : captureMeta?.requestedUrl
+      ? siteLabel(captureMeta.requestedUrl)
+      : null;
   const captureBelongsToSetup = Boolean(
     setupJob?.state === "ready" &&
     setupJob.url &&
@@ -1077,10 +1122,24 @@ export default function HomePage() {
               ? "border-accent/40 bg-accent/10 text-accent"
               : captureMeta?.live
                 ? "border-ok/40 bg-ok/10 text-ok"
-                : "border-drift/40 bg-drift/10 text-drift"
+                : offlineDemo
+                  ? "border-drift/40 bg-drift/10 text-drift"
+                  : captureMeta?.error
+                    ? "border-drift/40 bg-drift/10 text-drift"
+                    : "border-border text-muted"
           }`}
         >
-          {operationActive ? "Working" : captureMeta?.live ? "Live capture" : captureMeta ? "Offline fallback" : designBrief ? "Brief only" : "Ready"}
+          {operationActive
+            ? "Working"
+            : captureMeta?.live
+              ? "Live capture"
+              : offlineDemo
+                ? "Offline fixture"
+                : captureMeta?.error
+                  ? "Capture failed"
+                  : designBrief
+                    ? "Brief only"
+                    : "Ready"}
         </span>
         {captureState === "done" && report.findings.length > 0 ? (
           <button
@@ -1461,9 +1520,9 @@ export default function HomePage() {
         <div className="mb-3 flex items-center justify-between gap-3">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary" aria-live="polite">
-              {captureState === "capturing" ? captureNote : scannedSite ? `Proof surface · ${scannedSite}` : "Concept preview · not yet verified"}
+              {captureState === "capturing" ? captureNote : scannedSite && hasProofSurface ? `Proof surface · ${scannedSite}` : captureMeta?.error ? `Capture failed · ${scannedSite ?? "page"}` : "No capture yet"}
             </p>
-            {captureState !== "capturing" ? <p className="mt-1 font-mono text-meta text-muted">{scoreLine}</p> : null}
+            {hasProofSurface ? <p className="mt-1 font-mono text-meta text-muted">{scoreLine}</p> : null}
           </div>
           <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-xs text-accent">
             direction: {dirMeta.id}
@@ -1471,13 +1530,28 @@ export default function HomePage() {
         </div>
         {operationActive ? (
           <OperationPlaceholder title={operationTitle} detail={operationDetail} />
-        ) : captureState === "idle" && !captureMeta ? (
+        ) : !hasProofSurface ? (
           <div className="grid min-h-[280px] place-items-center rounded-md border border-dashed border-border bg-bg/40 px-6 text-center">
             <div>
-              <p className="font-display text-2xl text-text">Ground the brief</p>
-              <p className="mt-2 max-w-md text-sm text-secondary">
-                Capture a rendered URL to attach findings and the before/after seam to this direction.
+              <p className="font-display text-2xl text-text">
+                {captureMeta?.error ? "Capture did not land" : designBrief ? "Ground the brief" : "No capture yet"}
               </p>
+              <p className="mt-2 max-w-md text-sm text-secondary">
+                {captureMeta?.error
+                  ? captureMeta.error
+                  : designBrief
+                    ? "Paste a live URL or GitHub repo to attach findings and the before/after seam — Tell will not invent the demo site."
+                    : "Paste a live URL and capture. The offline fixture loads only from Offline mode."}
+              </p>
+              {captureMeta?.error ? (
+                <button
+                  type="button"
+                  onClick={loadOfflineFixture}
+                  className="mt-4 font-mono text-meta text-accent underline-offset-2 hover:underline"
+                >
+                  Load offline fixture instead
+                </button>
+              ) : null}
             </div>
           </div>
         ) : (
@@ -1547,7 +1621,7 @@ export default function HomePage() {
             mode={composerMode}
             onModeChange={(m) => {
               setComposerMode(m);
-              if (m === "url" && !composerValue) setComposerValue(DEFAULT_CAPTURE_URL);
+              if (m === "url" && !composerValue) setComposerValue("");
               if (m === "offline") setComposerValue("");
             }}
             value={composerValue}
