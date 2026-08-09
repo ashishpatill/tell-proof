@@ -378,6 +378,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain('data-sitekind="art-directed-studio"');
     expect(previewHtml).toContain("ds-hero-stackfold");
     expect(previewHtml).toContain("ds-hero-claimband");
+    expect(previewHtml).toContain('data-figure="work-board"');
     expect(previewHtml).toMatch(/<section id="top"[^>]*ds-hero-stackfold/);
     expect(previewHtml).not.toMatch(/<section id="top"[^>]*ds-hero-overfigure/);
     expect(previewHtml).toContain("Selected work");
@@ -462,6 +463,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
     expect(spec.sections.some((s) => s.layout === "hero-register")).toBe(true);
     expect(spec.sections.some((s) => s.layout === "story-entry")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "feature-rows")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "marquee-proof")).toBe(false);
     const inverse = spec.sections.filter((s) => s.surface === "inverse");
     expect(inverse.length).toBe(0);
     expect(previewHtml).toContain('data-sitekind="archive-index"');
@@ -470,6 +473,9 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-alpha-rail");
     expect(previewHtml).toContain('data-figure="index-ledger"');
     expect(previewHtml).toContain("ds-entry");
+    expect(previewHtml).toContain("ds-cross-stamps");
+    expect(previewHtml).toContain("ds-stamp-seal");
+    expect(previewHtml).toContain("ds-entry-aside-kicker");
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Registry");
     expect(previewHtml).toContain("The entries");

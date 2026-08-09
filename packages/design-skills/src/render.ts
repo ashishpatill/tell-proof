@@ -1318,6 +1318,24 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
     .map((b, i) => {
       const mark = figures.marks[i] ? `<div class="ds-entry-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
       const folio = esc(b.meta ?? String(i + 1).padStart(3, "0"));
+      // Cross stamps — related entries that travel with this reading (archive signature, not a card grid).
+      const related = blocks
+        .map((other, j) => ({ other, j }))
+        .filter(({ j }) => j !== i)
+        .slice(0, 3);
+      const stamps =
+        related.length > 0
+          ? `<ul class="ds-cross-stamps" aria-label="Cross-referenced stamps for ${esc(b.title)}">${related
+              .map(({ other, j }) => {
+                const relFolio = esc(other.meta ?? String(j + 1).padStart(3, "0"));
+                return `<li class="ds-cross-stamp">
+                  <span class="ds-stamp-seal" aria-hidden="true"></span>
+                  <span class="ds-stamp-folio">${relFolio}</span>
+                  <span class="ds-stamp-name">${esc(other.title)}</span>
+                </li>`;
+              })
+              .join("")}</ul>`
+          : "";
       return `<article class="ds-entry-beat" style="--i:${i}">
         <span class="ds-entry-folio" aria-hidden="true">${folio}</span>
         <div class="ds-entry-measure">
@@ -1325,6 +1343,7 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
           <h3>${esc(b.title)}</h3>
           ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
           ${b.kicker ? `<p class="ds-entry-note">${esc(b.kicker)}</p>` : ""}
+          ${stamps}
           ${mark}
         </div>
       </article>`;
@@ -1336,6 +1355,7 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
       return `<li class="ds-entry-aside-item">
         <span class="ds-entry-aside-folio">${folio}</span>
         <span class="ds-entry-aside-title">${esc(b.title)}</span>
+        <span class="ds-entry-aside-seal" aria-hidden="true"></span>
       </li>`;
     })
     .join("");
@@ -1347,6 +1367,7 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
       <div class="ds-entry-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
         <div class="ds-entry-essay">${essay}</div>
         <aside class="ds-entry-aside" aria-label="Entry index">
+          <p class="ds-entry-aside-kicker">Shelf index</p>
           <ol class="ds-entry-aside-list">${aside}</ol>
         </aside>
       </div>

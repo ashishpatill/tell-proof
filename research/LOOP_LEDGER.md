@@ -588,3 +588,26 @@ buckets, never names, hosts, or URLs.
   not a dark SaaS glow page. Ember essay reads as chapter beads, not gather/range clones.
 - **Next weakest:** make silhouette near-plane enter the first viewport more clearly without
   starving display bands; optional cinema beat for path waypoints.
+
+## Loop 26 — Phase 9 archive concept deepen (post marquee cut)
+
+- **Goal:** Customise Stamp Roll to archive thesis after shared marquee removal — entry folio
+  must carry mid-page proof; no sparse feature-rows airways.
+- **Failure named:** Mid-page Cross stamps / Registry close feature-rows were empty white voids;
+  entry under-owned as the archive proof instrument.
+- **Challenger:** Drop archive features-2; `ds-cross-stamps` + shelf index inside story-entry;
+  shorter register claim so ledger owns fold; display floor restored; thin stamp rules.
+- **Score:** archive **95.7 → 97.4**; foldFigure **0.43**; matrix **98.0**.
+- **Closed:** `template:archive-feature-rows-void-after-marquee-cut`.
+- **Next weakest:** studio-selected foldFigure **0** (score 94.5).
+
+## Loop 27 — Phase 9 studio work-board (fold ownership)
+
+- **Goal:** Customise Fieldmark so selected work owns the fold with real drawn matter.
+- **Failure named:** HTML flow stage cards on the fold → foldFigure **0**, SaaS stepper look.
+- **Challenger:** SVG `work-board` (crop marks + method rail + plated cells) as forced studio hero;
+  shorten claim; keep flow mid-page.
+- **Score:** studio **94.5 → 99.0**; foldFigure **0.38**; matrix **98.3**.
+- **Closed:** `template:studio-html-flow-foldfigure-zero`.
+- **Next weakest:** foundry-editorial **96.7** (marginalia mid-page deepen).
+

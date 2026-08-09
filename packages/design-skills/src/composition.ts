@@ -496,15 +496,8 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       bond: true,
       columns: "7fr 5fr",
     });
-    if (featureCount >= 4) {
-      plans.push({
-        id: "features-2",
-        kind: "features",
-        layout: "feature-rows",
-        surface: "paper",
-        columns: split.wide,
-      });
-    }
+    // No second feature-rows catalogue — that left Cross stamps / Registry close as empty airways.
+    // Cross-stamp register lives inside the entry folio (concept-true mid-page proof).
     // No shared marquee-proof — entry folio essay is Stamp Roll's proof, not a SaaS board.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });

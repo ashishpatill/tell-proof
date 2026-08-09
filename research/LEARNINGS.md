@@ -546,3 +546,25 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   board on marketing kinds.
 - **Do not:** Answer "make templates unique" by appending the same Proof board with renamed titles.
   Signature story instruments are the proof; a shared evidence marquee is cheating.
+
+## 2026-08-09 — `template:archive-feature-rows-void-after-marquee-cut`
+
+- **Failure:** After removing shared marquee-proof, Stamp Roll mid-page `feature-rows` left
+  Cross stamps / Registry close as huge empty airways; entry folio was under-owned as proof.
+- **Fix (Phase 9 loop 1):** Drop archive `features-2` feature-rows. Deepen `story-entry` with
+  `ds-cross-stamps` seal strip + shelf-index aside. Shorten register claim (hide lede) so ledger
+  owns more fold; keep display ≥3.16vw; thin stamp borders so rules/screen stays near band.
+- **Eval:** archive **95.7 → 97.4**; foldFigure **0.34 → 0.43**; matrix **98.0**. Eye: fold shows
+  register+ledger; mid-page shows hanging folio with related stamp seals (not empty rows).
+- **Do not:** Fill a craft mid-page gap with a second generic feature catalogue. Put concept ink
+  inside the signature instrument.
+
+## 2026-08-09 — `template:studio-html-flow-foldfigure-zero`
+
+- **Failure:** Fieldmark fold used HTML `flow` stage cards (interactive stepper). Critique
+  `foldFigure=0` / score **94.5** — process steppers are not drawn matter and read as SaaS.
+- **Fix (Phase 9 loop 2):** New SVG `work-board` (crop-marked selected-work plates + method rail)
+  forced as studio hero; flow stays mid-page. Compact claim band so board enters the fold.
+- **Eval:** studio **94.5 → 99.0**; foldFigure **0 → 0.38**; matrix **98.3**. Eye: fold shows
+  crop-marked board, not a 01–04 stage strip.
+- **Do not:** Park HTML steppers as the studio fold instrument and call it selected-work craft.

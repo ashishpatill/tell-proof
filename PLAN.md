@@ -255,6 +255,86 @@ pnpm test + schema build + web typecheck stay green.
 
 ---
 
+## Phase 9 — Concept-true template uniqueness (recursive improve)
+
+**Authority:** `.cursor/skills/tell-recursive-improve` · `.cursor/skills/tell-template-craft`  
+**Why:** Human named the shared `marquee-proof` board across craft offerings. Shared board removed;
+craft scores dipped (studio **94.5**, archive **95.7**). Each siteKind must deepen its *own*
+concept until eye + critique clear — one template per loop, never a new shared section.
+
+### Order (weakest first after shared-board removal)
+
+| # | Template key | siteKind | Concept thesis | Champion failure |
+|---|---|---|---|---|
+| 1 | `archive` | `archive-index` | Quiet award register — ledger IS the fold | Thin mid-page after marquee cut; still reads like index+FAQ |
+| 2 | `studio` | `art-directed-studio` | Selected-work owns fold | Score 94.5; figure ownership starved |
+| 3 | `foundry` | `editorial-foundry` | Hard seam + type ladder | Marginalia not yet the mid-page proof |
+| 4 | `observatory` | `signal-observatory` | Chronometer + lattice | Chrono essay under-owned |
+| 5 | `press` | `press-atelier` | Registration forme | Gather after sheet still thin |
+| 6 | `dossier` | `research-dossier` | Folio + verso/recto | Spread not citeable enough |
+| 7 | `lantern` | `lantern-path` | Night atlas path-plate | Silhouette late to fold |
+| 8 | `herbarium` | `field-guide` | Dissecting tray / glassine | Tray craft already strong — polish only |
+| 9 | `loom` | `commerce-loom` | Shed-threaded drawloom | Already strong — polish only |
+| 10 | `consumer` | `consumer-craft` | Product-in-hand | Chapters after figure — keep distinct |
+| 11–15 | marketing kinds | saas…fintech | Keep distinct proof chrome | Do not reintroduce craft marquee |
+
+### Checklist
+
+- [x] Archive (Stamp Roll) — cross-stamp entry + no feature-rows voids; critique **97.4** (foldFigure 0.43)
+- [x] Studio (Fieldmark) — work-board owns fold; critique **94.5 → 99.0** (foldFigure 0 → 0.38)
+- [ ] Foundry (Glyph Press) — marginalia mid-page proof
+- [ ] Observatory (Nightglass) — chrono ownership
+- [ ] Press (Forme Desk) — gather densify
+- [ ] Dossier (Meridian Atlas) — spread citeability
+- [ ] Lantern (Ember Gate) — silhouette in first viewport
+- [ ] Herbarium / Loom / Consumer — polish only if eye miss
+- [ ] Marketing kinds — stack/wire/spine/workflow stay distinct; no craft marquee return
+- [ ] LEARNINGS + LOOP_LEDGER updated per promoted loop
+
+### Goal prompt (paste once per template)
+
+```
+@PLAN.md @.cursor/skills/tell-recursive-improve/SKILL.md @.cursor/skills/tell-template-craft/SKILL.md
+@research/LEARNINGS.md @research/LOOP_LEDGER.md @packages/design-skills
+@USER_STORY.md @docs/01_DESIGN_SYSTEM.md
+
+GOAL: Customise ONE showcase template to its concept thesis (Phase 9 order).
+Current target: <key> / <siteKind> — <concept thesis>.
+
+Non-negotiables:
+- Deterministic @tell/design-skills — zero LLM
+- Never reintroduce shared marquee-proof on craft kinds
+- One siteKind per loop; depth over breadth
+- Basics green; critique must not regress matrix or this brief
+- Anonymise forever — no third-party names/URLs in commits
+- Screenshot contract: fold craft beat + mid-page concept beat (never nav-only)
+
+Done when: eye pass on concept thesis, critique for this brief holds or improves,
+LEARNINGS entry written, PLAN.md checklist item checked.
+```
+
+### Loop prompt (≤3 attempts per template)
+
+```
+@PLAN.md @research/LEARNINGS.md @.cursor/skills/tell-recursive-improve/SKILL.md
+
+LOOP (tell-recursive-improve):
+1. Load LEARNINGS — name the failure in one sentence for <siteKind>.
+2. Champion = current committed HTML/CSS/figure for that siteKind only.
+3. Challenger = smallest concept-true change (CSS / one figure densify / one mid-page
+   instrument unique to this kind). No shared section invention.
+4. Eval: pnpm -F @tell/design-skills test && pnpm research:critique
+   && pnpm research:shots -- --page <critique-brief-id>
+5. READ the PNGs (fold + scroll). Score ≠ quality.
+6. Promote only if eye + critique clear; else revert and retry (≤3).
+7. Append LEARNINGS + LOOP_LEDGER; check PLAN.md item; commit; push.
+8. Only then advance to the next template in Phase 9 order.
+
+Stop when the current template's checklist item is checked or attempts exhausted.
+```
+
+---
+
 ## Goal prompt — Phase 6 keep-green (archive)
 
 ```

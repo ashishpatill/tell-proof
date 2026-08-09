@@ -339,9 +339,10 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && spec.sections.some((s) => s.kind === "figure" || s.kind === "story")
           && /ds-hero-claimband/.test(html)
           && /ds-hero-stackfold/.test(html)
+          && /data-figure="work-board"/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length <= 1
         ),
-      "Studio offerings stay paper-led with selected-work rhythm — stack fold + solid claim, no pricing, ≤1 inverse.",
+      "Studio offerings stay paper-led with a crop-marked work-board on the fold — stack fold + solid claim, no pricing, ≤1 inverse.",
     ),
     check(
       "kind-consumer",
@@ -412,16 +413,20 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         || (
           !spec.sections.some((s) => s.kind === "pricing")
           && !spec.sections.some((s) => s.kind === "metrics")
+          && !spec.sections.some((s) => s.layout === "feature-rows")
+          && !spec.sections.some((s) => s.layout === "marquee-proof")
           && /ds-hero-register/.test(html)
           && /ds-register-masthead/.test(html)
           && /ds-alpha-rail/.test(html)
           && /data-figure="index-ledger"/.test(html)
           && /ds-entry/.test(html)
+          && /ds-cross-stamps/.test(html)
+          && /ds-stamp-seal/.test(html)
           && /Registry/.test(html)
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Archive offerings use register + alpha rail + index ledger + entry essay + Registry — no pricing, no metrics theatre, zero inverse bands.",
+      "Archive offerings use register + alpha rail + index ledger + entry essay with cross-stamp seals + Registry — no pricing, no metrics theatre, no sparse feature-rows, no shared marquee-proof, zero inverse bands.",
     ),
     check(
       "kind-loom",
