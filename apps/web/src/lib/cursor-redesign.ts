@@ -78,9 +78,10 @@ export async function proposeWithCursorAgent(
   actionItems?: DirectionActionItem[],
   directionBrief?: string,
   sources?: SourceFile[],
+  apiKeyOverride?: string,
 ): Promise<RedesignProposal> {
   const deterministic = await new OfflineRedesignGenerator().propose(report, direction, findingId, dna, sources);
-  const apiKey = process.env.CURSOR_API_KEY?.trim();
+  const apiKey = apiKeyOverride?.trim() || process.env.CURSOR_API_KEY?.trim();
   if (!apiKey) return deterministic;
 
   try {

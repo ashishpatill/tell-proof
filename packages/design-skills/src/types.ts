@@ -198,6 +198,20 @@ export const DesignBrief = z.object({
     "not distracting with too many animations",
     "multi-million-dollar business quality",
   ]),
+  /**
+   * Single primary action the whole site repeats (agency brief block "The 1 action").
+   * Example: "Book a discovery call".
+   */
+  primaryCta: z.string().min(1).optional(),
+  /**
+   * Explicit ban list — constraints beat vibes. Merged with agency delivery defaults.
+   */
+  banList: z.array(z.string()).default([]),
+  /**
+   * Local paths to reference-board screenshots (gitignored boards). Match type/spacing/motion;
+   * never copy layouts. URLs live only in research/boards.local.json.
+   */
+  referenceBoardPaths: z.array(z.string()).default([]),
   /** Optional brand accent — hex only (#RGB / #RRGGBB / #RRGGBBAA). Rejects CSS injection. */
   brandAccent: z
     .string()

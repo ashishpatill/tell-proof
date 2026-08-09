@@ -40,9 +40,9 @@ new presets do not become another bland default.
 
 ---
 
-## 1. North star (Priya)
+## 1. North star (Ashish)
 
-Priya ships with an agent daily. She can execute. She cannot name why her UI feels generic,
+Ashish ships with an agent daily. He can execute. He cannot name why his UI feels generic,
 and “make it prettier” re-selects the same defaults.
 
 Tell must:
@@ -50,7 +50,7 @@ Tell must:
 1. **Name the sameness** (detectors + critic voice).
 2. **Force a human direction** before wholesale restyle (presets, voice, references).
 3. **Execute in constrained slices** (tokens, components, reviewable diffs — never auto-apply).
-4. **Offer method choices** so she can trade speed vs originality for the stakes of the demo.
+4. **Offer method choices** so he can trade speed vs originality for the stakes of the demo.
 
 Success: a visitor feels *someone decided*, not *a model assembled*.
 
@@ -210,6 +210,7 @@ AI synthesizes a direction for *this* product without copying any one reference.
 - Board → inferred keywords + token biases + recipe hints (deterministic scoring first).
 - Gemini (optional) refines a `DirectionPlan`; fallback stays deterministic.
 - Explicit copy: board quality caps result quality.
+- **Cursor pipeline:** `agency-quality-site` + `pnpm agency:pipeline --phase …` (Goal/Loop one phase at a time; never craft `--all`). Load `DESIGN_RIGOR.md` for thesis/lane/craft nodes; `assertAgencyDelivery` enforces honesty gates.
 
 ---
 
@@ -327,7 +328,7 @@ Before claiming the style ships:
 
 1. Apply tokens-only to the golden fixture — score must improve or hold honestly.
 2. Spot-check hero, buttons, cards, links as separate scopes.
-3. Verify pairwise CSS overlap vs other directions stays under the distinctness bar.
+3. Verify pairwise CSS overlap vs othis directions stays under the distinctness bar.
 4. Dogfood: Tell’s own UI does **not** adopt a new style that triggers tells.
 
 ### 5.7 Copy and voice

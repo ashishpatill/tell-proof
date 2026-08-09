@@ -7,7 +7,7 @@
 >
 > Product constraint (from `PLAN.md`): disposable Playwright `storageState` for
 > demo auth cells — **do not build product login/OAuth for Tell users.**
-> This plan is about **daemon/API/agent trust envelopes**, not Priya accounts.
+> This plan is about **daemon/API/agent trust envelopes**, not Ashish accounts.
 
 ---
 
@@ -115,7 +115,7 @@ Only needed if Tell exposes agent-callable HTTP tools beyond stdio:
 
 ### Wave A4 — Pairing codes (future browser extension)
 
-Low priority for Priya demo. If “capture this tab” extension ships:
+Low priority for Ashish demo. If “capture this tab” extension ships:
 
 - [ ] UI (loopback only): `POST /api/pair` → 6-digit code, 5 min TTL
 - [ ] Extension: confirm with `chrome-extension://` origin → mint `tell_ext_*`
@@ -193,7 +193,7 @@ Define a single data root early (even if default is cwd-relative):
 
 ## 7. Explicit non-goals
 
-1. Priya product accounts, passwords, social login
+1. Ashish product accounts, passwords, social login
 2. Replacing Cursor auth
 3. Storing GitHub PATs in Tell for registry (delegate to `gh` if ever needed)
 4. Auto-trusting all `chrome-extension://` origins for full API

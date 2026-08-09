@@ -1,0 +1,6 @@
+{
+  "path": "../tell-design-data",
+  "repoUrl": "",
+  "pull": true,
+  "_comment": "Copy to research/design-data.local.json (gitignored). Set path and optional repoUrl for your personal design-data checkout. Never commit the .local.json file."
+}

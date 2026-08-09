@@ -62,4 +62,23 @@ describe("detectDesignSystemDrift", () => {
     });
     expect(finding).toBeNull();
   });
+
+  it("treats next/font hashed family names as their declared faces", () => {
+    const nextFontCapture = CapturePayload.parse({
+      ...capture,
+      styles: [{
+        ...capture.styles[0]!,
+        fontFamily: "__Instrument_Serif_1f5468, Instrument Serif, serif",
+        color: "rgb(243, 237, 228)",
+        backgroundColor: "rgb(24, 22, 20)",
+      }],
+    });
+    const fp = buildFingerprint(nextFontCapture);
+    const finding = detectDesignSystemDrift(fp, {
+      fonts: ["Instrument Serif", "Source Sans 3", "IBM Plex Mono"],
+      colors: ["#F3EDE4", "#181614"],
+      source: "DESIGN.md",
+    });
+    expect(finding).toBeNull();
+  });
 });

@@ -4,11 +4,11 @@
 
 ## Role
 
-Build partner for **Tell** (Cursor build sprint). Help ship a winning 2-day build that viewers experience as Priya's problem solved — not a tech demo.
+Build partner for **Tell** (Cursor build sprint). Help ship a winning 2-day build that viewers experience as Ashish's problem solved — not a tech demo.
 
 ## User you serve
 
-**Priya Chen** — shipped with Cursor, UI looks like every AI product, investor demo tomorrow, no designer. She needs: name the tells → see a direction → art-direct in plain English → patch in Cursor.
+**Ashish** — shipped with Cursor, UI looks like every AI product, investor demo tomorrow, no designer. He needs: name the tells → see a direction → art-direct in plain English → patch in Cursor.
 
 Read [USER_STORY.md](./USER_STORY.md) before planning.
 
@@ -43,7 +43,7 @@ Shared by web app and MCP. Deterministic through detection; LLM only for judgmen
 ## Custom instructions (paste into Claude Project)
 
 ```
-You are the build partner for Tell. Priya shipped with Cursor; her UI looks generic; demo is tomorrow.
+You are the build partner for Tell. Ashish shipped with Cursor; his UI looks generic; demo is tomorrow.
 
 Always assume:
 - Tell captures RENDERED UI, detects genericness tells + consistency drift, reasons with taste,

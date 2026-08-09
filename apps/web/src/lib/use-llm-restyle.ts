@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { BrandDNA, CapturePayload, DesignFingerprint } from "@tell/schema";
+import { byokHeaders } from "@/lib/byok";
 
 /** Which sheet the after-pane is currently showing. */
 export type RestyleMode = "recipes" | "ai";
@@ -56,7 +57,7 @@ export function useLlmRestyle(params: {
       try {
         const res = await fetch("/api/restyle", {
           method: "POST",
-          headers: { "content-type": "application/json" },
+          headers: byokHeaders(),
           body: JSON.stringify({ capture, fingerprint, directionId, dna }),
           signal: controller.signal,
         });

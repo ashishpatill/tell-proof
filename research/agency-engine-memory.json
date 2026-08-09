@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-09T20:46:50.121Z",
+  "bansExtra": [
+    "from-temp-design-data"
+  ],
+  "nicheBoosts": [],
+  "craftHints": [
+    {
+      "siteKind": "art-directed-studio",
+      "note": "Prefer compositional lane “image-first-stage” when query maps here.",
+      "fromRun": "orch-learn"
+    }
+  ],
+  "pipelineNotes": [
+    {
+      "key": "thin-board:portfolio-photography",
+      "detail": "Corridor/thin board for portfolio-photography",
+      "fromRun": "orch-learn",
+      "at": "2026-08-09T13:53:40.282Z"
+    },
+    {
+      "key": "thin-board:photography",
+      "detail": "Corridor/thin board for photography",
+      "fromRun": "dd-smoke",
+      "at": "2026-08-09T20:46:15.074Z"
+    }
+  ],
+  "seenPatternKeys": [
+    "agency:thin-board:portfolio-photography",
+    "agency:thin-board:photography"
+  ]
+}

@@ -109,65 +109,71 @@ const GOAL_CTA: Record<DesignBrief["businessGoal"], { primary: string; secondary
 export function ctaFor(
   goal: DesignBrief["businessGoal"],
   siteKind?: DesignBrief["siteKind"],
+  primaryCta?: string,
 ): { primary: string; secondary: string; note: string } {
-  // Consumer craft sells a product, not a plan ladder — "Compare plans" is SaaS residue.
-  if (siteKind === "consumer-craft") {
-    return {
-      primary: "Order yours",
-      secondary: "See the details",
-      note: "Ships when the batch is ready — no waitlist theatre.",
-    };
-  }
-  if (siteKind === "art-directed-studio") {
-    return {
-      primary: "Start a conversation",
-      secondary: "Browse the work",
-      note: "We take a few engagements at a time.",
-    };
-  }
-  if (siteKind === "editorial-foundry") {
-    return {
-      primary: "Request a specimen",
-      secondary: "See the cuts",
-      note: "Trial files ship with the optical sizes you will actually set.",
-    };
-  }
-  if (siteKind === "research-dossier") {
-    return {
-      primary: "Request the brief",
-      secondary: "Read the method",
-      note: "Briefings ship as numbered folios — not a demo theatre.",
-    };
-  }
-  if (siteKind === "signal-observatory") {
-    return {
-      primary: "Open a desk window",
-      secondary: "Read the channels",
-      note: "Windows ship with the channels you actually watch — not a demo theatre.",
-    };
-  }
-  if (siteKind === "archive-index") {
-    return {
-      primary: "Request an entry",
-      secondary: "Browse the registry",
-      note: "Entries ship as numbered stamps — not a demo theatre.",
-    };
-  }
-  if (siteKind === "commerce-loom") {
-    return {
-      primary: "Request a cut",
-      secondary: "Walk the loom",
-      note: "Samples ship with size tape and SKU cells — not a demo theatre.",
-    };
-  }
-  if (siteKind === "field-guide") {
-    return {
-      primary: "Request a voucher",
-      secondary: "Open the plate",
-      note: "Vouchers ship with pressed plates and range notes — not a demo theatre.",
-    };
-  }
-  return GOAL_CTA[goal];
+  const override = primaryCta?.trim();
+  const base = ((): { primary: string; secondary: string; note: string } => {
+    // Consumer craft sells a product, not a plan ladder — "Compare plans" is SaaS residue.
+    if (siteKind === "consumer-craft") {
+      return {
+        primary: "Order yours",
+        secondary: "See the details",
+        note: "Ships when the batch is ready — no waitlist theatre.",
+      };
+    }
+    if (siteKind === "art-directed-studio") {
+      return {
+        primary: "Start a conversation",
+        secondary: "Browse the work",
+        note: "We take a few engagements at a time.",
+      };
+    }
+    if (siteKind === "editorial-foundry") {
+      return {
+        primary: "Request a specimen",
+        secondary: "See the cuts",
+        note: "Trial files ship with the optical sizes you will actually set.",
+      };
+    }
+    if (siteKind === "research-dossier") {
+      return {
+        primary: "Request the brief",
+        secondary: "Read the method",
+        note: "Briefings ship as numbered folios — not a demo theatre.",
+      };
+    }
+    if (siteKind === "signal-observatory") {
+      return {
+        primary: "Open a desk window",
+        secondary: "Read the channels",
+        note: "Windows ship with the channels you actually watch — not a demo theatre.",
+      };
+    }
+    if (siteKind === "archive-index") {
+      return {
+        primary: "Request an entry",
+        secondary: "Browse the registry",
+        note: "Entries ship as numbered stamps — not a demo theatre.",
+      };
+    }
+    if (siteKind === "commerce-loom") {
+      return {
+        primary: "Request a cut",
+        secondary: "Walk the loom",
+        note: "Samples ship with size tape and SKU cells — not a demo theatre.",
+      };
+    }
+    if (siteKind === "field-guide") {
+      return {
+        primary: "Request a voucher",
+        secondary: "Open the plate",
+        note: "Vouchers ship with pressed plates and range notes — not a demo theatre.",
+      };
+    }
+    return GOAL_CTA[goal];
+  })();
+  // Agency brief "one CTA" wins when set — every page repeats the same verb.
+  return override ? { ...base, primary: override } : base;
 }
 
 /** Section eyebrows read like an index of an argument, not like decoration. */

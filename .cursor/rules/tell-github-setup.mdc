@@ -11,5 +11,5 @@ alwaysApply: false
 - Never expose setup endpoints on public deploy without the guard enabled.
 - Job states: cloning → installing → detecting → starting → waiting → ready | needs-manual | error.
 - Block duplicate setup clicks; hide stale captures while a job is running.
-- Surface plain-language success/failure; never leave Priya guessing which localhost URL is active.
+- Surface plain-language success/failure; never leave Ashish guessing which localhost URL is active.
 - On failure, show what was detected from README/package.json and offer manual URL paste.

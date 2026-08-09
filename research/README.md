@@ -13,11 +13,29 @@ measurements instead of taste claims.
 | `critique.json` | Latest score of our own generated pages against those bands |
 | `LOOP_LEDGER.md` | One row per research loop: goal, score movement, what changed |
 | `DESIGN_LLM_TRAINING_DATA_SURVEY.md` | Literature survey: papers, datasets, and techniques for design-LLM training data (cited) |
-| `LEARNINGS.md` | Persistent craft lessons from recursive-improve sessions |
+| `LEARNINGS.md` | Human narrative lessons (recursive improve + agency-run-learn) |
+| `agency-engine-memory.json` | Machine memory from agency runs (bans, niche boosts, craft hints) |
+| `design-data.README.md` | How to wire a personal design-data checkout for seeds + learn write-back |
 
-**Training data generation does not live in this repo.** Use the separate developer
-harness `tell-design-data` (local `~/.tell-design-data/`). See
-`docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`.
+**Training data generation** also uses the separate developer harness `tell-design-data`
+(sibling checkout or `TELL_DESIGN_DATA_REPO`). See `docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`.
+
+## Agency reference boards (local)
+
+`research/boards.local.json` lists up to three reference URLs for a pipeline run (gitignored).
+Screenshots land in `research/boards/<run-id>/` (also gitignored). Committed artifacts are the
+skill, runner, brief JSON under `scripts/agency-pipeline/briefs/`, engine memory, and anonymised learnings.
+
+**Personal design-data:** see `design-data.README.md`. Point `TELL_DESIGN_DATA` or
+`research/design-data.local.json` at your private corpus checkout (seeds, measurements,
+memory). `agency:run` reads it and write-backs learnings automatically.
+
+```bash
+pnpm agency:run -- --query "freelance photographer booking site" --fresh
+# Learn runs automatically at the end.
+pnpm agency:learn -- --run-id <id>    # re-learn only
+pnpm agency:pipeline -- --brief scripts/agency-pipeline/briefs/lensroom.json --status
+```
 
 ## What is never committed
 

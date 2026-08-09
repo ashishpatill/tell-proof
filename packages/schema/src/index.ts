@@ -383,5 +383,51 @@ export const TellReport = z.object({
 });
 export type TellReport = z.infer<typeof TellReport>;
 
+/**
+ * Per-user design learning — browser/local only (Ashish's machine or future account).
+ * Distinct from developer corpus learning (`research/design-data.local.json`).
+ * Never write this into the monorepo or a shared design-data checkout.
+ */
+export const UserDesignPriorities = z.object({
+  /** 0..1 relative weight — higher = user cares more */
+  contrast: z.number().min(0).max(1).optional(),
+  typography: z.number().min(0).max(1).optional(),
+  spacing: z.number().min(0).max(1).optional(),
+  motion: z.number().min(0).max(1).optional(),
+  /** Prefer faster deterministic path over slower LLM polish */
+  speedOverPolish: z.number().min(0).max(1).optional(),
+});
+export type UserDesignPriorities = z.infer<typeof UserDesignPriorities>;
+
+export const UserToolPrefs = z.object({
+  preferVoice: z.boolean().optional(),
+  preferMcp: z.boolean().optional(),
+  preferLiveCapture: z.boolean().optional(),
+  preferOfflineFixture: z.boolean().optional(),
+});
+export type UserToolPrefs = z.infer<typeof UserToolPrefs>;
+
+export const UserDirectionMemory = z.object({
+  presetId: z.string(),
+  phrase: z.string().max(240),
+  at: z.string(),
+});
+export type UserDirectionMemory = z.infer<typeof UserDirectionMemory>;
+
+export const UserDesignProfile = z.object({
+  version: z.literal(1),
+  updatedAt: z.string(),
+  sessionCount: z.number().int().nonnegative().default(0),
+  preferredDirectionId: z.string().optional(),
+  recentDirections: z.array(UserDirectionMemory).max(24).default([]),
+  priorities: UserDesignPriorities.default({}),
+  toolPrefs: UserToolPrefs.default({}),
+  /** Counts of aesthetic leans the user steered toward (refined-story, conversion-sharp, …) */
+  aestheticLeanVotes: z.record(z.number()).default({}),
+  /** Soft bans the user voiced ("no purple", "less shadow") — local only */
+  phraseBans: z.array(z.string()).max(40).default([]),
+});
+export type UserDesignProfile = z.infer<typeof UserDesignProfile>;
+
 export * from "./install-info";
 export * from "./resolve-intent";

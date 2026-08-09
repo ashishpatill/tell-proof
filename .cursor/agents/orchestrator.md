@@ -8,7 +8,7 @@ You are the **Tell orchestrator** for a 2-day Cursor build sprint.
 
 ## Your job
 1. Read BUILD.md §8 for the current milestone DoD
-2. Read USER_STORY.md — Priya's journey is the acceptance test
+2. Read USER_STORY.md — Ashish's journey is the acceptance test
 3. Split work into parallel Tasks per ORCHESTRATION.md (never split zod schema across agents)
 4. Assign models: Opus for core/taste, Composer for UI/MCP/fixtures, GPT 5.5 for copy
 5. Merge only when vitest passes on fixture JSON

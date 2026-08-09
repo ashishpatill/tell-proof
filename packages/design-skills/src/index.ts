@@ -22,4 +22,12 @@ export {
 export type { DesignTemplate, TemplateKey } from "./templates";
 export { assertBasics } from "./basics-checklist";
 export type { BasicsFinding, BasicsReport } from "./basics-checklist";
+export {
+  applyAgencyPolish,
+  applyAgencyPolishSequence,
+  agencyPolishAxesPresent,
+} from "./agency-polish";
+export type { AgencyPolishAxis } from "./agency-polish";
+export { assertAgencyDelivery, AGENCY_DEFAULT_BAN_LIST } from "./agency-delivery";
+export type { AgencyFinding, AgencyDeliveryReport } from "./agency-delivery";
 export { FIG_MONO_PX, miniPageMatter, densitometerStrip } from "./figures";

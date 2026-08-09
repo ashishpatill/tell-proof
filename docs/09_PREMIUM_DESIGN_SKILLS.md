@@ -15,6 +15,7 @@
 | `agent-skills/web-design/premium-content-custom-web/product-proof-stage/` | SaaS product-as-proof workflow (HTMX stage swaps) |
 | `.cursor/skills/premium-content-custom-web/SKILL.md` | Agent entry skill |
 | `.cursor/skills/product-proof-stage/SKILL.md` | Product-proof workflow entry |
+| `.cursor/skills/agency-quality-site/SKILL.md` | Phased agency marketing-site pipeline (refs → build → type/spacing/motion/mobile) |
 | `.cursor/skills/conversion-landing-craft/SKILL.md` | Single-offer landing craft |
 | `.cursor/skills/pricing-decision-craft/SKILL.md` | Pricing decision craft |
 | `.cursor/skills/surface-recipe-map/SKILL.md` | Theme-pack remap → Taste Controls |
@@ -79,6 +80,8 @@ Preview HTML must clear this craft floor — routing alone is not enough:
 5. Offer Taste Controls  
 6. Optional: Tell diagnose / redesign using `spec.tellDirectionId`
 
+For **full marketing sites** that need agency polish (reference board + axis-isolated type/spacing/motion/mobile), use `agency-quality-site` and `pnpm agency:pipeline` — do not collapse polish axes into one pass. Load `DESIGN_RIGOR.md` before Phase 2 (one compositional lane + 1–2 craft nodes).
+
 ## Taste Controls
 
 Density · Motion · Aesthetic lean · Color mood · Typography weight · Rounding & depth
@@ -97,7 +100,8 @@ Or open `/studio` and generate interactively.
 
 ## Goal + loop
 
-See `PLAN.md` **Phase 7** goal prompt and loop prompt. Execute until the checklist is green.
+- Premium engine / Studio craft: `PLAN.md` **Phase 7**
+- Agency marketing sites (phased, compounding): `PLAN.md` **Agency-quality site pipeline** + `agency-quality-site` PROMPTS.md — **one phase per cycle**
 
 ## E2E
 

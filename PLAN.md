@@ -44,7 +44,7 @@ flowchart TB
 | **`PLAN.md` (this file)** | Consolidated remaining-work plan | **Keep — primary** |
 | **`BUILD.md`** | Engineering contracts + M1–M10 DoD | **Keep — never archive** |
 | **`ORCHESTRATION.md`** | Agent/model routing | **Keep** |
-| **`USER_STORY.md`** | Priya north star / copy | **Keep** |
+| **`USER_STORY.md`** | Ashish north star / copy | **Keep** |
 | **`README.md` Product Status** | Public shipped/next list | Keep in sync with this file |
 | `docs/02_CURSOR_BUILD_INSTRUCTIONS.md` | Exact duplicate of `BUILD.md` | **Archived** → stub |
 | `docs/04_CLAUDE_PROJECT.md` §12 tracker | Live tracker | Keep in sync |
@@ -55,11 +55,10 @@ flowchart TB
 | **`docs/09_PREMIUM_DESIGN_SKILLS.md`** | Premium content-custom skill graph + studio | **Keep — separate plan** |
 | **`docs/11_AGENT_PLATFORM_INTEGRATION_PLAN.md`** | MCP / one-click install / CLI / skills / multi-agent | **Keep — separate plan** |
 | **`docs/12_AUTH_SECURITY_BOUNDARIES_PLAN.md`** | Capture/API/agent trust envelopes (not product login) | **Keep — separate plan** |
-| **`docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`** | Common + complex design-task flows for Priya loop | **Keep — separate plan** |
+| **`docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`** | Common + complex design-task flows for Ashish loop | **Keep — separate plan** |
 | **`docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`** | Research plan; collector is external `tell-design-data` repo | **Keep — research only (no collector code)** |
 | **`research/DESIGN_LLM_TRAINING_DATA_SURVEY.md`** | Cited literature survey (papers, datasets, practitioner guides) | **Keep — research literature** |
 | `DESIGN.md`, `PITCH.md` | Dogfood contract / pitch | **Keep** |
-
 ---
 
 ## Phase 6 checklist (DoD) — closed
@@ -156,6 +155,74 @@ LOOP:
 
 Stretch (allowed): viewport toggle, copy HTML, section-scoped regenerate, stronger viz instrument.
 If blocked: note in Status log and continue with the next unchecked item.
+```
+
+---
+
+## Agency-quality site pipeline (Cursor — phased Goal/Loop + autonomous run)
+
+**Authority:** `.cursor/skills/agency-quality-site` · `agent-skills/web-design/premium-content-custom-web/agency-quality-site/`  
+**Why separate:** One full-pipeline pass does not compound quality. Each phase must Goal → run → eye → Loop ≤3 → `--mark-pass` before the next phase starts from `current.html`.  
+**Autonomous:** `pnpm agency:run -- --query "…"` packages niche → refs → plan → execute → verify → advance.
+
+### Checklist
+
+- [x] Skill + PROMPTS.md with Goal/Loop per phase
+- [x] Runner is phase-gated (`--phase`, `--reshoot`, `--mark-pass`, `--status`); craft `--all` refused
+- [x] `assertAgencyDelivery` + axis polish helpers in `@tell/design-skills`
+- [x] `DESIGN_RIGOR.md` — compositional lanes + honesty bar (principle-only)
+- [x] Agent executes Lensroom brief **one phase at a time** through `4-ship` (STATE + PHASE_LEDGER)
+- [x] Repeatable misses encoded back into gates / LEARNINGS
+- [x] `agency:run` orchestrator — query → niche/brief/DIRECTION → local seeds/corridor → phase loop + auto mark-pass
+- [x] `agency-run-learn` — **developer-only** automatic learn + design-data corpus (gated; not Vercel users)
+- [x] `tell-user-session-learn` — **end-user** browser profile (directions, priorities, tool prefs)
+
+### Goal prompt (autonomous)
+
+```
+@PLAN.md @.cursor/skills/agency-quality-site/SKILL.md
+
+GOAL: Run the autonomous agency pipeline for the named requirement.
+
+pnpm agency:run -- --query "<requirement>" --fresh
+# Learn is automatic (agency-run-learn). Optional: TELL_DESIGN_DATA=/path/to/tell-design-data
+# Dry smoke only: AGENCY_SKIP_LEARN=1 …
+
+Done when research/boards/<run-id>/STATE.json passed[] includes 4-ship, SHIP.html exists,
+and LEARN.md was written by the automatic learn pass.
+```
+
+### Goal prompt (manual orchestrator — paste once, still one phase per cycle)
+
+```
+@PLAN.md @.cursor/skills/agency-quality-site/SKILL.md
+@agent-skills/web-design/premium-content-custom-web/agency-quality-site/PROMPTS.md
+@docs/08_AI_DESIGN_METHODS.md @USER_STORY.md
+
+GOAL: Agency-quality site pipeline — execute ONLY the current phase for brief
+scripts/agency-pipeline/briefs/lensroom.json (or the brief named in the task).
+
+Rules:
+1. pnpm agency:pipeline -- --brief <brief> --status
+2. Paste that phase's Goal prompt; run --phase <current>
+3. READ screenshots; paste Loop prompt; improve ONLY that axis; --reshoot; ≤3 attempts
+4. --mark-pass <current> only when eye + gates pass
+5. Repeat until 4-ship is passed
+6. Never --all. Never combine typography + spacing + motion in one edit.
+
+Done when STATE.json shows all phases in passed[] through 4-ship and craft shots are posted.
+```
+
+### Loop prompt (between phases)
+
+```
+@agent-skills/web-design/premium-content-custom-web/agency-quality-site/PROMPTS.md
+
+LOOP:
+1. --status — note current phase and attempts
+2. If current phase not yet run this cycle: run its Goal prompt
+3. Else: run its Loop prompt against the latest PNGs
+4. Stop the whole session only when 4-ship is marked pass OR a named blocker after 3 attempts
 ```
 
 ---

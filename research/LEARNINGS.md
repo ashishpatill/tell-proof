@@ -475,3 +475,57 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   effect (ResizeObserver + fonts.ready). Gate: `|hand−makes.right| < 40px` and `|hand−makes.midY| < 40px`
   at 1440×900. Brand line larger than “makes/motion.” `overflow-x: clip` (not hidden) so scrub sticky works.
 - **Do not:** Trust percentage transforms alone to sell a character–type contact; pin to the glyph box.
+
+## 2026-08-09 — `pipeline:agency-axis-isolation`
+
+- **Failure:** Collapsing typography + spacing + motion into one “polish” pass (or a vibe prompt)
+  produced one decent axis and two soft ones; marketing pages still read as first-draft AI.
+- **Fix:** `agency-quality-site` skill + `pnpm agency:pipeline` enforce Phase 0 ban list, 3-ref
+  board, five-block brief, then typography-only → spacing-only → motion-only → 375px with
+  screenshots. `assertAgencyDelivery` + `applyAgencyPolish` encode the gates in
+  `@tell/design-skills`. `primaryCta` on `DesignBrief` keeps the one action repeated.
+- **Do not:** Ask for type, space, and motion in the same message; do not install external skill
+  marketplaces into the repo — encode principles and run Tell gates.
+
+## 2026-08-09 — `pipeline:one-phase-goal-loop`
+
+- **Failure:** Running refs→build→type→spacing→motion→mobile in one `agency:pipeline` pass
+  produced green gates but did not compound quality — polish CSS was applied without eye
+  loops between axes, same failure mode as the article's "ask for all three at once."
+- **Fix:** Phase-gated runner (`--phase` / `--reshoot` / `--mark-pass` / `--status`); craft
+  `--all` refused. Skill + PROMPTS.md give Goal + Loop per phase; `current.html` carries
+  forward only after `--mark-pass`. PLAN.md orchestrator Goal/Loop added.
+- **Do not:** Execute the whole agency recipe in one agent turn and call it polished.
+
+## 2026-08-09 — `pipeline:design-rigor-lanes`
+
+- **Failure:** Agency pipeline had ban lists and polish axes but no explicit compositional
+  lane / craft-node choice — builds stayed competent without a unique spatial thesis.
+- **Fix:** `DESIGN_RIGOR.md` (thesis, one lane, 1–2 Tell crafts, honest assets, reject list).
+  `DIRECTION.md` template requires those fields. `assertAgencyDelivery` adds rigor gates
+  (no award claims, no fake trust theater, one motion system, authored hero). Glass check
+  counts `.ds-glass*` markup only (shared CSS comments false-fired).
+- **Do not:** Mix unrelated aesthetic systems in one pass; do not claim awards; do not
+  treat quality as a trophy string in copy.
+
+## 2026-08-09 — `agency:thin-board:portfolio-photography`
+
+- **Failure:** Run orch-learn advanced with a thin/corridor reference board (category portfolio-photography).
+- **Fix:** Fill research/boards.seeds.local.json for this category; keep corridor bands as fallback only.
+- **Do not:** Treat empty seeds as a finished Phase 1 craft board.
+
+## 2026-08-09 — `agency:thin-board:photography`
+
+- **Failure:** Run dd-smoke advanced with a thin/corridor reference board (category photography).
+- **Fix:** Fill research/boards.seeds.local.json for this category; keep corridor bands as fallback only.
+- **Do not:** Treat empty seeds as a finished Phase 1 craft board.
+
+## 2026-08-09 — `shell:empty-recent-thumb`
+
+- **Failure:** Entry-home "Recent diagnoses" cards used empty flat `.tell-recent__thumb` fills —
+  only mode/count chrome, no capture craft beat (same class as `showcase:nav-only-thumb`).
+- **Fix:** `svgSessionThumb` / `thumbFromScreenshotBase64` write a compact craft plate (accent
+  field + title + findings) into `RecentSession.thumbDataUrl`; EntryHome always renders an
+  `<img>` (SVG fallback if storage lacks a thumb). Offline fixture uses violet→ink plate so the
+  generic "before" reads as content.
+- **Do not:** Ship recent/session galleries as blank surface tiles and call the shell done.
