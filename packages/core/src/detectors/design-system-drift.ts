@@ -29,9 +29,16 @@ export function detectDesignSystemDrift(
 ): Finding | null {
   if (!spec || (spec.fonts.length === 0 && spec.colors.length === 0)) return null;
 
-  const usedFonts = fingerprint.fontFamilies.map((f) => f.family.replace(/["']/g, "").trim());
-  const undeclaredFonts = usedFonts.filter((family) =>
-    !spec.fonts.some((declared) => family.toLowerCase().includes(declared.toLowerCase()) || declared.toLowerCase().includes(family.toLowerCase())),
+  const usedFonts = fingerprint.fontFamilies.map((f) =>
+    normalizeFontFamily(f.family.replace(/["']/g, "").trim()),
+  );
+  const undeclaredFonts = usedFonts.filter(
+    (family) =>
+      !spec.fonts.some(
+        (declared) =>
+          family.toLowerCase().includes(declared.toLowerCase()) ||
+          declared.toLowerCase().includes(family.toLowerCase()),
+      ),
   );
 
   const usedColors = new Set(
@@ -73,6 +80,15 @@ export function detectDesignSystemDrift(
       },
     ],
   });
+}
+
+function normalizeFontFamily(family: string): string {
+  // next/font hashed families: __Instrument_Serif_1f5468 → Instrument Serif
+  const nextFont = family.match(/^__([A-Za-z0-9_]+)_([0-9a-f]+)$/i);
+  if (nextFont?.[1]) {
+    return nextFont[1].replace(/_/g, " ").replace(/\s+/g, " ").trim();
+  }
+  return family;
 }
 
 function colorNear(a: string, b: string): boolean {

@@ -85,7 +85,7 @@ export function EntryHome({
           <button
             type="submit"
             className="tell-composer__submit"
-            disabled={submitting || (mode !== "offline" && !value.trim())}
+            disabled={submitting}
             aria-label="Start"
           >
             <ArrowUp className="h-4 w-4" />
