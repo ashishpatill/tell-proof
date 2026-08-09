@@ -276,13 +276,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       surface: "raised",
       columns: split.wide,
     });
-    plans.push({
-      id: "features-2",
-      kind: "features",
-      layout: "feature-rows",
-      surface: "paper",
-      bond: true,
-    });
+    // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
     // No shared marquee-proof — product figure + chapters are the proof for consumer craft.
     plans.push({
       id: "story",
@@ -336,15 +330,8 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       bond: true,
       columns: "7fr 5fr",
     });
-    if (featureCount >= 4) {
-      plans.push({
-        id: "features-2",
-        kind: "features",
-        layout: "feature-alternating",
-        surface: "paper",
-        columns: split.feature,
-      });
-    }
+    // No second feature-alternating catalogue — empty airways after marquee cut.
+    // Cut slips live inside the marginalia essay (foundry mid-page proof).
     // No shared marquee-proof — type ladder + marginalia already prove foundry craft.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     // Colophon close on paper — not inverse demo-booking theatre.
@@ -391,15 +378,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       bond: true,
       columns: "1fr 1fr",
     });
-    if (featureCount >= 4) {
-      plans.push({
-        id: "features-2",
-        kind: "features",
-        layout: "feature-rows",
-        surface: "paper",
-        columns: split.wide,
-      });
-    }
+    // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
     // No shared marquee-proof — verso/recto spread is the dossier proof instrument.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     // Imprint close on paper — not inverse demo theatre.
@@ -444,15 +423,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       bond: true,
       columns: "7fr 5fr",
     });
-    if (featureCount >= 4) {
-      plans.push({
-        id: "features-2",
-        kind: "features",
-        layout: "feature-rows",
-        surface: "paper",
-        columns: split.wide,
-      });
-    }
+    // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
     // No shared marquee-proof — chrono essay is the observatory proof instrument.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     // Calibration close on paper — not inverse demo theatre.
@@ -538,15 +509,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       bond: true,
       columns: "7fr 5fr",
     });
-    if (featureCount >= 4) {
-      plans.push({
-        id: "features-2",
-        kind: "features",
-        layout: "feature-rows",
-        surface: "paper",
-        columns: split.wide,
-      });
-    }
+    // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
     // No shared marquee-proof — hangtag essay is the loom proof instrument.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
@@ -625,15 +588,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       bond: true,
       columns: "7fr 5fr",
     });
-    if (featureCount >= 4) {
-      plans.push({
-        id: "features-2",
-        kind: "features",
-        layout: "feature-rows",
-        surface: "paper",
-        columns: split.wide,
-      });
-    }
+    // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
     // No shared marquee-proof — gather essay is the press proof instrument.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
@@ -673,15 +628,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       bond: true,
       columns: "7fr 5fr",
     });
-    if (featureCount >= 4) {
-      plans.push({
-        id: "features-2",
-        kind: "features",
-        layout: "feature-rows",
-        surface: "paper",
-        columns: split.wide,
-      });
-    }
+    // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
     // No shared marquee-proof — ember essay is the lantern proof instrument.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
@@ -722,15 +669,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       bond: true,
       columns: "7fr 5fr",
     });
-    if (featureCount >= 4) {
-      plans.push({
-        id: "features-2",
-        kind: "features",
-        layout: "feature-rows",
-        surface: "paper",
-        columns: split.wide,
-      });
-    }
+    // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
     // No shared marquee-proof — range essay is the field-guide proof instrument.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });

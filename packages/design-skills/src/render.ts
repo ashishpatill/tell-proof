@@ -1160,6 +1160,7 @@ function renderChapters(section: SectionSpec, figures: FigurePlan): string {
  */
 function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
   const count = section.blocks.length;
+  const cuts = ["Display", "Title", "Deck", "Text", "Caption", "Tabular"];
   const notes = section.blocks
     .map((b, i) => {
       const note = b.kicker || b.meta || `Cut ${String(i + 1).padStart(2, "0")}`;
@@ -1172,10 +1173,28 @@ function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
   const essay = section.blocks
     .map((b, i) => {
       const mark = figures.marks[i] ? `<div class="ds-marginalia-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      // Cut slips — optical-size companions that travel with the reading (foundry mid-page proof).
+      const related = section.blocks
+        .map((other, j) => ({ other, j }))
+        .filter(({ j }) => j !== i)
+        .slice(0, 3);
+      const slips =
+        related.length > 0
+          ? `<ul class="ds-cut-slips" aria-label="Optical-size slips for ${esc(b.title)}">${related
+              .map(({ other, j }) => {
+                const cut = esc(other.meta || cuts[j % cuts.length]!);
+                return `<li class="ds-cut-slip">
+                  <span class="ds-cut-size" aria-hidden="true">${cut}</span>
+                  <span class="ds-cut-name">${esc(other.title)}</span>
+                </li>`;
+              })
+              .join("")}</ul>`
+          : "";
       return `<article class="ds-marginalia-beat">
         <p class="ds-chapter-index">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
         <h3>${esc(b.title)}</h3>
         ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+        ${slips}
         ${mark}
         ${i < count - 1 ? `<hr class="ds-marginalia-rule" aria-hidden="true"/>` : ""}
       </article>`;

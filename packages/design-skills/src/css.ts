@@ -2274,6 +2274,20 @@ ${surfaceRules()}
   width:100vw;margin-left:calc(50% - 50vw);max-width:none;
 }
 .ds-marginalia-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+/* Cut slips — optical-size companions on the measure (foundry mid-page proof). */
+.ds-cut-slips{
+  list-style:none;margin:var(--s-md) 0 0;padding:var(--s-sm) 0 0;display:grid;gap:0.3rem;
+  border-top:1px solid var(--surface-border);
+}
+.ds-cut-slip{
+  display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:0.5rem;align-items:baseline;
+  padding:0.25rem 0;
+}
+.ds-cut-size{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-accent);
+}
+.ds-cut-name{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:28ch}
+[data-sitekind="editorial-foundry"] .ds-cut-slips{border-top-color:transparent;padding-top:var(--s-xs)}
 .ds-marginalia-rail{position:sticky;top:calc(var(--nav-h,4.5rem) + var(--s-md))}
 .ds-marginalia-notes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-lg)}
 .ds-marginalia-note{padding-left:var(--s-sm);border-left:2px solid var(--c-accent)}

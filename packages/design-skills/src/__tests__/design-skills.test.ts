@@ -411,8 +411,10 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-spine");
     expect(previewHtml).toContain('data-figure="type-ladder"');
     expect(previewHtml).toContain("ds-marginalia");
+    expect(previewHtml).toContain("ds-cut-slips");
     expect(previewHtml).toContain("Colophon");
     expect(previewHtml).toContain("The cuts");
+    expect(spec.sections.some((s) => s.id === "features-2")).toBe(false);
   });
 
   it("gives research dossier a folio + plate + spread plan distinct from foundry and SaaS", () => {

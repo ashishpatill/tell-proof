@@ -363,14 +363,16 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         || (
           !spec.sections.some((s) => s.kind === "pricing")
           && !spec.sections.some((s) => s.kind === "metrics")
+          && !spec.sections.some((s) => s.id === "features-2")
           && /ds-hero-seam/.test(html)
           && /ds-spine/.test(html)
           && /data-figure="type-ladder"/.test(html)
           && /ds-marginalia/.test(html)
+          && /ds-cut-slips/.test(html)
           && /Colophon/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Foundry offerings use hard-seam + type ladder + marginalia + colophon — no pricing, no metrics theatre, zero inverse bands.",
+      "Foundry offerings use hard-seam + type ladder + marginalia with cut slips + colophon — no pricing, no metrics theatre, no sparse second catalogue, zero inverse bands.",
     ),
     check(
       "kind-dossier",
