@@ -20,6 +20,7 @@ alwaysApply: true
 - Design capability flows (common + complex tasks): `docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`.
 - Design training-data curation research (no collector in Tell; use separate `tell-design-data` repo): `docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`.
 - Design training-data literature survey (cited papers/datasets): `research/DESIGN_LLM_TRAINING_DATA_SURVEY.md`.
+- Sport matchday vernacular (research before build): `research/SPORT_SITE_VERNACULAR.md` + skills `sport-site-research` / `sport-vernacular-craft`.
 - Peer plumbing identity is gitignored (`research/plumbing-reference.local.json`); never name that peer in commits.
 - If `BUILD.md` and archived `docs/02_*` drift, treat root `BUILD.md` as the working source.
 - Do not read `.env` or `.env.local` for routine work; use `.env.example` and README docs for configuration.

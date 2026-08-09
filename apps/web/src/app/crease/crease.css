@@ -461,6 +461,95 @@ main,
   font-size: 0.95rem;
 }
 
+.cr-situation {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.cr-situation-line {
+  margin: 0;
+  color: var(--cr-flood);
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+.cr-session {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cr-chalk-dim);
+}
+
+.cr-rates {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--cr-chalk-dim);
+}
+
+.cr-pair {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--cr-chalk-dim);
+}
+
+.cr-bowler {
+  color: var(--cr-chalk);
+}
+
+.cr-over-trail {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.cr-ball {
+  min-width: 1.55rem;
+  height: 1.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--cr-line-strong);
+  border-radius: 0.15rem;
+  font-family: var(--cr-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.cr-ball-4,
+.cr-ball-6 {
+  border-color: var(--cr-flood);
+  color: var(--cr-flood);
+}
+
+.cr-ball-W {
+  border-color: var(--cr-cherry);
+  color: #f07167;
+  font-weight: 600;
+}
+
+.cr-ball-wd,
+.cr-ball-nb {
+  font-size: 0.65rem;
+  color: var(--cr-chalk-dim);
+}
+
+.cr-ball-empty {
+  opacity: 0.35;
+  border-style: dashed;
+}
+
+.cr-score[data-spine] .cr-mono {
+  min-width: 9.5ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Score blocks */
 .cr-score {
   display: grid;

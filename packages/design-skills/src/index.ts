@@ -31,3 +31,17 @@ export type { AgencyPolishAxis } from "./agency-polish";
 export { assertAgencyDelivery, AGENCY_DEFAULT_BAN_LIST } from "./agency-delivery";
 export type { AgencyFinding, AgencyDeliveryReport } from "./agency-delivery";
 export { FIG_MONO_PX, miniPageMatter, densitometerStrip } from "./figures";
+export {
+  SPORT_PACKS,
+  SportId,
+  getSportPack,
+  listSportPacks,
+  matchSportFromQuery,
+  sportResearchBriefTemplate,
+} from "./sport-vernacular";
+export type {
+  SportAccessMode,
+  SportFormatLens,
+  SportPrimaryFact,
+  SportVernacularPack,
+} from "./sport-vernacular";

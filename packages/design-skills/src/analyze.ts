@@ -1,10 +1,14 @@
 import type { DesignBrief, FeatureSpec, SiteKind } from "./types";
+import type { SportId } from "./sport-vernacular";
+import { matchSportFromQuery } from "./sport-vernacular";
 
 export type FeatureAnalysis = {
   prioritized: FeatureSpec[];
   siteKind: SiteKind;
   recommendedSections: string[];
   goals: string[];
+  /** Resolved sport pack when brief.sportId set or query language matches. */
+  sportId?: SportId;
 };
 
 /** Infer site kind from brief + feature language unless locked. */
@@ -99,5 +103,18 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
     "Keep motion restrained and purposeful",
   ];
 
-  return { prioritized, siteKind, recommendedSections, goals };
+  const blob = [
+    brief.productName,
+    brief.tagline,
+    brief.audience,
+    ...brief.features.map((f) => `${f.name} ${f.description}`),
+  ].join(" ");
+  const sportId =
+    brief.sportId ?? matchSportFromQuery(blob)?.id;
+
+  if (sportId) {
+    goals.push(`Honor ${sportId} vernacular — research gate + score-spine / format lens`);
+  }
+
+  return { prioritized, siteKind, recommendedSections, goals, sportId };
 }

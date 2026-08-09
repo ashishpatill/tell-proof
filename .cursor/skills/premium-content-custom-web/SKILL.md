@@ -27,11 +27,12 @@ Entry skill for multi-million-dollar-quality marketing sites, corporate stories,
 ## Workflow (run every time)
 
 1. **Analyze** — extract features, audience, goals, constraints → `analyze-features-requirements`
-2. **Route** — select sub-skills from the graph based on features present
-3. **Foundation** — run `design-system-foundation` before section work
-4. **Generate** — IA, tokens, section specs, preview/code
-5. **Taste Controls** — offer density / motion / lean / color / type / rounding options
-6. **Verify** — if Tell is available, capture → diagnose → optional redesign with `tellDirectionId`
+2. **Sport gate** — if the brief is cricket/football/hockey/tennis (or live scores / matchday), run `sport-site-research` and set `sportId` before pixels
+3. **Route** — select sub-skills from the graph based on features present
+4. **Foundation** — run `design-system-foundation` before section work
+5. **Generate** — IA, tokens, section specs, preview/code
+6. **Taste Controls** — offer density / motion / lean / color / type / rounding options
+7. **Verify** — if Tell is available, capture → diagnose → optional redesign with `tellDirectionId`
 
 ## Runtime engine
 
@@ -97,6 +98,7 @@ Studio UI: `/studio` · Specimen gallery: `/showcase` · Offerings: `/showcase/{
 - image-first-fold
 - agency-minimal-grid
 - marquee-rail-craft
+- sport-vernacular-craft
 - dashboard-or-webapp-ui
 - responsive-performance
 

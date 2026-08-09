@@ -96,6 +96,7 @@ Studio UI: `/studio` · Showcases: `/showcase/saas`, `/showcase/dashboard`, `/sh
 - image-first-fold
 - agency-minimal-grid
 - marquee-rail-craft
+- sport-vernacular-craft
 - dashboard-or-webapp-ui
 - responsive-performance
 

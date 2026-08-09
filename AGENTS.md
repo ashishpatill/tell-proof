@@ -99,6 +99,8 @@ Feature workflows live in `.cursor/skills/`:
 - `tell-template-craft` — peer plumbing first, then top-designer craft iteration + screenshot proof
 - `agency-quality-site` — phased agency marketing-site pipeline (Goal/Loop + `agency:run`)
 - `agency-run-learn` — **developer-only** automatic learn after `agency:run` (corpus/engine memory)
+- `sport-site-research` — **mandatory** research gate before cricket/football/hockey/tennis sites
+- `sport-vernacular-craft` — score-spine + format-lens craft from sport packs
 - `tell-user-session-learn` — **end-user** localStorage learning (directions, priorities, tools)
 - `tell-recursive-improve` — champion/challenger loop + `research/LEARNINGS.md` (no nav-only showcase shots)
 - `ship-loop` — analyze PR → fix → semantic commits → push → re-check → merge
@@ -136,6 +138,7 @@ See `ORCHESTRATION.md` for model routing and when to invoke each.
 - Design capability flows: `docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`
 - Design training-data curation (research only; collector is separate `tell-design-data` repo): `docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`
 - Design training-data literature survey (cited): `research/DESIGN_LLM_TRAINING_DATA_SURVEY.md`
+- Sport matchday vernacular (cricket/football/hockey/tennis): `research/SPORT_SITE_VERNACULAR.md`
 - Peer plumbing identity: gitignored `research/plumbing-reference.local.json` (never name the peer in commits)
 
 ## Cursor Cloud specific instructions

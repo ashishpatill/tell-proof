@@ -94,6 +94,12 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     nodes.add("container-tech-shell");
   }
 
+  if (analysis.sportId) {
+    nodes.add("sport-vernacular-craft");
+    nodes.add("editorial-chapter-craft");
+    nodes.add("dashboard-or-webapp-ui");
+  }
+
   const order: SkillNodeId[] = [
     "analyze-features-requirements",
     "design-system-foundation",
@@ -119,6 +125,7 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     "content-storytelling-pages",
     "forms-ctas-conversion",
     "dashboard-or-webapp-ui",
+    "sport-vernacular-craft",
     "scroll-reveal-once",
     "restrained-motion-micro",
     "edge-fade-craft",

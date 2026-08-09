@@ -87,5 +87,6 @@ full script duties (pause, cleanup, brand accent, reduced motion) live in the ma
 | `webgl-3d-object` | mesh-field-craft / scrub-sequence-craft (purpose-built 3D only) |
 | `webgl-landing-steering` | mesh-field-craft (spatial depth opt-in + poster fallback) |
 | `webgl-laser` | signal-beam-craft |
+| `sport-matchday-research` | sport-site-research + sport-vernacular-craft |
 
-Coverage: 82/82
+Coverage: 83/83

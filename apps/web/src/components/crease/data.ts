@@ -1,17 +1,39 @@
-/** Demo cricket content for CREASE — editorial match theater, not a live feed. */
+/** Demo cricket content for CREASE — research-backed match theater (see research/SPORT_SITE_VERNACULAR.md). */
 
 export type MatchStatus = "live" | "result" | "upcoming";
+export type CricketFormat = "TEST" | "ODI" | "T20";
+
+/** Single delivery in this-over trail. */
+export type BallEvent =
+  | "dot"
+  | "1"
+  | "2"
+  | "3"
+  | "4"
+  | "6"
+  | "W"
+  | "wd"
+  | "nb";
 
 export type LiveMatch = {
   id: string;
   status: MatchStatus;
-  format: string;
+  format: CricketFormat;
   series: string;
   venue: string;
   teamA: { code: string; name: string; score?: string; overs?: string };
   teamB: { code: string; name: string; score?: string; overs?: string };
+  /** Situation equation — primary glance fact after score. */
   note: string;
   start?: string;
+  crr?: string;
+  rrr?: string;
+  /** Test-only session label. */
+  session?: string;
+  thisOver?: BallEvent[];
+  striker?: string;
+  nonStriker?: string;
+  bowler?: string;
 };
 
 export type Story = {
@@ -41,6 +63,12 @@ export const LIVE_MATCHES: LiveMatch[] = [
     teamA: { code: "IND", name: "India", score: "214/4", overs: "38.2" },
     teamB: { code: "AUS", name: "Australia", score: "286/8", overs: "50.0" },
     note: "India need 73 from 70 balls",
+    crr: "5.60",
+    rrr: "6.25",
+    thisOver: ["dot", "1", "4", "dot", "6"],
+    striker: "Kohli 62* (54)",
+    nonStriker: "Rahul 28* (31)",
+    bowler: "Hazlewood 8-0-41-1",
   },
   {
     id: "eng-sa-t20",
@@ -51,6 +79,12 @@ export const LIVE_MATCHES: LiveMatch[] = [
     teamA: { code: "ENG", name: "England", score: "168/6", overs: "20.0" },
     teamB: { code: "SA", name: "South Africa", score: "97/3", overs: "12.1" },
     note: "SA need 72 from 47 · dew rolling in",
+    crr: "7.95",
+    rrr: "9.19",
+    thisOver: ["1", "dot", "2", "4", "wd", "1"],
+    striker: "Markram 34* (22)",
+    nonStriker: "Miller 11* (9)",
+    bowler: "Rashid 2.1-0-18-1",
   },
   {
     id: "wi-nz-test",
@@ -60,7 +94,13 @@ export const LIVE_MATCHES: LiveMatch[] = [
     venue: "Queen's Park Oval",
     teamA: { code: "WI", name: "West Indies", score: "312 & 144/3", overs: "41.0" },
     teamB: { code: "NZ", name: "New Zealand", score: "278", overs: "86.4" },
-    note: "WI lead by 178 · session 2",
+    note: "WI lead by 178",
+    session: "Session 2 · afternoon",
+    crr: "3.51",
+    thisOver: ["dot", "dot", "1", "dot", "4", "dot"],
+    striker: "Hope 41* (78)",
+    nonStriker: "Athanaze 22* (45)",
+    bowler: "Southee 11-2-29-1",
   },
   {
     id: "pak-sl-up",
@@ -178,3 +218,8 @@ export const SERIES = [
 ];
 
 export const HERO_IMAGE = "/crease/hero-match.jpg";
+
+export function ballLabel(b: BallEvent): string {
+  if (b === "dot") return "·";
+  return b;
+}

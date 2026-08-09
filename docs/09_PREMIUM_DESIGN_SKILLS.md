@@ -26,6 +26,7 @@
 | `/studio` | Live canvas + Taste Controls + magic edit + viewport + copy HTML |
 | `/showcase` | Specimen gallery (print-atelier index of all offerings) |
 | `/showcase/*` | Full proof sheets: saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, archive, loom, herbarium, press |
+| `/crease` | Cricket match-theater specimen (sport vernacular reference) |
 | `POST /api/design` | Brief → spec + preview HTML (`redesignFrom` optional) |
 | `GET /api/design?templates=1` | Offering catalog metadata |
 | MCP `tell_design_from_features` | MCP tool |

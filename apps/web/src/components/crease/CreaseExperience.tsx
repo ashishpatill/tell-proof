@@ -10,6 +10,8 @@ import {
   STORIES,
   T20_RANKINGS,
   TEST_RANKINGS,
+  ballLabel,
+  type BallEvent,
   type LiveMatch,
   type RankingRow,
 } from "./data";
@@ -25,6 +27,23 @@ function statusLabel(status: LiveMatch["status"]): string {
   if (status === "live") return "Live";
   if (status === "result") return "Result";
   return "Upcoming";
+}
+
+function OverTrail({ balls }: { balls: BallEvent[] }) {
+  return (
+    <ol className="cr-over-trail" aria-label="This over">
+      {balls.map((b, i) => (
+        <li key={`${b}-${i}`} className={`cr-ball cr-ball-${b}`} data-ball={b}>
+          {ballLabel(b)}
+        </li>
+      ))}
+      {Array.from({ length: Math.max(0, 6 - balls.length) }).map((_, i) => (
+        <li key={`empty-${i}`} className="cr-ball cr-ball-empty" aria-hidden="true">
+          –
+        </li>
+      ))}
+    </ol>
+  );
 }
 
 function RankTable({ rows }: { rows: RankingRow[] }) {
@@ -59,9 +78,10 @@ function RankTable({ rows }: { rows: RankingRow[] }) {
   );
 }
 
-function MatchScore({ match, compact = false }: { match: LiveMatch; compact?: boolean }) {
+/** Stable score spine — layout positions do not depend on digit width. */
+function MatchScore({ match }: { match: LiveMatch }) {
   return (
-    <div className={compact ? "cr-score cr-score-compact" : "cr-score"}>
+    <div className="cr-score" data-spine>
       <div className="cr-score-team">
         <span className="cr-code">{match.teamA.code}</span>
         {match.teamA.score ? (
@@ -84,6 +104,34 @@ function MatchScore({ match, compact = false }: { match: LiveMatch; compact?: bo
           <span className="cr-muted">{match.start ?? "Yet to bat"}</span>
         )}
       </div>
+    </div>
+  );
+}
+
+function SituationBlock({ match }: { match: LiveMatch }) {
+  const showRates = match.format !== "TEST" && (match.crr || match.rrr);
+  return (
+    <div className="cr-situation">
+      <p className="cr-situation-line">{match.note}</p>
+      {match.session ? <p className="cr-session">{match.session}</p> : null}
+      {showRates ? (
+        <p className="cr-rates cr-mono">
+          {match.crr ? <span>CRR {match.crr}</span> : null}
+          {match.crr && match.rrr ? <span aria-hidden="true"> · </span> : null}
+          {match.rrr ? <span>RRR {match.rrr}</span> : null}
+        </p>
+      ) : null}
+      {match.format === "TEST" && match.crr ? (
+        <p className="cr-rates cr-mono">Session rate {match.crr}</p>
+      ) : null}
+      {match.thisOver && match.thisOver.length > 0 ? <OverTrail balls={match.thisOver} /> : null}
+      {match.striker ? (
+        <p className="cr-pair">
+          <span>{match.striker}</span>
+          {match.nonStriker ? <span> · {match.nonStriker}</span> : null}
+          {match.bowler ? <span className="cr-bowler"> · {match.bowler}</span> : null}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -237,9 +285,9 @@ export function CreaseExperience() {
                 All matches today
               </a>
             </div>
-            <div className="cr-hero-scorecard" aria-label="Featured scorecard">
+            <div className="cr-hero-scorecard" aria-label="Featured scorecard" data-live-region="polite">
               <MatchScore match={FEATURED} />
-              <p className="cr-hero-note">{FEATURED.note}</p>
+              <SituationBlock match={FEATURED} />
             </div>
           </div>
         </section>
@@ -251,7 +299,8 @@ export function CreaseExperience() {
               Today’s board
             </h2>
             <p className="cr-section-dek">
-              Status first, score second, story last — so you can find the game in one glance.
+              Status first, score second, situation third — cricket’s inverted pyramid for second-screen
+              glances between balls.
             </p>
           </div>
 
@@ -274,7 +323,7 @@ export function CreaseExperience() {
                 </div>
                 <div className="cr-match-body">
                   <MatchScore match={m} />
-                  <p className="cr-match-note">{m.note}</p>
+                  <SituationBlock match={m} />
                   <p className="cr-venue">{m.venue}</p>
                 </div>
                 <a className="cr-match-link" href="#stories">
