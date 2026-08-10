@@ -1479,51 +1479,52 @@ function renderHangtag(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
- * Gather essay with fold ticks + outer plate index — press-atelier signature.
+ * Signature / forme stack — press-atelier mid-page instrument.
  *
- * Not entry folios, chrono beads, verso/recto, or marginalia — signatures gathered in order
- * with fold ticks hanging in the margin.
+ * Overlapping press formes with registration corners + densitometer strip.
+ * Not the essay+aside list clone shared by range/entry/hang/ember.
  */
 function renderGather(section: SectionSpec, figures: FigurePlan): string {
   const blocks = section.blocks;
   const count = blocks.length || 1;
   const sigs = "ABCDEFGH".split("");
-  const essay = blocks
+  const formes = blocks
     .map((b, i) => {
       const mark = figures.marks[i] ? `<div class="ds-gather-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
       const sig = esc(b.meta ?? `Sig ${sigs[i] ?? String(i + 1)}`);
-      return `<article class="ds-gather-beat" style="--i:${i}">
-        <span class="ds-gather-tick" aria-hidden="true">${sig}</span>
-        <div class="ds-gather-measure">
-          <p class="ds-chapter-index">${sig}</p>
-          <h3>${esc(b.title)}</h3>
-          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
-          ${b.kicker ? `<p class="ds-gather-note">${esc(b.kicker)}</p>` : ""}
-          ${mark}
-        </div>
+      const letter = esc((b.meta ?? sigs[i] ?? String(i + 1)).replace(/^Sig\s+/i, "").slice(0, 2));
+      return `<article class="ds-gather-forme" style="--i:${i}" data-sig="${sig}">
+        <div class="ds-gather-regs" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <header class="ds-gather-forme-head">
+          <span class="ds-gather-forme-letter">${letter}</span>
+          <div class="ds-gather-forme-copy">
+            <p class="ds-chapter-index">${sig}</p>
+            <h3>${esc(b.title)}</h3>
+          </div>
+        </header>
+        ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+        ${b.kicker ? `<p class="ds-gather-note">${esc(b.kicker)}</p>` : ""}
+        ${mark}
       </article>`;
     })
     .join("");
-  const aside = blocks
-    .map((b, i) => {
-      const sig = esc(b.meta ?? `Sig ${sigs[i] ?? String(i + 1)}`);
-      return `<li class="ds-gather-aside-item">
-        <span class="ds-gather-aside-sig">${sig}</span>
-        <span class="ds-gather-aside-title">${esc(b.title)}</span>
-      </li>`;
-    })
-    .join("");
+  const densito = `<div class="ds-gather-densito" role="img" aria-label="Densitometer strip">
+    <span class="ds-densito-bar" data-tone="k"></span>
+    <span class="ds-densito-bar" data-tone="c"></span>
+    <span class="ds-densito-bar" data-tone="m"></span>
+    <span class="ds-densito-bar" data-tone="y"></span>
+    <span class="ds-densito-bar" data-tone="g25"></span>
+    <span class="ds-densito-bar" data-tone="g50"></span>
+    <span class="ds-densito-bar" data-tone="g75"></span>
+    <span class="ds-densito-label">CMYK · gather check</span>
+  </div>`;
   return `<section class="ds-section ds-story ds-gather" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
-      ${secMeta("Gather", `${count} signatures · fold ticks`)}
+      ${secMeta("Gather", `${count} formes · densitometer`)}
       ${sectionHead(section, 2, true)}
-      <div class="ds-gather-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
-        <div class="ds-gather-essay">${essay}</div>
-        <aside class="ds-gather-aside" aria-label="Plate index">
-          <ol class="ds-gather-aside-list">${aside}</ol>
-        </aside>
-      </div>
+      <div class="ds-gather-stack" aria-label="Signature stack">${formes}</div>
+      ${densito}
     </div>
   </section>`;
 }
@@ -1577,51 +1578,55 @@ function renderEmber(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
- * Range essay — field-guide signature.
- * Distribution beads + outer taxon index. Not hangtag, entry, or verso/recto.
+ * Dichotomous voucher key — field-guide mid-page instrument.
+ *
+ * Horizontal taxon ladder + stacked voucher sheets with couplet forks.
+ * Not the essay+aside list clone shared by gather/entry/hang/ember.
  */
 function renderRange(section: SectionSpec, figures: FigurePlan): string {
   const blocks = section.blocks;
   const count = blocks.length || 1;
-  const essay = blocks
+  const ranks = ["K", "P", "C", "O", "F", "G"];
+  const ladder = blocks
     .map((b, i) => {
-      const mark = figures.marks[i] ? `<div class="ds-range-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
-      const rank = esc(b.meta ?? ["K", "P", "C", "O", "F", "G"][i % 6]!);
-      return `<article class="ds-range-beat" style="--i:${i}">
-        <span class="ds-range-bead" aria-hidden="true"></span>
-        <div class="ds-range-body">
-          <p class="ds-range-rank">${rank}</p>
-          <h3>${esc(b.title)}</h3>
-          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
-          ${b.kicker ? `<p class="ds-range-note">${esc(b.kicker)}</p>` : ""}
-          ${mark}
-        </div>
-      </article>`;
+      const rank = esc(b.meta ?? ranks[i % 6]!);
+      return `<li class="ds-range-step" style="--i:${i}">
+        <span class="ds-range-rank">${rank}</span>
+        <span class="ds-range-step-title">${esc(b.title)}</span>
+        <span class="ds-range-fork" aria-hidden="true">a · b</span>
+      </li>`;
     })
     .join("");
-  const aside = blocks
+  const sheets = blocks
     .map((b, i) => {
-      const rank = esc(b.meta ?? ["K", "P", "C", "O", "F", "G"][i % 6]!);
-      return `<li class="ds-range-aside-item">
-        <span class="ds-range-aside-rank">${rank}</span>
-        <span class="ds-range-aside-title">${esc(b.title)}</span>
-      </li>`;
+      const mark = figures.marks[i] ? `<div class="ds-range-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const rank = esc(b.meta ?? ranks[i % 6]!);
+      const next = blocks[i + 1];
+      const yesLead = next ? esc(next.title) : "Voucher close";
+      const noLead = i > 0 ? esc(blocks[0]!.title) : "Re-key from Kingdom";
+      return `<article class="ds-range-sheet" style="--i:${i}">
+        <header class="ds-range-sheet-head">
+          <p class="ds-range-rank">${rank}</p>
+          <h3>${esc(b.title)}</h3>
+          <p class="ds-range-couplet-label">Couplet ${String(i + 1).padStart(2, "0")}</p>
+        </header>
+        ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+        ${b.kicker ? `<p class="ds-range-note">${esc(b.kicker)}</p>` : ""}
+        <ol class="ds-range-couplet" aria-label="Couplet ${i + 1}">
+          <li><span class="ds-range-lead">a</span><span class="ds-range-lead-copy">Trait holds → ${yesLead}</span></li>
+          <li><span class="ds-range-lead">b</span><span class="ds-range-lead-copy">Trait fails → ${noLead}</span></li>
+        </ol>
+        ${mark}
+      </article>`;
     })
     .join("");
   return `<section class="ds-section ds-story ds-range" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
-      ${secMeta("Range", `${count} beads · taxon index`)}
+      ${secMeta("Range", `${count} couplets · voucher key`)}
       ${sectionHead(section, 2, true)}
-      <div class="ds-range-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
-        <div class="ds-range-essay">
-          <div class="ds-range-track" aria-hidden="true"></div>
-          ${essay}
-        </div>
-        <aside class="ds-range-aside" aria-label="Taxon index">
-          <ol class="ds-range-aside-list">${aside}</ol>
-        </aside>
-      </div>
+      <ol class="ds-range-ladder" aria-label="Dichotomous key">${ladder}</ol>
+      <div class="ds-range-sheets">${sheets}</div>
     </div>
   </section>`;
 }
