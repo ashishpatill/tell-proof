@@ -643,3 +643,11 @@ buckets, never names, hosts, or URLs.
 - **Closed:** `template:observatory-essay-aside-clone`.
 - **Next weakest:** lantern ember essay+aside clone; dossier spread citeability; loom hangtag aside.
 
+## Loop 31 — Phase 9 lantern night trail
+
+- **Goal:** Replace ember essay+aside with zigzag night-walk trail (domain pack).
+- **Failure named:** Mid-page Ember was essay + chapter index — same family as hang/entry.
+- **Challenger:** Center path spine + left/right alternating waypoint panels; lantern-path DomainResearchPack.
+- **Closed:** `template:lantern-ember-essay-aside-clone`.
+- **Next weakest:** loom hangtag essay+aside; dossier spread citeability.
+
