@@ -403,11 +403,16 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-scrub-rail/.test(html)
           && /data-figure="signal-lattice"/.test(html)
           && /ds-chrono/.test(html)
+          && /class="ds-chrono-desk"/.test(html)
+          && /aria-label="Event waterfall"/.test(html)
+          && /class="ds-chrono-waterfall"/.test(html)
+          && !/class="ds-chrono-aside"/.test(html)
+          && !/class="ds-chrono-grid"/.test(html)
           && /Calibration/.test(html)
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Observatory offerings use chronometer + scrub rail + signal lattice + chrono essay + calibration — no pricing, no metrics theatre, zero inverse bands.",
+      "Observatory offerings use chronometer + scrub rail + signal lattice + event waterfall + calibration — no pricing, no metrics theatre, zero inverse bands.",
     ),
         check(
       "kind-archive",

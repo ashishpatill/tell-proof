@@ -327,6 +327,76 @@ const GENERIC_PACKS: Record<string, DomainResearchPack> = {
       roundingDepth: "soft",
     },
   }),
+  "signal-observatory": DomainResearchPack.parse({
+    domainId: "signal-observatory",
+    label: "Enterprise observability desk",
+    siteKindHint: "signal-observatory",
+    culturalThesis:
+      "On-call desks read time as a shared instrument — spans and thresholds before narrative essays.",
+    multiPageRoutes: [
+      {
+        id: "home",
+        path: "/",
+        routeClass: "home",
+        purpose: "Live window + lattice entry",
+        captureTargets: ["hero", "mid", "footer"],
+      },
+      {
+        id: "incident",
+        path: "/incident",
+        routeClass: "detail",
+        purpose: "Event waterfall for one window",
+        captureTargets: ["hero", "mid"],
+      },
+    ],
+    shellContract: {
+      stickyRegions: ["header", "scrub-rail"],
+      primaryNavMaxItems: 4,
+      mobileNavPattern: "bottom-tabs",
+      footerDepth: "minimal",
+    },
+    navInventory: [
+      { id: "desk", label: "Desk", routeClass: "home", priority: "primary" },
+      { id: "channels", label: "Channels", routeClass: "home", priority: "primary" },
+      { id: "handoff", label: "Handoff", routeClass: "detail", priority: "secondary" },
+    ],
+    footerInventory: [
+      { id: "desk", title: "Desk", links: ["Live window", "Calibration"] },
+    ],
+    controlTaxonomy: [
+      {
+        id: "scrub-window",
+        role: "Time bracket scrub",
+        states: ["default", "hover", "focus-visible", "active"],
+      },
+      {
+        id: "span-row",
+        role: "Event span on waterfall",
+        states: ["default", "hover", "focus-visible"],
+      },
+    ],
+    variantLenses: [
+      { id: "window", label: "Time bracket", changesFacts: ["1h", "6h", "24h"] },
+    ],
+    categoryGaps: [
+      "Essay+aside mid-page that could be any craft template",
+      "Metric theatre instead of instrument spans",
+      "Inverse SaaS proof board on a paper desk",
+    ],
+    uxRules: [
+      "Instrument time before prose",
+      "Spans show duration on a shared ruler",
+      "Calibration marks travel with the close",
+    ],
+    tasteSeed: {
+      aestheticLean: "refined-story",
+      density: "balanced",
+      motion: "light-scroll-reveals",
+      colorMood: "light-airy",
+      typographyWeight: "light-elegant",
+      roundingDepth: "sharp",
+    },
+  }),
 };
 
 /** Load prior domain pack by id (sport:cricket, saas-marketing, …). */

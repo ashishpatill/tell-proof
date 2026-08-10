@@ -246,7 +246,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "n5", name: "Calibration strip", description: "Tolerance marks stamped on the close so a reused screenshot cannot orphan its scale.", priority: "p1" },
         { id: "n6", name: "Desk memory", description: "A window that survives the jump from night lead to morning lead without becoming orphan charts.", priority: "p2" },
       ],
-      constraints: ["instrument-first", "signal lattice", "chrono essay", "no pricing theatre", "restrained motion"],
+      constraints: ["instrument-first", "signal lattice", "event waterfall", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "light-scroll-reveals",
