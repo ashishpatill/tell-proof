@@ -700,3 +700,11 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Fix:** `ds-ember-trail` center path with left/right alternating `ds-ember-step` panels.
 - **Eval:** eye shows zigzag night trail ≠ waterfall / formes / voucher key.
 - **Do not:** Mirror hangtag/entry aside lists for a night-walk chapter reading.
+
+## 2026-08-10 — `template:loom-hangtag-essay-aside-clone`
+
+- **Failure:** Commerce loom hangtag was essay-left + size-index aside — last clear twin of the
+  shared craft mid-page family.
+- **Domain:** `loadPriorDomain("commerce-loom")` — size tape + swing care tags before prose.
+- **Fix:** Horizontal `ds-hang-tape` + overlapping `ds-hang-tag` stack with eyelets/strings.
+- **Do not:** Put a size list in a right aside and call it merchandising craft.

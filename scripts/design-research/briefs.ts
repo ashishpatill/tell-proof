@@ -304,7 +304,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "l5", name: "Care label", description: "Edition and care stamped so a reused page cannot orphan its provenance.", priority: "p1" },
         { id: "l6", name: "Cut memory", description: "A loom that survives the jump from sample to order without becoming orphan cards.", priority: "p2" },
       ],
-      constraints: ["loom-first", "drawloom weft", "hangtag essay", "no pricing theatre", "restrained motion"],
+      constraints: ["loom-first", "drawloom weft", "care-tag stack", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "light-scroll-reveals",

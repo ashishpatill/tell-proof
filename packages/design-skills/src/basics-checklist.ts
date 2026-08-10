@@ -449,11 +449,15 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-treadles/.test(html)
           && /data-figure="loom-weave"/.test(html)
           && /ds-hangtag/.test(html)
+          && /class="ds-hang-tape"/.test(html)
+          && /aria-label="Care tag stack"/.test(html)
+          && /class="ds-hang-stack"/.test(html)
+          && !/class="ds-hang-aside"/.test(html)
           && /Care label/.test(html)
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Loom offerings use shed-threaded weft + shuttle + fell + treadles + loom weave + hangtag + Care label — no pricing, no metrics theatre, zero inverse bands.",
+      "Loom offerings use shed-threaded weft + shuttle + fell + treadles + loom weave + care-tag stack + Care label — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "kind-field",
