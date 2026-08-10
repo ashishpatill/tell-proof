@@ -196,6 +196,8 @@ export const CRAFT_DIMENSIONS: CraftDimension[] = [
   { id: "hairlines", label: "Hairline borders", path: "shape.hairlineRatio", band: [0.8, 1], tolerance: 0.25, mode: "atLeast", why: "Structure carried by 1px rules rather than heavy chrome." },
   { id: "motion-restraint", label: "Transition coverage", path: "motion.transitionRatio", band: [0.005, 0.12], tolerance: 0.06, mode: "corridor", why: "Motion on the things you touch, not on everything." },
   { id: "motion-speed", label: "Median transition (ms)", path: "motion.medianDurationMs", band: [140, 320], tolerance: 100, mode: "corridor", why: "Fast enough to feel responsive, slow enough to read as intentional." },
+  { id: "motion-presence", label: "Reveal grammar presence", path: "motion.revealNodes", band: [2, 40], tolerance: 4, mode: "atLeast", why: "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM." },
+  { id: "motion-choreography", label: "Stagger / chapter markers", path: "motion.choreographyScore", band: [3, 40], tolerance: 4, mode: "atLeast", why: "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover." },
   { id: "token-system", label: "Declared tokens", path: "tokens.declared", band: [40, 500], tolerance: 25, mode: "atLeast", why: "A real design system is declared, not hard-coded." },
   { id: "nav-restraint", label: "Nav links", path: "semantics.navLinks", band: [3, 16], tolerance: 6, mode: "corridor", why: "A navigable spine, not a sitemap in the header." },
   { id: "cta-discipline", label: "Above-fold CTAs", path: "hero.ctaButtons", band: [1, 4], tolerance: 3, mode: "corridor", why: "One primary decision, at most one alternative." },

@@ -290,6 +290,8 @@ export default function StudioPage() {
     if (/dark/.test(text)) nextColor = "dark-premium";
     if (/no motion|without animation|static/.test(text)) nextMotion = "none";
     if (/scroll reveal/.test(text)) nextMotion = "light-scroll-reveals";
+    if (/scroll narrative|pinned chapter|story scroll/.test(text)) nextMotion = "scroll-narrative";
+    if (/immersive|webgl|shader hero/.test(text)) nextMotion = "immersive";
 
     setDensity(nextDensity);
     setMotion(nextMotion);
@@ -435,7 +437,7 @@ export default function StudioPage() {
           <fieldset className="space-y-2 border-t border-border pt-3">
             <legend className="text-sm font-semibold">Taste Controls</legend>
             <Select label="Density" value={density} onChange={(v) => setDensity(v as Density)} options={["sparse", "balanced", "information-rich"]} testId="taste-density" />
-            <Select label="Motion" value={motion} onChange={(v) => setMotion(v as MotionLevel)} options={["none", "subtle-micro", "light-scroll-reveals"]} testId="taste-motion" />
+            <Select label="Motion" value={motion} onChange={(v) => setMotion(v as MotionLevel)} options={["none", "subtle-micro", "light-scroll-reveals", "scroll-narrative", "immersive"]} testId="taste-motion" />
             <Select
               label="Aesthetic lean"
               value={aestheticLean}

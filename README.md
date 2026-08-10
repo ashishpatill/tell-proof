@@ -6,7 +6,7 @@
 
 **Agents write code. Tell proves the UI — then helps you ship design that looks intentional, not AI-default.**
 
-[Specimens](#specimens--craft-reels-not-theme-packs) · [Why Tell](#why-tell-revolutionizes-design-for-cursor) · [Demo](#demo) · [Features](#features) · [Quick Start](#quick-start) · [Cursor MCP](#cursor-mcp) · [Architecture](#architecture) · [Deploy](#deploy)
+[Specimens](#specimens--craft-reels-not-theme-packs) · [Why Tell](#why-tell-revolutionizes-design-for-cursor) · [Demo](#demo) · [Features](#features) · [Quick Start](#quick-start) · [Cursor MCP](#cursor-mcp) · [Platform Compatibility](#platform-compatibility) · [Architecture](#architecture) · [Deploy](#deploy)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](./LICENSE)
 [![Built for Cursor](https://img.shields.io/badge/built%20for-Cursor-black.svg)](https://cursor.com)
@@ -270,6 +270,43 @@ Design a dashboard from these features with tell_design_from_features.
 | `tell_proof_revert` | Revert the last proof patch in the workspace. |
 | `tell_capture_matrix` | Live Playwright scenario matrix (route × viewport × theme × interaction × auth). |
 | `tell_design_from_features` | Generate a premium layout from a product brief (Studio skill graph). |
+
+---
+
+## Platform Compatibility
+
+Tell ships as **skills, a CLI, and an MCP server** that mainstream coding agents consume natively. Once the monorepo is installed, a single `tell mcp install <platform>` wires the MCP server into that agent’s config — same tools from inside any host.
+
+| Coding agent / platform | Status | One-line MCP install |
+|---|:---:|---|
+| Cursor | ✅ Supported | `tell mcp install cursor --project` |
+| Claude Code | ✅ Supported | `tell mcp install claude` |
+| Codex CLI | ✅ Supported | `tell mcp install codex --project` |
+| Grok Build | ✅ Supported | `tell mcp install grok --project` |
+| OpenCode | ✅ Supported | `tell mcp install opencode --project` |
+| VS Code + GitHub Copilot | ✅ Supported | `tell mcp install vscode --project` |
+| Windsurf | ✅ Supported | `tell mcp install windsurf --user` |
+| Zed | ✅ Supported | `tell mcp install zed --project` |
+| Cline (VS Code) | ✅ Supported | `tell mcp install cline --user` |
+| Kiro | ✅ Supported | `tell mcp install kiro --project` |
+| Kimi Code | ✅ Supported | `tell mcp install kimi --project` |
+| Qwen Code | ✅ Supported | `tell mcp install qwen --project` |
+| Pi Agent | ✅ Supported | `tell mcp install pi --user` |
+| Trae | ✅ Supported | `tell mcp install trae --user` |
+| Antigravity | ✅ Supported | `tell mcp install antigravity --user` |
+| Hermes Agent | ✅ Supported | `tell mcp install hermes --user` |
+| OpenClaw | ✅ Supported | `tell mcp install openclaw --user` |
+| Muse Code | 📋 Snippet | `tell mcp install muse --print` |
+| Z Code | 📋 Snippet | `tell mcp install zcode --print` |
+
+```bash
+tell mcp platforms                          # markdown table
+tell mcp install <platform> --print         # dry-run snippet
+tell mcp print-config                       # all agent snippets + Cursor deeplink
+tell install-info --markdown                # catalog + snippets
+```
+
+Tell does **not** spawn third-party coding agents as subprocesses. Compatibility means MCP install into the agent you already use.
 
 ---
 

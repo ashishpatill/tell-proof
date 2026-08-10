@@ -241,7 +241,7 @@ server.tool(
     taste: z
       .object({
         density: z.enum(["sparse", "balanced", "information-rich"]).optional(),
-        motion: z.enum(["none", "subtle-micro", "light-scroll-reveals"]).optional(),
+        motion: z.enum(["none", "subtle-micro", "light-scroll-reveals", "scroll-narrative", "immersive"]).optional(),
         aestheticLean: z.enum(["minimal-clean", "conversion-sharp", "system-crafted", "refined-story"]).optional(),
         colorMood: z.enum(["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"]).optional(),
         typographyWeight: z.enum(["light-elegant", "medium-modern", "bold-confident"]).optional(),

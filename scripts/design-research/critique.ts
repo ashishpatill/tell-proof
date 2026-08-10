@@ -75,7 +75,13 @@ async function main(): Promise<void> {
     // A page whose developer chose "no motion" has no transitions to time. Scoring it against a
     // transition corridor would be scoring it for obeying a taste control, so those two dimensions
     // are dropped for that page rather than counted as zero.
-    const applicable = page.motion === "none" ? bands.filter((d) => !d.id.startsWith("motion-")) : bands;
+    // subtle-micro intentionally has no reveal/chapter grammar — drop presence/choreography only.
+    const applicable =
+      page.motion === "none"
+        ? bands.filter((d) => !d.id.startsWith("motion-"))
+        : page.motion === "subtle-micro"
+          ? bands.filter((d) => d.id !== "motion-presence" && d.id !== "motion-choreography")
+          : bands;
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const p = await context.newPage();
     await p.goto(`http://127.0.0.1:4321/${page.id}`, { waitUntil: "networkidle", timeout: 30_000 });

@@ -24,7 +24,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "f5", name: "Policy guardrails", description: "Approval thresholds enforced at entry, not discovered in review.", priority: "p2" },
       ],
       constraints: ["totally customized to content", "restrained motion", "enterprise finance buyers"],
-      taste: { aestheticLean: "conversion-sharp", motion: "subtle-micro", density: "balanced", colorMood: "neutral-professional" },
+      taste: { aestheticLean: "conversion-sharp", motion: "light-scroll-reveals", density: "balanced", colorMood: "neutral-professional" },
     },
   },
   {
@@ -105,7 +105,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       constraints: ["money-product trust", "restrained motion", "inverse-heavy"],
       taste: {
         aestheticLean: "conversion-sharp",
-        motion: "subtle-micro",
+        motion: "light-scroll-reveals",
         density: "balanced",
         colorMood: "neutral-professional",
         typographyWeight: "bold-confident",
@@ -133,7 +133,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       brandAccent: "#1F4B6E",
       taste: {
         aestheticLean: "refined-story",
-        motion: "light-scroll-reveals",
+        motion: "scroll-narrative",
         density: "sparse",
         colorMood: "light-airy",
         typographyWeight: "light-elegant",
@@ -162,7 +162,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       constraints: ["figure-dense", "voice-led", "no SaaS pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "conversion-sharp",
-        motion: "subtle-micro",
+        motion: "scroll-narrative",
         density: "balanced",
         colorMood: "neutral-professional",
         typographyWeight: "medium-modern",
@@ -191,7 +191,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       constraints: ["type-craft first", "paper-led", "hard-seam fold", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
-        motion: "light-scroll-reveals",
+        motion: "scroll-narrative",
         density: "sparse",
         colorMood: "light-airy",
         typographyWeight: "light-elegant",
@@ -365,7 +365,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       constraints: ["press-first", "press sheet", "gather essay", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
-        motion: "light-scroll-reveals",
+        motion: "scroll-narrative",
         density: "sparse",
         colorMood: "light-airy",
         typographyWeight: "light-elegant",
@@ -394,7 +394,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       constraints: ["path-first", "path plate", "ember essay", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
-        motion: "light-scroll-reveals",
+        motion: "immersive",
         density: "sparse",
         colorMood: "light-airy",
         typographyWeight: "light-elegant",

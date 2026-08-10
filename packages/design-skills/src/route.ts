@@ -58,9 +58,21 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
 
   if (taste.motion === "light-scroll-reveals") {
     nodes.add("scroll-reveal-once");
+    nodes.add("hero-entrance-once");
+    nodes.add("section-stagger-enter");
     nodes.add("restrained-motion-micro");
+    nodes.add("motion-stack-craft");
+  } else if (taste.motion === "scroll-narrative" || taste.motion === "immersive") {
+    nodes.add("scroll-reveal-once");
+    nodes.add("hero-entrance-once");
+    nodes.add("section-stagger-enter");
+    nodes.add("scroll-narrative-craft");
+    nodes.add("restrained-motion-micro");
+    nodes.add("motion-stack-craft");
+    if (taste.motion === "immersive") nodes.add("authored-motion-slot");
   } else if (taste.motion !== "none") {
     nodes.add("restrained-motion-micro");
+    nodes.add("motion-stack-craft");
   }
 
   if (
@@ -127,6 +139,11 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     "dashboard-or-webapp-ui",
     "sport-vernacular-craft",
     "scroll-reveal-once",
+    "hero-entrance-once",
+    "section-stagger-enter",
+    "scroll-narrative-craft",
+    "authored-motion-slot",
+    "motion-stack-craft",
     "restrained-motion-micro",
     "edge-fade-craft",
     "elevation-depth-tokens",

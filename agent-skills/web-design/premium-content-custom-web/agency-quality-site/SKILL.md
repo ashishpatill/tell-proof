@@ -212,13 +212,21 @@ When rhythm eye passes: --mark-pass 3b-spacing
 
 ## Phase 3c — `3c-motion` (motion only)
 
+Full motion ladder + stack policy: `docs/15_MOTION_ANIMATION_PLAN.md` · survey:
+`research/MOTION_ANIMATION_SURVEY.md`. Stay inside corpus restraint bands (`docs/10`).
+
 ### Goal prompt
 
 ```
 Use agency-quality-site. Phase 3c-motion ONLY.
 
 Start from current.html (passed 3b).
-GOAL: Scroll-reveal + hover. Subtle. 200–300ms. Nothing bounces. prefers-reduced-motion safe.
+GOAL: One motion system. (1) Hero entrance once — brand→headline→support→CTA stagger ≤80ms.
+(2) Section stagger enters — opacity + ≤0.5rem Y only, once. (3) Interactive micro-feedback
+on controls only. Optional: one scroll chapter if brief is narrative. Micro 150–300ms;
+entrance sequence ≤800ms. No bounce, blur, loops, or dual scroll engines.
+prefers-reduced-motion → finals immediately. Static first frame must read complete.
+Eye test: ≥2 beats a reader would miss if deleted.
 Touch NOTHING except motion.
 
 Run: pnpm agency:pipeline -- --brief <brief> --phase 3c-motion
@@ -229,7 +237,8 @@ Run: pnpm agency:pipeline -- --brief <brief> --phase 3c-motion
 ```
 Phase 3c-motion LOOP (attempt <n>/3).
 
-Motion issues: <too much | missing hover | blocking | no reduced-motion>
+Motion issues: <missing hero entrance | missing stagger | lifeless | too much | blocking |
+no reduced-motion | dual engines | restraint spray>
 Fix motion ONLY. --reshoot. When eye passes: --mark-pass 3c-motion
 ```
 

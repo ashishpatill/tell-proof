@@ -23,6 +23,11 @@ const ALL_SKILLS: SkillNodeId[] = [
   "conversion-landing-craft",
   "pricing-decision-craft",
   "scroll-reveal-once",
+  "hero-entrance-once",
+  "section-stagger-enter",
+  "scroll-narrative-craft",
+  "authored-motion-slot",
+  "motion-stack-craft",
   "indexed-detail-markers",
   "honest-integration-marks",
   "paper-technical-frame",
@@ -54,7 +59,9 @@ describe("premium-content-custom-web engine", () => {
     expect(spec.sections.some((s) => s.layout === "workflow-proof")).toBe(true);
     expect(previewHtml).toContain("Northstar");
     expect(previewHtml).toContain("Account scoring");
-    expect(previewHtml).toContain('data-motion="subtle-micro"');
+    expect(previewHtml).toContain('data-motion="light-scroll-reveals"');
+    expect(previewHtml).toContain("ds-enter");
+    expect(previewHtml).toContain("animation-timeline:view()");
     expect(previewHtml).toContain(":focus-visible");
     expect(previewHtml).toContain("Skip to content");
     expect(previewHtml).toContain("data-workflow-proof");
@@ -278,8 +285,77 @@ describe("measured craft floors", () => {
   it("keeps motion off anything the reader cannot touch", () => {
     const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
     expect(previewHtml).toContain("prefers-reduced-motion");
-    expect(previewHtml).not.toMatch(/\*\s*\{[^}]*transition:/);
+    // Ban universal `* { transition }` — not child combinators like `.ds-stagger > *`.
+    expect(previewHtml).not.toMatch(/(?:^|[,{;])\s*\*\s*\{[^}]*\btransition\s*:/m);
+    expect(previewHtml).not.toMatch(/\*,\*?::before,\*?::after\{[^}]*\btransition\s*:/);
     expect(previewHtml).not.toContain("animation-iteration-count:infinite");
+  });
+
+  it("ships distinct motion signatures per site kind", () => {
+    const saas = designFromFeatures(SHOWCASE_BRIEFS.saas!).previewHtml;
+    const consumer = designFromFeatures(SHOWCASE_BRIEFS.consumer!).previewHtml;
+    const foundry = designFromFeatures(SHOWCASE_BRIEFS.foundry!).previewHtml;
+    const fintech = designFromFeatures(SHOWCASE_BRIEFS.fintech!).previewHtml;
+    expect(saas).toContain("ds-saas-in");
+    expect(consumer).toContain("ds-consumer-in");
+    expect(consumer).toContain("ds-consumer-in-alt");
+    expect(foundry).toContain("ds-foundry-mask");
+    expect(fintech).toContain("ds-fin-in");
+    expect(saas).not.toContain("ds-consumer-in");
+    expect(consumer).not.toContain("ds-fin-in");
+    expect(foundry).not.toContain("ds-saas-in");
+  });
+
+  it("ships hero entrance + stagger + view-timeline for scroll reveals", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    expect(spec.taste.motion).toBe("light-scroll-reveals");
+    expect(spec.routedSkills).toContain("hero-entrance-once");
+    expect(spec.routedSkills).toContain("section-stagger-enter");
+    expect(previewHtml).toContain("ds-reveal");
+    expect(previewHtml).toContain("ds-stagger");
+    expect(previewHtml).toContain("--m-stagger");
+    expect(previewHtml).toContain("--enter-i:");
+  });
+
+  it("pins one scroll chapter for narrative motion", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.studio!);
+    expect(spec.taste.motion).toBe("scroll-narrative");
+    expect(spec.routedSkills).toContain("scroll-narrative-craft");
+    expect(previewHtml).toContain("ds-chapter-pin");
+    expect(previewHtml).toContain("ds-chapter-progress");
+  });
+
+  it("reserves authored motion slot for immersive tier", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    expect(spec.taste.motion).toBe("immersive");
+    expect(spec.routedSkills).toContain("authored-motion-slot");
+    expect(previewHtml).toContain('data-authored-slot="empty"');
+  });
+
+  it("routes motion-stack-craft and ships product instruments", () => {
+    const saas = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    const observatory = designFromFeatures(SHOWCASE_BRIEFS.observatory!);
+    const edu = designFromFeatures(SHOWCASE_BRIEFS.educational!);
+    const lantern = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    const dash = designFromFeatures(SHOWCASE_BRIEFS.dashboard!);
+    const fintech = designFromFeatures(SHOWCASE_BRIEFS.fintech!);
+    const foundry = designFromFeatures(SHOWCASE_BRIEFS.foundry!);
+    const corporate = designFromFeatures(SHOWCASE_BRIEFS.corporate!);
+    expect(saas.spec.routedSkills).toContain("motion-stack-craft");
+    expect(dash.spec.routedSkills).toContain("motion-stack-craft");
+    expect(saas.previewHtml).toMatch(/class="ds-draw"/);
+    expect(fintech.previewHtml).toMatch(/class="ds-draw"/);
+    expect(foundry.previewHtml).toMatch(/class="ds-draw"/);
+    expect(corporate.previewHtml).toMatch(/class="ds-draw"/);
+    expect(observatory.previewHtml).toContain("ds-lattice-bar");
+    expect(edu.previewHtml).toMatch(/ds-draw|data-scrub/);
+    expect(lantern.previewHtml).toContain('data-motion-instrument="field"');
+    expect(saas.previewHtml).toContain("stroke-dashoffset");
+    // No ambient infinite loops in the motion system (loom shuttle is once).
+    expect(saas.previewHtml).not.toMatch(/animation:ds-shuttle-fly[^;]*infinite/);
+    expect(designFromFeatures(SHOWCASE_BRIEFS.loom!).previewHtml).not.toMatch(
+      /animation:ds-shuttle-fly[^;]*infinite/,
+    );
   });
 
   it("emits no raw hex outside the token block", () => {
@@ -379,6 +455,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain('data-sitekind="art-directed-studio"');
     expect(previewHtml).toContain("ds-hero-stackfold");
     expect(previewHtml).toContain("ds-hero-claimband");
+    expect(previewHtml).toContain('data-figure="work-board"');
     expect(previewHtml).toMatch(/<section id="top"[^>]*ds-hero-stackfold/);
     expect(previewHtml).not.toMatch(/<section id="top"[^>]*ds-hero-overfigure/);
     expect(previewHtml).toContain("Selected work");
@@ -411,8 +488,10 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-spine");
     expect(previewHtml).toContain('data-figure="type-ladder"');
     expect(previewHtml).toContain("ds-marginalia");
+    expect(previewHtml).toContain("ds-cut-slips");
     expect(previewHtml).toContain("Colophon");
     expect(previewHtml).toContain("The cuts");
+    expect(spec.sections.some((s) => s.id === "features-2")).toBe(false);
   });
 
   it("gives research dossier a folio + plate + spread plan distinct from foundry and SaaS", () => {
@@ -463,6 +542,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
     expect(spec.sections.some((s) => s.layout === "hero-register")).toBe(true);
     expect(spec.sections.some((s) => s.layout === "story-entry")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "feature-rows")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "marquee-proof")).toBe(false);
     const inverse = spec.sections.filter((s) => s.surface === "inverse");
     expect(inverse.length).toBe(0);
     expect(previewHtml).toContain('data-sitekind="archive-index"');
@@ -471,6 +552,9 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-alpha-rail");
     expect(previewHtml).toContain('data-figure="index-ledger"');
     expect(previewHtml).toContain("ds-entry");
+    expect(previewHtml).toContain("ds-cross-stamps");
+    expect(previewHtml).toContain("ds-stamp-seal");
+    expect(previewHtml).toContain("ds-entry-aside-kicker");
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Registry");
     expect(previewHtml).toContain("The entries");
@@ -705,15 +789,67 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toMatch(/\.ds-workflow-rail ol\{[^}]*gap:var\(--s-sm\)/);
   });
 
-  it("fills the proof band with a dense evidence board instead of a lonely quote", () => {
-    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
-    expect(previewHtml).toContain("ds-proof-board");
-    expect(previewHtml).toContain("ds-proof-cell");
-    expect(previewHtml).toContain("ds-proof-claim");
-    expect(previewHtml).toContain("ds-story");
-    expect(previewHtml).not.toContain("How to read this page");
-    expect(previewHtml).not.toContain("min-height:min(140vh");
-    const cells = previewHtml.match(/ds-proof-cell/g) ?? [];
+  it("fills marketing proof bands with dense evidence — SaaS uses workflow, others use marquee boards", () => {
+    const hasLiveBoard = (html: string) => /<ul[^>]*\bdata-proof-board\b/.test(html);
+
+    const saas = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    expect(saas.previewHtml).toContain("data-workflow-proof");
+    expect(saas.previewHtml).toContain("ds-proof-claim");
+    expect(saas.previewHtml).toContain("ds-story");
+    expect(hasLiveBoard(saas.previewHtml)).toBe(false);
+    expect(saas.previewHtml).not.toContain("How to read this page");
+    expect(saas.previewHtml).not.toContain("min-height:min(140vh");
+
+    const fintech = designFromFeatures(SHOWCASE_BRIEFS.fintech!);
+    expect(hasLiveBoard(fintech.previewHtml)).toBe(true);
+    expect(fintech.previewHtml).toContain("ds-proof-board-wire");
+    expect(fintech.previewHtml).toContain("ds-proof-cell");
+    const cells = fintech.previewHtml.match(/ds-proof-cell/g) ?? [];
     expect(cells.length).toBeGreaterThanOrEqual(4);
+
+    const dashboard = designFromFeatures(SHOWCASE_BRIEFS.dashboard!);
+    expect(dashboard.previewHtml).toContain("ds-proof-board-stack");
+
+    const corporate = designFromFeatures(SHOWCASE_BRIEFS.corporate!);
+    expect(corporate.previewHtml).toContain("ds-proof-board-spine");
+  });
+
+  it("does not bolt the shared marquee-proof board onto craft templates", () => {
+    const craftKeys = [
+      "studio",
+      "consumer",
+      "foundry",
+      "dossier",
+      "observatory",
+      "archive",
+      "loom",
+      "herbarium",
+      "press",
+      "lantern",
+    ] as const;
+    const sharedPhrases = [
+      "Why teams keep it",
+      "earns trust in review",
+      "declared scope · ships together",
+      "capabilities · declared scope",
+    ];
+    const hasLiveBoard = (html: string) => /<ul[^>]*\bdata-proof-board\b/.test(html);
+    for (const key of craftKeys) {
+      const brief = SHOWCASE_BRIEFS[key];
+      expect(brief, `missing showcase brief ${key}`).toBeTruthy();
+      const { spec, previewHtml } = designFromFeatures(brief!);
+      expect(spec.sections.some((s) => s.layout === "marquee-proof"), `${key} still has marquee-proof`).toBe(
+        false,
+      );
+      expect(hasLiveBoard(previewHtml), `${key} still renders shared proof board`).toBe(false);
+      for (const phrase of sharedPhrases) {
+        expect(previewHtml.includes(phrase), `${key} still shares copy "${phrase}"`).toBe(false);
+      }
+    }
+    // Archive keeps its unique entry essay — not a SaaS proof board with Stamp Roll features.
+    const archive = designFromFeatures(SHOWCASE_BRIEFS.archive!);
+    expect(archive.previewHtml).toContain("ds-entry");
+    expect(archive.previewHtml).toContain("Alpha jump");
+    expect(archive.spec.sections.some((s) => s.layout === "story-entry")).toBe(true);
   });
 });

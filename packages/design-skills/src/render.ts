@@ -7,7 +7,13 @@
  */
 import { renderCss } from "./css";
 import { horizonPlot, isReading, planFigures, type FigurePlan } from "./figures";
-import type { Block, DesignSpec, SectionSpec } from "./types";
+import {
+  motionHasNarrative,
+  motionHasReveals,
+  type Block,
+  type DesignSpec,
+  type SectionSpec,
+} from "./types";
 
 function esc(s: string): string {
   return s
@@ -33,13 +39,41 @@ function clip(s: string, n: number): string {
  * lost its layout: no section padding, no minimum heights, and no positioning context — which is
  * how a background field two screens down ended up painting on the fold.
  */
-function revealAttrs(spec: DesignSpec, index: number, html: string): string {
-  if (spec.taste.motion !== "light-scroll-reveals") return html;
+function revealAttrs(
+  spec: DesignSpec,
+  index: number,
+  html: string,
+  opts: { pinChapter?: boolean } = {},
+): string {
+  if (!motionHasReveals(spec.taste.motion)) return html;
   const delay = Math.min(index, 5) * 60;
-  return html.replace(
+  const extra = opts.pinChapter ? "ds-reveal ds-stagger ds-chapter-pin" : "ds-reveal ds-stagger";
+  let next = html.replace(
     /^<(section|footer)\s+class="/,
-    (_m, tag: string) => `<${tag} style="transition-delay:${delay}ms" class="ds-reveal `,
+    (_m, tag: string) => `<${tag} style="transition-delay:${delay}ms" class="${extra} `,
   );
+  if (opts.pinChapter) {
+    next = next.replace(
+      /^(<(?:section|footer)\b[^>]*>)/,
+      `$1<div class="ds-chapter-progress" aria-hidden="true"></div><div class="ds-chapter-pin-inner">`,
+    );
+    next = next.replace(/<\/(section|footer)>$/, `</div></$1>`);
+  }
+  return next;
+}
+
+function enterAttr(spec: DesignSpec, i: number, baseClass: string): string {
+  if (!motionHasReveals(spec.taste.motion)) return `class="${baseClass}"`;
+  return `class="${baseClass} ds-enter" style="--enter-i:${i}"`;
+}
+
+/** Stamp hero-entrance delay onto an existing opening tag that already has class="…". */
+function withEnter(spec: DesignSpec, i: number, html: string): string {
+  if (!html || !motionHasReveals(spec.taste.motion)) return html;
+  return html.replace(/^<([a-z0-9]+)(\s+class="[^"]*")/i, (_m, tag: string, cls: string) => {
+    if (/\bds-enter\b/.test(cls)) return `<${tag}${cls}`;
+    return `<${tag}${cls.slice(0, -1)} ds-enter" style="--enter-i:${i}"`;
+  });
 }
 
 /**
@@ -204,12 +238,13 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       ? `<ul class="ds-hero-facts">${section.blocks.map((b) => `<li>${esc(b.title)}</li>`).join("")}</ul>`
       : "";
 
+  const actI = section.eyebrow ? 4 : 3;
   const copy = `<div class="ds-hero-copy">
-    <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
-    ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
-    <h1 class="ds-display">${esc(section.title)}</h1>
-    <p class="ds-lede">${esc(section.body)}</p>
-    ${actions(section)}
+    <p ${enterAttr(spec, 0, "ds-brand-mark")}>${esc(spec.brief.productName)}</p>
+    ${section.eyebrow ? `<p ${enterAttr(spec, 1, "ds-eyebrow")}>${esc(section.eyebrow)}</p>` : ""}
+    <h1 ${enterAttr(spec, section.eyebrow ? 2 : 1, "ds-display")}>${esc(section.title)}</h1>
+    <p ${enterAttr(spec, section.eyebrow ? 3 : 2, "ds-lede")}>${esc(section.body)}</p>
+    ${withEnter(spec, actI, actions(section))}
     ${meta}
   </div>`;
 
@@ -593,7 +628,9 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       ${rail}
       ${mast}
       <div class="ds-path-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-bleed ds-path-field">${plateFig}${near}</div>
+      <div class="ds-bleed ds-path-field"${
+        spec.taste.motion === "immersive" ? ` data-motion-instrument="field"` : ""
+      }>${plateFig}${near}</div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
@@ -1160,6 +1197,7 @@ function renderChapters(section: SectionSpec, figures: FigurePlan): string {
  */
 function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
   const count = section.blocks.length;
+  const cuts = ["Display", "Title", "Deck", "Text", "Caption", "Tabular"];
   const notes = section.blocks
     .map((b, i) => {
       const note = b.kicker || b.meta || `Cut ${String(i + 1).padStart(2, "0")}`;
@@ -1172,10 +1210,28 @@ function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
   const essay = section.blocks
     .map((b, i) => {
       const mark = figures.marks[i] ? `<div class="ds-marginalia-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      // Cut slips — optical-size companions that travel with the reading (foundry mid-page proof).
+      const related = section.blocks
+        .map((other, j) => ({ other, j }))
+        .filter(({ j }) => j !== i)
+        .slice(0, 3);
+      const slips =
+        related.length > 0
+          ? `<ul class="ds-cut-slips" aria-label="Optical-size slips for ${esc(b.title)}">${related
+              .map(({ other, j }) => {
+                const cut = esc(other.meta || cuts[j % cuts.length]!);
+                return `<li class="ds-cut-slip">
+                  <span class="ds-cut-size" aria-hidden="true">${cut}</span>
+                  <span class="ds-cut-name">${esc(other.title)}</span>
+                </li>`;
+              })
+              .join("")}</ul>`
+          : "";
       return `<article class="ds-marginalia-beat">
         <p class="ds-chapter-index">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
         <h3>${esc(b.title)}</h3>
         ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+        ${slips}
         ${mark}
         ${i < count - 1 ? `<hr class="ds-marginalia-rule" aria-hidden="true"/>` : ""}
       </article>`;
@@ -1318,6 +1374,24 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
     .map((b, i) => {
       const mark = figures.marks[i] ? `<div class="ds-entry-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
       const folio = esc(b.meta ?? String(i + 1).padStart(3, "0"));
+      // Cross stamps — related entries that travel with this reading (archive signature, not a card grid).
+      const related = blocks
+        .map((other, j) => ({ other, j }))
+        .filter(({ j }) => j !== i)
+        .slice(0, 3);
+      const stamps =
+        related.length > 0
+          ? `<ul class="ds-cross-stamps" aria-label="Cross-referenced stamps for ${esc(b.title)}">${related
+              .map(({ other, j }) => {
+                const relFolio = esc(other.meta ?? String(j + 1).padStart(3, "0"));
+                return `<li class="ds-cross-stamp">
+                  <span class="ds-stamp-seal" aria-hidden="true"></span>
+                  <span class="ds-stamp-folio">${relFolio}</span>
+                  <span class="ds-stamp-name">${esc(other.title)}</span>
+                </li>`;
+              })
+              .join("")}</ul>`
+          : "";
       return `<article class="ds-entry-beat" style="--i:${i}">
         <span class="ds-entry-folio" aria-hidden="true">${folio}</span>
         <div class="ds-entry-measure">
@@ -1325,6 +1399,7 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
           <h3>${esc(b.title)}</h3>
           ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
           ${b.kicker ? `<p class="ds-entry-note">${esc(b.kicker)}</p>` : ""}
+          ${stamps}
           ${mark}
         </div>
       </article>`;
@@ -1336,6 +1411,7 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
       return `<li class="ds-entry-aside-item">
         <span class="ds-entry-aside-folio">${folio}</span>
         <span class="ds-entry-aside-title">${esc(b.title)}</span>
+        <span class="ds-entry-aside-seal" aria-hidden="true"></span>
       </li>`;
     })
     .join("");
@@ -1347,6 +1423,7 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
       <div class="ds-entry-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
         <div class="ds-entry-essay">${essay}</div>
         <aside class="ds-entry-aside" aria-label="Entry index">
+          <p class="ds-entry-aside-kicker">Shelf index</p>
           <ol class="ds-entry-aside-list">${aside}</ol>
         </aside>
       </div>
@@ -1549,10 +1626,19 @@ function renderRange(section: SectionSpec, figures: FigurePlan): string {
   </section>`;
 }
 
-function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
+function renderProofBoard(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
   const cells = section.blocks.slice(0, 5);
+  const kind = spec?.brief.siteKind;
+  const boardClass =
+    kind === "dashboard-webapp"
+      ? "ds-proof-board ds-proof-board-stack"
+      : kind === "fintech-marketing"
+        ? "ds-proof-board ds-proof-board-wire"
+        : kind === "corporate-story"
+          ? "ds-proof-board ds-proof-board-spine"
+          : "ds-proof-board";
   const board = cells.length
-    ? `<ul class="ds-proof-board" data-proof-board>${cells
+    ? `<ul class="${boardClass}" data-proof-board>${cells
         .map((b, i) => {
           const mark = figures.marks[i] ?? "";
           return `<li class="ds-proof-cell${b.emphasis === "lead" ? " is-lead" : ""}">
@@ -1567,13 +1653,40 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan): string {
         .join("")}</ul>`
     : "";
   const figure = figures.body
-    ? plate(figures.body, section.quoteAttribution ?? "Declared scope", "ds-proof-figure ds-plate-lit")
+    ? plate(
+        figures.body,
+        section.quoteAttribution ??
+          (kind === "dashboard-webapp"
+            ? "Live desk"
+            : kind === "fintech-marketing"
+              ? "Treasury controls"
+              : kind === "corporate-story"
+                ? "Diligence pack"
+                : "Declared scope"),
+        "ds-proof-figure ds-plate-lit",
+      )
     : figures.field
       ? `<figure class="ds-proof-figure ds-proof-figure-field" aria-hidden="true">${figures.field}</figure>`
       : "";
+  const metaLabel =
+    kind === "dashboard-webapp"
+      ? "Desk"
+      : kind === "fintech-marketing"
+        ? "Treasury"
+        : kind === "corporate-story"
+          ? "Diligence"
+          : "Proof";
+  const metaDetail =
+    kind === "dashboard-webapp"
+      ? `${cells.length} views · stays open`
+      : kind === "fintech-marketing"
+        ? `${cells.length} controls · audit-ready`
+        : kind === "corporate-story"
+          ? `${cells.length} pillars · verifiable`
+          : `${cells.length} capabilities · declared scope`;
   return `<section class="ds-section ds-proof" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
-      ${secMeta("Proof", `${cells.length} capabilities · declared scope`)}
+      ${secMeta(metaLabel, metaDetail)}
       <div class="ds-proof-stage" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
         <header class="ds-proof-head">
           ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
@@ -2015,10 +2128,16 @@ function bondAttr(section: SectionSpec, html: string): string {
   return html.replace(/^<(section|footer)\s/, (_m, tag: string) => `<${tag} data-bond="continues" `);
 }
 
-function renderSection(section: SectionSpec, index: number, spec: DesignSpec, figures: FigurePlan): string {
+function renderSection(
+  section: SectionSpec,
+  index: number,
+  spec: DesignSpec,
+  figures: FigurePlan,
+  opts: { pinChapter?: boolean } = {},
+): string {
   const wrapped = (html: string): string => {
     if (section.layout === "nav") return html;
-    return revealAttrs(spec, index, bondAttr(section, html));
+    return revealAttrs(spec, index, bondAttr(section, html), opts);
   };
 
   switch (section.layout) {
@@ -2072,7 +2191,7 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
       return wrapped(renderEmber(section, figures));
     case "pullquote":
     case "marquee-proof":
-      return wrapped(renderProofBoard(section, figures));
+      return wrapped(renderProofBoard(section, figures, spec));
     case "workflow-proof":
       return wrapped(renderWorkflowProof(section, figures, spec));
     case "pricing-lanes":
@@ -2093,11 +2212,16 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
 }
 
 function scripts(spec: DesignSpec): string {
-  const revealJs =
-    spec.taste.motion === "light-scroll-reveals"
+  const revealJs = motionHasReveals(spec.taste.motion)
       ? `var nodes=[].slice.call(document.querySelectorAll('.ds-reveal'));
   if(nodes.length){
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)){
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var scrollDriven=false;
+    try{ scrollDriven=CSS.supports('animation-timeline','view()'); }catch(e){}
+    if(reduce || !('IntersectionObserver' in window)){
+      nodes.forEach(function(n){n.classList.add('is-in')});
+    } else if(scrollDriven){
+      /* CSS view() timelines own the reveal; still mark is-in for stagger fallbacks */
       nodes.forEach(function(n){n.classList.add('is-in')});
     } else {
       var io=new IntersectionObserver(function(entries){
@@ -2324,6 +2448,96 @@ function scripts(spec: DesignSpec): string {
     });
   });
 
+  /* motion-stack-craft: arm SVG stroke-draw + lattice + flow meters once in view */
+  (function(){
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function arm(el){
+      if(!el || el.classList.contains('is-armed')) return;
+      el.classList.add('is-armed');
+      [].slice.call(el.querySelectorAll('.ds-draw')).forEach(function(p){
+        try{ if(!p.getAttribute('pathLength')) p.setAttribute('pathLength','1'); }catch(e){}
+      });
+    }
+    var figs=[].slice.call(document.querySelectorAll('.ds-fig, .ds-flow-track, [data-motion-instrument]'));
+    if(!figs.length) return;
+    if(reduce || !('IntersectionObserver' in window)){
+      figs.forEach(arm);
+      return;
+    }
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ arm(e.target); io.unobserve(e.target); }
+      });
+    },{threshold:0.12,rootMargin:'0px 0px -4% 0px'});
+    figs.forEach(function(n){ io.observe(n); });
+  })();
+
+  /* Immersive canvas2d field (Three.js-pattern stand-in; no CDN). Static-first when reduced. */
+  (function(){
+    var host=document.querySelector('[data-motion-instrument="field"]');
+    if(!host) return;
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce) return;
+    var canvas=document.createElement('canvas');
+    canvas.className='ds-motion-field';
+    canvas.setAttribute('aria-hidden','true');
+    host.appendChild(canvas);
+    var ctx=canvas.getContext('2d');
+    if(!ctx) return;
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    var dots=[];
+    var raf=0;
+    var running=false;
+    function resize(){
+      var r=host.getBoundingClientRect();
+      canvas.width=Math.max(1,Math.floor(r.width*dpr));
+      canvas.height=Math.max(1,Math.floor(r.height*dpr));
+      canvas.style.width=r.width+'px';
+      canvas.style.height=r.height+'px';
+      var n=Math.min(48, Math.max(18, Math.floor((r.width*r.height)/18000)));
+      dots=[];
+      for(var i=0;i<n;i++){
+        dots.push({
+          x:Math.random(),
+          y:Math.random(),
+          r:0.6+Math.random()*1.4,
+          vx:(Math.random()-0.5)*0.00035,
+          vy:(Math.random()-0.5)*0.00025
+        });
+      }
+    }
+    function ink(){
+      var s=getComputedStyle(document.body);
+      return s.getPropertyValue('--c-accent').trim() || s.getPropertyValue('--surface-ink').trim() || '#444';
+    }
+    function frame(){
+      if(!running) return;
+      var w=canvas.width,h=canvas.height;
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle=ink();
+      for(var i=0;i<dots.length;i++){
+        var d=dots[i];
+        d.x+=d.vx; d.y+=d.vy;
+        if(d.x<0||d.x>1) d.vx*=-1;
+        if(d.y<0||d.y>1) d.vy*=-1;
+        ctx.globalAlpha=0.22+ (i%5)*0.04;
+        ctx.beginPath();
+        ctx.arc(d.x*w,d.y*h,d.r*dpr,0,Math.PI*2);
+        ctx.fill();
+      }
+      raf=requestAnimationFrame(frame);
+    }
+    function start(){ if(running) return; running=true; resize(); frame(); }
+    function stop(){ running=false; if(raf) cancelAnimationFrame(raf); }
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting) start(); else stop(); });
+      },{threshold:0.05});
+      io.observe(host);
+    } else { start(); }
+    window.addEventListener('resize', function(){ if(running) resize(); }, {passive:true});
+  })();
+
   /* Lantern-path: waypoint rail active chapter + silhouette near-plane handoff. */
   (function(){
     var marks=[].slice.call(document.querySelectorAll('.ds-way-mark[data-way]'));
@@ -2373,6 +2587,9 @@ export function renderPreviewHtml(spec: DesignSpec): string {
   const atmosphereLayer = atmosphere
     ? `<div class="ds-atmosphere" aria-hidden="true"><div class="ds-atmosphere-motes"></div><div class="ds-accent-beam"></div></div>`
     : "";
+  const authoredSlot = spec.routedSkills.includes("authored-motion-slot")
+    ? `<aside class="ds-authored-motion" data-authored-slot="empty" aria-label="Authored motion poster"><span class="ds-sr">Authored motion slot — poster frame until a runtime asset is mounted</span></aside>`
+    : "";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -2385,22 +2602,33 @@ export function renderPreviewHtml(spec: DesignSpec): string {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fonts}&display=swap"/>
 ${needsHtmx ? `<script src="https://unpkg.com/htmx.org@2.0.4" defer></script>` : ""}
-<noscript><style>.ds-reveal{opacity:1!important;transform:none!important}</style></noscript>
+<noscript><style>.ds-reveal,.ds-enter,.ds-stagger > *{opacity:1!important;transform:none!important;animation:none!important}.ds-chapter-pin{min-height:0!important}.ds-chapter-pin-inner{position:static!important}.ds-chapter-progress{display:none!important}</style></noscript>
 <style>${renderCss(spec)}</style>
 </head>
 <body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-mood="${esc(spec.taste.colorMood)}" data-sitekind="${esc(spec.brief.siteKind)}" data-depth="${esc(depth)}"${paperFrame ? ` data-frame="paper-technical"` : ""}${atmosphere ? ` data-atmosphere="static"` : ""}>
 ${atmosphereLayer}
 <a class="ds-skip" href="#main">Skip to content</a>
 <p class="ds-sr">${esc(spec.summary)}</p>
+${authoredSlot}
 ${spec.sections
   .filter((s) => s.layout === "nav")
   .map((s, i) => renderSection(s, i, spec, figures))
   .join("\n")}
 <main id="main">
-${spec.sections
-  .filter((s) => s.layout !== "nav" && s.layout !== "footer-columns")
-  .map((s, i) => renderSection(s, i, spec, figures))
-  .join("\n")}
+${(() => {
+  let pinned = false;
+  return spec.sections
+    .filter((s) => s.layout !== "nav" && s.layout !== "footer-columns")
+    .map((s, i) => {
+      const pinChapter =
+        motionHasNarrative(spec.taste.motion) &&
+        !pinned &&
+        (s.kind === "story" || s.kind === "features");
+      if (pinChapter) pinned = true;
+      return renderSection(s, i, spec, figures, { pinChapter });
+    })
+    .join("\n");
+})()}
 </main>
 ${spec.sections
   .filter((s) => s.layout === "footer-columns")

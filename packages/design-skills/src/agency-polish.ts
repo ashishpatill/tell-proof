@@ -54,18 +54,22 @@ section[data-section] + section[data-section] {
 }
 `,
   motion: `
-/* agency-polish:motion — 200–300ms reveals + hover; nothing bounces */
+/* agency-polish:motion — hero/section grammar aligned with engine tokens; nothing bounces */
 @media (prefers-reduced-motion: no-preference) {
-  .ds-reveal, [data-reveal], .ds-section {
-    transition: opacity 240ms ease-out, transform 240ms ease-out;
+  .ds-reveal, [data-reveal] {
+    transition: opacity var(--m-reveal, 420ms) var(--m-ease-out, ease-out), transform var(--m-reveal, 420ms) var(--m-ease-out, ease-out);
   }
   .ds-reveal:not(.is-in), [data-reveal]:not(.is-in) {
-    opacity: 0.01;
-    transform: translateY(12px);
+    opacity: 0;
+    transform: translateY(0.5rem);
   }
-  .ds-reveal.is-in, [data-reveal].is-in, .ds-section.is-in {
+  .ds-reveal.is-in, [data-reveal].is-in {
     opacity: 1;
     transform: none;
+  }
+  .ds-enter {
+    animation: ds-enter-in var(--m-entrance, 520ms) var(--m-ease-out, ease-out) forwards;
+    animation-delay: calc(var(--enter-i, 0) * var(--m-stagger, 64ms));
   }
   a, button, .ds-btn, [role="button"] {
     transition: opacity 200ms ease-out, transform 200ms ease-out, background-color 200ms ease-out, color 200ms ease-out, border-color 200ms ease-out;
@@ -75,10 +79,11 @@ section[data-section] + section[data-section] {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ds-reveal, [data-reveal], .ds-section, a, button, .ds-btn {
+  .ds-reveal, [data-reveal], .ds-enter, .ds-section, a, button, .ds-btn {
     transition: none !important;
-    transform: none !important;
+    animation: none !important;
     opacity: 1 !important;
+    transform: none !important;
   }
 }
 `,

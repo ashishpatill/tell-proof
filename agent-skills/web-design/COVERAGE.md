@@ -9,9 +9,9 @@ full script duties (pause, cleanup, brand accent, reduced motion) live in the ma
 | `agency-grid-layout-minimal` | agency-minimal-grid |
 | `ambient-section-particles` | ambient-atmosphere-craft |
 | `animation-on-scroll` | scroll-reveal-once |
-| `animation-systems` | restrained-motion-micro + scroll-reveal-once |
+| `animation-systems` | restrained-motion-micro + scroll-reveal-once + motion-stack-craft |
 | `atmosphere-background` | ambient-atmosphere-craft + signal-beam-craft (calm folds) |
-| `background-grid-webgl` | wireframe-annotation-craft + dither-field-craft |
+| `background-grid-webgl` | wireframe-annotation-craft + dither-field-craft + motion-stack-craft (immersive gate) |
 | `beam-glow-states` | beam-state-craft |
 | `beautiful-shadows` | elevation-depth-tokens |
 | `blue-cloudy-clean-modern` | mesh-field-craft + dark-premium mood |
@@ -19,8 +19,8 @@ full script duties (pause, cleanup, brand accent, reduced motion) live in the ma
 | `book-serif-index` | editorial-chapter-craft + archive/foundry kinds |
 | `bright-green-tech-system-webgl` | mesh-field-craft + container-tech-shell (accent=brand) |
 | `build-awwwards-quality-sites` | premium-content-custom-web + agency-quality-site + DESIGN_RIGOR.md + gates-until-verified (phased polish + honesty bar, not award claims) |
-| `build-threejs-scroll-worlds` | scrub-sequence-craft + mesh-field-craft |
-| `cinematic-gsap-lenis-motion-system` | scrub-sequence-craft (one scroll engine only; never dual) |
+| `build-threejs-scroll-worlds` | motion-stack-craft + scrub-sequence-craft + mesh-field-craft |
+| `cinematic-gsap-lenis-motion-system` | motion-stack-craft + scrub-sequence-craft (one scroll engine only; never dual) |
 | `cinematic-scroll-storytelling` | editorial-chapter-craft + scrub-sequence-craft |
 | `clean-minimal-beige-light-mode` | paper-technical-frame + minimal-clean |
 | `cobejs` | mesh-field-craft |
@@ -47,8 +47,8 @@ full script duties (pause, cleanup, brand accent, reduced motion) live in the ma
 | `globe-gl` | mesh-field-craft (globe as figure; dispose resources) |
 | `globe-particles` | ambient-atmosphere-craft + mesh-field-craft |
 | `gooey-blob-system` | organic-merge-craft |
-| `gsap` | scroll-reveal-once + scrub-sequence-craft (one motion system; reduced motion) |
-| `gsap-scrolltrigger-storytelling` | scrub-sequence-craft + editorial-chapter-craft |
+| `gsap` | motion-stack-craft + scroll-reveal-once + scrub-sequence-craft (one motion system; reduced motion) |
+| `gsap-scrolltrigger-storytelling` | motion-stack-craft + scrub-sequence-craft + editorial-chapter-craft |
 | `high-contrast-skeuomorphic-clean` | elevation-depth-tokens (skeuo chrome only) |
 | `image-first-grid-layout` | image-first-fold |
 | `landing-page` | conversion-landing-craft |
@@ -81,11 +81,11 @@ full script duties (pause, cleanup, brand accent, reduced motion) live in the ma
 | `tech-green-dark-mode-modern` | container-tech-shell + dark-premium |
 | `technical-wireframe-info-layout` | wireframe-annotation-craft |
 | `thinking-orbs` | organic-merge-craft + beam-state-craft (focal pulse; not continuous page orbs) |
-| `threejs` | mesh-field-craft + scrub-sequence-craft (dispose; poster; reduced motion) |
+| `threejs` | motion-stack-craft + mesh-field-craft (dispose; poster; reduced motion; canvas2d stand-in in templates) |
 | `unicorn-studio` | mesh-field-craft (embed pause/cleanup; poster fallback) |
 | `vantajs` | mesh-field-craft (WebGL bg with pause/cleanup duties) |
-| `webgl-3d-object` | mesh-field-craft / scrub-sequence-craft (purpose-built 3D only) |
-| `webgl-landing-steering` | mesh-field-craft (spatial depth opt-in + poster fallback) |
+| `webgl-3d-object` | motion-stack-craft / mesh-field-craft / scrub-sequence-craft (purpose-built 3D only) |
+| `webgl-landing-steering` | motion-stack-craft + mesh-field-craft (spatial depth opt-in + poster fallback) |
 | `webgl-laser` | signal-beam-craft |
 | `sport-matchday-research` | sport-site-research + sport-vernacular-craft |
 

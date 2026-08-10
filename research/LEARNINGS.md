@@ -540,3 +540,130 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `SPORT_SITE_VERNACULAR.md`; Phase 1 re-plan for `/crease/*` routes.
 - **Do not:** Build website IA from blank slate when a domain pack exists; do not commit portal
   hosts/JSONL; do not ship matchday products as one hash page.
+## 2026-08-09 — `motion:restraint-band-masks-lifeless-pages`
+
+- **Failure:** Critique `motion-restraint` / `motion-speed` score 1.0 across briefs while templates
+  still feel static — metrics only measure CSS transition share and duration, not choreography
+  (hero entrance, stagger, scroll chapters, missable beats). Agency `3c-motion` Goal was
+  “scroll-reveal + hover,” which capped craft at the same thin ceiling.
+- **Fix:** Survey experts + 2026 stacks (`research/MOTION_ANIMATION_SURVEY.md`); product ladder
+  in `docs/15_MOTION_ANIMATION_PLAN.md`; raise `3c-motion` contract; thicken motion sub-skills;
+  seed gitignored `motion-corpus.local.json` for forensics. Next: presence metrics + CSS
+  view-timeline / stagger render (W1–W3).
+- **Do not:** Spray transitions to “fix” coverage; do not default WebGL; do not treat
+  in-band restraint as proof that motion exists.
+
+## 2026-08-09 — `motion:engine-choreography-ship`
+
+- **Failure:** Templates only offered CSS hover + optional IO opacity fades; Taste enum stopped
+  at `light-scroll-reveals`; critique could not fail “lifeless but restrained” pages.
+- **Fix (RSI challenger):** Expand `MotionLevel` (+`scroll-narrative`,`immersive`); emit hero
+  `ds-enter`, section `ds-stagger`, CSS `animation-timeline: view()` with IO fallback, one
+  sticky `ds-chapter-pin` + progress; Studio/MCP options; forensics `choreographyScore` /
+  `revealNodes` + critique dims (skipped for `none`/`subtle-micro`). Agency polish aligned.
+  Unit tests 60/60; critique matrix ~96.5 with motion dims no longer in the weakest set.
+- **Do not:** Import React Motion into HTML templates; do not dual smooth-scroll; do not
+  weaken restraint bands to fake presence.
+
+## 2026-08-09 — `motion:sitekind-signature-clips`
+
+- **Failure:** Every revealing template shared the same translateY fade — clips of SaaS,
+  consumer, foundry, etc. were interchangeable.
+- **Fix:** `motionSignatureCss(siteKind)` overrides travel/easing/stagger/origin (and a few
+  unique keyframes: foundry mask, press snap, dossier vertical chapter ink). Recorder
+  `pnpm record:template-motion` writes `/opt/cursor/artifacts/motion-clips/*-motion.webm`
+  plus manifest. Educational/fintech bumped to light-scroll-reveals so signatures play.
+- **Do not:** Ship one shared fade for all offerings; do not add infinite ambient loops
+  to “look different.”
+
+## 2026-08-09 — `motion:unique-keyframes-verified`
+
+- **Failure:** First signature pass only tweaked CSS vars; on-camera the clips still read as
+  one vertical fade. Video review rejected uniqueness.
+- **Fix:** Dedicated `@keyframes` per siteKind (`ds-saas-in`, `ds-consumer-in`,
+  `ds-foundry-mask`, `ds-fin-in`, …) forced via `animation-name` on `.ds-reveal`/`.ds-enter`.
+  Chromium probe confirms distinct `getComputedStyle().animationName` per template.
+  `pnpm record:template-motion` writes 15 slowed clips + manifest under
+  `/opt/cursor/artifacts/motion-clips/`.
+- **Do not:** Trust var-only travel deltas as “unique motion”; verify computed animation-name
+  (and a clip) before claiming uniqueness.
+
+## 2026-08-09 — `motion:stack-craft-skill-and-instruments`
+
+- **Failure:** Templates had signature keyframes but no skill encoding Three.js / D3 /
+  free OSS motion stacks; instruments were not systematically customized per product.
+- **Fix:** Ship `motion-stack-craft` skill + playbook; route whenever motion ≠ `none`;
+  add product instruments (`.ds-draw` stroke-draw, `.ds-lattice-bar` enter, SaaS flow
+  meters, immersive canvas2d field on lantern). Survey §§3.5–3.6 document D3 + OSS
+  template adaptation rules. Tests 62 green.
+- **Do not:** Paste OSS kits unchanged; do not CDN Three into marketing HTML by default;
+  do not use D3 for non-data decoration.
+
+## 2026-08-09 — `motion:instrument-spray-breaks-restraint`
+
+- **Failure:** RSI audit found most siteKinds lacked body-level product instruments (only
+  edu/observatory had real DOM motion hooks); loom shipped `animation:…infinite` shuttle CSS
+  globally; giving every lattice amplitude bar a CSS `transition` blew observatory
+  transition-coverage to 0.243 (band max ~0.154) and dropped matrix to 96.3.
+- **Fix (RSI challenger):** Add feature-true `.ds-draw` on pipeline / wire / posture / dossier /
+  ladder / path / interface / archive register; dens patches on press; cap lattice motion to
+  ≤8 hot bars; shuttle once under `[data-sitekind="commerce-loom"]` only; immersive field only
+  when `motion===immersive`. Critique recovered **96.5**; observatory **94.2**; eye shots show
+  pipeline connector, lattice window, path atlas craft beats (not nav-only).
+- **Do not:** Put transitions on every SVG child to “look alive”; verify restraint coverage
+  after instrument ships; never leave infinite ambient loops in shared CSS.
+
+## 2026-08-09 — `template:shared-marquee-proof-is-not-unique`
+
+- **Failure (human):** Stamp Roll's "Why … earns trust in review / Why teams keep it / Proof ·
+  declared scope" board appeared across almost every craft template — same page with product-name
+  swaps after unique fold instruments.
+- **Root cause:** Composition bolted shared `marquee-proof` onto archive, observatory, loom, field,
+  press, lantern, foundry, dossier, studio, and consumer after their signature story sections.
+  Fallback copy (`Why teams keep it`, `earns trust in review`, `declared scope · ships together`)
+  made the clone unmistakable.
+- **Fix:** Remove marquee-proof from craft kinds — entry / chrono / hangtag / range / gather / ember /
+  marginalia / spread / chapters already prove. Keep marquee only for dashboard / fintech /
+  corporate, each with distinct board chrome (stack / wire / spine). Expand per-siteKind eyebrows +
+  pullQuotes. Basics gate now *forbids* `data-proof-board` on craft kinds and requires workflow or
+  board on marketing kinds.
+- **Do not:** Answer "make templates unique" by appending the same Proof board with renamed titles.
+  Signature story instruments are the proof; a shared evidence marquee is cheating.
+
+## 2026-08-09 — `template:archive-feature-rows-void-after-marquee-cut`
+
+- **Failure:** After removing shared marquee-proof, Stamp Roll mid-page `feature-rows` left
+  Cross stamps / Registry close as huge empty airways; entry folio was under-owned as proof.
+- **Fix (Phase 9 loop 1):** Drop archive `features-2` feature-rows. Deepen `story-entry` with
+  `ds-cross-stamps` seal strip + shelf-index aside. Shorten register claim (hide lede) so ledger
+  owns more fold; keep display ≥3.16vw; thin stamp borders so rules/screen stays near band.
+- **Eval:** archive **95.7 → 97.4**; foldFigure **0.34 → 0.43**; matrix **98.0**. Eye: fold shows
+  register+ledger; mid-page shows hanging folio with related stamp seals (not empty rows).
+- **Do not:** Fill a craft mid-page gap with a second generic feature catalogue. Put concept ink
+  inside the signature instrument.
+
+## 2026-08-09 — `template:studio-html-flow-foldfigure-zero`
+
+- **Failure:** Fieldmark fold used HTML `flow` stage cards (interactive stepper). Critique
+  `foldFigure=0` / score **94.5** — process steppers are not drawn matter and read as SaaS.
+- **Fix (Phase 9 loop 2):** New SVG `work-board` (crop-marked selected-work plates + method rail)
+  forced as studio hero; flow stays mid-page. Compact claim band so board enters the fold.
+- **Eval:** studio **94.5 → 99.0**; foldFigure **0 → 0.38**; matrix **98.3**. Eye: fold shows
+  crop-marked board, not a 01–04 stage strip.
+- **Do not:** Park HTML steppers as the studio fold instrument and call it selected-work craft.
+
+## 2026-08-09 — `template:foundry-cut-slips-not-second-catalogue`
+
+- **Failure:** Glyph Press kept a second `feature-alternating` catalogue after marquee removal —
+  same sparse-airway class as archive feature-rows.
+- **Fix:** Drop foundry features-2. Add `ds-cut-slips` (optical-size companions) inside
+  marginalia beats. Strip remaining craft `features-2` feature-rows across dossier/observatory/
+  loom/herbarium/press/lantern/consumer.
+- **Eval:** foundry held **96.7** (no regression); eye shows cut slips on the measure. Matrix **98.3**.
+- **Do not:** Answer a thin craft mid-page by appending another generic feature catalogue.
+
+## 2026-08-09 — `platform:mcp-compat-catalog`
+
+- **Failure:** Tell only wrote Cursor MCP config; other hosts (Claude, Codex, OpenCode, Grok, Cline, …) had no `tell mcp install` parity with mainstream agent-compat tables.
+- **Fix:** `PlatformId` + `buildPlatformCatalog` in `@tell/schema`, `platforms[]` on `InstallInfo`, CLI writers for json/toml/yaml/opencode/openclaw, README + Connect Agent table. Muse/Z Code remain snippet-only until paths are verified.
+- **Do not:** Spawn third-party coding agents as Tell subprocesses — compatibility = MCP install into the agent Ashish already uses.

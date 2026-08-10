@@ -10,7 +10,8 @@
  *  - derived from the brief, so it says something true about the product rather than decorating it
  *  - deterministic from a seed, so the same brief always draws the same figure
  *  - painted only in tokens, so it re-themes with the page and never contradicts the system
- *  - static, because a diagram that moves is a diagram competing with the argument beside it
+ *  - still-first: the drawing reads complete with motion off; product instruments
+ *    (stroke-draw, lattice enter) may animate once when Taste motion allows — never ambient loops
  */
 import type { Block, MetricSpec } from "./types";
 import { FREE_PHOTOS } from "./free-assets";
@@ -143,7 +144,8 @@ export type FigureKind =
   | "queue-console"
   | "posture-grid"
   | "mechanism-plate"
-  | "wire-ledger";
+  | "wire-ledger"
+  | "work-board";
 
 interface FrameOptions {
   /** Named for a screen reader; omit to mark the figure decorative. */
@@ -403,7 +405,7 @@ export function interfacePlate(productName: string, rows: Block[], seed: string,
       t = Math.max(0.12, Math.min(0.92, t + (r() - 0.36) * 0.2));
       pts.push(`${i === 0 ? "M" : "L"}${round(gx(i))} ${round(py + ph - 14 - t * (ph - 46))}`);
     }
-    parts.push(`<path d="${pts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
+    parts.push(`<path class="ds-draw" pathLength="1" d="${pts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
     parts.push(rule(tx + 14, py + ph - 14, tx + tw - 14, py + ph - 14));
   }
   if (barY < H - 34) {
@@ -516,7 +518,7 @@ function interfaceBand(productName: string, rows: Block[], seed: string): string
     t = Math.max(0.12, Math.min(0.92, t + (r() - 0.36) * 0.2));
     pts.push(`${i === 0 ? "M" : "L"}${round(px + 14 + (i / (n - 1)) * (panelW - 28))} ${round(plotB - t * plotH)}`);
   }
-  parts.push(`<path d="${pts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
+  parts.push(`<path class="ds-draw" pathLength="1" d="${pts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
   parts.push(rule(px + 14, plotB, px + panelW - 14, plotB));
 
   return frame(parts.join(""), { width: W, height: H, kind: "interface", inset: BLEED_INSET });
@@ -569,7 +571,9 @@ export function seriesChart(label: string, periods: string[], seed: string, role
   parts.push(
     `<path d="${line} L${round(x(n - 1))} ${bottom} L${round(x(0))} ${bottom} Z" fill="${ACCENT_FIELD}"/>`,
   );
-  parts.push(`<path d="${line}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
+  parts.push(
+    `<path class="ds-draw" pathLength="1" d="${line}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`,
+  );
 
   const mark = n - 1;
   parts.push(rule(x(mark), top, x(mark), bottom));
@@ -916,7 +920,7 @@ export function metricSpark(index: number, seed: string): string {
   const y = (t: number) => H - 4 - t * (H - 10);
   const d = vals.map((t, i) => `${i === 0 ? "M" : "L"}${round(x(i))} ${round(y(t))}`).join(" ");
   return frame(
-    `<path d="${d}" fill="none" stroke="var(--c-border-strong)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+    `<path class="ds-draw" pathLength="1" d="${d}" fill="none" stroke="var(--c-border-strong)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
      <circle cx="${round(x(n - 1))}" cy="${round(y(vals[n - 1]!))}" r="3" fill="${ACCENT}"/>`,
     { width: W, height: H, kind: "spark" },
   );
@@ -1041,7 +1045,7 @@ export function typeLadder(
 
   // Accent seam edge on the left of the ladder — the hard rule that marks foundry craft.
   parts.push(
-    `<line x1="${round(padX)}" y1="${round(padY)}" x2="${round(padX)}" y2="${round(H - padY)}" stroke="${ACCENT}" stroke-width="3" vector-effect="non-scaling-stroke"/>`,
+    `<path class="ds-draw" pathLength="1" d="M${round(padX)} ${round(padY)} L${round(padX)} ${round(H - padY)}" fill="none" stroke="${ACCENT}" stroke-width="3" vector-effect="non-scaling-stroke"/>`,
   );
 
   let y = padY + 8;
@@ -1158,7 +1162,11 @@ export function dossierPlate(
       pts.push(`${round(cx + Math.cos(a) * rx * jitter)},${round(cy + Math.sin(a) * ry * jitter)}`);
     }
     parts.push(
-      `<polygon points="${pts.join(" ")}" fill="${ACCENT_FIELD}" stroke="${ACCENT}" stroke-width="1" opacity="${round(0.35 + r() * 0.25)}" vector-effect="non-scaling-stroke"/>`,
+      `<polygon class="ds-draw-poly" points="${pts.join(" ")}" fill="${ACCENT_FIELD}" stroke="${ACCENT}" stroke-width="1" opacity="${round(0.35 + r() * 0.25)}" vector-effect="non-scaling-stroke"/>`,
+    );
+    // Stroke-draw twin — D3-pattern enter without fighting the fill region.
+    parts.push(
+      `<polyline class="ds-draw" pathLength="1" points="${pts.join(" ")} ${pts[0]}" fill="none" stroke="${ACCENT}" stroke-width="1.5" opacity="0.9" vector-effect="non-scaling-stroke"/>`,
     );
   }
 
@@ -1313,16 +1321,22 @@ export function signalLattice(
     );
 
     // Amplitude bars — dense instrument matter without SVG display type.
+    // Only a short run near the hot window gets `.ds-lattice-bar` enter motion so
+    // transition coverage stays inside the corpus restraint band (~2–15%).
     const bars = 28;
     const gap = barW / bars;
     const ampSeed = 0.25 + r() * 0.55;
+    let motionBars = 0;
     for (let b = 0; b < bars; b += 1) {
       const h = rowH * (0.18 + ampSeed * Math.abs(Math.sin((b + i * 3) * 0.55 + r() * 0.4)) * 0.72);
       const x = barLeft + gap * b + gap * 0.15;
       const y = mid - h / 2;
       const hot = b > bars * 0.62 && b < bars * 0.78;
+      const animate = i === 0 && hot && motionBars < 8;
+      if (animate) motionBars += 1;
+      const cls = animate ? ` class="ds-lattice-bar" style="--bar-i:${motionBars - 1}"` : "";
       parts.push(
-        `<rect x="${round(x)}" y="${round(y)}" width="${round(gap * 0.55)}" height="${round(h)}" fill="${hot ? ACCENT : LINE}" opacity="${hot ? 0.85 : round(0.35 + r() * 0.35)}"/>`,
+        `<rect${cls} x="${round(x)}" y="${round(y)}" width="${round(gap * 0.55)}" height="${round(h)}" fill="${hot ? ACCENT : LINE}" opacity="${hot ? 0.85 : round(0.35 + r() * 0.35)}"/>`,
       );
     }
 
@@ -1406,7 +1420,7 @@ export function indexLedger(
   // Header strip — register mark + product (mono ≤11px).
   const headY = padY + 16;
   parts.push(
-    `<line x1="${round(padX)}" y1="${round(headY + 10)}" x2="${round(W - padX)}" y2="${round(headY + 10)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    `<line class="ds-draw" pathLength="1" x1="${round(padX)}" y1="${round(headY + 10)}" x2="${round(W - padX)}" y2="${round(headY + 10)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
   parts.push(
     `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">REGISTER</text>`,
@@ -1610,7 +1624,7 @@ export function densitometerStrip(
     const pw = densSpan / patches - 4;
     const op = round(0.12 + (i / Math.max(1, patches - 1)) * 0.8);
     parts.push(
-      `<rect x="${round(px)}" y="${round(y0)}" width="${round(pw)}" height="12" fill="${ACCENT}" opacity="${op}"/>`,
+      `<rect class="ds-dens-patch" style="--dens-i:${i}" x="${round(px)}" y="${round(y0)}" width="${round(pw)}" height="12" fill="${ACCENT}" opacity="${op}"/>`,
     );
   }
   return parts.join("");
@@ -1900,7 +1914,7 @@ export function pathPlate(
     `<path d="${pathD}" fill="none" stroke="color-mix(in srgb, var(--c-paper) 18%, transparent)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>`,
   );
   parts.push(
-    `<path d="${pathD}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" vector-effect="non-scaling-stroke"/>`,
+    `<path class="ds-draw" pathLength="1" d="${pathD}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" vector-effect="non-scaling-stroke"/>`,
   );
 
   for (let i = 0; i < waypoints.length; i += 1) {
@@ -2026,6 +2040,7 @@ export function pipelineBoard(
   ];
   const n = Math.min(5, Math.max(3, stages.length));
   const colW = (W - pad * 2 - 12 * (n - 1)) / n;
+  const pipePts: string[] = [];
   parts.push(
     text("PIPELINE", pad, pad + 4, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.2 }),
   );
@@ -2093,6 +2108,12 @@ export function pipelineBoard(
       const cy = y + 48;
       parts.push(rule(cx + 2, cy, cx + 10, cy, LINE));
     }
+    pipePts.push(`${i === 0 ? "M" : "L"}${round(x + colW / 2)} ${round(y + 40)}`);
+  }
+  if (pipePts.length >= 2) {
+    parts.push(
+      `<path class="ds-draw" pathLength="1" d="${pipePts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>`,
+    );
   }
   parts.push(rule(pad, H - pad - 10, W - pad, H - pad - 10));
   parts.push(
@@ -2208,11 +2229,13 @@ export function postureGrid(
   const gap = 28;
   const cellW = (W - pad * 2 - gap) / cols;
   const cellH = (H - pad * 2 - 56 - gap) / rows;
+  const linkPts: string[] = [];
   items.slice(0, 4).forEach((b, i) => {
     const c = i % cols;
     const row = Math.floor(i / cols);
     const x = pad + c * (cellW + gap);
     const y = pad + 48 + row * (cellH + gap);
+    linkPts.push(`${round(x + cellW / 2)},${round(y + 28)}`);
     parts.push(box(x, y, cellW, cellH, { r: 0, fill: PAPER, stroke: LINE }));
     parts.push(
       text(String(i + 1).padStart(2, "0"), x + 20, y + 36, {
@@ -2236,6 +2259,11 @@ export function postureGrid(
       }),
     );
   });
+  if (linkPts.length >= 2) {
+    parts.push(
+      `<polyline class="ds-draw" pathLength="1" points="${linkPts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linejoin="round" opacity="0.7"/>`,
+    );
+  }
   return frame(parts.join(""), {
     width: W,
     height: H,
@@ -2286,7 +2314,7 @@ export function mechanismPlate(
       const px = axisX + ((i - 0.5) / n) * axisW;
       const py = axisY + axisH * (1 - (0.25 + ((i - 1) / Math.max(1, n - 1)) * 0.65));
       parts.push(
-        `<path d="M${round(px)} ${round(py)} L${round(x)} ${round(y)}" fill="none" stroke="${ACCENT}" stroke-width="2.5" stroke-linecap="round"/>`,
+        `<path class="ds-draw" pathLength="1" d="M${round(px)} ${round(py)} L${round(x)} ${round(y)}" fill="none" stroke="${ACCENT}" stroke-width="2.5" stroke-linecap="round"/>`,
       );
     }
     const lead = i === 1;
@@ -2355,6 +2383,9 @@ export function wireLedger(
     parts.push(rule(x, pad + 28, x, pad + 48));
     parts.push(text(c, x, pad + 64, { size: FIG_MONO_PX, fill: QUIET, mono: true, anchor: "middle" }));
   });
+  parts.push(
+    `<path class="ds-draw" pathLength="1" d="M${round(pad + 80)} ${round(pad + 38)} L${round(W - pad - 20)} ${round(pad + 38)}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linecap="round"/>`,
+  );
   parts.push(rule(pad, pad + 80, W - pad, pad + 80));
   const headers = ["Entity", "Path", "Status", "FX"];
   const colW = [0.28, 0.32, 0.2, 0.2].map((f) => (W - pad * 2) * f);
@@ -2400,6 +2431,131 @@ export function wireLedger(
     height: H,
     kind: "wire-ledger",
     label: `${productName} wire ledger`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
+ * Work board — art-directed-studio fold instrument.
+ *
+ * Selected-work wall: crop-marked plates with mono captions and a method rail. HTML flow steppers
+ * do not count as drawn matter (foldFigure=0); this SVG board owns the fold the way a studio wall
+ * owns a pitch room. Theme packs invent process steppers; they do not invent a crop-marked board.
+ */
+export function workBoard(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const items = features.slice(0, 6);
+  const W = role === "band" ? 1440 : role === "column" ? 720 : 960;
+  const H = role === "band" ? 780 : role === "column" ? 640 : 560;
+  const pad = role === "band" ? 36 : 28;
+  const r = rng(`${seed}:work-board`);
+  const parts: string[] = [];
+  const cols = items.length >= 5 ? 3 : 2;
+  const rows = Math.ceil(Math.max(items.length, 4) / cols);
+  const gap = 18;
+  const railH = 28;
+  const gridTop = pad + railH + 16;
+  const gridH = H - gridTop - pad - 20;
+  const cellW = (W - pad * 2 - gap * (cols - 1)) / cols;
+  const cellH = (gridH - gap * (rows - 1)) / rows;
+
+  // Method rail — studio signature, not a SaaS stage strip.
+  parts.push(rule(pad, pad + 10, W - pad, pad + 10));
+  parts.push(
+    text("SELECTED WORK · METHOD BOARD", pad, pad + 8, {
+      size: FIG_MONO_PX,
+      fill: QUIET,
+      mono: true,
+      track: 1.2,
+    }),
+  );
+  parts.push(
+    text(clip(productName, 28), W - pad, pad + 8, {
+      size: FIG_MONO_PX,
+      fill: QUIET,
+      mono: true,
+      anchor: "end",
+    }),
+  );
+
+  for (let i = 0; i < cols * rows; i += 1) {
+    const c = i % cols;
+    const row = Math.floor(i / cols);
+    const x = pad + c * (cellW + gap);
+    const y = gridTop + row * (cellH + gap);
+    const f = items[i % Math.max(items.length, 1)];
+    const lead = i === 0;
+    // Crop marks
+    const m = 8;
+    parts.push(rule(x - 2, y, x + m, y));
+    parts.push(rule(x, y - 2, x, y + m));
+    parts.push(rule(x + cellW - m, y, x + cellW + 2, y));
+    parts.push(rule(x + cellW, y - 2, x + cellW, y + m));
+    parts.push(rule(x - 2, y + cellH, x + m, y + cellH));
+    parts.push(rule(x, y + cellH - m, x, y + cellH + 2));
+    parts.push(rule(x + cellW - m, y + cellH, x + cellW + 2, y + cellH));
+    parts.push(rule(x + cellW, y + cellH - m, x + cellW, y + cellH + 2));
+    // Plate
+    parts.push(
+      box(x, y, cellW, cellH, {
+        fill: lead ? ACCENT_FIELD : PAPER,
+        stroke: lead ? "var(--c-accent-border)" : LINE,
+      }),
+    );
+    // Inner figure matter — abstract composition, not empty void
+    const ix = x + 14;
+    const iy = y + 14;
+    const iw = cellW - 28;
+    const ih = cellH - 52;
+    parts.push(
+      `<rect x="${round(ix)}" y="${round(iy)}" width="${round(iw)}" height="${round(ih * 0.55)}" fill="${lead ? ACCENT : "var(--c-border-strong)"}" opacity="${lead ? 0.35 : 0.18}"/>`,
+    );
+    parts.push(
+      `<rect x="${round(ix)}" y="${round(iy + ih * 0.6)}" width="${round(iw * (0.45 + r() * 0.25))}" height="${round(ih * 0.28)}" fill="${LINE}" opacity="0.55"/>`,
+    );
+    parts.push(
+      text(String(i + 1).padStart(2, "0"), ix, iy + 14, {
+        size: FIG_MONO_PX,
+        fill: QUIET,
+        mono: true,
+      }),
+    );
+    const title = clip(f?.title ?? `Plate ${i + 1}`, role === "band" ? 22 : 14);
+    parts.push(
+      text(title, x + 12, y + cellH - 18, {
+        size: FIG_MONO_PX,
+        fill: INK,
+        mono: true,
+      }),
+    );
+    parts.push(
+      text(clip(f?.meta ?? "method", 12), x + cellW - 12, y + cellH - 18, {
+        size: FIG_MONO_PX,
+        fill: QUIET,
+        mono: true,
+        anchor: "end",
+      }),
+    );
+  }
+
+  parts.push(
+    text(`${Math.min(items.length, cols * rows)} plates · handoff-safe`, pad, H - 8, {
+      size: FIG_MONO_PX,
+      fill: QUIET,
+      mono: true,
+    }),
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "work-board",
+    label: `${productName} selected work board`,
     inset: role === "band" ? BLEED_INSET : 0,
     dense: true,
   });
@@ -2867,7 +3023,8 @@ type Kind =
   | "queue-console"
   | "posture-grid"
   | "mechanism-plate"
-  | "wire-ledger";
+  | "wire-ledger"
+  | "work-board";
 
 /**
  * Which drawing goes where.
@@ -2889,9 +3046,9 @@ const ORDER: Record<string, Kind[]> = {
   // Fintech: horizon cash timeline on the fold (always drawable); interface is the working surface in body.
   // Series is preferred when metrics carry readings, but must not fall through to twin SaaS interface hero.
   "fintech-marketing": ["horizon", "series", "interface", "flow"],
-  // Studio: filled flow stages on the fold (selected-work method) — not twin corporate/fintech horizon
-  // or educational stack. Horizon stays available as a quieter specimen beat.
-  "art-directed-studio": ["flow", "horizon", "stack", "series"],
+  // Studio: crop-marked selected-work board owns the fold; flow stays interactive mid-page.
+  // HTML flow steppers do not count as drawn matter (foldFigure=0).
+  "art-directed-studio": ["work-board", "flow", "horizon", "stack"],
   // Consumer craft is product-surface first; horizon specimen stays type-quiet for rhythm.
   "consumer-craft": ["interface", "horizon", "flow", "stack"],
   // Foundry: optical-size ladder owns the fold; horizon/stack keep scroll beats distinct.
@@ -2978,6 +3135,8 @@ export function planFigures(input: {
         return mechanismPlate(input.productName, input.features, seed, role);
       case "wire-ledger":
         return wireLedger(input.productName, input.features, seed, role);
+      case "work-board":
+        return workBoard(input.productName, input.features, seed, role);
       default:
         return "";
     }
@@ -2989,8 +3148,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -3043,6 +3202,8 @@ export function planFigures(input: {
               ? ("mechanism-plate" as Kind)
             : input.siteKind === "fintech-marketing"
               ? ("wire-ledger" as Kind)
+            : input.siteKind === "art-directed-studio"
+              ? ("work-board" as Kind)
       : shaped(heroSpans ? SPANNING : COLUMNAR, order) ?? order[0]!;
   const afterHero = order.filter((k) => k !== heroKind);
   const bandKind = shaped(SPANNING, afterHero);

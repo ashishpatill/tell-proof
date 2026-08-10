@@ -24,6 +24,7 @@ tell-preview-report.json
 # Design research corpus: holds third-party URLs, never committed.
 # Only anonymised measurements (research/measurements/*.json) are shipped.
 research/corpus.local.json
+research/motion-corpus.local.json
 research/boards.local.json
 research/boards.seeds.local.json
 research/boards/
@@ -49,6 +50,9 @@ docs/04_CLAUDE_PROJECT.md
 .vercel
 data/shared-reports/
 research/shots/
+
+# Local motion verification clips (binaries) — regenerate via pnpm record:template-motion
+docs/media/motion-clips/
 
 # Throwaway probes written during a research loop to answer one question.
 # Anything worth keeping graduates into scripts/design-research/.

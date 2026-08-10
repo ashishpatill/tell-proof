@@ -430,4 +430,5 @@ export const UserDesignProfile = z.object({
 export type UserDesignProfile = z.infer<typeof UserDesignProfile>;
 
 export * from "./install-info";
+export * from "./platform-compat";
 export * from "./resolve-intent";
