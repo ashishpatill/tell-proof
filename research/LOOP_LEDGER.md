@@ -621,3 +621,15 @@ buckets, never names, hosts, or URLs.
 - **Closed:** `template:foundry-cut-slips-not-second-catalogue`.
 - **Next weakest:** observatory chrono ownership; press gather densify; dossier spread citeability.
 
+## Loop 29 — Phase 9 field + press mid-page uniqueness
+
+- **Goal:** Kill the essay+aside clone between field-guide and press-atelier (human call-out).
+- **Failure named:** Mid-page Range and Gather were the same 7fr/5fr essay + aside list —
+  copy-only swaps.
+- **Challenger:** Dichotomous voucher ladder + stacked sheets (field); overlapping forme stack
+  + densitometer (press). Gates forbid shared aside markup.
+- **Score:** field-herbarium **99.8**; press-atelier **94.0**; matrix craft **95.8**.
+- **Closed:** `template:field-press-essay-aside-clone`.
+- **Next weakest:** observatory chrono ownership; dossier spread citeability; lantern silhouette;
+  press display-size under-band (shared craft-claim class).
+

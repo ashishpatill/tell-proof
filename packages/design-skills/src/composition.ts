@@ -560,8 +560,8 @@ export function planSections(input: CompositionInput): SectionPlan[] {
    * figureArea ~0.4–0.52, invertedShare ~0, quiet-to-moderate display (~1.5–3.8vw),
    * ~3–6 alignment axes, dense bleeds — not SaaS, archive ledgers, dossier folios,
    * or observatory instruments. Registration-framed fold + press-sheet owning the fold
-   * + signature rail + gather essay + Pressroom close are craft a theme pack will not
-   * invent from taste controls.
+   * + signature rail + overlapping forme stack with densitometer + Pressroom close are craft
+   * a theme pack will not invent from taste controls.
    */
   if (siteKind === "press-atelier") {
     plans.push({ id: "hero", kind: "hero", layout: "hero-press", surface: "paper", columns: split.wide });
@@ -586,10 +586,9 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       layout: "story-gather",
       surface: "paper",
       bond: true,
-      columns: "7fr 5fr",
     });
     // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
-    // No shared marquee-proof — gather essay is the press proof instrument.
+    // No shared marquee-proof — overlapping forme stack is the press proof instrument.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
     plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
@@ -642,7 +641,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
    * Personal-craft + brand-agency corridors favour figure-dense paper surfaces and quiet display.
    * Soft theme packs answer with floating glass card collages. This offering invents unreplicable
    * voucher grammar: taxon rail, specimen plate (pressed silhouette + free botanical photo),
-   * range essay, Voucher close.
+   * dichotomous voucher key (ladder + stacked sheets), Voucher close.
    */
   if (siteKind === "field-guide") {
     plans.push({ id: "hero", kind: "hero", layout: "hero-voucher", surface: "paper", columns: split.wide });
@@ -667,10 +666,9 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       layout: "story-range",
       surface: "paper",
       bond: true,
-      columns: "7fr 5fr",
     });
     // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
-    // No shared marquee-proof — range essay is the field-guide proof instrument.
+    // No shared marquee-proof — dichotomous voucher key is the field-guide proof instrument.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
     plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });

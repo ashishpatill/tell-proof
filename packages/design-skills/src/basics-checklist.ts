@@ -464,11 +464,17 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-binomial-strip/.test(html)
           && /data-figure="specimen-plate"/.test(html)
           && /ds-range/.test(html)
+          && /class="ds-range-ladder"/.test(html)
+          && /aria-label="Dichotomous key"/.test(html)
+          && /class="ds-range-sheets"/.test(html)
+          && !/class="ds-range-aside"/.test(html)
+          && !/class="ds-gather-stack"/.test(html)
+          && !/class="ds-gather-forme"/.test(html)
           && /Voucher/.test(html)
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Field-guide offerings use dissecting tray + hinged glassine + entomology pins + specimen tag + binomial strip + range + Voucher — no pricing, no metrics theatre, zero inverse bands.",
+      "Field-guide offerings use dissecting tray + hinged glassine + entomology pins + specimen tag + binomial strip + dichotomous voucher key + Voucher — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "kind-press",
@@ -481,11 +487,18 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-sig-rail/.test(html)
           && /data-figure="press-sheet"/.test(html)
           && /ds-gather/.test(html)
+          && /class="ds-gather-stack"/.test(html)
+          && /aria-label="Signature stack"/.test(html)
+          && /class="ds-gather-forme"/.test(html)
+          && /class="ds-gather-densito"/.test(html)
+          && !/class="ds-gather-aside"/.test(html)
+          && !/class="ds-range-ladder"/.test(html)
+          && !/aria-label="Dichotomous key"/.test(html)
           && /Pressroom/.test(html)
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Press offerings use press fold + signature rail + press sheet + gather essay + Pressroom — no pricing, no metrics theatre, zero inverse bands.",
+      "Press offerings use press fold + signature rail + press sheet + overlapping forme stack + densitometer + Pressroom — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "kind-lantern",

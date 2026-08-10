@@ -771,10 +771,10 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
     key: "herbarium",
     label: "Field guide",
     marketJob:
-      "Herbarium / voucher landing — glassine press, binomial strip, specimen plate with free botanical photos, range essay, Voucher close.",
+      "Herbarium / voucher landing — glassine press, binomial strip, specimen plate with free botanical photos, dichotomous voucher key, Voucher close.",
     siteKind: "field-guide",
     researchBasis:
-      "Calibrated against personal-craft + brand-agency + consumer-craft corridors (high figureArea, quiet display, paper-led). Distinct craft soft theme packs miss: glassine press with peeled sheet + museum label, bottom binomial strip, specimen-plate with pressed silhouette + copyright-free botanical inset, range essay with distribution beads, paper Voucher close — no pricing, no metrics theatre, zero inverse bands, no floating glass collage.",
+      "Calibrated against personal-craft + brand-agency + consumer-craft corridors (high figureArea, quiet display, paper-led). Distinct craft soft theme packs miss: glassine press with peeled sheet + museum label, bottom binomial strip, specimen-plate with pressed silhouette + copyright-free botanical inset, dichotomous voucher key (taxon ladder + stacked sheets), paper Voucher close — no pricing, no metrics theatre, zero inverse bands, no floating glass collage.",
     brief: DesignBrief.parse({
       productName: "Vellum Press",
       tagline: "The voucher that keeps every trait under one honest plate",
@@ -836,10 +836,10 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
     key: "press",
     label: "Press atelier",
     marketJob:
-      "Brand / production pressroom landing — registration fold, signature rail, press sheet, gather essay, Pressroom close.",
+      "Brand / production pressroom landing — registration fold, signature rail, press sheet, overlapping forme stack, densitometer, Pressroom close.",
     siteKind: "press-atelier",
     researchBasis:
-      "Calibrated against brand-agency + brand-product-agency + editorial-longform corridors (foldFigure ~0.9–1.0, figureArea ~0.4–0.52, invertedShare ~0, display ~1.5–3.8vw, alignment axes ~3–6, dense bleeds). Distinct craft theme packs miss: hero-press with registration/crop marks, sticky ds-sig-rail Sig A–H, press-sheet imposition grid with densitometer strip and mono plate labels ≤11px, story-gather with fold ticks, paper Pressroom close — no pricing, no metrics theatre, zero inverse bands. Not SaaS, foundry, dossier, observatory, or archive.",
+      "Calibrated against brand-agency + brand-product-agency + editorial-longform corridors (foldFigure ~0.9–1.0, figureArea ~0.4–0.52, invertedShare ~0, display ~1.5–3.8vw, alignment axes ~3–6, dense bleeds). Distinct craft theme packs miss: hero-press with registration/crop marks, sticky ds-sig-rail Sig A–H, press-sheet imposition grid, overlapping forme stack with densitometer strip and mono plate labels ≤11px, paper Pressroom close — no pricing, no metrics theatre, zero inverse bands. Not SaaS, foundry, dossier, observatory, or archive.",
     brief: DesignBrief.parse({
       productName: "Forme Desk",
       tagline: "The pressroom that keeps every signature under one forme",

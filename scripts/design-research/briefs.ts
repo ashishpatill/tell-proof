@@ -333,7 +333,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "h5", name: "Voucher close", description: "Edition and custody stamped so a reused page cannot orphan its provenance.", priority: "p1" },
         { id: "h6", name: "Plate memory", description: "A voucher that survives the jump from field to desk without becoming orphan photos.", priority: "p2" },
       ],
-      constraints: ["voucher-first", "glassine press", "range essay", "no pricing theatre", "restrained motion"],
+      constraints: ["voucher-first", "glassine press", "dichotomous voucher key", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "light-scroll-reveals",
@@ -362,7 +362,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "p5", name: "Gather essay", description: "A folded-signature reading with outer plate ticks so the gather stays citeable.", priority: "p1" },
         { id: "p6", name: "Pressroom close", description: "Plate numbers and custody stamped so a reused forme cannot orphan its edition.", priority: "p2" },
       ],
-      constraints: ["press-first", "press sheet", "gather essay", "no pricing theatre", "restrained motion"],
+      constraints: ["press-first", "press sheet", "forme stack", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "scroll-narrative",
