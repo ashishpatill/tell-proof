@@ -13,7 +13,9 @@
 |---|---|
 | `agent-skills/web-design/premium-content-custom-web/` | Agent skill graph (main + sub-skills) |
 | `agent-skills/web-design/premium-content-custom-web/product-proof-stage/` | SaaS product-as-proof workflow (HTMX stage swaps) |
-| `.cursor/skills/premium-content-custom-web/SKILL.md` | Agent entry skill |
+| `.cursor/skills/website-domain-research/SKILL.md` | **Required** general research graph before any website |
+| `.cursor/skills/sport-matchday-web/SKILL.md` | Sport graph extending website-domain-research |
+| `.cursor/skills/premium-content-custom-web/SKILL.md` | Agent entry skill (runs research graph first) |
 | `.cursor/skills/product-proof-stage/SKILL.md` | Product-proof workflow entry |
 | `.cursor/skills/agency-quality-site/SKILL.md` | Phased agency marketing-site pipeline (refs → build → type/spacing/motion/mobile) |
 | `.cursor/skills/conversion-landing-craft/SKILL.md` | Single-offer landing craft |
@@ -28,6 +30,7 @@
 | `/studio` | Live canvas + Taste Controls + magic edit + viewport + copy HTML |
 | `/showcase` | Specimen gallery (print-atelier index of all offerings) |
 | `/showcase/*` | Full proof sheets: saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, archive, loom, herbarium, press |
+| `/crease` | Cricket match-theater specimen (sport vernacular reference) |
 | `POST /api/design` | Brief → spec + preview HTML (`redesignFrom` optional) |
 | `GET /api/design?templates=1` | Offering catalog metadata |
 | MCP `tell_design_from_features` | MCP tool |

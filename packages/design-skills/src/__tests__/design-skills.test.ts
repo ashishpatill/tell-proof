@@ -42,6 +42,7 @@ const ALL_SKILLS: SkillNodeId[] = [
   "signal-beam-craft",
   "glass-shell-craft",
   "container-tech-shell",
+  "sport-vernacular-craft",
 ];
 
 const MOODS: ColorMood[] = ["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"];

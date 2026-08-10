@@ -15,6 +15,19 @@ describe("agency niche → brief", () => {
     expect(matchNiche("creative studio art direction portfolio").key).toBe("agency");
   });
 
+  it("matches sport vernacular niches with sportId", () => {
+    const cricket = matchNiche("cricket live scores T20 match theater");
+    expect(cricket.key).toBe("cricket");
+    expect(cricket.sportId).toBe("cricket");
+    const brief = DesignBrief.parse(
+      briefFromNiche(cricket, { query: "cricket live scores T20 match theater" }),
+    );
+    expect(brief.sportId).toBe("cricket");
+    expect(matchNiche("football live minute scoreline").key).toBe("football");
+    expect(matchNiche("hockey power play period board").key).toBe("hockey");
+    expect(matchNiche("tennis break point tie-break").key).toBe("tennis");
+  });
+
   it("falls back to photography default for unknown queries", () => {
     expect(matchNiche("completely unrelated widget").key).toBe("photography");
   });

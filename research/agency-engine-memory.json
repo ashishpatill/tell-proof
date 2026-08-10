@@ -1,15 +1,29 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-09T20:46:50.121Z",
+  "updatedAt": "2026-08-10T00:10:00.000Z",
   "bansExtra": [
-    "from-temp-design-data"
+    "from-temp-design-data",
+    "hash-only-matchday-ia",
+    "commerce-before-score-in-primary-nav"
   ],
-  "nicheBoosts": [],
+  "nicheBoosts": [
+    {
+      "nicheKey": "cricket",
+      "pattern": "crease|matchday|wicket",
+      "fromRun": "crease-phase0",
+      "reason": "Core six multipage IA; LoadPriorDomain before pixels"
+    }
+  ],
   "craftHints": [
     {
       "siteKind": "art-directed-studio",
       "note": "Prefer compositional lane “image-first-stage” when query maps here.",
       "fromRun": "orch-learn"
+    },
+    {
+      "siteKind": "consumer-craft",
+      "note": "Sport matchday: sticky score rail under shell; ≤6 primary nav; format lens on live+rankings.",
+      "fromRun": "crease-phase0"
     }
   ],
   "pipelineNotes": [
@@ -24,10 +38,17 @@
       "detail": "Corridor/thin board for photography",
       "fromRun": "dd-smoke",
       "at": "2026-08-09T20:46:15.074Z"
+    },
+    {
+      "key": "sport:cricket-multipage-ia",
+      "detail": "Phase 0 general research graph + cricket Core six evidence; specimen routes Phase 1+",
+      "fromRun": "crease-phase0",
+      "at": "2026-08-10T00:10:00.000Z"
     }
   ],
   "seenPatternKeys": [
     "agency:thin-board:portfolio-photography",
-    "agency:thin-board:photography"
+    "agency:thin-board:photography",
+    "sport:cricket-multipage-ia"
   ]
 }

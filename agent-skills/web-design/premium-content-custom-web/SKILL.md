@@ -26,12 +26,14 @@ Entry skill for multi-million-dollar-quality marketing sites, corporate stories,
 
 ## Workflow (run every time)
 
-1. **Analyze** — extract features, audience, goals, constraints → `analyze-features-requirements`
-2. **Route** — select sub-skills from the graph based on features present
-3. **Foundation** — run `design-system-foundation` before section work
-4. **Generate** — IA, tokens, section specs, preview/code
-5. **Taste Controls** — offer density / motion / lean / color / type / rounding options
-6. **Verify** — if Tell is available, capture → diagnose → optional redesign with `tellDirectionId`
+1. **website-domain-research** (required) — LoadPrior → gap → walkthrough if needed → IA → **emit-training-episode**
+2. **Analyze** — extract features, audience, goals, constraints → `analyze-features-requirements`
+3. **Sport gate** — if cricket/football/hockey/tennis, continue via `sport-matchday-web` / `sport-site-research` and set `sportId`
+4. **Route** — select design sub-skills (`routeDomainResearchSkills` + `routeSkills`)
+5. **Foundation** — run `design-system-foundation` before section work
+6. **Generate** — IA, tokens, section specs, preview/code
+7. **Taste Controls** — offer density / motion / lean / color / type / rounding options
+8. **Verify** — if Tell is available, capture → diagnose → optional redesign with `tellDirectionId`
 
 ## Runtime engine
 
@@ -96,6 +98,7 @@ Studio UI: `/studio` · Showcases: `/showcase/saas`, `/showcase/dashboard`, `/sh
 - image-first-fold
 - agency-minimal-grid
 - marquee-rail-craft
+- sport-vernacular-craft
 - dashboard-or-webapp-ui
 - responsive-performance
 

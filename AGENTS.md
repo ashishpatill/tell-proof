@@ -99,6 +99,10 @@ Feature workflows live in `.cursor/skills/`:
 - `tell-template-craft` — peer plumbing first, then top-designer craft iteration + screenshot proof
 - `agency-quality-site` — phased agency marketing-site pipeline (Goal/Loop + `agency:run`)
 - `agency-run-learn` — **developer-only** automatic learn after `agency:run` (corpus/engine memory)
+- `website-domain-research` — **mandatory** general research graph before any new website (LoadPrior → gap → walkthrough → IA → training emit)
+- `sport-matchday-web` — sport graph extending website-domain-research (format lens + vernacular craft)
+- `sport-site-research` — **mandatory** sport research gate before cricket/football/hockey/tennis sites
+- `sport-vernacular-craft` — score-spine + format-lens craft from sport packs
 - `tell-user-session-learn` — **end-user** localStorage learning (directions, priorities, tools)
 - `tell-recursive-improve` — champion/challenger loop + `research/LEARNINGS.md` (no nav-only showcase shots)
 - `ship-loop` — analyze PR → fix → semantic commits → push → re-check → merge
@@ -136,6 +140,7 @@ See `ORCHESTRATION.md` for model routing and when to invoke each.
 - Design capability flows: `docs/13_DESIGN_CAPABILITY_FLOWS_PLAN.md`
 - Design training-data curation (research only; collector is separate `tell-design-data` repo): `docs/14_DESIGN_TRAINING_DATA_CURATION_PLAN.md`
 - Design training-data literature survey (cited): `research/DESIGN_LLM_TRAINING_DATA_SURVEY.md`
+- Sport matchday vernacular (cricket/football/hockey/tennis): `research/SPORT_SITE_VERNACULAR.md`
 - Motion/animation capability plan: `docs/15_MOTION_ANIMATION_PLAN.md`
 - Motion/animation experts + 2026 stacks survey (named; research-only): `research/MOTION_ANIMATION_SURVEY.md`
 - Peer plumbing identity: gitignored `research/plumbing-reference.local.json` (never name the peer in commits)

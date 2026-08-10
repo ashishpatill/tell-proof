@@ -208,6 +208,11 @@ export const SkillNodeId = z.enum([
   "glass-shell-craft",
   /** Container-led technical shell hierarchy. */
   "container-tech-shell",
+  /**
+   * Sport matchday vernacular — research gate + score-spine / format-lens craft.
+   * Requires sport-site-research before build. Packs: cricket, football, hockey, tennis.
+   */
+  "sport-vernacular-craft",
 ]);
 export type SkillNodeId = z.infer<typeof SkillNodeId>;
 
@@ -253,6 +258,11 @@ export const DesignBrief = z.object({
     .regex(/^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/, "brandAccent must be a hex color")
     .optional(),
   taste: TasteControls.partial().optional(),
+  /**
+   * Optional sport vernacular pack id — when set, route sport-vernacular-craft
+   * and honor format-lens / score-spine rules from `sport-vernacular.ts`.
+   */
+  sportId: z.enum(["cricket", "football", "hockey", "tennis"]).optional(),
 });
 export type DesignBrief = z.infer<typeof DesignBrief>;
 

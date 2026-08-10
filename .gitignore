@@ -60,3 +60,5 @@ scripts/tmp/
 
 research/training.local/
 
+# Sibling design-data checkout must never be committed into Tell.
+tell-design-data/
