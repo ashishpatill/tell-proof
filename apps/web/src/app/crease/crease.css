@@ -889,13 +889,28 @@ main,
   color: var(--cr-chalk-dim);
 }
 
-.cr-footer nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
+.cr-footer-dirs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
 }
 
-.cr-footer nav a:hover {
+.cr-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.cr-footer-col-title {
+  margin: 0 0 0.25rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cr-chalk-dim);
+}
+
+.cr-footer nav a:hover,
+.cr-footer-col a:hover {
   color: var(--cr-flood);
 }
 
@@ -903,6 +918,44 @@ main,
   margin: 0;
   color: var(--cr-chalk-dim);
   font-size: 0.85rem;
+}
+
+.cr-nav-links a.is-active {
+  color: var(--cr-flood);
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+}
+
+.cr-format-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--cr-line);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin: 0.75rem 0.35rem 0 0;
+}
+
+.cr-format-chip.is-active {
+  background: var(--cr-pitch);
+  color: var(--cr-chalk);
+  border-color: transparent;
+}
+
+.cr-scorecard-grid {
+  display: grid;
+  gap: 1.5rem;
+  overflow-x: auto;
+}
+
+.cr-featured-live {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 720px) {
+  .cr-footer-dirs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* Scroll reveal once */
