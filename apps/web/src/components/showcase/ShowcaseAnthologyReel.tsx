@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { specimenHtmlSrc } from "./specimenSrc";
+import { specimenHtmlSrc, specimenOpenHref } from "./specimenSrc";
 import { SpecimenPreview } from "./SpecimenPreview";
 
 export type AnthologySlide = {
@@ -10,10 +10,13 @@ export type AnthologySlide = {
   label: string;
   marketJob: string;
   index: string;
+  /** Override open link (defaults to /showcase/{key}). */
+  href?: string;
 };
 
-/** Curated order — distinct fold instruments, not the same template looping 2–3 beats. */
+/** Curated order — Crease first, then distinct fold instruments. */
 export const ANTHOLOGY_KEYS = [
+  "crease",
   "archive",
   "observatory",
   "dossier",
@@ -140,7 +143,7 @@ export function ShowcaseAnthologyReel({
         <div className="sx-plate-meta">
           <h2>{slide.label}</h2>
           <p>{slide.marketJob}</p>
-          <Link href={`/showcase/${slide.key}`} prefetch={false}>
+          <Link href={slide.href ?? specimenOpenHref(slide.key)} prefetch={false}>
             Open full specimen →
           </Link>
         </div>
