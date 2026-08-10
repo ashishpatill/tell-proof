@@ -576,10 +576,10 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
     key: "observatory",
     label: "Signal observatory",
     marketJob:
-      "Enterprise telemetry / on-call desk landing — chronometer fold, scrub rail, signal lattice, chrono essay, calibration close.",
+      "Enterprise telemetry / on-call desk landing — chronometer fold, scrub rail, signal lattice, event waterfall, calibration close.",
     siteKind: "signal-observatory",
     researchBasis:
-      "Calibrated against enterprise-observability + enterprise-data + award-index corridors (figureArea ~0.4–0.78, foldFigure ~0.23–0.57, alignment axes ~3–6, spineConformity ~0.2–0.8, quiet-to-moderate display, instrument-dense matter). Distinct craft theme packs miss: vertical chronometer ticks, sticky time-window scrub rail, signal-lattice amplitude figure with mono labels only, chrono essay with tick beads + outer time index, bleed rule + paper calibration close — no pricing, no metrics theatre, zero inverse bands.",
+      "Calibrated against enterprise-observability + enterprise-data + award-index corridors (figureArea ~0.4–0.78, foldFigure ~0.23–0.57, alignment axes ~3–6, spineConformity ~0.2–0.8, quiet-to-moderate display, instrument-dense matter). Distinct craft theme packs miss: vertical chronometer ticks, sticky time-window scrub rail, signal-lattice amplitude figure with mono labels only, event waterfall with instrument-time ruler + staggered spans, bleed rule + paper calibration close — no pricing, no metrics theatre, zero inverse bands.",
     brief: DesignBrief.parse({
       productName: "Nightglass",
       tagline: "The desk that keeps every channel under one live window",

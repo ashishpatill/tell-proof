@@ -680,3 +680,15 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Eval:** field-herbarium **99.8**; press-atelier **94.0** (display-size under-band is the
   shared craft-claim class, not the new instrument). Eye: ladder+sheets ≠ densito+formes.
 - **Do not:** Swap copy on a shared essay+aside grid and call craft templates unique.
+
+## 2026-08-10 — `template:observatory-essay-aside-clone`
+
+- **Failure:** Nightglass mid-page chrono was the same essay-left + time-index-aside family as
+  pre-fix field/press — under-owned as an on-call instrument.
+- **Domain:** `loadPriorDomain("signal-observatory")` — spans on a shared instrument-time ruler
+  before prose; forbid essay+aside blank-slate mid-page.
+- **Fix:** `ds-chrono-desk` with T+00h…T+24h ruler + staggered `ds-chrono-span` waterfall rows.
+  Drop 7fr/5fr aside. Basics gate requires Event waterfall markup.
+- **Eval:** observatory-signal **93.3** (display-size under-band is shared craft-claim class);
+  eye shows ruler+spans, not essay+aside. Matrix **95.9**.
+- **Do not:** Put a vertical bead essay beside a time list and call it an observatory desk.

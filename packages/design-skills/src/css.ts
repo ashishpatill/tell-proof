@@ -791,9 +791,8 @@ body[data-sitekind="signal-observatory"]{
 [data-sitekind="signal-observatory"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
 [data-sitekind="signal-observatory"] .ds-section-head,
 [data-sitekind="signal-observatory"] .ds-index-row,
+[data-sitekind="signal-observatory"] .ds-chrono-desk,
 [data-sitekind="signal-observatory"] .ds-chapter{padding-left:0;margin-left:var(--chrono-rail)}
-/* Chrono track + beads need the essay's own padding-left — do not zero it onto the rail. */
-[data-sitekind="signal-observatory"] .ds-chrono-essay{margin-left:var(--chrono-rail)}
 [data-sitekind="signal-observatory"] .ds-closing-colophon{
   border-top:1px solid var(--c-border);padding-top:var(--s-xl);
 }
@@ -1965,34 +1964,52 @@ ${surfaceRules()}
   .ds-scrub-rail ol{flex-wrap:wrap;padding:0.35rem var(--gutter)}
   .ds-scrub-chip{border-left:0;border-top:1px solid var(--c-border);min-width:40%}
 }
-/* Chrono essay track + aside ticks. */
-.ds-chrono-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
-.ds-chrono-essay{position:relative;display:flex;flex-direction:column;gap:var(--s-2xl);max-width:42rem;padding-left:1.5rem}
-.ds-chrono-track{
-  position:absolute;left:0.35rem;top:0.5rem;bottom:0.5rem;width:1px;
-  background:linear-gradient(180deg,var(--c-accent),var(--c-border));
+/* Event waterfall — instrument-time ruler + staggered spans (signal observatory). */
+.ds-chrono-desk{margin-top:var(--s-xl);border:1px solid var(--c-border);background:var(--c-paper)}
+.ds-chrono-ruler{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+  border-bottom:1px solid var(--c-border);
+  padding:0.45rem var(--s-md);position:relative;
+  background:color-mix(in srgb,var(--c-accent-surface) 35%,var(--c-paper));
 }
-.ds-chrono-bead{
-  position:absolute;left:-1.28rem;top:0.55rem;width:0.7rem;height:0.7rem;border-radius:50%;
-  background:var(--c-paper);border:1px solid var(--c-accent);z-index:1;
+.ds-chrono-ruler::before{
+  content:"";position:absolute;left:var(--s-md);right:var(--s-md);top:50%;height:1px;
+  background:var(--c-border);z-index:0;
 }
-.ds-chrono-beat{position:relative}
-.ds-chrono-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
+.ds-chrono-ruler-tick{
+  position:relative;z-index:1;font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;
+  color:var(--c-ink-tertiary);justify-self:start;
+}
+.ds-chrono-ruler-tick:last-child{justify-self:end}
+.ds-chrono-waterfall{list-style:none;margin:0;padding:var(--s-md) var(--s-md) var(--s-lg);display:flex;flex-direction:column;gap:var(--s-md)}
+.ds-chrono-span{display:grid;gap:0.55rem}
+.ds-chrono-span-track{
+  position:relative;height:0.7rem;background:color-mix(in srgb,var(--c-border) 55%,transparent);
+  border-radius:1px;
+}
+.ds-chrono-span-bar{
+  position:absolute;left:var(--span-start);width:var(--span-width);top:0;bottom:0;
+  background:linear-gradient(90deg,var(--c-accent),color-mix(in srgb,var(--c-accent) 35%,var(--c-paper)));
+  border:1px solid var(--c-accent);
+}
+.ds-chrono-span-body{
+  margin-left:var(--span-start);max-width:min(34rem,calc(100% - var(--span-start)));
+  padding:var(--s-sm) var(--s-md);border-left:2px solid var(--c-accent);
+  background:color-mix(in srgb,var(--c-paper) 88%,var(--c-accent-surface));
+}
+.ds-chrono-span-time{
+  margin:0 0 0.2rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;color:var(--c-accent);
+}
+.ds-chrono-span-body h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15;max-width:22ch}
 .ds-chrono-note{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
   color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;position:relative;z-index:1;
 }
 .ds-chrono-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
 .ds-chrono-note + .ds-chrono-mark{margin-top:var(--s-lg)}
-.ds-chrono-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-lg)}
-.ds-chrono-aside-tick{display:flex;flex-direction:column;gap:0.25rem;border-left:1px solid var(--c-border);padding-left:0.75rem}
-.ds-chrono-aside-time{
-  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent);
-}
-.ds-chrono-aside-title{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:22ch}
 @media (max-width:800px){
-  .ds-chrono-grid{grid-template-columns:1fr!important}
-  .ds-chrono-aside{order:-1}
+  .ds-chrono-span-body{margin-left:0;max-width:100%}
+  .ds-chrono-span-bar{left:0;width:min(100%,calc(var(--span-width) + var(--span-start)))}
 }
 
 /* Register fold + alpha rail (archive index). */

@@ -414,17 +414,16 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       columns: split.wide,
     });
     plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
-    // Chrono essay — event track with tick beads (observatory signature).
+    // Event waterfall — instrument-time spans (observatory signature; not essay+aside).
     plans.push({
       id: "story",
       kind: "story",
       layout: "story-chrono",
       surface: "paper",
       bond: true,
-      columns: "7fr 5fr",
     });
     // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
-    // No shared marquee-proof — chrono essay is the observatory proof instrument.
+    // No shared marquee-proof — event waterfall is the observatory proof instrument.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     // Calibration close on paper — not inverse demo theatre.
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });

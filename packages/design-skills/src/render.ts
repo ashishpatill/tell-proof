@@ -1305,49 +1305,49 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
- * Chrono essay — signal-observatory signature story.
+ * Event waterfall / span tape — signal-observatory mid-page instrument.
  *
- * A vertical event track with tick beads and outer time labels. Not chapters, not marginalia,
- * not verso/recto — a time-ordered instrument reading.
+ * Horizontal instrument-time ruler + staggered span rows (trace-desk reading).
+ * Not the essay+aside list clone shared by entry/hang/ember.
  */
 function renderChrono(section: SectionSpec, figures: FigurePlan): string {
   const blocks = section.blocks;
   const count = blocks.length || 1;
-  const ticks = blocks
+  const hours = [0, 6, 12, 18, 24];
+  const ruler = hours
+    .map((h) => {
+      const label = `T+${String(h).padStart(2, "0")}h`;
+      return `<span class="ds-chrono-ruler-tick" style="--t:${h / 24}">${esc(label)}</span>`;
+    })
+    .join("");
+  const spans = blocks
     .map((b, i) => {
-      const t = b.meta || `T+${String(i * 6).padStart(2, "0")}h`;
-      return `<li class="ds-chrono-aside-tick" style="--i:${i}">
-        <span class="ds-chrono-aside-time">${esc(t)}</span>
-        <span class="ds-chrono-aside-title">${esc(b.title)}</span>
+      const mark = figures.marks[i] ? `<div class="ds-chrono-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const t = esc(b.meta || `T+${String(i * 6).padStart(2, "0")}h`);
+      const start = Math.min(62, i * 11);
+      const width = Math.max(30, 92 - start - Math.max(0, count - 1 - i) * 3);
+      return `<li class="ds-chrono-span" style="--i:${i};--span-start:${start}%;--span-width:${width}%">
+        <div class="ds-chrono-span-track" aria-hidden="true">
+          <span class="ds-chrono-span-bar"></span>
+        </div>
+        <div class="ds-chrono-span-body">
+          <p class="ds-chrono-span-time">${t}</p>
+          <h3>${esc(b.title)}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${b.kicker ? `<p class="ds-chrono-note">${esc(b.kicker)}</p>` : ""}
+          ${mark}
+        </div>
       </li>`;
     })
     .join("");
-  const essay = blocks
-    .map((b, i) => {
-      const mark = figures.marks[i] ? `<div class="ds-chrono-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
-      const bead = `<span class="ds-chrono-bead" aria-hidden="true" style="--i:${i}"></span>`;
-      return `<article class="ds-chrono-beat" style="--i:${i}">
-        ${bead}
-        <p class="ds-chapter-index">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
-        <h3>${esc(b.title)}</h3>
-        ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
-        ${b.kicker ? `<p class="ds-chrono-note">${esc(b.kicker)}</p>` : ""}
-        ${mark}
-      </article>`;
-    })
-    .join("");
   return `<section class="ds-section ds-story ds-chrono" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
-      ${secMeta("Chronology", `${count} events · instrument time`)}
+      ${secMeta("Chronology", `${count} spans · instrument time`)}
       ${sectionHead(section, 2, true)}
-      <div class="ds-chrono-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
-        <div class="ds-chrono-essay">
-          <div class="ds-chrono-track" aria-hidden="true"></div>
-          ${essay}
-        </div>
-        <aside class="ds-chrono-aside" aria-label="Time index">
-          <ol class="ds-chrono-aside-list">${ticks}</ol>
-        </aside>
+      <div class="ds-chrono-desk" aria-label="Instrument desk">
+        <div class="ds-chrono-ruler" aria-label="Instrument time">${ruler}</div>
+        <ol class="ds-chrono-waterfall" aria-label="Event waterfall">${spans}</ol>
       </div>
     </div>
   </section>`;

@@ -515,7 +515,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("The instruments");
   });
 
-  it("gives signal observatory a chrono + lattice plan distinct from dossier and SaaS", () => {
+  it("gives signal observatory a chrono waterfall + lattice plan distinct from dossier and SaaS", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.observatory!);
     expect(spec.brief.siteKind).toBe("signal-observatory");
     expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
@@ -530,6 +530,12 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-scrub-rail");
     expect(previewHtml).toContain('data-figure="signal-lattice"');
     expect(previewHtml).toContain("ds-chrono");
+    expect(previewHtml).toContain('class="ds-chrono-desk"');
+    expect(previewHtml).toContain('aria-label="Event waterfall"');
+    expect(previewHtml).toContain('class="ds-chrono-waterfall"');
+    expect(previewHtml).not.toContain('class="ds-chrono-aside"');
+    expect(previewHtml).not.toContain('class="ds-range-ladder"');
+    expect(previewHtml).not.toContain('class="ds-gather-forme"');
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Calibration");
     expect(previewHtml).toContain("The channels");

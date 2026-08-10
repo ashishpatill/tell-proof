@@ -33,10 +33,15 @@ describe("DomainResearchPack (general)", () => {
     expect(plan.followOnCraft).not.toContain("sport-vernacular-craft");
   });
 
-  it("requirementGapDiff forbids blank-slate when pack exists", () => {
-    const gap = requirementGapDiff("saas-marketing");
+  it("loads signal-observatory desk pack for craft redesign", () => {
+    const pack = loadPriorDomain("signal-observatory");
+    expect(pack).toBeDefined();
+    expect(pack!.siteKindHint).toBe("signal-observatory");
+    expect(pack!.uxRules.some((r) => /Instrument time/i.test(r))).toBe(true);
+    expect(pack!.categoryGaps.some((g) => /Essay\+aside/i.test(g))).toBe(true);
+    const gap = requirementGapDiff("signal-observatory");
     expect(gap.packFound).toBe(true);
-    expect(gap.reuse.length).toBeGreaterThan(0);
+    expect(gap.needsWalkthrough).toBe(false);
   });
 });
 
