@@ -617,14 +617,18 @@ function siteKindCss(): string {
 [data-sitekind="dashboard-webapp"] .ds-hero-stackfold .ds-hero-claimband{padding:var(--s-lg) 0 var(--s-md)}
 [data-sitekind="dashboard-webapp"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(76vh,780px)}
 [data-sitekind="dashboard-webapp"] .ds-hero-stackfold .ds-display{max-width:12ch}
-/* Studio — stack fold (claim then figure); cool stock, not cream wash. */
+/* Studio — stack fold (claim then work-board); cool stock, not cream wash. */
 [data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-plate-bleed .ds-fig{min-height:min(88vh,900px)}
-/* Compact claim so labeled figure still enters the fold (drawn-matter band). */
-[data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-hero-claimband{padding:var(--s-lg) 0 var(--s-md)}
+/* Compact claim so crop-marked board enters the fold (drawn-matter band). */
+[data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-hero-claimband{padding:var(--s-md) 0 var(--s-sm)}
 [data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-display{
-  font-size:clamp(2.6rem,4.6vw,4.15rem);max-width:16ch;line-height:1.05;
+  font-size:clamp(2.5rem,4.0vw,3.6rem);max-width:14ch;line-height:1.05;
 }
-[data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-lede{max-width:42ch}
+[data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-lede{
+  max-width:36ch;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+[data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-cta-note{display:none}
+[data-sitekind="art-directed-studio"] .ds-hero-stackfold .ds-actions .ds-btn-ghost{display:none}
 [data-sitekind="art-directed-studio"] .ds-brand-mark{font-size:var(--t-heading-size);line-height:1.15;letter-spacing:var(--t-caption-tracking)}
 [data-sitekind="art-directed-studio"] .ds-metrics-band{padding-block:var(--section-y-tight)}
 [data-sitekind="art-directed-studio"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
@@ -857,20 +861,34 @@ body[data-sitekind="archive-index"]{
   opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
 [data-sitekind="archive-index"] .ds-register-claim{
-  padding:var(--s-md) 0 var(--s-lg);
+  padding:var(--s-sm) 0 var(--s-md);
   padding-left:var(--alpha-rail);
   position:relative;z-index:2;
   background:var(--c-paper);
 }
-[data-sitekind="archive-index"] .ds-register-claim .ds-hero-copy{gap:0.35rem;max-width:28rem}
-[data-sitekind="archive-index"] .ds-register-claim .ds-lede{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:40ch}
+[data-sitekind="archive-index"] .ds-register-claim .ds-hero-copy{gap:0.25rem;max-width:26rem}
+[data-sitekind="archive-index"] .ds-register-claim .ds-lede{display:none}
 [data-sitekind="archive-index"] .ds-register-claim .ds-btn-secondary{display:none}
+/* Quiet display — stay ≥3.16vw corridor floor (archive is quiet, not microscopic). */
+[data-sitekind="archive-index"] .ds-hero-register .ds-display{
+  font-size:clamp(2.35rem,3.2vw,3.0rem);
+  letter-spacing:-0.03em;max-width:16ch;line-height:1.06;
+}
 [data-sitekind="archive-index"] .ds-register-field{
   margin-top:0;position:relative;z-index:1;
   padding-left:0;
 }
-[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(72vh,760px)}
+[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(78vh,820px)}
 [data-sitekind="archive-index"] .ds-hero-register{min-height:min(98vh,900px)}
+/* Cross-stamp strip: ink seals, not CSS rule flood (rules/screen band ≤4.33). */
+[data-sitekind="archive-index"] .ds-cross-stamps{
+  border-top:0;padding-top:var(--s-xs);gap:0.25rem;
+}
+[data-sitekind="archive-index"] .ds-cross-stamp{border-bottom:0;padding:0.2rem 0}
+[data-sitekind="archive-index"] .ds-entry-aside-item{border-bottom-color:transparent;padding:0.4rem 0}
+[data-sitekind="archive-index"] .ds-entry-aside-item:nth-child(3n+1){border-top:1px solid var(--c-border)}
+[data-sitekind="archive-index"] .ds-entry-aside-kicker{border-bottom:0}
+[data-sitekind="archive-index"] .ds-stamp-seal{box-shadow:none}
 [data-sitekind="archive-index"] .ds-hero-register .ds-cta-note{display:none}
 [data-sitekind="archive-index"] .ds-hero-register .ds-actions .ds-btn-ghost{display:none}
 [data-sitekind="archive-index"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
@@ -2016,7 +2034,7 @@ ${surfaceRules()}
   .ds-register-masthead,.ds-register-claim,.ds-register-field{padding-left:var(--gutter)}
   .ds-register-ledger .ds-fig{min-height:min(58vh,560px)}
 }
-/* Entry essay — hanging folio + ruled measure. */
+/* Entry essay — hanging folio + ruled measure + cross-stamp register. */
 .ds-entry-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
 .ds-entry-essay{display:flex;flex-direction:column;gap:var(--s-2xl);max-width:40rem}
 .ds-entry-beat{
@@ -2038,15 +2056,41 @@ ${surfaceRules()}
 }
 .ds-entry-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
 .ds-entry-note + .ds-entry-mark{margin-top:var(--s-lg)}
-.ds-entry-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-md)}
-.ds-entry-aside-item{
-  display:flex;flex-direction:column;gap:0.2rem;
-  border-bottom:1px solid var(--c-border);padding-bottom:var(--s-sm);
+/* Cross stamps — inked seals on a ruled strip; archive mid-page proof (not empty feature rows). */
+.ds-cross-stamps{
+  list-style:none;margin:var(--s-md) 0 0;padding:var(--s-sm) 0 0;display:grid;gap:0.35rem;
+  border-top:1px dashed var(--c-border);
 }
+.ds-cross-stamp{
+  display:grid;grid-template-columns:0.7rem 2.5rem minmax(0,1fr);gap:0.45rem;align-items:center;
+  padding:0.35rem 0;border-bottom:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+}
+.ds-cross-stamp:last-child{border-bottom:0}
+.ds-stamp-seal{
+  width:0.55rem;height:0.55rem;border-radius:50%;
+  background:var(--c-accent);
+}
+.ds-stamp-folio{font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;color:var(--c-ink-tertiary)}
+.ds-stamp-name{font-size:var(--t-small-size,0.9rem);line-height:1.25;color:var(--c-ink-secondary);max-width:28ch}
+.ds-entry-aside-kicker{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);margin:0 0 var(--s-sm);padding-bottom:var(--s-2xs);
+  border-bottom:1px solid var(--c-border);
+}
+.ds-entry-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.ds-entry-aside-item{
+  display:grid;grid-template-columns:2.75rem minmax(0,1fr) 0.7rem;gap:0.5rem;align-items:center;
+  border-bottom:1px solid var(--c-border);padding:0.55rem 0;
+}
+.ds-entry-aside-item:last-child{border-bottom:0}
 .ds-entry-aside-folio{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-accent);
 }
 .ds-entry-aside-title{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:22ch}
+.ds-entry-aside-seal{
+  width:0.45rem;height:0.45rem;border-radius:50%;background:color-mix(in srgb,var(--c-accent) 55%,transparent);
+  justify-self:end;
+}
 @media (max-width:800px){
   .ds-entry-grid{grid-template-columns:1fr!important}
   .ds-entry-aside{order:-1}
@@ -2585,6 +2629,20 @@ ${surfaceRules()}
   width:100vw;margin-left:calc(50% - 50vw);max-width:none;
 }
 .ds-marginalia-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+/* Cut slips — optical-size companions on the measure (foundry mid-page proof). */
+.ds-cut-slips{
+  list-style:none;margin:var(--s-md) 0 0;padding:var(--s-sm) 0 0;display:grid;gap:0.3rem;
+  border-top:1px solid var(--surface-border);
+}
+.ds-cut-slip{
+  display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:0.5rem;align-items:baseline;
+  padding:0.25rem 0;
+}
+.ds-cut-size{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-accent);
+}
+.ds-cut-name{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:28ch}
+[data-sitekind="editorial-foundry"] .ds-cut-slips{border-top-color:transparent;padding-top:var(--s-xs)}
 .ds-marginalia-rail{position:sticky;top:calc(var(--nav-h,4.5rem) + var(--s-md))}
 .ds-marginalia-notes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-lg)}
 .ds-marginalia-note{padding-left:var(--s-sm);border-left:2px solid var(--c-accent)}
@@ -2821,6 +2879,22 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-proof-figure figcaption{color:var(--c-ink-tertiary)}
 .ds-proof-figure-field{opacity:.55;padding:0;border:0;background:transparent;box-shadow:none;transform:none}
 .ds-proof-board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;list-style:none;margin:0;padding:0;border-top:1px solid var(--surface-border)}
+/* Dashboard: stacked register — not the same 5-column marketing board as fintech/corporate. */
+.ds-proof-board-stack{grid-template-columns:1fr;border-top:0;gap:0}
+.ds-proof-board-stack .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border);grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.ds-proof-board-stack .ds-proof-cell:last-child{border-bottom:0}
+.ds-proof-board-stack .ds-proof-hit{grid-template-columns:minmax(0,1fr) 7.25rem;align-items:center;padding:var(--s-sm) var(--s-md)}
+.ds-proof-board-stack .ds-proof-mark{margin:0;justify-self:end}
+/* Fintech: ruled wire rows with accent ticks — ledger rhythm, not a card grid. */
+.ds-proof-board-wire{grid-template-columns:1fr;border-top:2px solid var(--c-accent)}
+.ds-proof-board-wire .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border);box-shadow:inset 3px 0 0 transparent}
+.ds-proof-board-wire .ds-proof-cell.is-lead,.ds-proof-board-wire .ds-proof-cell:first-child{box-shadow:inset 3px 0 0 var(--c-accent);background:transparent}
+.ds-proof-board-wire .ds-proof-hit{grid-template-columns:4rem minmax(0,1fr) 7rem;padding:var(--s-sm) 0}
+/* Corporate: vertical spine index — diligence pillars, not a five-cell marquee. */
+.ds-proof-board-spine{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-md);border-top:0;padding-top:var(--s-md)}
+.ds-proof-board-spine .ds-proof-cell{border-right:0;border-left:2px solid var(--surface-border);padding-left:0;border-radius:0;background:transparent;box-shadow:none}
+.ds-proof-board-spine .ds-proof-cell.is-lead,.ds-proof-board-spine .ds-proof-cell:first-child{background:transparent;box-shadow:none;border-left-color:var(--c-accent)}
+.ds-proof-board-spine .ds-proof-hit{padding:var(--s-sm) var(--s-md)}
 .ds-proof-cell{display:grid;gap:var(--s-2xs);align-content:start;padding:0;border-right:1px solid var(--surface-border);min-height:0;background:transparent;border-radius:0}
 .ds-proof-cell:last-child{border-right:0}
 .ds-proof-cell.is-lead,.ds-proof-cell:first-child{background:var(--accent-soft);box-shadow:inset 0 3px 0 var(--c-accent)}

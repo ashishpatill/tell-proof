@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { buildPlatformCatalog, PlatformCompatEntry } from "./platform-compat";
 
 /** Every public MCP tool name. CI/docs must match this enum. */
 export const McpToolName = z.enum([
@@ -65,10 +66,13 @@ export const InstallInfo = z.object({
     codexToml: z.string(),
     manual: McpStdioServerConfig,
   }),
+  /** Exhaustive agent/IDE catalog — source for README + `tell mcp install`. */
+  platforms: z.array(PlatformCompatEntry),
   cli: z.object({
     pnpmMcp: z.string(),
     tellDiagnose: z.string(),
     tellMcpInstallCursor: z.string(),
+    tellMcpInstall: z.string(),
     tellDoctor: z.string(),
   }),
   deeplink: z.object({
@@ -172,10 +176,12 @@ export function buildInstallInfo(options: BuildInstallInfoOptions = {}): Install
       ].join("\n"),
       manual: stdio,
     },
+    platforms: buildPlatformCatalog(stdio),
     cli: {
       pnpmMcp: "pnpm -F @tell/mcp start",
       tellDiagnose: `tell diagnose --url ${fixtureUrl}`,
       tellMcpInstallCursor: "tell mcp install cursor --project",
+      tellMcpInstall: "tell mcp install <platform> [--project|--user|--print]",
       tellDoctor: "tell doctor",
     },
     deeplink: {
