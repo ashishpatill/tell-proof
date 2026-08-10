@@ -391,7 +391,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "n5", name: "Ember essay", description: "A bead-ticked reading so the afterlight stays citeable while you decide.", priority: "p1" },
         { id: "n6", name: "Ember close", description: "Chapter custody stamped so a reused walk cannot orphan its edition.", priority: "p2" },
       ],
-      constraints: ["path-first", "path plate", "ember essay", "no pricing theatre", "restrained motion"],
+      constraints: ["path-first", "path plate", "night trail", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "immersive",

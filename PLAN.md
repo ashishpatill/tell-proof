@@ -275,7 +275,7 @@ concept until eye + critique clear — one template per loop, never a new shared
 | 4 | `observatory` | `signal-observatory` | Chronometer + lattice | Mid-page was essay+aside — fixed event waterfall |
 | 5 | `press` | `press-atelier` | Registration forme | Mid-page was essay+aside clone — fixed forme stack |
 | 6 | `dossier` | `research-dossier` | Folio + verso/recto | Spread not citeable enough |
-| 7 | `lantern` | `lantern-path` | Night atlas path-plate | Silhouette late to fold |
+| 7 | `lantern` | `lantern-path` | Night atlas path-plate | Mid-page was essay+aside — fixed night trail |
 | 8 | `herbarium` | `field-guide` | Dissecting tray / glassine | Mid-page was essay+aside clone — fixed voucher key |
 | 9 | `loom` | `commerce-loom` | Shed-threaded drawloom | Already strong — polish only |
 | 10 | `consumer` | `consumer-craft` | Product-in-hand | Chapters after figure — keep distinct |
@@ -290,12 +290,12 @@ concept until eye + critique clear — one template per loop, never a new shared
 - [x] Observatory (Nightglass) — event waterfall (not essay+aside clone)
 - [x] Press (Forme Desk) — forme stack + densitometer (not essay+aside clone)
 - [ ] Dossier (Meridian Atlas) — spread citeability
-- [ ] Lantern (Ember Gate) — kill ember essay+aside clone; silhouette fold
+- [x] Lantern (Ember Gate) — night trail zigzag (not essay+aside clone)
 - [x] Herbarium — dichotomous voucher key (not essay+aside clone)
 - [ ] Loom — kill hangtag essay+aside clone if still twin
 - [ ] Consumer — polish only if eye miss
 - [ ] Marketing kinds — stack/wire/spine/workflow stay distinct; no craft marquee return
-- [x] LEARNINGS + LOOP_LEDGER updated for loops 26–30
+- [x] LEARNINGS + LOOP_LEDGER updated for loops 26–31
 
 ### Goal prompt (paste once per template)
 
@@ -370,6 +370,7 @@ no "Next" blockers for matrix/auth.
 [2026-08-09] Phase 9 loops 1–3: archive cross-stamps, studio work-board (94.5→99.0), foundry cut slips + craft feature-rows strip.
 [2026-08-10] Phase 9 loop 29: field dichotomous key + press forme stack — kill essay+aside clone (field 99.8 / press 94.0).
 [2026-08-10] Phase 9 loop 30: observatory event waterfall + DomainResearchPack (score 93.3).
+[2026-08-10] Phase 9 loop 31: lantern night trail zigzag + DomainResearchPack.
 [2026-08-07] Phase 8 stretch shipped — `resolveIntent` + `tell_resolve_intent` MCP + `tell resolve` CLI + Connect Agent UI (11 tools).
 [2026-08-07] Phase 8 Waves 0–2/A0/C0 implemented — install-info, Cursor mcp install, tell CLI, tell_voice, capture token, MCP drift guard (10 tools).
 [2026-08-07] Opened Phase 8 — agent platform distribution plans (docs/11–13) + plumbing reference memory (gitignored local pointer).

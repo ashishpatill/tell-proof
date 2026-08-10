@@ -624,10 +624,9 @@ export function planSections(input: CompositionInput): SectionPlan[] {
       layout: "story-ember",
       surface: "paper",
       bond: true,
-      columns: "7fr 5fr",
     });
     // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
-    // No shared marquee-proof — ember essay is the lantern proof instrument.
+    // No shared marquee-proof — night trail is the lantern proof instrument.
     plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
     plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
     plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });

@@ -516,12 +516,16 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-way-rail/.test(html)
           && /data-figure="path-plate"/.test(html)
           && /ds-ember/.test(html)
+          && /class="ds-ember-trail"/.test(html)
+          && /aria-label="Night trail"/.test(html)
+          && !/class="ds-ember-aside"/.test(html)
+          && !/class="ds-ember-grid"/.test(html)
           && /Ember/.test(html)
           && /ds-bleed-rule/.test(html)
           && /ds-path-near/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Lantern-path offerings use path fold + waypoint rail + path plate + ember essay + Ember — no pricing, no metrics theatre, zero inverse bands.",
+      "Lantern-path offerings use path fold + waypoint rail + path plate + night trail + Ember — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "fig-mono-floor",

@@ -692,3 +692,11 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Eval:** observatory-signal **93.3** (display-size under-band is shared craft-claim class);
   eye shows ruler+spans, not essay+aside. Matrix **95.9**.
 - **Do not:** Put a vertical bead essay beside a time list and call it an observatory desk.
+
+## 2026-08-10 — `template:lantern-ember-essay-aside-clone`
+
+- **Failure:** Ember Gate mid-page ember was essay-left + chapter-index aside — same clone family.
+- **Domain:** `loadPriorDomain("lantern-path")` — zigzag waypoints on a spine; forbid essay+aside.
+- **Fix:** `ds-ember-trail` center path with left/right alternating `ds-ember-step` panels.
+- **Eval:** eye shows zigzag night trail ≠ waterfall / formes / voucher key.
+- **Do not:** Mirror hangtag/entry aside lists for a night-walk chapter reading.

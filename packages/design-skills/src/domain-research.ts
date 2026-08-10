@@ -397,6 +397,70 @@ const GENERIC_PACKS: Record<string, DomainResearchPack> = {
       roundingDepth: "sharp",
     },
   }),
+  "lantern-path": DomainResearchPack.parse({
+    domainId: "lantern-path",
+    label: "Cinematic night-walk atlas",
+    siteKindHint: "lantern-path",
+    culturalThesis:
+      "Night paths are walked chapter by chapter — zigzag waypoints on a spine, not essay+aside indexes.",
+    multiPageRoutes: [
+      {
+        id: "home",
+        path: "/",
+        routeClass: "home",
+        purpose: "Path atlas fold + trail entry",
+        captureTargets: ["hero", "mid", "footer"],
+      },
+      {
+        id: "chapter",
+        path: "/chapter",
+        routeClass: "detail",
+        purpose: "Single waypoint reading",
+        captureTargets: ["hero", "mid"],
+      },
+    ],
+    shellContract: {
+      stickyRegions: ["header", "way-rail"],
+      primaryNavMaxItems: 4,
+      mobileNavPattern: "drawer",
+      footerDepth: "minimal",
+    },
+    navInventory: [
+      { id: "path", label: "Path", routeClass: "home", priority: "primary" },
+      { id: "chapters", label: "Chapters", routeClass: "detail", priority: "primary" },
+    ],
+    footerInventory: [
+      { id: "atlas", title: "Atlas", links: ["Path plate", "Ember"] },
+    ],
+    controlTaxonomy: [
+      {
+        id: "waypoint",
+        role: "Chapter waypoint on trail",
+        states: ["default", "hover", "focus-visible", "active"],
+      },
+    ],
+    variantLenses: [
+      { id: "hour", label: "Night hour", changesFacts: ["dusk", "midnight", "afterlight"] },
+    ],
+    categoryGaps: [
+      "Essay+aside mid-page clone of other craft templates",
+      "Soft dark glow WebGL chrome without path grammar",
+      "Inverse SaaS proof board on a paper night walk",
+    ],
+    uxRules: [
+      "Path plate owns the fold",
+      "Chapters zigzag on a center spine",
+      "Silhouette near-plane enters the first viewport",
+    ],
+    tasteSeed: {
+      aestheticLean: "refined-story",
+      density: "balanced",
+      motion: "light-scroll-reveals",
+      colorMood: "light-airy",
+      typographyWeight: "light-elegant",
+      roundingDepth: "sharp",
+    },
+  }),
 };
 
 /** Load prior domain pack by id (sport:cricket, saas-marketing, …). */
