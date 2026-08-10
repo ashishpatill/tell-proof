@@ -651,3 +651,12 @@ buckets, never names, hosts, or URLs.
 - **Closed:** `template:lantern-ember-essay-aside-clone`.
 - **Next weakest:** loom hangtag essay+aside; dossier spread citeability.
 
+## Loop 32 — Phase 9 loom care-tag stack
+
+- **Goal:** Replace hangtag essay+aside with size tape + swing-tag stack.
+- **Failure named:** Mid-page Hangtag was essay + size index — last clear essay+aside twin.
+- **Challenger:** `ds-hang-tape` + overlapping `ds-hang-tag` stack; commerce-loom DomainResearchPack.
+- **Closed:** `template:loom-hangtag-essay-aside-clone`.
+- **Next weakest:** dossier spread citeability; archive/foundry still use essay+rail but with
+  unique seals/slips (not copy-only twins).
+
