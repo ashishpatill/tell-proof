@@ -633,3 +633,13 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** observatory chrono ownership; dossier spread citeability; lantern silhouette;
   press display-size under-band (shared craft-claim class).
 
+## Loop 30 — Phase 9 observatory event waterfall
+
+- **Goal:** Replace chrono essay+aside with on-call instrument reading (domain pack).
+- **Failure named:** Mid-page chronology was essay + time-index aside — same family as
+  pre-fix field/press.
+- **Challenger:** Instrument-time ruler + staggered event spans; signal-observatory DomainResearchPack.
+- **Score:** observatory-signal **93.3**; matrix **95.9**.
+- **Closed:** `template:observatory-essay-aside-clone`.
+- **Next weakest:** lantern ember essay+aside clone; dossier spread citeability; loom hangtag aside.
+
