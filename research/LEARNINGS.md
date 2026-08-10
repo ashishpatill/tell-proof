@@ -657,3 +657,16 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Failure:** Tell only wrote Cursor MCP config; other hosts (Claude, Codex, OpenCode, Grok, Cline, …) had no `tell mcp install` parity with mainstream agent-compat tables.
 - **Fix:** `PlatformId` + `buildPlatformCatalog` in `@tell/schema`, `platforms[]` on `InstallInfo`, CLI writers for json/toml/yaml/opencode/openclaw, README + Connect Agent table. Muse/Z Code remain snippet-only until paths are verified.
 - **Do not:** Spawn third-party coding agents as Tell subprocesses — compatibility = MCP install into the agent Ashish already uses.
+
+## 2026-08-10 — `template:field-press-essay-aside-clone`
+
+- **Failure (human):** Field guide (#13) and Press atelier (#14) mid-page folds were the same
+  essay-left + aside-list-right UI — only strings differed. Called out as cheating.
+- **Root cause:** `renderRange` and `renderGather` both used the shared 7fr/5fr essay+aside
+  family also used by entry/hang/ember.
+- **Fix (Phase 9):** Field → dichotomous voucher key (`ds-range-ladder` + stacked
+  `ds-range-sheet` couplets). Press → overlapping `ds-gather-forme` stack with registration
+  corners + leading densitometer strip. Basics/tests assert markup divergence.
+- **Eval:** field-herbarium **99.8**; press-atelier **94.0** (display-size under-band is the
+  shared craft-claim class, not the new instrument). Eye: ladder+sheets ≠ densito+formes.
+- **Do not:** Swap copy on a shared essay+aside grid and call craft templates unique.

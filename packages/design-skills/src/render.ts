@@ -1523,8 +1523,8 @@ function renderGather(section: SectionSpec, figures: FigurePlan): string {
     <div class="ds-wrap-wide">
       ${secMeta("Gather", `${count} formes · densitometer`)}
       ${sectionHead(section, 2, true)}
-      <div class="ds-gather-stack" aria-label="Signature stack">${formes}</div>
       ${densito}
+      <div class="ds-gather-stack" aria-label="Signature stack">${formes}</div>
     </div>
   </section>`;
 }
