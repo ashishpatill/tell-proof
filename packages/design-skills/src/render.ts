@@ -629,9 +629,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       ${mast}
       <div class="ds-path-claim"><div class="ds-wrap-wide">${copy}</div></div>
       <div class="ds-bleed ds-path-field"${
-        spec.taste.motion === "immersive" || spec.routedSkills.includes("motion-stack-craft")
-          ? ` data-motion-instrument="field"`
-          : ""
+        spec.taste.motion === "immersive" ? ` data-motion-instrument="field"` : ""
       }>${plateFig}${near}</div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;

@@ -404,7 +404,7 @@ export function interfacePlate(productName: string, rows: Block[], seed: string,
       t = Math.max(0.12, Math.min(0.92, t + (r() - 0.36) * 0.2));
       pts.push(`${i === 0 ? "M" : "L"}${round(gx(i))} ${round(py + ph - 14 - t * (ph - 46))}`);
     }
-    parts.push(`<path d="${pts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
+    parts.push(`<path class="ds-draw" pathLength="1" d="${pts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
     parts.push(rule(tx + 14, py + ph - 14, tx + tw - 14, py + ph - 14));
   }
   if (barY < H - 34) {
@@ -517,7 +517,7 @@ function interfaceBand(productName: string, rows: Block[], seed: string): string
     t = Math.max(0.12, Math.min(0.92, t + (r() - 0.36) * 0.2));
     pts.push(`${i === 0 ? "M" : "L"}${round(px + 14 + (i / (n - 1)) * (panelW - 28))} ${round(plotB - t * plotH)}`);
   }
-  parts.push(`<path d="${pts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
+  parts.push(`<path class="ds-draw" pathLength="1" d="${pts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`);
   parts.push(rule(px + 14, plotB, px + panelW - 14, plotB));
 
   return frame(parts.join(""), { width: W, height: H, kind: "interface", inset: BLEED_INSET });
@@ -1044,7 +1044,7 @@ export function typeLadder(
 
   // Accent seam edge on the left of the ladder — the hard rule that marks foundry craft.
   parts.push(
-    `<line x1="${round(padX)}" y1="${round(padY)}" x2="${round(padX)}" y2="${round(H - padY)}" stroke="${ACCENT}" stroke-width="3" vector-effect="non-scaling-stroke"/>`,
+    `<path class="ds-draw" pathLength="1" d="M${round(padX)} ${round(padY)} L${round(padX)} ${round(H - padY)}" fill="none" stroke="${ACCENT}" stroke-width="3" vector-effect="non-scaling-stroke"/>`,
   );
 
   let y = padY + 8;
@@ -1161,7 +1161,11 @@ export function dossierPlate(
       pts.push(`${round(cx + Math.cos(a) * rx * jitter)},${round(cy + Math.sin(a) * ry * jitter)}`);
     }
     parts.push(
-      `<polygon points="${pts.join(" ")}" fill="${ACCENT_FIELD}" stroke="${ACCENT}" stroke-width="1" opacity="${round(0.35 + r() * 0.25)}" vector-effect="non-scaling-stroke"/>`,
+      `<polygon class="ds-draw-poly" points="${pts.join(" ")}" fill="${ACCENT_FIELD}" stroke="${ACCENT}" stroke-width="1" opacity="${round(0.35 + r() * 0.25)}" vector-effect="non-scaling-stroke"/>`,
+    );
+    // Stroke-draw twin — D3-pattern enter without fighting the fill region.
+    parts.push(
+      `<polyline class="ds-draw" pathLength="1" points="${pts.join(" ")} ${pts[0]}" fill="none" stroke="${ACCENT}" stroke-width="1.5" opacity="0.9" vector-effect="non-scaling-stroke"/>`,
     );
   }
 
@@ -1316,16 +1320,22 @@ export function signalLattice(
     );
 
     // Amplitude bars — dense instrument matter without SVG display type.
+    // Only a short run near the hot window gets `.ds-lattice-bar` enter motion so
+    // transition coverage stays inside the corpus restraint band (~2–15%).
     const bars = 28;
     const gap = barW / bars;
     const ampSeed = 0.25 + r() * 0.55;
+    let motionBars = 0;
     for (let b = 0; b < bars; b += 1) {
       const h = rowH * (0.18 + ampSeed * Math.abs(Math.sin((b + i * 3) * 0.55 + r() * 0.4)) * 0.72);
       const x = barLeft + gap * b + gap * 0.15;
       const y = mid - h / 2;
       const hot = b > bars * 0.62 && b < bars * 0.78;
+      const animate = i === 0 && hot && motionBars < 8;
+      if (animate) motionBars += 1;
+      const cls = animate ? ` class="ds-lattice-bar" style="--bar-i:${motionBars - 1}"` : "";
       parts.push(
-        `<rect class="ds-lattice-bar" style="--bar-i:${b}" x="${round(x)}" y="${round(y)}" width="${round(gap * 0.55)}" height="${round(h)}" fill="${hot ? ACCENT : LINE}" opacity="${hot ? 0.85 : round(0.35 + r() * 0.35)}"/>`,
+        `<rect${cls} x="${round(x)}" y="${round(y)}" width="${round(gap * 0.55)}" height="${round(h)}" fill="${hot ? ACCENT : LINE}" opacity="${hot ? 0.85 : round(0.35 + r() * 0.35)}"/>`,
       );
     }
 
@@ -1409,7 +1419,7 @@ export function indexLedger(
   // Header strip — register mark + product (mono ≤11px).
   const headY = padY + 16;
   parts.push(
-    `<line x1="${round(padX)}" y1="${round(headY + 10)}" x2="${round(W - padX)}" y2="${round(headY + 10)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    `<line class="ds-draw" pathLength="1" x1="${round(padX)}" y1="${round(headY + 10)}" x2="${round(W - padX)}" y2="${round(headY + 10)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
   parts.push(
     `<text class="ds-fig-mono" x="${round(padX + 10)}" y="${round(headY)}" font-size="11" fill="var(--surface-quiet)">REGISTER</text>`,
@@ -1613,7 +1623,7 @@ export function densitometerStrip(
     const pw = densSpan / patches - 4;
     const op = round(0.12 + (i / Math.max(1, patches - 1)) * 0.8);
     parts.push(
-      `<rect x="${round(px)}" y="${round(y0)}" width="${round(pw)}" height="12" fill="${ACCENT}" opacity="${op}"/>`,
+      `<rect class="ds-dens-patch" style="--dens-i:${i}" x="${round(px)}" y="${round(y0)}" width="${round(pw)}" height="12" fill="${ACCENT}" opacity="${op}"/>`,
     );
   }
   return parts.join("");
@@ -1903,7 +1913,7 @@ export function pathPlate(
     `<path d="${pathD}" fill="none" stroke="color-mix(in srgb, var(--c-paper) 18%, transparent)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>`,
   );
   parts.push(
-    `<path d="${pathD}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" vector-effect="non-scaling-stroke"/>`,
+    `<path class="ds-draw" pathLength="1" d="${pathD}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" vector-effect="non-scaling-stroke"/>`,
   );
 
   for (let i = 0; i < waypoints.length; i += 1) {
@@ -2029,6 +2039,7 @@ export function pipelineBoard(
   ];
   const n = Math.min(5, Math.max(3, stages.length));
   const colW = (W - pad * 2 - 12 * (n - 1)) / n;
+  const pipePts: string[] = [];
   parts.push(
     text("PIPELINE", pad, pad + 4, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.2 }),
   );
@@ -2096,6 +2107,12 @@ export function pipelineBoard(
       const cy = y + 48;
       parts.push(rule(cx + 2, cy, cx + 10, cy, LINE));
     }
+    pipePts.push(`${i === 0 ? "M" : "L"}${round(x + colW / 2)} ${round(y + 40)}`);
+  }
+  if (pipePts.length >= 2) {
+    parts.push(
+      `<path class="ds-draw" pathLength="1" d="${pipePts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>`,
+    );
   }
   parts.push(rule(pad, H - pad - 10, W - pad, H - pad - 10));
   parts.push(
@@ -2211,11 +2228,13 @@ export function postureGrid(
   const gap = 28;
   const cellW = (W - pad * 2 - gap) / cols;
   const cellH = (H - pad * 2 - 56 - gap) / rows;
+  const linkPts: string[] = [];
   items.slice(0, 4).forEach((b, i) => {
     const c = i % cols;
     const row = Math.floor(i / cols);
     const x = pad + c * (cellW + gap);
     const y = pad + 48 + row * (cellH + gap);
+    linkPts.push(`${round(x + cellW / 2)},${round(y + 28)}`);
     parts.push(box(x, y, cellW, cellH, { r: 0, fill: PAPER, stroke: LINE }));
     parts.push(
       text(String(i + 1).padStart(2, "0"), x + 20, y + 36, {
@@ -2239,6 +2258,11 @@ export function postureGrid(
       }),
     );
   });
+  if (linkPts.length >= 2) {
+    parts.push(
+      `<polyline class="ds-draw" pathLength="1" points="${linkPts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linejoin="round" opacity="0.7"/>`,
+    );
+  }
   return frame(parts.join(""), {
     width: W,
     height: H,
@@ -2358,6 +2382,9 @@ export function wireLedger(
     parts.push(rule(x, pad + 28, x, pad + 48));
     parts.push(text(c, x, pad + 64, { size: FIG_MONO_PX, fill: QUIET, mono: true, anchor: "middle" }));
   });
+  parts.push(
+    `<path class="ds-draw" pathLength="1" d="M${round(pad + 80)} ${round(pad + 38)} L${round(W - pad - 20)} ${round(pad + 38)}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linecap="round"/>`,
+  );
   parts.push(rule(pad, pad + 80, W - pad, pad + 80));
   const headers = ["Entity", "Path", "Status", "FX"];
   const colW = [0.28, 0.32, 0.2, 0.2].map((f) => (W - pad * 2) * f);

@@ -337,13 +337,24 @@ describe("measured craft floors", () => {
     const edu = designFromFeatures(SHOWCASE_BRIEFS.educational!);
     const lantern = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
     const dash = designFromFeatures(SHOWCASE_BRIEFS.dashboard!);
+    const fintech = designFromFeatures(SHOWCASE_BRIEFS.fintech!);
+    const foundry = designFromFeatures(SHOWCASE_BRIEFS.foundry!);
+    const corporate = designFromFeatures(SHOWCASE_BRIEFS.corporate!);
     expect(saas.spec.routedSkills).toContain("motion-stack-craft");
     expect(dash.spec.routedSkills).toContain("motion-stack-craft");
-    expect(saas.previewHtml).toMatch(/ds-draw|ds-flow-meter/);
+    expect(saas.previewHtml).toMatch(/class="ds-draw"/);
+    expect(fintech.previewHtml).toMatch(/class="ds-draw"/);
+    expect(foundry.previewHtml).toMatch(/class="ds-draw"/);
+    expect(corporate.previewHtml).toMatch(/class="ds-draw"/);
     expect(observatory.previewHtml).toContain("ds-lattice-bar");
     expect(edu.previewHtml).toMatch(/ds-draw|data-scrub/);
     expect(lantern.previewHtml).toContain('data-motion-instrument="field"');
     expect(saas.previewHtml).toContain("stroke-dashoffset");
+    // No ambient infinite loops in the motion system (loom shuttle is once).
+    expect(saas.previewHtml).not.toMatch(/animation:ds-shuttle-fly[^;]*infinite/);
+    expect(designFromFeatures(SHOWCASE_BRIEFS.loom!).previewHtml).not.toMatch(
+      /animation:ds-shuttle-fly[^;]*infinite/,
+    );
   });
 
   it("emits no raw hex outside the token block", () => {

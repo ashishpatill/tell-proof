@@ -467,11 +467,21 @@ function productInstrumentCss(): string {
   [data-sitekind="docs-educational"] .ds-scrub-stem{
     transition:opacity 220ms var(--m-ease),stroke-dashoffset 360ms var(--m-ease-out,cubic-bezier(0.22,1,0.36,1));
   }
+
+  .ds-dens-patch{
+    transform-box:fill-box;
+    transform-origin:left center;
+    transform:scaleX(0.08);
+    transition:transform 380ms calc(var(--dens-i,0) * 40ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1));
+  }
+  .ds-reveal.is-in .ds-dens-patch,
+  .ds-fig.is-armed .ds-dens-patch{transform:scaleX(1)}
 }
 @media (prefers-reduced-motion: reduce){
   .ds-draw{stroke-dashoffset:0!important;transition:none!important}
   .ds-lattice-bar{transform:none!important;transition:none!important}
   .ds-flow-meter > i{transform:none!important;transition:none!important}
+  .ds-dens-patch{transform:none!important;transition:none!important}
 }
 .ds-motion-field{
   position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.55;
@@ -2118,11 +2128,15 @@ ${surfaceRules()}
 .ds-shuttle{
   position:absolute;right:8%;top:42%;z-index:4;pointer-events:none;
   display:flex;align-items:center;gap:0.35rem;
-  animation:ds-shuttle-fly 2.4s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="commerce-loom"] .ds-shuttle{
+    animation:ds-shuttle-fly 1.6s ease-out both;
+  }
 }
 @keyframes ds-shuttle-fly{
-  from{transform:translateX(-1.5rem)}
-  to{transform:translateX(1.25rem)}
+  from{transform:translateX(-1.5rem);opacity:0}
+  to{transform:translateX(0);opacity:1}
 }
 .ds-shuttle-body{
   width:2.4rem;height:0.55rem;border:1px solid var(--c-accent);
