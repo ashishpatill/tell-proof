@@ -1,6 +1,8 @@
 ---
 name: ia-shell-synthesis
-description: Synthesize sitemap, shell contract, nav/footer inventory into DIRECTION.
+description: >-
+  Auto-trigger after walkthrough or when pack is enough — synthesize sitemap, shell contract,
+  nav/footer inventory, and control taxonomy into DIRECTION for any website domain.
 ---
 
 # ia-shell-synthesis

@@ -85,6 +85,7 @@ describe("DomainResearchPack (sport / cricket)", () => {
       "variant-lens",
       "emit-training-episode",
     ]);
+    expect(plan.followOnCraft).toContain("sport-matchday-web");
     expect(plan.followOnCraft).toContain("sport-vernacular-craft");
   });
 

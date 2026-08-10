@@ -1,0 +1,15 @@
+---
+description: Auto-trigger website domain research before any new site build
+alwaysApply: true
+---
+
+# Domain research — auto-trigger
+
+Before designing, coding, or running `agency:run` / `designFromFeatures` for **any** new or redesigned website:
+
+1. **Auto-run** `website-domain-research` (LoadPriorDomain → requirement-gap-diff → walkthrough if gaps → IA → variant-lens → **emit-training-episode**).
+2. If the brief is cricket / football / hockey / tennis / live scores / matchday, also auto-run `sport-matchday-web` / `sport-site-research` (extends the general graph).
+3. Do **not** blank-slate when a `DomainResearchPack` exists — customize or gap-fill only.
+4. Engine already prepends `website-domain-research` in `routeSkills` / `designFromFeatures`; agents must still execute the research nodes (not only render craft).
+
+Skills: `.cursor/skills/website-domain-research`, `.cursor/skills/sport-matchday-web`, `.cursor/skills/sport-site-research`, child nodes `load-prior-domain` … `emit-training-episode`.

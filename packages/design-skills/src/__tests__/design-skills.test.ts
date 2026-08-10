@@ -43,6 +43,8 @@ const ALL_SKILLS: SkillNodeId[] = [
   "glass-shell-craft",
   "container-tech-shell",
   "sport-vernacular-craft",
+  "website-domain-research",
+  "sport-matchday-web",
 ];
 
 const MOODS: ColorMood[] = ["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"];
@@ -55,6 +57,8 @@ describe("premium-content-custom-web engine", () => {
     expect(spec.routedSkills).toContain("pricing-or-plans");
     expect(spec.routedSkills).toContain("design-system-foundation");
     expect(spec.routedSkills).toContain("product-proof-stage");
+    expect(spec.routedSkills[0]).toBe("website-domain-research");
+    expect(spec.customizationHints.some((h) => h.startsWith("Research gate:"))).toBe(true);
     expect(spec.sections.some((s) => s.kind === "hero")).toBe(true);
     expect(spec.sections.some((s) => s.layout === "workflow-proof")).toBe(true);
     expect(previewHtml).toContain("Northstar");

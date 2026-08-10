@@ -1,6 +1,8 @@
 ---
 name: multipage-walkthrough
-description: Capture hero/mid/footer across declared route classes for any website domain.
+description: >-
+  Auto-trigger when research gaps exist — capture hero/mid/footer (+ mobile nav/footer) across
+  declared route classes for any website domain; optional RecordScreen + videoReview.
 ---
 
 # multipage-walkthrough

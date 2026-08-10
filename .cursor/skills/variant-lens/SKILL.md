@@ -1,6 +1,8 @@
 ---
 name: variant-lens
-description: Competition/format/plan/cadence variants that change which facts show.
+description: >-
+  Auto-trigger before design handoff — competition/format/plan/cadence variants that change which
+  facts show on any website (sport formats, pricing cadence, etc.).
 ---
 
 # variant-lens

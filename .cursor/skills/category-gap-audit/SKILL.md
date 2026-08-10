@@ -1,6 +1,8 @@
 ---
 name: category-gap-audit
-description: Anonymised category failures from walkthrough — what not to copy.
+description: >-
+  Auto-trigger after multipage walkthrough — anonymised category failures from evidence; what
+  not to copy when building any website domain.
 ---
 
 # category-gap-audit

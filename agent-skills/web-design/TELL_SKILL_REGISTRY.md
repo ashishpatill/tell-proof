@@ -31,6 +31,9 @@ Coverage table (82/82): `agent-skills/web-design/COVERAGE.md`
 | `signal-beam-craft` | CSS accent beam vignette |
 | `glass-shell-craft` | Nav frost + `.ds-glass-panel` |
 | `container-tech-shell` | Framed shell hierarchy (dark-premium) |
+| `website-domain-research` | **Always first** — LoadPrior → gap → walkthrough → IA → training emit |
+| `sport-matchday-web` | Sport research parent (when `sportId`) — extends domain research |
+| `sport-vernacular-craft` | Score-spine + format-lens craft after sport research |
 
 ## Agent playbooks (full script duties)
 

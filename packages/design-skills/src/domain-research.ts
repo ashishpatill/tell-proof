@@ -677,7 +677,7 @@ export function routeDomainResearchSkills(
 
   const followOnCraft: SkillNodeId[] = [];
   if (brief?.sportId || domainId.startsWith("sport:")) {
-    followOnCraft.push("sport-vernacular-craft", "editorial-chapter-craft");
+    followOnCraft.push("sport-matchday-web", "sport-vernacular-craft", "editorial-chapter-craft");
   }
 
   return {

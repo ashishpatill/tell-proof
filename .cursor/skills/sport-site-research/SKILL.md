@@ -1,6 +1,10 @@
 ---
 name: sport-site-research
-description: Mandatory research gate before building any sport website (cricket, football, hockey, tennis). Captures cultural vernacular, fan access modes, format lenses, category gaps, and score-spine UX — then seeds the design engine via sport-vernacular packs. Use whenever the brief mentions a sport, live scores, matchday, or league site.
+description: >-
+  Auto-trigger mandatory research gate before building any sport website (cricket, football,
+  hockey, tennis, live scores, matchday, league site). Captures cultural vernacular, fan access
+  modes, format lenses, category gaps, and score-spine UX — then seeds the design engine via
+  sport-vernacular packs. Extends website-domain-research via sport-matchday-web.
 ---
 
 # sport-site-research
@@ -8,6 +12,8 @@ description: Mandatory research gate before building any sport website (cricket,
 **Hard gate:** Do not design, code, or run `agency:run` for a sport site until a research brief exists for that sport.
 
 **Extends:** `website-domain-research` via parent graph `sport-matchday-web` (LoadPriorDomain first).
+
+**Auto-trigger:** Always-applied `tell-domain-research` + engine routes `website-domain-research` then `sport-matchday-web` when `sportId` is set or query language matches.
 
 Full playbook: `agent-skills/web-design/premium-content-custom-web/sport-vernacular-craft/SKILL.md`  
 Parent graphs: `website-domain-research` → `sport-matchday-web`  

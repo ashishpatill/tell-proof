@@ -1,11 +1,19 @@
 ---
 name: website-domain-research
-description: General research skill graph for ANY website brief — LoadPriorDomain, gap-diff, multipage walkthrough, IA/shell synthesis, category-gap audit, variant lens, training episode. Customize via domainId/siteKind. Sport, SaaS, studio, and other domains specialize; do not blank-slate when a package exists. Use before pixels on every new site.
+description: >-
+  Auto-trigger before building or redesigning ANY website, landing page, marketing site,
+  SaaS site, studio site, fintech site, consumer site, multipage IA, sitemap, nav/footer shell,
+  or domain pack. Runs LoadPriorDomain, requirement gap-diff, multipage walkthrough, IA/shell
+  synthesis, category-gap audit, variant lens, and training episode emit. Customize via
+  domainId/siteKind. Sport/SaaS/studio specialize — never blank-slate when a package exists.
+  Use at the start of every new site brief before pixels.
 ---
 
 # website-domain-research
 
 **Parent research graph for all websites.** Sport uses `sport-matchday-web` (extends this). SaaS/studio/fintech run this then `premium-content-custom-web`.
+
+**Auto-trigger:** Always-applied rule `tell-domain-research` + engine `routeSkills` prepends this node. Agents must execute the research chain, not skip to craft.
 
 Full graph: `agent-skills/web-design/website-domain-research/GRAPH.md`  
 Engine: `@tell/design-skills` → `DomainResearchPack`, `routeDomainResearchSkills`, `loadPriorDomain`, `requirementGapDiff`

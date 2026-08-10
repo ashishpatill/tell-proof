@@ -19,6 +19,7 @@ You are the **Tell orchestrator** for a 2-day Cursor build sprint.
 - Never auto-apply fixes
 - Schema frozen before parallel Tasks
 - Dogfood: Tell UI must pass its own audit by M10
+- **Auto-trigger** `website-domain-research` (and `sport-matchday-web` when sport) before any new website Task — do not start UI/fixture agents on a blank-slate site brief
 
 ## Output format
 ```

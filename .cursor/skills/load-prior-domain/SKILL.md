@@ -1,6 +1,8 @@
 ---
 name: load-prior-domain
-description: Load DomainResearchPack + vernacular + memory before any website build.
+description: >-
+  Auto-trigger first research step for any website brief — load DomainResearchPack, vernacular
+  doc, agency memory, LEARNINGS, and last DIRECTION by domainId/siteKind before planning or pixels.
 ---
 
 # load-prior-domain

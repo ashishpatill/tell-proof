@@ -24,4 +24,9 @@ Read USER_STORY.md: we build for **Ashish** (solo founder, AI-built UI looks gen
 `.cursor/agents/` — 11 role-specific agents. Use proactively by feature area.
 
 ## Project skills
-`.cursor/skills/` — 12 feature workflows. Invoke with `@skill-name` or let Cursor auto-attach.
+`.cursor/skills/` — feature workflows. Invoke with `@skill-name` or let Cursor auto-attach.
+
+**Website builds auto-trigger research:** always-applied rule `tell-domain-research` + engine
+`routeSkills` prepends `website-domain-research` (and `sport-matchday-web` when sport). Agents
+must execute LoadPrior → gap → walkthrough if needed → IA → training emit before pixels.
+
