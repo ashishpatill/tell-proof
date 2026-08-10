@@ -1432,48 +1432,46 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
- * Hangtag essay — commerce-loom signature.
- * String/eyelet mark + hangtag body + outer size index. Not entry folio or chrono beads.
+ * Care-tag stack — commerce-loom mid-page instrument.
+ *
+ * Horizontal size tape + overlapping swing tags with eyelets.
+ * Not the essay+aside list clone shared by entry.
  */
 function renderHangtag(section: SectionSpec, figures: FigurePlan): string {
   const blocks = section.blocks;
   const count = blocks.length || 1;
-  const essay = blocks
+  const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
+  const tape = blocks
     .map((b, i) => {
-      const mark = figures.marks[i] ? `<div class="ds-hang-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
-      const size = esc(b.meta ?? ["XS", "S", "M", "L", "XL", "XXL"][i % 6]!);
-      return `<article class="ds-hang-beat" style="--i:${i}">
-        <span class="ds-hang-eyelet" aria-hidden="true"></span>
-        <div class="ds-hang-body">
-          <p class="ds-hang-size">${size}</p>
-          <h3>${esc(b.title)}</h3>
-          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
-          ${b.kicker ? `<p class="ds-hang-note">${esc(b.kicker)}</p>` : ""}
-          ${mark}
-        </div>
-      </article>`;
+      const size = esc(b.meta ?? sizes[i % 6]!);
+      return `<li class="ds-hang-tape-chip" style="--i:${i}">
+        <span class="ds-hang-size">${size}</span>
+        <span class="ds-hang-tape-title">${esc(b.title)}</span>
+      </li>`;
     })
     .join("");
-  const aside = blocks
+  const tags = blocks
     .map((b, i) => {
-      const size = esc(b.meta ?? ["XS", "S", "M", "L", "XL", "XXL"][i % 6]!);
-      return `<li class="ds-hang-aside-item">
-        <span class="ds-hang-aside-size">${size}</span>
-        <span class="ds-hang-aside-title">${esc(b.title)}</span>
-      </li>`;
+      const mark = figures.marks[i] ? `<div class="ds-hang-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const size = esc(b.meta ?? sizes[i % 6]!);
+      return `<article class="ds-hang-tag" style="--i:${i}">
+        <span class="ds-hang-string" aria-hidden="true"></span>
+        <span class="ds-hang-eyelet" aria-hidden="true"></span>
+        <p class="ds-hang-size">${size}</p>
+        <h3>${esc(b.title)}</h3>
+        ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+        ${b.kicker ? `<p class="ds-hang-note">${esc(b.kicker)}</p>` : ""}
+        ${mark}
+      </article>`;
     })
     .join("");
   return `<section class="ds-section ds-story ds-hangtag" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
-      ${secMeta("Hangtag", `${count} tags · size index`)}
+      ${secMeta("Hangtag", `${count} tags · size tape`)}
       ${sectionHead(section, 2, true)}
-      <div class="ds-hang-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
-        <div class="ds-hang-essay">${essay}</div>
-        <aside class="ds-hang-aside" aria-label="Size index">
-          <ol class="ds-hang-aside-list">${aside}</ol>
-        </aside>
-      </div>
+      <ol class="ds-hang-tape" aria-label="Size tape">${tape}</ol>
+      <div class="ds-hang-stack" aria-label="Care tag stack">${tags}</div>
     </div>
   </section>`;
 }

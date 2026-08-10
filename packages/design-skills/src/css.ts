@@ -934,11 +934,9 @@ body[data-sitekind="commerce-loom"]{
 [data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-cta-note{display:none}
 [data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-actions .ds-btn-ghost,
 [data-sitekind="commerce-loom"] .ds-hero-drawloom .ds-actions a:nth-child(2){display:none}
-[data-sitekind="commerce-loom"] .ds-hang-size,
-[data-sitekind="commerce-loom"] .ds-hang-aside-size{
+[data-sitekind="commerce-loom"] .ds-hang-size{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;text-transform:none;color:var(--c-accent);
 }
-[data-sitekind="commerce-loom"] .ds-hang-aside-title{font-size:14px;line-height:1.3}
 [data-sitekind="commerce-loom"] .ds-fig text.ds-fig-mono,
 [data-sitekind="commerce-loom"] text.ds-fig-mono{font-size:11px!important}
 [data-sitekind="commerce-loom"] .ds-loom-plate .ds-fig{min-height:min(56vh,560px)}
@@ -2256,34 +2254,52 @@ ${surfaceRules()}
   .ds-loom-plate .ds-fig{min-height:min(42vh,420px)}
   .ds-treadles .ds-tape-label{font-size:10px}
 }
-/* Hangtag essay. */
-.ds-hang-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
-.ds-hang-essay{display:flex;flex-direction:column;gap:var(--s-2xl);max-width:40rem}
-.ds-hang-beat{
-  position:relative;padding-left:1.75rem;
-  border:1px solid var(--c-border);padding:var(--s-lg) var(--s-lg) var(--s-lg) 2rem;
+/* Care-tag stack — size tape + overlapping swing tags (commerce loom). */
+.ds-hang-tape{
+  list-style:none;margin:var(--s-xl) 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(5.5rem,1fr));
+  border:1px solid var(--c-border);background:var(--c-paper);
+}
+.ds-hang-tape-chip{
+  display:flex;flex-direction:column;gap:0.25rem;padding:var(--s-sm);
+  border-right:1px solid var(--c-border);min-height:4.25rem;
+}
+.ds-hang-tape-chip:last-child{border-right:0}
+.ds-hang-tape-title{font-size:var(--t-small-size,0.85rem);line-height:1.25;color:var(--c-ink-secondary);max-width:12ch}
+.ds-hang-size{
+  margin:0;font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;color:var(--c-accent);
+}
+.ds-hang-stack{
+  margin-top:var(--s-2xl);position:relative;min-height:18rem;padding-bottom:var(--s-xl);
+}
+.ds-hang-tag{
+  position:relative;width:min(22rem,100%);
+  border:1px solid var(--c-border);padding:var(--s-xl) var(--s-lg) var(--s-lg);
   background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
+  transform:translate(calc(var(--i) * 1.5rem),calc(var(--i) * 2.75rem)) rotate(calc((var(--i) - 2) * 0.8deg));
+  z-index:calc(8 - var(--i));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--c-border) 35%,transparent);
+}
+.ds-hang-tag + .ds-hang-tag{margin-top:calc(var(--s-2xl) * -1.1)}
+.ds-hang-string{
+  position:absolute;left:50%;top:-1.1rem;width:1px;height:1.1rem;
+  background:var(--c-border);transform:translateX(-50%);
 }
 .ds-hang-eyelet{
-  position:absolute;left:0.65rem;top:0.85rem;width:0.7rem;height:0.7rem;border-radius:50%;
-  border:1px solid var(--c-accent);background:var(--c-paper);
+  position:absolute;left:50%;top:0.55rem;width:0.7rem;height:0.7rem;border-radius:50%;
+  border:1px solid var(--c-accent);background:var(--c-paper);transform:translateX(-50%);
 }
-.ds-hang-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
+.ds-hang-tag h3{margin:0.85rem 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15;max-width:14ch}
 .ds-hang-note{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.06em;text-transform:none;
   color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;position:relative;z-index:1;
 }
 .ds-hang-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
 .ds-hang-note + .ds-hang-mark{margin-top:var(--s-lg)}
-.ds-hang-aside-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-md)}
-.ds-hang-aside-item{
-  display:flex;flex-direction:column;gap:0.2rem;
-  border-bottom:1px solid var(--c-border);padding-bottom:var(--s-sm);
-}
-.ds-hang-aside-title{font-size:var(--t-small-size,0.9rem);line-height:1.3;color:var(--c-ink-secondary);max-width:22ch}
 @media (max-width:800px){
-  .ds-hang-grid{grid-template-columns:1fr!important}
-  .ds-hang-aside{order:-1}
+  .ds-hang-tag{transform:none;width:100%;margin-top:var(--s-md)!important}
+  .ds-hang-tag + .ds-hang-tag{margin-top:var(--s-md)!important}
+  .ds-hang-stack{min-height:0;padding-bottom:0}
 }
 
 /* Dissecting-tray glassine — hinged lid, entomology pins, specimen tag, vernier, binomial. */

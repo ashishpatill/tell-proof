@@ -706,10 +706,10 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
     key: "loom",
     label: "Commerce loom",
     marketJob:
-      "Merchandising press landing — drawloom weft claim, size treadles, warp/weft photo cloth, hangtag essay, Care label close.",
+      "Merchandising press landing — drawloom weft claim, size treadles, warp/weft photo cloth, care-tag stack, Care label close.",
     siteKind: "commerce-loom",
     researchBasis:
-      "Calibrated against commerce-platform + brand-product-agency corridors (figure-forward, quiet-to-moderate display, low inverse). Distinct craft soft theme packs miss: claim-as-weft drawloom, bottom size treadles, loom-weave figure with copyright-free textile photo cells, hangtag essay with eyelet marks, paper Care label — no pricing, no metrics theatre, zero inverse bands, no glass card collage.",
+      "Calibrated against commerce-platform + brand-product-agency corridors (figure-forward, quiet-to-moderate display, low inverse). Distinct craft soft theme packs miss: claim-as-weft drawloom, bottom size treadles, loom-weave figure with copyright-free textile photo cells, size tape + overlapping care-tag stack (not essay+aside), paper Care label — no pricing, no metrics theatre, zero inverse bands, no glass card collage.",
     brief: DesignBrief.parse({
       productName: "Warp Desk",
       tagline: "The press that keeps every SKU under one honest weave",

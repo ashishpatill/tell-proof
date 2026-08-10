@@ -587,6 +587,11 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-treadles");
     expect(previewHtml).toContain('data-figure="loom-weave"');
     expect(previewHtml).toContain("ds-hangtag");
+    expect(previewHtml).toContain('class="ds-hang-tape"');
+    expect(previewHtml).toContain('aria-label="Care tag stack"');
+    expect(previewHtml).toContain('class="ds-hang-stack"');
+    expect(previewHtml).not.toContain('class="ds-hang-aside"');
+    expect(previewHtml).not.toContain('class="ds-ember-trail"');
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Care label");
     expect(previewHtml).toContain("The lines");
