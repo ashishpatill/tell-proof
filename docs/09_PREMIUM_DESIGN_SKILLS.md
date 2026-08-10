@@ -19,6 +19,8 @@
 | `.cursor/skills/conversion-landing-craft/SKILL.md` | Single-offer landing craft |
 | `.cursor/skills/pricing-decision-craft/SKILL.md` | Pricing decision craft |
 | `.cursor/skills/surface-recipe-map/SKILL.md` | Theme-pack remap → Taste Controls |
+| `.cursor/skills/scroll-reveal-once/SKILL.md` | Once-only scroll reveals |
+| `.cursor/skills/motion-stack-craft/SKILL.md` | Three.js / D3 / OSS motion stack craft — customize per project |
 | `.cursor/skills/gates-until-verified/SKILL.md` | Acceptance-gate verify loop |
 | `packages/design-skills` | Deterministic engine (`designFromFeatures`) |
 | `packages/design-skills/src/templates.ts` | Research-backed offerings (depth-first catalog across measured gaps) |
@@ -80,7 +82,7 @@ Preview HTML must clear this craft floor — routing alone is not enough:
 5. Offer Taste Controls  
 6. Optional: Tell diagnose / redesign using `spec.tellDirectionId`
 
-For **full marketing sites** that need agency polish (reference board + axis-isolated type/spacing/motion/mobile), use `agency-quality-site` and `pnpm agency:pipeline` — do not collapse polish axes into one pass. Load `DESIGN_RIGOR.md` before Phase 2 (one compositional lane + 1–2 craft nodes).
+For **full marketing sites** that need agency polish (reference board + axis-isolated type/spacing/motion/mobile), use `agency-quality-site` and `pnpm agency:pipeline` — do not collapse polish axes into one pass. Load `DESIGN_RIGOR.md` before Phase 2 (one compositional lane + 1–2 craft nodes). Motion ladder and stack policy: `docs/15_MOTION_ANIMATION_PLAN.md` (experts/stacks survey: `research/MOTION_ANIMATION_SURVEY.md`).
 
 ## Taste Controls
 

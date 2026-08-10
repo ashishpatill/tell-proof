@@ -7,7 +7,13 @@
  */
 import { renderCss } from "./css";
 import { horizonPlot, isReading, planFigures, type FigurePlan } from "./figures";
-import type { Block, DesignSpec, SectionSpec } from "./types";
+import {
+  motionHasNarrative,
+  motionHasReveals,
+  type Block,
+  type DesignSpec,
+  type SectionSpec,
+} from "./types";
 
 function esc(s: string): string {
   return s
@@ -33,13 +39,41 @@ function clip(s: string, n: number): string {
  * lost its layout: no section padding, no minimum heights, and no positioning context — which is
  * how a background field two screens down ended up painting on the fold.
  */
-function revealAttrs(spec: DesignSpec, index: number, html: string): string {
-  if (spec.taste.motion !== "light-scroll-reveals") return html;
+function revealAttrs(
+  spec: DesignSpec,
+  index: number,
+  html: string,
+  opts: { pinChapter?: boolean } = {},
+): string {
+  if (!motionHasReveals(spec.taste.motion)) return html;
   const delay = Math.min(index, 5) * 60;
-  return html.replace(
+  const extra = opts.pinChapter ? "ds-reveal ds-stagger ds-chapter-pin" : "ds-reveal ds-stagger";
+  let next = html.replace(
     /^<(section|footer)\s+class="/,
-    (_m, tag: string) => `<${tag} style="transition-delay:${delay}ms" class="ds-reveal `,
+    (_m, tag: string) => `<${tag} style="transition-delay:${delay}ms" class="${extra} `,
   );
+  if (opts.pinChapter) {
+    next = next.replace(
+      /^(<(?:section|footer)\b[^>]*>)/,
+      `$1<div class="ds-chapter-progress" aria-hidden="true"></div><div class="ds-chapter-pin-inner">`,
+    );
+    next = next.replace(/<\/(section|footer)>$/, `</div></$1>`);
+  }
+  return next;
+}
+
+function enterAttr(spec: DesignSpec, i: number, baseClass: string): string {
+  if (!motionHasReveals(spec.taste.motion)) return `class="${baseClass}"`;
+  return `class="${baseClass} ds-enter" style="--enter-i:${i}"`;
+}
+
+/** Stamp hero-entrance delay onto an existing opening tag that already has class="…". */
+function withEnter(spec: DesignSpec, i: number, html: string): string {
+  if (!html || !motionHasReveals(spec.taste.motion)) return html;
+  return html.replace(/^<([a-z0-9]+)(\s+class="[^"]*")/i, (_m, tag: string, cls: string) => {
+    if (/\bds-enter\b/.test(cls)) return `<${tag}${cls}`;
+    return `<${tag}${cls.slice(0, -1)} ds-enter" style="--enter-i:${i}"`;
+  });
 }
 
 /**
@@ -204,12 +238,13 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       ? `<ul class="ds-hero-facts">${section.blocks.map((b) => `<li>${esc(b.title)}</li>`).join("")}</ul>`
       : "";
 
+  const actI = section.eyebrow ? 4 : 3;
   const copy = `<div class="ds-hero-copy">
-    <p class="ds-brand-mark">${esc(spec.brief.productName)}</p>
-    ${section.eyebrow ? `<p class="ds-eyebrow">${esc(section.eyebrow)}</p>` : ""}
-    <h1 class="ds-display">${esc(section.title)}</h1>
-    <p class="ds-lede">${esc(section.body)}</p>
-    ${actions(section)}
+    <p ${enterAttr(spec, 0, "ds-brand-mark")}>${esc(spec.brief.productName)}</p>
+    ${section.eyebrow ? `<p ${enterAttr(spec, 1, "ds-eyebrow")}>${esc(section.eyebrow)}</p>` : ""}
+    <h1 ${enterAttr(spec, section.eyebrow ? 2 : 1, "ds-display")}>${esc(section.title)}</h1>
+    <p ${enterAttr(spec, section.eyebrow ? 3 : 2, "ds-lede")}>${esc(section.body)}</p>
+    ${withEnter(spec, actI, actions(section))}
     ${meta}
   </div>`;
 
@@ -593,7 +628,9 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       ${rail}
       ${mast}
       <div class="ds-path-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-bleed ds-path-field">${plateFig}${near}</div>
+      <div class="ds-bleed ds-path-field"${
+        spec.taste.motion === "immersive" ? ` data-motion-instrument="field"` : ""
+      }>${plateFig}${near}</div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
@@ -2091,10 +2128,16 @@ function bondAttr(section: SectionSpec, html: string): string {
   return html.replace(/^<(section|footer)\s/, (_m, tag: string) => `<${tag} data-bond="continues" `);
 }
 
-function renderSection(section: SectionSpec, index: number, spec: DesignSpec, figures: FigurePlan): string {
+function renderSection(
+  section: SectionSpec,
+  index: number,
+  spec: DesignSpec,
+  figures: FigurePlan,
+  opts: { pinChapter?: boolean } = {},
+): string {
   const wrapped = (html: string): string => {
     if (section.layout === "nav") return html;
-    return revealAttrs(spec, index, bondAttr(section, html));
+    return revealAttrs(spec, index, bondAttr(section, html), opts);
   };
 
   switch (section.layout) {
@@ -2169,11 +2212,16 @@ function renderSection(section: SectionSpec, index: number, spec: DesignSpec, fi
 }
 
 function scripts(spec: DesignSpec): string {
-  const revealJs =
-    spec.taste.motion === "light-scroll-reveals"
+  const revealJs = motionHasReveals(spec.taste.motion)
       ? `var nodes=[].slice.call(document.querySelectorAll('.ds-reveal'));
   if(nodes.length){
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)){
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var scrollDriven=false;
+    try{ scrollDriven=CSS.supports('animation-timeline','view()'); }catch(e){}
+    if(reduce || !('IntersectionObserver' in window)){
+      nodes.forEach(function(n){n.classList.add('is-in')});
+    } else if(scrollDriven){
+      /* CSS view() timelines own the reveal; still mark is-in for stagger fallbacks */
       nodes.forEach(function(n){n.classList.add('is-in')});
     } else {
       var io=new IntersectionObserver(function(entries){
@@ -2400,6 +2448,96 @@ function scripts(spec: DesignSpec): string {
     });
   });
 
+  /* motion-stack-craft: arm SVG stroke-draw + lattice + flow meters once in view */
+  (function(){
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function arm(el){
+      if(!el || el.classList.contains('is-armed')) return;
+      el.classList.add('is-armed');
+      [].slice.call(el.querySelectorAll('.ds-draw')).forEach(function(p){
+        try{ if(!p.getAttribute('pathLength')) p.setAttribute('pathLength','1'); }catch(e){}
+      });
+    }
+    var figs=[].slice.call(document.querySelectorAll('.ds-fig, .ds-flow-track, [data-motion-instrument]'));
+    if(!figs.length) return;
+    if(reduce || !('IntersectionObserver' in window)){
+      figs.forEach(arm);
+      return;
+    }
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ arm(e.target); io.unobserve(e.target); }
+      });
+    },{threshold:0.12,rootMargin:'0px 0px -4% 0px'});
+    figs.forEach(function(n){ io.observe(n); });
+  })();
+
+  /* Immersive canvas2d field (Three.js-pattern stand-in; no CDN). Static-first when reduced. */
+  (function(){
+    var host=document.querySelector('[data-motion-instrument="field"]');
+    if(!host) return;
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce) return;
+    var canvas=document.createElement('canvas');
+    canvas.className='ds-motion-field';
+    canvas.setAttribute('aria-hidden','true');
+    host.appendChild(canvas);
+    var ctx=canvas.getContext('2d');
+    if(!ctx) return;
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    var dots=[];
+    var raf=0;
+    var running=false;
+    function resize(){
+      var r=host.getBoundingClientRect();
+      canvas.width=Math.max(1,Math.floor(r.width*dpr));
+      canvas.height=Math.max(1,Math.floor(r.height*dpr));
+      canvas.style.width=r.width+'px';
+      canvas.style.height=r.height+'px';
+      var n=Math.min(48, Math.max(18, Math.floor((r.width*r.height)/18000)));
+      dots=[];
+      for(var i=0;i<n;i++){
+        dots.push({
+          x:Math.random(),
+          y:Math.random(),
+          r:0.6+Math.random()*1.4,
+          vx:(Math.random()-0.5)*0.00035,
+          vy:(Math.random()-0.5)*0.00025
+        });
+      }
+    }
+    function ink(){
+      var s=getComputedStyle(document.body);
+      return s.getPropertyValue('--c-accent').trim() || s.getPropertyValue('--surface-ink').trim() || '#444';
+    }
+    function frame(){
+      if(!running) return;
+      var w=canvas.width,h=canvas.height;
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle=ink();
+      for(var i=0;i<dots.length;i++){
+        var d=dots[i];
+        d.x+=d.vx; d.y+=d.vy;
+        if(d.x<0||d.x>1) d.vx*=-1;
+        if(d.y<0||d.y>1) d.vy*=-1;
+        ctx.globalAlpha=0.22+ (i%5)*0.04;
+        ctx.beginPath();
+        ctx.arc(d.x*w,d.y*h,d.r*dpr,0,Math.PI*2);
+        ctx.fill();
+      }
+      raf=requestAnimationFrame(frame);
+    }
+    function start(){ if(running) return; running=true; resize(); frame(); }
+    function stop(){ running=false; if(raf) cancelAnimationFrame(raf); }
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting) start(); else stop(); });
+      },{threshold:0.05});
+      io.observe(host);
+    } else { start(); }
+    window.addEventListener('resize', function(){ if(running) resize(); }, {passive:true});
+  })();
+
   /* Lantern-path: waypoint rail active chapter + silhouette near-plane handoff. */
   (function(){
     var marks=[].slice.call(document.querySelectorAll('.ds-way-mark[data-way]'));
@@ -2449,6 +2587,9 @@ export function renderPreviewHtml(spec: DesignSpec): string {
   const atmosphereLayer = atmosphere
     ? `<div class="ds-atmosphere" aria-hidden="true"><div class="ds-atmosphere-motes"></div><div class="ds-accent-beam"></div></div>`
     : "";
+  const authoredSlot = spec.routedSkills.includes("authored-motion-slot")
+    ? `<aside class="ds-authored-motion" data-authored-slot="empty" aria-label="Authored motion poster"><span class="ds-sr">Authored motion slot — poster frame until a runtime asset is mounted</span></aside>`
+    : "";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -2461,22 +2602,33 @@ export function renderPreviewHtml(spec: DesignSpec): string {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fonts}&display=swap"/>
 ${needsHtmx ? `<script src="https://unpkg.com/htmx.org@2.0.4" defer></script>` : ""}
-<noscript><style>.ds-reveal{opacity:1!important;transform:none!important}</style></noscript>
+<noscript><style>.ds-reveal,.ds-enter,.ds-stagger > *{opacity:1!important;transform:none!important;animation:none!important}.ds-chapter-pin{min-height:0!important}.ds-chapter-pin-inner{position:static!important}.ds-chapter-progress{display:none!important}</style></noscript>
 <style>${renderCss(spec)}</style>
 </head>
 <body data-lean="${esc(spec.taste.aestheticLean)}" data-motion="${esc(spec.taste.motion)}" data-density="${esc(spec.taste.density)}" data-mood="${esc(spec.taste.colorMood)}" data-sitekind="${esc(spec.brief.siteKind)}" data-depth="${esc(depth)}"${paperFrame ? ` data-frame="paper-technical"` : ""}${atmosphere ? ` data-atmosphere="static"` : ""}>
 ${atmosphereLayer}
 <a class="ds-skip" href="#main">Skip to content</a>
 <p class="ds-sr">${esc(spec.summary)}</p>
+${authoredSlot}
 ${spec.sections
   .filter((s) => s.layout === "nav")
   .map((s, i) => renderSection(s, i, spec, figures))
   .join("\n")}
 <main id="main">
-${spec.sections
-  .filter((s) => s.layout !== "nav" && s.layout !== "footer-columns")
-  .map((s, i) => renderSection(s, i, spec, figures))
-  .join("\n")}
+${(() => {
+  let pinned = false;
+  return spec.sections
+    .filter((s) => s.layout !== "nav" && s.layout !== "footer-columns")
+    .map((s, i) => {
+      const pinChapter =
+        motionHasNarrative(spec.taste.motion) &&
+        !pinned &&
+        (s.kind === "story" || s.kind === "features");
+      if (pinChapter) pinned = true;
+      return renderSection(s, i, spec, figures, { pinChapter });
+    })
+    .join("\n");
+})()}
 </main>
 ${spec.sections
   .filter((s) => s.layout === "footer-columns")

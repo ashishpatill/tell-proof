@@ -126,10 +126,14 @@ Spacing only → --reshoot → --mark-pass 3b-spacing
 
 ## 3c-motion
 
+See `docs/15_MOTION_ANIMATION_PLAN.md` §6 for the full contract.
+
 **Goal**
 
 ```
-Phase 3c-motion ONLY. 200–300ms reveals/hover. One motion system. No bounce. reduced-motion safe.
+Phase 3c-motion ONLY. One motion system: hero entrance + section stagger + control
+micro-feedback. Micro 150–300ms; entrance ≤800ms. Optional one scroll chapter if narrative.
+No bounce/blur/loops/dual scroll engines. reduced-motion → finals. ≥2 missable beats.
 pnpm agency:pipeline -- --brief <brief> --phase 3c-motion
 ```
 

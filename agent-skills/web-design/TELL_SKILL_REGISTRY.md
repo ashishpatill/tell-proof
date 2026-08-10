@@ -12,6 +12,11 @@ Coverage table (82/82): `agent-skills/web-design/COVERAGE.md`
 | `conversion-landing-craft` | FAQ objections + CTA risk |
 | `pricing-decision-craft` | Cadence toggle + risk note |
 | `scroll-reveal-once` | Once-only reveals |
+| `hero-entrance-once` | Hero brand→claim→CTA entrance |
+| `section-stagger-enter` | Staggered children in reveals |
+| `scroll-narrative-craft` | Sticky chapter + progress |
+| `authored-motion-slot` | Rive/Lottie poster slot (immersive) |
+| `motion-stack-craft` | Three/D3/GSAP/OSS judgment + product instruments |
 | `indexed-detail-markers` | `.ds-index-mark` |
 | `honest-integration-marks` | Declared mark row |
 | `paper-technical-frame` | `data-frame=paper-technical` |

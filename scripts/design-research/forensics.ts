@@ -717,6 +717,15 @@ export const PROBE = `(() => {
     hasWebGL: Array.from(document.querySelectorAll("canvas")).some((c) => {
       try { return !!(c.getContext("webgl") || c.getContext("webgl2")); } catch { return false; }
     }),
+    staggerGroups: document.querySelectorAll(".ds-stagger, [data-stagger]").length,
+    enterBeats: document.querySelectorAll(".ds-enter, [data-enter]").length,
+    chapterPins: document.querySelectorAll(".ds-chapter-pin, [data-chapter-pin]").length,
+    revealNodes: document.querySelectorAll(".ds-reveal, [data-reveal]").length,
+    choreographyScore:
+      document.querySelectorAll(".ds-enter, [data-enter]").length +
+      document.querySelectorAll(".ds-stagger, [data-stagger]").length +
+      document.querySelectorAll(".ds-chapter-pin, [data-chapter-pin]").length +
+      Math.min(6, document.querySelectorAll(".ds-reveal, [data-reveal]").length),
   };
 
   /* ---------------- media ---------------- */

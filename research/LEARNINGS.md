@@ -530,6 +530,79 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   generic "before" reads as content.
 - **Do not:** Ship recent/session galleries as blank surface tiles and call the shell done.
 
+## 2026-08-09 — `motion:restraint-band-masks-lifeless-pages`
+
+- **Failure:** Critique `motion-restraint` / `motion-speed` score 1.0 across briefs while templates
+  still feel static — metrics only measure CSS transition share and duration, not choreography
+  (hero entrance, stagger, scroll chapters, missable beats). Agency `3c-motion` Goal was
+  “scroll-reveal + hover,” which capped craft at the same thin ceiling.
+- **Fix:** Survey experts + 2026 stacks (`research/MOTION_ANIMATION_SURVEY.md`); product ladder
+  in `docs/15_MOTION_ANIMATION_PLAN.md`; raise `3c-motion` contract; thicken motion sub-skills;
+  seed gitignored `motion-corpus.local.json` for forensics. Next: presence metrics + CSS
+  view-timeline / stagger render (W1–W3).
+- **Do not:** Spray transitions to “fix” coverage; do not default WebGL; do not treat
+  in-band restraint as proof that motion exists.
+
+## 2026-08-09 — `motion:engine-choreography-ship`
+
+- **Failure:** Templates only offered CSS hover + optional IO opacity fades; Taste enum stopped
+  at `light-scroll-reveals`; critique could not fail “lifeless but restrained” pages.
+- **Fix (RSI challenger):** Expand `MotionLevel` (+`scroll-narrative`,`immersive`); emit hero
+  `ds-enter`, section `ds-stagger`, CSS `animation-timeline: view()` with IO fallback, one
+  sticky `ds-chapter-pin` + progress; Studio/MCP options; forensics `choreographyScore` /
+  `revealNodes` + critique dims (skipped for `none`/`subtle-micro`). Agency polish aligned.
+  Unit tests 60/60; critique matrix ~96.5 with motion dims no longer in the weakest set.
+- **Do not:** Import React Motion into HTML templates; do not dual smooth-scroll; do not
+  weaken restraint bands to fake presence.
+
+## 2026-08-09 — `motion:sitekind-signature-clips`
+
+- **Failure:** Every revealing template shared the same translateY fade — clips of SaaS,
+  consumer, foundry, etc. were interchangeable.
+- **Fix:** `motionSignatureCss(siteKind)` overrides travel/easing/stagger/origin (and a few
+  unique keyframes: foundry mask, press snap, dossier vertical chapter ink). Recorder
+  `pnpm record:template-motion` writes `/opt/cursor/artifacts/motion-clips/*-motion.webm`
+  plus manifest. Educational/fintech bumped to light-scroll-reveals so signatures play.
+- **Do not:** Ship one shared fade for all offerings; do not add infinite ambient loops
+  to “look different.”
+
+## 2026-08-09 — `motion:unique-keyframes-verified`
+
+- **Failure:** First signature pass only tweaked CSS vars; on-camera the clips still read as
+  one vertical fade. Video review rejected uniqueness.
+- **Fix:** Dedicated `@keyframes` per siteKind (`ds-saas-in`, `ds-consumer-in`,
+  `ds-foundry-mask`, `ds-fin-in`, …) forced via `animation-name` on `.ds-reveal`/`.ds-enter`.
+  Chromium probe confirms distinct `getComputedStyle().animationName` per template.
+  `pnpm record:template-motion` writes 15 slowed clips + manifest under
+  `/opt/cursor/artifacts/motion-clips/`.
+- **Do not:** Trust var-only travel deltas as “unique motion”; verify computed animation-name
+  (and a clip) before claiming uniqueness.
+
+## 2026-08-09 — `motion:stack-craft-skill-and-instruments`
+
+- **Failure:** Templates had signature keyframes but no skill encoding Three.js / D3 /
+  free OSS motion stacks; instruments were not systematically customized per product.
+- **Fix:** Ship `motion-stack-craft` skill + playbook; route whenever motion ≠ `none`;
+  add product instruments (`.ds-draw` stroke-draw, `.ds-lattice-bar` enter, SaaS flow
+  meters, immersive canvas2d field on lantern). Survey §§3.5–3.6 document D3 + OSS
+  template adaptation rules. Tests 62 green.
+- **Do not:** Paste OSS kits unchanged; do not CDN Three into marketing HTML by default;
+  do not use D3 for non-data decoration.
+
+## 2026-08-09 — `motion:instrument-spray-breaks-restraint`
+
+- **Failure:** RSI audit found most siteKinds lacked body-level product instruments (only
+  edu/observatory had real DOM motion hooks); loom shipped `animation:…infinite` shuttle CSS
+  globally; giving every lattice amplitude bar a CSS `transition` blew observatory
+  transition-coverage to 0.243 (band max ~0.154) and dropped matrix to 96.3.
+- **Fix (RSI challenger):** Add feature-true `.ds-draw` on pipeline / wire / posture / dossier /
+  ladder / path / interface / archive register; dens patches on press; cap lattice motion to
+  ≤8 hot bars; shuttle once under `[data-sitekind="commerce-loom"]` only; immersive field only
+  when `motion===immersive`. Critique recovered **96.5**; observatory **94.2**; eye shots show
+  pipeline connector, lattice window, path atlas craft beats (not nav-only).
+- **Do not:** Put transitions on every SVG child to “look alive”; verify restraint coverage
+  after instrument ships; never leave infinite ambient loops in shared CSS.
+
 ## 2026-08-09 — `template:shared-marquee-proof-is-not-unique`
 
 - **Failure (human):** Stamp Roll's "Why … earns trust in review / Why teams keep it / Proof ·

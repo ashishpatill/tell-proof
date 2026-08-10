@@ -1,0 +1,38 @@
+[
+  {
+    "ref": "ref-motion-001",
+    "category": "art-directed-studio",
+    "role": "award-leading immersive studio home — scroll chapters and type choreography",
+    "url": "https://example.invalid/replace-with-studio-home"
+  },
+  {
+    "ref": "ref-motion-002",
+    "category": "motion-narrative",
+    "role": "brand platform with pinned scroll narrative and high-energy interaction",
+    "url": "https://example.invalid/replace-with-campaign"
+  },
+  {
+    "ref": "ref-motion-003",
+    "category": "immersive-campaign",
+    "role": "WebGL-or-shader metaphor hero with static fallback still readable",
+    "url": "https://example.invalid/replace-with-webgl-case"
+  },
+  {
+    "ref": "ref-motion-004",
+    "category": "solo-studio-portfolio",
+    "role": "independent creative developer portfolio — dense interaction craft without agency headcount",
+    "url": "https://example.invalid/replace-with-portfolio"
+  },
+  {
+    "ref": "ref-motion-005",
+    "category": "brand-agency",
+    "role": "motion-led brand system site — one language across identity and web",
+    "url": "https://example.invalid/replace-with-brand-motion"
+  },
+  {
+    "ref": "ref-motion-006",
+    "category": "premium-b2b-saas",
+    "role": "restrained product marketing with intentional micro-motion only (ceiling check)",
+    "url": "https://example.invalid/replace-with-saas-marketing"
+  }
+]
