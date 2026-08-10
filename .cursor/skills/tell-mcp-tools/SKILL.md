@@ -10,7 +10,7 @@ description: Implements and uses Tell MCP tools for Cursor integration. Use when
 - `packages/mcp/src/index.ts` — stdio MCP server
 - `packages/schema` — `McpToolName` / `InstallInfo` / `buildInstallInfo`
 - `.cursor/mcp.json` — registers `pnpm -F @tell/mcp start`
-- `GET /api/install-info` + `tell mcp install cursor` — Connect Agent
+- `GET /api/install-info` + `tell mcp install <platform>` — Connect Agent / platform catalog
 
 ## Tools
 
@@ -42,8 +42,12 @@ Web-only today: `/api/setup/*`, share links (see `docs/11`).
 
 ```bash
 tell mcp install cursor --project   # upsert .cursor/mcp.json
+tell mcp install claude             # claude mcp add-json or .mcp.json
+tell mcp install opencode --project
+tell mcp install grok --project
+tell mcp platforms                  # compatibility table
 tell mcp print-config               # all agent snippets + deeplink
-curl -s localhost:3000/api/install-info | jq .deeplink.cursor
+curl -s localhost:3000/api/install-info | jq .platforms
 ```
 
 ## Smoke test in Agent chat
@@ -67,7 +71,7 @@ pnpm -F @tell/mcp start
 - All eleven tools return schema-valid JSON
 - Offline artifact fallback works without live capture
 - Apply instructions are explicit for human review
-- install-info + Cursor install path work without hand-edited JSON
+- install-info + multi-platform `tell mcp install` paths work without hand-edited JSON
 
 ## Related
 

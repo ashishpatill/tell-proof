@@ -1,14 +1,15 @@
-import { mkdir, readFile, writeFile, copyFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { createServer } from "node:net";
 import {
   buildInstallInfo,
+  platformListHelp,
   type InstallInfo,
-  type McpStdioServerConfig,
   resolveIntent,
   TellReport,
 } from "@tell/schema";
+import { installPlatformMcp, printPlatformCompatibilityMarkdown } from "./mcp-install.js";
 
 type CursorInstallScope = "project" | "user";
 
@@ -33,11 +34,14 @@ Usage:
   tell diagnose [--url <url>] [--out <file>]
   tell voice --text <direction>
   tell resolve --text <input>
-  tell install-info [--json]
+  tell install-info [--json|--markdown]
   tell mcp print-config
-  tell mcp install cursor [--project|--user]
+  tell mcp platforms
+  tell mcp install <platform> [--project|--user|--print]
   tell doctor
   tell help
+
+Platforms: ${platformListHelp()}
 `);
   process.exit(1);
 }
@@ -119,6 +123,8 @@ function cmdResolve(args: string[]) {
 function cmdInstallInfo(args: string[]) {
   const info = buildInstallInfo();
   if (hasFlag(args, "--markdown")) {
+    console.log(printPlatformCompatibilityMarkdown(info));
+    console.log("");
     console.log(printInstallSnippets(info));
     return;
   }
@@ -126,64 +132,17 @@ function cmdInstallInfo(args: string[]) {
 }
 
 function printInstallSnippets(info: InstallInfo): string {
+  const platformSnippets = info.platforms
+    .map((p) => [`## ${p.label} (\`${p.id}\`)`, p.installCommand, "", p.snippet, ""].join("\n"))
+    .join("\n");
   return [
     "# Tell MCP install snippets",
     "",
     "## Cursor deeplink",
     info.deeplink.cursor,
     "",
-    "## Cursor mcp.json",
-    JSON.stringify(info.mcp.cursor, null, 2),
-    "",
-    "## Claude Code",
-    info.mcp.claudeCli,
-    "",
-    "## Codex",
-    info.mcp.codexToml,
+    platformSnippets.trimEnd(),
   ].join("\n");
-}
-
-function cursorMcpPath(cwd: string, scope: CursorInstallScope): string {
-  if (scope === "project") return path.join(cwd, ".cursor", "mcp.json");
-  const home = process.env.HOME || process.env.USERPROFILE || "";
-  return path.join(home, ".cursor", "mcp.json");
-}
-
-async function installCursorMcp(scope: CursorInstallScope) {
-  const cwd = findRepoRoot();
-  const info = buildInstallInfo();
-  const tellConfig = info.mcp.cursor.mcpServers.tell as McpStdioServerConfig;
-  const target = cursorMcpPath(cwd, scope);
-  const created = !existsSync(target);
-  if (!created) {
-    const backupPath = `${target}.bak`;
-    if (!existsSync(backupPath)) await copyFile(target, backupPath);
-  }
-  await mkdir(path.dirname(target), { recursive: true });
-  let existing: Record<string, unknown> = {};
-  if (!created) {
-    existing = JSON.parse(await readFile(target, "utf8")) as Record<string, unknown>;
-  }
-  const mcpServers =
-    existing.mcpServers && typeof existing.mcpServers === "object" && !Array.isArray(existing.mcpServers)
-      ? { ...(existing.mcpServers as Record<string, unknown>) }
-      : {};
-  mcpServers.tell = tellConfig;
-  await writeFile(target, `${JSON.stringify({ ...existing, mcpServers }, null, 2)}\n`, "utf8");
-  console.log(
-    JSON.stringify(
-      {
-        ok: true,
-        path: target,
-        scope,
-        created,
-        deeplink: info.deeplink.cursor,
-        instruction: "Reload Cursor MCP servers, then run tell_diagnose on http://localhost:3001.",
-      },
-      null,
-      2,
-    ),
-  );
 }
 
 async function cmdMcp(args: string[]) {
@@ -193,14 +152,36 @@ async function cmdMcp(args: string[]) {
     console.log(printInstallSnippets(buildInstallInfo()));
     return;
   }
+  if (sub === "platforms") {
+    console.log(printPlatformCompatibilityMarkdown(buildInstallInfo()));
+    return;
+  }
   if (sub === "install") {
     const agent = rest[0];
-    if (agent !== "cursor") {
-      console.error(`Unsupported agent "${agent ?? ""}". Supported: cursor (others: tell mcp print-config)`);
+    if (!agent) {
+      console.error(`Missing platform. Supported: ${platformListHelp()}`);
       process.exit(1);
     }
-    const scope: CursorInstallScope = hasFlag(rest, "--user") ? "user" : "project";
-    await installCursorMcp(scope);
+    const scope: CursorInstallScope | undefined = hasFlag(rest, "--user")
+      ? "user"
+      : hasFlag(rest, "--project")
+        ? "project"
+        : undefined;
+    try {
+      const result = await installPlatformMcp({
+        agent,
+        cwd: findRepoRoot(),
+        scope,
+        printOnly: hasFlag(rest, "--print"),
+      });
+      console.log(JSON.stringify(result, null, 2));
+      if (result.snippet && (result.mode === "print" || result.mode === "snippet")) {
+        console.error("\n--- snippet ---\n" + result.snippet);
+      }
+    } catch (error) {
+      console.error(error instanceof Error ? error.message : String(error));
+      process.exit(1);
+    }
     return;
   }
   usage();
@@ -267,7 +248,18 @@ async function cmdDoctor() {
 
   const info = buildInstallInfo();
   const allOk = checks.every((c) => c.ok);
-  console.log(JSON.stringify({ ok: allOk, checks, install: { deeplink: info.deeplink.cursor, cli: info.cli } }, null, 2));
+  console.log(
+    JSON.stringify(
+      {
+        ok: allOk,
+        checks,
+        platforms: info.platforms.map((p) => ({ id: p.id, status: p.status })),
+        install: { deeplink: info.deeplink.cursor, cli: info.cli },
+      },
+      null,
+      2,
+    ),
+  );
   if (!allOk) process.exitCode = 1;
 }
 

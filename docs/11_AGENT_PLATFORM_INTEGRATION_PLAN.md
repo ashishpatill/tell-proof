@@ -150,8 +150,9 @@ Peer lesson: three strategies — **cli** (agent owns config), **json** (merge i
 | VS Code Copilot Chat | json | workspace/user MCP `servers` | P1 |
 | Windsurf | json | `~/.codeium/windsurf/mcp_config.json` | P1 |
 | Zed | json | `context_servers` | P2 |
-| Antigravity / Gemini-branded | json | documented path from install-info | P2 |
-| Cline / Kiro / OpenCode / others | json or manual | only if install-info can verify path | P3 |
+| Antigravity / Gemini-branded | json | documented path from install-info | P1 |
+| Cline / Kiro / OpenCode / Qwen / Kimi / Pi / Trae / Grok / Hermes / OpenClaw | json/toml/yaml | `tell mcp install <id>` | P1 |
+| Muse Code / Z Code | manual snippet | print until path verified | P3 |
 | Continue.dev | manual | snippet only until verified | P3 |
 
 #### 2.2 Tell commands / UI
@@ -300,11 +301,17 @@ Merge rules: never delete unrelated servers; upsert key `"tell"` only; validate 
 | Platform | MCP install | Skills | CLI | Notes |
 |---|---|---|---|---|
 | Cursor Desktop / Cloud | P0 deeplink + json | `.cursor/skills` native | via terminal | Primary |
-| Claude Code | P0 cli | Optional manual skill copy | yes | |
-| Codex | P1 | — | yes | |
+| Claude Code | P0 cli (+ `.mcp.json` fallback) | Optional manual skill copy | yes | |
+| Codex | P0 toml | — | yes | |
+| Grok Build | P0 toml | — | yes | |
+| OpenCode | P0 json (`mcp` local) | — | yes | |
 | VS Code + Copilot Chat | P1 json | — | yes | |
 | Windsurf | P1 json | — | yes | |
-| Zed | P2 | — | yes | Different config key |
+| Zed | P2 `context_servers` | — | yes | |
+| Cline / Kiro / Kimi / Qwen / Pi / Trae / Antigravity | P1–P2 json | — | yes | |
+| Hermes Agent | P2 yaml | — | yes | |
+| OpenClaw | P2 `mcp.servers` | — | yes | |
+| Muse Code / Z Code | P3 snippet | — | print | Paths unverified — paste snippet |
 | JetBrains / others | P3 manual | — | yes | |
 | Browser-only (Vercel web) | N/A | N/A | N/A | Capture via remote API |
 | Docker capture host | N/A MCP stdio | N/A | doctor remote | Document MCP limitation if containerized |
