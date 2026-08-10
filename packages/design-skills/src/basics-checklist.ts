@@ -403,11 +403,16 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-scrub-rail/.test(html)
           && /data-figure="signal-lattice"/.test(html)
           && /ds-chrono/.test(html)
+          && /class="ds-chrono-desk"/.test(html)
+          && /aria-label="Event waterfall"/.test(html)
+          && /class="ds-chrono-waterfall"/.test(html)
+          && !/class="ds-chrono-aside"/.test(html)
+          && !/class="ds-chrono-grid"/.test(html)
           && /Calibration/.test(html)
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Observatory offerings use chronometer + scrub rail + signal lattice + chrono essay + calibration — no pricing, no metrics theatre, zero inverse bands.",
+      "Observatory offerings use chronometer + scrub rail + signal lattice + event waterfall + calibration — no pricing, no metrics theatre, zero inverse bands.",
     ),
         check(
       "kind-archive",
@@ -444,11 +449,15 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-treadles/.test(html)
           && /data-figure="loom-weave"/.test(html)
           && /ds-hangtag/.test(html)
+          && /class="ds-hang-tape"/.test(html)
+          && /aria-label="Care tag stack"/.test(html)
+          && /class="ds-hang-stack"/.test(html)
+          && !/class="ds-hang-aside"/.test(html)
           && /Care label/.test(html)
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Loom offerings use shed-threaded weft + shuttle + fell + treadles + loom weave + hangtag + Care label — no pricing, no metrics theatre, zero inverse bands.",
+      "Loom offerings use shed-threaded weft + shuttle + fell + treadles + loom weave + care-tag stack + Care label — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "kind-field",
@@ -464,11 +473,17 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-binomial-strip/.test(html)
           && /data-figure="specimen-plate"/.test(html)
           && /ds-range/.test(html)
+          && /class="ds-range-ladder"/.test(html)
+          && /aria-label="Dichotomous key"/.test(html)
+          && /class="ds-range-sheets"/.test(html)
+          && !/class="ds-range-aside"/.test(html)
+          && !/class="ds-gather-stack"/.test(html)
+          && !/class="ds-gather-forme"/.test(html)
           && /Voucher/.test(html)
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Field-guide offerings use dissecting tray + hinged glassine + entomology pins + specimen tag + binomial strip + range + Voucher — no pricing, no metrics theatre, zero inverse bands.",
+      "Field-guide offerings use dissecting tray + hinged glassine + entomology pins + specimen tag + binomial strip + dichotomous voucher key + Voucher — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "kind-press",
@@ -481,11 +496,18 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-sig-rail/.test(html)
           && /data-figure="press-sheet"/.test(html)
           && /ds-gather/.test(html)
+          && /class="ds-gather-stack"/.test(html)
+          && /aria-label="Signature stack"/.test(html)
+          && /class="ds-gather-forme"/.test(html)
+          && /class="ds-gather-densito"/.test(html)
+          && !/class="ds-gather-aside"/.test(html)
+          && !/class="ds-range-ladder"/.test(html)
+          && !/aria-label="Dichotomous key"/.test(html)
           && /Pressroom/.test(html)
           && /ds-bleed-rule/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Press offerings use press fold + signature rail + press sheet + gather essay + Pressroom — no pricing, no metrics theatre, zero inverse bands.",
+      "Press offerings use press fold + signature rail + press sheet + overlapping forme stack + densitometer + Pressroom — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "kind-lantern",
@@ -498,12 +520,16 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /ds-way-rail/.test(html)
           && /data-figure="path-plate"/.test(html)
           && /ds-ember/.test(html)
+          && /class="ds-ember-trail"/.test(html)
+          && /aria-label="Night trail"/.test(html)
+          && !/class="ds-ember-aside"/.test(html)
+          && !/class="ds-ember-grid"/.test(html)
           && /Ember/.test(html)
           && /ds-bleed-rule/.test(html)
           && /ds-path-near/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
-      "Lantern-path offerings use path fold + waypoint rail + path plate + ember essay + Ember — no pricing, no metrics theatre, zero inverse bands.",
+      "Lantern-path offerings use path fold + waypoint rail + path plate + night trail + Ember — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
       "fig-mono-floor",

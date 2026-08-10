@@ -621,3 +621,42 @@ buckets, never names, hosts, or URLs.
 - **Closed:** `template:foundry-cut-slips-not-second-catalogue`.
 - **Next weakest:** observatory chrono ownership; press gather densify; dossier spread citeability.
 
+## Loop 29 — Phase 9 field + press mid-page uniqueness
+
+- **Goal:** Kill the essay+aside clone between field-guide and press-atelier (human call-out).
+- **Failure named:** Mid-page Range and Gather were the same 7fr/5fr essay + aside list —
+  copy-only swaps.
+- **Challenger:** Dichotomous voucher ladder + stacked sheets (field); overlapping forme stack
+  + densitometer (press). Gates forbid shared aside markup.
+- **Score:** field-herbarium **99.8**; press-atelier **94.0**; matrix craft **95.8**.
+- **Closed:** `template:field-press-essay-aside-clone`.
+- **Next weakest:** observatory chrono ownership; dossier spread citeability; lantern silhouette;
+  press display-size under-band (shared craft-claim class).
+
+## Loop 30 — Phase 9 observatory event waterfall
+
+- **Goal:** Replace chrono essay+aside with on-call instrument reading (domain pack).
+- **Failure named:** Mid-page chronology was essay + time-index aside — same family as
+  pre-fix field/press.
+- **Challenger:** Instrument-time ruler + staggered event spans; signal-observatory DomainResearchPack.
+- **Score:** observatory-signal **93.3**; matrix **95.9**.
+- **Closed:** `template:observatory-essay-aside-clone`.
+- **Next weakest:** lantern ember essay+aside clone; dossier spread citeability; loom hangtag aside.
+
+## Loop 31 — Phase 9 lantern night trail
+
+- **Goal:** Replace ember essay+aside with zigzag night-walk trail (domain pack).
+- **Failure named:** Mid-page Ember was essay + chapter index — same family as hang/entry.
+- **Challenger:** Center path spine + left/right alternating waypoint panels; lantern-path DomainResearchPack.
+- **Closed:** `template:lantern-ember-essay-aside-clone`.
+- **Next weakest:** loom hangtag essay+aside; dossier spread citeability.
+
+## Loop 32 — Phase 9 loom care-tag stack
+
+- **Goal:** Replace hangtag essay+aside with size tape + swing-tag stack.
+- **Failure named:** Mid-page Hangtag was essay + size index — last clear essay+aside twin.
+- **Challenger:** `ds-hang-tape` + overlapping `ds-hang-tag` stack; commerce-loom DomainResearchPack.
+- **Closed:** `template:loom-hangtag-essay-aside-clone`.
+- **Next weakest:** dossier spread citeability; archive/foundry still use essay+rail but with
+  unique seals/slips (not copy-only twins).
+

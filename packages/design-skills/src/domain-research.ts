@@ -327,6 +327,205 @@ const GENERIC_PACKS: Record<string, DomainResearchPack> = {
       roundingDepth: "soft",
     },
   }),
+  "signal-observatory": DomainResearchPack.parse({
+    domainId: "signal-observatory",
+    label: "Enterprise observability desk",
+    siteKindHint: "signal-observatory",
+    culturalThesis:
+      "On-call desks read time as a shared instrument — spans and thresholds before narrative essays.",
+    multiPageRoutes: [
+      {
+        id: "home",
+        path: "/",
+        routeClass: "home",
+        purpose: "Live window + lattice entry",
+        captureTargets: ["hero", "mid", "footer"],
+      },
+      {
+        id: "incident",
+        path: "/incident",
+        routeClass: "detail",
+        purpose: "Event waterfall for one window",
+        captureTargets: ["hero", "mid"],
+      },
+    ],
+    shellContract: {
+      stickyRegions: ["header", "scrub-rail"],
+      primaryNavMaxItems: 4,
+      mobileNavPattern: "bottom-tabs",
+      footerDepth: "minimal",
+    },
+    navInventory: [
+      { id: "desk", label: "Desk", routeClass: "home", priority: "primary" },
+      { id: "channels", label: "Channels", routeClass: "home", priority: "primary" },
+      { id: "handoff", label: "Handoff", routeClass: "detail", priority: "secondary" },
+    ],
+    footerInventory: [
+      { id: "desk", title: "Desk", links: ["Live window", "Calibration"] },
+    ],
+    controlTaxonomy: [
+      {
+        id: "scrub-window",
+        role: "Time bracket scrub",
+        states: ["default", "hover", "focus-visible", "active"],
+      },
+      {
+        id: "span-row",
+        role: "Event span on waterfall",
+        states: ["default", "hover", "focus-visible"],
+      },
+    ],
+    variantLenses: [
+      { id: "window", label: "Time bracket", changesFacts: ["1h", "6h", "24h"] },
+    ],
+    categoryGaps: [
+      "Essay+aside mid-page that could be any craft template",
+      "Metric theatre instead of instrument spans",
+      "Inverse SaaS proof board on a paper desk",
+    ],
+    uxRules: [
+      "Instrument time before prose",
+      "Spans show duration on a shared ruler",
+      "Calibration marks travel with the close",
+    ],
+    tasteSeed: {
+      aestheticLean: "refined-story",
+      density: "balanced",
+      motion: "light-scroll-reveals",
+      colorMood: "light-airy",
+      typographyWeight: "light-elegant",
+      roundingDepth: "sharp",
+    },
+  }),
+  "lantern-path": DomainResearchPack.parse({
+    domainId: "lantern-path",
+    label: "Cinematic night-walk atlas",
+    siteKindHint: "lantern-path",
+    culturalThesis:
+      "Night paths are walked chapter by chapter — zigzag waypoints on a spine, not essay+aside indexes.",
+    multiPageRoutes: [
+      {
+        id: "home",
+        path: "/",
+        routeClass: "home",
+        purpose: "Path atlas fold + trail entry",
+        captureTargets: ["hero", "mid", "footer"],
+      },
+      {
+        id: "chapter",
+        path: "/chapter",
+        routeClass: "detail",
+        purpose: "Single waypoint reading",
+        captureTargets: ["hero", "mid"],
+      },
+    ],
+    shellContract: {
+      stickyRegions: ["header", "way-rail"],
+      primaryNavMaxItems: 4,
+      mobileNavPattern: "drawer",
+      footerDepth: "minimal",
+    },
+    navInventory: [
+      { id: "path", label: "Path", routeClass: "home", priority: "primary" },
+      { id: "chapters", label: "Chapters", routeClass: "detail", priority: "primary" },
+    ],
+    footerInventory: [
+      { id: "atlas", title: "Atlas", links: ["Path plate", "Ember"] },
+    ],
+    controlTaxonomy: [
+      {
+        id: "waypoint",
+        role: "Chapter waypoint on trail",
+        states: ["default", "hover", "focus-visible", "active"],
+      },
+    ],
+    variantLenses: [
+      { id: "hour", label: "Night hour", changesFacts: ["dusk", "midnight", "afterlight"] },
+    ],
+    categoryGaps: [
+      "Essay+aside mid-page clone of other craft templates",
+      "Soft dark glow WebGL chrome without path grammar",
+      "Inverse SaaS proof board on a paper night walk",
+    ],
+    uxRules: [
+      "Path plate owns the fold",
+      "Chapters zigzag on a center spine",
+      "Silhouette near-plane enters the first viewport",
+    ],
+    tasteSeed: {
+      aestheticLean: "refined-story",
+      density: "balanced",
+      motion: "light-scroll-reveals",
+      colorMood: "light-airy",
+      typographyWeight: "light-elegant",
+      roundingDepth: "sharp",
+    },
+  }),
+  "commerce-loom": DomainResearchPack.parse({
+    domainId: "commerce-loom",
+    label: "Merchandising loom press",
+    siteKindHint: "commerce-loom",
+    culturalThesis:
+      "SKU lines hang as care tags on a size tape — physical swing tickets, not essay+aside indexes.",
+    multiPageRoutes: [
+      {
+        id: "home",
+        path: "/",
+        routeClass: "home",
+        purpose: "Drawloom fold + care tags",
+        captureTargets: ["hero", "mid", "footer"],
+      },
+      {
+        id: "care",
+        path: "/care",
+        routeClass: "detail",
+        purpose: "Care label reading",
+        captureTargets: ["hero", "mid"],
+      },
+    ],
+    shellContract: {
+      stickyRegions: ["header"],
+      primaryNavMaxItems: 4,
+      mobileNavPattern: "drawer",
+      footerDepth: "minimal",
+    },
+    navInventory: [
+      { id: "weave", label: "Weave", routeClass: "home", priority: "primary" },
+      { id: "sizes", label: "Sizes", routeClass: "home", priority: "primary" },
+      { id: "care", label: "Care", routeClass: "detail", priority: "secondary" },
+    ],
+    footerInventory: [
+      { id: "loom", title: "Loom", links: ["Drawloom", "Care label"] },
+    ],
+    controlTaxonomy: [
+      {
+        id: "size-chip",
+        role: "Size tape chip",
+        states: ["default", "hover", "focus-visible", "active"],
+      },
+    ],
+    variantLenses: [
+      { id: "size", label: "Size run", changesFacts: ["XS", "M", "XL"] },
+    ],
+    categoryGaps: [
+      "Essay+aside mid-page clone of other craft templates",
+      "Soft glass card collage instead of woven plate",
+      "Pricing theatre on a merchandising press",
+    ],
+    uxRules: [
+      "Drawloom owns the fold",
+      "Size tape before prose",
+      "Care tags stack like swing tickets",
+    ],
+    tasteSeed: {
+      aestheticLean: "refined-story",
+      density: "balanced",
+      motion: "subtle-micro",
+      colorMood: "soft-brand-accent",
+      typographyWeight: "medium-modern",
+      roundingDepth: "sharp",
+    },
+  }),
 };
 
 /** Load prior domain pack by id (sport:cricket, saas-marketing, …). */

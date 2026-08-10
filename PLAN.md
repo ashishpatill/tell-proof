@@ -272,12 +272,12 @@ concept until eye + critique clear — one template per loop, never a new shared
 | 1 | `archive` | `archive-index` | Quiet award register — ledger IS the fold | Thin mid-page after marquee cut; still reads like index+FAQ |
 | 2 | `studio` | `art-directed-studio` | Selected-work owns fold | Score 94.5; figure ownership starved |
 | 3 | `foundry` | `editorial-foundry` | Hard seam + type ladder | Marginalia not yet the mid-page proof |
-| 4 | `observatory` | `signal-observatory` | Chronometer + lattice | Chrono essay under-owned |
-| 5 | `press` | `press-atelier` | Registration forme | Gather after sheet still thin |
+| 4 | `observatory` | `signal-observatory` | Chronometer + lattice | Mid-page was essay+aside — fixed event waterfall |
+| 5 | `press` | `press-atelier` | Registration forme | Mid-page was essay+aside clone — fixed forme stack |
 | 6 | `dossier` | `research-dossier` | Folio + verso/recto | Spread not citeable enough |
-| 7 | `lantern` | `lantern-path` | Night atlas path-plate | Silhouette late to fold |
-| 8 | `herbarium` | `field-guide` | Dissecting tray / glassine | Tray craft already strong — polish only |
-| 9 | `loom` | `commerce-loom` | Shed-threaded drawloom | Already strong — polish only |
+| 7 | `lantern` | `lantern-path` | Night atlas path-plate | Mid-page was essay+aside — fixed night trail |
+| 8 | `herbarium` | `field-guide` | Dissecting tray / glassine | Mid-page was essay+aside clone — fixed voucher key |
+| 9 | `loom` | `commerce-loom` | Shed-threaded drawloom | Mid-page was essay+aside — fixed care-tag stack |
 | 10 | `consumer` | `consumer-craft` | Product-in-hand | Chapters after figure — keep distinct |
 | 11–15 | marketing kinds | saas…fintech | Keep distinct proof chrome | Do not reintroduce craft marquee |
 
@@ -287,13 +287,18 @@ concept until eye + critique clear — one template per loop, never a new shared
 - [x] Studio (Fieldmark) — work-board owns fold; critique **94.5 → 99.0** (foldFigure 0 → 0.38)
 - [x] Foundry (Glyph Press) — cut slips in marginalia; drop second catalogue; score held **96.7**
 - [x] Craft kinds — strip remaining `features-2` feature-rows (dossier/observatory/loom/herbarium/press/lantern/consumer)
-- [ ] Observatory (Nightglass) — deepen chrono ownership (next loop)
-- [ ] Press (Forme Desk) — gather densify
+- [x] Observatory (Nightglass) — event waterfall (not essay+aside clone)
+- [x] Press (Forme Desk) — forme stack + densitometer (not essay+aside clone)
 - [ ] Dossier (Meridian Atlas) — spread citeability
-- [ ] Lantern (Ember Gate) — silhouette in first viewport
-- [ ] Herbarium / Loom / Consumer — polish only if eye miss after catalogue strip
+- [x] Lantern (Ember Gate) — night trail zigzag (not essay+aside clone)
+- [x] Herbarium — dichotomous voucher key (not essay+aside clone)
+- [x] Loom — care-tag stack (not essay+aside clone)
+- [ ] Consumer — polish only if eye miss
+- [ ] Dossier — spread citeability deepen if eye still fails
 - [ ] Marketing kinds — stack/wire/spine/workflow stay distinct; no craft marquee return
-- [x] LEARNINGS + LOOP_LEDGER updated for loops 26–28
+- [x] LEARNINGS + LOOP_LEDGER updated for loops 26–32
+- [x] Essay+aside mid-page clones cleared: field, press, observatory, lantern, loom
+  (archive entry + foundry marginalia keep essay+rail with unique seals/slips)
 
 ### Goal prompt (paste once per template)
 
@@ -366,6 +371,10 @@ no "Next" blockers for matrix/auth.
 ```
 [2026-08-09] Phase 9 opened — concept-true template uniqueness via tell-recursive-improve.
 [2026-08-09] Phase 9 loops 1–3: archive cross-stamps, studio work-board (94.5→99.0), foundry cut slips + craft feature-rows strip.
+[2026-08-10] Phase 9 loop 29: field dichotomous key + press forme stack — kill essay+aside clone (field 99.8 / press 94.0).
+[2026-08-10] Phase 9 loop 30: observatory event waterfall + DomainResearchPack (score 93.3).
+[2026-08-10] Phase 9 loop 31: lantern night trail zigzag + DomainResearchPack.
+[2026-08-10] Phase 9 loop 32: loom care-tag stack + DomainResearchPack.
 [2026-08-07] Phase 8 stretch shipped — `resolveIntent` + `tell_resolve_intent` MCP + `tell resolve` CLI + Connect Agent UI (11 tools).
 [2026-08-07] Phase 8 Waves 0–2/A0/C0 implemented — install-info, Cursor mcp install, tell CLI, tell_voice, capture token, MCP drift guard (10 tools).
 [2026-08-07] Opened Phase 8 — agent platform distribution plans (docs/11–13) + plumbing reference memory (gitignored local pointer).

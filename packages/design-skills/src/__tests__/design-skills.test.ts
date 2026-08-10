@@ -519,7 +519,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("The instruments");
   });
 
-  it("gives signal observatory a chrono + lattice plan distinct from dossier and SaaS", () => {
+  it("gives signal observatory a chrono waterfall + lattice plan distinct from dossier and SaaS", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.observatory!);
     expect(spec.brief.siteKind).toBe("signal-observatory");
     expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
@@ -534,6 +534,12 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-scrub-rail");
     expect(previewHtml).toContain('data-figure="signal-lattice"');
     expect(previewHtml).toContain("ds-chrono");
+    expect(previewHtml).toContain('class="ds-chrono-desk"');
+    expect(previewHtml).toContain('aria-label="Event waterfall"');
+    expect(previewHtml).toContain('class="ds-chrono-waterfall"');
+    expect(previewHtml).not.toContain('class="ds-chrono-aside"');
+    expect(previewHtml).not.toContain('class="ds-range-ladder"');
+    expect(previewHtml).not.toContain('class="ds-gather-forme"');
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Calibration");
     expect(previewHtml).toContain("The channels");
@@ -585,6 +591,11 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-treadles");
     expect(previewHtml).toContain('data-figure="loom-weave"');
     expect(previewHtml).toContain("ds-hangtag");
+    expect(previewHtml).toContain('class="ds-hang-tape"');
+    expect(previewHtml).toContain('aria-label="Care tag stack"');
+    expect(previewHtml).toContain('class="ds-hang-stack"');
+    expect(previewHtml).not.toContain('class="ds-hang-aside"');
+    expect(previewHtml).not.toContain('class="ds-ember-trail"');
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Care label");
     expect(previewHtml).toContain("The lines");
@@ -592,7 +603,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).not.toContain('aria-label="Dichotomous key"');
   });
 
-  it("gives field guide a glassine press + binomial + range plan distinct from glass hero collages", () => {
+  it("gives field guide a glassine press + binomial + dichotomous key distinct from glass hero collages", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.herbarium!);
     expect(spec.brief.siteKind).toBe("field-guide");
     expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
@@ -610,6 +621,12 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("ds-binomial-strip");
     expect(previewHtml).toContain('data-figure="specimen-plate"');
     expect(previewHtml).toContain("ds-range");
+    expect(previewHtml).toContain('class="ds-range-ladder"');
+    expect(previewHtml).toContain('aria-label="Dichotomous key"');
+    expect(previewHtml).toContain('class="ds-range-sheets"');
+    expect(previewHtml).toContain("ds-range-couplet");
+    expect(previewHtml).not.toContain('class="ds-range-aside"');
+    expect(previewHtml).not.toContain('class="ds-gather-stack"');
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Voucher");
     expect(previewHtml).toContain("The traits");
@@ -617,7 +634,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).not.toContain('class="ds-alpha-rail"');
   });
 
-  it("gives press atelier a registration + press sheet + gather plan distinct from archive and dossier", () => {
+  it("gives press atelier a registration + press sheet + forme stack distinct from archive and dossier", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.press!);
     expect(spec.brief.siteKind).toBe("press-atelier");
     expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
@@ -636,6 +653,12 @@ describe("research-backed offerings + implementation basics", () => {
     // Mini page folios — densify helper left page matter, not empty SIG voids.
     expect(previewHtml).toContain(">01</text>");
     expect(previewHtml).toContain("ds-gather");
+    expect(previewHtml).toContain('class="ds-gather-stack"');
+    expect(previewHtml).toContain('aria-label="Signature stack"');
+    expect(previewHtml).toContain('class="ds-gather-forme"');
+    expect(previewHtml).toContain('class="ds-gather-densito"');
+    expect(previewHtml).not.toContain('class="ds-gather-aside"');
+    expect(previewHtml).not.toContain('class="ds-range-ladder"');
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Pressroom");
     expect(previewHtml).toContain("The plates");
@@ -647,7 +670,18 @@ describe("research-backed offerings + implementation basics", () => {
     expect(svgSizes.every((n) => n >= 11)).toBe(true);
   });
 
-  it("gives lantern path a waypoint rail + path plate + ember plan distinct from press and soft dark heroes", () => {
+  it("keeps field-guide and press-atelier mid-page instruments from cloning essay+aside", () => {
+    const herb = designFromFeatures(SHOWCASE_BRIEFS.herbarium!).previewHtml;
+    const press = designFromFeatures(SHOWCASE_BRIEFS.press!).previewHtml;
+    expect(herb).toContain('class="ds-range-ladder"');
+    expect(press).toContain('class="ds-gather-forme"');
+    expect(herb).not.toContain('class="ds-gather-forme"');
+    expect(press).not.toContain('class="ds-range-ladder"');
+    expect(herb).not.toContain('class="ds-range-aside"');
+    expect(press).not.toContain('class="ds-gather-aside"');
+  });
+
+  it("gives lantern path a waypoint rail + path plate + night trail distinct from press and soft dark heroes", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
     expect(spec.brief.siteKind).toBe("lantern-path");
     expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
@@ -665,6 +699,10 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toMatch(/data-figure="path-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="path-plate"/);
     expect(previewHtml).toContain("PATH ATLAS");
     expect(previewHtml).toContain("ds-ember");
+    expect(previewHtml).toContain('class="ds-ember-trail"');
+    expect(previewHtml).toContain('aria-label="Night trail"');
+    expect(previewHtml).not.toContain('class="ds-ember-aside"');
+    expect(previewHtml).not.toContain('class="ds-chrono-waterfall"');
     expect(previewHtml).toContain("ds-path-near");
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Ember");

@@ -2,42 +2,71 @@ import Link from "next/link";
 import { listTemplates, type DesignTemplate } from "@tell/design-skills";
 import { ShowcaseAnthologyReel } from "@/components/showcase/ShowcaseAnthologyReel";
 import { SpecimenPreview } from "@/components/showcase/SpecimenPreview";
-import { specimenHtmlSrc } from "@/components/showcase/specimenSrc";
+import { specimenHtmlSrc, specimenOpenHref } from "@/components/showcase/specimenSrc";
 import "./showcase.css";
 
 export const dynamic = "force-static";
 export const metadata = {
   title: "Tell Specimens — Craft reels, not theme packs",
   description:
-    "Fourteen research-backed site kinds — filmstrip reels play on hover; the hero slowly tours best beats across specimens.",
+    "Crease cricket matchday plus research-backed site kinds — filmstrip reels play on hover; the hero slowly tours best beats across specimens.",
 };
 
-type OfferingMeta = DesignTemplate & { index: string };
+type FilmstripCell = {
+  key: string;
+  label: string;
+  marketJob: string;
+  siteKind: string;
+  index: string;
+  href: string;
+  src: string;
+};
 
-function buildOfferings(): OfferingMeta[] {
-  return listTemplates().map((t, i) => ({
-    ...t,
-    index: String(i + 1).padStart(2, "0"),
+/** Hand-crafted sport specimen — pinned near the top of the filmstrip (not an engine template). */
+const CREASE_CELL: Omit<FilmstripCell, "index"> = {
+  key: "crease",
+  label: "Crease",
+  marketJob:
+    "Cricket matchday companion — Core six multipage IA, glance-live score spine, pavilion-evening taste.",
+  siteKind: "sport-matchday",
+  href: "/crease",
+  src: "/crease",
+};
+
+function buildFilmstrip(): FilmstripCell[] {
+  const templates = listTemplates().map((t: DesignTemplate, i) => ({
+    key: t.key,
+    label: t.label,
+    marketJob: t.marketJob,
+    siteKind: t.siteKind,
+    index: String(i + 2).padStart(2, "0"),
+    href: specimenOpenHref(t.key),
+    src: specimenHtmlSrc(t.key),
   }));
+  return [
+    {
+      ...CREASE_CELL,
+      index: "01",
+    },
+    ...templates,
+  ];
 }
 
 /**
  * Specimen gallery — hero anthology (slow cross-template tour) + filmstrip (hover-only reels).
  * Metadata only in the page payload; specimen HTML loads lazily via /api/design/html.
+ * Crease is pinned first — sport matchday proof outside the engine template catalog.
  */
 export default function ShowcaseGalleryPage() {
-  const offerings = buildOfferings();
+  const offerings = buildFilmstrip();
   const anthologySlides = offerings.map((o) => ({
     key: o.key,
     label: o.label,
     marketJob: o.marketJob,
     index: o.index,
+    href: o.href,
   }));
-  const featured =
-    offerings.find((o) => o.key === "herbarium") ??
-    offerings.find((o) => o.key === "loom") ??
-    offerings.find((o) => o.key === "archive") ??
-    offerings[0]!;
+  const featured = offerings.find((o) => o.key === "crease") ?? offerings[0]!;
 
   return (
     <div className="sx-root" data-testid="showcase-gallery">
@@ -62,8 +91,8 @@ export default function ShowcaseGalleryPage() {
             <Link href="/" prefetch={false}>
               Tell Report
             </Link>
-            <Link className="sx-nav-cta" href={`/showcase/${featured.key}`} prefetch={false}>
-              Open featured
+            <Link className="sx-nav-cta" href={featured.href} prefetch={false}>
+              Open Crease
             </Link>
           </nav>
         </header>
@@ -75,16 +104,16 @@ export default function ShowcaseGalleryPage() {
               Tell Specimens
             </h1>
             <p className="sx-lede">
-              The stage slowly tours the best craft beat from each offering. Filmstrip cells stay
-              still until you hover — then their reel plays.
+              Crease leads the strip — cricket matchday with a live spine. The stage slowly tours
+              the best craft beat from each offering; filmstrip cells stay still until you hover.
             </p>
             <div className="sx-hero-actions">
-              <a className="sx-nav-cta" href="#reels">
+              <Link className="sx-nav-cta" href="/crease" prefetch={false}>
+                Open Crease
+              </Link>
+              <a className="sx-btn-ghost" href="#reels">
                 Browse the filmstrip
               </a>
-              <Link className="sx-btn-ghost" href={`/showcase/${featured.key}`} prefetch={false}>
-                Open a specimen
-              </Link>
             </div>
           </div>
 
@@ -113,8 +142,8 @@ export default function ShowcaseGalleryPage() {
           <div className="sx-index-head">
             <h2 id="sx-reels-title">The filmstrip</h2>
             <p>
-              {offerings.length} offerings · hover a cell to play its craft reel. No autoplay in the
-              strip.
+              {offerings.length} offerings · Crease first · hover a cell to play its craft reel. No
+              autoplay in the strip.
             </p>
           </div>
 
@@ -123,9 +152,10 @@ export default function ShowcaseGalleryPage() {
               <li key={o.key} className="sx-cell">
                 <Link
                   className="sx-cell-link"
-                  href={`/showcase/${o.key}`}
+                  href={o.href}
                   prefetch={false}
                   data-testid={`showcase-link-${o.key}`}
+                  data-pinned={o.key === "crease" ? "crease" : undefined}
                 >
                   <div className="sx-cell-frame">
                     <div className="sx-cell-sprockets" aria-hidden="true">
@@ -137,7 +167,7 @@ export default function ShowcaseGalleryPage() {
                     <SpecimenPreview
                       className="sx-thumb sx-thumb-reel"
                       title={`${o.label} craft reel`}
-                      src={specimenHtmlSrc(o.key)}
+                      src={o.src}
                       designWidth={1440}
                       designHeight={900}
                       mode="cinema"

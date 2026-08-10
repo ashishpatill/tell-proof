@@ -246,7 +246,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "n5", name: "Calibration strip", description: "Tolerance marks stamped on the close so a reused screenshot cannot orphan its scale.", priority: "p1" },
         { id: "n6", name: "Desk memory", description: "A window that survives the jump from night lead to morning lead without becoming orphan charts.", priority: "p2" },
       ],
-      constraints: ["instrument-first", "signal lattice", "chrono essay", "no pricing theatre", "restrained motion"],
+      constraints: ["instrument-first", "signal lattice", "event waterfall", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "light-scroll-reveals",
@@ -304,7 +304,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "l5", name: "Care label", description: "Edition and care stamped so a reused page cannot orphan its provenance.", priority: "p1" },
         { id: "l6", name: "Cut memory", description: "A loom that survives the jump from sample to order without becoming orphan cards.", priority: "p2" },
       ],
-      constraints: ["loom-first", "drawloom weft", "hangtag essay", "no pricing theatre", "restrained motion"],
+      constraints: ["loom-first", "drawloom weft", "care-tag stack", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "light-scroll-reveals",
@@ -333,7 +333,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "h5", name: "Voucher close", description: "Edition and custody stamped so a reused page cannot orphan its provenance.", priority: "p1" },
         { id: "h6", name: "Plate memory", description: "A voucher that survives the jump from field to desk without becoming orphan photos.", priority: "p2" },
       ],
-      constraints: ["voucher-first", "glassine press", "range essay", "no pricing theatre", "restrained motion"],
+      constraints: ["voucher-first", "glassine press", "dichotomous voucher key", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "light-scroll-reveals",
@@ -362,7 +362,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "p5", name: "Gather essay", description: "A folded-signature reading with outer plate ticks so the gather stays citeable.", priority: "p1" },
         { id: "p6", name: "Pressroom close", description: "Plate numbers and custody stamped so a reused forme cannot orphan its edition.", priority: "p2" },
       ],
-      constraints: ["press-first", "press sheet", "gather essay", "no pricing theatre", "restrained motion"],
+      constraints: ["press-first", "press sheet", "forme stack", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "scroll-narrative",
@@ -391,7 +391,7 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
         { id: "n5", name: "Ember essay", description: "A bead-ticked reading so the afterlight stays citeable while you decide.", priority: "p1" },
         { id: "n6", name: "Ember close", description: "Chapter custody stamped so a reused walk cannot orphan its edition.", priority: "p2" },
       ],
-      constraints: ["path-first", "path plate", "ember essay", "no pricing theatre", "restrained motion"],
+      constraints: ["path-first", "path plate", "night trail", "no pricing theatre", "restrained motion"],
       taste: {
         aestheticLean: "refined-story",
         motion: "immersive",
