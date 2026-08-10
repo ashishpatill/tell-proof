@@ -42,6 +42,30 @@ export {
 export type {
   SportAccessMode,
   SportFormatLens,
+  SportMultiPageRoute,
   SportPrimaryFact,
+  SportShellContract,
   SportVernacularPack,
 } from "./sport-vernacular";
+export {
+  CRICKET_CORE_SIX_ROUTES,
+  DOMAIN_RESEARCH_NODE_IDS,
+  DomainResearchPack,
+  listDomainResearchPacks,
+  loadPriorDomain,
+  requirementGapDiff,
+  routeDomainResearchSkills,
+  sportPackToDomainResearch,
+} from "./domain-research";
+export type {
+  DomainControlSpec,
+  DomainFooterColumn,
+  DomainMultiPageRoute,
+  DomainNavItem,
+  DomainResearchNodeId,
+  DomainResearchRoutePlan,
+  DomainResearchTasteSeed,
+  DomainShellContract,
+  DomainVariantLens,
+  RequirementGapDiff,
+} from "./domain-research";

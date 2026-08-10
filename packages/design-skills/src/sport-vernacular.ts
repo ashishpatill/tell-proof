@@ -41,6 +41,25 @@ export type SportFormatLens = {
   demote: string[];
 };
 
+export type SportMultiPageRoute = {
+  id: string;
+  path: string;
+  routeClass: string;
+  purpose: string;
+};
+
+export type SportShellContract = {
+  stickyRegions: string[];
+  primaryNavMaxItems: number;
+  liveSurface?: string;
+  mobileNavPattern: string;
+  footerDepth: "minimal" | "utility" | "directory";
+};
+
+/**
+ * Sport vernacular pack — implements DomainResearchPack multipage/shell fields
+ * for matchday domains (see `domain-research.ts` → `sportPackToDomainResearch`).
+ */
 export type SportVernacularPack = {
   id: SportId;
   label: string;
@@ -75,6 +94,12 @@ export type SportVernacularPack = {
   lane: "minimal-editorial-grid" | "nested-premium-shells" | "image-first-stage" | "documentary-chapters" | "conversion-landing";
   craftNodes: [string, string];
   brandAccent: string;
+  /** Multipage IA (DomainResearchPack) — filled from portal evidence when researched. */
+  multiPageRoutes?: SportMultiPageRoute[];
+  shellContract?: SportShellContract;
+  navInventory?: Array<{ id: string; label: string; routeClass: string; priority: "primary" | "secondary" | "utility" }>;
+  footerInventory?: Array<{ id: string; title: string; links: string[] }>;
+  controlTaxonomy?: Array<{ id: string; role: string; states: string[] }>;
 };
 
 const CRICKET: SportVernacularPack = {
@@ -197,6 +222,41 @@ const CRICKET: SportVernacularPack = {
   lane: "documentary-chapters",
   craftNodes: ["sport-vernacular-craft", "editorial-chapter-craft"],
   brandAccent: "#1F5A48",
+  multiPageRoutes: [
+    { id: "home", path: "/crease", routeClass: "home", purpose: "Match list + live entry + series pulse" },
+    { id: "live", path: "/crease/live", routeClass: "live-match", purpose: "Glance-live score spine + this-over + situation" },
+    { id: "scorecard", path: "/crease/scorecard", routeClass: "scorecard", purpose: "Full batting/bowling tables" },
+    { id: "series", path: "/crease/series", routeClass: "series", purpose: "Series arc and fixtures" },
+    { id: "rankings", path: "/crease/rankings", routeClass: "rankings", purpose: "Team and player rankings" },
+    { id: "notebook", path: "/crease/notebook", routeClass: "notebook", purpose: "Sit-with editorial notes" },
+  ],
+  shellContract: {
+    stickyRegions: ["top-status", "score-spine", "live-rail"],
+    primaryNavMaxItems: 6,
+    liveSurface: "sticky score spine + optional live rail",
+    mobileNavPattern: "primary six in header overflow + sticky live chip",
+    footerDepth: "directory",
+  },
+  navInventory: [
+    { id: "home", label: "Home", routeClass: "home", priority: "primary" },
+    { id: "live", label: "Live", routeClass: "live-match", priority: "primary" },
+    { id: "scorecard", label: "Scorecard", routeClass: "scorecard", priority: "primary" },
+    { id: "series", label: "Series", routeClass: "series", priority: "primary" },
+    { id: "rankings", label: "Rankings", routeClass: "rankings", priority: "primary" },
+    { id: "notebook", label: "Notebook", routeClass: "notebook", priority: "primary" },
+  ],
+  footerInventory: [
+    { id: "match", title: "Match", links: ["Live", "Scorecard", "This over", "Partnerships"] },
+    { id: "compete", title: "Compete", links: ["Series", "Fixtures", "Rankings", "Teams"] },
+    { id: "read", title: "Read", links: ["Notebook", "Features", "Archives"] },
+    { id: "utility", title: "Utility", links: ["Latency", "Accessibility", "About"] },
+  ],
+  controlTaxonomy: [
+    { id: "format-chip", role: "Toggle Test / ODI / T20 lens", states: ["default", "selected", "hover", "focus-visible"] },
+    { id: "live-chip", role: "Jump to live match", states: ["default", "live-pulse", "hover", "focus-visible"] },
+    { id: "rankings-tab", role: "Switch ranking tables", states: ["default", "selected", "hover", "focus-visible"] },
+    { id: "primary-cta", role: "Open scorecard / follow match", states: ["default", "hover", "focus-visible", "disabled"] },
+  ],
 };
 
 const FOOTBALL: SportVernacularPack = {
