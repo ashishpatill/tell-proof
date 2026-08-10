@@ -1,6 +1,9 @@
 ---
 name: website-domain-research
-description: General research skill graph for ANY website — LoadPriorDomain, gap-diff, multipage walkthrough, IA synthesis, training emit. Domains specialize; do not plan from scratch when a package exists.
+description: >-
+  Auto-trigger before building or redesigning ANY website. LoadPriorDomain, gap-diff,
+  multipage walkthrough, IA synthesis, training emit. Domains specialize; do not plan from
+  scratch when a package exists. Engine routeSkills always prepends this node.
 ---
 
 # website-domain-research
