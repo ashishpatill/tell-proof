@@ -901,10 +901,10 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
     key: "lantern",
     label: "Lantern path",
     marketJob:
-      "Cinematic night-walk landing — chapter waypoints, path cartograph fold, silhouette near-plane, ember essay, Ember close.",
+      "Cinematic night-walk landing — chapter waypoints, path cartograph fold, silhouette near-plane, night trail, Ember close.",
     siteKind: "lantern-path",
     researchBasis:
-      "Calibrated against art-directed-studio + editorial-longform + personal-craft corridors (foldFigure high, figureArea ~0.4–0.7, invertedShare ~0, quiet-moderate display, dense plate matter). Distinct craft theme packs and soft dark glow pages miss: hero-path with sticky ds-way-rail Ch I–V, path-plate night cartograph (elevation + lantern waypoints + silhouette matter, data-dense=ink, mono ≤11px), story-ember bead essay, paper Ember close — no pricing, no metrics theatre, zero inverse bands. Not WebGL tourism chrome, not press/archive/loom.",
+      "Calibrated against art-directed-studio + editorial-longform + personal-craft corridors (foldFigure high, figureArea ~0.4–0.7, invertedShare ~0, quiet-moderate display, dense plate matter). Distinct craft theme packs and soft dark glow pages miss: hero-path with sticky ds-way-rail Ch I–V, path-plate night cartograph (elevation + lantern waypoints + silhouette matter, data-dense=ink, mono ≤11px), zigzag night trail (not essay+aside), paper Ember close — no pricing, no metrics theatre, zero inverse bands. Not WebGL tourism chrome, not press/archive/loom.",
     brief: DesignBrief.parse({
       productName: "Ember Gate",
       tagline: "The atlas that keeps every night path under one reading",

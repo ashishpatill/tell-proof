@@ -672,7 +672,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(press).not.toContain('class="ds-gather-aside"');
   });
 
-  it("gives lantern path a waypoint rail + path plate + ember plan distinct from press and soft dark heroes", () => {
+  it("gives lantern path a waypoint rail + path plate + night trail distinct from press and soft dark heroes", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
     expect(spec.brief.siteKind).toBe("lantern-path");
     expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
@@ -690,6 +690,10 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toMatch(/data-figure="path-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="path-plate"/);
     expect(previewHtml).toContain("PATH ATLAS");
     expect(previewHtml).toContain("ds-ember");
+    expect(previewHtml).toContain('class="ds-ember-trail"');
+    expect(previewHtml).toContain('aria-label="Night trail"');
+    expect(previewHtml).not.toContain('class="ds-ember-aside"');
+    expect(previewHtml).not.toContain('class="ds-chrono-waterfall"');
     expect(previewHtml).toContain("ds-path-near");
     expect(previewHtml).toContain("ds-bleed-rule");
     expect(previewHtml).toContain("Ember");

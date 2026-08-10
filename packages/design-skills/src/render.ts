@@ -1530,49 +1530,38 @@ function renderGather(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
- * Ember essay with lantern bead ticks + outer chapter index — lantern-path signature.
- * Not gather signatures, range beads, hangtag, or chrono track.
+ * Ember trail — lantern-path mid-page instrument.
+ *
+ * Center path spine with chapters zigzagging left/right (night-walk reading).
+ * Not the essay+aside list clone shared by hang/entry.
  */
 function renderEmber(section: SectionSpec, figures: FigurePlan): string {
   const blocks = section.blocks;
   const count = blocks.length || 1;
   const romans = ["I", "II", "III", "IV", "V", "VI"];
-  const essay = blocks
+  const steps = blocks
     .map((b, i) => {
       const mark = figures.marks[i] ? `<div class="ds-ember-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
       const ch = esc(b.meta ?? `Ch ${romans[i] ?? String(i + 1)}`);
-      return `<article class="ds-ember-beat" style="--i:${i}">
+      const side = i % 2 === 0 ? "left" : "right";
+      return `<li class="ds-ember-step" data-side="${side}" style="--i:${i}">
         <span class="ds-ember-bead" aria-hidden="true"></span>
-        <div class="ds-ember-measure">
-          <p class="ds-chapter-index">${ch}</p>
+        <article class="ds-ember-panel">
+          <p class="ds-ember-ch">${ch}</p>
           <h3>${esc(b.title)}</h3>
           ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
           ${b.kicker ? `<p class="ds-ember-note">${esc(b.kicker)}</p>` : ""}
           ${mark}
-        </div>
-      </article>`;
-    })
-    .join("");
-  const aside = blocks
-    .map((b, i) => {
-      const ch = esc(b.meta ?? `Ch ${romans[i] ?? String(i + 1)}`);
-      return `<li class="ds-ember-aside-item">
-        <span class="ds-ember-aside-ch">${ch}</span>
-        <span class="ds-ember-aside-title">${esc(b.title)}</span>
+        </article>
       </li>`;
     })
     .join("");
   return `<section class="ds-section ds-story ds-ember" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
-      ${secMeta("Ember", `${count} chapters · lantern beads`)}
+      ${secMeta("Ember", `${count} waypoints · night trail`)}
       ${sectionHead(section, 2, true)}
-      <div class="ds-ember-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
-        <div class="ds-ember-essay">${essay}</div>
-        <aside class="ds-ember-aside" aria-label="Chapter index">
-          <ol class="ds-ember-aside-list">${aside}</ol>
-        </aside>
-      </div>
+      <ol class="ds-ember-trail" aria-label="Night trail">${steps}</ol>
     </div>
   </section>`;
 }
