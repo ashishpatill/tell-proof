@@ -1,14 +1,17 @@
 ---
 name: sport-matchday-web
 description: >-
-  Sport matchday website skill graph — extends website-domain-research with
-  sport format lenses and matchday design craft. Use for cricket, football,
-  hockey, tennis info sites. Always run LoadPriorDomain first.
+  Auto-trigger for cricket, football, hockey, tennis, live scores, matchday, scoreboard,
+  rankings, series, or sport info websites. Extends website-domain-research with sport format
+  lenses and matchday design craft. Always run LoadPriorDomain first; never invent multipage IA
+  without pack or walkthrough evidence.
 ---
 
 # sport-matchday-web
 
 **Extends:** `website-domain-research` (does not replace it).
+
+**Auto-trigger:** When the brief mentions sport / live scores / matchday, engine routes `sport-matchday-web` after `website-domain-research`. Always-applied rule `tell-domain-research` requires this path.
 
 ## When to use
 

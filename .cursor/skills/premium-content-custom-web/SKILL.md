@@ -1,6 +1,11 @@
 ---
 name: premium-content-custom-web
-description: Design or redesign premium websites/webapps customized to product features with restrained motion. Analyzes requirements, routes a skill graph, applies aesthetic lean profiles, and offers Taste Controls for developers in agent workflows.
+description: >-
+  Design or redesign premium websites/webapps (SaaS, marketing, studio, fintech, consumer)
+  customized to product features with restrained motion. Auto-triggers website-domain-research
+  first (LoadPrior → gap → walkthrough → IA → training), then analyzes requirements, routes a
+  skill graph, applies aesthetic lean profiles, and offers Taste Controls. Use for any new site
+  or redesign brief.
 ---
 
 # Premium content-custom web

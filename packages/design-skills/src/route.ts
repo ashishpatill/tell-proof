@@ -1,9 +1,15 @@
 import type { FeatureAnalysis } from "./analyze";
 import type { SkillNodeId, TasteControls } from "./types";
+import { routeDomainResearchSkills } from "./domain-research";
 
-/** Map analyzed features / site kind to skill-graph nodes (always includes foundation + responsive). */
+/**
+ * Map analyzed features / site kind to skill-graph nodes.
+ * Always prepends `website-domain-research` (general research gate).
+ * Sport briefs also route `sport-matchday-web` + `sport-vernacular-craft`.
+ */
 export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): SkillNodeId[] {
   const nodes = new Set<SkillNodeId>([
+    "website-domain-research",
     "analyze-features-requirements",
     "design-system-foundation",
     "navigation-header-footer",
@@ -12,6 +18,15 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     "edge-fade-craft",
     "elevation-depth-tokens",
   ]);
+
+  // Keep research plan in sync with DomainResearchPack routing.
+  routeDomainResearchSkills({
+    domainId: analysis.sportId ? `sport:${analysis.sportId}` : analysis.siteKind,
+    requiredRouteClasses:
+      analysis.sportId === "cricket"
+        ? ["home", "live-match", "scorecard", "series", "rankings", "notebook"]
+        : undefined,
+  });
 
   for (const section of analysis.recommendedSections) {
     if (section === "hero") nodes.add("hero-section");
@@ -98,7 +113,6 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     nodes.add("wireframe-annotation-craft");
   }
 
-  // Formerly "skipped" crafts — routed as constrained defaults for dark-premium.
   if (taste.colorMood === "dark-premium") {
     nodes.add("ambient-atmosphere-craft");
     nodes.add("signal-beam-craft");
@@ -107,12 +121,15 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
   }
 
   if (analysis.sportId) {
+    nodes.add("sport-matchday-web");
     nodes.add("sport-vernacular-craft");
     nodes.add("editorial-chapter-craft");
     nodes.add("dashboard-or-webapp-ui");
   }
 
   const order: SkillNodeId[] = [
+    "website-domain-research",
+    "sport-matchday-web",
     "analyze-features-requirements",
     "design-system-foundation",
     "paper-technical-frame",

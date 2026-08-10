@@ -1,4 +1,5 @@
 import { analyzeFeatures, inferSiteKind } from "./analyze";
+import { routeDomainResearchSkills } from "./domain-research";
 import { renderPreviewHtml } from "./render";
 import { routeSkills } from "./route";
 import { buildSections } from "./sections";
@@ -105,6 +106,10 @@ export function designFromFeatures(
   const taste = resolveTaste(brief);
   const analysis = analyzeFeatures(brief);
   const effectiveBrief: DesignBrief = { ...brief, siteKind: analysis.siteKind };
+  const researchPlan = routeDomainResearchSkills({
+    brief: effectiveBrief,
+    domainId: analysis.sportId ? `sport:${analysis.sportId}` : analysis.siteKind,
+  });
   const routedSkills = routeSkills(analysis, taste);
   const tokens = buildTokens(taste, analysis.siteKind, brief.brandAccent, brief.productName);
   const sections = buildSections(effectiveBrief, analysis, taste);
@@ -141,6 +146,13 @@ export function designFromFeatures(
               ];
 
   const customizationHints = [
+    `Research gate: ${researchPlan.researchNodes.join(" → ")}`,
+    researchPlan.gap.packFound
+      ? `Domain pack ${researchPlan.domainId} loaded (${researchPlan.gap.reuse.length} reuse cues)`
+      : `No prior pack for ${researchPlan.domainId} — full walkthrough required`,
+    researchPlan.gap.needsWalkthrough
+      ? `Research gaps: ${researchPlan.gap.gaps.slice(0, 3).join("; ") || "walkthrough needed"}`
+      : "Research gaps: none — customize from pack",
     `Density: ${taste.density}`,
     `Motion: ${taste.motion}`,
     `Aesthetic lean: ${profile.label}`,
@@ -151,6 +163,7 @@ export function designFromFeatures(
   ];
 
   const evidenceNotes = [
+    `Auto-routed website-domain-research (${researchPlan.researchNodes.length} research nodes)`,
     `Display type ${tokens.type[0]?.px}px at 1440 (measured corridor 46–88px)`,
     `Body ${tokens.type.find((t) => t.name === "body")?.px}px at ${tokens.type.find((t) => t.name === "body")?.lineHeight} leading (corridor 1.25–1.5)`,
     `${tokens.declared} declared design tokens (corridor ≥ 100)`,

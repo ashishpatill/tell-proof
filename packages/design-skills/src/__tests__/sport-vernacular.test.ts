@@ -55,6 +55,8 @@ describe("sport vernacular engine", () => {
     expect(analysis.sportId).toBe("cricket");
     const taste = resolveTaste(brief);
     const skills = routeSkills(analysis, taste);
+    expect(skills[0]).toBe("website-domain-research");
+    expect(skills).toContain("sport-matchday-web");
     expect(skills).toContain("sport-vernacular-craft");
   });
 

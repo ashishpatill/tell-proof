@@ -99,8 +99,8 @@ Feature workflows live in `.cursor/skills/`:
 - `tell-template-craft` — peer plumbing first, then top-designer craft iteration + screenshot proof
 - `agency-quality-site` — phased agency marketing-site pipeline (Goal/Loop + `agency:run`)
 - `agency-run-learn` — **developer-only** automatic learn after `agency:run` (corpus/engine memory)
-- `website-domain-research` — **mandatory** general research graph before any new website (LoadPrior → gap → walkthrough → IA → training emit)
-- `sport-matchday-web` — sport graph extending website-domain-research (format lens + vernacular craft)
+- `website-domain-research` — **auto-triggered** general research graph before any new website (engine `routeSkills` + always-applied rule)
+- `sport-matchday-web` — **auto-triggered** when sportId / sport language; extends website-domain-research
 - `sport-site-research` — **mandatory** sport research gate before cricket/football/hockey/tennis sites
 - `sport-vernacular-craft` — score-spine + format-lens craft from sport packs
 - `tell-user-session-learn` — **end-user** localStorage learning (directions, priorities, tools)

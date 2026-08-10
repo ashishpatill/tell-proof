@@ -213,6 +213,16 @@ export const SkillNodeId = z.enum([
    * Requires sport-site-research before build. Packs: cricket, football, hockey, tennis.
    */
   "sport-vernacular-craft",
+  /**
+   * General website domain research gate — LoadPrior → gap → walkthrough → IA → training.
+   * Always routed first for website builds; agents must not skip before pixels.
+   */
+  "website-domain-research",
+  /**
+   * Sport matchday research+design parent — extends website-domain-research with format lens.
+   * Routed when sportId is set (alongside sport-vernacular-craft).
+   */
+  "sport-matchday-web",
 ]);
 export type SkillNodeId = z.infer<typeof SkillNodeId>;
 

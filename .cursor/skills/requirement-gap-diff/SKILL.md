@@ -1,6 +1,8 @@
 ---
 name: requirement-gap-diff
-description: Diff user brief vs domain pack — reuse vs gap-only vs full walkthrough.
+description: >-
+  Auto-trigger after LoadPriorDomain — diff user brief vs domain pack; output reuse list + gap
+  list; forbid blank-slate when a package exists; decide customize vs gap-only vs full walkthrough.
 ---
 
 # requirement-gap-diff
