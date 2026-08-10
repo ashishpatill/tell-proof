@@ -110,11 +110,56 @@ Agents asked for these sports must still run a **fresh** research pass (local br
 
 | Piece | Role |
 |---|---|
-| `sport-vernacular.ts` | Typed packs + query match + brief template |
-| `DesignBrief.sportId` | Routes `sport-vernacular-craft` |
+| `domain-research.ts` | `DomainResearchPack`, `loadPriorDomain`, `requirementGapDiff`, `routeDomainResearchSkills` |
+| `sport-vernacular.ts` | Typed packs + multipage/shell fields + query match + brief template |
+| `DesignBrief.sportId` | Routes `sport-vernacular-craft` after research graph |
 | Agency `niche.ts` | cricket / football / hockey / tennis presets |
-| Skills | `sport-site-research` → `sport-vernacular-craft` |
-| Specimen | `/crease` — cricket match theater reference |
+| Skills | `website-domain-research` → `sport-matchday-web` / `sport-site-research` → craft |
+| Specimen | `/crease/*` Core six (multipage) — cricket match theater reference |
+| Capture | `scripts/multipage-domain-capture.ts` (domain-agnostic) |
+| Training | `scripts/emit-design-training-episode.ts` → tell-design-data / training.local |
+
+---
+
+## 4b. Cricket multipage IA (Phase 0 evidence write-back)
+
+Synthesized from ≥2 category portals × Core six route stubs (hero/mid/footer + mobile nav/footer) and a scroll walkthrough video. Host names omitted.
+
+### Shell
+
+- Sticky header + thin score/status rail under nav is the glance pattern worth keeping
+- Primary nav should stay ≤6 and match route classes — not tickets/shop competing with Live
+- Mobile: logo + overflow menu; live score card near top; do not let CMP steal the fold
+
+### Core six
+
+| Class | Job |
+|---|---|
+| home | Editorial + live entry + series pulse — score rail still above the fold |
+| live-match / matches | Dedicated match centre; Live & Upcoming vs Completed tabs |
+| scorecard | Full tables — progressive disclosure from live |
+| series | First-class competition arc (not a footer link only) |
+| rankings | Dual axes: role × format tabs; subnav for team vs player |
+| notebook / news | Sit-with reading — separated from glance-live chrome |
+
+### Steal
+
+- Match centre filters (series/team/format) with progressive disclosure
+- Tab split Live & Upcoming / Completed
+- Rankings format + role controls
+- Directory footer columns for Match / Compete / Read
+
+### Refuse
+
+- Single-page hash IA for a matchday product
+- Consent overlays as part of the product surface
+- Ads between spine and facts
+- Editorial hero burying live spine during play
+- Sprawling primary nav (>6) with commerce before score
+
+### Controls
+
+Format chips · live chip · rankings tabs · primary “open scorecard” CTA — all with focus-visible states.
 
 ---
 

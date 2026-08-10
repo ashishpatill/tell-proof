@@ -529,3 +529,14 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `<img>` (SVG fallback if storage lacks a thumb). Offline fixture uses violet→ink plate so the
   generic "before" reads as content.
 - **Do not:** Ship recent/session galleries as blank surface tiles and call the shell done.
+
+## 2026-08-10 — `sport:cricket-multipage-ia`
+
+- **Failure:** Sport site research was ad hoc; CREASE stayed single-page hash-nav; no general
+  website research graph for non-sport briefs; training emit not required on research.
+- **Fix:** Parent graph `website-domain-research` (LoadPrior → gap → walkthrough → IA → training);
+  `sport-matchday-web` extends it; `DomainResearchPack` + cricket Core six fields; generic
+  `multipage-domain-capture.ts` + `emit-design-training-episode.ts`; anonymised multipage IA in
+  `SPORT_SITE_VERNACULAR.md`; Phase 1 re-plan for `/crease/*` routes.
+- **Do not:** Build website IA from blank slate when a domain pack exists; do not commit portal
+  hosts/JSONL; do not ship matchday products as one hash page.

@@ -5,6 +5,19 @@
     "saas-landing": [],
     "agency-editorial": [],
     "fintech-trust": [],
-    "default": []
+    "default": [],
+    "sport-cricket-multipage": [
+      {
+        "_comment": "Example shape only — replace baseUrl with real cricket info portals in the gitignored twin. Prefer ≥2 portals × Core six path stubs.",
+        "id": "portal-a",
+        "baseUrl": "https://example.invalid",
+        "paths": ["/", "/live-cricket-score", "/series", "/rankings", "/cricket-news", "/scorecard"]
+      },
+      {
+        "id": "portal-b",
+        "baseUrl": "https://example.invalid",
+        "paths": ["/", "/live", "/series", "/rankings", "/news", "/full-scorecard"]
+      }
+    ]
   }
 }
