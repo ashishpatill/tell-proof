@@ -26,13 +26,14 @@ Entry skill for multi-million-dollar-quality marketing sites, corporate stories,
 
 ## Workflow (run every time)
 
-1. **Analyze** — extract features, audience, goals, constraints → `analyze-features-requirements`
-2. **Sport gate** — if the brief is cricket/football/hockey/tennis (or live scores / matchday), run `sport-site-research` and set `sportId` before pixels
-3. **Route** — select sub-skills from the graph based on features present
-4. **Foundation** — run `design-system-foundation` before section work
-5. **Generate** — IA, tokens, section specs, preview/code
-6. **Taste Controls** — offer density / motion / lean / color / type / rounding options
-7. **Verify** — if Tell is available, capture → diagnose → optional redesign with `tellDirectionId`
+1. **website-domain-research** (required for any new website) — `load-prior-domain` → `requirement-gap-diff` → walkthrough if gaps → `ia-shell-synthesis` → `variant-lens` → **`emit-training-episode`**
+2. **Analyze** — extract features, audience, goals, constraints → `analyze-features-requirements`
+3. **Sport gate** — if cricket/football/hockey/tennis (or live scores / matchday), continue via `sport-matchday-web` / `sport-site-research` and set `sportId` before pixels
+4. **Route** — select design sub-skills from the graph based on features present (`routeDomainResearchSkills` + `routeSkills`)
+5. **Foundation** — run `design-system-foundation` before section work
+6. **Generate** — IA, tokens, section specs, preview/code
+7. **Taste Controls** — offer density / motion / lean / color / type / rounding options
+8. **Verify** — if Tell is available, capture → diagnose → optional redesign with `tellDirectionId`
 
 ## Runtime engine
 
