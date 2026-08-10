@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-09T23:30:04.906Z",
-  "overall": 0.965,
+  "generatedAt": "2026-08-09T23:54:49.642Z",
+  "overall": 0.9647,
   "holdout": {
     "id": "holdout-commerce",
     "total": 0.9512,
-    "gap": 0.0138
+    "gap": 0.0135
   },
   "pages": [
     {
@@ -268,7 +268,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.054,
+          "value": 0.057,
           "band": [
             0.021,
             0.154
@@ -312,7 +312,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -345,7 +345,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 626,
+          "value": 599,
           "band": [
             242,
             1139
@@ -488,7 +488,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 3.8,
+          "value": 3.89,
           "band": [
             0.42,
             4.33
@@ -500,7 +500,7 @@
     },
     {
       "id": "dashboard-app",
-      "total": 0.9948,
+      "total": 0.9918,
       "holdout": false,
       "rows": [
         {
@@ -737,12 +737,12 @@
         {
           "id": "shadow-restraint",
           "label": "Shadow coverage",
-          "value": 0.013,
+          "value": 0.015,
           "band": [
             0,
             0.014
           ],
-          "score": 1,
+          "score": 0.875,
           "why": "Shadow-on-everything is the clearest generic tell."
         },
         {
@@ -1228,7 +1228,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.048,
+          "value": 0.05,
           "band": [
             0.021,
             0.154
@@ -1272,7 +1272,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -1907,7 +1907,7 @@
     },
     {
       "id": "fintech-trust",
-      "total": 0.9839,
+      "total": 0.9829,
       "holdout": false,
       "rows": [
         {
@@ -1957,7 +1957,7 @@
         {
           "id": "display-measure",
           "label": "Display measure (ch)",
-          "value": 21.2,
+          "value": 20.7,
           "band": [
             12.8,
             32.9
@@ -2122,7 +2122,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.572,
+          "value": 0.571,
           "band": [
             0.447,
             0.96
@@ -2166,7 +2166,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.054,
+          "value": 0.056,
           "band": [
             0.021,
             0.154
@@ -2210,7 +2210,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -2243,7 +2243,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 599,
+          "value": 567,
           "band": [
             242,
             1139
@@ -2375,7 +2375,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.2574,
+          "value": 0.2559,
           "band": [
             0.001,
             0.469
@@ -2386,19 +2386,19 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 5.14,
+          "value": 5.23,
           "band": [
             0.42,
             4.33
           ],
-          "score": 0.586,
+          "score": 0.54,
           "why": "Hairline rules are how editorial pages carry structure without boxes."
         }
       ]
     },
     {
       "id": "studio-selected",
-      "total": 0.9772,
+      "total": 0.977,
       "holdout": false,
       "rows": [
         {
@@ -2591,7 +2591,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.95,
+          "value": 10.07,
           "band": [
             5.99,
             12.6
@@ -2602,7 +2602,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.559,
+          "value": 0.551,
           "band": [
             0.422,
             0.896
@@ -2613,7 +2613,7 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.778,
+          "value": 0.78,
           "band": [
             0.447,
             0.96
@@ -2701,7 +2701,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -2833,12 +2833,12 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.1607,
+          "value": 0.1588,
           "band": [
             0.196,
             0.778
           ],
-          "score": 0.879,
+          "score": 0.872,
           "why": "Type alone is a manuscript. Diagrams, charts, and product surfaces are what a buyer looks at."
         },
         {
@@ -2866,7 +2866,7 @@
         {
           "id": "accent-coverage",
           "label": "Accent coverage",
-          "value": 0.0458,
+          "value": 0.0452,
           "band": [
             0.001,
             0.469
@@ -2877,7 +2877,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.32,
+          "value": 4.27,
           "band": [
             0.42,
             4.33
@@ -3148,7 +3148,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.048,
+          "value": 0.05,
           "band": [
             0.021,
             0.154
@@ -3192,7 +3192,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -3639,7 +3639,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.046,
+          "value": 0.047,
           "band": [
             0.021,
             0.154
@@ -3683,7 +3683,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -4130,7 +4130,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.067,
+          "value": 0.073,
           "band": [
             0.021,
             0.154
@@ -4174,7 +4174,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -4207,7 +4207,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 266,
+          "value": 251,
           "band": [
             242,
             1139
@@ -4621,7 +4621,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.039,
+          "value": 0.044,
           "band": [
             0.021,
             0.154
@@ -4665,7 +4665,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -5112,7 +5112,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.077,
+          "value": 0.078,
           "band": [
             0.021,
             0.154
@@ -5156,7 +5156,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -5647,7 +5647,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -6138,7 +6138,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -6585,7 +6585,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.025,
+          "value": 0.029,
           "band": [
             0.021,
             0.154
@@ -6629,7 +6629,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -7076,7 +7076,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.055,
+          "value": 0.052,
           "band": [
             0.021,
             0.154
@@ -7120,7 +7120,7 @@
         {
           "id": "token-system",
           "label": "Declared tokens",
-          "value": 131,
+          "value": 137,
           "band": [
             87,
             1983
@@ -7230,7 +7230,7 @@
         {
           "id": "shape-variety",
           "label": "Section shape variety",
-          "value": 4,
+          "value": 5,
           "band": [
             2,
             7
@@ -7252,7 +7252,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.2372,
+          "value": 0.3153,
           "band": [
             0.196,
             0.778
@@ -7263,7 +7263,7 @@
         {
           "id": "fold-figure",
           "label": "Drawn matter above the fold",
-          "value": 0.4587,
+          "value": 0.9175,
           "band": [
             0.337,
             1
@@ -7274,7 +7274,7 @@
         {
           "id": "layering",
           "label": "Layered elements",
-          "value": 13,
+          "value": 14,
           "band": [
             11,
             157
@@ -7567,7 +7567,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.051,
+          "value": 0.054,
           "band": [
             0.021,
             0.154
@@ -7765,7 +7765,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 4.17,
+          "value": 4.27,
           "band": [
             0.42,
             4.33
@@ -7957,7 +7957,7 @@
         },
         {
           "page": "fintech-trust",
-          "value": 21.2
+          "value": 20.7
         },
         {
           "page": "studio-selected",
@@ -8073,7 +8073,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 0.4587
+          "value": 0.9175
         },
         {
           "page": "holdout-commerce",
@@ -8240,7 +8240,7 @@
         0,
         0.014
       ],
-      "mean": 0.938,
+      "mean": 0.93,
       "scoredOn": 16,
       "values": [
         {
@@ -8249,7 +8249,7 @@
         },
         {
           "page": "dashboard-app",
-          "value": 0.013
+          "value": 0.015
         },
         {
           "page": "corporate-story",
@@ -8306,6 +8306,82 @@
         {
           "page": "holdout-commerce",
           "value": 0.026
+        }
+      ]
+    },
+    {
+      "id": "rule-structure",
+      "label": "Rules per screen",
+      "band": [
+        0.42,
+        4.33
+      ],
+      "mean": 0.937,
+      "scoredOn": 16,
+      "values": [
+        {
+          "page": "saas-conversion",
+          "value": 3.89
+        },
+        {
+          "page": "dashboard-app",
+          "value": 4.58
+        },
+        {
+          "page": "corporate-story",
+          "value": 4.25
+        },
+        {
+          "page": "docs-educational",
+          "value": 4.49
+        },
+        {
+          "page": "fintech-trust",
+          "value": 5.23
+        },
+        {
+          "page": "studio-selected",
+          "value": 4.27
+        },
+        {
+          "page": "consumer-craft",
+          "value": 4.22
+        },
+        {
+          "page": "foundry-editorial",
+          "value": 3.04
+        },
+        {
+          "page": "dossier-research",
+          "value": 4.26
+        },
+        {
+          "page": "observatory-signal",
+          "value": 4.47
+        },
+        {
+          "page": "archive-index",
+          "value": 4.24
+        },
+        {
+          "page": "loom-commerce",
+          "value": 4.38
+        },
+        {
+          "page": "field-herbarium",
+          "value": 3.22
+        },
+        {
+          "page": "press-atelier",
+          "value": 4.8
+        },
+        {
+          "page": "lantern-path",
+          "value": 3.18
+        },
+        {
+          "page": "holdout-commerce",
+          "value": 4.27
         }
       ]
     },
@@ -8386,89 +8462,13 @@
       ]
     },
     {
-      "id": "rule-structure",
-      "label": "Rules per screen",
-      "band": [
-        0.42,
-        4.33
-      ],
-      "mean": 0.94,
-      "scoredOn": 16,
-      "values": [
-        {
-          "page": "saas-conversion",
-          "value": 3.8
-        },
-        {
-          "page": "dashboard-app",
-          "value": 4.58
-        },
-        {
-          "page": "corporate-story",
-          "value": 4.25
-        },
-        {
-          "page": "docs-educational",
-          "value": 4.49
-        },
-        {
-          "page": "fintech-trust",
-          "value": 5.14
-        },
-        {
-          "page": "studio-selected",
-          "value": 4.32
-        },
-        {
-          "page": "consumer-craft",
-          "value": 4.22
-        },
-        {
-          "page": "foundry-editorial",
-          "value": 3.04
-        },
-        {
-          "page": "dossier-research",
-          "value": 4.26
-        },
-        {
-          "page": "observatory-signal",
-          "value": 4.47
-        },
-        {
-          "page": "archive-index",
-          "value": 4.24
-        },
-        {
-          "page": "loom-commerce",
-          "value": 4.38
-        },
-        {
-          "page": "field-herbarium",
-          "value": 3.22
-        },
-        {
-          "page": "press-atelier",
-          "value": 4.8
-        },
-        {
-          "page": "lantern-path",
-          "value": 3.18
-        },
-        {
-          "page": "holdout-commerce",
-          "value": 4.17
-        }
-      ]
-    },
-    {
       "id": "figure-weight",
       "label": "Drawn matter (share of page)",
       "band": [
         0.196,
         0.778
       ],
-      "mean": 0.946,
+      "mean": 0.945,
       "scoredOn": 16,
       "values": [
         {
@@ -8493,7 +8493,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 0.1607
+          "value": 0.1588
         },
         {
           "page": "consumer-craft",
@@ -8529,7 +8529,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 0.2372
+          "value": 0.3153
         },
         {
           "page": "holdout-commerce",
@@ -8569,7 +8569,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 0.559
+          "value": 0.551
         },
         {
           "page": "consumer-craft",
@@ -8717,11 +8717,11 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.572
+          "value": 0.571
         },
         {
           "page": "studio-selected",
-          "value": 0.778
+          "value": 0.78
         },
         {
           "page": "consumer-craft",
@@ -9785,7 +9785,7 @@
         },
         {
           "page": "studio-selected",
-          "value": 9.95
+          "value": 10.07
         },
         {
           "page": "consumer-craft",
@@ -9993,7 +9993,7 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 0.054
+          "value": 0.057
         },
         {
           "page": "dashboard-app",
@@ -10001,7 +10001,7 @@
         },
         {
           "page": "corporate-story",
-          "value": 0.048
+          "value": 0.05
         },
         {
           "page": "docs-educational",
@@ -10009,7 +10009,7 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.054
+          "value": 0.056
         },
         {
           "page": "studio-selected",
@@ -10017,23 +10017,23 @@
         },
         {
           "page": "consumer-craft",
-          "value": 0.048
+          "value": 0.05
         },
         {
           "page": "foundry-editorial",
-          "value": 0.046
+          "value": 0.047
         },
         {
           "page": "dossier-research",
-          "value": 0.067
+          "value": 0.073
         },
         {
           "page": "observatory-signal",
-          "value": 0.039
+          "value": 0.044
         },
         {
           "page": "archive-index",
-          "value": 0.077
+          "value": 0.078
         },
         {
           "page": "loom-commerce",
@@ -10045,15 +10045,15 @@
         },
         {
           "page": "press-atelier",
-          "value": 0.025
+          "value": 0.029
         },
         {
           "page": "lantern-path",
-          "value": 0.055
+          "value": 0.052
         },
         {
           "page": "holdout-commerce",
-          "value": 0.051
+          "value": 0.054
         }
       ]
     },
@@ -10297,7 +10297,7 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 131
+          "value": 137
         },
         {
           "page": "dashboard-app",
@@ -10305,7 +10305,7 @@
         },
         {
           "page": "corporate-story",
-          "value": 131
+          "value": 137
         },
         {
           "page": "docs-educational",
@@ -10313,47 +10313,47 @@
         },
         {
           "page": "fintech-trust",
-          "value": 131
+          "value": 137
         },
         {
           "page": "studio-selected",
-          "value": 131
+          "value": 137
         },
         {
           "page": "consumer-craft",
-          "value": 131
+          "value": 137
         },
         {
           "page": "foundry-editorial",
-          "value": 131
+          "value": 137
         },
         {
           "page": "dossier-research",
-          "value": 131
+          "value": 137
         },
         {
           "page": "observatory-signal",
-          "value": 131
+          "value": 137
         },
         {
           "page": "archive-index",
-          "value": 131
+          "value": 137
         },
         {
           "page": "loom-commerce",
-          "value": 131
+          "value": 137
         },
         {
           "page": "field-herbarium",
-          "value": 131
+          "value": 137
         },
         {
           "page": "press-atelier",
-          "value": 131
+          "value": 137
         },
         {
           "page": "lantern-path",
-          "value": 131
+          "value": 137
         },
         {
           "page": "holdout-commerce",
@@ -10525,7 +10525,7 @@
       "values": [
         {
           "page": "saas-conversion",
-          "value": 626
+          "value": 599
         },
         {
           "page": "dashboard-app",
@@ -10541,7 +10541,7 @@
         },
         {
           "page": "fintech-trust",
-          "value": 599
+          "value": 567
         },
         {
           "page": "studio-selected",
@@ -10557,7 +10557,7 @@
         },
         {
           "page": "dossier-research",
-          "value": 266
+          "value": 251
         },
         {
           "page": "observatory-signal",
@@ -10885,7 +10885,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 4
+          "value": 5
         },
         {
           "page": "holdout-commerce",
@@ -11037,7 +11037,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 13
+          "value": 14
         },
         {
           "page": "holdout-commerce",
@@ -11073,11 +11073,11 @@
         },
         {
           "page": "fintech-trust",
-          "value": 0.2574
+          "value": 0.2559
         },
         {
           "page": "studio-selected",
-          "value": 0.0458
+          "value": 0.0452
         },
         {
           "page": "consumer-craft",

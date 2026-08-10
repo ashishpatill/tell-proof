@@ -588,3 +588,17 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   template adaptation rules. Tests 62 green.
 - **Do not:** Paste OSS kits unchanged; do not CDN Three into marketing HTML by default;
   do not use D3 for non-data decoration.
+
+## 2026-08-09 — `motion:instrument-spray-breaks-restraint`
+
+- **Failure:** RSI audit found most siteKinds lacked body-level product instruments (only
+  edu/observatory had real DOM motion hooks); loom shipped `animation:…infinite` shuttle CSS
+  globally; giving every lattice amplitude bar a CSS `transition` blew observatory
+  transition-coverage to 0.243 (band max ~0.154) and dropped matrix to 96.3.
+- **Fix (RSI challenger):** Add feature-true `.ds-draw` on pipeline / wire / posture / dossier /
+  ladder / path / interface / archive register; dens patches on press; cap lattice motion to
+  ≤8 hot bars; shuttle once under `[data-sitekind="commerce-loom"]` only; immersive field only
+  when `motion===immersive`. Critique recovered **96.5**; observatory **94.2**; eye shots show
+  pipeline connector, lattice window, path atlas craft beats (not nav-only).
+- **Do not:** Put transitions on every SVG child to “look alive”; verify restraint coverage
+  after instrument ships; never leave infinite ambient loops in shared CSS.
