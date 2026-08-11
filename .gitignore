@@ -30,6 +30,7 @@ research/boards.seeds.local.json
 research/boards/
 research/raw/
 research/design-data.local.json
+research/SPORT_BRIEF_*.local.md
 
 # Training episode dumps must NOT live in Tell. Use the separate developer
 # harness `tell-design-data` → ~/.tell-design-data/. Keep any accidental local

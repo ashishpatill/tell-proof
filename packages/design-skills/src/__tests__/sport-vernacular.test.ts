@@ -81,6 +81,17 @@ describe("sport vernacular engine", () => {
     expect(analysis.sportId).toBe("tennis");
   });
 
+  it("matches tennis nested-score language", () => {
+    const pack = matchSportFromQuery("tennis break point tie-break court board");
+    expect(pack?.id).toBe("tennis");
+    const tennis = getSportPack("tennis");
+    expect(tennis.multiPageRoutes?.length).toBe(6);
+    expect(tennis.primaryFacts.some((f) => /server|game score/i.test(f.label))).toBe(true);
+    expect(tennis.formatLenses.map((f) => f.id)).toEqual(
+      expect.arrayContaining(["best-of-3", "best-of-5"]),
+    );
+  });
+
   it("emits a research brief template that gates design", () => {
     const md = sportResearchBriefTemplate("cricket");
     expect(md).toContain("Do not design or code");
