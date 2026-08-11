@@ -183,16 +183,43 @@ export function detectFindings(
     }));
   }
 
-  if (fingerprint.stateCoverage.hover < 0.6 || fingerprint.stateCoverage.disabled < 0.2) {
-    findings.push(Finding.parse({
-      id: "drift-state-gap",
-      family: "drift",
-      detector: "StateGap",
-      verdictHint: "drift",
-      severity: "high",
-      facts: { stateCoverage: fingerprint.stateCoverage },
-      evidence: [{ kind: "probe", label: "State coverage", value: JSON.stringify(fingerprint.stateCoverage) }],
-    }));
+  // StateGap — only when interactive controls are *mostly* missing hover feedback.
+  // Old bar (hover < 0.6 OR disabled < 0.2) fired on partial gaps and on "few disabled
+  // nodes exist," which produced insignificant findings and useless draft fixes.
+  {
+    const probeCount = capture.probes.length;
+    const missingHover = capture.probes.filter((p) => !p.hasHoverDiff).length;
+    const hover = fingerprint.stateCoverage.hover;
+    const significantHoverGap = probeCount >= 4 && missingHover >= 4 && hover < 0.25;
+    if (significantHoverGap) {
+      const covered = probeCount - missingHover;
+      findings.push(Finding.parse({
+        id: "drift-state-gap",
+        family: "drift",
+        detector: "StateGap",
+        verdictHint: "drift",
+        severity: hover < 0.1 ? "high" : "medium",
+        facts: {
+          stateCoverage: fingerprint.stateCoverage,
+          probeCount,
+          missingHover,
+          coveredHover: covered,
+          gap: "hover",
+        },
+        evidence: [
+          {
+            kind: "probe",
+            label: "Hover feedback",
+            value: `${missingHover} of ${probeCount} controls lack a :hover rule (${Math.round(hover * 100)}% covered)`,
+          },
+          {
+            kind: "probe",
+            label: "Gap",
+            value: "Interactive controls need a visible hover (and focus-visible) treatment — not a palette swap.",
+          },
+        ],
+      }));
+    }
   }
 
   // AcidAccentTell — a single high-saturation accent on a near-black surface.

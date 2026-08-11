@@ -53,6 +53,75 @@ describe("deterministic detectors on the committed fixture", () => {
     const acid = findings.find((f) => f.detector === "AcidAccentTell");
     expect(acid?.facts.accent).toBe("#8B5CF6");
   });
+
+  it("StateGap cites missing hover counts — not a JSON blob", () => {
+    const gap = findings.find((f) => f.detector === "StateGap");
+    expect(gap).toBeTruthy();
+    expect(gap!.severity).toMatch(/high|medium/);
+    expect(gap!.facts.gap).toBe("hover");
+    expect(gap!.facts.missingHover).toBeGreaterThanOrEqual(4);
+    expect(gap!.evidence[0]!.value).toMatch(/lack a :hover rule/);
+  });
+});
+
+describe("StateGap significance bar", () => {
+  function probe(hasHoverDiff: boolean) {
+    return {
+      role: "button",
+      selector: "button",
+      hasHoverDiff,
+      hasFocusVisibleDiff: false,
+      hasDisabledAttr: false,
+      ariaDisabled: false,
+    };
+  }
+
+  function bareCapture(probes: ReturnType<typeof probe>[]) {
+    return CapturePayload.parse({
+      url: "http://localhost/test",
+      capturedAt: "2026-08-09T00:00:00.000Z",
+      viewport: { width: 1280, height: 720 },
+      screenshotBase64: "",
+      styles: [],
+      probes,
+      domSummary: { headingCount: 1, buttonCount: probes.length, centeredBlockRatio: 0.2, emojiInUiCount: 0 },
+    });
+  }
+
+  it("does not fire on a partial ~31% hover gap (insignificant)", () => {
+    // 5 of 16 have hover → 0.3125 — the noisy case users called out
+    const probes = [
+      ...Array.from({ length: 5 }, () => probe(true)),
+      ...Array.from({ length: 11 }, () => probe(false)),
+    ];
+    const capture = bareCapture(probes);
+    const findings = detectFindings(buildFingerprint(capture), capture);
+    expect(findings.some((f) => f.detector === "StateGap")).toBe(false);
+  });
+
+  it("fires when most controls lack hover (≥4 missing and <25% covered)", () => {
+    const probes = [
+      ...Array.from({ length: 1 }, () => probe(true)),
+      ...Array.from({ length: 7 }, () => probe(false)),
+    ];
+    const capture = bareCapture(probes);
+    const findings = detectFindings(buildFingerprint(capture), capture);
+    const gap = findings.find((f) => f.detector === "StateGap");
+    expect(gap).toBeTruthy();
+    expect(gap!.facts.missingHover).toBe(7);
+    expect(gap!.facts.probeCount).toBe(8);
+  });
+
+  it("does not fire just because a page has few disabled nodes", () => {
+    // All have hover; one is disabled — old detector fired on disabled < 0.2
+    const probes = Array.from({ length: 8 }, (_, i) => ({
+      ...probe(true),
+      hasDisabledAttr: i === 0,
+    }));
+    const capture = bareCapture(probes);
+    const findings = detectFindings(buildFingerprint(capture), capture);
+    expect(findings.some((f) => f.detector === "StateGap")).toBe(false);
+  });
 });
 
 describe("ResponsiveViewportDrift baseline", () => {

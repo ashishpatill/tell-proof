@@ -40,7 +40,6 @@
         "AcidAccentTell",
         "FocusRingInconsistency",
         "SpacingChaos",
-        "StateGap",
         "SystemFontTell",
         "TokenBypass",
         "TypeScaleDrift"
@@ -60,7 +59,6 @@
         "RadiusMonotoneTell",
         "ResponsiveViewportDrift",
         "ShadowEverywhereTell",
-        "StateGap",
         "SystemFontTell",
         "TypeScaleDrift"
       ],

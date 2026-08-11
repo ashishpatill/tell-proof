@@ -122,8 +122,8 @@
       "name": "State gap",
       "detector": "StateGap",
       "family": "drift",
-      "signature": "Missing hover and/or disabled coverage on probes",
-      "flipThreshold": "hover < 0.6 or disabled < 0.2"
+      "signature": "Most interactive controls lack :hover feedback",
+      "flipThreshold": "probeCount ≥ 4 AND missingHover ≥ 4 AND hover < 0.25"
     },
     {
       "id": "D7",

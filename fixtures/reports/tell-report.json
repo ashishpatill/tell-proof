@@ -2589,13 +2589,22 @@
           "hover": 0,
           "focus": 0,
           "disabled": 1
-        }
+        },
+        "probeCount": 8,
+        "missingHover": 8,
+        "coveredHover": 0,
+        "gap": "hover"
       },
       "evidence": [
         {
           "kind": "probe",
-          "label": "State coverage",
-          "value": "{\"hover\":0,\"focus\":0,\"disabled\":1}"
+          "label": "Hover feedback",
+          "value": "8 of 8 controls lack a :hover rule (0% covered)"
+        },
+        {
+          "kind": "probe",
+          "label": "Gap",
+          "value": "Interactive controls need a visible hover (and focus-visible) treatment — not a palette swap."
         }
       ],
       "severity": "high"
@@ -2723,8 +2732,8 @@
     {
       "findingId": "drift-state-gap",
       "verdict": "drift",
-      "confidence": 0.72,
-      "rationale": "StateGap found inconsistent rendered values. Pick one semantic treatment before the surface keeps splitting."
+      "confidence": 0.84,
+      "rationale": "StateGap: 8 of 8 interactive controls have no :hover treatment (0% covered). Add a real hover + :focus-visible matrix on buttons and links — do not recolor the page."
     },
     {
       "findingId": "tell-acid-accent",

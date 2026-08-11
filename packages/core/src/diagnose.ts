@@ -30,6 +30,9 @@ export function diagnoseCapture(capture: CapturePayload, dna?: BrandDNA, designD
 }
 
 function fallbackRationale(detector: string, verdict: string): string {
+  if (detector === "StateGap") {
+    return "StateGap: interactive controls lack hover or focus-visible feedback. Fix the control state matrix — do not recolor the page.";
+  }
   if (verdict === "generic") return `${detector} matches a common AI-built UI pattern. Tell can name it, show the evidence, and draft a more distinctive direction.`;
   if (verdict === "drift") return `${detector} found inconsistent rendered values. Pick one semantic treatment before the surface keeps splitting.`;
   return `${detector} may be intentional. Keep it only if it supports the product's chosen direction.`;
