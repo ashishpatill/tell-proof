@@ -66,6 +66,13 @@ export function pageRules(p: Palette): EmittedRule[] {
   };
   const rules: EmittedRule[] = [rule("html,body", decls)];
   if (tex) rules.push(rule("body", { "background-image": tex, "background-attachment": "fixed" }));
+  // Catch light-on-dark authored text that never got a tell-id sample. Element/class
+  // rules with !important still need counterUnsampled / per-el ops; this covers the
+  // common unstamped span/p/label/placeholder path that inherits white from a parent.
+  rules.push(rule(
+    "p,span,label,li,small,strong,em,blockquote,figcaption,td,th,legend,dt,dd",
+    { color: p.ink },
+  ));
   return rules;
 }
 
@@ -288,7 +295,48 @@ export function navDecls(p: Palette): Record<string, string> {
     "border-bottom": `1px solid ${p.hairline}`,
     color: p.ink,
     "box-shadow": "none",
+    "backdrop-filter": "none",
+    "-webkit-backdrop-filter": "none",
+    padding: "14px 0",
+    "font-family": `"${p.body}", ui-sans-serif, sans-serif`,
   };
+}
+
+/** Nav link language — ink, quiet tracking, no accent underline parade. */
+export function navRules(p: Palette): EmittedRule[] {
+  return [
+    rule("nav a, header nav a, [role='navigation'] a", {
+      color: p.ink,
+      "text-decoration": "none",
+      "font-family": `"${p.body}", ui-sans-serif, sans-serif`,
+      "font-weight": "500",
+      "letter-spacing": "0.01em",
+      "font-size": "14px",
+      "background-color": "transparent",
+      "background-image": "none",
+      "box-shadow": "none",
+      "border-radius": "0",
+      padding: "6px 10px",
+    }),
+    rule("nav a:hover, header nav a:hover, [role='navigation'] a:hover", {
+      color: p.accentText,
+      "text-decoration": "none",
+      "border-bottom": `1px solid ${p.accent}`,
+    }),
+    // Primary CTA in the nav bar — ink block, not a soft pill
+    rule("nav a[class*='btn'], nav a[class*='button'], nav a[class*='cta'], nav button, header nav button", {
+      "background-color": p.ink,
+      color: p.paper,
+      "border-radius": p.radius,
+      "text-decoration": "none",
+      "font-weight": "600",
+      "letter-spacing": "0.02em",
+      padding: "10px 16px",
+      border: "none",
+      "box-shadow": "none",
+      "background-image": "none",
+    }),
+  ];
 }
 
 // ── section rhythm ──────────────────────────────────────────────────
@@ -298,6 +346,7 @@ export function sectionDecls(p: Palette, index: number): Record<string, string> 
   const decls: Record<string, string> = {
     "padding-top": `${s.padY}px`,
     "padding-bottom": `${s.padY}px`,
+    color: p.ink,
   };
   if (s.alternate) decls["background-color"] = alt ? p.paperAlt : p.paper;
   if (s.divider === "hairline-top") decls["border-top"] = `1px solid ${p.hairline}`;
