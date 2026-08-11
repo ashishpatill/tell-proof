@@ -1,8 +1,9 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { CreaseShell, type CreaseRouteId } from "./CreaseShell";
+import { CreaseRevealRoot } from "./CreaseRevealRoot";
+import { LiveMatchBoard } from "./LiveMatchBoard";
+import { RankingsDesk } from "./RankingsDesk";
 import {
   BATTING,
   BOWLING,
@@ -12,6 +13,7 @@ import {
   FEATURED,
   FIXTURES,
   HERO_IMAGE,
+  HERO_IMAGE_FALLBACK,
   LIVE_MATCHES,
   ODI_RANKINGS,
   PARTNERSHIPS,
@@ -28,18 +30,7 @@ import {
   ballLabel,
   type BallEvent,
   type LiveMatch,
-  type PlayerRankingRow,
-  type RankingRow,
 } from "./data";
-
-type RankFormat = "test" | "odi" | "t20";
-type RankAxis = "team" | "player-bat" | "player-bowl";
-type LiveFilter = "all" | "live" | "upcoming" | "result";
-
-function prefersReducedMotion(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
 
 function statusLabel(status: LiveMatch["status"]): string {
   if (status === "live") return "Live";
@@ -61,64 +52,6 @@ function OverTrail({ balls }: { balls: BallEvent[] }) {
         </li>
       ))}
     </ol>
-  );
-}
-
-function RankTable({ rows }: { rows: RankingRow[] }) {
-  return (
-    <table className="cr-rank-table">
-      <caption className="sr-only">Team rankings</caption>
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Team</th>
-          <th scope="col">Rating</th>
-          <th scope="col">
-            <span className="sr-only">Movement</span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr key={row.team}>
-            <td>{row.rank}</td>
-            <td>{row.team}</td>
-            <td className="cr-mono">{row.rating}</td>
-            <td aria-label={row.change}>
-              <span className={`cr-delta cr-delta-${row.change}`} aria-hidden="true">
-                {row.change === "up" ? "↑" : row.change === "down" ? "↓" : "·"}
-              </span>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
-function PlayerRankTable({ rows }: { rows: PlayerRankingRow[] }) {
-  return (
-    <table className="cr-rank-table">
-      <caption className="sr-only">Player rankings</caption>
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Player</th>
-          <th scope="col">Team</th>
-          <th scope="col">Rating</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr key={row.player}>
-            <td>{row.rank}</td>
-            <td>{row.player}</td>
-            <td>{row.team}</td>
-            <td className="cr-mono">{row.rating}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
   );
 }
 
@@ -185,38 +118,10 @@ function SituationBlock({ match }: { match: LiveMatch }) {
   );
 }
 
-function useReveal() {
-  const revealRoot = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const root = revealRoot.current;
-    if (!root) return;
-    const nodes = root.querySelectorAll<HTMLElement>("[data-reveal]");
-    if (prefersReducedMotion()) {
-      nodes.forEach((n) => n.setAttribute("data-in", "1"));
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          (entry.target as HTMLElement).setAttribute("data-in", "1");
-          io.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -6% 0px" },
-    );
-    nodes.forEach((n) => io.observe(n));
-    return () => io.disconnect();
-  }, []);
-  return revealRoot;
-}
-
-function MatchList({ filter = "all" }: { filter?: LiveFilter }) {
-  const rows =
-    filter === "all" ? LIVE_MATCHES : LIVE_MATCHES.filter((m) => m.status === filter);
+function MatchList({ matches }: { matches: LiveMatch[] }) {
   return (
     <ul className="cr-match-list">
-      {rows.map((m, i) => (
+      {matches.map((m, i) => (
         <li
           key={m.id}
           id={`match-${m.id}`}
@@ -252,13 +157,17 @@ function HomeMain() {
     <>
       <section className="cr-hero" aria-labelledby="cr-hero-title">
         <div className="cr-hero-media">
-          <img
-            src={HERO_IMAGE}
-            alt="Cricket match underway on a green oval beneath a city skyline"
-            width={2000}
-            height={1200}
-            fetchPriority="high"
-          />
+          <picture>
+            <source srcSet={HERO_IMAGE} type="image/webp" />
+            <img
+              src={HERO_IMAGE_FALLBACK}
+              alt="Cricket match underway on a green oval beneath a city skyline"
+              width={1600}
+              height={1066}
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
           <div className="cr-hero-veil" aria-hidden="true" />
           <div className="cr-crease-line" aria-hidden="true" />
         </div>
@@ -305,7 +214,7 @@ function HomeMain() {
             Status first, score second, situation third — then open Live for the full spine.
           </p>
         </div>
-        <MatchList filter="live" />
+        <MatchList matches={LIVE_MATCHES.filter((m) => m.status === "live")} />
         <div className="cr-inline-links" data-reveal>
           <Link href="/crease/fixtures">Full fixtures →</Link>
           <Link href="/crease/teams">Teams desk →</Link>
@@ -355,7 +264,6 @@ function HomeMain() {
 }
 
 function LiveMain() {
-  const [filter, setFilter] = useState<LiveFilter>("all");
   return (
     <section className="cr-section cr-matches cr-page-live" aria-labelledby="live-title">
       <div className="cr-section-head" data-reveal>
@@ -367,47 +275,8 @@ function LiveMain() {
           Inverted pyramid for second-screen glances — layout-stable scores, situation, this-over
           trail. Format lens changes secondary facts; Test keeps session language.
         </p>
-        <div className="cr-tabs" role="tablist" aria-label="Match status">
-          {(
-            [
-              ["all", "All"],
-              ["live", "Live"],
-              ["upcoming", "Upcoming"],
-              ["result", "Completed"],
-            ] as const
-          ).map(([id, label]) => (
-            <button
-              key={id}
-              type="button"
-              role="tab"
-              aria-selected={filter === id}
-              className={filter === id ? "is-active" : undefined}
-              onClick={() => setFilter(id)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
       </div>
-      <article className="cr-match-row cr-featured-live" data-reveal>
-        <div className="cr-match-meta">
-          <span className="cr-pill cr-pill-live">
-            <span className="cr-pill-dot" aria-hidden="true" />
-            Live
-          </span>
-          <span className="cr-format">{FEATURED.format}</span>
-          <span className="cr-series">{FEATURED.series}</span>
-        </div>
-        <div className="cr-match-body">
-          <MatchScore match={FEATURED} />
-          <SituationBlock match={FEATURED} />
-          <p className="cr-venue">{FEATURED.venue}</p>
-        </div>
-        <Link className="cr-match-link" href="/crease/scorecard">
-          Full scorecard →
-        </Link>
-      </article>
-      <MatchList filter={filter === "all" ? "all" : filter} />
+      <LiveMatchBoard />
 
       <div id="commentary" className="cr-commentary" data-reveal>
         <div className="cr-section-head">
@@ -584,10 +453,6 @@ function SeriesMain() {
 }
 
 function RankingsMain() {
-  const [rankFormat, setRankFormat] = useState<RankFormat>("odi");
-  const [axis, setAxis] = useState<RankAxis>("team");
-  const rankings =
-    rankFormat === "test" ? TEST_RANKINGS : rankFormat === "t20" ? T20_RANKINGS : ODI_RANKINGS;
   return (
     <section className="cr-section cr-rankings" aria-labelledby="rankings-title">
       <div className="cr-section-head" data-reveal>
@@ -599,53 +464,13 @@ function RankingsMain() {
           Dual axis — team vs player, then format lens. Test, ODI, and T20 are different tables.
         </p>
       </div>
-      <div className="cr-tabs" role="tablist" aria-label="Ranking axis">
-        {(
-          [
-            ["team", "Teams"],
-            ["player-bat", "Batters"],
-            ["player-bowl", "Bowlers"],
-          ] as const
-        ).map(([id, label]) => (
-          <button
-            key={id}
-            type="button"
-            role="tab"
-            aria-selected={axis === id}
-            className={axis === id ? "is-active" : undefined}
-            onClick={() => setAxis(id)}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-      {axis === "team" ? (
-        <>
-          <div className="cr-tabs" role="tablist" aria-label="Ranking format">
-            {(
-              [
-                ["odi", "ODI"],
-                ["test", "Test"],
-                ["t20", "T20"],
-              ] as const
-            ).map(([id, label]) => (
-              <button
-                key={id}
-                type="button"
-                role="tab"
-                aria-selected={rankFormat === id}
-                className={rankFormat === id ? "is-active" : undefined}
-                onClick={() => setRankFormat(id)}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-          <RankTable rows={rankings} />
-        </>
-      ) : (
-        <PlayerRankTable rows={axis === "player-bat" ? PLAYER_BAT_ODI : PLAYER_BOWL_ODI} />
-      )}
+      <RankingsDesk
+        test={TEST_RANKINGS}
+        odi={ODI_RANKINGS}
+        t20={T20_RANKINGS}
+        bat={PLAYER_BAT_ODI}
+        bowl={PLAYER_BOWL_ODI}
+      />
       <p className="cr-inline-links" data-reveal>
         <Link href="/crease/players">Browse player cards →</Link>
         <Link href="/crease/stats">Records index →</Link>
@@ -840,13 +665,12 @@ const PAGE_MAIN: Record<CreaseRouteId, () => ReactNode> = {
 };
 
 export function CreaseExperience({ page = "home" }: { page?: CreaseRouteId }) {
-  const revealRoot = useReveal();
   const Main = PAGE_MAIN[page];
   return (
-    <div ref={revealRoot}>
+    <CreaseRevealRoot>
       <CreaseShell active={page}>
         <Main />
       </CreaseShell>
-    </div>
+    </CreaseRevealRoot>
   );
 }

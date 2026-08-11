@@ -1,37 +1,11 @@
-"use client";
-
 import Link from "next/link";
-import { useId, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { LIVE_MATCHES } from "./data";
+import type { CreaseRouteId } from "./creaseNav";
+import { CreaseNavClient } from "./CreaseNavClient";
 
-/** Primary nav stays ≤6 (Core six). Secondary lives in footer / deep links. */
-export type CreasePrimaryRouteId =
-  | "home"
-  | "live"
-  | "scorecard"
-  | "series"
-  | "rankings"
-  | "notebook";
-
-export type CreaseSecondaryRouteId = "fixtures" | "teams" | "players" | "stats";
-
-export type CreaseRouteId = CreasePrimaryRouteId | CreaseSecondaryRouteId;
-
-export const CREASE_NAV: Array<{ id: CreasePrimaryRouteId; href: string; label: string }> = [
-  { id: "home", href: "/crease", label: "Home" },
-  { id: "live", href: "/crease/live", label: "Live" },
-  { id: "scorecard", href: "/crease/scorecard", label: "Scorecard" },
-  { id: "series", href: "/crease/series", label: "Series" },
-  { id: "rankings", href: "/crease/rankings", label: "Rankings" },
-  { id: "notebook", href: "/crease/notebook", label: "Notebook" },
-];
-
-export const CREASE_SECONDARY: Array<{ id: CreaseSecondaryRouteId; href: string; label: string }> = [
-  { id: "fixtures", href: "/crease/fixtures", label: "Fixtures" },
-  { id: "teams", href: "/crease/teams", label: "Teams" },
-  { id: "players", href: "/crease/players", label: "Players" },
-  { id: "stats", href: "/crease/stats", label: "Stats" },
-];
+export type { CreasePrimaryRouteId, CreaseRouteId, CreaseSecondaryRouteId } from "./creaseNav";
+export { CREASE_NAV, CREASE_SECONDARY } from "./creaseNav";
 
 function statusLabel(status: (typeof LIVE_MATCHES)[number]["status"]): string {
   if (status === "live") return "Live";
@@ -39,10 +13,7 @@ function statusLabel(status: (typeof LIVE_MATCHES)[number]["status"]): string {
   return "Upcoming";
 }
 
-function isPrimaryActive(active: CreaseRouteId, id: CreasePrimaryRouteId): boolean {
-  return active === id;
-}
-
+/** Server shell — static HTML + one client island for the mobile menu. */
 export function CreaseShell({
   active,
   children,
@@ -50,9 +21,6 @@ export function CreaseShell({
   active: CreaseRouteId;
   children: ReactNode;
 }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navId = useId();
-
   return (
     <div className="cr-root" data-testid="crease-site" data-crease-route={active}>
       <a className="cr-skip" href="#main">
@@ -72,35 +40,7 @@ export function CreaseShell({
             <span className="cr-brand-mark">CREASE</span>
             <span className="cr-brand-rule" aria-hidden="true" />
           </Link>
-          <button
-            type="button"
-            className="cr-menu-btn"
-            aria-expanded={menuOpen}
-            aria-controls={navId}
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            {menuOpen ? "Close" : "Menu"}
-          </button>
-          <nav
-            id={navId}
-            className={`cr-nav-links${menuOpen ? " is-open" : ""}`}
-            aria-label="Primary"
-          >
-            {CREASE_NAV.map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                aria-current={isPrimaryActive(active, item.id) ? "page" : undefined}
-                className={isPrimaryActive(active, item.id) ? "is-active" : undefined}
-                onClick={() => setMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Link className="cr-nav-cta" href="/crease/live" onClick={() => setMenuOpen(false)}>
-              Live match
-            </Link>
-          </nav>
+          <CreaseNavClient active={active} />
         </div>
       </header>
 

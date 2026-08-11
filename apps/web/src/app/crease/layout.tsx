@@ -23,5 +23,10 @@ export const metadata: Metadata = {
 };
 
 export default function CreaseLayout({ children }: { children: React.ReactNode }) {
-  return <div className={`${fraunces.variable} ${outfit.variable}`}>{children}</div>;
+  return (
+    <>
+      <link rel="preload" as="image" href="/crease/hero-match.webp" type="image/webp" />
+      <div className={`${fraunces.variable} ${outfit.variable}`}>{children}</div>
+    </>
+  );
 }

@@ -1200,18 +1200,24 @@ main,
   }
 }
 
-/* Scroll reveal once */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(0.5rem);
-  transition:
-    opacity 520ms var(--cr-ease),
-    transform 520ms var(--cr-ease);
-}
+/* Scroll reveal — progressive enhancement only.
+   Content must paint immediately; never blank the page waiting on JS. */
+@media (prefers-reduced-motion: no-preference) {
+  .cr-reveal-armed [data-reveal]:not([data-in="1"]) {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
 
-[data-reveal][data-in="1"] {
-  opacity: 1;
-  transform: none;
+  .cr-reveal-armed [data-reveal] {
+    transition:
+      opacity 420ms var(--cr-ease),
+      transform 420ms var(--cr-ease);
+  }
+
+  .cr-reveal-armed [data-reveal][data-in="1"] {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Mobile */
