@@ -557,7 +557,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && !/class="ds-ember-trail"/.test(html)
           && /Chart/.test(html)
           && /ds-bleed-rule/.test(html)
-          && /ds-care-near/.test(html)
+          && /ds-care-imprint/.test(html)
           && spec.sections.filter((s) => s.surface === "inverse").length === 0
         ),
       "Care-pathway offerings use rounds fold + care rail + care plate + rounds ladder + Chart — no pricing, no metrics theatre, zero inverse bands.",

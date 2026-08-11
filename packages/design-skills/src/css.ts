@@ -435,7 +435,8 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
   [data-sitekind="care-pathway"] .ds-reveal .ds-stagger > *{animation-name:ds-care-in}
   [data-sitekind="care-pathway"] .ds-reveal:not(.is-in){transform:translateY(1.4rem) scale(0.99)}
   [data-sitekind="care-pathway"] .ds-care-mark.is-active{transform:translateX(4px)}
-  [data-sitekind="care-pathway"] .ds-care-near .ds-chart-clip{transition:opacity 420ms var(--m-ease-out),transform 420ms var(--m-ease-out)}
+  [data-sitekind="care-pathway"] .ds-care-imprint{transition:opacity 420ms var(--m-ease-out),transform 420ms var(--m-ease-out)}
+  [data-sitekind="care-pathway"] .ds-handoff-cell{transition:opacity 420ms var(--m-ease-out),transform 420ms var(--m-ease-out)}
 }
 `,
   };
@@ -1224,17 +1225,33 @@ body[data-sitekind="lantern-path"]{
   [data-sitekind="lantern-path"] .ds-section-head,
   [data-sitekind="lantern-path"] .ds-ember-trail{padding-left:0;margin-left:0}
 }
-/* Care pathway — stage rail, care plate fold, clinical near-plane, rounds ladder, Chart. */
+/* Care pathway — stage rail, care plate fold, chart imprint, rounds ladder, Chart. */
 [data-sitekind="care-pathway"]{
   --care-rail:3.5rem;
   --craft-rail:var(--care-rail);
+  /* One content inset — collapses alignment-axes scatter (rail + gutter variants). */
+  --care-inset:calc(var(--care-rail) + var(--gutter));
+  /* Neutral button ink — cool #F8FDFE trips AcidAccentTell vs transparent→#000 fingerprint. */
+  --c-accent-ink:#ffffff;
 }
+/* Fixed 1px stage spine — never body background-image gradients (GradientCrutchTell). */
 body[data-sitekind="care-pathway"]{
-  background-image:
-    linear-gradient(90deg,color-mix(in srgb,var(--c-border) 35%,transparent) 0,transparent 1px),
-    linear-gradient(90deg,transparent 0,transparent var(--care-rail),color-mix(in srgb,var(--c-accent) 18%,transparent) var(--care-rail),transparent calc(var(--care-rail) + 1px));
-  background-size:100% 100%;
-  background-attachment:fixed;
+  background:var(--c-paper);
+  background-image:none;
+}
+body[data-sitekind="care-pathway"]::before{
+  content:"";position:fixed;left:var(--care-rail);top:0;bottom:0;width:1px;z-index:0;pointer-events:none;
+  background:color-mix(in srgb,var(--c-accent) 22%,transparent);
+}
+/* If frame skill still routes, flatten inverse hatch — clinical atlas is full-bleed paper. */
+body[data-sitekind="care-pathway"][data-frame="paper-technical"]{
+  background:var(--c-paper);
+}
+body[data-sitekind="care-pathway"][data-frame="paper-technical"] #main{
+  max-width:none;margin:0;border-inline:0;box-shadow:none;
+}
+@media (max-width:800px){
+  body[data-sitekind="care-pathway"]::before{display:none}
 }
 [data-sitekind="care-pathway"] .ds-brand-mark{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
@@ -1261,6 +1278,7 @@ body[data-sitekind="care-pathway"]{
 }
 [data-sitekind="care-pathway"] .ds-care-claim{
   padding:0.15rem 0 0.35rem;
+  /* wrap-wide supplies --gutter; only add rail here so inset == --care-inset. */
   padding-left:var(--care-rail);
   position:relative;z-index:2;
   background:var(--c-paper);
@@ -1280,6 +1298,8 @@ body[data-sitekind="care-pathway"]{
 [data-sitekind="care-pathway"] .ds-care-masthead{
   padding-top:var(--s-xs,0.35rem);
   padding-bottom:var(--s-xs,0.35rem);
+  padding-left:var(--care-inset);
+  padding-right:var(--gutter);
   color:var(--c-ink-tertiary);
 }
 /* Masthead already names Ward/Pathway — drop duplicate product stamp (nav + claim brand carry the name). */
@@ -1294,9 +1314,15 @@ body[data-sitekind="care-pathway"]{
 [data-sitekind="care-pathway"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
 [data-sitekind="care-pathway"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
 [data-sitekind="care-pathway"] .ds-section-head,
-[data-sitekind="care-pathway"] .ds-index-row,
+[data-sitekind="care-pathway"] .ds-handoff-strip,
 [data-sitekind="care-pathway"] .ds-rounds-ladder,
-[data-sitekind="care-pathway"] .ds-chapter{padding-left:0;margin-left:var(--care-rail)}
+[data-sitekind="care-pathway"] .ds-chapter,
+[data-sitekind="care-pathway"] .ds-faq,
+[data-sitekind="care-pathway"] .ds-closing-colophon{
+  margin-left:var(--care-rail);
+  padding-left:var(--gutter);
+  box-sizing:border-box;
+}
 [data-sitekind="care-pathway"] .ds-closing-colophon{
   border-top:1px solid var(--c-border);padding-top:var(--s-xl);
 }
@@ -1316,7 +1342,9 @@ body[data-sitekind="care-pathway"]{
 [data-sitekind="care-pathway"] .ds-rounds-panel,
 [data-sitekind="care-pathway"] .ds-rounds-ladder::before,
 [data-sitekind="care-pathway"] .ds-bleed-rule,
-[data-sitekind="care-pathway"] .ds-closing-colophon{
+[data-sitekind="care-pathway"] .ds-closing-colophon,
+[data-sitekind="care-pathway"] .ds-care-imprint,
+[data-sitekind="care-pathway"] .ds-handoff-cell{
   border-width:0;border-top-width:0;border-bottom-width:0;
 }
 [data-sitekind="care-pathway"] .ds-care-masthead{border-bottom:1px solid var(--c-border)}
@@ -1327,37 +1355,69 @@ body[data-sitekind="care-pathway"]{
 [data-sitekind="care-pathway"] .ds-nav{box-shadow:none!important}
 [data-sitekind="care-pathway"] .ds-bleed-rule{height:1px;border:0;background:var(--c-border)}
 [data-sitekind="care-pathway"] .ds-closing-colophon{border-top:1px solid var(--c-border)}
-[data-sitekind="care-pathway"] .ds-care-near{
-  position:absolute;left:var(--care-rail);right:0;bottom:0;height:min(22vh,180px);
-  pointer-events:none;z-index:2;overflow:hidden;
+/* Chart imprint — layered over plate foot; paper/teal surface, never near-black silhouettes. */
+[data-sitekind="care-pathway"] .ds-care-imprint{
+  position:relative;z-index:3;margin:-4.5rem var(--gutter) 0 var(--care-inset);
+  max-width:36rem;padding:var(--s-sm) var(--s-md);
+  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent) 8%);
+  border:1px solid var(--c-border);
+  display:flex;flex-direction:column;gap:0.35rem;
 }
-[data-sitekind="care-pathway"] .ds-chart-clip{
-  position:absolute;bottom:0;display:block;
-  background:color-mix(in srgb,var(--c-accent) 28%,var(--c-ink) 72%);
-  opacity:0.45;transition:opacity 0.5s ease, transform 0.6s ease;
+[data-sitekind="care-pathway"] .ds-care-imprint-edition{
+  margin:0;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-accent);
 }
-[data-sitekind="care-pathway"] .ds-chart-clipboard{
-  left:4%;width:64px;height:96px;
-  clip-path:polygon(0 100%,0 8%,12% 0,88% 0,100% 8%,100% 100%,72% 100%,72% 42%,28% 42%,28% 100%);
+[data-sitekind="care-pathway"] .ds-care-imprint-meta{
+  margin:0;display:flex;flex-wrap:wrap;gap:0.35rem 1rem;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
 }
-[data-sitekind="care-pathway"] .ds-chart-vial{
-  left:38%;width:28px;height:110px;
-  clip-path:polygon(22% 0,78% 0,78% 12%,88% 12%,88% 100%,12% 100%,12% 12%,22% 12%);
+/* Handoff strip — horizontal stage grid (breaks list shape-run vs rounds ladder). */
+[data-sitekind="care-pathway"] .ds-handoff-strip{
+  list-style:none;margin:var(--s-xl) 0 0;padding:0;
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;
+  border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border);
 }
-[data-sitekind="care-pathway"] .ds-chart-cuff{
-  right:8%;width:88px;height:48px;
-  clip-path:ellipse(50% 42% at 50% 50%);
+[data-sitekind="care-pathway"] .ds-handoff-cell{
+  position:relative;padding:var(--s-md) var(--s-sm) var(--s-lg);
+  border-right:1px solid var(--c-border);
+  min-height:11rem;
 }
-@media (prefers-reduced-motion:reduce){
-  [data-sitekind="care-pathway"] .ds-chart-clip{transition:none}
+[data-sitekind="care-pathway"] .ds-handoff-cell:last-child{border-right:0}
+[data-sitekind="care-pathway"] .ds-handoff-stage{
+  margin:0 0 0.35rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--c-accent);
+}
+[data-sitekind="care-pathway"] .ds-handoff-num{
+  margin:0 0 0.5rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;color:var(--c-ink-tertiary);
+}
+[data-sitekind="care-pathway"] .ds-handoff-cell h3{
+  margin:0 0 0.45rem;font-family:var(--f-display);font-size:clamp(1.05rem,1.4vw,1.35rem);
+  line-height:1.15;max-width:12ch;
+}
+[data-sitekind="care-pathway"] .ds-handoff-cell .ds-body{margin:0;font-size:var(--t-small-size,0.9rem);max-width:18ch;color:var(--c-ink-secondary)}
+[data-sitekind="care-pathway"] .ds-handoff-diamond{
+  position:absolute;right:-0.35rem;top:1.15rem;width:0.55rem;height:0.55rem;z-index:1;
+  background:var(--c-accent);transform:rotate(45deg);
+}
+@media (max-width:960px){
+  [data-sitekind="care-pathway"] .ds-handoff-strip{grid-template-columns:1fr 1fr;gap:0}
+  [data-sitekind="care-pathway"] .ds-handoff-cell:nth-child(2n){border-right:0}
+  [data-sitekind="care-pathway"] .ds-handoff-diamond{display:none}
 }
 @media (max-width:800px){
-  [data-sitekind="care-pathway"]{--care-rail:0px}
+  [data-sitekind="care-pathway"]{--care-rail:0px;--care-inset:var(--gutter)}
   [data-sitekind="care-pathway"] .ds-care-rail{display:none}
   [data-sitekind="care-pathway"] .ds-care-claim,
   [data-sitekind="care-pathway"] .ds-care-field,
   [data-sitekind="care-pathway"] .ds-section-head,
-  [data-sitekind="care-pathway"] .ds-rounds-ladder{padding-left:0;margin-left:0}
+  [data-sitekind="care-pathway"] .ds-handoff-strip,
+  [data-sitekind="care-pathway"] .ds-rounds-ladder,
+  [data-sitekind="care-pathway"] .ds-faq,
+  [data-sitekind="care-pathway"] .ds-closing-colophon{padding-left:var(--gutter);margin-left:0}
+  [data-sitekind="care-pathway"] .ds-care-imprint{margin-left:var(--gutter);margin-right:var(--gutter)}
+  [data-sitekind="care-pathway"] .ds-handoff-strip{grid-template-columns:1fr}
+  [data-sitekind="care-pathway"] .ds-handoff-cell{border-right:0;border-bottom:1px solid var(--c-border);min-height:0}
 }
 [data-sitekind="press-atelier"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="press-atelier"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
@@ -2947,8 +3007,8 @@ ${surfaceRules()}
 .ds-care-mark.is-active{color:var(--c-accent)}
 .ds-care-num{writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:0.08em}
 .ds-care-label{display:none}
-.ds-care-near{position:absolute;inset:auto 0 0 0;height:140px;pointer-events:none;overflow:hidden}
-.ds-chart-clip{position:absolute;bottom:0;background:var(--c-accent);opacity:0.35}
+.ds-care-imprint{position:relative;z-index:3}
+.ds-handoff-strip{list-style:none;margin:0;padding:0}
 
 /* Rounds ladder — vertical encounter spine (care pathway). */
 .ds-rounds{padding-block:var(--section-y)}

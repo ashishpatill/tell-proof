@@ -764,3 +764,28 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   on care-pathway (observatory lesson).
 - **Fix:** 1px spine/bead/borders; no bead ring shadow; geometric diamond handoff (never ◆ emoji).
 - **Do not:** Decorate clinical spines with multi-px chrome or emoji markers.
+
+## 2026-08-11 — `template:care-near-silhouette-residue`
+
+- **Failure:** Fold foot used dark clipboard/vial/cuff clip-path silhouettes — read as unfinished
+  AI chrome and fed near-black surfaces into AcidAccentTell.
+- **Fix:** Replace with citeable `ds-care-imprint` (edition + ward + stages) layered over the
+  plate on paper/accent-surface; drop `ds-care-near` / `ds-chart-clip`.
+- **Do not:** Park opaque near-black decorative silhouettes under a clinical plate.
+
+## 2026-08-11 — `template:care-paper-frame-gradient-crutch`
+
+- **Failure:** `light-airy` routed `paper-technical-frame` → inverse outer field + hatch
+  `repeating-linear-gradient` → GradientCrutchTell + AcidAccentTell on Roundspool.
+- **Fix:** Exclude `care-pathway` from paper-technical routing; force `body` to solid `--c-paper`
+  with a fixed 1px stage spine (`::before`), not body background-image gradients.
+- **Do not:** Put a ward chart inside the inverse paper-technical envelope.
+
+## 2026-08-11 — `template:care-feature-index-list-run`
+
+- **Failure:** Mid-page features used `ds-index` list — same archetype run as rounds ladder →
+  shape-repetition 0.545 (over band) and a twin of SaaS capability indexes.
+- **Fix:** Care-only `ds-handoff-strip` horizontal stage grid (Intake→Discharge cells + diamond
+  handoffs). Alignment collapsed via `--care-inset`. Critique: care **98.5**, axes **4**,
+  shape-run **0.364**.
+- **Do not:** Ship another vertical index under a vertical rounds ladder.

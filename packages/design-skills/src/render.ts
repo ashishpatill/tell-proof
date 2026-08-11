@@ -660,16 +660,16 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       <span class="ds-care-edition">Chart edition</span>
       <span class="ds-care-mark-product">${esc(spec.brief.productName)}</span>
     </header>`;
-    const near = `<div class="ds-care-near" aria-hidden="true" data-near="active">
-      <span class="ds-chart-clip ds-chart-clipboard"></span>
-      <span class="ds-chart-clip ds-chart-vial"></span>
-      <span class="ds-chart-clip ds-chart-cuff"></span>
-    </div>`;
+    /* Citeable imprint overlapping the plate — not silhouette chrome (clipboard/vial/cuff). */
+    const imprint = `<aside class="ds-care-imprint" aria-label="Chart imprint">
+      <p class="ds-care-imprint-edition">Chart edition · ${esc(spec.brief.productName)}</p>
+      <p class="ds-care-imprint-meta"><span>Ward pathway</span><span>Stages 01–05</span><span>Handoffs citeable</span></p>
+    </aside>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-rounds" data-surface="${section.surface}" data-section="${esc(section.id)}">
       ${rail}
       ${mast}
       <div class="ds-care-claim"><div class="ds-wrap-wide">${copy}</div></div>
-      <div class="ds-bleed ds-care-field">${plateFig}${near}</div>
+      <div class="ds-bleed ds-care-field">${plateFig}${imprint}</div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
@@ -1005,6 +1005,28 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
         .join("")}</ul>`;
     }
     if (section.layout === "feature-index") {
+      /*
+       * Care pathway: horizontal handoff strip (grid archetype) — not another vertical index
+       * list that twins the rounds ladder and inflates shape-run.
+       */
+      if (spec.brief.siteKind === "care-pathway") {
+        const stages = ["Intake", "Triage", "Treat", "Follow-up", "Discharge"];
+        const cells = section.blocks.slice(0, 5).map((b, i) => {
+          const stage = stages[i] ?? `Stage ${i + 1}`;
+          const handoff =
+            i < Math.min(4, section.blocks.length - 1)
+              ? `<span class="ds-handoff-diamond" aria-hidden="true"></span>`
+              : "";
+          return `<li class="ds-handoff-cell" style="--i:${i}">
+            <p class="ds-handoff-stage">${esc(stage)}</p>
+            <p class="ds-handoff-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
+            <h3>${esc(b.title)}</h3>
+            ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+            ${handoff}
+          </li>`;
+        });
+        return `<ol class="ds-handoff-strip" aria-label="Handoff strip">${cells.join("")}</ol>`;
+      }
       const quietIndex = spec.brief.siteKind === "docs-educational";
       return `<ol class="ds-index">${section.blocks
         .map(
