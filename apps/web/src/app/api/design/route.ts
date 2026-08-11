@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   DesignFromFeaturesRequest,
+  briefFromFreeText,
   designFromFeatures,
   getTemplate,
   listTemplates,
@@ -29,10 +30,36 @@ function recordDesignResult(
   );
 }
 
-/** POST { brief, redesignFrom? } → DesignSpec + previewHtml (deterministic skill graph). */
+/**
+ * POST { brief, redesignFrom? } → DesignSpec + previewHtml
+ * POST { query } → free-text create: niche match → research route → design (implicit Studio)
+ */
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+
+    if (typeof body.query === "string" && body.query.trim()) {
+      const { brief, plan } = briefFromFreeText(body.query);
+      const result = designFromFeatures(brief);
+      recordDesignResult(result, {
+        via: "api.design.post.query",
+        siteKind: brief.siteKind,
+        productName: brief.productName,
+        nicheKey: plan.nicheKey,
+      });
+      return NextResponse.json({
+        ...result,
+        plan: {
+          ...plan,
+          researchNodes: result.spec.customizationHints.filter((h) =>
+            h.startsWith("Research") || h.startsWith("Domain"),
+          ),
+          routedSkills: result.spec.routedSkills,
+          summary: result.spec.summary,
+        },
+      });
+    }
+
     const parsed = DesignFromFeaturesRequest.parse(
       body.brief !== undefined ? body : { brief: body },
     );
@@ -57,7 +84,7 @@ export async function POST(req: Request) {
 
 /**
  * GET ?showcase=saas|dashboard|… → research-backed offering
- * GET ?templates=1 → catalog metadata (no HTML) for Studio / agents
+ * GET ?templates=1 → catalog metadata (no HTML) for agents
  */
 export async function GET(req: Request) {
   try {

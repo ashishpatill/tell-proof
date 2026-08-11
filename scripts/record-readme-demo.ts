@@ -69,26 +69,13 @@ async function main() {
       await pause(page, 1600);
     }
 
-    // 2) Studio create / redesign / magic / viewport
-    await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
-    await page.getByTestId("studio-frame").waitFor({ timeout: 30_000 });
+    // 2) Implicit create from Home
+    await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
+    await page.getByRole("button", { name: /Create a site/i }).click();
+    await page.getByLabel(/Design brief|site to create/i).fill("B2B SaaS demo landing warmer editorial");
+    await page.keyboard.press("Control+Enter");
+    await page.getByTestId("site-create-frame").waitFor({ timeout: 30_000 });
     await pause(page, 2000);
-    for (const kind of ["dashboard-webapp", "corporate-story", "docs-educational", "saas-marketing"] as const) {
-      await page.getByTestId("input-sitekind").selectOption(kind);
-      await page.getByTestId("btn-generate").click();
-      await page.waitForTimeout(2200);
-    }
-    await page.getByTestId("taste-lean").selectOption("minimal-clean");
-    await page.getByTestId("taste-motion").selectOption("none");
-    await page.getByTestId("btn-generate").click();
-    await page.waitForTimeout(2200);
-    await page.getByTestId("input-magic").fill("redesign as dashboard workspace, minimal-clean, no motion");
-    await page.getByTestId("btn-magic").click();
-    await page.waitForTimeout(2400);
-    await page.getByTestId("viewport-390").click();
-    await pause(page, 1600);
-    await page.getByTestId("viewport-1280").click();
-    await pause(page, 1600);
 
     // 3) Showcases
     await page.goto(`${BASE}/showcase/saas`, { waitUntil: "domcontentloaded" });
@@ -97,9 +84,6 @@ async function main() {
     await page.goto(`${BASE}/showcase/educational`, { waitUntil: "domcontentloaded" });
     await page.getByTestId("showcase-frame").waitFor({ timeout: 20_000 });
     await pause(page, 2400);
-    await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
-    await page.getByTestId("studio-frame").waitFor({ timeout: 20_000 });
-    await pause(page, 2200);
   } finally {
     await context.close();
     await browser.close();
