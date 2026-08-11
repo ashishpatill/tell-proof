@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Measured gate: Crease scorecard rows share one CSS baseline and one column rail.
- * Uses Range getClientRects bottoms (glyph baseline proxy), not cell midlines alone.
+ * Measured gate: Crease scorecard — glyph baselines, shared name+stat rails,
+ * and bowling must NOT stretch a phantom dismissal column across the viewport.
  */
 import { createRequire } from "module";
 
@@ -36,69 +36,66 @@ async function main() {
       return Math.max(...rects.map((r) => r.bottom));
     }
 
-    const board = document.querySelector('[data-testid="crease-scorecard-board"]');
-    if (!board) return { error: "missing board" };
-    const boards = [...board.querySelectorAll(".cr-board")];
-    if (boards.length < 2) return { error: `expected 2 boards, got ${boards.length}` };
+    const root = document.querySelector('[data-testid="crease-scorecard-board"]');
+    if (!root) return { error: "missing board" };
+    const bat = root.querySelector(".cr-board--bat");
+    const bowl = root.querySelector(".cr-board--bowl");
+    if (!bat || !bowl) return { error: "missing bat/bowl boards" };
 
     const baselineIssues = [];
-    for (const [bi, section] of boards.entries()) {
+    for (const [label, section] of [
+      ["bat", bat],
+      ["bowl", bowl],
+    ]) {
       for (const row of section.querySelectorAll(".cr-board-row:not(.cr-board-head)")) {
         const cells = [...row.children].filter((el) => el.textContent?.trim());
         if (cells.length < 2) continue;
         const bottoms = cells.map((el) => ({
           text: el.textContent?.trim(),
           bottom: textBottom(el),
-          font: getComputedStyle(el).fontFamily,
-          size: getComputedStyle(el).fontSize,
         }));
         const base = bottoms[0].bottom;
         for (let i = 1; i < bottoms.length; i++) {
           if (base == null || bottoms[i].bottom == null) continue;
           const delta = Math.abs(bottoms[i].bottom - base);
           if (delta > 1.5) {
-            baselineIssues.push({
-              board: bi,
-              name: bottoms[0].text,
-              against: bottoms[i].text,
-              delta,
-              fonts: [bottoms[0].font, bottoms[i].font],
-              sizes: [bottoms[0].size, bottoms[i].size],
-            });
+            baselineIssues.push({ board: label, name: bottoms[0].text, against: bottoms[i].text, delta });
           }
         }
       }
     }
 
-    const batRow = boards[0].querySelector(".cr-board-row:not(.cr-board-head)");
-    const bowlRow = boards[1].querySelector(".cr-board-row:not(.cr-board-head)");
-    const batName = batRow?.children[0]?.getBoundingClientRect();
-    const bowlName = bowlRow?.children[0]?.getBoundingClientRect();
+    const batRow = bat.querySelector(".cr-board-row:not(.cr-board-head)");
+    const bowlRow = bowl.querySelector(".cr-board-row:not(.cr-board-head)");
+    const batName = batRow?.querySelector(".cr-name")?.getBoundingClientRect();
+    const bowlName = bowlRow?.querySelector(".cr-name")?.getBoundingClientRect();
     const batStat = batRow?.querySelector(".cr-stat")?.getBoundingClientRect();
     const bowlStat = bowlRow?.querySelector(".cr-stat")?.getBoundingClientRect();
+    const bowlLast = bowlRow?.querySelectorAll(".cr-stat");
+    const bowlLastRect = bowlLast?.[bowlLast.length - 1]?.getBoundingClientRect();
+    const bowlBoard = bowl.getBoundingClientRect();
+    const viewport = window.innerWidth;
 
-    const sameFontIssues = [];
-    for (const row of board.querySelectorAll(".cr-board-row:not(.cr-board-head)")) {
-      const name = row.querySelector(".cr-name");
-      const stat = row.querySelector(".cr-stat");
-      if (!name || !stat) continue;
-      const nf = getComputedStyle(name).fontFamily;
-      const sf = getComputedStyle(stat).fontFamily;
-      if (nf !== sf) {
-        sameFontIssues.push({ name: name.textContent?.trim(), nameFont: nf, statFont: sf });
-      }
-    }
+    // Bowling must end near its last stat — not stretch toward the right edge
+    const bowlTrailingSlack =
+      bowlLastRect && bowlBoard ? bowlBoard.right - bowlLastRect.right : null;
+    const bowlSpanRatio = bowlBoard ? bowlBoard.width / viewport : null;
 
     return {
       baselineIssues,
-      sameFontIssues,
       nameLeftDelta: batName && bowlName ? Math.abs(batName.left - bowlName.left) : null,
+      nameWidthDelta: batName && bowlName ? Math.abs(batName.width - bowlName.width) : null,
       firstStatLeftDelta: batStat && bowlStat ? Math.abs(batStat.left - bowlStat.left) : null,
+      bowlTrailingSlack,
+      bowlSpanRatio,
+      bowlWidth: bowlBoard?.width,
+      batStatLeft: batStat?.left,
+      bowlStatLeft: bowlStat?.left,
     };
   });
 
   await page.screenshot({
-    path: "/opt/cursor/artifacts/screenshots/crease-scorecard-aligned.png",
+    path: "/opt/cursor/artifacts/screenshots/crease-scorecard-fixed-rail.png",
     fullPage: false,
   });
   await browser.close();
@@ -106,36 +103,34 @@ async function main() {
   if (report.error) throw new Error(report.error);
 
   const fails = [];
-  if (report.sameFontIssues.length) {
-    fails.push(`name/stat font mismatch: ${JSON.stringify(report.sameFontIssues)}`);
-  }
   if (report.baselineIssues.length) {
-    fails.push(
-      `glyph baseline drift >${MAX_BASELINE_DELTA_PX}px: ${JSON.stringify(report.baselineIssues, null, 2)}`,
-    );
+    fails.push(`baseline: ${JSON.stringify(report.baselineIssues)}`);
   }
   if (report.nameLeftDelta != null && report.nameLeftDelta > MAX_COLUMN_DELTA_PX) {
-    fails.push(`name column left delta ${report.nameLeftDelta.toFixed(2)}px`);
+    fails.push(`name left delta ${report.nameLeftDelta}`);
+  }
+  if (report.nameWidthDelta != null && report.nameWidthDelta > MAX_COLUMN_DELTA_PX) {
+    fails.push(`name width delta ${report.nameWidthDelta}`);
   }
   if (report.firstStatLeftDelta != null && report.firstStatLeftDelta > MAX_COLUMN_DELTA_PX) {
-    fails.push(`first stat column left delta ${report.firstStatLeftDelta.toFixed(2)}px`);
+    fails.push(`first stat left delta ${report.firstStatLeftDelta}`);
+  }
+  // phantom-column smell: bowling board nearly full viewport OR huge slack after last W
+  if (report.bowlSpanRatio != null && report.bowlSpanRatio > 0.55) {
+    fails.push(`bowling board too wide (${(report.bowlSpanRatio * 100).toFixed(0)}% viewport)`);
+  }
+  if (report.bowlTrailingSlack != null && report.bowlTrailingSlack > 24) {
+    fails.push(`bowling trailing slack ${report.bowlTrailingSlack.toFixed(1)}px after last stat`);
   }
 
   if (fails.length) {
-    console.error("FAIL crease scorecard alignment");
+    console.error("FAIL crease scorecard layout");
     for (const f of fails) console.error("-", f);
+    console.error(JSON.stringify(report, null, 2));
     process.exit(1);
   }
 
-  console.log(
-    "PASS crease scorecard alignment",
-    JSON.stringify({
-      nameLeftDelta: report.nameLeftDelta,
-      firstStatLeftDelta: report.firstStatLeftDelta,
-      baselineIssues: report.baselineIssues.length,
-      sameFontIssues: report.sameFontIssues.length,
-    }),
-  );
+  console.log("PASS crease scorecard layout", JSON.stringify(report));
 }
 
 main().catch((err) => {

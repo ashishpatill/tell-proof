@@ -1,25 +1,11 @@
-"use client";
-
 import Link from "next/link";
-import { useId, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { LIVE_MATCHES } from "./data";
+import type { CreaseRouteId } from "./creaseNav";
+import { CreaseNavClient } from "./CreaseNavClient";
 
-export type CreaseRouteId =
-  | "home"
-  | "live"
-  | "scorecard"
-  | "series"
-  | "rankings"
-  | "notebook";
-
-export const CREASE_NAV: Array<{ id: CreaseRouteId; href: string; label: string }> = [
-  { id: "home", href: "/crease", label: "Home" },
-  { id: "live", href: "/crease/live", label: "Live" },
-  { id: "scorecard", href: "/crease/scorecard", label: "Scorecard" },
-  { id: "series", href: "/crease/series", label: "Series" },
-  { id: "rankings", href: "/crease/rankings", label: "Rankings" },
-  { id: "notebook", href: "/crease/notebook", label: "Notebook" },
-];
+export type { CreasePrimaryRouteId, CreaseRouteId, CreaseSecondaryRouteId } from "./creaseNav";
+export { CREASE_NAV, CREASE_SECONDARY } from "./creaseNav";
 
 function statusLabel(status: (typeof LIVE_MATCHES)[number]["status"]): string {
   if (status === "live") return "Live";
@@ -27,6 +13,7 @@ function statusLabel(status: (typeof LIVE_MATCHES)[number]["status"]): string {
   return "Upcoming";
 }
 
+/** Server shell — static HTML + one client island for the mobile menu. */
 export function CreaseShell({
   active,
   children,
@@ -34,9 +21,6 @@ export function CreaseShell({
   active: CreaseRouteId;
   children: ReactNode;
 }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navId = useId();
-
   return (
     <div className="cr-root" data-testid="crease-site" data-crease-route={active}>
       <a className="cr-skip" href="#main">
@@ -56,35 +40,7 @@ export function CreaseShell({
             <span className="cr-brand-mark">CREASE</span>
             <span className="cr-brand-rule" aria-hidden="true" />
           </Link>
-          <button
-            type="button"
-            className="cr-menu-btn"
-            aria-expanded={menuOpen}
-            aria-controls={navId}
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            {menuOpen ? "Close" : "Menu"}
-          </button>
-          <nav
-            id={navId}
-            className={`cr-nav-links${menuOpen ? " is-open" : ""}`}
-            aria-label="Primary"
-          >
-            {CREASE_NAV.map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                aria-current={active === item.id ? "page" : undefined}
-                className={active === item.id ? "is-active" : undefined}
-                onClick={() => setMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Link className="cr-nav-cta" href="/crease/live" onClick={() => setMenuOpen(false)}>
-              Live match
-            </Link>
-          </nav>
+          <CreaseNavClient active={active} />
         </div>
       </header>
 
@@ -123,19 +79,26 @@ export function CreaseShell({
             <p className="cr-footer-col-title">Match</p>
             <Link href="/crease/live">Live</Link>
             <Link href="/crease/scorecard">Scorecard</Link>
+            <Link href="/crease/live#commentary">Commentary</Link>
+            <Link href="/crease/scorecard#partnerships">Partnerships</Link>
           </div>
           <div className="cr-footer-col">
             <p className="cr-footer-col-title">Compete</p>
             <Link href="/crease/series">Series</Link>
+            <Link href="/crease/fixtures">Fixtures</Link>
             <Link href="/crease/rankings">Rankings</Link>
+            <Link href="/crease/teams">Teams</Link>
+          </div>
+          <div className="cr-footer-col">
+            <p className="cr-footer-col-title">People</p>
+            <Link href="/crease/players">Players</Link>
+            <Link href="/crease/stats">Stats &amp; records</Link>
+            <Link href="/crease/rankings">Player rankings</Link>
           </div>
           <div className="cr-footer-col">
             <p className="cr-footer-col-title">Read</p>
             <Link href="/crease/notebook">Notebook</Link>
             <Link href="/crease">Home</Link>
-          </div>
-          <div className="cr-footer-col">
-            <p className="cr-footer-col-title">Utility</p>
             <Link href="/showcase">Tell Specimens</Link>
           </div>
         </nav>

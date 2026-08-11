@@ -962,26 +962,42 @@ main,
   overflow-x: auto;
 }
 
-/* One shared 6-col rail for batting + bowling — baseline-aligned, one typeface */
+/* Cricket board: fixed name + tight numeric rail — not a stretched shared phantom column */
 .cr-board {
   display: grid;
   gap: 0;
-  min-width: 36rem;
+  --cr-board-name: 11.5rem;
+  --cr-board-stat: 3.35rem;
 }
 
 .cr-board-row {
   display: grid;
-  grid-template-columns:
-    minmax(7.5rem, 1.15fr)
-    repeat(4, minmax(3.25rem, 4.5rem))
-    minmax(10rem, 1.7fr);
-  column-gap: 0.65rem;
+  column-gap: 0.75rem;
   align-items: baseline;
-  padding: 0.85rem 0.15rem;
+  padding: 0.8rem 0;
   border-bottom: 1px solid var(--cr-line);
   font-family: var(--cr-sans);
   font-size: 0.95rem;
   line-height: 1.2;
+}
+
+.cr-board--bat .cr-board-row {
+  grid-template-columns:
+    var(--cr-board-name)
+    repeat(4, var(--cr-board-stat))
+    minmax(11rem, 1fr);
+  max-width: 44rem;
+}
+
+.cr-board--bowl {
+  width: max-content;
+  max-width: 100%;
+}
+
+.cr-board--bowl .cr-board-row {
+  grid-template-columns: var(--cr-board-name) repeat(4, var(--cr-board-stat));
+  width: max-content;
+  max-width: 100%;
 }
 
 .cr-board-head {
@@ -990,8 +1006,8 @@ main,
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding-top: 0.35rem;
-  padding-bottom: 0.55rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.5rem;
 }
 
 .cr-board-row .cr-name {
@@ -1022,13 +1038,160 @@ main,
 .cr-board-row .cr-note {
   font-family: var(--cr-sans);
   font-weight: 400;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   line-height: 1.2;
   color: var(--cr-chalk-dim);
 }
 
+@media (max-width: 720px) {
+  .cr-board {
+    --cr-board-name: 7.5rem;
+    --cr-board-stat: 2.6rem;
+  }
+
+  .cr-board--bat .cr-board-row {
+    max-width: none;
+    min-width: 28rem;
+  }
+}
+
+.cr-extras {
+  margin: 0;
+  color: var(--cr-chalk-dim);
+  font-size: 0.9rem;
+}
+
+.cr-depth-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.cr-pair-list,
+.cr-fow-list,
+.cr-fixture-list,
+.cr-record-list,
+.cr-commentary-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cr-pair-list li,
+.cr-fow-list li,
+.cr-record-list li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--cr-line);
+}
+
+.cr-fixture-row {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.9fr) minmax(0, 1.4fr) auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--cr-line);
+}
+
+.cr-fixture-when {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.cr-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.cr-info-card {
+  padding: 1.1rem 1rem;
+  border: 1px solid var(--cr-line);
+  border-radius: 0.2rem;
+  background: var(--cr-panel);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.cr-form {
+  color: var(--cr-flood);
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+}
+
+.cr-inline-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin-top: 1.5rem;
+  color: var(--cr-flood);
+  font-size: 0.92rem;
+}
+
+.cr-inline-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.28em;
+}
+
+.cr-commentary {
+  margin-top: 2.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cr-line);
+}
+
+.cr-commentary-item {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.85rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--cr-line);
+  align-items: baseline;
+}
+
+.cr-commentary-ball {
+  color: var(--cr-flood);
+  font-size: 0.85rem;
+}
+
+.cr-commentary-wicket {
+  color: #f07167;
+}
+
+.cr-commentary-boundary .cr-commentary-ball {
+  color: var(--cr-flood);
+}
+
+.cr-phase {
+  margin: 0.2rem 0 0;
+  color: var(--cr-chalk-dim);
+  font-size: 0.88rem;
+}
+
+.cr-latency {
+  margin: 0.35rem 0 0;
+  color: #f0b429;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
 .cr-featured-live {
   margin-bottom: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .cr-depth-grid,
+  .cr-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cr-fixture-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 720px) {
@@ -1037,18 +1200,24 @@ main,
   }
 }
 
-/* Scroll reveal once */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(0.5rem);
-  transition:
-    opacity 520ms var(--cr-ease),
-    transform 520ms var(--cr-ease);
-}
+/* Scroll reveal — progressive enhancement only.
+   Content must paint immediately; never blank the page waiting on JS. */
+@media (prefers-reduced-motion: no-preference) {
+  .cr-reveal-armed [data-reveal]:not([data-in="1"]) {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
 
-[data-reveal][data-in="1"] {
-  opacity: 1;
-  transform: none;
+  .cr-reveal-armed [data-reveal] {
+    transition:
+      opacity 420ms var(--cr-ease),
+      transform 420ms var(--cr-ease);
+  }
+
+  .cr-reveal-armed [data-reveal][data-in="1"] {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Mobile */

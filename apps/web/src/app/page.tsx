@@ -1123,36 +1123,24 @@ export default function HomePage() {
             operationActive
               ? "text-accent"
               : captureMeta?.live
-<<<<<<< HEAD
                 ? "text-ok"
-                : captureMeta
+                : offlineDemo || captureMeta?.error
                   ? "text-drift"
                   : "text-muted"
           }`}
         >
-          {operationActive ? "Working…" : captureMeta?.live ? "Live" : captureMeta ? "Offline" : designBrief ? "Brief" : "Ready"}
-          {report.findings.length ? ` · ${scoreLine}` : null}
-=======
-                ? "border-ok/40 bg-ok/10 text-ok"
-                : offlineDemo
-                  ? "border-drift/40 bg-drift/10 text-drift"
-                  : captureMeta?.error
-                    ? "border-drift/40 bg-drift/10 text-drift"
-                    : "border-border text-muted"
-          }`}
-        >
           {operationActive
-            ? "Working"
+            ? "Working…"
             : captureMeta?.live
-              ? "Live capture"
+              ? "Live"
               : offlineDemo
                 ? "Offline fixture"
                 : captureMeta?.error
                   ? "Capture failed"
                   : designBrief
-                    ? "Brief only"
+                    ? "Brief"
                     : "Ready"}
->>>>>>> origin/cursor/stop-silent-demo-fallback-887a
+          {report.findings.length ? ` · ${scoreLine}` : null}
         </span>
         {captureState === "done" && report.findings.length > 0 ? (
           <button

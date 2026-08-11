@@ -48,7 +48,9 @@ export type {
   SportVernacularPack,
 } from "./sport-vernacular";
 export {
+  CRICKET_ALL_ROUTES,
   CRICKET_CORE_SIX_ROUTES,
+  CRICKET_SECONDARY_ROUTES,
   DOMAIN_RESEARCH_NODE_IDS,
   DomainResearchPack,
   listDomainResearchPacks,

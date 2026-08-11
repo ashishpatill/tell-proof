@@ -102,7 +102,7 @@ export const DomainResearchPack = z.object({
 });
 export type DomainResearchPack = z.infer<typeof DomainResearchPack>;
 
-/** Cricket Core six — shared route classes for specimen + capture. */
+/** Cricket Core six + secondary directory routes for specimen + capture. */
 export const CRICKET_CORE_SIX_ROUTES: DomainMultiPageRoute[] = [
   {
     id: "home",
@@ -115,28 +115,28 @@ export const CRICKET_CORE_SIX_ROUTES: DomainMultiPageRoute[] = [
     id: "live",
     path: "/crease/live",
     routeClass: "live-match",
-    purpose: "Glance-live score spine + this-over + situation",
+    purpose: "Glance-live score spine + this-over + situation + commentary",
     captureTargets: ["hero", "mid", "footer", "mobile-nav"],
   },
   {
     id: "scorecard",
     path: "/crease/scorecard",
     routeClass: "scorecard",
-    purpose: "Full batting/bowling tables after-play depth",
+    purpose: "Full batting/bowling + partnerships + fall of wickets",
     captureTargets: ["hero", "mid", "footer"],
   },
   {
     id: "series",
     path: "/crease/series",
     routeClass: "series",
-    purpose: "Series / competition arc and fixtures",
+    purpose: "Series / competition arc, fixtures chapters, points table",
     captureTargets: ["hero", "mid", "footer"],
   },
   {
     id: "rankings",
     path: "/crease/rankings",
     routeClass: "rankings",
-    purpose: "Team and player ranking tables",
+    purpose: "Team and player ranking tables dual axis",
     captureTargets: ["hero", "mid", "footer"],
   },
   {
@@ -146,6 +146,43 @@ export const CRICKET_CORE_SIX_ROUTES: DomainMultiPageRoute[] = [
     purpose: "Sit-with editorial / ball-by-ball notes",
     captureTargets: ["hero", "mid", "footer", "mobile-nav"],
   },
+];
+
+/** Secondary directory routes — footer / deep links; not primary nav. */
+export const CRICKET_SECONDARY_ROUTES: DomainMultiPageRoute[] = [
+  {
+    id: "fixtures",
+    path: "/crease/fixtures",
+    routeClass: "fixtures",
+    purpose: "Before-play schedule calendar",
+    captureTargets: ["hero", "mid", "footer"],
+  },
+  {
+    id: "teams",
+    path: "/crease/teams",
+    routeClass: "teams",
+    purpose: "Team hubs — form and next fixture",
+    captureTargets: ["hero", "mid", "footer"],
+  },
+  {
+    id: "players",
+    path: "/crease/players",
+    routeClass: "players",
+    purpose: "Player cards from strike/bowl identity",
+    captureTargets: ["hero", "mid", "footer"],
+  },
+  {
+    id: "stats",
+    path: "/crease/stats",
+    routeClass: "stats",
+    purpose: "Records index / after-play archive",
+    captureTargets: ["hero", "mid", "footer"],
+  },
+];
+
+export const CRICKET_ALL_ROUTES: DomainMultiPageRoute[] = [
+  ...CRICKET_CORE_SIX_ROUTES,
+  ...CRICKET_SECONDARY_ROUTES,
 ];
 
 const CRICKET_SHELL: DomainShellContract = {
@@ -169,7 +206,7 @@ const CRICKET_FOOTER: DomainFooterColumn[] = [
   {
     id: "match",
     title: "Match",
-    links: ["Live", "Scorecard", "This over", "Partnerships"],
+    links: ["Live", "Scorecard", "Commentary", "Partnerships"],
   },
   {
     id: "compete",
@@ -177,14 +214,14 @@ const CRICKET_FOOTER: DomainFooterColumn[] = [
     links: ["Series", "Fixtures", "Rankings", "Teams"],
   },
   {
-    id: "read",
-    title: "Read",
-    links: ["Notebook", "Features", "Archives"],
+    id: "people",
+    title: "People",
+    links: ["Players", "Stats & records", "Player rankings"],
   },
   {
-    id: "utility",
-    title: "Utility",
-    links: ["Latency", "Accessibility", "About"],
+    id: "read",
+    title: "Read",
+    links: ["Notebook", "Features", "Home"],
   },
 ];
 
@@ -205,6 +242,16 @@ const CRICKET_CONTROLS: DomainControlSpec[] = [
     states: ["default", "selected", "hover", "focus-visible"],
   },
   {
+    id: "status-tab",
+    role: "Filter Live / Upcoming / Completed",
+    states: ["default", "selected", "hover", "focus-visible"],
+  },
+  {
+    id: "axis-tab",
+    role: "Switch team vs player rankings",
+    states: ["default", "selected", "hover", "focus-visible"],
+  },
+  {
     id: "primary-cta",
     role: "Open scorecard / follow match",
     states: ["default", "hover", "focus-visible", "disabled"],
@@ -220,7 +267,7 @@ export function sportPackToDomainResearch(pack: SportVernacularPack): DomainRese
       routeClass: r.routeClass,
       purpose: r.purpose,
       captureTargets: ["hero", "mid", "footer"] as const,
-    })) ?? (pack.id === "cricket" ? CRICKET_CORE_SIX_ROUTES : []);
+    })) ?? (pack.id === "cricket" ? CRICKET_ALL_ROUTES : []);
 
   const shell = pack.shellContract
     ? DomainShellContract.parse(pack.shellContract)

@@ -46,22 +46,26 @@ describe("DomainResearchPack (general)", () => {
 });
 
 describe("DomainResearchPack (sport / cricket)", () => {
-  it("maps cricket vernacular into DomainResearchPack with Core six", () => {
+  it("maps cricket vernacular into DomainResearchPack with Core six + secondary directory", () => {
     const sport = getSportPack("cricket");
-    expect(sport.multiPageRoutes?.length).toBe(6);
+    expect(sport.multiPageRoutes?.length).toBe(10);
     const domain = sportPackToDomainResearch(sport);
     expect(domain.domainId).toBe("sport:cricket");
     expect(domain.multiPageRoutes.map((r) => r.routeClass)).toEqual(
-      CRICKET_CORE_SIX_ROUTES.map((r) => r.routeClass),
+      expect.arrayContaining(CRICKET_CORE_SIX_ROUTES.map((r) => r.routeClass)),
+    );
+    expect(domain.multiPageRoutes.map((r) => r.routeClass)).toEqual(
+      expect.arrayContaining(["fixtures", "teams", "players", "stats"]),
     );
     expect(domain.navInventory).toHaveLength(6);
+    expect(domain.shellContract.primaryNavMaxItems).toBe(6);
     expect(domain.shellContract.stickyRegions).toContain("score-spine");
     expect(() => DomainResearchPack.parse(domain)).not.toThrow();
   });
 
   it("loadPriorDomain accepts sport:cricket and cricket", () => {
     expect(loadPriorDomain("sport:cricket")?.label).toBe("Cricket");
-    expect(loadPriorDomain("cricket")?.multiPageRoutes.length).toBe(6);
+    expect(loadPriorDomain("cricket")?.multiPageRoutes.length).toBe(10);
   });
 
   it("routes sport brief through research then sport craft", () => {

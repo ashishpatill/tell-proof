@@ -163,6 +163,34 @@ Format chips · live chip · rankings tabs · primary “open scorecard” CTA �
 
 ---
 
+## 4c. Secondary directory (category gap fill)
+
+Category portals consistently expose more than Core six — but as **directory / footer / deep-link** surfaces, not primary-nav sprawl. Synthesized across ≥2 major cricket information sites (host names omitted).
+
+| Class | Job | Specimen |
+|---|---|---|
+| fixtures | Before-play schedule — when / format / venue chapters | `/crease/fixtures` |
+| teams | Team hubs — form strip + next fixture + path into Live | `/crease/teams` |
+| players | People cards from strike pair / bowler identity | `/crease/players` |
+| stats | Records index / after-play archive | `/crease/stats` |
+
+### Components added to Core six pages
+
+| Surface | Additions |
+|---|---|
+| live-match | Status tabs (All / Live / Upcoming / Completed); ball-by-ball commentary strip; latency honesty; powerplay / phase line |
+| scorecard | Baseline-aligned board; extras; partnerships; fall of wickets |
+| series | Points table (P/W/L/NR/Pts/NRR) beside competition arc |
+| rankings | Dual axis — Teams / Batters / Bowlers + format lens |
+| home | Series pulse + deep links into fixtures / teams / stats |
+| notebook | Before-play note in the story rail |
+
+### Primary nav invariant
+
+Still ≤6. Secondary routes wire through footer columns Match / Compete / People / Read.
+
+---
+
 ## 5. Taste Controls (sport default)
 
 Prefer pack `tasteSeed`. Typical cricket seed:
