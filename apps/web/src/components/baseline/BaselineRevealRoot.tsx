@@ -1,17 +1,19 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, type ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 /**
  * Progressive-enhancement reveal. Content paints immediately (CSS never blanks).
- * Re-arms on soft navigation; above-fold stays visible with no entrance delay.
+ * useLayoutEffect re-arms on soft nav before paint so a persisted armed class
+ * cannot hide the new route’s [data-reveal] nodes for a frame.
  */
 export function BaselineRevealRoot({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const rootRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const root = document.querySelector<HTMLElement>("[data-baseline-reveal-root]");
+  useLayoutEffect(() => {
+    const root = rootRef.current;
     if (!root) return;
 
     const site = root.closest<HTMLElement>(".bl-root") ?? root;
@@ -56,5 +58,9 @@ export function BaselineRevealRoot({ children }: { children: ReactNode }) {
     return () => io.disconnect();
   }, [pathname]);
 
-  return <div data-baseline-reveal-root>{children}</div>;
+  return (
+    <div ref={rootRef} data-baseline-reveal-root>
+      {children}
+    </div>
+  );
 }

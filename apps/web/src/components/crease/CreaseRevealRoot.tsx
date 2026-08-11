@@ -1,18 +1,19 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, type ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 /**
  * Progressive-enhancement reveal. Content paints immediately (CSS never blanks).
- * Re-arms on soft navigation so below-fold nodes may animate once — above-fold
- * stays visible with no entrance delay.
+ * useLayoutEffect re-arms on soft nav before paint so a persisted armed class
+ * cannot hide the new route’s [data-reveal] nodes for a frame.
  */
 export function CreaseRevealRoot({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const rootRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const root = document.querySelector<HTMLElement>("[data-crease-reveal-root]");
+  useLayoutEffect(() => {
+    const root = rootRef.current;
     if (!root) return;
 
     root.classList.remove("cr-reveal-armed");
@@ -34,7 +35,6 @@ export function CreaseRevealRoot({ children }: { children: ReactNode }) {
       }
     };
 
-    // Sync: mark fold content, then arm — never blank the first screen.
     nodes.forEach(markVisible);
     root.classList.add("cr-reveal-armed");
 
@@ -56,5 +56,9 @@ export function CreaseRevealRoot({ children }: { children: ReactNode }) {
     return () => io.disconnect();
   }, [pathname]);
 
-  return <div data-crease-reveal-root>{children}</div>;
+  return (
+    <div ref={rootRef} data-crease-reveal-root>
+      {children}
+    </div>
+  );
 }
