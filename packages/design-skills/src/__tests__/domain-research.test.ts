@@ -85,6 +85,7 @@ describe("DomainResearchPack (sport / cricket)", () => {
     expect(plan.researchNodes).toEqual([
       "load-prior-domain",
       "requirement-gap-diff",
+      "sport-site-research",
       "ia-shell-synthesis",
       "variant-lens",
       "emit-training-episode",

@@ -205,6 +205,30 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Paper-technical frame must paint .ds-footer with paper/ink — footer.ds-section never matched the real markup, leaving paper ink on the inverse outer field.",
     ),
     check(
+      "research-plan-wired",
+      Boolean(spec.researchPlan?.researchNodes?.length) &&
+        spec.routedSkills[0] === "website-domain-research" &&
+        /data-research-domain=/.test(html) &&
+        /name="tell-research-gate"/.test(html),
+      "Every template carries a researchPlan and emits research-gate meta so agents execute LoadPrior→gap→IA before craft.",
+    ),
+    check(
+      "responsive-performance-wired",
+      spec.routedSkills.includes("responsive-performance") &&
+        /data-responsive-performance="required"/.test(html) &&
+        /name="tell-responsive-performance"/.test(html),
+      "responsive-performance is always-on — HTML must mark media:site / WebP budgets required.",
+    ),
+    check(
+      "sport-research-follow-on",
+      !spec.brief.sportId ||
+        (spec.researchPlan.researchNodes.includes("sport-site-research") &&
+          spec.routedSkills.includes("sport-matchday-web") &&
+          spec.routedSkills.includes("sport-vernacular-craft") &&
+          spec.researchPlan.followOnCraft.includes("sport-vernacular-craft")),
+      "Sport briefs must route sport-site-research + matchday/vernacular craft follow-ons.",
+    ),
+    check(
       "chapter-spine-clears-index",
       !/\.ds-chapters::before\{/.test(html) ||
         (!/left:calc\(var\(--align-rail\) \* 0\.35\)/.test(html) &&

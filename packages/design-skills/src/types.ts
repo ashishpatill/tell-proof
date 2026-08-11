@@ -273,6 +273,12 @@ export const DesignBrief = z.object({
    * and honor format-lens / score-spine rules from `sport-vernacular.ts`.
    */
   sportId: z.enum(["cricket", "football", "hockey", "tennis"]).optional(),
+  /**
+   * Explicit craft nodes from agency niche / studio presets.
+   * Engine SkillNodeIds are merged into `routedSkills`; agency aliases are expanded
+   * via `resolveRequestedCraft` in route.ts.
+   */
+  craftNodes: z.array(z.string()).default([]),
 });
 export type DesignBrief = z.infer<typeof DesignBrief>;
 
@@ -546,10 +552,27 @@ export const SectionSpec = z.object({
 });
 export type SectionSpec = z.infer<typeof SectionSpec>;
 
+/**
+ * Machine-readable research gate plan — agents and agency:run must execute these nodes
+ * (not only list them). Mirrors `routeDomainResearchSkills` output on every template build.
+ */
+export const ResearchPlanSpec = z.object({
+  domainId: z.string(),
+  packFound: z.boolean(),
+  needsWalkthrough: z.boolean(),
+  researchNodes: z.array(z.string()).min(1),
+  followOnCraft: z.array(SkillNodeId).default([]),
+  gaps: z.array(z.string()).default([]),
+  reuse: z.array(z.string()).default([]),
+});
+export type ResearchPlanSpec = z.infer<typeof ResearchPlanSpec>;
+
 export const DesignSpec = z.object({
   brief: DesignBrief,
   taste: TasteControls,
   routedSkills: z.array(SkillNodeId),
+  /** Research subgraph that must run before craft for this brief. */
+  researchPlan: ResearchPlanSpec,
   tokens: DesignTokens,
   tellDirectionId: z.string(),
   informationArchitecture: z.array(z.string()),

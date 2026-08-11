@@ -44,6 +44,7 @@ describe("agency niche → brief", () => {
     expect(parsed.primaryCta).toBe("Reserve a session");
     expect(parsed.siteKind).toBe("art-directed-studio");
     expect(parsed.constraints?.some((c) => c.includes("agency-minimal-grid"))).toBe(true);
+    expect(parsed.craftNodes).toEqual(preset.craftNodes);
   });
 
   it("slugifies run ids and fills DIRECTION rigor fields", () => {

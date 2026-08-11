@@ -15,6 +15,7 @@
  *   pnpm agency:pipeline -- --brief … --phase next
  */
 import { createServer } from "node:http";
+import { spawnSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
@@ -592,6 +593,26 @@ async function main(): Promise<void> {
       } catch (err) {
         console.warn(
           `agency:learn after 4-ship failed: ${err instanceof Error ? err.message : String(err)}`,
+        );
+      }
+    }
+
+    // Parity with agency:run — media optimize on ship so WebP budgets always run.
+    if (mark === "4-ship" && process.env.AGENCY_SKIP_MEDIA !== "1") {
+      try {
+        const media = spawnSync(
+          "bash",
+          [resolve(root, "scripts/optimize-site-media.sh"), "--prune"],
+          { cwd: root, encoding: "utf8", maxBuffer: 10 * 1024 * 1024 },
+        );
+        const mediaOut = `${media.stdout ?? ""}${media.stderr ?? ""}`.trim();
+        if (mediaOut) console.log(`\n=== media:site (automatic after 4-ship) ===\n${mediaOut}`);
+        if (media.status !== 0) {
+          console.warn(`media:site after 4-ship exited ${media.status}`);
+        }
+      } catch (err) {
+        console.warn(
+          `media:site after 4-ship failed: ${err instanceof Error ? err.message : String(err)}`,
         );
       }
     }

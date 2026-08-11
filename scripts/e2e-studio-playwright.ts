@@ -70,6 +70,12 @@ async function apiDesign(
     spec: {
       brief: { siteKind: string; productName: string; features: { name: string }[] };
       routedSkills: string[];
+      researchPlan: {
+        domainId: string;
+        researchNodes: string[];
+        packFound: boolean;
+        followOnCraft: string[];
+      };
       sections: { kind: string; title: string }[];
       taste: { aestheticLean: string; motion: string };
       tellDirectionId: string;
@@ -123,6 +129,15 @@ async function main() {
     if (!saas.previewHtml.includes("data-workflow-proof")) throw new Error("saas missing product-proof workflow");
     if (!saas.previewHtml.includes("Sample workflow")) throw new Error("saas workflow must be labeled sample");
     if (!saas.previewHtml.includes("htmx.org")) throw new Error("saas workflow should load HTMX for panel swaps");
+    if (saas.spec.routedSkills[0] !== "website-domain-research") {
+      throw new Error("saas must route website-domain-research first");
+    }
+    if (!saas.spec.researchPlan?.researchNodes?.includes("load-prior-domain")) {
+      throw new Error("saas missing researchPlan.load-prior-domain");
+    }
+    if (!saas.previewHtml.includes('data-responsive-performance="required"')) {
+      throw new Error("saas missing responsive-performance HTML marker");
+    }
 
     const dash = await apiDesign(request, {
       productName: "Atlas",
