@@ -20,12 +20,14 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
   ]);
 
   // Keep research plan in sync with DomainResearchPack routing.
+  // Sport Core six is required whenever a sport pack ships multipage IA.
+  const sportCoreSix =
+    analysis.sportId === "cricket" || analysis.sportId === "tennis"
+      ? (["home", "live-match", "scorecard", "series", "rankings", "notebook"] as const)
+      : undefined;
   routeDomainResearchSkills({
     domainId: analysis.sportId ? `sport:${analysis.sportId}` : analysis.siteKind,
-    requiredRouteClasses:
-      analysis.sportId === "cricket"
-        ? ["home", "live-match", "scorecard", "series", "rankings", "notebook"]
-        : undefined,
+    requiredRouteClasses: sportCoreSix ? [...sportCoreSix] : undefined,
   });
 
   for (const section of analysis.recommendedSections) {

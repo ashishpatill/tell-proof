@@ -718,3 +718,12 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Fix:** Enrich tennis vernacular pack + BASELINE specimen (nested sets|games|points, server
   marker, textual BREAK/SET/MATCH POINT, surface rankings, notebook separated from glance-live).
 - **Do not:** Flatten tennis to a single scoreline or hide who is serving.
+
+## 2026-08-11 — `site:media-webp-autoload`
+
+- **Failure:** Specimen photography shipped as multi-MB JPEG; loading opts and research/craft
+  skills required a human to ask to wire them.
+- **Fix:** `pnpm media:site` (display-sized WebP + prune) auto-runs at end of `agency:run`;
+  `SiteImg` applies lazy/LCP/CLS defaults; always-applied `tell-site-build-autoload` + expanded
+  `responsive-performance` / `tell-domain-research` require executing routed skills without prompt.
+- **Do not:** Commit hot-path multi-MB jpg/png heroes or wait for “convert to webp / run research”.

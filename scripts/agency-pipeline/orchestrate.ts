@@ -409,6 +409,23 @@ async function main(): Promise<void> {
   );
   writeFileSync(resolve(outDir, "ORCH_LOG.md"), `${orchLog.join("\n")}\n`, "utf8");
 
+  // Automatic media performance — WebP + display budgets for any public/ photography.
+  try {
+    const media = spawnSync("bash", [resolve(root, "scripts/optimize-site-media.sh"), "--prune"], {
+      cwd: root,
+      encoding: "utf8",
+      maxBuffer: 4 * 1024 * 1024,
+    });
+    const mediaOut = `${media.stdout ?? ""}${media.stderr ?? ""}`.trim();
+    if (mediaOut) console.log(`\n=== media:site (automatic) ===\n${mediaOut}`);
+    orchLog.push(`| media:site | - | ${media.status === 0 ? "ok" : "failed"} |`);
+    writeFileSync(resolve(outDir, "ORCH_LOG.md"), `${orchLog.join("\n")}\n`, "utf8");
+  } catch (err) {
+    console.warn(
+      `media:site failed: ${err instanceof Error ? err.message : String(err)}`,
+    );
+  }
+
   if (!skipLearn) {
     try {
       const learned = learnFromRun({

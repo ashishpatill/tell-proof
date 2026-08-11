@@ -236,7 +236,8 @@ pnpm auth:fixture        # mint Playwright storageState for /account (fixture mu
 pnpm capture:matrix      # live scenario matrix (set TELL_MATRIX_URL)
 pnpm verify:directions   # screenshot all 6 reconcile directions (requires Playwright)
 pnpm record:readme-demo  # regenerate docs/media/tell-proof-demo.{mp4,poster.webp}
-pnpm media:webp          # PNG/GIF → display-sized WebP (prunes sources)
+pnpm media:webp          # README + site photography → display-sized WebP (prunes sources)
+pnpm media:site          # apps/web/public specimens only (auto on agency:run)
 ```
 
 Optional environment variables live in `.env.example`:

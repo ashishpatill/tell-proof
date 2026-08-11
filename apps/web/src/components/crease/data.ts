@@ -133,7 +133,7 @@ export const STORIES: Story[] = [
     kicker: "Match notebook",
     title: "Kohli’s tempo in the chase — calm until the required rate asks a question",
     dek: "India’s reply at the Padang is being built in partnerships, not panic. The middle overs are the story.",
-    image: "/crease/hero-match.jpg",
+    image: "/crease/hero-match.webp",
     imageAlt: "Cricket match in progress on a green oval with city skyline beyond the trees",
     read: "6 min",
   },
@@ -142,7 +142,7 @@ export const STORIES: Story[] = [
     kicker: "Technique",
     title: "Why the short ball still owns evening cricket",
     dek: "Pace into the pitch, carry into the gloves — and a cordon that refuses to blink.",
-    image: "/crease/ball-grass.jpg",
+    image: "/crease/ball-grass.webp",
     imageAlt: "Cherry cricket ball resting on green outfield grass",
     read: "4 min",
   },
@@ -151,7 +151,7 @@ export const STORIES: Story[] = [
     kicker: "Series frame",
     title: "Square boundaries rewrite who gets to clear the rope",
     dek: "Grounds that reward timing over muscle — and punish the mistimed slog.",
-    image: "/crease/sweep-shot.jpg",
+    image: "/crease/sweep-shot.webp",
     imageAlt: "Batter playing a sweep shot in cricket whites",
     read: "5 min",
   },
@@ -160,7 +160,7 @@ export const STORIES: Story[] = [
     kicker: "Voices",
     title: "The quiet craft of a good nightwatchman",
     dek: "Not heroism — occupation. Leaving a morning for the proper batters.",
-    image: "/crease/batter-stance.jpg",
+    image: "/crease/batter-stance.webp",
     imageAlt: "Batter in whites waiting at the crease beside the stumps",
     read: "3 min",
   },
@@ -217,7 +217,7 @@ export const SERIES = [
   },
 ];
 
-export const HERO_IMAGE = "/crease/hero-match.jpg";
+export const HERO_IMAGE = "/crease/hero-match.webp";
 
 export function ballLabel(b: BallEvent): string {
   if (b === "dot") return "·";

@@ -14,6 +14,9 @@ test-results/
 # Next generated
 next-env.d.ts
 
+# Vitest / Next may leave alias-resolved copies; never commit
+apps/web/packages/
+
 # Generated capture/diagnose output
 output/
 tell-pr-report.json

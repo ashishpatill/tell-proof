@@ -205,7 +205,7 @@ export const STORIES: Story[] = [
     kicker: "Match notebook",
     title: "Why this break point is louder than the set score",
     dek: "Pegula’s serve into the ad court is the whole match compressed — hold and the third stays open; miss and the arc snaps shut.",
-    image: "/baseline/hero-court.jpg",
+    image: "/baseline/hero-court.webp",
     imageAlt: "Tennis court under evening light with hard-court lines",
     read: "5 min",
   },
@@ -214,7 +214,7 @@ export const STORIES: Story[] = [
     kicker: "Technique",
     title: "The return that owns clay changeovers",
     dek: "Depth first, angle second — and a court position that refuses to give free first serves after the sit.",
-    image: "/baseline/clay-dust.jpg",
+    image: "/baseline/clay-dust.webp",
     imageAlt: "Clay court surface with fine dust and line chalk",
     read: "4 min",
   },
@@ -223,7 +223,7 @@ export const STORIES: Story[] = [
     kicker: "Surface frame",
     title: "Grass sheen rewrites who gets to finish at net",
     dek: "Low bounce rewards early contact — and punishes the late step-in that works on hard.",
-    image: "/baseline/grass-court.jpg",
+    image: "/baseline/grass-court.webp",
     imageAlt: "Grass tennis court with soft sheen under daylight",
     read: "6 min",
   },
@@ -232,7 +232,7 @@ export const STORIES: Story[] = [
     kicker: "Voices",
     title: "Holding serve is not a quiet craft",
     dek: "It is occupation of the game score — leaving pressure for the returner to invent.",
-    image: "/baseline/racket-ball.jpg",
+    image: "/baseline/racket-ball.webp",
     imageAlt: "Tennis racket and ball resting between points",
     read: "3 min",
   },
@@ -289,7 +289,7 @@ export const TOURNAMENTS = [
   },
 ];
 
-export const HERO_IMAGE = "/baseline/hero-court.jpg";
+export const HERO_IMAGE = "/baseline/hero-court.webp";
 
 export function surfaceLabel(s: CourtSurface): string {
   if (s === "clay") return "Clay";

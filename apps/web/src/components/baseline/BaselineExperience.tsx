@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { BaselineShell, type BaselineRouteId } from "./BaselineShell";
+import { SiteImg } from "@/components/site-media/SiteImg";
 import {
   CLAY_RANKINGS,
   FEATURED,
@@ -199,12 +200,12 @@ function HomeMain() {
     <>
       <section className="bl-hero" aria-labelledby="bl-hero-title">
         <div className="bl-hero-media">
-          <img
+          <SiteImg
             src={HERO_IMAGE}
             alt="Hard court under evening light with clean baseline chalk"
-            width={2000}
-            height={1333}
-            fetchPriority="high"
+            width={1600}
+            height={1067}
+            priority
           />
           <div className="bl-hero-veil" aria-hidden="true" />
           <div className="bl-baseline-line" aria-hidden="true" />
@@ -470,7 +471,7 @@ function NotebookMain() {
         </p>
       </div>
       <article className="bl-feature-story" data-reveal>
-        <img src={STORIES[0]!.image} alt={STORIES[0]!.imageAlt} width={1400} height={900} />
+        <SiteImg src={STORIES[0]!.image} alt={STORIES[0]!.imageAlt} width={1200} height={800} />
         <div className="bl-feature-copy">
           <p className="bl-eyebrow">{STORIES[0]!.kicker}</p>
           <h2 className="bl-h3">{STORIES[0]!.title}</h2>
@@ -486,7 +487,7 @@ function NotebookMain() {
             data-reveal
             style={{ transitionDelay: `${i * 50}ms` }}
           >
-            <img src={s.image} alt={s.imageAlt} width={800} height={560} loading="lazy" />
+            <SiteImg src={s.image} alt={s.imageAlt} width={1000} height={700} />
             <div>
               <p className="bl-eyebrow">
                 {s.kicker} · {s.read}
