@@ -962,25 +962,42 @@ main,
   overflow-x: auto;
 }
 
+/* Cricket board: fixed name + tight numeric rail — not a stretched shared phantom column */
 .cr-board {
   display: grid;
   gap: 0;
-  min-width: 36rem;
+  --cr-board-name: 11.5rem;
+  --cr-board-stat: 3.35rem;
 }
 
 .cr-board-row {
   display: grid;
-  grid-template-columns:
-    minmax(7.5rem, 1.15fr)
-    repeat(4, minmax(3.25rem, 4.5rem))
-    minmax(10rem, 1.7fr);
-  column-gap: 0.65rem;
+  column-gap: 0.75rem;
   align-items: baseline;
-  padding: 0.85rem 0.15rem;
+  padding: 0.8rem 0;
   border-bottom: 1px solid var(--cr-line);
   font-family: var(--cr-sans);
   font-size: 0.95rem;
   line-height: 1.2;
+}
+
+.cr-board--bat .cr-board-row {
+  grid-template-columns:
+    var(--cr-board-name)
+    repeat(4, var(--cr-board-stat))
+    minmax(11rem, 1fr);
+  max-width: 44rem;
+}
+
+.cr-board--bowl {
+  width: max-content;
+  max-width: 100%;
+}
+
+.cr-board--bowl .cr-board-row {
+  grid-template-columns: var(--cr-board-name) repeat(4, var(--cr-board-stat));
+  width: max-content;
+  max-width: 100%;
 }
 
 .cr-board-head {
@@ -989,8 +1006,8 @@ main,
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding-top: 0.35rem;
-  padding-bottom: 0.55rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.5rem;
 }
 
 .cr-board-row .cr-name {
@@ -1021,9 +1038,21 @@ main,
 .cr-board-row .cr-note {
   font-family: var(--cr-sans);
   font-weight: 400;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   line-height: 1.2;
   color: var(--cr-chalk-dim);
+}
+
+@media (max-width: 720px) {
+  .cr-board {
+    --cr-board-name: 7.5rem;
+    --cr-board-stat: 2.6rem;
+  }
+
+  .cr-board--bat .cr-board-row {
+    max-width: none;
+    min-width: 28rem;
+  }
 }
 
 .cr-extras {

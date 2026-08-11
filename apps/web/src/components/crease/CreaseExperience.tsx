@@ -448,7 +448,7 @@ function ScorecardMain() {
         </p>
       </div>
       <div className="cr-scorecard-grid" data-reveal data-testid="crease-scorecard-board">
-        <div className="cr-board" aria-label="Batting">
+        <div className="cr-board cr-board--bat" aria-label="Batting">
           <div className="cr-board-row cr-board-head" role="row">
             <span>Batter</span>
             <span className="cr-stat">R</span>
@@ -472,14 +472,13 @@ function ScorecardMain() {
           Extras {EXTRAS.total} (b {EXTRAS.byes}, lb {EXTRAS.legByes}, w {EXTRAS.wides}, nb{" "}
           {EXTRAS.noBalls})
         </p>
-        <div className="cr-board" aria-label="Bowling">
+        <div className="cr-board cr-board--bowl" aria-label="Bowling">
           <div className="cr-board-row cr-board-head" role="row">
             <span>Bowler</span>
             <span className="cr-stat">O</span>
             <span className="cr-stat">M</span>
             <span className="cr-stat">R</span>
             <span className="cr-stat">W</span>
-            <span className="sr-only">Spell note</span>
           </div>
           {BOWLING.map((r) => (
             <div className="cr-board-row" role="row" key={r.name}>
@@ -488,7 +487,6 @@ function ScorecardMain() {
               <span className="cr-stat">{r.m}</span>
               <span className="cr-stat">{r.r}</span>
               <span className="cr-stat">{r.w}</span>
-              <span className="cr-note" aria-hidden="true" />
             </div>
           ))}
         </div>
