@@ -4,21 +4,37 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { CreaseShell, type CreaseRouteId } from "./CreaseShell";
 import {
+  BATTING,
+  BOWLING,
+  COMMENTARY,
+  EXTRAS,
+  FALL_OF_WICKETS,
   FEATURED,
+  FIXTURES,
   HERO_IMAGE,
   LIVE_MATCHES,
   ODI_RANKINGS,
+  PARTNERSHIPS,
+  PLAYER_BAT_ODI,
+  PLAYER_BOWL_ODI,
+  PLAYERS,
+  POINTS_TABLE,
+  RECORDS,
   SERIES,
   STORIES,
   T20_RANKINGS,
+  TEAMS,
   TEST_RANKINGS,
   ballLabel,
   type BallEvent,
   type LiveMatch,
+  type PlayerRankingRow,
   type RankingRow,
 } from "./data";
 
 type RankFormat = "test" | "odi" | "t20";
+type RankAxis = "team" | "player-bat" | "player-bowl";
+type LiveFilter = "all" | "live" | "upcoming" | "result";
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
@@ -80,6 +96,32 @@ function RankTable({ rows }: { rows: RankingRow[] }) {
   );
 }
 
+function PlayerRankTable({ rows }: { rows: PlayerRankingRow[] }) {
+  return (
+    <table className="cr-rank-table">
+      <caption className="sr-only">Player rankings</caption>
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Player</th>
+          <th scope="col">Team</th>
+          <th scope="col">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr key={row.player}>
+            <td>{row.rank}</td>
+            <td>{row.player}</td>
+            <td>{row.team}</td>
+            <td className="cr-mono">{row.rating}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
 function MatchScore({ match }: { match: LiveMatch }) {
   return (
     <div className="cr-score" data-spine>
@@ -115,6 +157,12 @@ function SituationBlock({ match }: { match: LiveMatch }) {
     <div className="cr-situation">
       <p className="cr-situation-line">{match.note}</p>
       {match.session ? <p className="cr-session">{match.session}</p> : null}
+      {match.powerplay ? <p className="cr-phase">{match.powerplay}</p> : null}
+      {match.latency === "delayed" ? (
+        <p className="cr-latency" role="status">
+          Feed delayed · scores may lag a ball or two
+        </p>
+      ) : null}
       {showRates ? (
         <p className="cr-rates cr-mono">
           {match.crr ? <span>CRR {match.crr}</span> : null}
@@ -163,10 +211,12 @@ function useReveal() {
   return revealRoot;
 }
 
-function MatchList() {
+function MatchList({ filter = "all" }: { filter?: LiveFilter }) {
+  const rows =
+    filter === "all" ? LIVE_MATCHES : LIVE_MATCHES.filter((m) => m.status === filter);
   return (
     <ul className="cr-match-list">
-      {LIVE_MATCHES.map((m, i) => (
+      {rows.map((m, i) => (
         <li
           key={m.id}
           id={`match-${m.id}`}
@@ -255,7 +305,33 @@ function HomeMain() {
             Status first, score second, situation third — then open Live for the full spine.
           </p>
         </div>
-        <MatchList />
+        <MatchList filter="live" />
+        <div className="cr-inline-links" data-reveal>
+          <Link href="/crease/fixtures">Full fixtures →</Link>
+          <Link href="/crease/teams">Teams desk →</Link>
+          <Link href="/crease/stats">Stats &amp; records →</Link>
+        </div>
+      </section>
+
+      <section className="cr-section" aria-labelledby="home-series-title">
+        <div className="cr-section-head" data-reveal>
+          <p className="cr-eyebrow">Series pulse</p>
+          <h2 id="home-series-title" className="cr-h2">
+            Competition arcs
+          </h2>
+        </div>
+        <ul className="cr-series-list">
+          {SERIES.slice(0, 3).map((s) => (
+            <li key={s.id} data-reveal>
+              <span className="cr-series-window">{s.window}</span>
+              <strong>{s.name}</strong>
+              <span className="cr-series-detail">{s.detail}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="cr-inline-links" data-reveal>
+          <Link href="/crease/series">Open series desk →</Link>
+        </p>
       </section>
 
       <section className="cr-close" data-reveal aria-labelledby="close-title">
@@ -279,6 +355,7 @@ function HomeMain() {
 }
 
 function LiveMain() {
+  const [filter, setFilter] = useState<LiveFilter>("all");
   return (
     <section className="cr-section cr-matches cr-page-live" aria-labelledby="live-title">
       <div className="cr-section-head" data-reveal>
@@ -290,10 +367,26 @@ function LiveMain() {
           Inverted pyramid for second-screen glances — layout-stable scores, situation, this-over
           trail. Format lens changes secondary facts; Test keeps session language.
         </p>
-        <div className="cr-tabs" role="tablist" aria-label="Format lens">
-          <span className="cr-format-chip is-active">ODI</span>
-          <span className="cr-format-chip">Test</span>
-          <span className="cr-format-chip">T20</span>
+        <div className="cr-tabs" role="tablist" aria-label="Match status">
+          {(
+            [
+              ["all", "All"],
+              ["live", "Live"],
+              ["upcoming", "Upcoming"],
+              ["result", "Completed"],
+            ] as const
+          ).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              role="tab"
+              aria-selected={filter === id}
+              className={filter === id ? "is-active" : undefined}
+              onClick={() => setFilter(id)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </div>
       <article className="cr-match-row cr-featured-live" data-reveal>
@@ -314,24 +407,31 @@ function LiveMain() {
           Full scorecard →
         </Link>
       </article>
-      <MatchList />
+      <MatchList filter={filter === "all" ? "all" : filter} />
+
+      <div id="commentary" className="cr-commentary" data-reveal>
+        <div className="cr-section-head">
+          <p className="cr-eyebrow">Ball-by-ball</p>
+          <h2 className="cr-h3">Commentary strip</h2>
+          <p className="cr-section-dek">
+            Sit-with depth under the glance fold — over.ball markers, not a wall of undifferentiated
+            text.
+          </p>
+        </div>
+        <ol className="cr-commentary-list">
+          {COMMENTARY.map((line) => (
+            <li key={line.id} className={`cr-commentary-item cr-commentary-${line.kind}`}>
+              <span className="cr-mono cr-commentary-ball">{line.overBall}</span>
+              <span>{line.text}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
     </section>
   );
 }
 
 function ScorecardMain() {
-  const bat = [
-    { name: "Sharma", runs: 62, balls: 71, fours: 5, sixes: 1, out: "c Smith b Hazelwood" },
-    { name: "Gill", runs: 38, balls: 44, fours: 4, sixes: 0, out: "b Starc" },
-    { name: "Kohli*", runs: 41, balls: 39, fours: 3, sixes: 1, out: "not out" },
-    { name: "Pant*", runs: 18, balls: 15, fours: 2, sixes: 0, out: "not out" },
-  ];
-  const bowl = [
-    { name: "Starc", o: "8.2", m: 1, r: 42, w: 1 },
-    { name: "Hazelwood", o: "9", m: 0, r: 48, w: 1 },
-    { name: "Cummins", o: "8", m: 0, r: 51, w: 0 },
-    { name: "Zampa", o: "7", m: 0, r: 55, w: 0 },
-  ];
   return (
     <section className="cr-section" aria-labelledby="scorecard-title">
       <div className="cr-section-head" data-reveal>
@@ -347,55 +447,80 @@ function ScorecardMain() {
           {FEATURED.teamA.name} {FEATURED.teamA.score} ({FEATURED.teamA.overs}) · need 73 from 70
         </p>
       </div>
-      <div className="cr-scorecard-grid" data-reveal>
-        <table className="cr-rank-table">
-          <caption className="sr-only">Batting</caption>
-          <thead>
-            <tr>
-              <th scope="col">Batter</th>
-              <th scope="col">R</th>
-              <th scope="col">B</th>
-              <th scope="col">4</th>
-              <th scope="col">6</th>
-              <th scope="col">Dismissal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bat.map((r) => (
-              <tr key={r.name}>
-                <td>{r.name}</td>
-                <td className="cr-mono">{r.runs}</td>
-                <td className="cr-mono">{r.balls}</td>
-                <td className="cr-mono">{r.fours}</td>
-                <td className="cr-mono">{r.sixes}</td>
-                <td>{r.out}</td>
-              </tr>
+      <div className="cr-scorecard-grid" data-reveal data-testid="crease-scorecard-board">
+        <div className="cr-board" aria-label="Batting">
+          <div className="cr-board-row cr-board-head" role="row">
+            <span>Batter</span>
+            <span className="cr-stat">R</span>
+            <span className="cr-stat">B</span>
+            <span className="cr-stat">4</span>
+            <span className="cr-stat">6</span>
+            <span>Dismissal</span>
+          </div>
+          {BATTING.map((r) => (
+            <div className="cr-board-row" role="row" key={r.name}>
+              <span className="cr-name">{r.name}</span>
+              <span className="cr-stat">{r.runs}</span>
+              <span className="cr-stat">{r.balls}</span>
+              <span className="cr-stat">{r.fours}</span>
+              <span className="cr-stat">{r.sixes}</span>
+              <span className="cr-note">{r.out}</span>
+            </div>
+          ))}
+        </div>
+        <p className="cr-extras cr-mono" data-reveal>
+          Extras {EXTRAS.total} (b {EXTRAS.byes}, lb {EXTRAS.legByes}, w {EXTRAS.wides}, nb{" "}
+          {EXTRAS.noBalls})
+        </p>
+        <div className="cr-board" aria-label="Bowling">
+          <div className="cr-board-row cr-board-head" role="row">
+            <span>Bowler</span>
+            <span className="cr-stat">O</span>
+            <span className="cr-stat">M</span>
+            <span className="cr-stat">R</span>
+            <span className="cr-stat">W</span>
+            <span className="sr-only">Spell note</span>
+          </div>
+          {BOWLING.map((r) => (
+            <div className="cr-board-row" role="row" key={r.name}>
+              <span className="cr-name">{r.name}</span>
+              <span className="cr-stat">{r.o}</span>
+              <span className="cr-stat">{r.m}</span>
+              <span className="cr-stat">{r.r}</span>
+              <span className="cr-stat">{r.w}</span>
+              <span className="cr-note" aria-hidden="true" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div id="partnerships" className="cr-depth-grid" data-reveal>
+        <div>
+          <h2 className="cr-h3">Partnerships</h2>
+          <ul className="cr-pair-list">
+            {PARTNERSHIPS.map((p) => (
+              <li key={p.wicket}>
+                <span className="cr-mono">{p.wicket}</span>
+                <span>{p.pair}</span>
+                <span className="cr-mono">
+                  {p.runs} ({p.balls})
+                </span>
+              </li>
             ))}
-          </tbody>
-        </table>
-        <table className="cr-rank-table">
-          <caption className="sr-only">Bowling</caption>
-          <thead>
-            <tr>
-              <th scope="col">Bowler</th>
-              <th scope="col">O</th>
-              <th scope="col">M</th>
-              <th scope="col">R</th>
-              <th scope="col">W</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bowl.map((r) => (
-              <tr key={r.name}>
-                <td>{r.name}</td>
-                <td className="cr-mono">{r.o}</td>
-                <td className="cr-mono">{r.m}</td>
-                <td className="cr-mono">{r.r}</td>
-                <td className="cr-mono">{r.w}</td>
-              </tr>
+          </ul>
+        </div>
+        <div>
+          <h2 className="cr-h3">Fall of wickets</h2>
+          <ul className="cr-fow-list">
+            {FALL_OF_WICKETS.map((f) => (
+              <li key={f.score}>
+                <span className="cr-mono">{f.score}</span>
+                <span>({f.overs})</span>
+                <span>{f.batter}</span>
+              </li>
             ))}
-          </tbody>
-        </table>
+          </ul>
+        </div>
       </div>
     </section>
   );
@@ -420,12 +545,49 @@ function SeriesMain() {
           </li>
         ))}
       </ul>
+
+      <div className="cr-section-head" data-reveal style={{ marginTop: "2.5rem" }}>
+        <p className="cr-eyebrow">Points table</p>
+        <h2 className="cr-h3">Asia Cup warm-up · group lean</h2>
+        <p className="cr-section-dek">Stakes next to the live view — NRR when points tie.</p>
+      </div>
+      <table className="cr-rank-table" data-reveal>
+        <caption className="sr-only">Points table</caption>
+        <thead>
+          <tr>
+            <th scope="col">Team</th>
+            <th scope="col">P</th>
+            <th scope="col">W</th>
+            <th scope="col">L</th>
+            <th scope="col">NR</th>
+            <th scope="col">Pts</th>
+            <th scope="col">NRR</th>
+          </tr>
+        </thead>
+        <tbody>
+          {POINTS_TABLE.map((row) => (
+            <tr key={row.team}>
+              <td>{row.team}</td>
+              <td className="cr-mono">{row.played}</td>
+              <td className="cr-mono">{row.won}</td>
+              <td className="cr-mono">{row.lost}</td>
+              <td className="cr-mono">{row.nr}</td>
+              <td className="cr-mono">{row.points}</td>
+              <td className="cr-mono">{row.nrr}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="cr-inline-links" data-reveal>
+        <Link href="/crease/fixtures">Open fixtures calendar →</Link>
+      </p>
     </section>
   );
 }
 
 function RankingsMain() {
   const [rankFormat, setRankFormat] = useState<RankFormat>("odi");
+  const [axis, setAxis] = useState<RankAxis>("team");
   const rankings =
     rankFormat === "test" ? TEST_RANKINGS : rankFormat === "t20" ? T20_RANKINGS : ODI_RANKINGS;
   return (
@@ -435,29 +597,61 @@ function RankingsMain() {
         <h1 id="rankings-title" className="cr-h2">
           Who sits where
         </h1>
-        <p className="cr-section-dek">Format lens required — Test, ODI, and T20 are different tables.</p>
+        <p className="cr-section-dek">
+          Dual axis — team vs player, then format lens. Test, ODI, and T20 are different tables.
+        </p>
       </div>
-      <div className="cr-tabs" role="tablist" aria-label="Ranking format">
+      <div className="cr-tabs" role="tablist" aria-label="Ranking axis">
         {(
           [
-            ["odi", "ODI"],
-            ["test", "Test"],
-            ["t20", "T20"],
+            ["team", "Teams"],
+            ["player-bat", "Batters"],
+            ["player-bowl", "Bowlers"],
           ] as const
         ).map(([id, label]) => (
           <button
             key={id}
             type="button"
             role="tab"
-            aria-selected={rankFormat === id}
-            className={rankFormat === id ? "is-active" : undefined}
-            onClick={() => setRankFormat(id)}
+            aria-selected={axis === id}
+            className={axis === id ? "is-active" : undefined}
+            onClick={() => setAxis(id)}
           >
             {label}
           </button>
         ))}
       </div>
-      <RankTable rows={rankings} />
+      {axis === "team" ? (
+        <>
+          <div className="cr-tabs" role="tablist" aria-label="Ranking format">
+            {(
+              [
+                ["odi", "ODI"],
+                ["test", "Test"],
+                ["t20", "T20"],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={rankFormat === id}
+                className={rankFormat === id ? "is-active" : undefined}
+                onClick={() => setRankFormat(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <RankTable rows={rankings} />
+        </>
+      ) : (
+        <PlayerRankTable rows={axis === "player-bat" ? PLAYER_BAT_ODI : PLAYER_BOWL_ODI} />
+      )}
+      <p className="cr-inline-links" data-reveal>
+        <Link href="/crease/players">Browse player cards →</Link>
+        <Link href="/crease/stats">Records index →</Link>
+      </p>
     </section>
   );
 }
@@ -471,7 +665,8 @@ function NotebookMain() {
           Written for people who watch the whole over
         </h1>
         <p className="cr-section-dek">
-          Sit-with reading — separated from glance-live chrome. Technique, tempo, grounds.
+          Sit-with reading — separated from glance-live chrome. Technique, tempo, grounds, before
+          play.
         </p>
       </div>
       <article className="cr-feature-story" data-reveal>
@@ -506,6 +701,133 @@ function NotebookMain() {
   );
 }
 
+function FixturesMain() {
+  return (
+    <section className="cr-section" aria-labelledby="fixtures-title">
+      <div className="cr-section-head" data-reveal>
+        <p className="cr-eyebrow">Fixtures</p>
+        <h1 id="fixtures-title" className="cr-h2">
+          When the next ball is due
+        </h1>
+        <p className="cr-section-dek">
+          Before-play mode — schedule as chapters with format and venue, not a flat dump.
+        </p>
+      </div>
+      <ul className="cr-fixture-list">
+        {FIXTURES.map((f) => (
+          <li key={f.id} data-reveal className="cr-fixture-row">
+            <div className="cr-fixture-when">
+              <span className={`cr-pill cr-pill-${f.status}`}>
+                <span className="cr-pill-dot" aria-hidden="true" />
+                {statusLabel(f.status)}
+              </span>
+              <span className="cr-mono">{f.when}</span>
+            </div>
+            <div>
+              <strong>{f.teams}</strong>
+              <p className="cr-series-detail">
+                {f.format} · {f.series}
+              </p>
+              <p className="cr-venue">{f.venue}</p>
+            </div>
+            <Link className="cr-match-link" href={f.status === "live" ? "/crease/live" : "/crease/series"}>
+              {f.status === "live" ? "Open live →" : "Series →"}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function TeamsMain() {
+  return (
+    <section className="cr-section" aria-labelledby="teams-title">
+      <div className="cr-section-head" data-reveal>
+        <p className="cr-eyebrow">Teams</p>
+        <h1 id="teams-title" className="cr-h2">
+          Boards on tour
+        </h1>
+        <p className="cr-section-dek">
+          Category sites treat teams as hubs — next fixture, form, and a path into Live.
+        </p>
+      </div>
+      <div className="cr-card-grid">
+        {TEAMS.map((t) => (
+          <article key={t.id} className="cr-info-card" data-reveal>
+            <p className="cr-code">{t.code}</p>
+            <h2 className="cr-h4">{t.name}</h2>
+            <p className="cr-series-detail">{t.board}</p>
+            <p>{t.next}</p>
+            <p className="cr-mono cr-form">{t.form}</p>
+            <Link className="cr-match-link" href="/crease/live">
+              Follow live →
+            </Link>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PlayersMain() {
+  return (
+    <section className="cr-section" aria-labelledby="players-title">
+      <div className="cr-section-head" data-reveal>
+        <p className="cr-eyebrow">Players</p>
+        <h1 id="players-title" className="cr-h2">
+          Who owns this contest
+        </h1>
+        <p className="cr-section-dek">
+          Strike pair and bowler identity from the spine, expanded into people you can follow.
+        </p>
+      </div>
+      <div className="cr-card-grid">
+        {PLAYERS.map((p) => (
+          <article key={p.id} className="cr-info-card" data-reveal>
+            <p className="cr-eyebrow">{p.team}</p>
+            <h2 className="cr-h4">{p.name}</h2>
+            <p className="cr-series-detail">{p.role}</p>
+            <p>{p.note}</p>
+            <Link className="cr-match-link" href="/crease/rankings">
+              Rankings →
+            </Link>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StatsMain() {
+  return (
+    <section className="cr-section" aria-labelledby="stats-title">
+      <div className="cr-section-head" data-reveal>
+        <p className="cr-eyebrow">Stats &amp; records</p>
+        <h1 id="stats-title" className="cr-h2">
+          Numbers that survived the over
+        </h1>
+        <p className="cr-section-dek">
+          After-play archive — records index without burying the live spine elsewhere.
+        </p>
+      </div>
+      <ul className="cr-record-list">
+        {RECORDS.map((r) => (
+          <li key={r.label} data-reveal>
+            <span className="cr-series-window">{r.label}</span>
+            <strong>{r.holder}</strong>
+            <span className="cr-mono">{r.mark}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="cr-inline-links" data-reveal>
+        <Link href="/crease/scorecard">Full scorecard →</Link>
+        <Link href="/crease/rankings">World rankings →</Link>
+      </p>
+    </section>
+  );
+}
+
 const PAGE_MAIN: Record<CreaseRouteId, () => ReactNode> = {
   home: HomeMain,
   live: LiveMain,
@@ -513,6 +835,10 @@ const PAGE_MAIN: Record<CreaseRouteId, () => ReactNode> = {
   series: SeriesMain,
   rankings: RankingsMain,
   notebook: NotebookMain,
+  fixtures: FixturesMain,
+  teams: TeamsMain,
+  players: PlayersMain,
+  stats: StatsMain,
 };
 
 export function CreaseExperience({ page = "home" }: { page?: CreaseRouteId }) {

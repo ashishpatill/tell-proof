@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useId, useState, type ReactNode } from "react";
 import { LIVE_MATCHES } from "./data";
 
-export type CreaseRouteId =
+/** Primary nav stays ≤6 (Core six). Secondary lives in footer / deep links. */
+export type CreasePrimaryRouteId =
   | "home"
   | "live"
   | "scorecard"
@@ -12,7 +13,11 @@ export type CreaseRouteId =
   | "rankings"
   | "notebook";
 
-export const CREASE_NAV: Array<{ id: CreaseRouteId; href: string; label: string }> = [
+export type CreaseSecondaryRouteId = "fixtures" | "teams" | "players" | "stats";
+
+export type CreaseRouteId = CreasePrimaryRouteId | CreaseSecondaryRouteId;
+
+export const CREASE_NAV: Array<{ id: CreasePrimaryRouteId; href: string; label: string }> = [
   { id: "home", href: "/crease", label: "Home" },
   { id: "live", href: "/crease/live", label: "Live" },
   { id: "scorecard", href: "/crease/scorecard", label: "Scorecard" },
@@ -21,10 +26,21 @@ export const CREASE_NAV: Array<{ id: CreaseRouteId; href: string; label: string 
   { id: "notebook", href: "/crease/notebook", label: "Notebook" },
 ];
 
+export const CREASE_SECONDARY: Array<{ id: CreaseSecondaryRouteId; href: string; label: string }> = [
+  { id: "fixtures", href: "/crease/fixtures", label: "Fixtures" },
+  { id: "teams", href: "/crease/teams", label: "Teams" },
+  { id: "players", href: "/crease/players", label: "Players" },
+  { id: "stats", href: "/crease/stats", label: "Stats" },
+];
+
 function statusLabel(status: (typeof LIVE_MATCHES)[number]["status"]): string {
   if (status === "live") return "Live";
   if (status === "result") return "Result";
   return "Upcoming";
+}
+
+function isPrimaryActive(active: CreaseRouteId, id: CreasePrimaryRouteId): boolean {
+  return active === id;
 }
 
 export function CreaseShell({
@@ -74,8 +90,8 @@ export function CreaseShell({
               <Link
                 key={item.id}
                 href={item.href}
-                aria-current={active === item.id ? "page" : undefined}
-                className={active === item.id ? "is-active" : undefined}
+                aria-current={isPrimaryActive(active, item.id) ? "page" : undefined}
+                className={isPrimaryActive(active, item.id) ? "is-active" : undefined}
                 onClick={() => setMenuOpen(false)}
               >
                 {item.label}
@@ -123,19 +139,26 @@ export function CreaseShell({
             <p className="cr-footer-col-title">Match</p>
             <Link href="/crease/live">Live</Link>
             <Link href="/crease/scorecard">Scorecard</Link>
+            <Link href="/crease/live#commentary">Commentary</Link>
+            <Link href="/crease/scorecard#partnerships">Partnerships</Link>
           </div>
           <div className="cr-footer-col">
             <p className="cr-footer-col-title">Compete</p>
             <Link href="/crease/series">Series</Link>
+            <Link href="/crease/fixtures">Fixtures</Link>
             <Link href="/crease/rankings">Rankings</Link>
+            <Link href="/crease/teams">Teams</Link>
+          </div>
+          <div className="cr-footer-col">
+            <p className="cr-footer-col-title">People</p>
+            <Link href="/crease/players">Players</Link>
+            <Link href="/crease/stats">Stats &amp; records</Link>
+            <Link href="/crease/rankings">Player rankings</Link>
           </div>
           <div className="cr-footer-col">
             <p className="cr-footer-col-title">Read</p>
             <Link href="/crease/notebook">Notebook</Link>
             <Link href="/crease">Home</Link>
-          </div>
-          <div className="cr-footer-col">
-            <p className="cr-footer-col-title">Utility</p>
             <Link href="/showcase">Tell Specimens</Link>
           </div>
         </nav>

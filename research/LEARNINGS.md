@@ -708,3 +708,13 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Domain:** `loadPriorDomain("commerce-loom")` — size tape + swing care tags before prose.
 - **Fix:** Horizontal `ds-hang-tape` + overlapping `ds-hang-tag` stack with eyelets/strings.
 - **Do not:** Put a size list in a right aside and call it merchandising craft.
+
+## 2026-08-11 — `crease:category-directory-enrich`
+
+- **Research:** Category cricket portals expose fixtures, teams, players, stats/records,
+  commentary, partnerships, FoW, points tables, and dual-axis rankings beyond Core six —
+  as directory/footer surfaces, not primary-nav sprawl (host names omitted).
+- **Fix:** Crease specimen adds `/crease/fixtures|teams|players|stats`; deepens live/scorecard/
+  series/rankings/home; pack routes = Core six + secondary; primary nav stays ≤6.
+- **Gate:** `pnpm verify:crease-scorecard` for baseline-aligned boards; all ten routes 200.
+- **Do not:** Grow primary nav past 6 with commerce before score.
