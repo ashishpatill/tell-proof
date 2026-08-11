@@ -38,7 +38,8 @@
     "research:inspect": "pnpm -F @tell/design-skills exec tsx ../../scripts/design-research/inspect.ts",
     "agency:pipeline": "pnpm -F @tell/design-skills exec tsx ../../scripts/agency-pipeline/run.ts",
     "agency:run": "pnpm -F @tell/design-skills exec tsx ../../scripts/agency-pipeline/orchestrate.ts",
-    "agency:learn": "pnpm -F @tell/design-skills exec tsx ../../scripts/agency-pipeline/learn.ts"
+    "agency:learn": "pnpm -F @tell/design-skills exec tsx ../../scripts/agency-pipeline/learn.ts",
+    "verify:crease-scorecard": "node scripts/verify-crease-scorecard-align.mjs"
   },
   "devDependencies": {
     "playwright": "^1.49.1",

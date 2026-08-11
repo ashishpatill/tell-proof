@@ -347,55 +347,47 @@ function ScorecardMain() {
           {FEATURED.teamA.name} {FEATURED.teamA.score} ({FEATURED.teamA.overs}) · need 73 from 70
         </p>
       </div>
-      <div className="cr-scorecard-grid" data-reveal>
-        <table className="cr-rank-table">
-          <caption className="sr-only">Batting</caption>
-          <thead>
-            <tr>
-              <th scope="col">Batter</th>
-              <th scope="col">R</th>
-              <th scope="col">B</th>
-              <th scope="col">4</th>
-              <th scope="col">6</th>
-              <th scope="col">Dismissal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bat.map((r) => (
-              <tr key={r.name}>
-                <td>{r.name}</td>
-                <td className="cr-mono">{r.runs}</td>
-                <td className="cr-mono">{r.balls}</td>
-                <td className="cr-mono">{r.fours}</td>
-                <td className="cr-mono">{r.sixes}</td>
-                <td>{r.out}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <table className="cr-rank-table">
-          <caption className="sr-only">Bowling</caption>
-          <thead>
-            <tr>
-              <th scope="col">Bowler</th>
-              <th scope="col">O</th>
-              <th scope="col">M</th>
-              <th scope="col">R</th>
-              <th scope="col">W</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bowl.map((r) => (
-              <tr key={r.name}>
-                <td>{r.name}</td>
-                <td className="cr-mono">{r.o}</td>
-                <td className="cr-mono">{r.m}</td>
-                <td className="cr-mono">{r.r}</td>
-                <td className="cr-mono">{r.w}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="cr-scorecard-grid" data-reveal data-testid="crease-scorecard-board">
+        <div className="cr-board" aria-label="Batting">
+          <div className="cr-board-row cr-board-head" role="row">
+            <span>Batter</span>
+            <span className="cr-stat">R</span>
+            <span className="cr-stat">B</span>
+            <span className="cr-stat">4</span>
+            <span className="cr-stat">6</span>
+            <span>Dismissal</span>
+          </div>
+          {bat.map((r) => (
+            <div className="cr-board-row" role="row" key={r.name}>
+              <span className="cr-name">{r.name}</span>
+              <span className="cr-stat">{r.runs}</span>
+              <span className="cr-stat">{r.balls}</span>
+              <span className="cr-stat">{r.fours}</span>
+              <span className="cr-stat">{r.sixes}</span>
+              <span className="cr-note">{r.out}</span>
+            </div>
+          ))}
+        </div>
+        <div className="cr-board" aria-label="Bowling">
+          <div className="cr-board-row cr-board-head" role="row">
+            <span>Bowler</span>
+            <span className="cr-stat">O</span>
+            <span className="cr-stat">M</span>
+            <span className="cr-stat">R</span>
+            <span className="cr-stat">W</span>
+            <span className="sr-only">Spell note</span>
+          </div>
+          {bowl.map((r) => (
+            <div className="cr-board-row" role="row" key={r.name}>
+              <span className="cr-name">{r.name}</span>
+              <span className="cr-stat">{r.o}</span>
+              <span className="cr-stat">{r.m}</span>
+              <span className="cr-stat">{r.r}</span>
+              <span className="cr-stat">{r.w}</span>
+              <span className="cr-note" aria-hidden="true" />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
