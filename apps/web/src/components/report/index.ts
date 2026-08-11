@@ -16,6 +16,7 @@ export { ConfidenceMeter } from "@/components/report/confidence-meter";
 export { DiffViewer } from "@/components/report/diff-viewer";
 export { OperationCurtain } from "@/components/report/operation-curtain";
 export { OperationPlaceholder } from "@/components/report/operation-placeholder";
+export { SiteCreateCanvas } from "@/components/report/site-create-canvas";
 export { PagesStrip } from "@/components/report/pages-strip";
 export { ProofMetric, VerifiedProofPanel } from "@/components/report/verified-proof-panel";
 export { ReconciliationTable } from "@/components/report/reconciliation-table";
