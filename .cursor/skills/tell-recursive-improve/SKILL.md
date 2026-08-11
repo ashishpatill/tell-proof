@@ -36,6 +36,7 @@ Do not brainlessly re-shoot the same nav strip and call it proof.
 - `showcase:nav-only-thumb` — short crop at y=0
 - `template:label-under-claim` — absolute overfigure under type
 - `template:sitekind-css-dead` — siteKind rules trapped in wrong lean branch
+- `template:skill-metadata-only` — skills listed in routedSkills/hints but not hard-gated; require `assertSkillWiring` + RESEARCH_GATE.md every agency 2-build
 
 ## Showcase presentation rules
 

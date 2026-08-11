@@ -176,8 +176,18 @@ function writePlan(outDir: string, preset: NichePreset, query: string, refMode: 
     "",
     ...PHASE_ORDER.map((p, i) => `${i + 1}. \`${p}\` — run → verify gates → retry ≤3 → mark-pass`),
     "",
+    "## Skill wiring (every run)",
+    "",
+    "Phase `2-build` writes `RESEARCH_GATE.md` + `SKILL_WIRING.json`.",
+    "Agents must execute the research checklist before craft loops — do not skip to pixels.",
+    "Always-on: `responsive-performance` → `pnpm media:site` after photography (also auto on ship).",
+    `Craft nodes on brief: ${preset.craftNodes.map((c) => `\`${c}\``).join(", ")} (merged into engine routedSkills).`,
+    preset.sportId
+      ? `Sport: \`${preset.sportId}\` → research includes \`sport-site-research\` + vernacular craft.`
+      : "Sport: (none)",
+    "",
     "Auto-advance when deterministic gates are green. Live refs optional via local seeds.",
-    "After ship: `agency:learn` updates engine memory + LEARNINGS.",
+    "After ship: `agency:learn` updates engine memory + LEARNINGS; `media:site` prunes hot-path media.",
     "",
   ];
   writeFileSync(resolve(outDir, "AUTO_PLAN.md"), lines.join("\n"), "utf8");

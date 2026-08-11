@@ -549,6 +549,7 @@ export function briefFromNiche(
       `craft nodes: ${preset.craftNodes.join(", ")}`,
       `query: ${opts.query.slice(0, 160)}`,
     ],
+    craftNodes: [...preset.craftNodes],
     referenceBoardPaths: [],
     ...(preset.sportId ? { sportId: preset.sportId } : {}),
   };

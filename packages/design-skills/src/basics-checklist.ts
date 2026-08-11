@@ -17,6 +17,7 @@
  */
 
 import type { DesignSpec } from "./types";
+import { assertSkillWiring } from "./skill-wiring";
 
 export interface BasicsFinding {
   id: string;
@@ -203,6 +204,30 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         (/body\[data-frame="paper-technical"\][\s\S]*?\.ds-footer/.test(html) &&
           /<footer class="ds-footer"/.test(html)),
       "Paper-technical frame must paint .ds-footer with paper/ink — footer.ds-section never matched the real markup, leaving paper ink on the inverse outer field.",
+    ),
+    check(
+      "research-plan-wired",
+      Boolean(spec.researchPlan?.researchNodes?.length) &&
+        spec.routedSkills[0] === "website-domain-research" &&
+        /data-research-domain=/.test(html) &&
+        /name="tell-research-gate"/.test(html),
+      "Every template carries a researchPlan and emits research-gate meta so agents execute LoadPrior→gap→IA before craft.",
+    ),
+    check(
+      "responsive-performance-wired",
+      spec.routedSkills.includes("responsive-performance") &&
+        /data-responsive-performance="required"/.test(html) &&
+        /name="tell-responsive-performance"/.test(html),
+      "responsive-performance is always-on — HTML must mark media:site / WebP budgets required.",
+    ),
+    check(
+      "sport-research-follow-on",
+      !spec.brief.sportId ||
+        (spec.researchPlan.researchNodes.includes("sport-site-research") &&
+          spec.routedSkills.includes("sport-matchday-web") &&
+          spec.routedSkills.includes("sport-vernacular-craft") &&
+          spec.researchPlan.followOnCraft.includes("sport-vernacular-craft")),
+      "Sport briefs must route sport-site-research + matchday/vernacular craft follow-ons.",
     ),
     check(
       "chapter-spine-clears-index",
@@ -649,6 +674,12 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Craft templates prove with their own story instrument; marketing pages keep a filled proof board or workflow stage — never a lonely quote, never one shared board on every offering.",
     ),
   ];
+
+  // RSI: skill wiring is part of the basics floor — every template / agency 2-build.
+  const wiring = assertSkillWiring(spec, html);
+  findings.push(
+    ...wiring.findings.map((f) => check(f.id, f.ok, f.detail)),
+  );
 
   return { passed: findings.every((f) => f.ok), findings };
 }

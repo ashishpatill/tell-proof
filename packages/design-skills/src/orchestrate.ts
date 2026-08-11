@@ -8,6 +8,7 @@ import {
   DesignBrief,
   DesignFromFeaturesResponse,
   DesignSpec,
+  ResearchPlanSpec,
   TasteControls,
 } from "./types";
 
@@ -93,9 +94,12 @@ export type DesignFromFeaturesOptions = {
 };
 
 /**
- * Main skill entry: analyze → route → tokens → compose → render.
+ * Main skill entry: analyze → research plan → route → tokens → compose → render.
  * Deterministic. No LLM. Safe for demos without keys.
  * Pass `redesignFrom` to mark a redesign while still building from scratch from the brief.
+ *
+ * Research nodes are planned here and attached to the spec so agents / agency:run
+ * execute them (LoadPrior → gap → walkthrough → IA → training) before treating craft as done.
  */
 export function designFromFeatures(
   briefInput: DesignBrief,
@@ -106,13 +110,36 @@ export function designFromFeatures(
   const taste = resolveTaste(brief);
   const analysis = analyzeFeatures(brief);
   const effectiveBrief: DesignBrief = { ...brief, siteKind: analysis.siteKind };
-  const researchPlan = routeDomainResearchSkills({
+
+  const sportCoreSix =
+    analysis.sportId === "cricket" || analysis.sportId === "tennis"
+      ? (["home", "live-match", "scorecard", "series", "rankings", "notebook"] as const)
+      : undefined;
+
+  const researchPlanRaw = routeDomainResearchSkills({
     brief: effectiveBrief,
     domainId: analysis.sportId ? `sport:${analysis.sportId}` : analysis.siteKind,
+    requiredRouteClasses: sportCoreSix ? [...sportCoreSix] : undefined,
   });
-  const routedSkills = routeSkills(analysis, taste);
+
+  const researchPlan = ResearchPlanSpec.parse({
+    domainId: researchPlanRaw.domainId,
+    packFound: researchPlanRaw.gap.packFound,
+    needsWalkthrough: researchPlanRaw.gap.needsWalkthrough,
+    researchNodes: researchPlanRaw.researchNodes,
+    followOnCraft: researchPlanRaw.followOnCraft,
+    gaps: researchPlanRaw.gap.gaps,
+    reuse: researchPlanRaw.gap.reuse,
+  });
+
+  const routedSkills = routeSkills(analysis, taste, {
+    researchPlan: researchPlanRaw,
+    brief: effectiveBrief,
+  });
   const tokens = buildTokens(taste, analysis.siteKind, brief.brandAccent, brief.productName);
-  const sections = buildSections(effectiveBrief, analysis, taste);
+  const sections = buildSections(effectiveBrief, analysis, taste, {
+    domainPack: researchPlanRaw.pack,
+  });
   const profile = AESTHETIC_PROFILES[taste.aestheticLean];
 
   const motionNotes =
@@ -147,12 +174,14 @@ export function designFromFeatures(
 
   const customizationHints = [
     `Research gate: ${researchPlan.researchNodes.join(" → ")}`,
-    researchPlan.gap.packFound
-      ? `Domain pack ${researchPlan.domainId} loaded (${researchPlan.gap.reuse.length} reuse cues)`
+    researchPlan.packFound
+      ? `Domain pack ${researchPlan.domainId} loaded (${researchPlan.reuse.length} reuse cues)`
       : `No prior pack for ${researchPlan.domainId} — full walkthrough required`,
-    researchPlan.gap.needsWalkthrough
-      ? `Research gaps: ${researchPlan.gap.gaps.slice(0, 3).join("; ") || "walkthrough needed"}`
+    researchPlan.needsWalkthrough
+      ? `Research gaps: ${researchPlan.gaps.slice(0, 3).join("; ") || "walkthrough needed"}`
       : "Research gaps: none — customize from pack",
+    `Execute research nodes before treating craft as complete (agents must not skip to pixels)`,
+    `Always-on: responsive-performance — run pnpm media:site after photography lands under apps/web/public`,
     `Density: ${taste.density}`,
     `Motion: ${taste.motion}`,
     `Aesthetic lean: ${profile.label}`,
@@ -162,8 +191,13 @@ export function designFromFeatures(
     "Reply with Taste Controls to regenerate without changing features.",
   ];
 
+  if (researchPlan.followOnCraft.length) {
+    customizationHints.push(`Follow-on craft: ${researchPlan.followOnCraft.join(", ")}`);
+  }
+
   const evidenceNotes = [
     `Auto-routed website-domain-research (${researchPlan.researchNodes.length} research nodes)`,
+    `responsive-performance always routed — WebP display budgets + SiteImg on specimen media`,
     `Display type ${tokens.type[0]?.px}px at 1440 (measured corridor 46–88px)`,
     `Body ${tokens.type.find((t) => t.name === "body")?.px}px at ${tokens.type.find((t) => t.name === "body")?.lineHeight} leading (corridor 1.25–1.5)`,
     `${tokens.declared} declared design tokens (corridor ≥ 100)`,
@@ -188,6 +222,7 @@ export function designFromFeatures(
     brief: effectiveBrief,
     taste,
     routedSkills,
+    researchPlan,
     tokens,
     tellDirectionId: tellDirectionForLean(taste.aestheticLean),
     informationArchitecture: sections.map((s) => s.id),

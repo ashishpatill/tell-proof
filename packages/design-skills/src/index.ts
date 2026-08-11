@@ -23,6 +23,11 @@ export type { DesignTemplate, TemplateKey } from "./templates";
 export { assertBasics } from "./basics-checklist";
 export type { BasicsFinding, BasicsReport } from "./basics-checklist";
 export {
+  assertSkillWiring,
+  formatResearchGateMarkdown,
+} from "./skill-wiring";
+export type { SkillWiringFinding, SkillWiringReport } from "./skill-wiring";
+export {
   applyAgencyPolish,
   applyAgencyPolishSequence,
   agencyPolishAxesPresent,
