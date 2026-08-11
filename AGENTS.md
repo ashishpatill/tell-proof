@@ -103,9 +103,12 @@ Feature workflows live in `.cursor/skills/`:
 - `sport-matchday-web` — **auto-triggered** when sportId / sport language; extends website-domain-research
 - `sport-site-research` — **mandatory** sport research gate before cricket/football/hockey/tennis sites
 - `sport-vernacular-craft` — score-spine + format-lens craft from sport packs
+- `responsive-performance` — **always-on** WebP display budgets + lazy/LCP (`pnpm media:site`, `SiteImg`)
 - `tell-user-session-learn` — **end-user** localStorage learning (directions, priorities, tools)
 - `tell-recursive-improve` — champion/challenger loop + `research/LEARNINGS.md` (no nav-only showcase shots)
 - `ship-loop` — analyze PR → fix → semantic commits → push → re-check → merge
+
+**Site builds:** always-applied `tell-site-build-autoload` + `tell-domain-research` require executing the full research/craft graph and media optimize without waiting for the user to wire skills.
 
 ## Subagents
 

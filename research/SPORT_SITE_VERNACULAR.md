@@ -92,7 +92,7 @@ Pitch ink, turf dusk, cherry leather (red ball), floodlight gold (white-ball nig
 
 ---
 
-## 3. Football / hockey / tennis (starter theses)
+## 3. Football / hockey (starter theses)
 
 See packs in `sport-vernacular.ts` for full primaryFacts and format lenses.
 
@@ -100,9 +100,100 @@ See packs in `sport-vernacular.ts` for full primaryFacts and format lenses.
 |---|---|---|
 | Football | Minute + scoreline + state | Formation chrome before the clock |
 | Hockey | Score + period + strength | Treating it like football on ice |
-| Tennis | Sets \| games \| points + server | Flattening the nested score |
 
 Agents asked for these sports must still run a **fresh** research pass (local brief) — packs are seeds, not substitutes for audience-specific research.
+
+---
+
+## 3b. Tennis — culture, formats, fan mental model
+
+### 3b.1 Cultural thesis
+
+Tennis is lived in a **nested stack**: point → game → set → match. Fans do not ask for “the score” as one number — they ask who is serving, whether this point is pressure, and how the sets sit. Hold and break are ritual verbs; deuce and advantage are local weather inside a game.
+
+### 3b.2 Formats that change the UI
+
+| Format | Tempo | Emphasize | Demote |
+|---|---|---|---|
+| Best of 3 | Shorter arc; every break weighs more | Breaks, tie-break, hold rate | Five-set endurance framing |
+| Best of 5 | Grand-arc stamina; momentum across sets | Set history, physical narrative, fifth-set framing | Treating every match like a sprint |
+
+### 3b.3 How fans access data
+
+1. **Glance-live** — open often between points; need sets \| games \| points + server in <1s
+2. **Sit-with** — technique essays, pattern notes between games / changeovers
+3. **Before-play** — draw, surface, schedule, rankings
+4. **After-play** — set history, point tree, challenge outcomes
+
+### 3b.4 What category sites often fail to provide
+
+- Nested spine that stays layout-stable while points update
+- Obvious server marker (not a tiny glyph fans miss)
+- Textual break / set / match point flags (not color-only dots)
+- Format lens for best-of-3 vs best-of-5
+- Honest challenge / review pending states
+- Separation of glance court board from editorial notebook
+
+### 3b.5 Unique tennis UX concepts
+
+- **Nested score spine:** sets \| games \| points with tabular mono
+- **Server marker:** who owns the point contest right now
+- **Pressure flag:** BREAK POINT / SET POINT / MATCH POINT as text
+- **Set history:** completed sets as progressive disclosure (esp. best-of-5)
+- **Challenge pending:** provisional calm state, not a flash overlay
+
+### 3b.6 Material vernacular
+
+Clay dust, grass sheen, hard-court night, baseline chalk. Surface is atmosphere — never a sticker competing with the spine.
+
+### 3b.7 Multipage IA (BASELINE specimen)
+
+Specimen routes under `/baseline/*` — Core six:
+
+| Class | Job |
+|---|---|
+| home | Live entry + court pulse + tournament arc |
+| live-match | Nested spine + server + pressure |
+| scorecard | Set history + point depth |
+| series | Tournament / draw arc |
+| rankings | Singles tables with surface lens |
+| notebook | Sit-with reading |
+
+### 3b.8 Taste seed
+
+Lean `refined-story` · density `balanced` · motion `light-scroll-reveals` · color `light-airy` · type light-elegant · rounding soft · accent forest court `#2F5D50`.
+
+### 3b.9 Match theater objects (craft — not optional chrome)
+
+These are the tennis equivalents of cricket’s this-over trail. A site without them is a text page with photos.
+
+| Object | Job |
+|---|---|
+| **Nested spine table** | Sets \| games \| pts + server — layout-stable |
+| **Serve ownership** | “On serve” as a labeled state, not a 4px dot fans miss |
+| **Pressure band** | BREAK / SET / MATCH POINT as a first-class textual band above the fold |
+| **Set beads** | Completed (+ current) set games as a bead rail: `6–4 · 3–6 · 4–3*` |
+| **Point trail** | This-game sequence: `0-0 → 15-0 → … → 30-40` beads |
+| **Format lens** | BO3 emphasizes breaks/tie-break; BO5 reveals set-momentum + fifth-set framing |
+| **Surface atmosphere** | Clay / grass / hard changes paper, dust, and chalk temperature — not a sticker |
+| **Challenge pending** | Calm provisional strip; score still readable |
+
+### 3b.10 Steal / refuse (tennis)
+
+**Steal**
+
+- Sticky live rail under nav for second-screen glances
+- Format chips that change secondary facts (not just a label)
+- Set history as progressive disclosure from the live spine
+- Directory footer: Match / Compete / Read
+
+**Refuse**
+
+- Marketing hero that buries the nested spine during live play
+- Equal card grids of score + promo + fantasy
+- Color-only pressure (red dot without the words BREAK POINT)
+- One layout for best-of-3 and best-of-5
+- Surface treated as a pill badge instead of atmosphere
 
 ---
 
@@ -115,7 +206,7 @@ Agents asked for these sports must still run a **fresh** research pass (local br
 | `DesignBrief.sportId` | Routes `sport-vernacular-craft` after research graph |
 | Agency `niche.ts` | cricket / football / hockey / tennis presets |
 | Skills | `website-domain-research` → `sport-matchday-web` / `sport-site-research` → craft |
-| Specimen | `/crease/*` Core six (multipage) — cricket match theater reference |
+| Specimen | `/crease/*` Core six (multipage) — cricket · `/baseline/*` Core six — tennis |
 | Capture | `scripts/multipage-domain-capture.ts` (domain-agnostic) |
 | Training | `scripts/emit-design-training-episode.ts` → tell-design-data / training.local |
 

@@ -101,3 +101,37 @@ describe("DomainResearchPack (sport / cricket)", () => {
     expect(gap.gaps.some((g) => g.includes("notebook"))).toBe(true);
   });
 });
+
+describe("DomainResearchPack (sport / tennis)", () => {
+  it("maps tennis vernacular into DomainResearchPack with Core six under /baseline", () => {
+    const sport = getSportPack("tennis");
+    expect(sport.multiPageRoutes?.length).toBe(6);
+    const domain = sportPackToDomainResearch(sport);
+    expect(domain.domainId).toBe("sport:tennis");
+    expect(domain.multiPageRoutes.map((r) => r.path)).toEqual([
+      "/baseline",
+      "/baseline/live",
+      "/baseline/scorecard",
+      "/baseline/series",
+      "/baseline/rankings",
+      "/baseline/notebook",
+    ]);
+    expect(domain.navInventory).toHaveLength(6);
+    expect(domain.shellContract.stickyRegions).toContain("score-spine");
+    expect(domain.variantLenses.map((v) => v.id)).toEqual(
+      expect.arrayContaining(["best-of-3", "best-of-5"]),
+    );
+    expect(() => DomainResearchPack.parse(domain)).not.toThrow();
+  });
+
+  it("loadPriorDomain accepts sport:tennis without forcing a walkthrough for Core six", () => {
+    const pack = loadPriorDomain("sport:tennis");
+    expect(pack?.label).toBe("Tennis");
+    expect(pack?.multiPageRoutes.length).toBe(6);
+    const gap = requirementGapDiff("sport:tennis", {
+      requiredRouteClasses: ["home", "live-match", "scorecard", "series", "rankings", "notebook"],
+    });
+    expect(gap.packFound).toBe(true);
+    expect(gap.needsWalkthrough).toBe(false);
+  });
+});

@@ -1,9 +1,13 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CreaseShell, type CreaseRouteId } from "./CreaseShell";
+<<<<<<< HEAD
 import { CreaseRevealRoot } from "./CreaseRevealRoot";
 import { LiveMatchBoard } from "./LiveMatchBoard";
 import { RankingsDesk } from "./RankingsDesk";
+=======
+import { SiteImg } from "@/components/site-media/SiteImg";
+>>>>>>> origin/cursor/tennis-baseline-site-c916
 import {
   BATTING,
   BOWLING,
@@ -157,6 +161,7 @@ function HomeMain() {
     <>
       <section className="cr-hero" aria-labelledby="cr-hero-title">
         <div className="cr-hero-media">
+<<<<<<< HEAD
           <picture>
             <source srcSet={HERO_IMAGE} type="image/webp" />
             <img
@@ -168,6 +173,15 @@ function HomeMain() {
               decoding="async"
             />
           </picture>
+=======
+          <SiteImg
+            src={HERO_IMAGE}
+            alt="Cricket match underway on a green oval beneath a city skyline"
+            width={1600}
+            height={960}
+            priority
+          />
+>>>>>>> origin/cursor/tennis-baseline-site-c916
           <div className="cr-hero-veil" aria-hidden="true" />
           <div className="cr-crease-line" aria-hidden="true" />
         </div>
@@ -493,7 +507,7 @@ function NotebookMain() {
         </p>
       </div>
       <article className="cr-feature-story" data-reveal>
-        <img src={STORIES[0]!.image} alt={STORIES[0]!.imageAlt} width={1400} height={900} />
+        <SiteImg src={STORIES[0]!.image} alt={STORIES[0]!.imageAlt} width={1200} height={800} />
         <div className="cr-feature-copy">
           <p className="cr-eyebrow">{STORIES[0]!.kicker}</p>
           <h2 className="cr-h3">{STORIES[0]!.title}</h2>
@@ -509,7 +523,7 @@ function NotebookMain() {
             data-reveal
             style={{ transitionDelay: `${i * 50}ms` }}
           >
-            <img src={s.image} alt={s.imageAlt} width={800} height={560} loading="lazy" />
+            <SiteImg src={s.image} alt={s.imageAlt} width={1000} height={700} />
             <div>
               <p className="cr-eyebrow">
                 {s.kicker} · {s.read}

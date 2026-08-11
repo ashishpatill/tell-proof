@@ -42,6 +42,10 @@ Never pretend a corridor fallback was a finished craft board. `agency-run-learn`
 - Logo walls only for **real** declared marks; otherwise omit. Never invent partners.
 - Every media block needs aspect ratio, alt, and a missing-media fallback.
 - Reject generic stock that could sell any product.
+- **WebP + display budgets (automatic):** after photography lands under `apps/web/public/**`,
+  run `pnpm media:site` (hero ≤1600w, editorial ≤1200w, other ≤1000w). Prefer pruning
+  superseded jpg/png. Specimen UIs use `SiteImg` for lazy/LCP defaults. Do not ship
+  multi-MB JPEG heroes on the hot path.
 
 ---
 
@@ -106,7 +110,8 @@ Require:
 - Disciplined type + spacing
 - Intentional crops / figures
 - Full state matrix on controls (hover, focus, active, disabled, loading, error, reduced-motion)
-- Performance: lazy below-fold media, bounded blur/transforms, capped canvas work
+- Performance: lazy below-fold media, bounded blur/transforms, capped canvas work,
+  WebP display-sized assets (`pnpm media:site`), one LCP hero only
 
 ---
 

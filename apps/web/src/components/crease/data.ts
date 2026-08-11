@@ -578,7 +578,10 @@ export const SERIES = [
 ];
 
 export const HERO_IMAGE = "/crease/hero-match.webp";
+<<<<<<< HEAD
 export const HERO_IMAGE_FALLBACK = "/crease/hero-match.jpg";
+=======
+>>>>>>> origin/cursor/tennis-baseline-site-c916
 
 export function ballLabel(b: BallEvent): string {
   if (b === "dot") return "·";

@@ -1,0 +1,38 @@
+---
+description: Auto-load research + craft + media performance on every website build
+alwaysApply: true
+---
+
+# Site build auto-load
+
+When the user asks to **build, redesign, or prepare any website / landing / matchday /
+specimen site**, execute the full skill graph **without waiting to be asked** to wire
+or trigger individual skills.
+
+## Auto-run order (mandatory)
+
+1. **Research** — `website-domain-research` end-to-end  
+   (`load-prior-domain` → `requirement-gap-diff` → walkthrough if gaps → `ia-shell-synthesis`
+   → `category-gap-audit` → `variant-lens` → `emit-training-episode`).
+2. **Sport** — if cricket / football / hockey / tennis / live scores / matchday: also
+   `sport-matchday-web` + `sport-site-research` + `sport-vernacular-craft`.
+3. **Craft** — execute every node returned by engine `routeSkills` / niche craftNodes
+   (including always-on `responsive-performance`, motion, nav/footer, etc.). Do not
+   skip to pixels after research alone.
+4. **Media performance (automatic)** — after any photography lands under
+   `apps/web/public/**`:
+   - Run `pnpm media:site` (WebP + display-size budgets)
+   - Prefer `--prune` so hot-path jpg/png do not ship
+   - Render with `SiteImg` (lazy below-fold, LCP priority on one hero, width/height set)
+5. **Agency path** — `agency:run` / `agency-quality-site` when shipping a phased site;
+   learn is automatic. Media optimize is part of ship readiness.
+
+## Do not
+
+- Blank-slate when a `DomainResearchPack` exists
+- Ship multi-MB JPEG/PNG heroes
+- Wait for the user to say “run research”, “convert to webp”, or “wire responsive-performance”
+- Treat `routeSkills` listing as done — **execute** the nodes
+
+Engine: `@tell/design-skills` `routeSkills` / `routeDomainResearchSkills` / `designFromFeatures`.  
+Skills live in `.cursor/skills/` and `agent-skills/web-design/`.

@@ -12,7 +12,7 @@ Learn (automatic): `.cursor/skills/agency-run-learn` · `research/design-data.RE
 
 ## Quick contract
 
-1. **Autonomous:** `pnpm agency:run -- --query "…" --fresh` — ends with **automatic** `agency:learn`
+1. **Autonomous:** `pnpm agency:run -- --query "…" --fresh` — ends with **automatic** `agency:learn` + `media:site` (WebP)
 2. **Manual craft:** one phase per cycle — Goal → run → eye → Loop ≤3 → `--mark-pass` → next (`4-ship` mark-pass also auto-learns)
 3. Phases: `1-refs` → `2-build` → `3a-typography` → `3b-spacing` → `3c-motion` → `3d-mobile` → `4-ship`
 4. Each phase starts from `current.html` of the last **passed** phase.
@@ -22,6 +22,7 @@ Learn (automatic): `.cursor/skills/agency-run-learn` · `research/design-data.RE
 8. **Learn is automatic** on agency runs (`agency-run-learn`) — developer corpus only when design-data pointer is set.
 9. **User sessions** learn separately in the browser (`tell-user-session-learn`) — never via design-data checkout.
 10. **Personal corpus (dev):** `TELL_DESIGN_DATA` + `TELL_DEV_CORPUS=1` or `research/design-data.local.json`.
+11. **Media performance is automatic** — `responsive-performance` is always routed; `pnpm media:site` runs at end of `agency:run`. Specimen UIs use `SiteImg`.
 
 ## Session opener (auto)
 

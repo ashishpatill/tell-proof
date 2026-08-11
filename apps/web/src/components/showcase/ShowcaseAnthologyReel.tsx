@@ -17,6 +17,7 @@ export type AnthologySlide = {
 /** Curated order — Crease first, then distinct fold instruments. */
 export const ANTHOLOGY_KEYS = [
   "crease",
+  "baseline",
   "archive",
   "observatory",
   "dossier",

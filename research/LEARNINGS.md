@@ -709,6 +709,7 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Fix:** Horizontal `ds-hang-tape` + overlapping `ds-hang-tag` stack with eyelets/strings.
 - **Do not:** Put a size list in a right aside and call it merchandising craft.
 
+<<<<<<< HEAD
 ## 2026-08-11 — `crease:category-directory-enrich`
 
 - **Research:** Category cricket portals expose fixtures, teams, players, stats/records,
@@ -718,3 +719,23 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   series/rankings/home; pack routes = Core six + secondary; primary nav stays ≤6.
 - **Gate:** `pnpm verify:crease-scorecard` for baseline-aligned boards; all ten routes 200.
 - **Do not:** Grow primary nav past 6 with commerce before score.
+=======
+## 2026-08-11 — `sport:tennis-baseline-nested-spine`
+
+- **Failure:** Tennis packs had category gaps (flattened score, hidden server, no pressure text)
+  and empty multipage IA — blank-slate risk for matchday builds.
+- **Research:** `loadPriorDomain("sport:tennis")` → gap-diff → Core six under `/baseline/*`;
+  format lens best-of-3 / best-of-5; light-airy taste seed.
+- **Fix:** Enrich tennis vernacular pack + BASELINE specimen (nested sets|games|points, server
+  marker, textual BREAK/SET/MATCH POINT, surface rankings, notebook separated from glance-live).
+- **Do not:** Flatten tennis to a single scoreline or hide who is serving.
+
+## 2026-08-11 — `site:media-webp-autoload`
+
+- **Failure:** Specimen photography shipped as multi-MB JPEG; loading opts and research/craft
+  skills required a human to ask to wire them.
+- **Fix:** `pnpm media:site` (display-sized WebP + prune) auto-runs at end of `agency:run`;
+  `SiteImg` applies lazy/LCP/CLS defaults; always-applied `tell-site-build-autoload` + expanded
+  `responsive-performance` / `tell-domain-research` require executing routed skills without prompt.
+- **Do not:** Commit hot-path multi-MB jpg/png heroes or wait for “convert to webp / run research”.
+>>>>>>> origin/cursor/tennis-baseline-site-c916

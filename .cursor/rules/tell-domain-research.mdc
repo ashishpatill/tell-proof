@@ -10,6 +10,8 @@ Before designing, coding, or running `agency:run` / `designFromFeatures` for **a
 1. **Auto-run** `website-domain-research` (LoadPriorDomain → requirement-gap-diff → walkthrough if gaps → IA → variant-lens → **emit-training-episode**).
 2. If the brief is cricket / football / hockey / tennis / live scores / matchday, also auto-run `sport-matchday-web` / `sport-site-research` (extends the general graph).
 3. Do **not** blank-slate when a `DomainResearchPack` exists — customize or gap-fill only.
-4. Engine already prepends `website-domain-research` in `routeSkills` / `designFromFeatures`; agents must still execute the research nodes (not only render craft).
+4. Engine already prepends `website-domain-research` in `routeSkills` / `designFromFeatures`; agents must still **execute** the research nodes (not only render craft).
+5. After research, **execute every craft node** `routeSkills` returns (including always-on `responsive-performance`) — do not wait for the user to wire skills.
+6. After photography lands under `apps/web/public/**`, auto-run `pnpm media:site` and use `SiteImg` (see `tell-site-build-autoload`).
 
-Skills: `.cursor/skills/website-domain-research`, `.cursor/skills/sport-matchday-web`, `.cursor/skills/sport-site-research`, child nodes `load-prior-domain` … `emit-training-episode`.
+Skills: `.cursor/skills/website-domain-research`, `.cursor/skills/sport-matchday-web`, `.cursor/skills/sport-site-research`, `.cursor/skills/responsive-performance`, child nodes `load-prior-domain` … `emit-training-episode`.

@@ -448,6 +448,24 @@ export const NICHE_PRESETS: NichePreset[] = [
         description: "Break / set / match point called out in text",
         priority: "p0",
       },
+      {
+        id: "t3",
+        name: "Format lens",
+        description: "Best-of-3 vs best-of-5 switches secondary facts",
+        priority: "p0",
+      },
+      {
+        id: "t4",
+        name: "Challenge honesty",
+        description: "Challenge pending as a calm provisional state",
+        priority: "p1",
+      },
+      {
+        id: "t5",
+        name: "Notebook mode",
+        description: "Sit-with editorial separate from glance-live",
+        priority: "p1",
+      },
     ],
   },
 ];
