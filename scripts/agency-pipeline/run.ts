@@ -30,6 +30,8 @@ import {
   designFromFeatures,
   assertBasics,
   assertAgencyDelivery,
+  assertSkillWiring,
+  formatResearchGateMarkdown,
   applyAgencyPolish,
   type AgencyPolishAxis,
   type DesignSpec,
@@ -389,6 +391,28 @@ async function runPhase(opts: {
     }
     const basics = assertBasics(builtSpec, html);
     const delivery = assertAgencyDelivery(builtSpec, html);
+    const wiring = assertSkillWiring(builtSpec, html);
+    writeFileSync(
+      resolve(outDir, "RESEARCH_GATE.md"),
+      formatResearchGateMarkdown(builtSpec, wiring),
+      "utf8",
+    );
+    writeFileSync(
+      resolve(outDir, "SKILL_WIRING.json"),
+      `${JSON.stringify(
+        {
+          passed: wiring.passed,
+          findings: wiring.findings,
+          researchNodes: builtSpec.researchPlan.researchNodes,
+          followOnCraft: builtSpec.researchPlan.followOnCraft,
+          routedSkills: builtSpec.routedSkills,
+          craftNodes: builtSpec.brief.craftNodes ?? [],
+        },
+        null,
+        2,
+      )}\n`,
+      "utf8",
+    );
     const shots = await withServer(html, async (goto) => {
       const page = await goto({ width: 1440, height: 900 });
       const s = await shotSet(page, outDir, prefix);
@@ -396,7 +420,7 @@ async function runPhase(opts: {
       return s;
     });
     copyFileSync(shots[0]!, resolve(artifactDir, `agency-${state.runId}-${phase}-fold.png`));
-    const ok = basics.passed && delivery.passed;
+    const ok = basics.passed && delivery.passed && wiring.passed;
     return {
       spec: builtSpec,
       row: {
@@ -404,8 +428,8 @@ async function runPhase(opts: {
         status: ok ? "loop" : "fail",
         attempt,
         detail: ok
-          ? `Build ok. READ ${prefix}-fold.png + refs + DIRECTION.md. Loop: fix content/layout only if eye fails; then --mark-pass when ready.`
-          : `basics/delivery failed: ${[...basics.findings, ...delivery.findings]
+          ? `Build ok + skill wiring green. Read RESEARCH_GATE.md — execute research checklist before craft loops; then --mark-pass when ready.`
+          : `basics/delivery/wiring failed: ${[...basics.findings, ...delivery.findings, ...wiring.findings]
               .filter((f) => !f.ok)
               .map((f) => f.id)
               .join(",")}`,

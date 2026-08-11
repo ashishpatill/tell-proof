@@ -24,6 +24,7 @@ Learn (automatic): `.cursor/skills/agency-run-learn` · `research/design-data.RE
 10. **Personal corpus (dev):** `TELL_DESIGN_DATA` + `TELL_DEV_CORPUS=1` or `research/design-data.local.json`.
 11. **Media performance is automatic** — `responsive-performance` is always routed; `pnpm media:site` runs at end of `agency:run` **and** on `agency:pipeline --mark-pass 4-ship`. Specimen UIs use `SiteImg`.
 12. **Research gate is automatic on every template** — `designFromFeatures` attaches `researchPlan` (LoadPrior → gap → sport-site-research when sport → IA → training) and merges `followOnCraft` into `routedSkills`.
+13. **Skill wiring is a hard gate** — `assertSkillWiring` (via `assertBasics`) + agency `2-build` artifacts `RESEARCH_GATE.md` / `SKILL_WIRING.json`. Phase fails if research/craft/optim wiring is red.
 
 ## Session opener (auto)
 

@@ -17,6 +17,7 @@
  */
 
 import type { DesignSpec } from "./types";
+import { assertSkillWiring } from "./skill-wiring";
 
 export interface BasicsFinding {
   id: string;
@@ -673,6 +674,12 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Craft templates prove with their own story instrument; marketing pages keep a filled proof board or workflow stage — never a lonely quote, never one shared board on every offering.",
     ),
   ];
+
+  // RSI: skill wiring is part of the basics floor — every template / agency 2-build.
+  const wiring = assertSkillWiring(spec, html);
+  findings.push(
+    ...wiring.findings.map((f) => check(f.id, f.ok, f.detail)),
+  );
 
   return { passed: findings.every((f) => f.ok), findings };
 }
