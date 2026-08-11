@@ -92,34 +92,11 @@ textarea:disabled {
 
 /* ── Reveal seam ─────────────────────────────────────────────── */
 
-.seam-pin {
-  cursor: pointer;
-  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), opacity 120ms ease;
-}
-.seam-pin--quiet {
-  opacity: 0.55;
-}
-.seam-pin--quiet:hover,
-.seam-pin--quiet:focus-visible {
-  opacity: 1;
-}
-.seam-pin:hover {
-  transform: translate(-50%, -50%) scale(1.08);
-}
-.seam-pin--active {
-  opacity: 1;
-  animation: proof-pulse 1.6s ease-in-out infinite;
-}
 .seam-handle {
   transition: box-shadow 120ms ease, transform 120ms ease;
 }
 .seam-handle:hover {
   transform: translate(-50%, -50%) scale(1.06);
-}
-
-@keyframes proof-pulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50% { transform: translate(-50%, -50%) scale(1.08); }
 }
 
 @media (prefers-reduced-motion: reduce) {
