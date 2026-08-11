@@ -49,26 +49,6 @@ const ALL_SKILLS: SkillNodeId[] = [
 
 const MOODS: ColorMood[] = ["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"];
 
-/** Locked inline brief — engine tests run before parent adds SHOWCASE_BRIEFS.clinic / templates catalog entry. */
-const CARE_PATHWAY_BRIEF = DesignBrief.parse({
-  productName: "Roundspool",
-  tagline: "Clinical pathway with handoff beads and a rounds ladder",
-  audience: "Ward leads",
-  businessGoal: "trust",
-  siteKind: "care-pathway",
-  lockSiteKind: true,
-  brandAccent: "#0d7a72",
-  features: [
-    { id: "intake", name: "Intake triage", description: "First encounter on the chart.", priority: "p0" },
-    { id: "handoff", name: "Handoff bead", description: "Stage-to-stage transfer with citeable matter.", priority: "p0" },
-    { id: "treat", name: "Treat stage", description: "Dwell time visible on the pathway spine.", priority: "p1" },
-    { id: "follow", name: "Follow-up round", description: "Encounter meta on the ladder.", priority: "p1" },
-    { id: "discharge", name: "Discharge stage", description: "Chart close with ward ledger.", priority: "p1" },
-  ],
-  constraints: ["clinical pathway craft", "rounds ladder", "chart close"],
-  primaryCta: "Request a chart walkthrough",
-});
-
 describe("premium-content-custom-web engine", () => {
   it("builds a saas marketing design with routed skills and preview html", () => {
     const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
@@ -411,15 +391,10 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    const keys = templates.map((t) => t.key).sort();
-    // Parent adds `clinic` template separately — accept 15 until catalog lands.
-    expect(templates.length).toBeGreaterThanOrEqual(15);
-    if (keys.includes("clinic")) {
-      expect(templates).toHaveLength(16);
-    }
-    expect(keys).toEqual(
-      expect.arrayContaining([
+    expect(templates).toHaveLength(16);
+    expect(templates.map((t) => t.key).sort()).toEqual([
       "archive",
+      "clinic",
       "consumer",
       "corporate",
       "dashboard",
@@ -434,9 +409,7 @@ describe("research-backed offerings + implementation basics", () => {
       "press",
       "saas",
       "studio",
-      ...(keys.includes("clinic") ? (["clinic"] as const) : []),
-    ]),
-    );
+    ]);
     for (const t of templates) {
       expect(t.marketJob.length).toBeGreaterThan(20);
       expect(t.researchBasis.length).toBeGreaterThan(20);
@@ -463,10 +436,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(press.siteKind).toBe("press-atelier");
     const lantern = templates.find((t) => t.key === "lantern")!;
     expect(lantern.siteKind).toBe("lantern-path");
-    const clinic = templates.find((t) => t.key === "clinic");
-    if (clinic) {
-      expect(clinic.siteKind).toBe("care-pathway");
-    }
+    const clinic = templates.find((t) => t.key === "clinic")!;
+    expect(clinic.siteKind).toBe("care-pathway");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -747,8 +718,7 @@ describe("research-backed offerings + implementation basics", () => {
   });
 
   it("gives care pathway a stage rail + care plate + rounds ladder distinct from lantern and SaaS pipelines", () => {
-    const brief = SHOWCASE_BRIEFS.clinic ?? CARE_PATHWAY_BRIEF;
-    const { spec, previewHtml } = designFromFeatures(brief);
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.clinic!);
     expect(spec.brief.siteKind).toBe("care-pathway");
     expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
     expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
@@ -852,7 +822,7 @@ describe("research-backed offerings + implementation basics", () => {
         /\.ds-(?:path|press|chrono|folio|register)-field\{[^}]*margin-top:calc\([^)]*\*\s*-/,
       );
     }
-    const { previewHtml: clinic } = designFromFeatures(CARE_PATHWAY_BRIEF);
+    const { previewHtml: clinic } = designFromFeatures(SHOWCASE_BRIEFS.clinic!);
     expect(clinic).not.toMatch(/\.ds-care-field\{[^}]*margin-top:calc\([^)]*\*\s*-/);
     const { previewHtml: lantern } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
     expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-claim\{[^}]*background:var\(--c-paper\)/);
@@ -862,7 +832,7 @@ describe("research-backed offerings + implementation basics", () => {
   });
 
   it("keeps story Note labels from sliding under capability marks", () => {
-    const noteKinds = ["observatory", "archive", "loom", "herbarium", "press", "lantern"] as const;
+    const noteKinds = ["observatory", "archive", "loom", "herbarium", "press", "lantern", "clinic"] as const;
     for (const key of noteKinds) {
       const brief = SHOWCASE_BRIEFS[key];
       if (!brief) continue;
@@ -872,7 +842,7 @@ describe("research-backed offerings + implementation basics", () => {
         /\.ds-(?:chrono|entry|hang|range|gather|ember|spread|marginalia|rounds)-mark\{[^}]*margin-top:calc\(var\(--s-(?:sm|xs|md)\) \* -1\)/,
       );
     }
-    const { previewHtml: rounds } = designFromFeatures(CARE_PATHWAY_BRIEF);
+    const { previewHtml: rounds } = designFromFeatures(SHOWCASE_BRIEFS.clinic!);
     expect(rounds).toMatch(/Note 0\d/);
     expect(rounds).toMatch(/\.ds-rounds-note \+ \.ds-rounds-mark\{[^}]*margin-top:var\(--s-lg\)/);
     const { previewHtml: chrono } = designFromFeatures(SHOWCASE_BRIEFS.observatory!);
@@ -948,7 +918,7 @@ describe("research-backed offerings + implementation basics", () => {
       "herbarium",
       "press",
       "lantern",
-      ...(SHOWCASE_BRIEFS.clinic ? (["clinic"] as const) : []),
+      "clinic",
     ] as const;
     const sharedPhrases = [
       "Why teams keep it",

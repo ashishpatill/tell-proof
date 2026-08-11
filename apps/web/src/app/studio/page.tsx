@@ -336,6 +336,11 @@ export default function StudioPage() {
               "research-dossier",
               "signal-observatory",
               "archive-index",
+              "commerce-loom",
+              "field-guide",
+              "press-atelier",
+              "lantern-path",
+              "care-pathway",
             ]}
             testId="input-sitekind"
           />

@@ -29,7 +29,7 @@
 | `packages/design-skills/src/basics-checklist.ts` | Implementation floor only (not taste) |
 | `/studio` | Live canvas + Taste Controls + magic edit + viewport + copy HTML |
 | `/showcase` | Specimen gallery (print-atelier index of all offerings) |
-| `/showcase/*` | Full proof sheets: saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, archive, loom, herbarium, press |
+| `/showcase/*` | Full proof sheets: saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, archive, loom, herbarium, press, lantern, clinic |
 | `/crease` | Cricket match-theater specimen (sport vernacular reference) |
 | `POST /api/design` | Brief → spec + preview HTML (`redesignFrom` optional) |
 | `GET /api/design?templates=1` | Offering catalog metadata |
@@ -44,7 +44,7 @@
 
 ### Offering catalog (keep count low)
 
-One template per `siteKind` (saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, archive, loom, herbarium, press). Improve each until the research loop's convergence criteria hold for two consecutive loops. Add another only when a measured demand gap appears that none of the current kinds cover.
+One template per `siteKind` (saas, dashboard, corporate, educational, fintech, studio, consumer, foundry, dossier, observatory, archive, loom, herbarium, press, lantern, clinic). Improve each until the research loop's convergence criteria hold for two consecutive loops. Add another only when a measured demand gap appears that none of the current kinds cover.
 
 | Key | Market job |
 |---|---|
@@ -62,6 +62,8 @@ One template per `siteKind` (saas, dashboard, corporate, educational, fintech, s
 | `loom` | Commerce loom — size-tape rail, warp/weft SKU loom with free textile photos, hangtag essay, Care label |
 | `herbarium` | Field guide — taxon rail, specimen plate with free botanical photos, range essay, Voucher close |
 | `press` | Press atelier — registration fold, signature rail, press sheet, gather essay, Pressroom close |
+| `lantern` | Lantern path — chapter waypoints, path cartograph fold, night trail, Ember close |
+| `clinic` | Care pathway — stage rail, care-plate spine, rounds ladder, Chart close |
 
 ## Quality bar (Phase 7)
 

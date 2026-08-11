@@ -170,6 +170,13 @@ export function ctaFor(
         note: "Vouchers ship with pressed plates and range notes — not a demo theatre.",
       };
     }
+    if (siteKind === "care-pathway") {
+      return {
+        primary: "Request a chart walkthrough",
+        secondary: "Read the pathway",
+        note: "Walkthroughs ship with stage maps and handoff beads — not a demo theatre.",
+      };
+    }
     return GOAL_CTA[goal];
   })();
   // Agency brief "one CTA" wins when set — every page repeats the same verb.
