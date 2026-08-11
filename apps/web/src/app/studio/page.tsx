@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   DesignFromFeaturesResponse,
-  listTemplates,
   templateToStudioPreset,
   type AestheticLean,
   type ColorMood,
@@ -12,21 +11,17 @@ import {
   type MotionLevel,
   type RoundingDepth,
   type SiteKind,
-  type TemplateKey,
   type TypeWeight,
 } from "@tell/design-skills";
+import { ProductShell } from "@/components/shell";
 
 type DesignResponse = DesignFromFeaturesResponse & { error?: string };
 type GenerateMode = "create" | "redesign";
 type BusinessGoal = "leads" | "demos" | "trust" | "sales" | "activation";
 type ViewportWidth = "390" | "768" | "1280";
 
-/** Research-backed offerings — single source in @tell/design-skills templates. */
-const TEMPLATE_KEYS = listTemplates().map((t) => t.key);
-const PRESETS = Object.fromEntries(TEMPLATE_KEYS.map((key) => [key, templateToStudioPreset(key)])) as Record<
-  TemplateKey,
-  ReturnType<typeof templateToStudioPreset>
->;
+/** Default brief only — template gallery lives on Showcase, not Studio. */
+const DEFAULT_BRIEF = templateToStudioPreset("saas");
 
 function parseFeatures(text: string) {
   return text
@@ -47,20 +42,19 @@ function parseFeatures(text: string) {
 }
 
 export default function StudioPage() {
-  const initial = PRESETS.saas!;
-  const [productName, setProductName] = useState(initial.productName);
-  const [tagline, setTagline] = useState(initial.tagline);
-  const [audience, setAudience] = useState(initial.audience);
-  const [siteKind, setSiteKind] = useState<SiteKind>(initial.siteKind);
+  const [productName, setProductName] = useState(DEFAULT_BRIEF.productName);
+  const [tagline, setTagline] = useState(DEFAULT_BRIEF.tagline);
+  const [audience, setAudience] = useState(DEFAULT_BRIEF.audience);
+  const [siteKind, setSiteKind] = useState<SiteKind>(DEFAULT_BRIEF.siteKind);
   const [lockSiteKind, setLockSiteKind] = useState(true);
-  const [businessGoal, setBusinessGoal] = useState<BusinessGoal>(initial.businessGoal);
-  const [featuresText, setFeaturesText] = useState(initial.featuresText);
-  const [density, setDensity] = useState<Density>(initial.density);
-  const [motion, setMotion] = useState<MotionLevel>(initial.motion);
-  const [aestheticLean, setAestheticLean] = useState<AestheticLean>(initial.aestheticLean);
-  const [colorMood, setColorMood] = useState<ColorMood>("neutral-professional");
-  const [typographyWeight, setTypographyWeight] = useState<TypeWeight>("medium-modern");
-  const [roundingDepth, setRoundingDepth] = useState<RoundingDepth>("soft");
+  const [businessGoal, setBusinessGoal] = useState<BusinessGoal>(DEFAULT_BRIEF.businessGoal);
+  const [featuresText, setFeaturesText] = useState(DEFAULT_BRIEF.featuresText);
+  const [density, setDensity] = useState<Density>(DEFAULT_BRIEF.density);
+  const [motion, setMotion] = useState<MotionLevel>(DEFAULT_BRIEF.motion);
+  const [aestheticLean, setAestheticLean] = useState<AestheticLean>(DEFAULT_BRIEF.aestheticLean);
+  const [colorMood, setColorMood] = useState<ColorMood>(DEFAULT_BRIEF.colorMood);
+  const [typographyWeight, setTypographyWeight] = useState<TypeWeight>(DEFAULT_BRIEF.typographyWeight);
+  const [roundingDepth, setRoundingDepth] = useState<RoundingDepth>(DEFAULT_BRIEF.roundingDepth);
   const [magic, setMagic] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -187,40 +181,6 @@ export default function StudioPage() {
     }
   }
 
-  function loadPreset(key: TemplateKey) {
-    const p = PRESETS[key]!;
-    setProductName(p.productName);
-    setTagline(p.tagline);
-    setAudience(p.audience);
-    setSiteKind(p.siteKind);
-    setBusinessGoal(p.businessGoal);
-    setLockSiteKind(true);
-    setFeaturesText(p.featuresText);
-    setAestheticLean(p.aestheticLean);
-    setMotion(p.motion);
-    setDensity(p.density);
-    setColorMood(p.colorMood);
-    setTypographyWeight(p.typographyWeight);
-    setRoundingDepth(p.roundingDepth);
-    void generateWith({
-      productName: p.productName,
-      tagline: p.tagline,
-      audience: p.audience,
-      businessGoal: p.businessGoal,
-      siteKind: p.siteKind,
-      lockSiteKind: true,
-      features: parseFeatures(p.featuresText),
-      taste: {
-        density: p.density,
-        motion: p.motion,
-        aestheticLean: p.aestheticLean,
-        colorMood: p.colorMood,
-        typographyWeight: p.typographyWeight,
-        roundingDepth: p.roundingDepth,
-      },
-    });
-  }
-
   function applyMagic() {
     const text = magic.toLowerCase();
     let nextDensity = density;
@@ -316,49 +276,21 @@ export default function StudioPage() {
   }
 
   return (
+    <ProductShell active="studio">
     <div className="min-h-screen bg-bg text-text" data-testid="studio-page">
-      <header className="border-b border-border px-4 py-3 md:px-6">
-        <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary">Tell Studio</p>
-            <h1 className="font-display text-xl font-semibold tracking-tight">Premium content-custom design</h1>
-          </div>
-          <div className="flex flex-wrap gap-2 text-sm text-secondary">
-            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase">
-              Specimens
-            </a>
-            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/showcase/studio">
-              Featured
-            </a>
-            <a className="underline underline-offset-2 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="/">
-              Tell Report
-            </a>
-          </div>
-        </div>
-      </header>
+      <div className="border-b border-border px-4 py-4 md:px-6">
+        <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary">Tell Studio</p>
+        <h1 className="font-display text-xl font-semibold tracking-tight">Premium content-custom design</h1>
+        <p className="mt-1 max-w-2xl text-sm text-secondary">
+          Describe the product and taste. Specimens live on Showcase — Studio starts from your brief.
+        </p>
+      </div>
 
       <div className="mx-auto grid max-w-[1600px] gap-4 p-4 md:grid-cols-[380px_1fr] md:p-6">
         <aside className="space-y-4 rounded-card border border-border bg-surface p-4" data-testid="studio-controls">
-          <div className="space-y-2" data-testid="preset-row">
-            <p className="text-xs text-secondary">
-              Research-backed offerings, deepened by the loop — not a theme gallery.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {listTemplates().map((t) => (
-                <button
-                  key={t.key}
-                  type="button"
-                  title={t.marketJob}
-                  className="rounded border border-border px-2 py-1 text-xs font-medium transition hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50"
-                  onClick={() => loadPreset(t.key)}
-                  disabled={loading}
-                  data-testid={`preset-${t.key}`}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-          </div>
+          <p className="text-xs text-secondary">
+            Features and taste controls — not a template gallery.
+          </p>
 
           <label className="block text-sm">
             <span className="mb-1 block font-medium">Product name</span>
@@ -588,6 +520,7 @@ export default function StudioPage() {
         </section>
       </div>
     </div>
+    </ProductShell>
   );
 }
 

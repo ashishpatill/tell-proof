@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { listTemplates, type DesignTemplate } from "@tell/design-skills";
+import { ProductShell } from "@/components/shell";
 import { ShowcaseAnthologyReel } from "@/components/showcase/ShowcaseAnthologyReel";
 import { SpecimenPreview } from "@/components/showcase/SpecimenPreview";
 import { specimenHtmlSrc, specimenOpenHref } from "@/components/showcase/specimenSrc";
@@ -80,40 +81,12 @@ export default function ShowcaseGalleryPage() {
     index: o.index,
     href: o.href,
   }));
-  const featured = offerings.find((o) => o.key === "baseline") ?? offerings[0]!;
 
   return (
+    <ProductShell active="showcase">
     <div className="sx-root" data-testid="showcase-gallery">
       <div className="sx-grain" aria-hidden="true" />
       <div className="sx-shell">
-        <header className="sx-nav">
-          <Link className="sx-brand" href="/showcase" prefetch={false}>
-            <span className="sx-brand-mark">Tell</span>
-            <span className="sx-brand-meta">Specimens</span>
-          </Link>
-          <nav className="sx-nav-links" aria-label="Primary">
-            <a href="#reels">Reels</a>
-            <Link href="/kinetic" prefetch={false}>
-              Motion
-            </Link>
-            <Link href="/crease" prefetch={false}>
-              Crease
-            </Link>
-            <Link href="/baseline" prefetch={false}>
-              Baseline
-            </Link>
-            <Link href="/studio" prefetch={false}>
-              Studio
-            </Link>
-            <Link href="/" prefetch={false}>
-              Tell Report
-            </Link>
-            <Link className="sx-nav-cta" href={featured.href} prefetch={false}>
-              Open Baseline
-            </Link>
-          </nav>
-        </header>
-
         <section className="sx-stage" aria-labelledby="sx-hero-title">
           <div className="sx-stage-mast">
             <p className="sx-kicker">Craft reels · not theme packs</p>
@@ -225,17 +198,9 @@ export default function ShowcaseGalleryPage() {
             Deepened by the recursive improve loop · hero tours many specimens; strip reels wait for
             hover.
           </p>
-          <p>
-            <Link href="/studio" prefetch={false}>
-              Edit in Studio
-            </Link>
-            {" · "}
-            <Link href="/" prefetch={false}>
-              Back to Tell
-            </Link>
-          </p>
         </footer>
       </div>
     </div>
+    </ProductShell>
   );
 }

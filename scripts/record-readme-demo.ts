@@ -73,8 +73,9 @@ async function main() {
     await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
     await page.getByTestId("studio-frame").waitFor({ timeout: 30_000 });
     await pause(page, 2000);
-    for (const preset of ["dashboard", "corporate", "educational", "saas"] as const) {
-      await page.getByTestId(`preset-${preset}`).click();
+    for (const kind of ["dashboard-webapp", "corporate-story", "docs-educational", "saas-marketing"] as const) {
+      await page.getByTestId("input-sitekind").selectOption(kind);
+      await page.getByTestId("btn-generate").click();
       await page.waitForTimeout(2200);
     }
     await page.getByTestId("taste-lean").selectOption("minimal-clean");

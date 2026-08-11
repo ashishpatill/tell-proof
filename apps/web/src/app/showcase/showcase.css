@@ -123,16 +123,13 @@
   transform: translateY(1px);
 }
 
-/* ── Gallery stage only (never collide with `.sx-chrome .sx-stage` proof iframe) ──── */
-/* CONTRACT: do not reintroduce unscoped `.sx-stage { … }` rules — gallery is `.sx-shell > .sx-stage`,
- * proof is `.sx-chrome .sx-stage`. Shared class without a parent scope caused empty proof + dead mast. */
-
 .sx-shell > .sx-stage {
   display: grid;
   grid-template-columns: minmax(15rem, 0.88fr) minmax(0, 1.6fr);
   gap: clamp(1rem, 2.5vw, 2rem);
   align-items: stretch;
   padding: clamp(1.5rem, 4vw, 2.75rem) clamp(1.25rem, 4vw, 3rem) 2rem;
+  padding-top: clamp(1.5rem, 4vw, 2.75rem);
   max-width: 1440px;
   margin-inline: auto;
   border-bottom: 1px solid rgb(var(--border) / 0.55);

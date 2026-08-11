@@ -233,25 +233,36 @@ async function main() {
     await assertText(page, '[data-testid="meta-skills"]', "analyze-features-requirements");
     await assertText(page, '[data-testid="meta-hints"]', "Redesign from");
 
-    // Preset: dashboard (from-scratch create)
-    await clickAndAwaitNextGeneration(page, () => page.getByTestId("preset-dashboard").click());
+    // Site-kind switches via controls (templates live on Showcase, not Studio)
+    await page.getByTestId("input-product").fill("Pulseboard");
+    await page.getByTestId("input-tagline").fill("See the queue that matters");
+    await page.getByTestId("input-sitekind").selectOption("dashboard-webapp");
+    await page.getByTestId("input-lock-sitekind").check();
+    await page.getByTestId("input-features").fill("Priority queue — Surface the next action\nWatchlist — Pin accounts that moved\nDigest — Morning summary");
+    await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
     await assertText(page, '[data-testid="meta-sitekind"]', "dashboard-webapp");
     await assertText(page, '[data-testid="meta-skills"]', "dashboard-or-webapp-ui");
     await frameHas(page, "studio-frame", "Priority queue");
     await frameMissing(page, "studio-frame", "Account scoring");
 
-    // Preset: corporate
-    await clickAndAwaitNextGeneration(page, () => page.getByTestId("preset-corporate").click());
+    await page.getByTestId("input-product").fill("Harbor");
+    await page.getByTestId("input-tagline").fill("Clarity for teams");
+    await page.getByTestId("input-sitekind").selectOption("corporate-story");
+    await page.getByTestId("input-features").fill("Mission — Why we build\nTeams — Who ships\nProof — Customer outcomes");
+    await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
     await assertText(page, '[data-testid="meta-sitekind"]', "corporate-story");
     await assertText(page, '[data-testid="meta-skills"]', "content-storytelling-pages");
     await frameHas(page, "studio-frame", "Clarity for teams");
 
-    // Preset: educational
-    await clickAndAwaitNextGeneration(page, () => page.getByTestId("preset-educational").click());
+    await page.getByTestId("input-product").fill("Fieldmark");
+    await page.getByTestId("input-tagline").fill("Placement model explained");
+    await page.getByTestId("input-sitekind").selectOption("docs-educational");
+    await page.getByTestId("input-features").fill("Placement model — How scoring works\nWalkthrough — Step-by-step figure\nGlossary — Shared language");
+    await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
     await assertText(page, '[data-testid="meta-sitekind"]', "docs-educational");
     await frameHas(page, "studio-frame", "Placement model");
     const figureCount = await page.frameLocator('[data-testid="studio-frame"]').locator("[data-instrument='scrub']").count();
-    if (figureCount < 1) throw new Error("educational preset missing scrub figure");
+    if (figureCount < 1) throw new Error("educational site missing scrub figure");
 
     // From-scratch custom product via primary redesign button (features win)
     await page.getByTestId("input-product").fill("Ledgerly");

@@ -47,10 +47,9 @@ import { svgSessionThumb, thumbFromScreenshotBase64 } from "@/lib/session-thumb"
 import {
   AppShell,
   EntryHome,
-  EntryNavRail,
+  ProductSidebar,
   ProjectWorkspace,
   SettingsDialog,
-  WorkspaceTabsBar,
   type WorkspaceTab,
 } from "@/components/shell";
 import {
@@ -1572,26 +1571,20 @@ export default function HomePage() {
     <>
       <AppShell
         rail={
-          <EntryNavRail
-            active={shellView === "home" ? "home" : "project"}
+          <ProductSidebar
+            active="home"
             onHome={goHome}
             onSettings={() => setSettingsOpen(true)}
-          />
-        }
-        tabs={
-          <WorkspaceTabsBar
-            tabs={openTabs}
-            activeId={shellView === "home" ? "home" : sessionId}
-            onSelect={(id) => {
+            sessions={openTabs}
+            activeSessionId={shellView === "project" ? sessionId : undefined}
+            onSelectSession={(id) => {
               const tab = openTabs.find((t) => t.id === id);
               if (!tab) return;
               setSessionId(tab.id);
               setSessionTitle(tab.title);
               setShellView("project");
             }}
-            onClose={closeTab}
-            onHome={goHome}
-            onSettings={() => setSettingsOpen(true)}
+            onCloseSession={closeTab}
             focusCanvas={focusCanvas}
             onToggleFocus={shellView === "project" ? () => setFocusCanvas((v) => !v) : undefined}
           />
