@@ -1,8 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { LIVE_MATCHES } from "./data";
-import type { CreaseRouteId } from "./creaseNav";
 import { CreaseNavClient } from "./CreaseNavClient";
+import { CreaseRevealRoot } from "./CreaseRevealRoot";
 
 export type { CreasePrimaryRouteId, CreaseRouteId, CreaseSecondaryRouteId } from "./creaseNav";
 export { CREASE_NAV, CREASE_SECONDARY } from "./creaseNav";
@@ -13,16 +13,13 @@ function statusLabel(status: (typeof LIVE_MATCHES)[number]["status"]): string {
   return "Upcoming";
 }
 
-/** Server shell — static HTML + one client island for the mobile menu. */
-export function CreaseShell({
-  active,
-  children,
-}: {
-  active: CreaseRouteId;
-  children: ReactNode;
-}) {
+/**
+ * Persistent server shell — chrome stays mounted across soft navigations so
+ * route swaps only replace <main>.
+ */
+export function CreaseShell({ children }: { children: ReactNode }) {
   return (
-    <div className="cr-root" data-testid="crease-site" data-crease-route={active}>
+    <div className="cr-root" data-testid="crease-site">
       <a className="cr-skip" href="#main">
         Skip to content
       </a>
@@ -36,18 +33,18 @@ export function CreaseShell({
 
       <header className="cr-nav">
         <div className="cr-nav-inner">
-          <Link className="cr-brand" href="/crease" aria-label="CREASE home">
+          <Link className="cr-brand" href="/crease" prefetch aria-label="CREASE home">
             <span className="cr-brand-mark">CREASE</span>
             <span className="cr-brand-rule" aria-hidden="true" />
           </Link>
-          <CreaseNavClient active={active} />
+          <CreaseNavClient />
         </div>
       </header>
 
       <div className="cr-live-rail" aria-label="Live and upcoming scores">
         <div className="cr-live-rail-inner">
           {LIVE_MATCHES.map((m) => (
-            <Link key={m.id} className="cr-live-chip" href="/crease/live">
+            <Link key={m.id} className="cr-live-chip" href="/crease/live" prefetch>
               <span className={`cr-pill cr-pill-${m.status}`}>
                 <span className="cr-pill-dot" aria-hidden="true" />
                 {statusLabel(m.status)}
@@ -67,7 +64,9 @@ export function CreaseShell({
         </div>
       </div>
 
-      <main id="main">{children}</main>
+      <main id="main">
+        <CreaseRevealRoot>{children}</CreaseRevealRoot>
+      </main>
 
       <footer className="cr-footer">
         <div className="cr-footer-brand">
@@ -77,29 +76,57 @@ export function CreaseShell({
         <nav aria-label="Footer" className="cr-footer-dirs">
           <div className="cr-footer-col">
             <p className="cr-footer-col-title">Match</p>
-            <Link href="/crease/live">Live</Link>
-            <Link href="/crease/scorecard">Scorecard</Link>
-            <Link href="/crease/live#commentary">Commentary</Link>
-            <Link href="/crease/scorecard#partnerships">Partnerships</Link>
+            <Link href="/crease/live" prefetch>
+              Live
+            </Link>
+            <Link href="/crease/scorecard" prefetch>
+              Scorecard
+            </Link>
+            <Link href="/crease/live#commentary" prefetch>
+              Commentary
+            </Link>
+            <Link href="/crease/scorecard#partnerships" prefetch>
+              Partnerships
+            </Link>
           </div>
           <div className="cr-footer-col">
             <p className="cr-footer-col-title">Compete</p>
-            <Link href="/crease/series">Series</Link>
-            <Link href="/crease/fixtures">Fixtures</Link>
-            <Link href="/crease/rankings">Rankings</Link>
-            <Link href="/crease/teams">Teams</Link>
+            <Link href="/crease/series" prefetch>
+              Series
+            </Link>
+            <Link href="/crease/fixtures" prefetch>
+              Fixtures
+            </Link>
+            <Link href="/crease/rankings" prefetch>
+              Rankings
+            </Link>
+            <Link href="/crease/teams" prefetch>
+              Teams
+            </Link>
           </div>
           <div className="cr-footer-col">
             <p className="cr-footer-col-title">People</p>
-            <Link href="/crease/players">Players</Link>
-            <Link href="/crease/stats">Stats &amp; records</Link>
-            <Link href="/crease/rankings">Player rankings</Link>
+            <Link href="/crease/players" prefetch>
+              Players
+            </Link>
+            <Link href="/crease/stats" prefetch>
+              Stats &amp; records
+            </Link>
+            <Link href="/crease/rankings" prefetch>
+              Player rankings
+            </Link>
           </div>
           <div className="cr-footer-col">
             <p className="cr-footer-col-title">Read</p>
-            <Link href="/crease/notebook">Notebook</Link>
-            <Link href="/crease">Home</Link>
-            <Link href="/showcase">Tell Specimens</Link>
+            <Link href="/crease/notebook" prefetch>
+              Notebook
+            </Link>
+            <Link href="/crease" prefetch>
+              Home
+            </Link>
+            <Link href="/showcase" prefetch>
+              Tell Specimens
+            </Link>
           </div>
         </nav>
         <p className="cr-footer-note">

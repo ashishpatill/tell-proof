@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { CreaseShell, type CreaseRouteId } from "./CreaseShell";
-import { CreaseRevealRoot } from "./CreaseRevealRoot";
+import type { CreaseRouteId } from "./creaseNav";
 import { LiveMatchBoard } from "./LiveMatchBoard";
 import { RankingsDesk } from "./RankingsDesk";
 import { SiteImg } from "@/components/site-media/SiteImg";
@@ -660,13 +659,8 @@ const PAGE_MAIN: Record<CreaseRouteId, () => ReactNode> = {
   stats: StatsMain,
 };
 
+/** Page body only — chrome lives in the crease layout so nav stays mounted. */
 export function CreaseExperience({ page = "home" }: { page?: CreaseRouteId }) {
   const Main = PAGE_MAIN[page];
-  return (
-    <CreaseRevealRoot>
-      <CreaseShell active={page}>
-        <Main />
-      </CreaseShell>
-    </CreaseRevealRoot>
-  );
+  return <Main />;
 }

@@ -5,17 +5,18 @@ import { useEffect, type ReactNode } from "react";
 
 /**
  * Progressive-enhancement reveal. Content paints immediately (CSS never blanks).
- * Re-arms on soft navigation so below-fold nodes may animate once — above-fold
- * stays visible with no entrance delay.
+ * Re-arms on soft navigation; above-fold stays visible with no entrance delay.
  */
-export function CreaseRevealRoot({ children }: { children: ReactNode }) {
+export function BaselineRevealRoot({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    const root = document.querySelector<HTMLElement>("[data-crease-reveal-root]");
+    const root = document.querySelector<HTMLElement>("[data-baseline-reveal-root]");
     if (!root) return;
 
-    root.classList.remove("cr-reveal-armed");
+    const site = root.closest<HTMLElement>(".bl-root") ?? root;
+    site.classList.remove("bl-reveal-armed");
+    site.removeAttribute("data-reveal-ready");
     root.querySelectorAll<HTMLElement>("[data-reveal][data-in='1']").forEach((n) => {
       n.removeAttribute("data-in");
     });
@@ -34,9 +35,8 @@ export function CreaseRevealRoot({ children }: { children: ReactNode }) {
       }
     };
 
-    // Sync: mark fold content, then arm — never blank the first screen.
     nodes.forEach(markVisible);
-    root.classList.add("cr-reveal-armed");
+    site.classList.add("bl-reveal-armed");
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -56,5 +56,5 @@ export function CreaseRevealRoot({ children }: { children: ReactNode }) {
     return () => io.disconnect();
   }, [pathname]);
 
-  return <div data-crease-reveal-root>{children}</div>;
+  return <div data-baseline-reveal-root>{children}</div>;
 }

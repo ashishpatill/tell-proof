@@ -1,25 +1,11 @@
-"use client";
-
 import Link from "next/link";
-import { useId, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { LIVE_MATCHES, type LiveMatch } from "./data";
+import { BaselineNavClient } from "./BaselineNavClient";
+import { BaselineRevealRoot } from "./BaselineRevealRoot";
 
-export type BaselineRouteId =
-  | "home"
-  | "live"
-  | "scorecard"
-  | "series"
-  | "rankings"
-  | "notebook";
-
-export const BASELINE_NAV: Array<{ id: BaselineRouteId; href: string; label: string }> = [
-  { id: "home", href: "/baseline", label: "Home" },
-  { id: "live", href: "/baseline/live", label: "Live" },
-  { id: "scorecard", href: "/baseline/scorecard", label: "Scorecard" },
-  { id: "series", href: "/baseline/series", label: "Tournaments" },
-  { id: "rankings", href: "/baseline/rankings", label: "Rankings" },
-  { id: "notebook", href: "/baseline/notebook", label: "Notebook" },
-];
+export type { BaselineRouteId } from "./baselineNav";
+export { BASELINE_NAV } from "./baselineNav";
 
 function statusLabel(status: LiveMatch["status"]): string {
   if (status === "live") return "Live";
@@ -47,18 +33,13 @@ function chipServer(m: LiveMatch): string | null {
   return null;
 }
 
-export function BaselineShell({
-  active,
-  children,
-}: {
-  active: BaselineRouteId;
-  children: ReactNode;
-}) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navId = useId();
-
+/**
+ * Persistent server shell — chrome stays mounted across soft navigations so
+ * route swaps only replace <main>.
+ */
+export function BaselineShell({ children }: { children: ReactNode }) {
   return (
-    <div className="bl-root" data-testid="baseline-site" data-baseline-route={active}>
+    <div className="bl-root" data-testid="baseline-site">
       <a className="bl-skip" href="#main">
         Skip to content
       </a>
@@ -72,39 +53,11 @@ export function BaselineShell({
 
       <header className="bl-nav">
         <div className="bl-nav-inner">
-          <Link className="bl-brand" href="/baseline" aria-label="BASELINE home">
+          <Link className="bl-brand" href="/baseline" prefetch aria-label="BASELINE home">
             <span className="bl-brand-mark">BASELINE</span>
             <span className="bl-brand-rule" aria-hidden="true" />
           </Link>
-          <button
-            type="button"
-            className="bl-menu-btn"
-            aria-expanded={menuOpen}
-            aria-controls={navId}
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            {menuOpen ? "Close" : "Menu"}
-          </button>
-          <nav
-            id={navId}
-            className={`bl-nav-links${menuOpen ? " is-open" : ""}`}
-            aria-label="Primary"
-          >
-            {BASELINE_NAV.map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                aria-current={active === item.id ? "page" : undefined}
-                className={active === item.id ? "is-active" : undefined}
-                onClick={() => setMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Link className="bl-nav-cta" href="/baseline/live" onClick={() => setMenuOpen(false)}>
-              Court board
-            </Link>
-          </nav>
+          <BaselineNavClient />
         </div>
       </header>
 
@@ -117,6 +70,7 @@ export function BaselineShell({
                 key={m.id}
                 className="bl-live-chip"
                 href="/baseline/live"
+                prefetch
                 data-surface={m.surface}
                 data-status={m.status}
               >
@@ -158,7 +112,9 @@ export function BaselineShell({
         </div>
       </div>
 
-      <main id="main">{children}</main>
+      <main id="main">
+        <BaselineRevealRoot>{children}</BaselineRevealRoot>
+      </main>
 
       <footer className="bl-footer">
         <div className="bl-footer-brand">
@@ -168,22 +124,36 @@ export function BaselineShell({
         <nav aria-label="Footer" className="bl-footer-dirs">
           <div className="bl-footer-col">
             <p className="bl-footer-col-title">Match</p>
-            <Link href="/baseline/live">Live</Link>
-            <Link href="/baseline/scorecard">Scorecard</Link>
+            <Link href="/baseline/live" prefetch>
+              Live
+            </Link>
+            <Link href="/baseline/scorecard" prefetch>
+              Scorecard
+            </Link>
           </div>
           <div className="bl-footer-col">
             <p className="bl-footer-col-title">Compete</p>
-            <Link href="/baseline/series">Tournaments</Link>
-            <Link href="/baseline/rankings">Rankings</Link>
+            <Link href="/baseline/series" prefetch>
+              Tournaments
+            </Link>
+            <Link href="/baseline/rankings" prefetch>
+              Rankings
+            </Link>
           </div>
           <div className="bl-footer-col">
             <p className="bl-footer-col-title">Read</p>
-            <Link href="/baseline/notebook">Notebook</Link>
-            <Link href="/baseline">Home</Link>
+            <Link href="/baseline/notebook" prefetch>
+              Notebook
+            </Link>
+            <Link href="/baseline" prefetch>
+              Home
+            </Link>
           </div>
           <div className="bl-footer-col">
             <p className="bl-footer-col-title">Utility</p>
-            <Link href="/showcase">Tell Specimens</Link>
+            <Link href="/showcase" prefetch>
+              Tell Specimens
+            </Link>
           </div>
         </nav>
         <p className="bl-footer-note">

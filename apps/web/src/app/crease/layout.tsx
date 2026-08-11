@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Outfit } from "next/font/google";
+import { CreaseShell } from "@/components/crease/CreaseShell";
 import "./crease.css";
 
 const fraunces = Fraunces({
@@ -26,7 +27,9 @@ export default function CreaseLayout({ children }: { children: React.ReactNode }
   return (
     <>
       <link rel="preload" as="image" href="/crease/hero-match.webp" type="image/webp" />
-      <div className={`${fraunces.variable} ${outfit.variable}`}>{children}</div>
+      <div className={`${fraunces.variable} ${outfit.variable}`}>
+        <CreaseShell>{children}</CreaseShell>
+      </div>
     </>
   );
 }
