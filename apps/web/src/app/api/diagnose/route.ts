@@ -21,7 +21,7 @@ function captureErrorMessage(url: string, error: unknown, backend: "remote" | "l
   if (/Timeout|timed out|timeout/i.test(detail)) {
     return `Capture timed out while waiting for ${url}. The page may still be compiling or stuck loading.`;
   }
-  return `Capture failed for ${url}. The offline demo report is showing instead.`;
+  return `Capture failed for ${url}. Fix the URL or capture backend — Tell will not silently swap in the demo fixture.`;
 }
 
 export async function POST(request: Request) {
@@ -29,8 +29,39 @@ export async function POST(request: Request) {
   if (unauthorized) return unauthorized;
 
   const body = await request.json().catch(() => ({}));
-  const url = typeof body.url === "string" && body.url.trim() ? body.url.trim() : demoReport.capture.url;
+  const requested = typeof body.url === "string" ? body.url.trim() : "";
+  // Explicit empty → offline fixture only when client opts in via ?offline=1 or body.offline
+  const wantOffline = body.offline === true || body.mode === "offline";
+  if (!requested && !wantOffline) {
+    return NextResponse.json(
+      {
+        report: null,
+        meta: {
+          live: false,
+          requestedUrl: "",
+          capturedUrl: "",
+          error: "Paste a live URL (or choose Offline fixture). Tell will not invent a demo capture.",
+        },
+      },
+      { status: 400 },
+    );
+  }
+
+  const url = requested || demoReport.capture.url;
   const backend = hasRemoteCaptureBackend() ? "remote" : "local";
+
+  // Explicit offline load — return the committed fixture without pretending it was live.
+  if (wantOffline && !requested) {
+    const meta = {
+      live: false,
+      requestedUrl: demoReport.capture.url,
+      capturedUrl: demoReport.capture.url,
+      backend,
+      fallback: "offline-fixture" as const,
+    };
+    recordTrainingEvent("diagnose", { report: demoReport }, meta);
+    return NextResponse.json({ report: demoReport, meta });
+  }
 
   return tracer.startActiveSpan("tell.diagnose", async (span: Span) => {
     span.setAttributes({
@@ -80,17 +111,20 @@ export async function POST(request: Request) {
       const meta = {
         live: false,
         requestedUrl: url,
-        capturedUrl: demoReport.capture.url,
+        capturedUrl: "",
         error: message,
         detail,
         backend,
       };
-      // Still record offline fallback runs — useful as labeled "fixture" episodes.
-      recordTrainingEvent("diagnose", { report: demoReport }, meta);
-      return NextResponse.json({
-        report: demoReport,
-        meta,
-      });
+      recordTrainingEvent("diagnose", {}, meta);
+      // Do NOT return demoReport as if it were the user's site. Offline fixture is opt-in.
+      return NextResponse.json(
+        {
+          report: null,
+          meta,
+        },
+        { status: 502 },
+      );
     }
   });
 }

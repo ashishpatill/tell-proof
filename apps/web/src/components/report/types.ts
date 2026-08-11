@@ -7,7 +7,10 @@ export type CaptureMeta = {
   requestedUrl: string;
   capturedUrl: string;
   error?: string;
+  detail?: string;
   backend?: "remote" | "local";
+  /** Present when the API returned the bundled fixture instead of the requested URL. */
+  fallback?: "offline-fixture";
 };
 export type UiNotice = { tone: "success" | "error" | "info"; title: string; message: string };
 export type SourceContext = {
