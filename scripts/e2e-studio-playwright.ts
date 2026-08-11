@@ -206,103 +206,45 @@ async function main() {
       if (!body.previewHtml) throw new Error(`showcase ${key} empty html`);
     }
 
-    // ── Studio UI as a real user ────────────────────────────────────
-    await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
-    await page.getByTestId("studio-page").waitFor();
-    await page.getByTestId("studio-frame").waitFor({ timeout: 20_000 });
-    await waitGeneration(page, 1);
-    await frameHas(page, "studio-frame", "Northstar");
-    await assertText(page, '[data-testid="meta-skills"]', "hero-section");
-    await assertText(page, '[data-testid="meta-sitekind"]', "saas-marketing");
-    await frameHas(page, "studio-frame", "Northstar");
-    const brandCount = await page.frameLocator('[data-testid="studio-frame"]').locator(".ds-brand-mark").count();
-    if (brandCount < 1) throw new Error("studio hero missing brand mark");
-
-    // Viewport craft tools
-    await page.getByTestId("viewport-390").click();
-    const mobileViewport = await page.getByTestId("studio-frame").getAttribute("data-viewport");
-    if (mobileViewport !== "390") throw new Error(`expected viewport 390, got ${mobileViewport}`);
-    await page.getByTestId("viewport-1280").click();
-
-    // Taste controls → redesign
-    await page.getByTestId("taste-lean").selectOption("minimal-clean");
-    await page.getByTestId("taste-motion").selectOption("none");
-    await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
-    const aesthetic = await page.frameLocator('[data-testid="studio-frame"]').locator("body").getAttribute("data-lean");
-    if (aesthetic !== "minimal-clean") throw new Error(`Expected minimal-clean, got ${aesthetic}`);
-    await assertText(page, '[data-testid="meta-skills"]', "analyze-features-requirements");
-    await assertText(page, '[data-testid="meta-hints"]', "Redesign from");
-
-    // Site-kind switches via controls (templates live on Showcase, not Studio)
-    await page.getByTestId("input-product").fill("Pulseboard");
-    await page.getByTestId("input-tagline").fill("See the queue that matters");
-    await page.getByTestId("input-sitekind").selectOption("dashboard-webapp");
-    await page.getByTestId("input-lock-sitekind").check();
-    await page.getByTestId("input-features").fill("Priority queue — Surface the next action\nWatchlist — Pin accounts that moved\nDigest — Morning summary");
-    await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
-    await assertText(page, '[data-testid="meta-sitekind"]', "dashboard-webapp");
-    await assertText(page, '[data-testid="meta-skills"]', "dashboard-or-webapp-ui");
-    await frameHas(page, "studio-frame", "Priority queue");
-    await frameMissing(page, "studio-frame", "Account scoring");
-
-    await page.getByTestId("input-product").fill("Harbor");
-    await page.getByTestId("input-tagline").fill("Clarity for teams");
-    await page.getByTestId("input-sitekind").selectOption("corporate-story");
-    await page.getByTestId("input-features").fill("Mission — Why we build\nTeams — Who ships\nProof — Customer outcomes");
-    await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
-    await assertText(page, '[data-testid="meta-sitekind"]', "corporate-story");
-    await assertText(page, '[data-testid="meta-skills"]', "content-storytelling-pages");
-    await frameHas(page, "studio-frame", "Clarity for teams");
-
-    await page.getByTestId("input-product").fill("Fieldmark");
-    await page.getByTestId("input-tagline").fill("Placement model explained");
-    await page.getByTestId("input-sitekind").selectOption("docs-educational");
-    await page.getByTestId("input-features").fill("Placement model — How scoring works\nWalkthrough — Step-by-step figure\nGlossary — Shared language");
-    await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
-    await assertText(page, '[data-testid="meta-sitekind"]', "docs-educational");
-    await frameHas(page, "studio-frame", "Placement model");
-    const figureCount = await page.frameLocator('[data-testid="studio-frame"]').locator("[data-instrument='scrub']").count();
-    if (figureCount < 1) throw new Error("educational site missing scrub figure");
-
-    // From-scratch custom product via primary redesign button (features win)
-    await page.getByTestId("input-product").fill("Ledgerly");
-    await page.getByTestId("input-tagline").fill("Close books without the chase");
-    await page.getByTestId("input-sitekind").selectOption("saas-marketing");
-    await page.getByTestId("input-lock-sitekind").check();
-    await page.getByTestId("input-features").fill("Bank match — Auto-match transactions\nClose checklist — Month-end workflow\nAudit trail — Immutable history");
-    await page.getByTestId("taste-lean").selectOption("conversion-sharp");
-    await page.getByTestId("taste-motion").selectOption("subtle-micro");
-    await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
-    await frameHas(page, "studio-frame", "Ledgerly");
-    await frameHas(page, "studio-frame", "Bank match");
-    await frameHas(page, "studio-frame", "Close checklist");
-    await frameMissing(page, "studio-frame", "Interactive diagram");
-    await frameMissing(page, "studio-frame", "Priority queue");
-    await assertText(page, '[data-testid="meta-skills"]', "pricing-or-plans");
-    await assertText(page, '[data-testid="meta-sections"]', "hero");
-
-    // Magic edit → dashboard create from same product features
-    await page.getByTestId("input-magic").fill("redesign as dashboard workspace, minimal-clean, no motion");
-    await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-magic").click());
-    await assertText(page, '[data-testid="meta-sitekind"]', "dashboard-webapp");
-    await assertText(page, '[data-testid="meta-summary"]', "minimal clean");
-    await frameHas(page, "studio-frame", "Ledgerly");
-
-    // All aesthetic leans via UI quickly
-    const leanLabels: Record<string, string> = {
-      "system-crafted": "system crafted",
-      "refined-story": "refined story",
-      "conversion-sharp": "conversion sharp",
-    };
-    for (const lean of ["system-crafted", "refined-story", "conversion-sharp"] as const) {
-      await page.getByTestId("input-sitekind").selectOption("saas-marketing");
-      await page.getByTestId("input-lock-sitekind").check();
-      await page.getByTestId("taste-lean").selectOption(lean);
-      await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
-      await page.getByTestId("meta-summary").filter({ hasText: new RegExp(leanLabels[lean]!, "i") }).waitFor({ timeout: 15_000 });
-      const attr = await page.frameLocator('[data-testid="studio-frame"]').locator("body").getAttribute("data-lean");
-      if (attr !== lean) throw new Error(`lean UI mismatch: wanted ${lean}, got ${attr}`);
+    // ── Implicit create (Home) — no Studio form ─────────────────────
+    for (const query of [
+      "B2B SaaS demo landing for pipeline coaching",
+      "dashboard workspace for ops priority queue",
+      "corporate story site for clarity for teams",
+      "educational docs site for placement model",
+    ]) {
+      const res = await request.post(`${BASE}/api/design`, {
+        data: { query },
+      });
+      if (!res.ok()) throw new Error(`create query failed: ${query}`);
+      const body = await res.json();
+      if (!body.previewHtml || !body.plan?.steps?.length) {
+        throw new Error(`create query incomplete: ${query}`);
+      }
+      if (!body.spec?.routedSkills?.length) throw new Error(`create missing skills: ${query}`);
     }
+
+    await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
+    await page.getByTestId("product-sidebar").waitFor();
+    // Studio is no longer an app feature in the rail
+    const studioLink = page.locator('[data-testid="product-sidebar"] a[href="/studio"]');
+    if ((await studioLink.count()) > 0) throw new Error("Studio must not appear in product sidebar");
+
+    await page.getByRole("button", { name: /Create a site/i }).click();
+    await page.getByLabel(/Design brief|site to create/i).fill(
+      "B2B SaaS demo landing for pipeline — warmer editorial",
+    );
+    await page.keyboard.press("Control+Enter");
+    await page.getByTestId("create-site-steps").waitFor({ timeout: 10_000 });
+    await page.getByTestId("site-create-frame").waitFor({ timeout: 30_000 });
+    await frameHas(page, "site-create-frame", "Northstar");
+
+    // /studio deep-link hands off to Home create
+    await page.goto(`${BASE}/studio?brief=${encodeURIComponent("portrait photographer booking site")}`, {
+      waitUntil: "domcontentloaded",
+    });
+    await page.waitForURL((url) => url.pathname === "/", { timeout: 15_000 });
+    await page.getByTestId("site-create-frame").waitFor({ timeout: 30_000 });
 
     // Showcases pages
     for (const [path, needle, id, extra] of [
