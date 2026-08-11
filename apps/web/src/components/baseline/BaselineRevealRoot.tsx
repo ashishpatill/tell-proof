@@ -8,7 +8,7 @@ import { useLayoutEffect, useRef, type ReactNode } from "react";
  * useLayoutEffect re-arms on soft nav before paint so a persisted armed class
  * cannot hide the new route’s [data-reveal] nodes for a frame.
  */
-export function CreaseRevealRoot({ children }: { children: ReactNode }) {
+export function BaselineRevealRoot({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -16,7 +16,9 @@ export function CreaseRevealRoot({ children }: { children: ReactNode }) {
     const root = rootRef.current;
     if (!root) return;
 
-    root.classList.remove("cr-reveal-armed");
+    const site = root.closest<HTMLElement>(".bl-root") ?? root;
+    site.classList.remove("bl-reveal-armed");
+    site.removeAttribute("data-reveal-ready");
     root.querySelectorAll<HTMLElement>("[data-reveal][data-in='1']").forEach((n) => {
       n.removeAttribute("data-in");
     });
@@ -36,7 +38,7 @@ export function CreaseRevealRoot({ children }: { children: ReactNode }) {
     };
 
     nodes.forEach(markVisible);
-    root.classList.add("cr-reveal-armed");
+    site.classList.add("bl-reveal-armed");
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -57,7 +59,7 @@ export function CreaseRevealRoot({ children }: { children: ReactNode }) {
   }, [pathname]);
 
   return (
-    <div ref={rootRef} data-crease-reveal-root>
+    <div ref={rootRef} data-baseline-reveal-root>
       {children}
     </div>
   );

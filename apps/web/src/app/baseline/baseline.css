@@ -120,8 +120,8 @@ main,
   position: sticky;
   top: 0;
   z-index: 40;
-  backdrop-filter: blur(14px);
-  background: rgba(244, 247, 245, 0.88);
+  /* Opaque sticky bar — no backdrop-filter (keeps soft nav paints instant). */
+  background: rgba(244, 247, 245, 0.98);
   border-bottom: 1px solid var(--bl-line);
 }
 
@@ -227,8 +227,7 @@ main,
   top: var(--bl-nav-h);
   z-index: 30;
   border-bottom: 1px solid var(--bl-line);
-  background: rgba(231, 239, 233, 0.94);
-  backdrop-filter: blur(10px);
+  background: rgba(231, 239, 233, 0.98);
 }
 
 .bl-live-rail-inner {
@@ -1279,18 +1278,24 @@ main,
   gap: 0.35rem;
 }
 
-/* Scroll reveal — only after JS marks the root ready (avoids blank SSR first paint). */
-.bl-root[data-reveal-ready] [data-reveal] {
-  opacity: 0;
-  transform: translateY(0.5rem);
-  transition:
-    opacity 520ms var(--bl-ease),
-    transform 520ms var(--bl-ease);
-}
+/* Scroll reveal — progressive enhancement only.
+   Content must paint immediately; never blank the page waiting on JS. */
+@media (prefers-reduced-motion: no-preference) {
+  .bl-root.bl-reveal-armed [data-reveal]:not([data-in="1"]) {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
 
-.bl-root[data-reveal-ready] [data-reveal][data-in="1"] {
-  opacity: 1;
-  transform: none;
+  .bl-root.bl-reveal-armed [data-reveal] {
+    transition:
+      opacity 320ms var(--bl-ease),
+      transform 320ms var(--bl-ease);
+  }
+
+  .bl-root.bl-reveal-armed [data-reveal][data-in="1"] {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (max-width: 900px) {

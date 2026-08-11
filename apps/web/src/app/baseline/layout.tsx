@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Newsreader, Sora } from "next/font/google";
+import { BaselineShell } from "@/components/baseline/BaselineShell";
 import "./baseline.css";
 
 const newsreader = Newsreader({
@@ -23,5 +24,9 @@ export const metadata: Metadata = {
 };
 
 export default function BaselineLayout({ children }: { children: React.ReactNode }) {
-  return <div className={`${newsreader.variable} ${sora.variable}`}>{children}</div>;
+  return (
+    <div className={`${newsreader.variable} ${sora.variable}`}>
+      <BaselineShell>{children}</BaselineShell>
+    </div>
+  );
 }

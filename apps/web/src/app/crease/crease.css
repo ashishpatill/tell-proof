@@ -136,8 +136,8 @@ main,
   position: sticky;
   top: 0;
   z-index: 40;
-  backdrop-filter: blur(14px);
-  background: rgba(6, 20, 16, 0.82);
+  /* Opaque sticky bar — no backdrop-filter (keeps soft nav paints instant). */
+  background: rgba(6, 20, 16, 0.97);
   border-bottom: 1px solid var(--cr-line);
 }
 
@@ -237,8 +237,7 @@ main,
   top: var(--cr-nav-h);
   z-index: 30;
   border-bottom: 1px solid var(--cr-line);
-  background: rgba(8, 28, 22, 0.94);
-  backdrop-filter: blur(10px);
+  background: rgba(8, 28, 22, 0.98);
 }
 
 .cr-live-rail-inner {
@@ -1210,8 +1209,8 @@ main,
 
   .cr-reveal-armed [data-reveal] {
     transition:
-      opacity 420ms var(--cr-ease),
-      transform 420ms var(--cr-ease);
+      opacity 320ms var(--cr-ease),
+      transform 320ms var(--cr-ease);
   }
 
   .cr-reveal-armed [data-reveal][data-in="1"] {
