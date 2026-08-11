@@ -750,3 +750,55 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `media:site`; AUTO_PLAN documents the skill checklist every run.
 - **Do not:** Treat `customizationHints` “Research gate: …” as proof that research/craft/optim
   executed — require `assertSkillWiring` green + RESEARCH_GATE checklist.
+
+## 2026-08-11 — `template:care-claim-starves-plate`
+
+- **Failure:** Roundspool care-pathway fold put masthead + full claim + fold CTAs above the
+  care-plate, so the pathway spine sat near y≈470–900 — unique craft below the fold.
+- **Cause (secondary):** masthead used `padding-top: calc(var(--nav-h) + …)` while sticky nav is
+  already in-flow → double nav offset (~110px mast) pushed plate past the 360px eye gate.
+- **Fix:** Hide fold `.ds-actions` (nav keeps CTA); compact claim; drop masthead `--nav-h`
+  padding; raise spine to `H * 0.4`; plate min-height ~78vh; three ENC callouts.
+- **Do not:** Re-add nav-height padding on in-flow craft mastheads, or treat a unique plate as
+  shipped when the fold shot is only type chrome.
+
+## 2026-08-11 — `template:animation-name-zeroes-duration`
+
+- **Failure:** Care-pathway enter motion looked dead — `animation-name: ds-care-in` alone
+  overrode the shared `.ds-enter` shorthand and left duration at 0s when `--m-entrance` was
+  unset at shorthand parse time.
+- **Fix:** Full `animation:` shorthand on `[data-sitekind="care-pathway"] .ds-enter` with
+  `ds-care-in`, `--m-entrance` fallback, and stagger delay.
+- **Do not:** Override only `animation-name` on siteKind enter rules.
+
+## 2026-08-11 — `template:care-hairline-bead-chrome`
+
+- **Failure:** 1.5–2px spine strokes + 2px bead rings + box-shadow rings tanked hairline ratio
+  on care-pathway (observatory lesson).
+- **Fix:** 1px spine/bead/borders; no bead ring shadow; geometric diamond handoff (never ◆ emoji).
+- **Do not:** Decorate clinical spines with multi-px chrome or emoji markers.
+
+## 2026-08-11 — `template:care-near-silhouette-residue`
+
+- **Failure:** Fold foot used dark clipboard/vial/cuff clip-path silhouettes — read as unfinished
+  AI chrome and fed near-black surfaces into AcidAccentTell.
+- **Fix:** Replace with citeable `ds-care-imprint` (edition + ward + stages) layered over the
+  plate on paper/accent-surface; drop `ds-care-near` / `ds-chart-clip`.
+- **Do not:** Park opaque near-black decorative silhouettes under a clinical plate.
+
+## 2026-08-11 — `template:care-paper-frame-gradient-crutch`
+
+- **Failure:** `light-airy` routed `paper-technical-frame` → inverse outer field + hatch
+  `repeating-linear-gradient` → GradientCrutchTell + AcidAccentTell on Roundspool.
+- **Fix:** Exclude `care-pathway` from paper-technical routing; force `body` to solid `--c-paper`
+  with a fixed 1px stage spine (`::before`), not body background-image gradients.
+- **Do not:** Put a ward chart inside the inverse paper-technical envelope.
+
+## 2026-08-11 — `template:care-feature-index-list-run`
+
+- **Failure:** Mid-page features used `ds-index` list — same archetype run as rounds ladder →
+  shape-repetition 0.545 (over band) and a twin of SaaS capability indexes.
+- **Fix:** Care-only `ds-handoff-strip` horizontal stage grid (Intake→Discharge cells + diamond
+  handoffs). Alignment collapsed via `--care-inset`. Critique: care **98.5**, axes **4**,
+  shape-run **0.364**.
+- **Do not:** Ship another vertical index under a vertical rounds ladder.

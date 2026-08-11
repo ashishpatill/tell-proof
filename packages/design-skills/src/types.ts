@@ -141,6 +141,14 @@ export const SiteKind = z.enum([
    * Not a soft dark SaaS glow page, not WebGL tourism chrome, not press/archive/loom.
    */
   "lantern-path",
+  /**
+   * Care pathway / clinical rounds craft — stage rail, care-plate pathway spine owning the fold,
+   * rounds ladder essay with encounter metas, Chart close. Calibrated to health-pathway +
+   * operational-governance corridors (foldFigure high, figureArea ~0.4–0.7, invertedShare ~0,
+   * quiet-moderate display, dense plate matter, paper-led page with a clinical atlas figure).
+   * Not SaaS deal pipelines, not night-walk lantern chapters, not essay+aside clones.
+   */
+  "care-pathway",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 
@@ -479,6 +487,16 @@ export const LayoutVariant = z.enum([
    * Not gather signatures, range beads, hangtag, or chrono track.
    */
   "story-ember",
+  /**
+   * Rounds fold — sticky care stage rail + compact claim + spanning care-plate pathway spine.
+   * Care-pathway signature; not lantern path atlas, press forme, or SaaS pipeline.
+   */
+  "hero-rounds",
+  /**
+   * Rounds ladder — vertical stage beads + encounter panels — care-pathway craft.
+   * Not ember zigzag, gather signatures, range beads, or essay+aside.
+   */
+  "story-rounds",
   "pullquote",
   "pricing-lanes",
   "compare-matrix",

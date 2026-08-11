@@ -50,6 +50,7 @@ const SIGNATURE: Record<string, string> = {
   herbarium: "soft float + slight scale",
   press: "press-snap settle",
   lantern: "ember rise + waypoint handoff",
+  clinic: "stage settle + rounds bead travel",
 };
 
 async function main(): Promise<void> {

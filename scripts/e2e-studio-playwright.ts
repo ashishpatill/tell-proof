@@ -213,7 +213,7 @@ async function main() {
     }
 
     // Showcase GET endpoints
-    for (const key of ["saas", "dashboard", "corporate", "educational"]) {
+    for (const key of ["saas", "dashboard", "corporate", "educational", "clinic"]) {
       const res = await request.get(`${BASE}/api/design?showcase=${key}`);
       if (!res.ok()) throw new Error(`showcase API ${key} failed`);
       const body = await res.json();

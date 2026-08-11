@@ -402,6 +402,35 @@ const RAW_BRIEFS: Array<{ id: string; brief: unknown }> = [
       },
     },
   },
+  {
+    id: "care-pathway",
+    brief: {
+      productName: "Roundspool",
+      tagline: "The chart that keeps every handoff under one pathway",
+      audience: "care pathway leads and clinical operations at health systems",
+      businessGoal: "trust",
+      siteKind: "care-pathway",
+      lockSiteKind: true,
+      brandAccent: "#1A4A52",
+      features: [
+        { id: "r1", name: "Stage map", description: "Five named stages on one spine so Intake cannot pretend Discharge is optional.", priority: "p0" },
+        { id: "r2", name: "Handoff beads", description: "Citeable transfers between stages — who received the chart, and when.", priority: "p0" },
+        { id: "r3", name: "Dwell windows", description: "Time-on-stage drawn under each node so a quiet bottleneck cannot hide.", priority: "p0" },
+        { id: "r4", name: "Encounter ladder", description: "Rounds read as Enc 01–n with notes that travel while the ward decides.", priority: "p1" },
+        { id: "r5", name: "Chart imprint", description: "Edition and ward stamped so a reused pathway cannot orphan its provenance.", priority: "p1" },
+        { id: "r6", name: "Pathway memory", description: "A chart that survives the jump from triage to discharge without becoming orphan notes.", priority: "p2" },
+      ],
+      constraints: ["care-plate owns fold", "rounds ladder", "zero inverse", "no pricing theatre", "restrained motion"],
+      taste: {
+        aestheticLean: "refined-story",
+        motion: "light-scroll-reveals",
+        density: "sparse",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    },
+  },
 ];
 
 /**

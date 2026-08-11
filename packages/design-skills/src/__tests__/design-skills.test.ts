@@ -391,9 +391,10 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(15);
+    expect(templates).toHaveLength(16);
     expect(templates.map((t) => t.key).sort()).toEqual([
       "archive",
+      "clinic",
       "consumer",
       "corporate",
       "dashboard",
@@ -435,6 +436,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(press.siteKind).toBe("press-atelier");
     const lantern = templates.find((t) => t.key === "lantern")!;
     expect(lantern.siteKind).toBe("lantern-path");
+    const clinic = templates.find((t) => t.key === "clinic")!;
+    expect(clinic.siteKind).toBe("care-pathway");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -714,6 +717,49 @@ describe("research-backed offerings + implementation basics", () => {
     expect(svgSizes.every((n) => n >= 11)).toBe(true);
   });
 
+  it("gives care pathway a stage rail + care plate + rounds ladder distinct from lantern and SaaS pipelines", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.clinic!);
+    expect(spec.brief.siteKind).toBe("care-pathway");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-rounds")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "story-rounds")).toBe(true);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="care-pathway"');
+    expect(previewHtml).toContain("ds-hero-rounds");
+    expect(previewHtml).toContain("ds-care-masthead");
+    expect(previewHtml).toContain("ds-care-rail");
+    expect(previewHtml).toContain('data-figure="care-plate"');
+    expect(previewHtml).toContain('data-dense="ink"');
+    expect(previewHtml).toMatch(/data-figure="care-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="care-plate"/);
+    expect(previewHtml).toContain("PATHWAY");
+    expect(previewHtml).toContain("STAGES 01–05");
+    expect(previewHtml).toContain("ds-rounds");
+    expect(previewHtml).toContain('class="ds-rounds-ladder"');
+    expect(previewHtml).toContain('aria-label="Rounds ladder"');
+    expect(previewHtml).not.toContain('class="ds-rounds-aside"');
+    expect(previewHtml).not.toContain('class="ds-ember-trail"');
+    expect(previewHtml).not.toContain('class="ds-way-rail"');
+    expect(previewHtml).not.toContain('data-figure="path-plate"');
+    expect(previewHtml).toContain("ds-care-imprint");
+    expect(previewHtml).toContain("ds-handoff-strip");
+    expect(previewHtml).not.toContain("ds-care-near");
+    expect(previewHtml).not.toContain("ds-chart-clip");
+    expect(previewHtml).toContain("ds-bleed-rule");
+    expect(previewHtml).toContain("Chart");
+    expect(previewHtml).toContain("The rounds");
+    expect(previewHtml).not.toContain('class="ds-alpha-rail"');
+    expect(previewHtml).not.toContain('class="ds-stage-rail"');
+    expect(previewHtml).not.toContain('class="ds-pipeline-board"');
+    expect(previewHtml).not.toContain('class="ds-index"');
+    const svgSizes = [...previewHtml.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)].map((m) => Number(m[1]));
+    expect(svgSizes.every((n) => n >= 11)).toBe(true);
+    const report = assertBasics(spec, previewHtml);
+    const failed = report.findings.filter((f) => !f.ok).map((f) => f.id);
+    expect(failed, failed.join(", ")).toEqual([]);
+  });
+
   it("exposes reusable densify helpers for cell-grid figures", async () => {
     const { miniPageMatter, densitometerStrip, FIG_MONO_PX } = await import("../figures");
     expect(FIG_MONO_PX).toBe(11);
@@ -779,22 +825,29 @@ describe("research-backed offerings + implementation basics", () => {
         /\.ds-(?:path|press|chrono|folio|register)-field\{[^}]*margin-top:calc\([^)]*\*\s*-/,
       );
     }
+    const { previewHtml: clinic } = designFromFeatures(SHOWCASE_BRIEFS.clinic!);
+    expect(clinic).not.toMatch(/\.ds-care-field\{[^}]*margin-top:calc\([^)]*\*\s*-/);
     const { previewHtml: lantern } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
     expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-claim\{[^}]*background:var\(--c-paper\)/);
     expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-field\{[^}]*margin-top:0/);
+    expect(clinic).toMatch(/\[data-sitekind="care-pathway"\] \.ds-care-claim\{[^}]*background:var\(--c-paper\)/);
+    expect(clinic).toMatch(/\[data-sitekind="care-pathway"\] \.ds-care-field\{[^}]*margin-top:0/);
   });
 
   it("keeps story Note labels from sliding under capability marks", () => {
-    const noteKinds = ["observatory", "archive", "loom", "herbarium", "press", "lantern"] as const;
+    const noteKinds = ["observatory", "archive", "loom", "herbarium", "press", "lantern", "clinic"] as const;
     for (const key of noteKinds) {
       const brief = SHOWCASE_BRIEFS[key];
       if (!brief) continue;
       const { previewHtml } = designFromFeatures(brief);
       expect(previewHtml, key).toMatch(/Note 0\d/);
       expect(previewHtml, key).not.toMatch(
-        /\.ds-(?:chrono|entry|hang|range|gather|ember|spread|marginalia)-mark\{[^}]*margin-top:calc\(var\(--s-(?:sm|xs|md)\) \* -1\)/,
+        /\.ds-(?:chrono|entry|hang|range|gather|ember|spread|marginalia|rounds)-mark\{[^}]*margin-top:calc\(var\(--s-(?:sm|xs|md)\) \* -1\)/,
       );
     }
+    const { previewHtml: rounds } = designFromFeatures(SHOWCASE_BRIEFS.clinic!);
+    expect(rounds).toMatch(/Note 0\d/);
+    expect(rounds).toMatch(/\.ds-rounds-note \+ \.ds-rounds-mark\{[^}]*margin-top:var\(--s-lg\)/);
     const { previewHtml: chrono } = designFromFeatures(SHOWCASE_BRIEFS.observatory!);
     expect(chrono).toMatch(/\.ds-chrono-note \+ \.ds-chrono-mark\{[^}]*margin-top:var\(--s-lg\)/);
     const { previewHtml: ember } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
@@ -868,6 +921,7 @@ describe("research-backed offerings + implementation basics", () => {
       "herbarium",
       "press",
       "lantern",
+      "clinic",
     ] as const;
     const sharedPhrases = [
       "Why teams keep it",

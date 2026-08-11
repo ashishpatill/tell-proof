@@ -633,6 +633,45 @@ export function planSections(input: CompositionInput): SectionPlan[] {
   }
 
   /*
+   * Care pathway — clinical rounds craft.
+   *
+   * Health-pathway corridors favour figure-owned folds and quiet display on cool paper.
+   * SaaS deal pipelines answer with stage chips. This offering invents an unreplicable
+   * clinical atlas: care stage rail, care-plate pathway spine owning the fold, rounds ladder, Chart close.
+   */
+  if (siteKind === "care-pathway") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-rounds", surface: "paper", columns: split.wide });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-rounds",
+      surface: "paper",
+      bond: true,
+    });
+    // No second feature-rows catalogue — sparse airways after marquee cut (Phase 9).
+    // No shared marquee-proof — rounds ladder is the care proof instrument.
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
+  /*
    * Field guide — herbarium / voucher craft.
    *
    * Personal-craft + brand-agency corridors favour figure-dense paper surfaces and quiet display.
@@ -776,6 +815,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "press-atelier") px = 50;
   // Lantern path: quiet-moderate display — path plate owns the fold, not a shouty claim.
   if (siteKind === "lantern-path") px = 50;
+  // Care pathway: quiet-but-in-band display (~3.3vw) so care-plate still owns the fold.
+  if (siteKind === "care-pathway") px = 48;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -790,6 +831,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "field-guide") return Math.max(47, Math.min(54, px));
   if (siteKind === "press-atelier") return Math.max(46, Math.min(56, px));
   if (siteKind === "lantern-path") return Math.max(46, Math.min(56, px));
+  if (siteKind === "care-pathway") return Math.max(44, Math.min(52, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

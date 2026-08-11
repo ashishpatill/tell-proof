@@ -128,9 +128,11 @@ export function routeSkills(
   }
 
   if (
-    taste.colorMood === "light-airy" ||
-    taste.aestheticLean === "system-crafted" ||
-    taste.colorMood === "neutral-professional"
+    (taste.colorMood === "light-airy" ||
+      taste.aestheticLean === "system-crafted" ||
+      taste.colorMood === "neutral-professional") &&
+    /* Care pathway is an open ward chart on paper — inverse outer frame reads as fintech/SaaS residue. */
+    analysis.siteKind !== "care-pathway"
   ) {
     nodes.add("paper-technical-frame");
   }

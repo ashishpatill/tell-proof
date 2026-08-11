@@ -636,6 +636,45 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
   }
 
   /*
+   * Rounds fold — the care-pathway signature.
+   *
+   * Ward masthead + compact claim, then a spanning care-plate that OWNS the fold
+   * (the pathway spine IS the figure). Sticky Intake–Discharge stage rail. Not lantern, press, or SaaS pipeline.
+   */
+  if (section.layout === "hero-rounds") {
+    const plateFig = figures.hero
+      ? `<figure class="ds-care-plate" aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const stages = ["Intake", "Triage", "Treat", "Follow-up", "Discharge"];
+    const nums = ["01", "02", "03", "04", "05"];
+    const hrefs = ["#features", "#figure", "#specimen", "#story", "#cta"];
+    const rail = `<nav class="ds-care-rail" aria-label="Care stages"><ol>${stages
+      .map((label, i) => {
+        const href = hrefs[i] ?? "#features";
+        return `<li><a href="${href}" class="ds-care-mark${i === 0 ? " is-active" : ""}" data-care="${nums[i]}" aria-label="Stage ${nums[i]}: ${label}"><span class="ds-care-num">${nums[i]}</span><span class="ds-care-label">${label}</span></a></li>`;
+      })
+      .join("")}</ol></nav>`;
+    const mast = `<header class="ds-care-masthead" aria-label="Care masthead">
+      <span class="ds-care-ward">Ward</span>
+      <span class="ds-care-pathway">Pathway</span>
+      <span class="ds-care-edition">Chart edition</span>
+      <span class="ds-care-mark-product">${esc(spec.brief.productName)}</span>
+    </header>`;
+    /* Citeable imprint overlapping the plate — not silhouette chrome (clipboard/vial/cuff). */
+    const imprint = `<aside class="ds-care-imprint" aria-label="Chart imprint">
+      <p class="ds-care-imprint-edition">Chart edition · ${esc(spec.brief.productName)}</p>
+      <p class="ds-care-imprint-meta"><span>Ward pathway</span><span>Stages 01–05</span><span>Handoffs citeable</span></p>
+    </aside>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-rounds" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${rail}
+      ${mast}
+      <div class="ds-care-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-bleed ds-care-field">${plateFig}${imprint}</div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
    * Pipeline fold — SaaS-marketing signature.
    * Sticky stage rail + split fold: claim left, pipeline board right (fills the viewport).
    * Never a tall left-only claim band with the board shoved below the fold.
@@ -966,6 +1005,28 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
         .join("")}</ul>`;
     }
     if (section.layout === "feature-index") {
+      /*
+       * Care pathway: horizontal handoff strip (grid archetype) — not another vertical index
+       * list that twins the rounds ladder and inflates shape-run.
+       */
+      if (spec.brief.siteKind === "care-pathway") {
+        const stages = ["Intake", "Triage", "Treat", "Follow-up", "Discharge"];
+        const cells = section.blocks.slice(0, 5).map((b, i) => {
+          const stage = stages[i] ?? `Stage ${i + 1}`;
+          const handoff =
+            i < Math.min(4, section.blocks.length - 1)
+              ? `<span class="ds-handoff-diamond" aria-hidden="true"></span>`
+              : "";
+          return `<li class="ds-handoff-cell" style="--i:${i}">
+            <p class="ds-handoff-stage">${esc(stage)}</p>
+            <p class="ds-handoff-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
+            <h3>${esc(b.title)}</h3>
+            ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+            ${handoff}
+          </li>`;
+        });
+        return `<ol class="ds-handoff-strip" aria-label="Handoff strip">${cells.join("")}</ol>`;
+      }
       const quietIndex = spec.brief.siteKind === "docs-educational";
       return `<ol class="ds-index">${section.blocks
         .map(
@@ -1565,6 +1626,44 @@ function renderEmber(section: SectionSpec, figures: FigurePlan): string {
 }
 
 /**
+ * Rounds ladder — care-pathway mid-page instrument.
+ *
+ * Vertical stage ladder with encounter beads and panels along a left spine.
+ * Not the ember zigzag, essay+aside list, or gather signature stack.
+ */
+function renderRounds(section: SectionSpec, figures: FigurePlan): string {
+  const blocks = section.blocks;
+  const count = blocks.length || 1;
+  const stages = ["Intake", "Triage", "Treat", "Follow-up", "Discharge", "Chart"];
+  const steps = blocks
+    .map((b, i) => {
+      const mark = figures.marks[i] ? `<div class="ds-rounds-mark" aria-hidden="true">${figures.marks[i]}</div>` : "";
+      const enc = esc(b.meta ?? `Enc ${String(i + 1).padStart(2, "0")}`);
+      const stage = stages[i] ?? `Stage ${i + 1}`;
+      return `<li class="ds-rounds-step" style="--i:${i}">
+        <span class="ds-rounds-bead" aria-hidden="true"></span>
+        <article class="ds-rounds-panel">
+          <p class="ds-rounds-enc">${enc}</p>
+          <p class="ds-rounds-stage">${esc(stage)}</p>
+          <h3>${esc(b.title)}</h3>
+          ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+          ${b.kicker ? `<p class="ds-rounds-note">${esc(b.kicker)}</p>` : ""}
+          ${mark}
+        </article>
+      </li>`;
+    })
+    .join("");
+  return `<section class="ds-section ds-story ds-rounds" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
+    <div class="ds-bleed-rule" aria-hidden="true"></div>
+    <div class="ds-wrap-wide">
+      ${secMeta("Rounds", `${count} encounters · ladder`)}
+      ${sectionHead(section, 2, true)}
+      <ol class="ds-rounds-ladder" aria-label="Rounds ladder">${steps}</ol>
+    </div>
+  </section>`;
+}
+
+/**
  * Dichotomous voucher key — field-guide mid-page instrument.
  *
  * Horizontal taxon ladder + stacked voucher sheets with couplet forks.
@@ -2146,6 +2245,7 @@ function renderSection(
     case "hero-voucher":
     case "hero-press":
     case "hero-path":
+    case "hero-rounds":
     case "hero-pipeline":
     case "hero-queue":
     case "hero-diligence":
@@ -2181,6 +2281,8 @@ function renderSection(
       return wrapped(renderGather(section, figures));
     case "story-ember":
       return wrapped(renderEmber(section, figures));
+    case "story-rounds":
+      return wrapped(renderRounds(section, figures));
     case "pullquote":
     case "marquee-proof":
       return wrapped(renderProofBoard(section, figures, spec));

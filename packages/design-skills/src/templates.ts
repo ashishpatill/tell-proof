@@ -32,7 +32,8 @@ export type TemplateKey =
   | "loom"
   | "herbarium"
   | "press"
-  | "lantern";
+  | "lantern"
+  | "clinic";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -956,6 +957,71 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
         aestheticLean: "refined-story",
         density: "sparse",
         motion: "immersive",
+        colorMood: "light-airy",
+        typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "clinic",
+    label: "Care pathway",
+    marketJob:
+      "Clinical / care-pathway landing — stage rail, care-plate spine, rounds ladder, Chart close for health-system trust.",
+    siteKind: "care-pathway",
+    researchBasis:
+      "Measured demand gap: no catalog kind covers clinical handoff grammar. SaaS pipeline is sales stages; lantern is cinematic night-walk; dossier is capital briefing. Care pathway needs Intake→Triage→Treat→Follow-up→Discharge with dwell bars and handoff beads — calibrated against operational-governance + enterprise-corporate trust corridors (foldFigure high, figureArea ~0.4–0.7, invertedShare ~0, quiet-moderate display, dense plate matter). Distinct craft: sticky ds-care-rail, spanning care-plate pathway spine (data-dense=ink, mono ≤11px), vertical rounds ladder (not essay+aside), paper Chart close — no pricing, no metrics theatre, zero inverse bands. Not a recolored SaaS pipeline or lantern atlas.",
+    brief: DesignBrief.parse({
+      productName: "Roundspool",
+      tagline: "The chart that keeps every handoff under one pathway",
+      audience: "care pathway leads and clinical operations at health systems",
+      businessGoal: "trust",
+      siteKind: "care-pathway",
+      lockSiteKind: true,
+      // Cool clinical teal — escapes violet glow and cream/terracotta AI clusters.
+      brandAccent: "#1A4A52",
+      features: [
+        {
+          id: "r1",
+          name: "Stage map",
+          description: "Five named stages on one spine so Intake cannot pretend Discharge is optional",
+          priority: "p0",
+        },
+        {
+          id: "r2",
+          name: "Handoff beads",
+          description: "Citeable transfers between stages — who received the chart, and when",
+          priority: "p0",
+        },
+        {
+          id: "r3",
+          name: "Dwell windows",
+          description: "Time-on-stage drawn under each node so a quiet bottleneck cannot hide",
+          priority: "p0",
+        },
+        {
+          id: "r4",
+          name: "Encounter ladder",
+          description: "Rounds read as Enc 01–n with notes that travel while the ward decides",
+          priority: "p1",
+        },
+        {
+          id: "r5",
+          name: "Chart imprint",
+          description: "Edition and ward stamped so a reused pathway cannot orphan its provenance",
+          priority: "p1",
+        },
+        {
+          id: "r6",
+          name: "Pathway memory",
+          description: "A chart that survives the jump from triage to discharge without becoming orphan notes",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "refined-story",
+        density: "sparse",
+        motion: "light-scroll-reveals",
         colorMood: "light-airy",
         typographyWeight: "light-elegant",
         roundingDepth: "sharp",

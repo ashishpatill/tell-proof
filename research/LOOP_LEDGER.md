@@ -660,3 +660,33 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** dossier spread citeability; archive/foundry still use essay+rail but with
   unique seals/slips (not copy-only twins).
 
+## Loop 33 — Care pathway Roundspool fold ownership
+
+- **Goal:** Ship `/showcase/clinic` (care-pathway) with plate + Intake→Discharge spine in the
+  first viewport; hold matrix / care-pathway critique corridor.
+- **Failure named:** `template:care-claim-starves-plate` (+ dead enter shorthand, hairline beads,
+  ENC truncation, brand stamp pile-up).
+- **Challenger:** Compact claim / hide fold CTAs; in-flow masthead without `--nav-h` pad; spine
+  at 0.4H; 1px hairlines; 3 ENC cards; geometric handoffs; Chart close copy.
+- **Score:** care-pathway **~98.0**; matrix **~95.8**; holdout “Suture Desk” assertBasics green.
+- **Closed:** `template:care-claim-starves-plate`, `template:animation-name-zeroes-duration`,
+  `template:care-hairline-bead-chrome`.
+- **Next weakest:** alignment-axes / repeated-shape still slightly over (shared lantern/press
+  class); dossier spread citeability.
+
+## Loop 34 — Care pathway uniqueness vs healthcare defaults
+
+- **Goal:** Beat peer care-coordination residue — silhouettes, inverse paper frame, list-run twin,
+  alignment scatter — without regressing craft score.
+- **Failure named:** `template:care-near-silhouette-residue`, `template:care-paper-frame-gradient-crutch`,
+  `template:care-feature-index-list-run`.
+- **Challenger:** Chart imprint; unroute paper-technical for care-pathway; handoff strip grid;
+  `--care-inset`; neutral `--c-accent-ink`.
+- **Score:** care-pathway **98.0 → 98.5**; matrix **95.8** (held); axes **7→4**; shape-run
+  **0.545→0.364**; hairline **1.0**; fold-figure **0.666**. Clinical holdout Suture Desk **99.0**
+  (gap ≤0.03 vs matrix). Diagnose: zero generic tells (gradient+acid cleared); remaining drifts
+  are specimen-vs-DESIGN.md justified.
+- **Closed:** three pattern keys above.
+- **Next weakest:** matrix still weak on display-leading / display-scale for non-care siteKinds;
+  care band-ink-variation on unseen briefs.
+

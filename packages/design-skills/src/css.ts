@@ -422,6 +422,23 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
   [data-sitekind="lantern-path"] .ds-path-near .ds-sil{transition:opacity 480ms var(--m-ease-out),transform 480ms var(--m-ease-out)}
 }
 `,
+    "care-pathway": `
+@keyframes ds-care-in{from{opacity:0;transform:translateY(1.4rem) scale(0.99)}to{opacity:1;transform:none}}
+[data-sitekind="care-pathway"]{--m-stagger:48ms;--m-entrance:520ms;--m-reveal:440ms}
+@media (prefers-reduced-motion: no-preference){
+  /* Full shorthand — animation-name-only overrides zero duration when --m-entrance was unset at shorthand parse. */
+  [data-sitekind="care-pathway"] .ds-enter{
+    animation:ds-care-in var(--m-entrance,520ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,48ms));
+  }
+  [data-sitekind="care-pathway"] .ds-reveal,
+  [data-sitekind="care-pathway"] .ds-reveal .ds-stagger > *{animation-name:ds-care-in}
+  [data-sitekind="care-pathway"] .ds-reveal:not(.is-in){transform:translateY(1.4rem) scale(0.99)}
+  [data-sitekind="care-pathway"] .ds-care-mark.is-active{transform:translateX(4px)}
+  [data-sitekind="care-pathway"] .ds-care-imprint{transition:opacity 420ms var(--m-ease-out),transform 420ms var(--m-ease-out)}
+  [data-sitekind="care-pathway"] .ds-handoff-cell{transition:opacity 420ms var(--m-ease-out),transform 420ms var(--m-ease-out)}
+}
+`,
   };
 
   return table[siteKind] ?? "";
@@ -570,6 +587,8 @@ function siteKindCss(): string {
 [data-sitekind="lantern-path"] .ds-hero-path .ds-cta-note,
 [data-sitekind="lantern-path"] .ds-hero-path .ds-actions .ds-btn-ghost,
 [data-sitekind="lantern-path"] .ds-hero-path .ds-actions .ds-btn-secondary{display:none}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-cta-note,
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions{display:none}
 
 /* Fintech: inverse specimen is a stage; product drawing sits on a lit paper plate (readable contrast). */
 [data-sitekind="fintech-marketing"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
@@ -1206,6 +1225,200 @@ body[data-sitekind="lantern-path"]{
   [data-sitekind="lantern-path"] .ds-section-head,
   [data-sitekind="lantern-path"] .ds-ember-trail{padding-left:0;margin-left:0}
 }
+/* Care pathway — stage rail, care plate fold, chart imprint, rounds ladder, Chart. */
+[data-sitekind="care-pathway"]{
+  --care-rail:3.5rem;
+  --craft-rail:var(--care-rail);
+  /* One content inset — collapses alignment-axes scatter (rail + gutter variants). */
+  --care-inset:calc(var(--care-rail) + var(--gutter));
+  /* Neutral button ink — cool #F8FDFE trips AcidAccentTell vs transparent→#000 fingerprint. */
+  --c-accent-ink:#ffffff;
+}
+/* Fixed 1px stage spine — never body background-image gradients (GradientCrutchTell). */
+body[data-sitekind="care-pathway"]{
+  background:var(--c-paper);
+  background-image:none;
+}
+body[data-sitekind="care-pathway"]::before{
+  content:"";position:fixed;left:var(--care-rail);top:0;bottom:0;width:1px;z-index:0;pointer-events:none;
+  background:color-mix(in srgb,var(--c-accent) 22%,transparent);
+}
+/* If frame skill still routes, flatten inverse hatch — clinical atlas is full-bleed paper. */
+body[data-sitekind="care-pathway"][data-frame="paper-technical"]{
+  background:var(--c-paper);
+}
+body[data-sitekind="care-pathway"][data-frame="paper-technical"] #main{
+  max-width:none;margin:0;border-inline:0;box-shadow:none;
+}
+@media (max-width:800px){
+  body[data-sitekind="care-pathway"]::before{display:none}
+}
+[data-sitekind="care-pathway"] .ds-brand-mark{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+}
+/* Quiet-but-in-band display — pathway owns the fold; keep ≥~3.2vw for critique corridor. */
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-display{
+  font-size:clamp(2.4rem,3.3vw,2.9rem);
+  letter-spacing:-0.03em;max-width:17ch;line-height:1.06;
+}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-lede{display:none}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-eyebrow{display:none}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-brand-mark{
+  margin:0 0 0.05rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-cta-note{display:none}
+/* Nav already carries the primary CTA — fold keeps brand+claim only so the plate enters the viewport. */
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions{display:none}
+[data-sitekind="care-pathway"] .ds-rounds-enc,
+[data-sitekind="care-pathway"] .ds-rounds-bead,
+[data-sitekind="care-pathway"] .ds-care-mark,
+[data-sitekind="care-pathway"] .ds-care-masthead{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;line-height:1.2;
+  opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
+}
+[data-sitekind="care-pathway"] .ds-care-claim{
+  padding:0.15rem 0 0.35rem;
+  /* wrap-wide supplies --gutter; only add rail here so inset == --care-inset. */
+  padding-left:var(--care-rail);
+  position:relative;z-index:2;
+  background:var(--c-paper);
+}
+[data-sitekind="care-pathway"] .ds-care-claim .ds-hero-copy{gap:0.12rem;max-width:28rem}
+[data-sitekind="care-pathway"] .ds-care-claim .ds-hero-chips,
+[data-sitekind="care-pathway"] .ds-care-claim .ds-capability-list,
+[data-sitekind="care-pathway"] .ds-care-claim .ds-hero-aside,
+[data-sitekind="care-pathway"] .ds-care-claim .ds-hero-facts{display:none}
+[data-sitekind="care-pathway"] .ds-care-field{
+  margin-top:0;position:relative;z-index:1;
+  padding-left:0;
+}
+[data-sitekind="care-pathway"] .ds-care-plate .ds-fig{min-height:min(78vh,820px)}
+[data-sitekind="care-pathway"] .ds-hero-rounds{min-height:min(100vh,900px)}
+/* Sticky nav is in-flow — do NOT add --nav-h again or the care-plate starves below y≈360. */
+[data-sitekind="care-pathway"] .ds-care-masthead{
+  padding-top:var(--s-xs,0.35rem);
+  padding-bottom:var(--s-xs,0.35rem);
+  padding-left:var(--care-inset);
+  padding-right:var(--gutter);
+  color:var(--c-ink-tertiary);
+}
+/* Masthead already names Ward/Pathway — drop duplicate product stamp (nav + claim brand carry the name). */
+[data-sitekind="care-pathway"] .ds-care-mark-product{display:none}
+@media (max-width:800px){
+  [data-sitekind="care-pathway"] .ds-care-masthead{
+    gap:0.35rem 0.75rem;padding-left:var(--gutter);padding-right:var(--gutter);
+  }
+  [data-sitekind="care-pathway"] .ds-care-edition{display:none}
+}
+[data-sitekind="care-pathway"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="care-pathway"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
+[data-sitekind="care-pathway"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
+[data-sitekind="care-pathway"] .ds-section-head,
+[data-sitekind="care-pathway"] .ds-handoff-strip,
+[data-sitekind="care-pathway"] .ds-rounds-ladder,
+[data-sitekind="care-pathway"] .ds-chapter,
+[data-sitekind="care-pathway"] .ds-faq,
+[data-sitekind="care-pathway"] .ds-closing-colophon{
+  margin-left:var(--care-rail);
+  padding-left:var(--gutter);
+  box-sizing:border-box;
+}
+[data-sitekind="care-pathway"] .ds-closing-colophon{
+  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
+}
+[data-sitekind="care-pathway"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
+[data-sitekind="care-pathway"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
+[data-sitekind="care-pathway"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="care-pathway"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="care-pathway"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="care-pathway"] .ds-proof-figure,
+[data-sitekind="care-pathway"] .ds-plate-fold,
+[data-sitekind="care-pathway"] .ds-plate-lit,
+[data-sitekind="care-pathway"] .ds-btn{box-shadow:none!important}
+[data-sitekind="care-pathway"] .ds-proof-cell.is-lead,
+[data-sitekind="care-pathway"] .ds-proof-cell:first-child{box-shadow:inset 0 1px 0 var(--c-accent)}
+/* Hairline floor — observatory lesson: 1.5–3px chrome tanks hairline ratio. */
+[data-sitekind="care-pathway"] .ds-care-masthead,
+[data-sitekind="care-pathway"] .ds-rounds-panel,
+[data-sitekind="care-pathway"] .ds-rounds-ladder::before,
+[data-sitekind="care-pathway"] .ds-bleed-rule,
+[data-sitekind="care-pathway"] .ds-closing-colophon,
+[data-sitekind="care-pathway"] .ds-care-imprint,
+[data-sitekind="care-pathway"] .ds-handoff-cell{
+  border-width:0;border-top-width:0;border-bottom-width:0;
+}
+[data-sitekind="care-pathway"] .ds-care-masthead{border-bottom:1px solid var(--c-border)}
+[data-sitekind="care-pathway"] .ds-rounds-bead{
+  border-width:1px;box-shadow:none!important;
+}
+[data-sitekind="care-pathway"] .ds-btn,
+[data-sitekind="care-pathway"] .ds-nav{box-shadow:none!important}
+[data-sitekind="care-pathway"] .ds-bleed-rule{height:1px;border:0;background:var(--c-border)}
+[data-sitekind="care-pathway"] .ds-closing-colophon{border-top:1px solid var(--c-border)}
+/* Chart imprint — layered over plate foot; paper/teal surface, never near-black silhouettes. */
+[data-sitekind="care-pathway"] .ds-care-imprint{
+  position:relative;z-index:3;margin:-4.5rem var(--gutter) 0 var(--care-inset);
+  max-width:36rem;padding:var(--s-sm) var(--s-md);
+  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent) 8%);
+  border:1px solid var(--c-border);
+  display:flex;flex-direction:column;gap:0.35rem;
+}
+[data-sitekind="care-pathway"] .ds-care-imprint-edition{
+  margin:0;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-accent);
+}
+[data-sitekind="care-pathway"] .ds-care-imprint-meta{
+  margin:0;display:flex;flex-wrap:wrap;gap:0.35rem 1rem;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+/* Handoff strip — horizontal stage grid (breaks list shape-run vs rounds ladder). */
+[data-sitekind="care-pathway"] .ds-handoff-strip{
+  list-style:none;margin:var(--s-xl) 0 0;padding:0;
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;
+  border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border);
+}
+[data-sitekind="care-pathway"] .ds-handoff-cell{
+  position:relative;padding:var(--s-md) var(--s-sm) var(--s-lg);
+  border-right:1px solid var(--c-border);
+  min-height:11rem;
+}
+[data-sitekind="care-pathway"] .ds-handoff-cell:last-child{border-right:0}
+[data-sitekind="care-pathway"] .ds-handoff-stage{
+  margin:0 0 0.35rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--c-accent);
+}
+[data-sitekind="care-pathway"] .ds-handoff-num{
+  margin:0 0 0.5rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;color:var(--c-ink-tertiary);
+}
+[data-sitekind="care-pathway"] .ds-handoff-cell h3{
+  margin:0 0 0.45rem;font-family:var(--f-display);font-size:clamp(1.05rem,1.4vw,1.35rem);
+  line-height:1.15;max-width:12ch;
+}
+[data-sitekind="care-pathway"] .ds-handoff-cell .ds-body{margin:0;font-size:var(--t-small-size,0.9rem);max-width:18ch;color:var(--c-ink-secondary)}
+[data-sitekind="care-pathway"] .ds-handoff-diamond{
+  position:absolute;right:-0.35rem;top:1.15rem;width:0.55rem;height:0.55rem;z-index:1;
+  background:var(--c-accent);transform:rotate(45deg);
+}
+@media (max-width:960px){
+  [data-sitekind="care-pathway"] .ds-handoff-strip{grid-template-columns:1fr 1fr;gap:0}
+  [data-sitekind="care-pathway"] .ds-handoff-cell:nth-child(2n){border-right:0}
+  [data-sitekind="care-pathway"] .ds-handoff-diamond{display:none}
+}
+@media (max-width:800px){
+  [data-sitekind="care-pathway"]{--care-rail:0px;--care-inset:var(--gutter)}
+  [data-sitekind="care-pathway"] .ds-care-rail{display:none}
+  [data-sitekind="care-pathway"] .ds-care-claim,
+  [data-sitekind="care-pathway"] .ds-care-field,
+  [data-sitekind="care-pathway"] .ds-section-head,
+  [data-sitekind="care-pathway"] .ds-handoff-strip,
+  [data-sitekind="care-pathway"] .ds-rounds-ladder,
+  [data-sitekind="care-pathway"] .ds-faq,
+  [data-sitekind="care-pathway"] .ds-closing-colophon{padding-left:var(--gutter);margin-left:0}
+  [data-sitekind="care-pathway"] .ds-care-imprint{margin-left:var(--gutter);margin-right:var(--gutter)}
+  [data-sitekind="care-pathway"] .ds-handoff-strip{grid-template-columns:1fr}
+  [data-sitekind="care-pathway"] .ds-handoff-cell{border-right:0;border-bottom:1px solid var(--c-border);min-height:0}
+}
 [data-sitekind="press-atelier"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="press-atelier"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
 [data-sitekind="press-atelier"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
@@ -1559,6 +1772,7 @@ ${surfaceRules()}
 /* Left craft rails (sig / way / alpha / chrono) — bleeds and plates must clear the rail column. */
 [data-sitekind="press-atelier"] .ds-bleed,
 [data-sitekind="lantern-path"] .ds-bleed,
+[data-sitekind="care-pathway"] .ds-bleed,
 [data-sitekind="archive-index"] .ds-bleed,
 [data-sitekind="signal-observatory"] .ds-bleed{
   width:calc(100vw - var(--craft-rail,0px));
@@ -1568,6 +1782,7 @@ ${surfaceRules()}
 }
 [data-sitekind="press-atelier"] .ds-plate-bleed .ds-fig,
 [data-sitekind="lantern-path"] .ds-plate-bleed .ds-fig,
+[data-sitekind="care-pathway"] .ds-plate-bleed .ds-fig,
 [data-sitekind="archive-index"] .ds-plate-bleed .ds-fig,
 [data-sitekind="signal-observatory"] .ds-plate-bleed .ds-fig{
   width:calc(100vw - var(--craft-rail,0px));
@@ -1575,6 +1790,7 @@ ${surfaceRules()}
 }
 [data-sitekind="press-atelier"] .ds-flow-track,
 [data-sitekind="lantern-path"] .ds-flow-track,
+[data-sitekind="care-pathway"] .ds-flow-track,
 [data-sitekind="archive-index"] .ds-flow-track,
 [data-sitekind="signal-observatory"] .ds-flow-track{
   padding-inline:var(--gutter);
@@ -2750,6 +2966,89 @@ ${surfaceRules()}
   .ds-ember-step[data-side="left"] .ds-ember-panel h3,
   .ds-ember-step[data-side="left"] .ds-ember-mark{margin-left:0}
 }
+
+/* Rounds fold + care rail (care pathway). */
+.ds-hero-rounds{
+  position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
+  display:flex;flex-direction:column;
+}
+.ds-care-masthead{
+  display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
+  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding-left:calc(var(--gutter) + var(--care-rail,3.5rem));
+  border-bottom:1px solid var(--c-border);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+.ds-care-mark-product{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
+.ds-care-claim{
+  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding-left:var(--care-rail,3.5rem);
+}
+.ds-care-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
+.ds-care-field{margin-top:0;position:relative}
+.ds-care-plate{margin:0;width:100%;display:block}
+.ds-care-plate .ds-fig{width:100%;min-height:min(80vh,840px);display:block}
+.ds-care-rail{
+  position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
+  width:var(--care-rail,3.5rem);z-index:var(--z-nav);pointer-events:none;
+  display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
+}
+.ds-care-rail ol{
+  list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;
+  justify-content:space-between;align-items:center;pointer-events:auto;width:100%;
+}
+.ds-care-mark{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;
+  text-decoration:none;min-width:40px;min-height:44px;line-height:1.1;text-align:center;
+  color:var(--c-ink-tertiary);padding:0.2rem;
+}
+.ds-care-mark:hover,.ds-care-mark:focus-visible{color:var(--c-accent);outline:1px solid var(--c-accent);outline-offset:2px}
+.ds-care-mark.is-active{color:var(--c-accent)}
+.ds-care-num{writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:0.08em}
+.ds-care-label{display:none}
+.ds-care-imprint{position:relative;z-index:3}
+.ds-handoff-strip{list-style:none;margin:0;padding:0}
+
+/* Rounds ladder — vertical encounter spine (care pathway). */
+.ds-rounds{padding-block:var(--section-y)}
+.ds-rounds-ladder{
+  list-style:none;margin:var(--s-xl) 0 0;padding:0 0 0 2.5rem;position:relative;
+  display:flex;flex-direction:column;gap:var(--s-xl);
+}
+.ds-rounds-ladder::before{
+  content:"";position:absolute;left:0.85rem;top:0.4rem;bottom:0.4rem;width:1px;
+  background:linear-gradient(180deg,var(--c-accent),var(--c-border));
+}
+.ds-rounds-step{position:relative;display:block}
+.ds-rounds-bead{
+  position:absolute;left:-2.5rem;top:0.45rem;width:0.85rem;height:0.85rem;border-radius:50%;
+  background:var(--c-accent);border:1px solid var(--c-paper);z-index:2;
+}
+.ds-rounds-panel{
+  max-width:36rem;padding:var(--s-md) var(--s-lg);border:1px solid var(--c-border);
+  background:color-mix(in srgb,var(--c-paper) 94%,var(--c-accent-surface));
+}
+.ds-rounds-enc{
+  margin:0 0 0.2rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-accent);
+}
+.ds-rounds-stage{
+  margin:0 0 0.15rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+.ds-rounds-panel h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15;max-width:20ch}
+.ds-rounds-note{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;position:relative;z-index:1;
+}
+.ds-rounds-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-rounds-note + .ds-rounds-mark{margin-top:var(--s-lg)}
+@media (max-width:800px){
+  .ds-rounds-ladder{padding-left:2rem}
+  .ds-rounds-bead{left:-1.65rem}
+  .ds-rounds-panel{max-width:none}
+}
+
 .ds-marginalia-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
 .ds-marginalia-essay{display:flex;flex-direction:column;gap:var(--s-xl);max-width:42rem}
 .ds-marginalia-beat{position:relative}

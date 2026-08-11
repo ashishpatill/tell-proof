@@ -279,6 +279,10 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         (
           !/class="ds-ember-note"/.test(html) ||
           /\.ds-ember-note \+ \.ds-ember-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
+        ) &&
+        (
+          !/class="ds-rounds-note"/.test(html) ||
+          /\.ds-rounds-note \+ \.ds-rounds-mark\{[^}]*margin-top:var\(--s-lg\)/.test(html)
         ),
       "Story Note 0N labels must clear capability marks — never negative-margin the drawing under the label.",
     ),
@@ -289,6 +293,11 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           !/class="[^"]*ds-path-claim/.test(html) ||
           (/\[data-sitekind="lantern-path"\] \.ds-path-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
             /\[data-sitekind="lantern-path"\] \.ds-path-field\{[^}]*margin-top:0/.test(html))
+        ) &&
+        (
+          !/class="[^"]*ds-care-claim/.test(html) ||
+          (/\[data-sitekind="care-pathway"\] \.ds-care-claim\{[^}]*background:var\(--c-paper\)/.test(html) &&
+            /\[data-sitekind="care-pathway"\] \.ds-care-field\{[^}]*margin-top:0/.test(html))
         ) &&
         (
           !/class="[^"]*ds-press-claim/.test(html) ||
@@ -557,6 +566,28 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Lantern-path offerings use path fold + waypoint rail + path plate + night trail + Ember — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
+      "kind-clinic",
+      spec.brief.siteKind !== "care-pathway"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && !spec.sections.some((s) => s.kind === "metrics")
+          && /ds-hero-rounds/.test(html)
+          && /ds-care-masthead/.test(html)
+          && /ds-care-rail/.test(html)
+          && /data-figure="care-plate"/.test(html)
+          && /ds-rounds/.test(html)
+          && /class="ds-rounds-ladder"/.test(html)
+          && /aria-label="Rounds ladder"/.test(html)
+          && !/class="ds-rounds-aside"/.test(html)
+          && !/class="ds-ember-trail"/.test(html)
+          && /Chart/.test(html)
+          && /ds-bleed-rule/.test(html)
+          && /ds-care-imprint/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length === 0
+        ),
+      "Care-pathway offerings use rounds fold + care rail + care plate + rounds ladder + Chart — no pricing, no metrics theatre, zero inverse bands.",
+    ),
+    check(
       "fig-mono-floor",
       !Array.from(html.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)).some((m) => Number(m[1]) > 0 && Number(m[1]) < 11),
       "SVG figure labels stay at ≥11px — smaller mono invents a type-step the probe counts but the eye cannot use.",
@@ -564,7 +595,8 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     check(
       "craft-figure-dense",
       (!/data-figure="press-sheet"/.test(html) || /data-figure="press-sheet"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="press-sheet"/.test(html))
-        && (!/data-figure="path-plate"/.test(html) || /data-figure="path-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="path-plate"/.test(html)),
+        && (!/data-figure="path-plate"/.test(html) || /data-figure="path-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="path-plate"/.test(html))
+        && (!/data-figure="care-plate"/.test(html) || /data-figure="care-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="care-plate"/.test(html)),
       "Cell-grid craft figures must carry drawn page matter (data-dense=ink) — empty stroked voids fail the eye.",
     ),
     check(
@@ -576,6 +608,14 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         }
         if (kind === "lantern-path") {
           return /ds-path-field/.test(html) && /ds-path-claim/.test(html) && /ds-hero-path \.ds-cta-note\{display:none\}/.test(html);
+        }
+        if (kind === "care-pathway") {
+          return (
+            /ds-care-field/.test(html) &&
+            /ds-care-claim/.test(html) &&
+            /ds-hero-rounds \.ds-actions\{display:none\}/.test(html) &&
+            /\[data-sitekind="care-pathway"\] \.ds-care-claim\{[^}]*background:var\(--c-paper\)/.test(html)
+          );
         }
         if (kind === "archive-index") {
           return /ds-register-field/.test(html) && /ds-hero-register/.test(html);
@@ -666,6 +706,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           "field-guide",
           "press-atelier",
           "lantern-path",
+          "care-pathway",
         ].includes(kind);
         if (craftProof) return !hasBoard;
         if (kind === "saas-marketing") return /data-workflow-proof/.test(html) && !hasBoard;
