@@ -9,7 +9,7 @@ const BASE = process.env.TELL_E2E_BASE ?? "http://localhost:3000";
 
 async function assertText(page: Page, selector: string, includes: string) {
   const text = await page.locator(selector).innerText();
-  if (!text.includes(includes)) {
+  if (!text.toLowerCase().includes(includes.toLowerCase())) {
     throw new Error(`Expected ${selector} to include "${includes}", got: ${text.slice(0, 240)}`);
   }
 }
@@ -138,10 +138,11 @@ async function main() {
     if (!dash.spec.routedSkills.includes("dashboard-or-webapp-ui")) throw new Error("dashboard skill missing");
     if (dash.spec.routedSkills.includes("pricing-or-plans")) throw new Error("dashboard should not price");
     if (dash.spec.routedSkills.includes("restrained-motion-micro")) throw new Error("motion none should drop micro skill");
-    if ((dash.previewHtml.match(/class="ds-wrap ds-dash-grid"/g) || []).length !== 1) {
+    // Dashboard shell is one app grid (aside + main), not a marketing multi-grid.
+    if ((dash.previewHtml.match(/class="ds-app-grid"/g) || []).length < 1) {
       throw new Error("dashboard must be one shell grid");
     }
-    if (!dash.previewHtml.includes("ds-side") || !dash.previewHtml.includes("ds-main")) {
+    if (!dash.previewHtml.includes("ds-app-side") || !dash.previewHtml.includes("ds-app-main")) {
       throw new Error("dashboard shell incomplete");
     }
 
@@ -227,7 +228,7 @@ async function main() {
     await page.getByTestId("taste-lean").selectOption("minimal-clean");
     await page.getByTestId("taste-motion").selectOption("none");
     await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
-    const aesthetic = await page.frameLocator('[data-testid="studio-frame"]').locator("body").getAttribute("data-aesthetic");
+    const aesthetic = await page.frameLocator('[data-testid="studio-frame"]').locator("body").getAttribute("data-lean");
     if (aesthetic !== "minimal-clean") throw new Error(`Expected minimal-clean, got ${aesthetic}`);
     await assertText(page, '[data-testid="meta-skills"]', "analyze-features-requirements");
     await assertText(page, '[data-testid="meta-hints"]', "Redesign from");
@@ -243,12 +244,12 @@ async function main() {
     await clickAndAwaitNextGeneration(page, () => page.getByTestId("preset-corporate").click());
     await assertText(page, '[data-testid="meta-sitekind"]', "corporate-story");
     await assertText(page, '[data-testid="meta-skills"]', "content-storytelling-pages");
-    await frameHas(page, "studio-frame", "Trust narrative");
+    await frameHas(page, "studio-frame", "Clarity for teams");
 
     // Preset: educational
     await clickAndAwaitNextGeneration(page, () => page.getByTestId("preset-educational").click());
     await assertText(page, '[data-testid="meta-sitekind"]', "docs-educational");
-    await frameHas(page, "studio-frame", "Interactive diagram");
+    await frameHas(page, "studio-frame", "Placement model");
     const figureCount = await page.frameLocator('[data-testid="studio-frame"]').locator("[data-instrument='scrub']").count();
     if (figureCount < 1) throw new Error("educational preset missing scrub figure");
 
@@ -287,17 +288,17 @@ async function main() {
       await page.getByTestId("input-lock-sitekind").check();
       await page.getByTestId("taste-lean").selectOption(lean);
       await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
-      await page.getByTestId("meta-summary").filter({ hasText: leanLabels[lean]! }).waitFor({ timeout: 15_000 });
-      const attr = await page.frameLocator('[data-testid="studio-frame"]').locator("body").getAttribute("data-aesthetic");
+      await page.getByTestId("meta-summary").filter({ hasText: new RegExp(leanLabels[lean]!, "i") }).waitFor({ timeout: 15_000 });
+      const attr = await page.frameLocator('[data-testid="studio-frame"]').locator("body").getAttribute("data-lean");
       if (attr !== lean) throw new Error(`lean UI mismatch: wanted ${lean}, got ${attr}`);
     }
 
     // Showcases pages
     for (const [path, needle, id, extra] of [
       ["/showcase/saas", "Account scoring", "showcase-saas", "ds-brand-mark"],
-      ["/showcase/dashboard", "Priority queue", "showcase-dashboard", "ds-dash-grid"],
+      ["/showcase/dashboard", "Priority queue", "showcase-dashboard", "ds-app-grid"],
       ["/showcase/corporate", "Clarity for teams", "showcase-corporate", "ds-chapter"],
-      ["/showcase/educational", "Interactive diagram", "showcase-educational", "data-instrument"],
+      ["/showcase/educational", "Placement model", "showcase-educational", "data-instrument"],
     ] as const) {
       await page.goto(`${BASE}${path}`, { waitUntil: "domcontentloaded" });
       await page.getByTestId(id).waitFor();

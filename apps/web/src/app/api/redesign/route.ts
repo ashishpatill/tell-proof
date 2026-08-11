@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { trace, SpanStatusCode, type Span } from "@opentelemetry/api";
 import { BrandDNA, TellReport } from "@tell/schema";
 import { parseDirection, type DirectionPlan } from "@tell/taste";
-import { demoReport } from "@/lib/demo-report";
 import { proposeWithCursorAgent } from "@/lib/cursor-redesign";
 import { collectProjectSources, rankSourcesForReport } from "@/lib/source-worktree";
 import { fetchRemoteBackend, hasRemoteBackend } from "@/lib/remote-api";
@@ -43,7 +42,16 @@ export async function POST(request: Request) {
     if (blocked) return blocked;
   }
   const parsedReport = TellReport.safeParse(body.report);
-  const report = parsedReport.success ? parsedReport.data : demoReport;
+  if (!parsedReport.success) {
+    return NextResponse.json(
+      {
+        error: "Invalid or missing Tell report. Capture a page first, then draft a fix.",
+        details: parsedReport.error.flatten(),
+      },
+      { status: 400 },
+    );
+  }
+  const report = parsedReport.data;
   const directionPlan = body.directionPlan as DirectionPlan | undefined;
   const directionText = typeof body.direction === "string" ? body.direction : directionPlan?.summary ?? "editorial";
   const findingId = typeof body.findingId === "string" ? body.findingId : undefined;
@@ -63,7 +71,7 @@ export async function POST(request: Request) {
         ? await collectProjectSources(setupJobId).catch(() => null)
         : null;
       const ranked = sourceContext ? rankSourcesForReport(sourceContext.files, report) : null;
-      const proposal = await proposeWithCursorAgent(
+      const { proposal, patchSource } = await proposeWithCursorAgent(
         report,
         direction,
         findingId,
@@ -76,6 +84,7 @@ export async function POST(request: Request) {
       span.setAttributes({
         "tell.source_files": sourceContext?.files.length ?? 0,
         "tell.source_bytes": sourceContext?.totalBytes ?? 0,
+        "tell.patch_source": patchSource,
       });
       span.setStatus({ code: SpanStatusCode.OK });
       span.end();
@@ -97,12 +106,14 @@ export async function POST(request: Request) {
           directionPlan: directionPlan ?? null,
           dna: dna ?? null,
           proposal,
+          patchSource,
           reportUrl: report.capture.url,
         },
         { setupJobId: setupJobId || null, ...sourceContextMeta },
       );
       return NextResponse.json({
         ...proposal,
+        patchSource,
         sourceContext: sourceContextMeta,
       });
     } catch (error) {

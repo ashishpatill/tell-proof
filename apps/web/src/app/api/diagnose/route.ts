@@ -21,15 +21,42 @@ function captureErrorMessage(url: string, error: unknown, backend: "remote" | "l
   if (/Timeout|timed out|timeout/i.test(detail)) {
     return `Capture timed out while waiting for ${url}. The page may still be compiling or stuck loading.`;
   }
-  return `Capture failed for ${url}. The offline demo report is showing instead.`;
+  return `Capture failed for ${url}.`;
+}
+
+/** Treat localhost / 127.0.0.1 as the same host when comparing to the fixture URL. */
+function urlsRoughlyEqual(a: string, b: string): boolean {
+  try {
+    const left = new URL(a);
+    const right = new URL(b);
+    const host = (h: string) => (h === "127.0.0.1" ? "localhost" : h);
+    return (
+      host(left.hostname) === host(right.hostname) &&
+      left.port === right.port &&
+      (left.pathname.replace(/\/$/, "") || "/") === (right.pathname.replace(/\/$/, "") || "/")
+    );
+  } catch {
+    return a.trim() === b.trim();
+  }
+}
+
+function offlineFallbackAllowed(body: Record<string, unknown>, requestedUrl: string): boolean {
+  if (body.allowOfflineFallback === true) return true;
+  if (body.offline === true) return true;
+  if (process.env.TELL_DIAGNOSE_OFFLINE_FALLBACK === "1") return true;
+  return urlsRoughlyEqual(requestedUrl, demoReport.capture.url);
 }
 
 export async function POST(request: Request) {
   const unauthorized = assertCaptureApiAuthorized(request);
   if (unauthorized) return unauthorized;
 
-  const body = await request.json().catch(() => ({}));
-  const url = typeof body.url === "string" && body.url.trim() ? body.url.trim() : demoReport.capture.url;
+  const body = (await request.json().catch(() => ({}))) as Record<string, unknown>;
+  const explicitOffline = body.offline === true;
+  const url =
+    typeof body.url === "string" && body.url.trim()
+      ? body.url.trim()
+      : demoReport.capture.url;
   const backend = hasRemoteCaptureBackend() ? "remote" : "local";
 
   return tracer.startActiveSpan("tell.diagnose", async (span: Span) => {
@@ -37,6 +64,22 @@ export async function POST(request: Request) {
       "tell.url": url,
       "tell.backend": backend,
     });
+
+    // Explicit offline demo — never pretend this was a live capture of another URL.
+    if (explicitOffline) {
+      const meta = {
+        live: false,
+        requestedUrl: url,
+        capturedUrl: demoReport.capture.url,
+        backend,
+        offlineFixture: true,
+      };
+      recordTrainingEvent("diagnose", { report: demoReport }, meta);
+      span.setAttributes({ "tell.live": false, "tell.offline_fixture": true });
+      span.setStatus({ code: SpanStatusCode.OK });
+      span.end();
+      return NextResponse.json({ report: demoReport, meta });
+    }
 
     try {
       if (backend === "local" && process.env.VERCEL) {
@@ -77,15 +120,30 @@ export async function POST(request: Request) {
       console.error("[/api/diagnose]", error);
       const detail = error instanceof Error ? error.message : String(error);
       const message = captureErrorMessage(url, error, backend);
+      const allowFallback = offlineFallbackAllowed(body, url);
+
+      if (!allowFallback) {
+        const meta = {
+          live: false,
+          requestedUrl: url,
+          capturedUrl: null as string | null,
+          error: message,
+          detail,
+          backend,
+          offlineFixture: false,
+        };
+        return NextResponse.json({ report: null, meta }, { status: 502 });
+      }
+
       const meta = {
         live: false,
         requestedUrl: url,
         capturedUrl: demoReport.capture.url,
-        error: message,
+        error: `${message} Showing the offline demo report instead.`,
         detail,
         backend,
+        offlineFixture: true,
       };
-      // Still record offline fallback runs — useful as labeled "fixture" episodes.
       recordTrainingEvent("diagnose", { report: demoReport }, meta);
       return NextResponse.json({
         report: demoReport,

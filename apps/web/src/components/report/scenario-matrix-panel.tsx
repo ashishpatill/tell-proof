@@ -25,7 +25,9 @@ export function ScenarioMatrixPanel({
           </p>
           <p className="mt-1 text-sm text-secondary">
             Live Playwright cells across route × viewport × theme × interaction
-            {proof?.authStorage ? " · auth session loaded" : ""}.
+            {proof?.authStorage ? " · auth session loaded" : ""}
+            {proof?.authCellsDropped ? ` · ${proof.authCellsDropped} auth skipped` : ""}
+            {proof?.proofMode === "capture-only" ? " · capture-only (no baseline compare)" : ""}.
           </p>
         </div>
         <button
@@ -38,6 +40,7 @@ export function ScenarioMatrixPanel({
         </button>
       </div>
       {error ? <p className="font-mono text-xs text-drift">{error}</p> : null}
+      {proof?.note ? <p className="font-mono text-xs text-muted">{proof.note}</p> : null}
       {proof ? (
         <div className="space-y-3">
           <div className="flex flex-wrap gap-3 font-mono text-meta text-muted">
@@ -45,7 +48,11 @@ export function ScenarioMatrixPanel({
               Overall{" "}
               <span
                 className={
-                  proof.status === "passed" ? "text-ok" : proof.status === "failed" ? "text-drift" : "text-accent"
+                  proof.status === "passed"
+                    ? "text-ok"
+                    : proof.status === "failed"
+                      ? "text-drift"
+                      : "text-accent"
                 }
               >
                 {proof.status}

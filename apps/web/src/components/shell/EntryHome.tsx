@@ -134,7 +134,7 @@ export function EntryHome({
                   title: session.title,
                   findingCount: session.findingCount,
                   live: session.live,
-                  accent: session.mode === "offline" ? "#8B5CF6" : "#D4714A",
+                  accent: session.mode === "offline" ? "#8A7A68" : "#D4714A",
                 });
               return (
               <button

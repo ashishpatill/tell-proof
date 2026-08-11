@@ -70,6 +70,8 @@ async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   }
 }
 
+export type PatchSource = "cursor" | "deterministic";
+
 export async function proposeWithCursorAgent(
   report: TellReport,
   direction: ArtDirection,
@@ -79,10 +81,10 @@ export async function proposeWithCursorAgent(
   directionBrief?: string,
   sources?: SourceFile[],
   apiKeyOverride?: string,
-): Promise<RedesignProposal> {
+): Promise<{ proposal: RedesignProposal; patchSource: PatchSource }> {
   const deterministic = await new OfflineRedesignGenerator().propose(report, direction, findingId, dna, sources);
   const apiKey = apiKeyOverride?.trim() || process.env.CURSOR_API_KEY?.trim();
-  if (!apiKey) return deterministic;
+  if (!apiKey) return { proposal: deterministic, patchSource: "deterministic" };
 
   try {
     // Keep the Cursor SDK out of Next's webpack graph; it ships runtime assets
@@ -134,7 +136,9 @@ export async function proposeWithCursorAgent(
       Number(process.env.CURSOR_AGENT_TIMEOUT_MS ?? 75_000),
     );
 
-    if (result.status !== "finished" || !result.result) return deterministic;
+    if (result.status !== "finished" || !result.result) {
+      return { proposal: deterministic, patchSource: "deterministic" };
+    }
     const parsed = parseCursorPatch(result.result);
     const files = parsed?.files
       ?.filter((file) => file.file && file.unifiedDiff && file.summary)
@@ -144,13 +148,16 @@ export async function proposeWithCursorAgent(
         summary: String(file.summary),
       }));
 
-    if (!files?.length) return deterministic;
-    return RedesignProposal.parse({
-      ...deterministic,
-      files,
-    });
+    if (!files?.length) return { proposal: deterministic, patchSource: "deterministic" };
+    return {
+      proposal: RedesignProposal.parse({
+        ...deterministic,
+        files,
+      }),
+      patchSource: "cursor",
+    };
   } catch (error) {
     console.warn("[cursor-redesign] falling back to deterministic proposal", error);
-    return deterministic;
+    return { proposal: deterministic, patchSource: "deterministic" };
   }
 }

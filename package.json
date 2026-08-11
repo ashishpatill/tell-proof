@@ -9,7 +9,7 @@
     "dev:fixture": "pnpm -F @tell/generic-app dev",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint . --ext .ts,.tsx",
+    "lint": "pnpm typecheck",
     "typecheck": "pnpm -r typecheck",
     "tell": "pnpm -F @tell/cli exec tsx src/cli.ts",
     "tell:build": "pnpm -F @tell/schema build && pnpm -F @tell/cli build",

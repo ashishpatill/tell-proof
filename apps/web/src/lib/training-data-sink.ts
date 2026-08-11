@@ -291,6 +291,16 @@ export function runDesignDataHarness(sink: SinkPaths): Promise<void> {
     scheduleDesignDataHarness(sink);
     return Promise.resolve();
   }
+
+  // Nested tell-design-data needs its own install; skip sync when deps are missing.
+  const chokidarPath = path.join(sink.repo, "node_modules", "chokidar");
+  if (!existsSync(chokidarPath)) {
+    console.warn(
+      "[training-data-sink] tell-design-data deps missing (chokidar); raw episode written, sync skipped. Run pnpm install in the design-data repo.",
+    );
+    return Promise.resolve();
+  }
+
   const launch = resolveHarnessCommand(sink.repo);
   if (!launch) {
     console.warn("[training-data-sink] tell-design-data CLI not found; raw files written only");

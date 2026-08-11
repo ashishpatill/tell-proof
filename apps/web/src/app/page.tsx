@@ -109,16 +109,24 @@ const PRESET_CHIPS: { key: string; label: string }[] = [
 export default function HomePage() {
   const [report, setReport] = useState<TellReport>(demoReport);
   const [inputUrl, setInputUrl] = useState(DEFAULT_CAPTURE_URL);
-  const [captureMeta, setCaptureMeta] = useState<CaptureMeta | null>(null);
+  const [captureMeta, setCaptureMeta] = useState<CaptureMeta | null>({
+    live: false,
+    requestedUrl: demoReport.capture.url,
+    capturedUrl: demoReport.capture.url,
+    backend: "local",
+    offlineFixture: true,
+    error: "Offline fixture preloaded — capture a URL for a live report.",
+  });
   const [selectedId, setSelectedId] = useState(demoReport.findings[0]?.id ?? "");
   const [seam, setSeam] = useState(50);
   const [directionId, setDirectionId] = useState("editorial");
-  const [captureState, setCaptureState] = useState<CaptureState>("done");
-  const [captureNote, setCaptureNote] = useState("");
+  const [captureState, setCaptureState] = useState<CaptureState>("idle");
+  const [captureNote, setCaptureNote] = useState("Offline fixture ready — paste a URL to capture live.");
   const [proposal, setProposal] = useState<RedesignProposal | null>(null);
   const [draftState, setDraftState] = useState<DraftState>("idle");
   const [draftError, setDraftError] = useState("");
   const [sourceContext, setSourceContext] = useState<SourceContext | null>(null);
+  const [patchSource, setPatchSource] = useState<"cursor" | "deterministic" | null>(null);
   const [proofState, setProofState] = useState<ProofState>("idle");
   const [proofResult, setProofResult] = useState<ProofResult | null>(null);
   const [proofError, setProofError] = useState("");
@@ -412,24 +420,68 @@ export default function HomePage() {
           headers: byokHeaders(),
           body: JSON.stringify({ url: target }),
         });
-        const payload = (await res.json()) as { report: TellReport; meta: CaptureMeta };
+        const payload = (await res.json().catch(() => ({}))) as {
+          report?: TellReport | null;
+          meta?: CaptureMeta;
+          error?: string;
+        };
+
+        if (res.status === 401) {
+          setCaptureState("idle");
+          setCaptureNote("Capture host refused the request.");
+          setDraftError(payload.error ?? "Capture API token rejected.");
+          showNotice({
+            tone: "error",
+            title: "Capture unauthorized",
+            message: payload.error ?? "Check TELL_CAPTURE_API_TOKEN on web and capture host.",
+          });
+          return;
+        }
+
+        if (!res.ok || !payload.report || !payload.meta) {
+          const message =
+            payload.meta?.error ||
+            payload.error ||
+            `Capture failed for ${target} (${res.status}).`;
+          setCaptureState("idle");
+          setCaptureNote("Capture failed — previous report unchanged.");
+          setCaptureMeta({
+            live: false,
+            requestedUrl: target,
+            capturedUrl: "",
+            error: message,
+            backend: payload.meta?.backend,
+            offlineFixture: false,
+          });
+          setDraftError(message);
+          showNotice({
+            tone: "error",
+            title: "Capture failed",
+            message,
+          });
+          return;
+        }
+
+        const nextReport = payload.report;
+        const nextMeta = payload.meta;
+
         setCaptureNote(
-          payload.meta.live
-            ? payload.meta.backend === "remote"
+          nextMeta.live
+            ? nextMeta.backend === "remote"
               ? "Capture complete — live diagnosis via capture backend."
               : "Capture complete."
             : "Capture failed — loaded offline demo.",
         );
-        setReport(payload.report);
-        setCaptureMeta(payload.meta);
-        setSelectedId(payload.report.findings[0]?.id ?? "");
+        setReport(nextReport);
+        setCaptureMeta(nextMeta);
+        setSelectedId(nextReport.findings[0]?.id ?? "");
         setDraftState("idle");
         setSeam(50);
         setCaptureState("done");
 
         const sid = sessionId || newSessionId();
         setSessionId(sid);
-        const title = sessionTitleFromUrl(payload.report.capture.url);
+        const title = sessionTitleFromUrl(nextReport.capture.url);
         setSessionTitle(title);
         setOpenTabs((tabs) => {
           const next = tabs.some((t) => t.id === sid) ? tabs : [...tabs, { id: sid, title }];
@@ -440,56 +492,56 @@ export default function HomePage() {
             id: sid,
             title,
             mode: isGitHubRepoUrl(target) ? "github" : "url",
-            url: payload.report.capture.url,
-            findingCount: payload.report.score.total,
-            live: payload.meta.live,
+            url: nextReport.capture.url,
+            findingCount: nextReport.score.total,
+            live: nextMeta.live,
             thumbDataUrl: svgSessionThumb({
               title,
-              findingCount: payload.report.score.total,
-              live: payload.meta.live,
-              accent: payload.report.capture.surfaceTokens?.accent?.includes("rgb")
+              findingCount: nextReport.score.total,
+              live: nextMeta.live,
+              accent: nextReport.capture.surfaceTokens?.accent?.includes("rgb")
                 ? "#D4714A"
-                : payload.report.capture.surfaceTokens?.accent || "#D4714A",
+                : nextReport.capture.surfaceTokens?.accent || "#D4714A",
               surface: "#221F1C",
             }),
             updatedAt: new Date().toISOString(),
           }),
         );
-        void thumbFromScreenshotBase64(payload.report.capture.screenshotBase64 || "").then((thumb) => {
+        void thumbFromScreenshotBase64(nextReport.capture.screenshotBase64 || "").then((thumb) => {
           if (!thumb) return;
           setRecent(
             upsertRecentSession({
               id: sid,
               title,
               mode: isGitHubRepoUrl(target) ? "github" : "url",
-              url: payload.report.capture.url,
-              findingCount: payload.report.score.total,
-              live: payload.meta.live,
+              url: nextReport.capture.url,
+              findingCount: nextReport.score.total,
+              live: nextMeta.live,
               thumbDataUrl: thumb,
               updatedAt: new Date().toISOString(),
             }),
           );
         });
-        if (payload.meta.live) {
-          setPages(discoverRoutes(payload.report.capture.snapshotHtml, payload.report.capture.url));
+        if (nextMeta.live) {
+          setPages(discoverRoutes(nextReport.capture.snapshotHtml, nextReport.capture.url));
           setDraftError("");
           showNotice({
             tone: "success",
             title: "Capture complete",
-            message: `Tell scanned ${siteLabel(payload.report.capture.url)} and found ${payload.report.score.total} findings.`,
+            message: `Tell scanned ${siteLabel(nextReport.capture.url)} and found ${nextReport.score.total} findings.`,
           });
         }
-        if (!payload.meta.live) {
-          setDraftError(payload.meta.error ?? "Live capture failed. Fix Playwright or paste a reachable URL.");
+        if (!nextMeta.live) {
+          setDraftError(nextMeta.error ?? "Live capture failed. Fix Playwright or paste a reachable URL.");
           showNotice({
             tone: "error",
             title: "Capture failed",
-            message: payload.meta.error ?? `Tell could not reach ${target}. The offline demo report is showing instead.`,
+            message: nextMeta.error ?? `Tell could not reach ${target}. The offline demo report is showing instead.`,
           });
         }
       } catch {
-        setCaptureNote("Capture failed — showing the last committed report.");
-        setCaptureState("done");
+        setCaptureNote("Capture failed — previous report unchanged.");
+        setCaptureState("idle");
         setDraftError("Network error while contacting Tell's capture API.");
         showNotice({
           tone: "error",
@@ -661,8 +713,11 @@ export default function HomePage() {
       live: false,
       requestedUrl: demoReport.capture.url,
       capturedUrl: demoReport.capture.url,
+      backend: "local",
+      offlineFixture: true,
     });
     setProposal(null);
+    setPatchSource(null);
     setDraftState("idle");
     setSeam(50);
     openProjectTab(id, title);
@@ -854,13 +909,13 @@ export default function HomePage() {
       const res = await fetch("/api/proof/matrix", {
         method: "POST",
         headers: byokHeaders(),
-        body: JSON.stringify({ url: baseUrl, routes, compare: true }),
+        body: JSON.stringify({ url: baseUrl, routes }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         throw new Error(typeof data.error === "string" ? data.error : `Matrix scan failed (${res.status})`);
       }
-      const cells: MatrixCellSummary[] = Array.isArray(data.proof?.cells)
+      const proofCells: MatrixCellSummary[] = Array.isArray(data.proof?.cells)
         ? data.proof.cells.map((c: MatrixCellSummary) => ({
             scenarioId: c.scenarioId,
             status: c.status,
@@ -869,19 +924,37 @@ export default function HomePage() {
             structureRegressed: Boolean(c.structureRegressed),
           }))
         : [];
+      const matrixCells: MatrixCellSummary[] = Array.isArray(data.matrix?.cells)
+        ? data.matrix.cells.map((c: { scenario?: { id?: string } }) => ({
+            scenarioId: c.scenario?.id || "cell",
+            status: "captured" as const,
+            scoreDelta: 0,
+            focusRegressed: false,
+            structureRegressed: false,
+          }))
+        : [];
+      const cells = proofCells.length ? proofCells : matrixCells;
+      const proofMode = data.meta?.proofMode === "baseline-compare" ? "baseline-compare" : "capture-only";
       setMatrixProof({
-        status: data.proof?.status ?? "review",
+        status: data.proof?.status ?? "captured",
         matchedCells: data.proof?.matchedCells ?? cells.length,
-        skippedCells: data.proof?.skippedCells ?? 0,
+        skippedCells: data.proof?.skippedCells ?? data.meta?.authCellsDropped ?? 0,
         cells,
         cellCount: data.meta?.cellCount ?? cells.length,
         authStorage: Boolean(data.meta?.authStorage),
+        authCellsDropped: data.meta?.authCellsDropped ?? 0,
+        proofMode,
+        note: data.meta?.note,
       });
       setMatrixState("done");
+      const authNote =
+        data.meta?.authCellsDropped > 0
+          ? ` · ${data.meta.authCellsDropped} auth cell${data.meta.authCellsDropped === 1 ? "" : "s"} skipped (no storage state)`
+          : "";
       showNotice({
         tone: "success",
         title: "Scenario matrix captured",
-        message: `${data.meta?.cellCount ?? cells.length} live cells · overall ${data.proof?.status ?? "review"}`,
+        message: `${data.meta?.cellCount ?? cells.length} live cells · ${proofMode === "capture-only" ? "capture-only" : `overall ${data.proof?.status ?? "review"}`}${authNote}`,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -908,12 +981,16 @@ export default function HomePage() {
         }),
       });
       if (!res.ok) throw new Error("redesign request failed");
-      const payload = (await res.json()) as RedesignProposal & { sourceContext?: SourceContext };
+      const payload = (await res.json()) as RedesignProposal & {
+        sourceContext?: SourceContext;
+        patchSource?: "cursor" | "deterministic";
+      };
       setProposal({
         ...payload,
         reconciliation: payload.reconciliation ?? reconciliation,
       });
       setSourceContext(payload.sourceContext ?? null);
+      setPatchSource(payload.patchSource ?? "deterministic");
       setDraftState("ready");
     } catch {
       const files = buildOverridesPatch(reconciliation, report.capture.url);
@@ -929,6 +1006,7 @@ export default function HomePage() {
         reconciliation,
         files,
       });
+      setPatchSource("deterministic");
       setDraftState("ready");
       setDraftError("Cursor-backed draft was unavailable, so Tell used the deterministic patch.");
     }
@@ -1080,7 +1158,17 @@ export default function HomePage() {
                 : "border-drift/40 bg-drift/10 text-drift"
           }`}
         >
-          {operationActive ? "Working" : captureMeta?.live ? "Live capture" : captureMeta ? "Offline fallback" : designBrief ? "Brief only" : "Ready"}
+          {operationActive
+            ? "Working"
+            : captureMeta?.live
+              ? "Live capture"
+              : captureMeta?.offlineFixture
+                ? "Offline fixture"
+                : captureMeta
+                  ? "Capture failed"
+                  : designBrief
+                    ? "Brief only"
+                    : "Ready"}
         </span>
         {captureState === "done" && report.findings.length > 0 ? (
           <button
@@ -1230,6 +1318,7 @@ export default function HomePage() {
               proposal={proposal}
               draftState={draftState}
               sourceContext={sourceContext}
+              patchSource={patchSource}
               proofState={proofState}
               proofError={proofError}
               canProve={captureBelongsToSetup}

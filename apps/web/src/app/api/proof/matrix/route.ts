@@ -18,7 +18,9 @@ type Body = {
   url?: string;
   routes?: string[];
   scenarios?: unknown[];
+  /** When true and a baseline matrix is supplied, compare against that baseline. Self-compare is never run. */
   compare?: boolean;
+  baseline?: unknown;
 };
 
 function defaultAuthStoragePath(): string | undefined {
@@ -92,9 +94,13 @@ export async function POST(request: Request) {
     );
   }
 
+  const plannedCount = scenarios.length;
   // Drop authenticated cells when no applicable storage is available (avoid hard failures).
+  let authCellsDropped = 0;
   if (!storageState) {
+    const before = scenarios.length;
     scenarios = scenarios.filter((s) => s.authRole !== "authenticated");
+    authCellsDropped = before - scenarios.length;
   }
   if (scenarios.length > MAX_SCENARIOS) {
     scenarios = scenarios.slice(0, MAX_SCENARIOS);
@@ -107,15 +113,30 @@ export async function POST(request: Request) {
       livePlan: true,
     });
     const parsed = ScenarioMatrix.parse(matrix);
-    const compare = body.compare !== false;
-    const proof = compare
-      ? ProofMatrixResult.parse(compareProofMatrices(parsed, parsed))
-      : undefined;
+
+    let proof: ReturnType<typeof ProofMatrixResult.parse> | undefined;
+    let proofMode: "baseline-compare" | "capture-only" = "capture-only";
+    if (body.baseline != null) {
+      const baseline = ScenarioMatrix.parse(body.baseline);
+      proof = ProofMatrixResult.parse(compareProofMatrices(baseline, parsed));
+      proofMode = "baseline-compare";
+    } else if (body.compare === true) {
+      // Explicit compare without a baseline used to self-compare (always "review").
+      // Refuse that misleading signal — capture-only unless a real baseline is sent.
+      proofMode = "capture-only";
+    }
 
     const meta = {
       live: true,
       cellCount: parsed.cells.length,
       authStorage: Boolean(storageState),
+      authCellsDropped,
+      plannedCount,
+      proofMode,
+      note:
+        proofMode === "capture-only"
+          ? "Capture-only matrix — pass baseline to compare against a prior run."
+          : undefined,
     };
     recordTrainingEvent(
       "matrix",

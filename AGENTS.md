@@ -160,5 +160,5 @@ Non-obvious caveats:
 
 - **Live capture needs Playwright Chromium.** The update script runs `playwright install chromium`. Verify readiness with `GET /api/health/capture` (expects `{"ok":true}`). If capture can't run, `/api/diagnose` silently falls back to the committed offline report (`fixtures/reports/tell-report.json`) with `meta.live=false` — so a passing UI does not by itself prove live capture works; check `meta.live` or the health route.
 - **End-to-end smoke test:** with both servers up, POST `http://localhost:3000/api/diagnose` with `{"url":"http://localhost:3001"}` (or paste `http://localhost:3001` into the URL field and click Capture). A live run returns `meta.live=true` and 14 findings.
-- **`pnpm lint` is broken at the repo level** — `eslint` is not a declared dependency and there is no eslint config. Use `pnpm typecheck` and `pnpm test`; the `next build` step also performs its own lint/type validation.
+- **`pnpm lint`** aliases to `pnpm typecheck` (no eslint config in-repo). Use `pnpm typecheck` and `pnpm test`; the `next build` step also performs its own lint/type validation.
 - **No secrets required.** Every AI/remote feature (`GEMINI_API_KEY`, `CURSOR_API_KEY`, `TELL_CAPTURE_API_URL`) has a deterministic/offline fallback; the deterministic core (capture → fingerprint → detect → reconcile) makes zero LLM calls.
