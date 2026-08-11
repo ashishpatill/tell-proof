@@ -31,7 +31,7 @@ function usage(): never {
   console.log(`tell — Tell CLI (mirrors MCP / HTTP)
 
 Usage:
-  tell diagnose [--url <url>] [--out <file>]
+  tell diagnose [--url <url>] [--out <file>] [--fallback]
   tell voice --text <direction>
   tell resolve --text <input>
   tell install-info [--json|--markdown]
@@ -67,6 +67,8 @@ async function cmdDiagnose(args: string[]) {
   const root = findRepoRoot();
   const url = argValue(args, "--url") ?? process.env.TELL_FIXTURE_URL ?? "http://localhost:3001";
   const out = argValue(args, "--out");
+  const allowFallback =
+    hasFlag(args, "--fallback") || process.env.TELL_DIAGNOSE_OFFLINE_FALLBACK === "1";
   const artifactRel = process.env.TELL_REPORT_ARTIFACT ?? "fixtures/reports/tell-report.json";
   const artifact = path.isAbsolute(artifactRel) ? artifactRel : path.join(root, artifactRel);
   try {
@@ -90,8 +92,16 @@ async function cmdDiagnose(args: string[]) {
     if (out) await writeFile(out, text, "utf8");
     else console.log(text);
   } catch (error) {
-    console.error(`[tell diagnose] live capture failed; falling back to ${artifact}`);
-    console.error(error instanceof Error ? error.message : String(error));
+    const detail = error instanceof Error ? error.message : String(error);
+    console.error(`[tell diagnose] live capture failed for ${url}`);
+    console.error(detail);
+    if (!allowFallback) {
+      console.error("Pass --fallback (or TELL_DIAGNOSE_OFFLINE_FALLBACK=1) to emit the offline fixture.");
+      console.log(JSON.stringify({ ok: false, live: false, url, error: detail }, null, 2));
+      process.exitCode = 1;
+      return;
+    }
+    console.error(`[tell diagnose] emitting offline fixture from ${artifact}`);
     const raw = await readFile(artifact, "utf8");
     const text = JSON.stringify(TellReport.parse(JSON.parse(raw)), null, 2);
     if (out) await writeFile(out, text, "utf8");
@@ -101,11 +111,17 @@ async function cmdDiagnose(args: string[]) {
 }
 
 async function cmdVoice(args: string[]) {
-  const { parseDirectionPlan } = await import("@tell/taste");
+  const { parseDirectionPlan, parseDirectionWithGemini } = await import("@tell/taste");
   const text = argValue(args, "--text") ?? argValue(args, "--transcript");
   if (!text) {
     console.error("tell voice requires --text <direction>");
     process.exit(1);
+  }
+  const apiKey = process.env.GEMINI_API_KEY?.trim();
+  if (apiKey) {
+    const plan = await parseDirectionWithGemini(text, apiKey);
+    console.log(JSON.stringify({ ...plan, source: "gemini" }, null, 2));
+    return;
   }
   console.log(JSON.stringify({ ...parseDirectionPlan(text), source: "local" }, null, 2));
 }
@@ -245,6 +261,53 @@ async function cmdDoctor() {
     ok: true,
     detail: p3001 ? "3001 free (start with pnpm dev:fixture)" : "3001 in use (ok if fixture is running)",
   });
+
+  try {
+    const { createRequire } = await import("node:module");
+    const require = createRequire(path.join(root, "package.json"));
+    const { chromium } = require("playwright") as typeof import("playwright");
+    const browser = await chromium.launch({ headless: true });
+    await browser.close();
+    checks.push({
+      id: "playwright-chromium",
+      ok: true,
+      detail: "Chromium launches (live capture ready)",
+    });
+  } catch (error) {
+    checks.push({
+      id: "playwright-chromium",
+      ok: false,
+      detail: error instanceof Error ? error.message : String(error),
+    });
+  }
+
+  if (!p3000) {
+    try {
+      const res = await fetch("http://127.0.0.1:3000/api/health/capture", {
+        signal: AbortSignal.timeout(8_000),
+      });
+      const payload = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      checks.push({
+        id: "capture-health",
+        ok: res.ok && payload.ok === true,
+        detail: res.ok && payload.ok === true
+          ? "GET /api/health/capture ok"
+          : `health/capture ${res.status}${payload.error ? `: ${payload.error}` : ""}`,
+      });
+    } catch (error) {
+      checks.push({
+        id: "capture-health",
+        ok: false,
+        detail: error instanceof Error ? error.message : String(error),
+      });
+    }
+  } else {
+    checks.push({
+      id: "capture-health",
+      ok: true,
+      detail: "skipped (Tell web not listening on 3000)",
+    });
+  }
 
   const info = buildInstallInfo();
   const allOk = checks.every((c) => c.ok);

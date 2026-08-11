@@ -11,6 +11,7 @@ export type CaptureMeta = {
   backend?: "remote" | "local";
   /** Present when the API returned the bundled fixture instead of the requested URL. */
   fallback?: "offline-fixture";
+  offlineFixture?: boolean;
 };
 export type UiNotice = { tone: "success" | "error" | "info"; title: string; message: string };
 export type SourceContext = {
@@ -20,6 +21,7 @@ export type SourceContext = {
   totalBytes: number;
   mode: "repo" | "capture";
 };
+export type PatchSource = "cursor" | "deterministic";
 export type ProofState = "idle" | "applying" | "verifying" | "passed" | "review" | "failed" | "error";
 export type ProofResult = {
   status: "passed" | "review" | "failed";
@@ -46,16 +48,19 @@ export type ProofResult = {
 };
 export type MatrixCellSummary = {
   scenarioId: string;
-  status: "passed" | "review" | "failed" | "skipped";
+  status: "passed" | "review" | "failed" | "skipped" | "captured";
   scoreDelta: number;
   focusRegressed: boolean;
   structureRegressed: boolean;
 };
 export type MatrixProofSummary = {
-  status: "passed" | "review" | "failed";
+  status: "passed" | "review" | "failed" | "captured";
   matchedCells: number;
   skippedCells: number;
   cells: MatrixCellSummary[];
   cellCount: number;
   authStorage: boolean;
+  authCellsDropped?: number;
+  proofMode?: "baseline-compare" | "capture-only";
+  note?: string;
 };

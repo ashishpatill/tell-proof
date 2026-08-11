@@ -38,6 +38,22 @@ function capitalize(label: string): string {
   return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
 }
 
+/** Keep polarity words that change meaning when stripped (less shadow ≠ shadow). */
+function normalizeInstructionPart(part: string): string {
+  const trimmed = part.trim();
+  if (!trimmed) return trimmed;
+  // Drop filler openers but preserve more/less/no — they are the direction.
+  const withoutFiller = trimmed.replace(/^(make it|make the|i want|please)\s+/i, "").trim();
+  const polarity = withoutFiller.match(/^(more|less|no|fewer|extra)\s+(.+)$/i);
+  if (polarity) {
+    const degree = polarity[1]!.toLowerCase();
+    const rest = polarity[2]!.trim();
+    if (!rest) return withoutFiller;
+    return `${degree} ${rest}`;
+  }
+  return withoutFiller;
+}
+
 /** Split compound voice instructions into discrete action items. */
 export function dissectInstructions(input: string): DirectionActionItem[] {
   const cleaned = input.trim();
@@ -45,7 +61,7 @@ export function dissectInstructions(input: string): DirectionActionItem[] {
 
   const parts = cleaned
     .split(/\s*(?:[,;]|(?:\band then\b|\bthen\b|\balso\b|\bplus\b|\band\b|\bwith\b))\s+/i)
-    .map((part) => part.replace(/^(make it|make the|i want|please|more|less)\s+/i, "").trim())
+    .map((part) => normalizeInstructionPart(part))
     .filter((part) => part.length > 1);
 
   const labels = parts.length > 0 ? parts : [cleaned];

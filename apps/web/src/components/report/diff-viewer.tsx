@@ -8,6 +8,7 @@ export function DiffViewer({
   proposal,
   draftState,
   sourceContext,
+  patchSource,
   proofState,
   proofError,
   canProve,
@@ -17,6 +18,7 @@ export function DiffViewer({
   proposal: RedesignProposal;
   draftState: DraftState;
   sourceContext: SourceContext | null;
+  patchSource?: "cursor" | "deterministic" | null;
   proofState: ProofState;
   proofError: string;
   canProve: boolean;
@@ -25,18 +27,28 @@ export function DiffViewer({
 }) {
   const patch = proposal.files.map((file) => file.unifiedDiff).join("\n\n");
   const proving = proofState === "applying" || proofState === "verifying";
+  const patchLabel =
+    sourceContext?.mode === "repo"
+      ? "Source-grounded patch"
+      : patchSource === "cursor"
+        ? "Cursor patch"
+        : "Deterministic patch";
 
   return (
     <section className="mt-5 min-w-0 overflow-hidden rounded-md border border-border bg-bg">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
         <div className="min-w-0">
           <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted">
-            {sourceContext?.mode === "repo" ? "Source-grounded patch" : "Cursor patch"} · {proposal.files.length} file{proposal.files.length === 1 ? "" : "s"}
+            {patchLabel} · {proposal.files.length} file{proposal.files.length === 1 ? "" : "s"}
           </p>
           <p className="mt-1 break-words text-sm text-secondary">{proposal.files[0]?.summary}</p>
           {sourceContext?.mode === "repo" ? (
             <p className="mt-1 break-words font-mono text-meta text-muted">
               Read {sourceContext.filesLoaded}/{sourceContext.filesDiscovered} project files · evidence matched {sourceContext.matchedFiles} · {Math.round(sourceContext.totalBytes / 1024)}KB context
+            </p>
+          ) : patchSource === "deterministic" ? (
+            <p className="mt-1 break-words font-mono text-meta text-muted">
+              Contrast-grounded override sheet — set CURSOR_API_KEY for agent-drafted source diffs
             </p>
           ) : null}
         </div>

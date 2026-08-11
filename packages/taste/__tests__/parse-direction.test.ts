@@ -36,6 +36,12 @@ describe("parseDirectionPlan", () => {
     expect(inferPresetId("monochrome editorial essay")).toBe("explainer");
   });
 
+  it("preserves less/more polarity in action labels", () => {
+    const items = dissectInstructions("warmer, editorial, less shadow");
+    expect(items.some((item) => /less shadow/i.test(item.label))).toBe(true);
+    expect(items.every((item) => item.label !== "Shadow")).toBe(true);
+  });
+
   it("assigns categories to action items", () => {
     const items = dissectInstructions("serif headlines, warmer accent, flat cards");
     expect(items.find((item) => item.category === "typography")).toBeTruthy();

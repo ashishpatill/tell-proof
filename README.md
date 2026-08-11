@@ -389,6 +389,9 @@ Shipped:
 Next:
 
 - Optional stretch only — no open PLAN blockers. Hosted public demos still need `TELL_CAPTURE_API_URL` for Playwright-backed matrix/setup.
+- Diagnose no longer silently swaps a failed capture for another site's fixture (opt-in offline fallback / fixture URL only).
+- Matrix is capture-only unless a baseline is supplied (no hollow self-compare).
+- Studio e2e asserts the current `ds-app-*` dashboard shell.
 
 Shipped in Phase 7:
 

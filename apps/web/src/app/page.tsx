@@ -119,6 +119,7 @@ export default function HomePage() {
   const [draftState, setDraftState] = useState<DraftState>("idle");
   const [draftError, setDraftError] = useState("");
   const [sourceContext, setSourceContext] = useState<SourceContext | null>(null);
+  const [patchSource, setPatchSource] = useState<"cursor" | "deterministic" | null>(null);
   const [proofState, setProofState] = useState<ProofState>("idle");
   const [proofResult, setProofResult] = useState<ProofResult | null>(null);
   const [proofError, setProofError] = useState("");
@@ -898,13 +899,13 @@ export default function HomePage() {
       const res = await fetch("/api/proof/matrix", {
         method: "POST",
         headers: byokHeaders(),
-        body: JSON.stringify({ url: baseUrl, routes, compare: true }),
+        body: JSON.stringify({ url: baseUrl, routes }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         throw new Error(typeof data.error === "string" ? data.error : `Matrix scan failed (${res.status})`);
       }
-      const cells: MatrixCellSummary[] = Array.isArray(data.proof?.cells)
+      const proofCells: MatrixCellSummary[] = Array.isArray(data.proof?.cells)
         ? data.proof.cells.map((c: MatrixCellSummary) => ({
             scenarioId: c.scenarioId,
             status: c.status,
@@ -913,19 +914,37 @@ export default function HomePage() {
             structureRegressed: Boolean(c.structureRegressed),
           }))
         : [];
+      const matrixCells: MatrixCellSummary[] = Array.isArray(data.matrix?.cells)
+        ? data.matrix.cells.map((c: { scenario?: { id?: string } }) => ({
+            scenarioId: c.scenario?.id || "cell",
+            status: "captured" as const,
+            scoreDelta: 0,
+            focusRegressed: false,
+            structureRegressed: false,
+          }))
+        : [];
+      const cells = proofCells.length ? proofCells : matrixCells;
+      const proofMode = data.meta?.proofMode === "baseline-compare" ? "baseline-compare" : "capture-only";
       setMatrixProof({
-        status: data.proof?.status ?? "review",
+        status: data.proof?.status ?? "captured",
         matchedCells: data.proof?.matchedCells ?? cells.length,
-        skippedCells: data.proof?.skippedCells ?? 0,
+        skippedCells: data.proof?.skippedCells ?? data.meta?.authCellsDropped ?? 0,
         cells,
         cellCount: data.meta?.cellCount ?? cells.length,
         authStorage: Boolean(data.meta?.authStorage),
+        authCellsDropped: data.meta?.authCellsDropped ?? 0,
+        proofMode,
+        note: data.meta?.note,
       });
       setMatrixState("done");
+      const authNote =
+        data.meta?.authCellsDropped > 0
+          ? ` · ${data.meta.authCellsDropped} auth cell${data.meta.authCellsDropped === 1 ? "" : "s"} skipped (no storage state)`
+          : "";
       showNotice({
         tone: "success",
         title: "Scenario matrix captured",
-        message: `${data.meta?.cellCount ?? cells.length} live cells · overall ${data.proof?.status ?? "review"}`,
+        message: `${data.meta?.cellCount ?? cells.length} live cells · ${proofMode === "capture-only" ? "capture-only" : `overall ${data.proof?.status ?? "review"}`}${authNote}`,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -952,12 +971,16 @@ export default function HomePage() {
         }),
       });
       if (!res.ok) throw new Error("redesign request failed");
-      const payload = (await res.json()) as RedesignProposal & { sourceContext?: SourceContext };
+      const payload = (await res.json()) as RedesignProposal & {
+        sourceContext?: SourceContext;
+        patchSource?: "cursor" | "deterministic";
+      };
       setProposal({
         ...payload,
         reconciliation: payload.reconciliation ?? reconciliation,
       });
       setSourceContext(payload.sourceContext ?? null);
+      setPatchSource(payload.patchSource ?? "deterministic");
       setDraftState("ready");
     } catch {
       const files = buildOverridesPatch(reconciliation, report.capture.url);
@@ -973,6 +996,7 @@ export default function HomePage() {
         reconciliation,
         files,
       });
+      setPatchSource("deterministic");
       setDraftState("ready");
       setDraftError("Cursor-backed draft was unavailable, so Tell used the deterministic patch.");
     }
@@ -1252,6 +1276,7 @@ export default function HomePage() {
               proposal={proposal}
               draftState={draftState}
               sourceContext={sourceContext}
+              patchSource={patchSource}
               proofState={proofState}
               proofError={proofError}
               canProve={captureBelongsToSetup}

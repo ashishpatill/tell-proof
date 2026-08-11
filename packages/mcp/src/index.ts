@@ -7,7 +7,6 @@ import { z } from "zod";
 import {
   captureUrl,
   captureScenarioMatrix,
-  compareProofMatrices,
   diagnoseCapture,
   liveScenarioPlan,
   verifyProofPatch,
@@ -170,14 +169,34 @@ server.tool(
     const localHost = host === "localhost" || host === "127.0.0.1";
     const storageState = candidate && (envAuth || localHost) ? candidate : undefined;
     let scenarios = liveScenarioPlan(planRoutes);
-    if (!storageState) scenarios = scenarios.filter((s) => s.authRole !== "authenticated");
+    const plannedCount = scenarios.length;
+    let authCellsDropped = 0;
+    if (!storageState) {
+      const before = scenarios.length;
+      scenarios = scenarios.filter((s) => s.authRole !== "authenticated");
+      authCellsDropped = before - scenarios.length;
+    }
     const matrix = await captureScenarioMatrix(url, scenarios, {
       storageState,
       routes: planRoutes,
       livePlan: true,
     });
-    const proof = compare === false ? undefined : compareProofMatrices(matrix, matrix);
-    return asJson({ matrix, proof, meta: { cellCount: matrix.cells.length, authStorage: Boolean(storageState) } });
+    // Never self-compare — that always yields a hollow "review". Pass baseline for real proof.
+    const proof = undefined;
+    return asJson({
+      matrix,
+      proof,
+      meta: {
+        cellCount: matrix.cells.length,
+        authStorage: Boolean(storageState),
+        authCellsDropped,
+        plannedCount,
+        proofMode: "capture-only",
+        note: compare
+          ? "compare requested without baseline — capture-only (no self-compare)."
+          : "Capture-only matrix.",
+      },
+    });
   },
 );
 
