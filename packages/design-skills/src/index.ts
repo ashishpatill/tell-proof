@@ -12,6 +12,8 @@ export * from "./sections";
 export * from "./render";
 export { designFromFeatures, resolveTaste } from "./orchestrate";
 export type { DesignFromFeaturesOptions } from "./orchestrate";
+export { briefFromFreeText } from "./brief-from-text";
+export type { FreeTextBriefPlan } from "./brief-from-text";
 export {
   DESIGN_TEMPLATES,
   SHOWCASE_BRIEFS,
