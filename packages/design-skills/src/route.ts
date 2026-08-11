@@ -1,13 +1,63 @@
 import type { FeatureAnalysis } from "./analyze";
-import type { SkillNodeId, TasteControls } from "./types";
+import type { DomainResearchRoutePlan } from "./domain-research";
 import { routeDomainResearchSkills } from "./domain-research";
+import type { DesignBrief, SkillNodeId, TasteControls } from "./types";
+import { SkillNodeId as SkillNodeIdSchema } from "./types";
+
+/**
+ * Agency niche craft names that are not SkillNodeIds — expand to engine nodes
+ * so agency:run craft hints actually affect routing (not just DIRECTION.md text).
+ */
+const AGENCY_CRAFT_ALIASES: Record<string, SkillNodeId[]> = {
+  "image-first-fold": ["hero-section", "editorial-chapter-craft", "content-storytelling-pages"],
+  "agency-minimal-grid": ["paper-technical-frame", "indexed-detail-markers", "elevation-depth-tokens"],
+};
+
+/** Expand brief.craftNodes + constraint "craft nodes: a, b" into SkillNodeIds. */
+export function resolveRequestedCraft(brief: DesignBrief): SkillNodeId[] {
+  const raw = new Set<string>(brief.craftNodes ?? []);
+  for (const c of brief.constraints ?? []) {
+    const m = c.match(/craft nodes?:\s*(.+)/i);
+    if (!m?.[1]) continue;
+    for (const part of m[1].split(/[,|/]/)) {
+      const id = part.trim().replace(/`/g, "");
+      if (id) raw.add(id);
+    }
+  }
+
+  const out = new Set<SkillNodeId>();
+  for (const id of raw) {
+    const parsed = SkillNodeIdSchema.safeParse(id);
+    if (parsed.success) {
+      out.add(parsed.data);
+      continue;
+    }
+    const aliases = AGENCY_CRAFT_ALIASES[id];
+    if (aliases) {
+      for (const a of aliases) out.add(a);
+    }
+  }
+  return [...out];
+}
+
+export type RouteSkillsOptions = {
+  /** When provided, merge followOnCraft instead of re-calling and discarding the plan. */
+  researchPlan?: DomainResearchRoutePlan;
+  brief?: DesignBrief;
+};
 
 /**
  * Map analyzed features / site kind to skill-graph nodes.
  * Always prepends `website-domain-research` (general research gate).
+ * Always includes `responsive-performance` (media budgets — agent + media:site).
  * Sport briefs also route `sport-matchday-web` + `sport-vernacular-craft`.
+ * Merges research `followOnCraft` and brief/agency `craftNodes`.
  */
-export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): SkillNodeId[] {
+export function routeSkills(
+  analysis: FeatureAnalysis,
+  taste: TasteControls,
+  options: RouteSkillsOptions = {},
+): SkillNodeId[] {
   const nodes = new Set<SkillNodeId>([
     "website-domain-research",
     "analyze-features-requirements",
@@ -19,16 +69,28 @@ export function routeSkills(analysis: FeatureAnalysis, taste: TasteControls): Sk
     "elevation-depth-tokens",
   ]);
 
-  // Keep research plan in sync with DomainResearchPack routing.
-  // Sport Core six is required whenever a sport pack ships multipage IA.
   const sportCoreSix =
     analysis.sportId === "cricket" || analysis.sportId === "tennis"
       ? (["home", "live-match", "scorecard", "series", "rankings", "notebook"] as const)
       : undefined;
-  routeDomainResearchSkills({
-    domainId: analysis.sportId ? `sport:${analysis.sportId}` : analysis.siteKind,
-    requiredRouteClasses: sportCoreSix ? [...sportCoreSix] : undefined,
-  });
+
+  const researchPlan =
+    options.researchPlan ??
+    routeDomainResearchSkills({
+      domainId: analysis.sportId ? `sport:${analysis.sportId}` : analysis.siteKind,
+      brief: options.brief,
+      requiredRouteClasses: sportCoreSix ? [...sportCoreSix] : undefined,
+    });
+
+  for (const craft of researchPlan.followOnCraft) {
+    nodes.add(craft);
+  }
+
+  if (options.brief) {
+    for (const craft of resolveRequestedCraft(options.brief)) {
+      nodes.add(craft);
+    }
+  }
 
   for (const section of analysis.recommendedSections) {
     if (section === "hero") nodes.add("hero-section");

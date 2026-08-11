@@ -23,10 +23,30 @@ import {
   riskReversal,
   sentence,
 } from "./copy";
+import type { DomainResearchPack } from "./domain-research";
 import { catalogueBody, editorialize, type FeatureCopy } from "./editorial";
 import { AESTHETIC_PROFILES } from "./tokens";
 import { Block, SectionSpec, type DesignBrief, type FeatureSpec, type SkillNodeId, type TasteControls } from "./types";
 import type { FeatureAnalysis } from "./analyze";
+
+export type BuildSectionsOptions = {
+  /** When a DomainResearchPack exists, prefer its primary nav + multipage paths. */
+  domainPack?: DomainResearchPack;
+};
+
+/** Primary nav from a domain / sport pack — never blank-slate when pack has inventory. */
+function navFromDomainPack(
+  pack: DomainResearchPack,
+): Array<{ label: string; href: string }> | null {
+  if (!pack.navInventory.length) return null;
+  const max = pack.shellContract.primaryNavMaxItems || 6;
+  const primary = pack.navInventory.filter((n) => n.priority === "primary").slice(0, max);
+  const items = (primary.length ? primary : pack.navInventory.slice(0, max)).map((n) => {
+    const route = pack.multiPageRoutes.find((r) => r.routeClass === n.routeClass);
+    return { label: n.label, href: route?.path ?? `#${n.routeClass}` };
+  });
+  return items.length ? items : null;
+}
 
 function block(input: Partial<Block> & { title: string }): Block {
   return Block.parse(input);
@@ -85,6 +105,7 @@ export function buildSections(
   brief: DesignBrief,
   analysis: FeatureAnalysis,
   taste: TasteControls,
+  options: BuildSectionsOptions = {},
 ): SectionSpec[] {
   const features = analysis.prioritized;
   const p0 = features.filter((f) => f.priority === "p0");
@@ -99,10 +120,17 @@ export function buildSections(
 
   const eyebrow = eyebrows(brief);
   const cta = ctaFor(brief.businessGoal, brief.siteKind, brief.primaryCta);
-  const navItems = navFor(
-    plan.map((p) => ({ kind: p.kind, id: p.id })),
-    brief.siteKind,
-  );
+  const packNav =
+    options.domainPack &&
+    (options.domainPack.domainId.startsWith("sport:") || Boolean(analysis.sportId))
+      ? navFromDomainPack(options.domainPack)
+      : null;
+  const navItems =
+    packNav ??
+    navFor(
+      plan.map((p) => ({ kind: p.kind, id: p.id })),
+      brief.siteKind,
+    );
   const editorial = editorialize(features);
   const allBlocks = featureBlocks(editorial.features);
 

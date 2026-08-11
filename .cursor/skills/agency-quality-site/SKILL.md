@@ -13,16 +13,18 @@ Learn (automatic): `.cursor/skills/agency-run-learn` · `research/design-data.RE
 ## Quick contract
 
 1. **Autonomous:** `pnpm agency:run -- --query "…" --fresh` — ends with **automatic** `agency:learn` + `media:site` (WebP)
-2. **Manual craft:** one phase per cycle — Goal → run → eye → Loop ≤3 → `--mark-pass` → next (`4-ship` mark-pass also auto-learns)
+2. **Manual craft:** one phase per cycle — Goal → run → eye → Loop ≤3 → `--mark-pass` → next (`4-ship` mark-pass also auto-learns **and** runs `media:site`)
 3. Phases: `1-refs` → `2-build` → `3a-typography` → `3b-spacing` → `3c-motion` → `3d-mobile` → `4-ship`
 4. Each phase starts from `current.html` of the last **passed** phase.
-5. Phase 0 reads `DESIGN_RIGOR.md` — lane + craft nodes (auto-filled by `agency:run`).
+5. Phase 0 reads `DESIGN_RIGOR.md` — lane + craft nodes (auto-filled by `agency:run`; `craftNodes` land on the brief and merge into engine `routedSkills`).
 6. Never combine axes. Never craft `--all`.
 7. Status: `pnpm agency:pipeline -- --brief <brief> --status`
 8. **Learn is automatic** on agency runs (`agency-run-learn`) — developer corpus only when design-data pointer is set.
 9. **User sessions** learn separately in the browser (`tell-user-session-learn`) — never via design-data checkout.
 10. **Personal corpus (dev):** `TELL_DESIGN_DATA` + `TELL_DEV_CORPUS=1` or `research/design-data.local.json`.
-11. **Media performance is automatic** — `responsive-performance` is always routed; `pnpm media:site` runs at end of `agency:run`. Specimen UIs use `SiteImg`.
+11. **Media performance is automatic** — `responsive-performance` is always routed; `pnpm media:site` runs at end of `agency:run` **and** on `agency:pipeline --mark-pass 4-ship`. Specimen UIs use `SiteImg`.
+12. **Research gate is automatic on every template** — `designFromFeatures` attaches `researchPlan` (LoadPrior → gap → sport-site-research when sport → IA → training) and merges `followOnCraft` into `routedSkills`.
+13. **Skill wiring is a hard gate** — `assertSkillWiring` (via `assertBasics`) + agency `2-build` artifacts `RESEARCH_GATE.md` / `SKILL_WIRING.json`. Phase fails if research/craft/optim wiring is red.
 
 ## Session opener (auto)
 

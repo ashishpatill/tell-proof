@@ -15,6 +15,7 @@
  *   pnpm agency:pipeline -- --brief … --phase next
  */
 import { createServer } from "node:http";
+import { spawnSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
@@ -29,6 +30,8 @@ import {
   designFromFeatures,
   assertBasics,
   assertAgencyDelivery,
+  assertSkillWiring,
+  formatResearchGateMarkdown,
   applyAgencyPolish,
   type AgencyPolishAxis,
   type DesignSpec,
@@ -388,6 +391,28 @@ async function runPhase(opts: {
     }
     const basics = assertBasics(builtSpec, html);
     const delivery = assertAgencyDelivery(builtSpec, html);
+    const wiring = assertSkillWiring(builtSpec, html);
+    writeFileSync(
+      resolve(outDir, "RESEARCH_GATE.md"),
+      formatResearchGateMarkdown(builtSpec, wiring),
+      "utf8",
+    );
+    writeFileSync(
+      resolve(outDir, "SKILL_WIRING.json"),
+      `${JSON.stringify(
+        {
+          passed: wiring.passed,
+          findings: wiring.findings,
+          researchNodes: builtSpec.researchPlan.researchNodes,
+          followOnCraft: builtSpec.researchPlan.followOnCraft,
+          routedSkills: builtSpec.routedSkills,
+          craftNodes: builtSpec.brief.craftNodes ?? [],
+        },
+        null,
+        2,
+      )}\n`,
+      "utf8",
+    );
     const shots = await withServer(html, async (goto) => {
       const page = await goto({ width: 1440, height: 900 });
       const s = await shotSet(page, outDir, prefix);
@@ -395,7 +420,7 @@ async function runPhase(opts: {
       return s;
     });
     copyFileSync(shots[0]!, resolve(artifactDir, `agency-${state.runId}-${phase}-fold.png`));
-    const ok = basics.passed && delivery.passed;
+    const ok = basics.passed && delivery.passed && wiring.passed;
     return {
       spec: builtSpec,
       row: {
@@ -403,8 +428,8 @@ async function runPhase(opts: {
         status: ok ? "loop" : "fail",
         attempt,
         detail: ok
-          ? `Build ok. READ ${prefix}-fold.png + refs + DIRECTION.md. Loop: fix content/layout only if eye fails; then --mark-pass when ready.`
-          : `basics/delivery failed: ${[...basics.findings, ...delivery.findings]
+          ? `Build ok + skill wiring green. Read RESEARCH_GATE.md — execute research checklist before craft loops; then --mark-pass when ready.`
+          : `basics/delivery/wiring failed: ${[...basics.findings, ...delivery.findings, ...wiring.findings]
               .filter((f) => !f.ok)
               .map((f) => f.id)
               .join(",")}`,
@@ -592,6 +617,26 @@ async function main(): Promise<void> {
       } catch (err) {
         console.warn(
           `agency:learn after 4-ship failed: ${err instanceof Error ? err.message : String(err)}`,
+        );
+      }
+    }
+
+    // Parity with agency:run — media optimize on ship so WebP budgets always run.
+    if (mark === "4-ship" && process.env.AGENCY_SKIP_MEDIA !== "1") {
+      try {
+        const media = spawnSync(
+          "bash",
+          [resolve(root, "scripts/optimize-site-media.sh"), "--prune"],
+          { cwd: root, encoding: "utf8", maxBuffer: 10 * 1024 * 1024 },
+        );
+        const mediaOut = `${media.stdout ?? ""}${media.stderr ?? ""}`.trim();
+        if (mediaOut) console.log(`\n=== media:site (automatic after 4-ship) ===\n${mediaOut}`);
+        if (media.status !== 0) {
+          console.warn(`media:site after 4-ship exited ${media.status}`);
+        }
+      } catch (err) {
+        console.warn(
+          `media:site after 4-ship failed: ${err instanceof Error ? err.message : String(err)}`,
         );
       }
     }

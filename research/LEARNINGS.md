@@ -738,6 +738,19 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `responsive-performance` / `tell-domain-research` require executing routed skills without prompt.
 - **Do not:** Commit hot-path multi-MB jpg/png heroes or wait for “convert to webp / run research”.
 
+## 2026-08-11 — `template:skill-metadata-only`
+
+- **Failure:** New templates / agency runs listed `website-domain-research`, craft nodes, and
+  `responsive-performance` in `routedSkills` / hints, but runs could ship without merging
+  `followOnCraft`, expanding agency craft aliases, emitting an executable research checklist,
+  or failing when wiring was incomplete. Skills looked “on” while remaining advisory.
+- **Fix (RSI challenger):** `assertSkillWiring` hard-gates researchPlan + responsive HTML markers
+  + followOnCraft/craftNodes merge; folded into `assertBasics`; agency `2-build` writes
+  `RESEARCH_GATE.md` + `SKILL_WIRING.json` and fails the phase if wiring is red; `4-ship` runs
+  `media:site`; AUTO_PLAN documents the skill checklist every run.
+- **Do not:** Treat `customizationHints` “Research gate: …” as proof that research/craft/optim
+  executed — require `assertSkillWiring` green + RESEARCH_GATE checklist.
+
 ## 2026-08-11 — `template:care-claim-starves-plate`
 
 - **Failure:** Roundspool care-pathway fold put masthead + full claim + fold CTAs above the

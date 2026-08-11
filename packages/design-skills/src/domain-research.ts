@@ -741,6 +741,8 @@ export const DOMAIN_RESEARCH_NODE_IDS = [
   "ia-shell-synthesis",
   "variant-lens",
   "emit-training-episode",
+  /** Sport-only gate — runs after load-prior when sportId / sport: domain. */
+  "sport-site-research",
 ] as const;
 
 export type DomainResearchNodeId = (typeof DOMAIN_RESEARCH_NODE_IDS)[number];
@@ -756,7 +758,7 @@ export type DomainResearchRoutePlan = {
 
 /**
  * Always prepend the general research subgraph for website builds.
- * Sport briefs add sport-vernacular-craft after research.
+ * Sport briefs insert sport-site-research and add sport craft follow-ons.
  */
 export function routeDomainResearchSkills(
   input: {
@@ -772,6 +774,8 @@ export function routeDomainResearchSkills(
     brief?.siteKind ??
     "saas-marketing";
 
+  const isSport = Boolean(brief?.sportId) || domainId.startsWith("sport:");
+
   const gap = requirementGapDiff(domainId, {
     requiredRouteClasses: input.requiredRouteClasses,
   });
@@ -781,13 +785,16 @@ export function routeDomainResearchSkills(
     "load-prior-domain",
     "requirement-gap-diff",
   ];
+  if (isSport) {
+    researchNodes.push("sport-site-research");
+  }
   if (gap.needsWalkthrough) {
     researchNodes.push("multipage-walkthrough", "category-gap-audit");
   }
   researchNodes.push("ia-shell-synthesis", "variant-lens", "emit-training-episode");
 
   const followOnCraft: SkillNodeId[] = [];
-  if (brief?.sportId || domainId.startsWith("sport:")) {
+  if (isSport) {
     followOnCraft.push("sport-matchday-web", "sport-vernacular-craft", "editorial-chapter-craft");
   }
 
