@@ -709,7 +709,6 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Fix:** Horizontal `ds-hang-tape` + overlapping `ds-hang-tag` stack with eyelets/strings.
 - **Do not:** Put a size list in a right aside and call it merchandising craft.
 
-<<<<<<< HEAD
 ## 2026-08-11 — `crease:category-directory-enrich`
 
 - **Research:** Category cricket portals expose fixtures, teams, players, stats/records,
@@ -719,7 +718,7 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   series/rankings/home; pack routes = Core six + secondary; primary nav stays ≤6.
 - **Gate:** `pnpm verify:crease-scorecard` for baseline-aligned boards; all ten routes 200.
 - **Do not:** Grow primary nav past 6 with commerce before score.
-=======
+
 ## 2026-08-11 — `sport:tennis-baseline-nested-spine`
 
 - **Failure:** Tennis packs had category gaps (flattened score, hidden server, no pressure text)
@@ -738,4 +737,3 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `SiteImg` applies lazy/LCP/CLS defaults; always-applied `tell-site-build-autoload` + expanded
   `responsive-performance` / `tell-domain-research` require executing routed skills without prompt.
 - **Do not:** Commit hot-path multi-MB jpg/png heroes or wait for “convert to webp / run research”.
->>>>>>> origin/cursor/tennis-baseline-site-c916

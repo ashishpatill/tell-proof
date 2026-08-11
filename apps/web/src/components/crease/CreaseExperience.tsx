@@ -1,13 +1,10 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CreaseShell, type CreaseRouteId } from "./CreaseShell";
-<<<<<<< HEAD
 import { CreaseRevealRoot } from "./CreaseRevealRoot";
 import { LiveMatchBoard } from "./LiveMatchBoard";
 import { RankingsDesk } from "./RankingsDesk";
-=======
 import { SiteImg } from "@/components/site-media/SiteImg";
->>>>>>> origin/cursor/tennis-baseline-site-c916
 import {
   BATTING,
   BOWLING,
@@ -17,7 +14,6 @@ import {
   FEATURED,
   FIXTURES,
   HERO_IMAGE,
-  HERO_IMAGE_FALLBACK,
   LIVE_MATCHES,
   ODI_RANKINGS,
   PARTNERSHIPS,
@@ -161,27 +157,13 @@ function HomeMain() {
     <>
       <section className="cr-hero" aria-labelledby="cr-hero-title">
         <div className="cr-hero-media">
-<<<<<<< HEAD
-          <picture>
-            <source srcSet={HERO_IMAGE} type="image/webp" />
-            <img
-              src={HERO_IMAGE_FALLBACK}
-              alt="Cricket match underway on a green oval beneath a city skyline"
-              width={1600}
-              height={1066}
-              fetchPriority="high"
-              decoding="async"
-            />
-          </picture>
-=======
           <SiteImg
             src={HERO_IMAGE}
             alt="Cricket match underway on a green oval beneath a city skyline"
             width={1600}
-            height={960}
+            height={1066}
             priority
           />
->>>>>>> origin/cursor/tennis-baseline-site-c916
           <div className="cr-hero-veil" aria-hidden="true" />
           <div className="cr-crease-line" aria-hidden="true" />
         </div>
