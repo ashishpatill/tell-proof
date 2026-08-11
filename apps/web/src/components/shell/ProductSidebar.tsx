@@ -1,15 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { FolderKanban, Home, Settings, Sparkles, Maximize2, Minimize2, X } from "lucide-react";
+import {
+  FolderKanban,
+  Home,
+  Settings,
+  Maximize2,
+  Minimize2,
+  X,
+} from "lucide-react";
 import type { WorkspaceTab } from "./WorkspaceTabsBar";
 
-export type ProductNavId = "home" | "showcase" | "studio";
+export type ProductNavId = "home" | "showcase";
 
 /**
  * Single app chrome: left sidebar only.
- * Features: Diagnose (home), Showcase, Studio.
- * Specimens / templates are not listed here — they live on /showcase.
+ * Features: Home (diagnose + create), Showcase (specimens).
+ * Site creation runs implicitly from Home — no Studio control panel in nav.
  */
 export function ProductSidebar({
   active,
@@ -68,15 +75,6 @@ export function ProductSidebar({
         >
           <FolderKanban className="tell-rail__icon" aria-hidden />
           <span className="tell-rail__label">Showcase</span>
-        </Link>
-        <Link
-          href="/studio"
-          className="tell-rail__link"
-          data-active={active === "studio" ? "true" : "false"}
-          aria-current={active === "studio" ? "page" : undefined}
-        >
-          <Sparkles className="tell-rail__icon" aria-hidden />
-          <span className="tell-rail__label">Studio</span>
         </Link>
       </div>
 

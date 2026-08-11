@@ -6,7 +6,7 @@ import { ProductSidebar, type ProductNavId } from "./ProductSidebar";
 import { SettingsDialog } from "./SettingsDialog";
 import "./shell.css";
 
-/** Shared product chrome for Home / Showcase / Studio — left sidebar only. */
+/** Shared product chrome for Home / Showcase — left sidebar only. */
 export function ProductShell({
   active,
   children,

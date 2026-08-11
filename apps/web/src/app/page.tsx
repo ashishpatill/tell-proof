@@ -63,6 +63,7 @@ import {
   ScenarioMatrixPanel,
   Scorecard,
   SetupPanel,
+  SiteCreateCanvas,
   STATE_LABEL,
   ToastNotice,
   VerdictBadge,
@@ -133,7 +134,7 @@ export default function HomePage() {
 
   // ── Shell: entry home + project tabs ──
   const [shellView, setShellView] = useState<"home" | "project">("home");
-  const [composerMode, setComposerMode] = useState<ComposerMode>("url");
+  const [composerMode, setComposerMode] = useState<ComposerMode>("design");
   const [composerValue, setComposerValue] = useState("");
   const [sessionId, setSessionId] = useState(() => newSessionId());
   const [sessionTitle, setSessionTitle] = useState("Session");
@@ -144,6 +145,18 @@ export default function HomePage() {
   const [focusCanvas, setFocusCanvas] = useState(false);
   const [mobilePane, setMobilePane] = useState<"critic" | "canvas">("canvas");
   const [openTabs, setOpenTabs] = useState<WorkspaceTab[]>([]);
+  const [siteCreateState, setSiteCreateState] = useState<"idle" | "creating" | "done" | "error">("idle");
+  const [siteCreateStep, setSiteCreateStep] = useState(0);
+  const [siteCreateSteps, setSiteCreateSteps] = useState<string[]>([]);
+  const [siteCreateError, setSiteCreateError] = useState("");
+  const [siteCreateResult, setSiteCreateResult] = useState<{
+    previewHtml: string;
+    productName: string;
+    siteKind: string;
+    summary: string;
+    routedSkills: string[];
+  } | null>(null);
+  const createStepTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // ── GitHub repo setup ──
   const [setupJob, setSetupJob] = useState<SetupJob | null>(null);
@@ -686,6 +699,96 @@ export default function HomePage() {
     [sessionId],
   );
 
+  const clearCreateStepTimer = useCallback(() => {
+    if (createStepTimerRef.current) {
+      clearInterval(createStepTimerRef.current);
+      createStepTimerRef.current = null;
+    }
+  }, []);
+
+  const runCreateSite = useCallback(
+    async (query: string) => {
+      const steps = [
+        "Match niche and site kind from your brief",
+        "Run domain research gate (prior pack → gaps → IA)",
+        "Route craft skills for declared features",
+        "Compose tokens, sections, and motion",
+        "Render the first preview",
+      ];
+      clearCreateStepTimer();
+      setSiteCreateState("creating");
+      setSiteCreateError("");
+      setSiteCreateResult(null);
+      setSiteCreateSteps(steps);
+      setSiteCreateStep(0);
+      setFocusCanvas(true);
+      setMobilePane("canvas");
+
+      createStepTimerRef.current = setInterval(() => {
+        setSiteCreateStep((s) => Math.min(s + 1, steps.length - 1));
+      }, 700);
+
+      try {
+        const res = await fetch("/api/design", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ query }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error ?? "Site create failed");
+        clearCreateStepTimer();
+        const planSteps = Array.isArray(data.plan?.steps) ? (data.plan.steps as string[]) : steps;
+        setSiteCreateSteps(planSteps);
+        setSiteCreateStep(planSteps.length);
+        setSiteCreateResult({
+          previewHtml: data.previewHtml,
+          productName: data.spec?.brief?.productName ?? data.plan?.productName ?? "Site",
+          siteKind: data.spec?.brief?.siteKind ?? data.plan?.siteKind ?? "saas-marketing",
+          summary: data.spec?.summary ?? data.plan?.summary ?? "Preview ready",
+          routedSkills: Array.isArray(data.spec?.routedSkills)
+            ? data.spec.routedSkills
+            : Array.isArray(data.plan?.routedSkills)
+              ? data.plan.routedSkills
+              : [],
+        });
+        setSiteCreateState("done");
+        showNotice({
+          tone: "success",
+          title: "Site preview ready",
+          message: "Tell finished the create pass — review the preview. Capture a URL anytime to diagnose tells.",
+        });
+      } catch (err) {
+        clearCreateStepTimer();
+        setSiteCreateState("error");
+        setSiteCreateError(err instanceof Error ? err.message : String(err));
+        showNotice({
+          tone: "error",
+          title: "Create failed",
+          message: err instanceof Error ? err.message : String(err),
+        });
+      }
+    },
+    [clearCreateStepTimer, showNotice],
+  );
+
+  useEffect(() => () => clearCreateStepTimer(), [clearCreateStepTimer]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const pending = sessionStorage.getItem("tell-pending-create")?.trim();
+    if (!pending) return;
+    sessionStorage.removeItem("tell-pending-create");
+    const id = newSessionId();
+    const title = sessionTitleFromBrief(pending);
+    setDesignBrief(pending);
+    setComposerMode("design");
+    setComposerValue(pending);
+    voice.setTranscript(pending);
+    scheduleDirectionParse(pending);
+    openProjectTab(id, title);
+    void runCreateSite(pending);
+  }, [openProjectTab, runCreateSite, scheduleDirectionParse, voice]);
+
   const loadOfflineFixture = useCallback(() => {
     const id = newSessionId();
     const title = "Offline fixture";
@@ -762,11 +865,7 @@ export default function HomePage() {
           updatedAt: new Date().toISOString(),
         }),
       );
-      showNotice({
-        tone: "info",
-        title: "Direction primed",
-        message: "Paste a live URL or GitHub repo in the project bar to ground this brief — or open Studio.",
-      });
+      void runCreateSite(text);
       return;
     }
 
@@ -784,6 +883,7 @@ export default function HomePage() {
     composerValue,
     loadOfflineFixture,
     openProjectTab,
+    runCreateSite,
     scheduleDirectionParse,
     showNotice,
     startSetup,
@@ -806,6 +906,7 @@ export default function HomePage() {
         scheduleDirectionParse(session.brief);
         setCaptureMeta(null);
         setCaptureState("idle");
+        void runCreateSite(session.brief);
         return;
       }
       if (session.url) {
@@ -818,22 +919,27 @@ export default function HomePage() {
         }
       }
     },
-    [loadOfflineFixture, openProjectTab, runCapture, scheduleDirectionParse, startSetup, voice],
+    [loadOfflineFixture, openProjectTab, runCapture, runCreateSite, scheduleDirectionParse, startSetup, voice],
   );
 
 
   const isRepo = isGitHubRepoUrl(inputUrl);
   const normalizedInputUrl = normalizeCaptureUrl(inputUrl);
   const setupActive = setupStarting || Boolean(setupJob && SETUP_ACTIVE_STATES.includes(setupJob.state));
-  const operationActive = setupActive || captureState === "capturing";
-  const operationTitle = setupStarting
+  const creatingSite = siteCreateState === "creating";
+  const operationActive = setupActive || captureState === "capturing" || creatingSite;
+  const operationTitle = creatingSite
+    ? "Creating your site"
+    : setupStarting
     ? "Starting repo setup"
     : setupJob && SETUP_ACTIVE_STATES.includes(setupJob.state)
       ? `${STATE_LABEL[setupJob.state]} ${setupJob.repoLabel}`
       : captureState === "capturing"
         ? "Capturing rendered surface"
         : "";
-  const operationDetail = setupStarting
+  const operationDetail = creatingSite
+    ? siteCreateSteps[siteCreateStep] ?? "Tell is composing niche, research, skills, and preview…"
+    : setupStarting
     ? captureNote
     : setupJob && SETUP_ACTIVE_STATES.includes(setupJob.state)
       ? setupJob.step
@@ -1131,10 +1237,6 @@ export default function HomePage() {
   }
 
 
-  const studioBriefHref = designBrief
-    ? `/studio?brief=${encodeURIComponent(designBrief)}`
-    : "/studio";
-
   const showProofWorkflow = Boolean(proposal) || proofState !== "idle";
   const showStateProbes = selectedFinding?.detector === "StateGap";
 
@@ -1145,21 +1247,27 @@ export default function HomePage() {
           className={`font-mono text-meta ${
             operationActive
               ? "text-accent"
+              : siteCreateState === "done"
+                ? "text-ok"
               : captureMeta?.live
                 ? "text-ok"
-                : offlineDemo || captureMeta?.error
+                : offlineDemo || captureMeta?.error || siteCreateState === "error"
                   ? "text-drift"
                   : "text-muted"
           }`}
         >
-          {operationActive
-            ? "Working…"
+          {creatingSite
+            ? "Creating…"
+            : siteCreateState === "done"
+              ? "Site ready"
             : captureMeta?.live
               ? "Live"
               : offlineDemo
                 ? "Offline fixture"
                 : captureMeta?.error
                   ? "Capture failed"
+                  : siteCreateState === "error"
+                    ? "Create failed"
                   : designBrief
                     ? "Brief"
                     : "Ready"}
@@ -1191,12 +1299,26 @@ export default function HomePage() {
 
       {designBrief && !captureMeta ? (
         <div className="border-y border-border py-3">
-          <p className="text-sm text-secondary">
-            Direction is primed. Capture a rendered URL to attach named tells.
-          </p>
-          <a className="mt-2 inline-block font-mono text-meta text-accent underline-offset-2 hover:underline" href={studioBriefHref}>
-            Open in Studio
-          </a>
+          {creatingSite ? (
+            <p className="text-sm text-secondary">
+              Creating from your brief — niche match, research gate, skill routing, and preview. Controls stay locked
+              until this finishes.
+            </p>
+          ) : siteCreateState === "done" && siteCreateResult ? (
+            <>
+              <p className="text-sm text-secondary">
+                <strong className="text-text">{siteCreateResult.productName}</strong> · {siteCreateResult.siteKind}
+              </p>
+              <p className="mt-1 text-sm text-secondary">{siteCreateResult.summary}</p>
+              <p className="mt-2 font-mono text-meta text-muted">
+                Paste a live URL above anytime to diagnose tells on a real surface.
+              </p>
+            </>
+          ) : siteCreateState === "error" ? (
+            <p className="text-sm text-drift">{siteCreateError || "Create failed."}</p>
+          ) : (
+            <p className="text-sm text-secondary">Direction is primed. Capture a rendered URL to attach named tells.</p>
+          )}
         </div>
       ) : (
       <div>
@@ -1300,13 +1422,7 @@ export default function HomePage() {
           ) : null}
         </div>
         {designBrief ? (
-          <p className="mb-2 font-mono text-meta text-secondary">
-            Brief: {designBrief}
-            {" · "}
-            <a className="text-accent underline-offset-2 hover:underline" href={studioBriefHref}>
-              Studio
-            </a>
-          </p>
+          <p className="mb-2 font-mono text-meta text-secondary">Brief: {designBrief}</p>
         ) : null}
         <div className="grid gap-2">
           <div className="flex gap-2 border border-border bg-bg/50 px-2 py-2 text-secondary">
@@ -1431,13 +1547,9 @@ export default function HomePage() {
         </button>
       </div>
 
-      {designBrief && !liveCapture ? (
+      {designBrief && !liveCapture && siteCreateState !== "done" && !creatingSite ? (
         <div className="rounded-card border border-accent/35 bg-accent/10 px-4 py-3 text-sm text-secondary">
-          Paste a live URL or GitHub repo above to ground this direction
-          {" · "}
-          <a className="text-accent underline-offset-2 hover:underline" href={studioBriefHref}>
-            Open in Studio
-          </a>
+          Paste a live URL or GitHub repo above to diagnose tells on a real surface.
         </div>
       ) : null}
 
@@ -1508,19 +1620,26 @@ export default function HomePage() {
             direction: {dirMeta.id}
           </span>
         </div>
-        {operationActive ? (
+        {creatingSite || siteCreateResult ? (
+          <SiteCreateCanvas result={siteCreateResult} creating={creatingSite} />
+        ) : operationActive ? (
           <OperationPlaceholder title={operationTitle} detail={operationDetail} />
         ) : !hasProofSurface ? (
           <div className="grid min-h-[280px] place-items-center rounded-md border border-dashed border-border bg-bg/40 px-6 text-center">
             <div>
               <p className="font-display text-2xl text-text">
-                {captureMeta?.error ? "Capture did not land" : designBrief ? "Ground the brief" : "No capture yet"}
+                {captureMeta?.error
+                  ? "Capture did not land"
+                  : designBrief
+                    ? "Create a site from Home"
+                    : "No capture yet"}
               </p>
               <p className="mt-2 max-w-md text-sm text-secondary">
                 {captureMeta?.error
                   ? captureMeta.error
                   : designBrief
-                    ? "Paste a live URL or GitHub repo to attach findings and the before/after seam — Tell will not invent the demo site."
+                    ? siteCreateError ||
+                      "Submit a create brief on Home — Tell runs niche, research, and craft without the old Studio form."
                     : "Paste a live URL and capture. The offline fixture loads only from Offline mode."}
               </p>
               {captureMeta?.error ? (
@@ -1617,7 +1736,14 @@ export default function HomePage() {
           />
         )}
       </AppShell>
-      {operationActive ? <OperationCurtain title={operationTitle} detail={operationDetail} /> : null}
+      {operationActive ? (
+        <OperationCurtain
+          title={operationTitle}
+          detail={operationDetail}
+          steps={creatingSite ? siteCreateSteps : undefined}
+          activeStep={creatingSite ? siteCreateStep : undefined}
+        />
+      ) : null}
       {uiNotice ? <ToastNotice notice={uiNotice} onClose={() => setUiNotice(null)} /> : null}
       <SettingsDialog open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </>
