@@ -35,33 +35,53 @@ function statusLabel(status: LiveMatch["status"]): string {
 function NestedScore({ match }: { match: LiveMatch }) {
   const rows = [match.playerA, match.playerB];
   return (
-    <div className="bl-score" data-spine>
-      <div className="bl-score-head" aria-hidden="true">
-        <span className="bl-score-player-h"> </span>
-        <span>Sets</span>
-        <span>Games</span>
-        <span>Pts</span>
-      </div>
-      {rows.map((p) => (
-        <div key={p.short} className={`bl-score-row${p.serving ? " is-serving" : ""}`}>
-          <span className="bl-score-player">
-            <span className="bl-code">{p.short}</span>
-            <span className="bl-player-name">{p.name}</span>
-            {p.serving ? (
-              <span className="bl-serve" title="Serving">
-                <span className="sr-only">Serving</span>
-                <span aria-hidden="true">●</span>
-              </span>
-            ) : (
-              <span className="bl-serve-spacer" aria-hidden="true" />
-            )}
-          </span>
-          <span className="bl-mono bl-sets">{match.status === "upcoming" ? "—" : p.setsWon}</span>
-          <span className="bl-mono">{match.status === "upcoming" ? "—" : p.games}</span>
-          <span className="bl-mono bl-points">{match.status === "upcoming" ? "—" : p.points}</span>
-        </div>
-      ))}
-    </div>
+    <table className="bl-score" data-spine>
+      <caption className="sr-only">
+        Nested score — sets, games, and points
+        {match.playerA.serving
+          ? `, ${match.playerA.name} serving`
+          : match.playerB.serving
+            ? `, ${match.playerB.name} serving`
+            : ""}
+      </caption>
+      <colgroup>
+        <col className="bl-col-player" />
+        <col className="bl-col-sets" />
+        <col className="bl-col-games" />
+        <col className="bl-col-pts" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col" className="bl-score-player-h">
+            <span className="sr-only">Player</span>
+          </th>
+          <th scope="col">Sets</th>
+          <th scope="col">Games</th>
+          <th scope="col">Pts</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((p) => (
+          <tr key={p.short} className={p.serving ? "is-serving" : undefined}>
+            <th scope="row" className="bl-score-player">
+              <span className="bl-code">{p.short}</span>
+              <span className="bl-player-name">{p.name}</span>
+              {p.serving ? (
+                <span className="bl-serve" title="Serving">
+                  <span className="sr-only">Serving</span>
+                  <span aria-hidden="true">●</span>
+                </span>
+              ) : (
+                <span className="bl-serve-spacer" aria-hidden="true" />
+              )}
+            </th>
+            <td className="bl-mono">{match.status === "upcoming" ? "—" : p.setsWon}</td>
+            <td className="bl-mono">{match.status === "upcoming" ? "—" : p.games}</td>
+            <td className="bl-mono">{match.status === "upcoming" ? "—" : p.points}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 

@@ -463,37 +463,75 @@ main,
 }
 
 .bl-score {
-  display: grid;
-  gap: 0.35rem;
+  width: 100%;
+  max-width: 28rem;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border-spacing: 0;
 }
 
-.bl-score-head,
-.bl-score-row {
-  display: grid;
-  grid-template-columns: minmax(9rem, 1.6fr) 4.5rem 3.5rem 3rem;
-  gap: 0.5rem;
-  align-items: baseline;
+.bl-score .bl-col-player {
+  width: auto;
 }
 
-.bl-score-head {
+.bl-score .bl-col-sets,
+.bl-score .bl-col-games,
+.bl-score .bl-col-pts {
+  width: 3.25rem;
+}
+
+.bl-score thead th {
+  padding: 0 0.35rem 0.35rem;
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--bl-muted);
   font-weight: 600;
+  text-align: right;
+  vertical-align: bottom;
 }
 
-.bl-score-row.is-serving {
-  background: rgba(47, 93, 80, 0.06);
-  border-radius: 0.3rem;
-  padding: 0.15rem 0.35rem;
-  margin: 0 -0.35rem;
+.bl-score thead th.bl-score-player-h {
+  text-align: left;
+  padding-left: 0;
+}
+
+.bl-score tbody th,
+.bl-score tbody td {
+  padding: 0.35rem;
+  vertical-align: baseline;
+  border: 0;
+}
+
+.bl-score tbody th {
+  padding-left: 0;
+  font-weight: 400;
+  text-align: left;
+}
+
+.bl-score tbody td {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.bl-score tbody tr.is-serving th,
+.bl-score tbody tr.is-serving td {
+  background: rgba(47, 93, 80, 0.08);
+}
+
+.bl-score tbody tr.is-serving th {
+  border-radius: 0.3rem 0 0 0.3rem;
+}
+
+.bl-score tbody tr.is-serving td:last-child {
+  border-radius: 0 0.3rem 0.3rem 0;
 }
 
 .bl-score-player {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr) 0.85rem;
   align-items: baseline;
-  gap: 0.45rem;
+  gap: 0.35rem;
   min-width: 0;
 }
 
@@ -508,28 +546,24 @@ main,
 .bl-code {
   font-weight: 600;
   letter-spacing: 0.04em;
-  min-width: 2.5rem;
 }
 
 .bl-serve {
   color: var(--bl-court);
   font-size: 0.7rem;
   line-height: 1;
+  text-align: center;
 }
 
 .bl-serve-spacer {
-  display: inline-block;
-  width: 0.7rem;
+  display: block;
+  width: 0.85rem;
+  height: 0.7rem;
 }
 
 .bl-mono {
   font-family: var(--bl-mono);
   font-variant-numeric: tabular-nums;
-}
-
-.bl-sets,
-.bl-points {
-  text-align: right;
 }
 
 .bl-section {
@@ -592,11 +626,28 @@ main,
 
 .bl-match-row {
   display: grid;
-  grid-template-columns: minmax(10rem, 1.1fr) minmax(14rem, 1.5fr) auto;
+  grid-template-columns: minmax(10.5rem, 15rem) minmax(18rem, 1fr) max-content;
   gap: 1rem 1.5rem;
-  align-items: center;
+  align-items: start;
   padding: 1.25rem 0;
   border-bottom: 1px solid var(--bl-line);
+}
+
+.bl-featured-live {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--bl-line);
+  border-radius: 0.45rem;
+  background: rgba(255, 255, 255, 0.65);
+  align-items: center;
+}
+
+.bl-match-body {
+  min-width: 0;
+}
+
+.bl-match-body .bl-score {
+  max-width: 26rem;
 }
 
 .bl-match-meta {
@@ -856,14 +907,6 @@ main,
   gap: 0.35rem;
 }
 
-.bl-featured-live {
-  margin-bottom: 1.5rem;
-  padding: 1rem 1.15rem;
-  border: 1px solid var(--bl-line);
-  border-radius: 0.45rem;
-  background: rgba(255, 255, 255, 0.65);
-}
-
 /* Scroll reveal — only after JS marks the root ready (avoids blank SSR first paint). */
 .bl-root[data-reveal-ready] [data-reveal] {
   opacity: 0;
@@ -919,6 +962,20 @@ main,
   }
 
   .bl-player-name { display: none; }
+
+  .bl-score-player {
+    grid-template-columns: 2.75rem 0.85rem;
+  }
+
+  .bl-score .bl-col-sets,
+  .bl-score .bl-col-games,
+  .bl-score .bl-col-pts {
+    width: 2.85rem;
+  }
+
+  .bl-score {
+    max-width: none;
+  }
 }
 
 @media (max-width: 720px) {
