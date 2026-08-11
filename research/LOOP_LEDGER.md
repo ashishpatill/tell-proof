@@ -660,3 +660,17 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** dossier spread citeability; archive/foundry still use essay+rail but with
   unique seals/slips (not copy-only twins).
 
+## Loop 33 — Care pathway Roundspool fold ownership
+
+- **Goal:** Ship `/showcase/clinic` (care-pathway) with plate + Intake→Discharge spine in the
+  first viewport; hold matrix / care-pathway critique corridor.
+- **Failure named:** `template:care-claim-starves-plate` (+ dead enter shorthand, hairline beads,
+  ENC truncation, brand stamp pile-up).
+- **Challenger:** Compact claim / hide fold CTAs; in-flow masthead without `--nav-h` pad; spine
+  at 0.4H; 1px hairlines; 3 ENC cards; geometric handoffs; Chart close copy.
+- **Score:** care-pathway **~98.0**; matrix **~95.8**; holdout “Suture Desk” assertBasics green.
+- **Closed:** `template:care-claim-starves-plate`, `template:animation-name-zeroes-duration`,
+  `template:care-hairline-bead-chrome`.
+- **Next weakest:** alignment-axes / repeated-shape still slightly over (shared lantern/press
+  class); dossier spread citeability.
+

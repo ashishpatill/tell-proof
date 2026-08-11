@@ -862,7 +862,7 @@ export function buildSections(
                       : brief.siteKind === "lantern-path"
                         ? `Walk the next ${brief.productName} chapter`
                       : brief.siteKind === "care-pathway"
-                        ? `Walk the next ${brief.productName} round`
+                        ? `Chart the next ${brief.productName} pathway`
                 : brief.businessGoal === "trust"
                   ? `See it against your own material`
                   : `Put ${brief.productName} in front of your ${brief.audience.split(" ").slice(-1)[0] ?? "team"}`,
@@ -887,7 +887,7 @@ export function buildSections(
                       : brief.siteKind === "lantern-path"
                         ? `Waypoint marks, path plates, and the chapters ${brief.audience} actually walk`
                       : brief.siteKind === "care-pathway"
-                        ? `Stage marks, care plates, and the rounds ${brief.audience} actually chart`
+                        ? `Stage marks, care plates, and the rounds a ward lead actually charts`
                 : `${count(features.length)[0]!.toUpperCase()}${count(features.length).slice(1)} capabilities, one conversation`,
             ),
             ctaLabel: cta.primary,

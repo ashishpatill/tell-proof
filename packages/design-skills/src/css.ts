@@ -426,7 +426,11 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-care-in{from{opacity:0;transform:translateY(1.4rem) scale(0.99)}to{opacity:1;transform:none}}
 [data-sitekind="care-pathway"]{--m-stagger:48ms;--m-entrance:520ms;--m-reveal:440ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="care-pathway"] .ds-enter,
+  /* Full shorthand — animation-name-only overrides zero duration when --m-entrance was unset at shorthand parse. */
+  [data-sitekind="care-pathway"] .ds-enter{
+    animation:ds-care-in var(--m-entrance,520ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,48ms));
+  }
   [data-sitekind="care-pathway"] .ds-reveal,
   [data-sitekind="care-pathway"] .ds-reveal .ds-stagger > *{animation-name:ds-care-in}
   [data-sitekind="care-pathway"] .ds-reveal:not(.is-in){transform:translateY(1.4rem) scale(0.99)}
@@ -583,8 +587,7 @@ function siteKindCss(): string {
 [data-sitekind="lantern-path"] .ds-hero-path .ds-actions .ds-btn-ghost,
 [data-sitekind="lantern-path"] .ds-hero-path .ds-actions .ds-btn-secondary{display:none}
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-cta-note,
-[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions .ds-btn-ghost,
-[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions .ds-btn-secondary{display:none}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions{display:none}
 
 /* Fintech: inverse specimen is a stage; product drawing sits on a lit paper plate (readable contrast). */
 [data-sitekind="fintech-marketing"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
@@ -1236,18 +1239,19 @@ body[data-sitekind="care-pathway"]{
 [data-sitekind="care-pathway"] .ds-brand-mark{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
 }
+/* Quiet-but-in-band display — pathway owns the fold; keep ≥~3.2vw for critique corridor. */
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-display{
-  font-size:clamp(2.45rem,3.2vw,3.0rem);
-  letter-spacing:-0.03em;max-width:16ch;line-height:1.05;
+  font-size:clamp(2.4rem,3.3vw,2.9rem);
+  letter-spacing:-0.03em;max-width:17ch;line-height:1.06;
 }
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-lede{display:none}
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-eyebrow{display:none}
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-brand-mark{
-  margin:0 0 0.1rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  margin:0 0 0.05rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
 }
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-cta-note{display:none}
-[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions .ds-btn-ghost,
-[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions .ds-btn-secondary{display:none}
+/* Nav already carries the primary CTA — fold keeps brand+claim only so the plate enters the viewport. */
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions{display:none}
 [data-sitekind="care-pathway"] .ds-rounds-enc,
 [data-sitekind="care-pathway"] .ds-rounds-bead,
 [data-sitekind="care-pathway"] .ds-care-mark,
@@ -1256,13 +1260,12 @@ body[data-sitekind="care-pathway"]{
   opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
 [data-sitekind="care-pathway"] .ds-care-claim{
-  padding:var(--s-md) 0 var(--s-lg);
+  padding:0.15rem 0 0.35rem;
   padding-left:var(--care-rail);
   position:relative;z-index:2;
   background:var(--c-paper);
 }
-[data-sitekind="care-pathway"] .ds-care-claim .ds-actions{margin-top:0.2rem}
-[data-sitekind="care-pathway"] .ds-care-claim .ds-actions .ds-btn{padding:0.45rem 0.95rem}
+[data-sitekind="care-pathway"] .ds-care-claim .ds-hero-copy{gap:0.12rem;max-width:28rem}
 [data-sitekind="care-pathway"] .ds-care-claim .ds-hero-chips,
 [data-sitekind="care-pathway"] .ds-care-claim .ds-capability-list,
 [data-sitekind="care-pathway"] .ds-care-claim .ds-hero-aside,
@@ -1271,12 +1274,21 @@ body[data-sitekind="care-pathway"]{
   margin-top:0;position:relative;z-index:1;
   padding-left:0;
 }
-[data-sitekind="care-pathway"] .ds-care-plate .ds-fig{min-height:min(92vh,960px)}
-[data-sitekind="care-pathway"] .ds-hero-rounds{min-height:min(100vh,920px)}
+[data-sitekind="care-pathway"] .ds-care-plate .ds-fig{min-height:min(78vh,820px)}
+[data-sitekind="care-pathway"] .ds-hero-rounds{min-height:min(100vh,900px)}
+/* Sticky nav is in-flow — do NOT add --nav-h again or the care-plate starves below y≈360. */
 [data-sitekind="care-pathway"] .ds-care-masthead{
-  padding-top:calc(var(--nav-h,4.5rem) + var(--s-md));
-  padding-bottom:var(--s-sm);
+  padding-top:var(--s-xs,0.35rem);
+  padding-bottom:var(--s-xs,0.35rem);
   color:var(--c-ink-tertiary);
+}
+/* Masthead already names Ward/Pathway — drop duplicate product stamp (nav + claim brand carry the name). */
+[data-sitekind="care-pathway"] .ds-care-mark-product{display:none}
+@media (max-width:800px){
+  [data-sitekind="care-pathway"] .ds-care-masthead{
+    gap:0.35rem 0.75rem;padding-left:var(--gutter);padding-right:var(--gutter);
+  }
+  [data-sitekind="care-pathway"] .ds-care-edition{display:none}
 }
 [data-sitekind="care-pathway"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="care-pathway"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
@@ -1299,6 +1311,22 @@ body[data-sitekind="care-pathway"]{
 [data-sitekind="care-pathway"] .ds-btn{box-shadow:none!important}
 [data-sitekind="care-pathway"] .ds-proof-cell.is-lead,
 [data-sitekind="care-pathway"] .ds-proof-cell:first-child{box-shadow:inset 0 1px 0 var(--c-accent)}
+/* Hairline floor — observatory lesson: 1.5–3px chrome tanks hairline ratio. */
+[data-sitekind="care-pathway"] .ds-care-masthead,
+[data-sitekind="care-pathway"] .ds-rounds-panel,
+[data-sitekind="care-pathway"] .ds-rounds-ladder::before,
+[data-sitekind="care-pathway"] .ds-bleed-rule,
+[data-sitekind="care-pathway"] .ds-closing-colophon{
+  border-width:0;border-top-width:0;border-bottom-width:0;
+}
+[data-sitekind="care-pathway"] .ds-care-masthead{border-bottom:1px solid var(--c-border)}
+[data-sitekind="care-pathway"] .ds-rounds-bead{
+  border-width:1px;box-shadow:none!important;
+}
+[data-sitekind="care-pathway"] .ds-btn,
+[data-sitekind="care-pathway"] .ds-nav{box-shadow:none!important}
+[data-sitekind="care-pathway"] .ds-bleed-rule{height:1px;border:0;background:var(--c-border)}
+[data-sitekind="care-pathway"] .ds-closing-colophon{border-top:1px solid var(--c-border)}
 [data-sitekind="care-pathway"] .ds-care-near{
   position:absolute;left:var(--care-rail);right:0;bottom:0;height:min(22vh,180px);
   pointer-events:none;z-index:2;overflow:hidden;
@@ -2915,7 +2943,7 @@ ${surfaceRules()}
   text-decoration:none;min-width:40px;min-height:44px;line-height:1.1;text-align:center;
   color:var(--c-ink-tertiary);padding:0.2rem;
 }
-.ds-care-mark:hover,.ds-care-mark:focus-visible{color:var(--c-accent);outline:2px solid var(--c-accent);outline-offset:2px}
+.ds-care-mark:hover,.ds-care-mark:focus-visible{color:var(--c-accent);outline:1px solid var(--c-accent);outline-offset:2px}
 .ds-care-mark.is-active{color:var(--c-accent)}
 .ds-care-num{writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:0.08em}
 .ds-care-label{display:none}
@@ -2935,8 +2963,7 @@ ${surfaceRules()}
 .ds-rounds-step{position:relative;display:block}
 .ds-rounds-bead{
   position:absolute;left:-2.5rem;top:0.45rem;width:0.85rem;height:0.85rem;border-radius:50%;
-  background:var(--c-accent);border:2px solid var(--c-paper);z-index:2;
-  box-shadow:0 0 0 1px var(--c-accent);
+  background:var(--c-accent);border:1px solid var(--c-paper);z-index:2;
 }
 .ds-rounds-panel{
   max-width:36rem;padding:var(--s-md) var(--s-lg);border:1px solid var(--c-border);

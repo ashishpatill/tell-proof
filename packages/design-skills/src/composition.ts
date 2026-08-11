@@ -815,8 +815,8 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "press-atelier") px = 50;
   // Lantern path: quiet-moderate display — path plate owns the fold, not a shouty claim.
   if (siteKind === "lantern-path") px = 50;
-  // Care pathway: quiet-moderate display — care plate owns the fold, not a shouty claim.
-  if (siteKind === "care-pathway") px = 50;
+  // Care pathway: quiet-but-in-band display (~3.3vw) so care-plate still owns the fold.
+  if (siteKind === "care-pathway") px = 48;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -831,7 +831,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "field-guide") return Math.max(47, Math.min(54, px));
   if (siteKind === "press-atelier") return Math.max(46, Math.min(56, px));
   if (siteKind === "lantern-path") return Math.max(46, Math.min(56, px));
-  if (siteKind === "care-pathway") return Math.max(46, Math.min(56, px));
+  if (siteKind === "care-pathway") return Math.max(44, Math.min(52, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

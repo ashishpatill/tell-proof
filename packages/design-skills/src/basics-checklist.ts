@@ -585,7 +585,12 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           return /ds-path-field/.test(html) && /ds-path-claim/.test(html) && /ds-hero-path \.ds-cta-note\{display:none\}/.test(html);
         }
         if (kind === "care-pathway") {
-          return /ds-care-field/.test(html) && /ds-care-claim/.test(html) && /ds-hero-rounds \.ds-cta-note\{display:none\}/.test(html);
+          return (
+            /ds-care-field/.test(html) &&
+            /ds-care-claim/.test(html) &&
+            /ds-hero-rounds \.ds-actions\{display:none\}/.test(html) &&
+            /\[data-sitekind="care-pathway"\] \.ds-care-claim\{[^}]*background:var\(--c-paper\)/.test(html)
+          );
         }
         if (kind === "archive-index") {
           return /ds-register-field/.test(html) && /ds-hero-register/.test(html);

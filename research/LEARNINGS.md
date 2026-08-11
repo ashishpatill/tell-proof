@@ -737,3 +737,30 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `SiteImg` applies lazy/LCP/CLS defaults; always-applied `tell-site-build-autoload` + expanded
   `responsive-performance` / `tell-domain-research` require executing routed skills without prompt.
 - **Do not:** Commit hot-path multi-MB jpg/png heroes or wait for “convert to webp / run research”.
+
+## 2026-08-11 — `template:care-claim-starves-plate`
+
+- **Failure:** Roundspool care-pathway fold put masthead + full claim + fold CTAs above the
+  care-plate, so the pathway spine sat near y≈470–900 — unique craft below the fold.
+- **Cause (secondary):** masthead used `padding-top: calc(var(--nav-h) + …)` while sticky nav is
+  already in-flow → double nav offset (~110px mast) pushed plate past the 360px eye gate.
+- **Fix:** Hide fold `.ds-actions` (nav keeps CTA); compact claim; drop masthead `--nav-h`
+  padding; raise spine to `H * 0.4`; plate min-height ~78vh; three ENC callouts.
+- **Do not:** Re-add nav-height padding on in-flow craft mastheads, or treat a unique plate as
+  shipped when the fold shot is only type chrome.
+
+## 2026-08-11 — `template:animation-name-zeroes-duration`
+
+- **Failure:** Care-pathway enter motion looked dead — `animation-name: ds-care-in` alone
+  overrode the shared `.ds-enter` shorthand and left duration at 0s when `--m-entrance` was
+  unset at shorthand parse time.
+- **Fix:** Full `animation:` shorthand on `[data-sitekind="care-pathway"] .ds-enter` with
+  `ds-care-in`, `--m-entrance` fallback, and stagger delay.
+- **Do not:** Override only `animation-name` on siteKind enter rules.
+
+## 2026-08-11 — `template:care-hairline-bead-chrome`
+
+- **Failure:** 1.5–2px spine strokes + 2px bead rings + box-shadow rings tanked hairline ratio
+  on care-pathway (observatory lesson).
+- **Fix:** 1px spine/bead/borders; no bead ring shadow; geometric diamond handoff (never ◆ emoji).
+- **Do not:** Decorate clinical spines with multi-px chrome or emoji markers.

@@ -2043,16 +2043,10 @@ export function carePlate(
     `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="color-mix(in srgb, var(--c-paper-raised, var(--c-paper)) 96%, var(--c-accent) 4%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
 
+  // Plate head — stage chrome only (product name lives in nav + claim; avoid a fourth stamp).
   const headY = padY + 18;
+  parts.push(`<title>${esc(productName)} pathway chart</title>`);
   parts.push(text("PATHWAY", padX + 14, headY, { size: FIG_MONO_PX, fill: "var(--c-ink-tertiary)", mono: true }));
-  parts.push(
-    text(clip(productName, 26), W / 2, headY, {
-      size: FIG_MONO_PX,
-      fill: "var(--c-ink-secondary)",
-      mono: true,
-      anchor: "middle",
-    }),
-  );
   parts.push(
     text("STAGES 01–05", W - padX - 14, headY, {
       size: FIG_MONO_PX,
@@ -2064,17 +2058,18 @@ export function carePlate(
 
   const stageNames = ["Intake", "Triage", "Treat", "Follow-up", "Discharge"];
   const n = 5;
-  const spineY = H * 0.52;
+  // Raise spine into the first viewport — claim-starved folds hid stages below y≈900.
+  const spineY = H * 0.4;
   const spineLeft = padX + 56;
   const spineRight = W - padX - 56;
   const dwellHeights = [28, 42, 56, 34, 22];
 
-  // Horizontal spine baseline.
+  // Horizontal spine baseline — 1px only (hairline corridor; 1.5–2px tanks the band).
   parts.push(
-    `<line x1="${round(spineLeft)}" y1="${round(spineY)}" x2="${round(spineRight)}" y2="${round(spineY)}" stroke="${LINE}" stroke-width="1.5" vector-effect="non-scaling-stroke"/>`,
+    `<line x1="${round(spineLeft)}" y1="${round(spineY)}" x2="${round(spineRight)}" y2="${round(spineY)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
   parts.push(
-    `<line class="ds-draw" pathLength="1" x1="${round(spineLeft)}" y1="${round(spineY)}" x2="${round(spineRight)}" y2="${round(spineY)}" stroke="${ACCENT}" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.85"/>`,
+    `<line class="ds-draw" pathLength="1" x1="${round(spineLeft)}" y1="${round(spineY)}" x2="${round(spineRight)}" y2="${round(spineY)}" stroke="${ACCENT}" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.9"/>`,
   );
 
   const nodes: { x: number; title: string; num: string }[] = [];
@@ -2110,30 +2105,36 @@ export function carePlate(
         anchor: "middle",
       }),
     );
-    // Handoff bead between stages.
+    // Handoff bead between stages — geometric diamond, never emoji chrome.
     if (i < nodes.length - 1) {
       const next = nodes[i + 1]!;
       const midX = (node.x + next.x) / 2;
       parts.push(`<circle cx="${round(midX)}" cy="${round(spineY)}" r="3.5" fill="var(--c-ink-tertiary)" opacity="0.7"/>`);
+      const d = 4.5;
       parts.push(
-        text("◆", midX, spineY - 14, {
-          size: FIG_MONO_PX,
-          fill: "var(--c-accent)",
-          mono: true,
-          anchor: "middle",
-        }),
+        `<path d="M${round(midX)} ${round(spineY - 16 - d)} L${round(midX + d)} ${round(spineY - 16)} L${round(midX)} ${round(spineY - 16 + d)} L${round(midX - d)} ${round(spineY - 16)} Z" fill="${ACCENT}" opacity="0.9"/>`,
       );
     }
   }
 
-  // Encounter callouts from feature titles — citeable matter.
-  const callouts = (features.length ? features : [{ title: "Encounter" } as Block]).slice(0, 4);
-  const calloutY = padY + 72;
+  // Encounter callouts — three citeable cards (four identical ENC rects over-ran repeated-shape).
+  const callouts = (features.length ? features : [{ title: "Encounter" } as Block]).slice(0, 3);
+  const shortLabel = (title: string): string => {
+    const t = title.trim();
+    if (t.length <= 14) return t;
+    const first = t.split(/\s+/)[0] ?? t;
+    return first.length <= 14 ? first : clip(t, 14);
+  };
+  const calloutY = padY + 56;
+  const calloutW = 138;
+  const calloutMin = padX + 12;
+  const calloutMax = W - padX - calloutW - 12;
   callouts.forEach((f, i) => {
-    const cx = padX + 24 + i * ((W - padX * 2 - 48) / Math.max(1, callouts.length - 1 || 1));
-    const lx = i === callouts.length - 1 && callouts.length > 1 ? cx - 70 : cx;
+    const span = Math.max(1, callouts.length - 1);
+    const cx = calloutMin + (i / span) * (calloutMax - calloutMin);
+    const lx = Math.min(calloutMax, Math.max(calloutMin, cx));
     parts.push(
-      `<rect x="${round(lx)}" y="${round(calloutY)}" width="140" height="36" fill="color-mix(in srgb, var(--c-accent-surface) 55%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      `<rect x="${round(lx)}" y="${round(calloutY)}" width="${calloutW}" height="36" fill="color-mix(in srgb, var(--c-accent-surface) 55%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
     );
     parts.push(
       text(`ENC ${String(i + 1).padStart(2, "0")}`, lx + 8, calloutY + 13, {
@@ -2143,7 +2144,7 @@ export function carePlate(
       }),
     );
     parts.push(
-      text(clip(f.title, 16), lx + 8, calloutY + 28, {
+      text(shortLabel(f.title), lx + 8, calloutY + 28, {
         size: FIG_MONO_PX,
         fill: "var(--c-ink-secondary)",
         mono: true,
