@@ -1,7 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { BaselineShell, type BaselineRouteId } from "./BaselineShell";
 import { SiteImg } from "@/components/site-media/SiteImg";
 import {
@@ -11,12 +18,15 @@ import {
   HARD_RANKINGS,
   HERO_IMAGE,
   LIVE_MATCHES,
+  SURFACE_ATMOSPHERE,
   STORIES,
   TOURNAMENTS,
   formatLabel,
-  surfaceLabel,
+  lensFacts,
+  type FormatLens,
   type LiveMatch,
   type RankingRow,
+  type SetBead,
 } from "./data";
 
 type SurfaceLens = "hard" | "clay" | "grass";
@@ -32,21 +42,35 @@ function statusLabel(status: LiveMatch["status"]): string {
   return "Upcoming";
 }
 
+function beadLabel(bead: SetBead): string {
+  if (bead.tiebreak) return `${bead.a}–${bead.b}ᵗᵇ`;
+  return `${bead.a}–${bead.b}`;
+}
+
+/** Nested spine: per-set columns when beads exist, else sets|games|pts. */
 function NestedScore({ match }: { match: LiveMatch }) {
-  const rows = [match.playerA, match.playerB];
+  const rows = [match.playerA, match.playerB] as const;
+  const beads = match.setBeads;
+  const useSetCols = beads.length > 0;
+
   return (
     <table className="bl-score" data-spine>
       <caption className="sr-only">
         Nested score — sets, games, and points
         {match.playerA.serving
-          ? `, ${match.playerA.name} serving`
+          ? `, ${match.playerA.name} on serve`
           : match.playerB.serving
-            ? `, ${match.playerB.name} serving`
+            ? `, ${match.playerB.name} on serve`
             : ""}
       </caption>
       <colgroup>
         <col className="bl-col-player" />
-        <col className="bl-col-sets" />
+        {useSetCols
+          ? beads.map((b, i) => (
+              <col key={b.current ? `live-${i}` : `set-${i}`} className="bl-col-set" />
+            ))
+          : null}
+        {!useSetCols ? <col className="bl-col-sets" /> : null}
         <col className="bl-col-games" />
         <col className="bl-col-pts" />
       </colgroup>
@@ -55,27 +79,59 @@ function NestedScore({ match }: { match: LiveMatch }) {
           <th scope="col" className="bl-score-player-h">
             <span className="sr-only">Player</span>
           </th>
-          <th scope="col">Sets</th>
-          <th scope="col">Games</th>
+          {useSetCols
+            ? beads.map((b, i) => (
+                <th
+                  key={`h-${i}`}
+                  scope="col"
+                  className={b.current ? "is-live-set" : undefined}
+                  title={b.tiebreak ? "Tiebreak" : `Set ${i + 1}`}
+                >
+                  {b.tiebreak ? "TB" : i + 1}
+                </th>
+              ))
+            : (
+              <th scope="col">Sets</th>
+            )}
+          <th scope="col">G</th>
           <th scope="col">Pts</th>
         </tr>
       </thead>
       <tbody>
-        {rows.map((p) => (
+        {rows.map((p, side) => (
           <tr key={p.short} className={p.serving ? "is-serving" : undefined}>
             <th scope="row" className="bl-score-player">
               <span className="bl-code">{p.short}</span>
-              <span className="bl-player-name">{p.name}</span>
+              <span className="bl-player-name">
+                {p.name}
+                {p.seed ? <span className="bl-seed"> ({p.seed})</span> : null}
+              </span>
               {p.serving ? (
-                <span className="bl-serve" title="Serving">
-                  <span className="sr-only">Serving</span>
-                  <span aria-hidden="true">●</span>
+                <span className="bl-on-serve">
+                  <span className="bl-serve-pip" aria-hidden="true" />
+                  ON SERVE
                 </span>
               ) : (
                 <span className="bl-serve-spacer" aria-hidden="true" />
               )}
             </th>
-            <td className="bl-mono">{match.status === "upcoming" ? "—" : p.setsWon}</td>
+            {useSetCols
+              ? beads.map((b, i) => {
+                  const val = side === 0 ? b.a : b.b;
+                  const other = side === 0 ? b.b : b.a;
+                  const won = !b.current && val > other;
+                  return (
+                    <td
+                      key={`${p.short}-s${i}`}
+                      className={`bl-mono${b.current ? " is-live-set" : ""}${won ? " is-won-set" : ""}`}
+                    >
+                      {match.status === "upcoming" ? "—" : val}
+                    </td>
+                  );
+                })
+              : (
+                <td className="bl-mono">{match.status === "upcoming" ? "—" : p.setsWon}</td>
+              )}
             <td className="bl-mono">{match.status === "upcoming" ? "—" : p.games}</td>
             <td className="bl-mono">{match.status === "upcoming" ? "—" : p.points}</td>
           </tr>
@@ -85,9 +141,152 @@ function NestedScore({ match }: { match: LiveMatch }) {
   );
 }
 
-function SituationBlock({ match }: { match: LiveMatch }) {
+function SetBeadRail({ match }: { match: LiveMatch }) {
+  if (!match.setBeads.length) return null;
+  return (
+    <div className="bl-set-beads" aria-label="Set progress">
+      {match.setBeads.map((bead, i) => (
+        <div
+          key={`bead-${i}`}
+          className={`bl-set-bead${bead.current ? " is-current" : ""}${bead.tiebreak ? " is-tb" : ""}`}
+          data-status={bead.current ? "live" : "final"}
+        >
+          <span className="bl-set-bead__label">{bead.tiebreak ? "TB" : `S${i + 1}`}</span>
+          <span className="bl-set-bead__score bl-mono">{beadLabel(bead)}</span>
+          {bead.current ? <span className="bl-set-bead__live">live</span> : null}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PointTrail({ trail }: { trail: string[] }) {
+  if (!trail.length) return null;
+  return (
+    <div className="bl-point-trail" aria-label="Current game point trail">
+      <span className="bl-point-trail__label">This game</span>
+      <ol className="bl-point-trail__list">
+        {trail.map((pt, i) => (
+          <li
+            key={`${pt}-${i}`}
+            className={`bl-point-trail__pt${i === trail.length - 1 ? " is-latest" : ""}`}
+          >
+            <span className="bl-mono">{pt}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+function FormatLensRail({ match, lens }: { match: LiveMatch; lens: FormatLens }) {
+  const { title, facts } = lensFacts(match, lens);
+  return (
+    <div className="bl-lens-rail" data-format={lens}>
+      <p className="bl-lens-rail__title">{title}</p>
+      <ul className="bl-lens-rail__facts">
+        {facts.map((fact) => (
+          <li key={fact}>{fact}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function CourtTheater({
+  match,
+  lens,
+  onLens,
+  compact = false,
+}: {
+  match: LiveMatch;
+  lens: FormatLens;
+  onLens?: (f: FormatLens) => void;
+  compact?: boolean;
+}) {
+  const surface = SURFACE_ATMOSPHERE[match.surface];
+  const formatGroupId = useId();
+
+  return (
+    <div
+      className={`bl-theater${compact ? " bl-theater--compact" : ""}`}
+      data-surface={match.surface}
+      style={
+        {
+          "--bl-surface-wash": surface.wash,
+          "--bl-surface-line": surface.line,
+          "--bl-surface-glow": surface.glow,
+          "--bl-surface-chalk": surface.chalk,
+        } as CSSProperties
+      }
+    >
+      <div className="bl-theater__meta">
+        <p className="bl-theater__surface">{surface.label}</p>
+        <p className="bl-theater__venue">
+          {match.round} · {match.venue}
+        </p>
+      </div>
+
+      {onLens ? (
+        <div className="bl-theater__format" role="group" aria-labelledby={formatGroupId}>
+          <span className="bl-theater__format-label" id={formatGroupId}>
+            Format lens
+          </span>
+          <div className="bl-tabs bl-tabs--inline" role="radiogroup" aria-label="Match format lens">
+            {(
+              [
+                ["BO3", "Best of 3"],
+                ["BO5", "Best of 5"],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                role="radio"
+                aria-checked={lens === id}
+                className={lens === id ? "is-active" : undefined}
+                onClick={() => onLens(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <p className="bl-theater__format-hint">
+            {lens === "BO3"
+              ? "Secondary rail: break chances and return games under pressure."
+              : "Secondary rail: set momentum and legs left — same score, different story."}
+          </p>
+        </div>
+      ) : null}
+
+      <NestedScore match={match} />
+      <SetBeadRail match={match} />
+
+      {match.pressureLabel ? (
+        <p className="bl-pressure bl-pressure--band" role="status">
+          {match.pressureLabel}
+        </p>
+      ) : null}
+
+      <p className="bl-situation-line">{match.note}</p>
+
+      {match.challengePending ? (
+        <p className="bl-challenge" role="status">
+          Challenge pending — score holds until confirmed
+        </p>
+      ) : null}
+
+      <PointTrail trail={match.pointTrail} />
+      <FormatLensRail match={match} lens={lens} />
+    </div>
+  );
+}
+
+function SituationBlock({ match, lens }: { match: LiveMatch; lens?: FormatLens }) {
+  const activeLens = lens ?? match.format;
   return (
     <div className="bl-situation">
+      <SetBeadRail match={match} />
       {match.pressureLabel ? (
         <p className="bl-pressure" role="status">
           {match.pressureLabel}
@@ -99,12 +298,8 @@ function SituationBlock({ match }: { match: LiveMatch }) {
           Challenge pending — score provisional
         </p>
       ) : null}
-      {match.format === "BO5" && match.setHistory ? (
-        <p className="bl-set-history bl-mono">Sets {match.setHistory}</p>
-      ) : null}
-      {match.format === "BO3" && match.setHistory && match.status === "live" ? (
-        <p className="bl-set-history bl-mono">Line {match.setHistory}</p>
-      ) : null}
+      <PointTrail trail={match.pointTrail} />
+      <FormatLensRail match={match} lens={activeLens} />
     </div>
   );
 }
@@ -178,7 +373,7 @@ function RankTable({ rows }: { rows: RankingRow[] }) {
   );
 }
 
-function MatchList() {
+function MatchList({ lens }: { lens?: FormatLens }) {
   return (
     <ul className="bl-match-list">
       {LIVE_MATCHES.map((m, i) => (
@@ -187,6 +382,7 @@ function MatchList() {
           id={`match-${m.id}`}
           className="bl-match-row"
           data-reveal
+          data-surface={m.surface}
           style={{ transitionDelay: `${Math.min(i, 4) * 40}ms` }}
         >
           <div className="bl-match-meta">
@@ -195,14 +391,13 @@ function MatchList() {
               {statusLabel(m.status)}
             </span>
             <span className="bl-format">{formatLabel(m.format)}</span>
-            <span className="bl-surface">{surfaceLabel(m.surface)}</span>
             <span className="bl-series">{m.tournament}</span>
           </div>
           <div className="bl-match-body">
             <NestedScore match={m} />
-            <SituationBlock match={m} />
+            <SituationBlock match={m} lens={lens ?? m.format} />
             <p className="bl-venue">
-              {m.round} · {m.venue}
+              {SURFACE_ATMOSPHERE[m.surface].label} · {m.round} · {m.venue}
             </p>
           </div>
           <Link className="bl-match-link" href="/baseline/scorecard">
@@ -216,13 +411,14 @@ function MatchList() {
 }
 
 function HomeMain() {
+  const [lens, setLens] = useState<FormatLens>(FEATURED.format);
   return (
     <>
-      <section className="bl-hero" aria-labelledby="bl-hero-title">
-        <div className="bl-hero-media">
+      <section className="bl-hero bl-hero--theater" aria-labelledby="bl-hero-title">
+        <div className="bl-hero-media" data-surface={FEATURED.surface}>
           <SiteImg
-            src={HERO_IMAGE}
-            alt="Hard court under evening light with clean baseline chalk"
+            src={FEATURED.image || HERO_IMAGE}
+            alt={FEATURED.imageAlt}
             width={1600}
             height={1067}
             priority
@@ -236,30 +432,26 @@ function HomeMain() {
               <span className="bl-pill-dot" aria-hidden="true" />
               Live · {formatLabel(FEATURED.format)}
             </span>
-            <span className="bl-kicker-meta">
-              {surfaceLabel(FEATURED.surface)} · {FEATURED.venue}
-            </span>
+            <span className="bl-kicker-meta">{SURFACE_ATMOSPHERE[FEATURED.surface].label}</span>
           </p>
-          <p className="bl-brand-hero" aria-hidden="true">
-            BASELINE
-          </p>
+          <p className="bl-brand-hero">BASELINE</p>
           <h1 id="bl-hero-title" className="bl-display">
             One break point owns the third
           </h1>
           <p className="bl-lede">
-            Pegula serving at 3–4, 30–40 against — nested stack intact, pressure named in text.
+            Nested stack first — sets, games, the point you are in. Format lens changes what the
+            secondary rail argues about.
           </p>
           <div className="bl-hero-actions">
             <Link className="bl-btn bl-btn-primary" href="/baseline/live">
-              Open court board
+              Open court theater
             </Link>
-            <Link className="bl-btn bl-btn-ghost" href="/baseline/series">
-              Tournament desk
+            <Link className="bl-btn bl-btn-ghost" href="/baseline/scorecard">
+              Full scorecard
             </Link>
           </div>
-          <div className="bl-hero-scorecard" aria-label="Featured nested score">
-            <NestedScore match={FEATURED} />
-            <SituationBlock match={FEATURED} />
+          <div className="bl-hero-scorecard" aria-label="Featured court theater">
+            <CourtTheater match={FEATURED} lens={lens} onLens={setLens} compact />
           </div>
         </div>
       </section>
@@ -271,10 +463,10 @@ function HomeMain() {
             Today’s board
           </h2>
           <p className="bl-section-dek">
-            Status first, nested score second, pressure third — then open Live for the full spine.
+            Status, nested spine, set beads, point trail — then Live for the full theater.
           </p>
         </div>
-        <MatchList />
+        <MatchList lens={lens} />
       </section>
 
       <section className="bl-close" data-reveal aria-labelledby="close-title">
@@ -298,71 +490,74 @@ function HomeMain() {
 }
 
 function LiveMain() {
-  const [lens, setLens] = useState<"BO3" | "BO5">("BO3");
-  const featured = LIVE_MATCHES.find((m) => m.format === lens && m.status === "live") ?? FEATURED;
+  const [lens, setLens] = useState<FormatLens>("BO3");
+  const featured =
+    LIVE_MATCHES.find((m) => m.format === lens && m.status === "live") ??
+    LIVE_MATCHES.find((m) => m.status === "live") ??
+    FEATURED;
+
   return (
     <section className="bl-section bl-matches bl-page-live" aria-labelledby="live-title">
       <div className="bl-section-head">
         <p className="bl-eyebrow">Live court</p>
         <h1 id="live-title" className="bl-h2">
-          Nested spine
+          Court theater
         </h1>
         <p className="bl-section-dek">
-          Sets | games | points with server marker. Format lens changes secondary facts; best-of-5
-          keeps set history close.
+          Serve ownership, pressure band, set beads, point trail. Flip the format lens — secondary
+          facts change; the nested score stays.
         </p>
-        <div className="bl-tabs" role="tablist" aria-label="Format lens">
-          {(
-            [
-              ["BO3", "Best of 3"],
-              ["BO5", "Best of 5"],
-            ] as const
-          ).map(([id, label]) => (
-            <button
-              key={id}
-              type="button"
-              role="tab"
-              aria-selected={lens === id}
-              className={lens === id ? "is-active" : undefined}
-              onClick={() => setLens(id)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
       </div>
-      <article className="bl-match-row bl-featured-live">
-        <div className="bl-match-meta">
-          <span className="bl-pill bl-pill-live">
-            <span className="bl-pill-dot" aria-hidden="true" />
-            Live
-          </span>
-          <span className="bl-format">{formatLabel(featured.format)}</span>
-          <span className="bl-surface">{surfaceLabel(featured.surface)}</span>
-          <span className="bl-series">{featured.tournament}</span>
+      <article
+        className="bl-match-row bl-featured-live bl-featured-theater"
+        data-surface={featured.surface}
+      >
+        <div className="bl-featured-theater__grid">
+          <div className="bl-featured-theater__stage">
+            <div className="bl-match-meta">
+              <span className="bl-pill bl-pill-live">
+                <span className="bl-pill-dot" aria-hidden="true" />
+                Live
+              </span>
+              <span className="bl-format">{formatLabel(featured.format)}</span>
+              <span className="bl-series">{featured.tournament}</span>
+            </div>
+            <CourtTheater match={featured} lens={lens} onLens={setLens} />
+            <Link className="bl-match-link" href="/baseline/scorecard">
+              Full scorecard →
+            </Link>
+          </div>
+          <div className="bl-featured-theater__media">
+            <SiteImg
+              src={featured.image}
+              alt={featured.imageAlt}
+              width={1200}
+              height={900}
+            />
+          </div>
         </div>
-        <div className="bl-match-body">
-          <NestedScore match={featured} />
-          <SituationBlock match={featured} />
-          <p className="bl-venue">
-            {featured.round} · {featured.venue}
-          </p>
-        </div>
-        <Link className="bl-match-link" href="/baseline/scorecard">
-          Full scorecard →
-        </Link>
       </article>
-      <MatchList />
+      <MatchList lens={lens} />
     </section>
   );
 }
 
 function ScorecardMain() {
-  const sets = [
-    { set: 1, a: 6, b: 4, note: "Świątek broke late" },
-    { set: 2, a: 3, b: 6, note: "Pegula held serve through deuce games" },
-    { set: 3, a: 4, b: 3, note: "In progress · break point" },
-  ];
+  const [lens, setLens] = useState<FormatLens>(FEATURED.format);
+  const sets = FEATURED.setBeads.map((b, i) => ({
+    set: i + 1,
+    a: b.a,
+    b: b.b,
+    note: b.current
+      ? "In progress · break point"
+      : b.tiebreak
+        ? "Tie-break"
+        : i === 0
+          ? "Świątek broke late"
+          : "Pegula held through deuce games",
+    current: !!b.current,
+  }));
+
   return (
     <section className="bl-section" aria-labelledby="scorecard-title">
       <div className="bl-section-head">
@@ -371,12 +566,11 @@ function ScorecardMain() {
           Set history — semi-final
         </h1>
         <p className="bl-section-dek">
-          After-play depth one tap from Live. Nested spine stays visible; set line expands without
-          layout jitter.
+          After-play depth one tap from Live. Theater objects stay; set line expands without layout
+          jitter.
         </p>
-        <div className="bl-hero-scorecard" aria-label="Live nested score">
-          <NestedScore match={FEATURED} />
-          <SituationBlock match={FEATURED} />
+        <div className="bl-hero-scorecard" aria-label="Live court theater">
+          <CourtTheater match={FEATURED} lens={lens} onLens={setLens} compact />
         </div>
       </div>
       <div className="bl-scorecard-grid" data-reveal>
@@ -392,7 +586,7 @@ function ScorecardMain() {
           </thead>
           <tbody>
             {sets.map((r) => (
-              <tr key={r.set}>
+              <tr key={r.set} className={r.current ? "is-current-set" : undefined}>
                 <td className="bl-mono">{r.set}</td>
                 <td className="bl-mono">{r.a}</td>
                 <td className="bl-mono">{r.b}</td>
@@ -402,14 +596,14 @@ function ScorecardMain() {
           </tbody>
         </table>
         <div className="bl-point-tree">
-          <p className="bl-eyebrow">Current game</p>
+          <p className="bl-eyebrow">Point trail (this game)</p>
           <ol className="bl-point-list bl-mono">
-            <li>0–0 · Pegula first serve in</li>
-            <li>0–15 · return deep middle</li>
-            <li>15–15 · forehand winner</li>
-            <li>15–30 · second serve · float</li>
-            <li>30–30 · body serve held</li>
-            <li>30–40 · break point · return pending</li>
+            {FEATURED.pointTrail.map((pt, i) => (
+              <li key={`${pt}-${i}`} className={i === FEATURED.pointTrail.length - 1 ? "is-latest" : undefined}>
+                {pt}
+                {i === FEATURED.pointTrail.length - 1 ? " · break point · return pending" : ""}
+              </li>
+            ))}
           </ol>
         </div>
       </div>

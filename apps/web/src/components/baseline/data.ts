@@ -1,9 +1,10 @@
-/** Demo tennis content for BASELINE — research-backed court board (see research/SPORT_SITE_VERNACULAR.md). */
+/** Demo tennis content for BASELINE — research-backed court theater (SPORT_SITE_VERNACULAR.md §3b). */
 
 export type MatchStatus = "live" | "result" | "upcoming";
 export type TennisFormat = "BO3" | "BO5";
 export type CourtSurface = "hard" | "clay" | "grass";
 export type PressureFlag = "break-point" | "set-point" | "match-point" | "deuce" | null;
+export type FormatLens = "BO3" | "BO5";
 
 export type PlayerScore = {
   name: string;
@@ -14,6 +15,17 @@ export type PlayerScore = {
   /** Tennis point display: 0, 15, 30, 40, AD */
   points: string;
   serving: boolean;
+  seed?: number;
+};
+
+/** One completed or current set — bead rail object (tennis this-over equivalent). */
+export type SetBead = {
+  a: number;
+  b: number;
+  /** Current unfinished set. */
+  current?: boolean;
+  /** Tie-break played. */
+  tiebreak?: boolean;
 };
 
 export type LiveMatch = {
@@ -31,7 +43,19 @@ export type LiveMatch = {
   note: string;
   start?: string;
   challengePending?: boolean;
+  /** Human-readable set line for mono fallback. */
   setHistory?: string;
+  /** First-class set bead rail. */
+  setBeads: SetBead[];
+  /** This-game point trail (progressive disclosure of the local contest). */
+  pointTrail: string[];
+  /** BO3 secondary — hold / break framing (format lens). */
+  breakLens: string[];
+  /** BO5 secondary — physical / set-momentum framing (format lens). */
+  staminaLens: string[];
+  /** Atmosphere / stage image for court theater. */
+  image: string;
+  imageAlt: string;
 };
 
 export type Story = {
@@ -51,6 +75,34 @@ export type RankingRow = {
   change: "up" | "down" | "same";
 };
 
+/** Surface as atmosphere tokens — not sticker pills (vernacular §3b.6 / §3b.9). */
+export const SURFACE_ATMOSPHERE: Record<
+  CourtSurface,
+  { label: string; wash: string; line: string; glow: string; chalk: string }
+> = {
+  hard: {
+    label: "Hard · night chalk",
+    wash: "rgba(47, 93, 80, 0.14)",
+    line: "rgba(255, 255, 255, 0.55)",
+    glow: "rgba(30, 63, 54, 0.18)",
+    chalk: "rgba(231, 239, 233, 0.9)",
+  },
+  clay: {
+    label: "Clay · dust & sit",
+    wash: "rgba(196, 120, 90, 0.22)",
+    line: "rgba(180, 90, 55, 0.35)",
+    glow: "rgba(154, 52, 18, 0.12)",
+    chalk: "rgba(244, 226, 214, 0.85)",
+  },
+  grass: {
+    label: "Grass · low sheen",
+    wash: "rgba(74, 124, 68, 0.18)",
+    line: "rgba(255, 255, 255, 0.4)",
+    glow: "rgba(56, 102, 52, 0.14)",
+    chalk: "rgba(232, 242, 228, 0.88)",
+  },
+};
+
 export const LIVE_MATCHES: LiveMatch[] = [
   {
     id: "swi-peg-sf",
@@ -67,6 +119,7 @@ export const LIVE_MATCHES: LiveMatch[] = [
       games: 4,
       points: "40",
       serving: false,
+      seed: 1,
     },
     playerB: {
       name: "J. Pegula",
@@ -75,12 +128,31 @@ export const LIVE_MATCHES: LiveMatch[] = [
       games: 3,
       points: "30",
       serving: true,
+      seed: 5,
     },
     pressure: "break-point",
     pressureLabel: "BREAK POINT",
-    note: "Pegula serving to stay in the third · break point against",
+    note: "Pegula serving to stay in the third — one point from handing the break",
     challengePending: false,
     setHistory: "6–4 · 3–6 · 4–3",
+    setBeads: [
+      { a: 6, b: 4 },
+      { a: 3, b: 6 },
+      { a: 4, b: 3, current: true },
+    ],
+    pointTrail: ["0–0", "0–15", "15–15", "30–15", "30–30", "30–40"],
+    breakLens: [
+      "Break chances: Świątek 4/7 · Pegula 2/5",
+      "Pegula holds under lights: 8/11",
+      "Return depth on ad court deciding this game",
+    ],
+    staminaLens: [
+      "Match clock 1h 48m — BO5 framing would still have legs left",
+      "Set momentum even after split first two",
+      "Third-set break weighs like a final here",
+    ],
+    image: "/baseline/hard-night.webp",
+    imageAlt: "Hard court under night lights",
   },
   {
     id: "alcaraz-sinner-qf",
@@ -97,6 +169,7 @@ export const LIVE_MATCHES: LiveMatch[] = [
       games: 2,
       points: "15",
       serving: true,
+      seed: 2,
     },
     playerB: {
       name: "J. Sinner",
@@ -105,10 +178,30 @@ export const LIVE_MATCHES: LiveMatch[] = [
       games: 1,
       points: "15",
       serving: false,
+      seed: 1,
     },
     pressure: null,
-    note: "Fourth set · Alcaraz holds the physical narrative after a long third",
+    note: "Fourth set — Alcaraz owns the physical narrative after a long third",
     setHistory: "6–4 · 3–6 · 7–6 · 2–1",
+    setBeads: [
+      { a: 6, b: 4 },
+      { a: 3, b: 6 },
+      { a: 7, b: 6, tiebreak: true },
+      { a: 2, b: 1, current: true },
+    ],
+    pointTrail: ["0–0", "15–0", "15–15"],
+    breakLens: [
+      "Breaks: Alcaraz 3 · Sinner 2 — clay rewards patience over panic",
+      "Tie-break third flipped the hold narrative",
+      "Return games still deciding fourth",
+    ],
+    staminaLens: [
+      "3h 12m elapsed · set momentum ALC after tie-break",
+      "Fifth-set framing still live if Sinner levels",
+      "Changeover length stretching — physical arc owns the desk",
+    ],
+    image: "/baseline/clay-dust.webp",
+    imageAlt: "Clay court dust and baseline chalk",
   },
   {
     id: "gauff-keys-r16",
@@ -125,6 +218,7 @@ export const LIVE_MATCHES: LiveMatch[] = [
       games: 5,
       points: "AD",
       serving: true,
+      seed: 3,
     },
     playerB: {
       name: "M. Keys",
@@ -136,8 +230,25 @@ export const LIVE_MATCHES: LiveMatch[] = [
     },
     pressure: "set-point",
     pressureLabel: "SET POINT",
-    note: "Gauff on serve at ad — set point to take a 2–0 lead",
+    note: "Gauff on serve at advantage — set point to take a 2–0 lead",
     setHistory: "7–6 · 5–5",
+    setBeads: [
+      { a: 7, b: 6, tiebreak: true },
+      { a: 5, b: 5, current: true },
+    ],
+    pointTrail: ["40–40", "AD–40"],
+    breakLens: [
+      "Grass sheen · first-strike holds",
+      "Keys yet to convert a break chance (0/3)",
+      "Gauff first-serve % 71 in the second",
+    ],
+    staminaLens: [
+      "BO3 sprint — set point now is the whole arc",
+      "No fifth-set storyboard; one hold ends it",
+      "Low bounce keeps points short — clock not the enemy",
+    ],
+    image: "/baseline/grass-court.webp",
+    imageAlt: "Grass court with soft daylight sheen",
   },
   {
     id: "djok-med-up",
@@ -154,6 +265,7 @@ export const LIVE_MATCHES: LiveMatch[] = [
       games: 0,
       points: "0",
       serving: false,
+      seed: 4,
     },
     playerB: {
       name: "D. Medvedev",
@@ -162,10 +274,21 @@ export const LIVE_MATCHES: LiveMatch[] = [
       games: 0,
       points: "0",
       serving: false,
+      seed: 3,
     },
     pressure: null,
-    note: "Night session · best of five",
+    note: "Night session · best of five — stamina arc ahead",
     start: "19:30 local",
+    setBeads: [],
+    pointTrail: [],
+    breakLens: ["Draw set — break narrative not yet written"],
+    staminaLens: [
+      "Best of five · physical narrative not yet written",
+      "Expect long holds before the first real stamina ask",
+      "Night session favors the player who manages the fifth",
+    ],
+    image: "/baseline/hero-court.webp",
+    imageAlt: "Empty centre court before night session",
   },
   {
     id: "ryba-sab-res",
@@ -182,6 +305,7 @@ export const LIVE_MATCHES: LiveMatch[] = [
       games: 0,
       points: "0",
       serving: false,
+      seed: 6,
     },
     playerB: {
       name: "E. Svitolina",
@@ -194,6 +318,15 @@ export const LIVE_MATCHES: LiveMatch[] = [
     pressure: null,
     note: "Rybakina won 6–3 · 6–4",
     setHistory: "6–3 · 6–4",
+    setBeads: [
+      { a: 6, b: 3 },
+      { a: 6, b: 4 },
+    ],
+    pointTrail: [],
+    breakLens: ["Two breaks sealed · no tie-break required", "Hold rate Rybakina 10/10"],
+    staminaLens: ["Straight sets — endurance never entered the chat"],
+    image: "/baseline/racket-ball.webp",
+    imageAlt: "Racket and ball between points",
   },
 ];
 
@@ -301,3 +434,16 @@ export function formatLabel(f: TennisFormat): string {
   return f === "BO5" ? "Best of 5" : "Best of 3";
 }
 
+export function serverOf(match: LiveMatch): PlayerScore | undefined {
+  if (match.playerA.serving) return match.playerA;
+  if (match.playerB.serving) return match.playerB;
+  return undefined;
+}
+
+/** Format lens secondary facts — same score, different story (vernacular §3b.2 / §3b.9). */
+export function lensFacts(match: LiveMatch, lens: FormatLens): { title: string; facts: string[] } {
+  if (lens === "BO5") {
+    return { title: "Set stamina", facts: match.staminaLens };
+  }
+  return { title: "Break pressure", facts: match.breakLens };
+}

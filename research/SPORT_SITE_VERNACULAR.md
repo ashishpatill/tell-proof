@@ -163,6 +163,38 @@ Specimen routes under `/baseline/*` — Core six:
 
 Lean `refined-story` · density `balanced` · motion `light-scroll-reveals` · color `light-airy` · type light-elegant · rounding soft · accent forest court `#2F5D50`.
 
+### 3b.9 Match theater objects (craft — not optional chrome)
+
+These are the tennis equivalents of cricket’s this-over trail. A site without them is a text page with photos.
+
+| Object | Job |
+|---|---|
+| **Nested spine table** | Sets \| games \| pts + server — layout-stable |
+| **Serve ownership** | “On serve” as a labeled state, not a 4px dot fans miss |
+| **Pressure band** | BREAK / SET / MATCH POINT as a first-class textual band above the fold |
+| **Set beads** | Completed (+ current) set games as a bead rail: `6–4 · 3–6 · 4–3*` |
+| **Point trail** | This-game sequence: `0-0 → 15-0 → … → 30-40` beads |
+| **Format lens** | BO3 emphasizes breaks/tie-break; BO5 reveals set-momentum + fifth-set framing |
+| **Surface atmosphere** | Clay / grass / hard changes paper, dust, and chalk temperature — not a sticker |
+| **Challenge pending** | Calm provisional strip; score still readable |
+
+### 3b.10 Steal / refuse (tennis)
+
+**Steal**
+
+- Sticky live rail under nav for second-screen glances
+- Format chips that change secondary facts (not just a label)
+- Set history as progressive disclosure from the live spine
+- Directory footer: Match / Compete / Read
+
+**Refuse**
+
+- Marketing hero that buries the nested spine during live play
+- Equal card grids of score + promo + fantasy
+- Color-only pressure (red dot without the words BREAK POINT)
+- One layout for best-of-3 and best-of-5
+- Surface treated as a pill badge instead of atmosphere
+
 ---
 
 ## 4. Design engine wiring
