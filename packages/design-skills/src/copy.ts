@@ -209,6 +209,8 @@ export function eyebrows(brief: DesignBrief): Record<string, string> {
                                 ? "Why the forme locks"
                                 : brief.siteKind === "lantern-path"
                                   ? "Why the path holds"
+                                : brief.siteKind === "care-pathway"
+                                  ? "Why the chart holds"
                                   : "Why the argument holds";
   return {
     metrics: "What changes",
@@ -235,6 +237,8 @@ export function eyebrows(brief: DesignBrief): Record<string, string> {
                         ? "The gather"
                         : brief.siteKind === "lantern-path"
                           ? "The ember walk"
+                        : brief.siteKind === "care-pathway"
+                          ? "The rounds"
                           : brief.siteKind === "editorial-foundry"
                             ? "The marginalia"
                             : brief.siteKind === "research-dossier"
@@ -533,6 +537,10 @@ export function pullQuote(brief: DesignBrief, features: FeatureSpec[]): { quote:
     "lantern-path": {
       quote: `${brief.productName} holds the walk because every waypoint is on the atlas — not a dark SaaS theme with glow.`,
       attribution: `Path plate · ${n} chapters · ember close`,
+    },
+    "care-pathway": {
+      quote: `${brief.productName} holds the chart because every handoff is on the pathway spine — not a SaaS deal board with stage chips.`,
+      attribution: `Care plate · ${n} rounds · chart close`,
     },
   };
   return (

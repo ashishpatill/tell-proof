@@ -140,6 +140,7 @@ export type FigureKind =
   | "specimen-plate"
   | "press-sheet"
   | "path-plate"
+  | "care-plate"
   | "pipeline-board"
   | "queue-console"
   | "posture-grid"
@@ -2017,6 +2018,181 @@ export function pathPlate(
 }
 
 /**
+ * Care plate — care-pathway signature figure.
+ *
+ * Horizontal clinical pathway spine on cool paper/ink: five stage nodes with dwell bars,
+ * handoff beads between stages, encounter callouts from feature titles. Dense ink on paper —
+ * not a night void like path-plate, not a SaaS pipeline board.
+ */
+export function carePlate(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:care-plate:${role}`);
+  const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
+  const H = role === "band" ? 860 : role === "column" ? 560 : 520;
+  const padX = role === "band" ? 40 : 24;
+  const padY = role === "band" ? 36 : 24;
+  const parts: string[] = [];
+
+  // Cool clinical paper field — filled matter, not night void.
+  parts.push(`<rect x="0" y="0" width="${W}" height="${H}" fill="var(--c-paper)"/>`);
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="color-mix(in srgb, var(--c-paper-raised, var(--c-paper)) 96%, var(--c-accent) 4%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  const headY = padY + 18;
+  parts.push(text("PATHWAY", padX + 14, headY, { size: FIG_MONO_PX, fill: "var(--c-ink-tertiary)", mono: true }));
+  parts.push(
+    text(clip(productName, 26), W / 2, headY, {
+      size: FIG_MONO_PX,
+      fill: "var(--c-ink-secondary)",
+      mono: true,
+      anchor: "middle",
+    }),
+  );
+  parts.push(
+    text("STAGES 01–05", W - padX - 14, headY, {
+      size: FIG_MONO_PX,
+      fill: "var(--c-ink-tertiary)",
+      mono: true,
+      anchor: "end",
+    }),
+  );
+
+  const stageNames = ["Intake", "Triage", "Treat", "Follow-up", "Discharge"];
+  const n = 5;
+  const spineY = H * 0.52;
+  const spineLeft = padX + 56;
+  const spineRight = W - padX - 56;
+  const dwellHeights = [28, 42, 56, 34, 22];
+
+  // Horizontal spine baseline.
+  parts.push(
+    `<line x1="${round(spineLeft)}" y1="${round(spineY)}" x2="${round(spineRight)}" y2="${round(spineY)}" stroke="${LINE}" stroke-width="1.5" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<line class="ds-draw" pathLength="1" x1="${round(spineLeft)}" y1="${round(spineY)}" x2="${round(spineRight)}" y2="${round(spineY)}" stroke="${ACCENT}" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.85"/>`,
+  );
+
+  const nodes: { x: number; title: string; num: string }[] = [];
+  for (let i = 0; i < n; i += 1) {
+    const t = i / (n - 1);
+    const x = spineLeft + t * (spineRight - spineLeft);
+    nodes.push({ x, title: stageNames[i]!, num: String(i + 1).padStart(2, "0") });
+  }
+
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i]!;
+    const dwell = dwellHeights[i] ?? 30;
+    // Dwell bar underneath — relative time at stage.
+    parts.push(
+      `<rect x="${round(node.x - 14)}" y="${round(spineY + 6)}" width="28" height="${dwell}" fill="color-mix(in srgb, ${ACCENT} 18%, transparent)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    // Filled stage disc on spine.
+    parts.push(`<circle cx="${round(node.x)}" cy="${round(spineY)}" r="8" fill="${ACCENT}" opacity="0.92"/>`);
+    parts.push(`<circle cx="${round(node.x)}" cy="${round(spineY)}" r="4" fill="var(--c-paper)"/>`);
+    parts.push(
+      text(node.num, node.x, spineY - 22, {
+        size: FIG_MONO_PX,
+        fill: "var(--c-accent)",
+        mono: true,
+        anchor: "middle",
+      }),
+    );
+    parts.push(
+      text(clip(node.title, 12), node.x, spineY + dwell + 22, {
+        size: FIG_MONO_PX,
+        fill: "var(--c-ink-secondary)",
+        mono: true,
+        anchor: "middle",
+      }),
+    );
+    // Handoff bead between stages.
+    if (i < nodes.length - 1) {
+      const next = nodes[i + 1]!;
+      const midX = (node.x + next.x) / 2;
+      parts.push(`<circle cx="${round(midX)}" cy="${round(spineY)}" r="3.5" fill="var(--c-ink-tertiary)" opacity="0.7"/>`);
+      parts.push(
+        text("◆", midX, spineY - 14, {
+          size: FIG_MONO_PX,
+          fill: "var(--c-accent)",
+          mono: true,
+          anchor: "middle",
+        }),
+      );
+    }
+  }
+
+  // Encounter callouts from feature titles — citeable matter.
+  const callouts = (features.length ? features : [{ title: "Encounter" } as Block]).slice(0, 4);
+  const calloutY = padY + 72;
+  callouts.forEach((f, i) => {
+    const cx = padX + 24 + i * ((W - padX * 2 - 48) / Math.max(1, callouts.length - 1 || 1));
+    const lx = i === callouts.length - 1 && callouts.length > 1 ? cx - 70 : cx;
+    parts.push(
+      `<rect x="${round(lx)}" y="${round(calloutY)}" width="140" height="36" fill="color-mix(in srgb, var(--c-accent-surface) 55%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      text(`ENC ${String(i + 1).padStart(2, "0")}`, lx + 8, calloutY + 13, {
+        size: FIG_MONO_PX,
+        fill: "var(--c-accent)",
+        mono: true,
+      }),
+    );
+    parts.push(
+      text(clip(f.title, 16), lx + 8, calloutY + 28, {
+        size: FIG_MONO_PX,
+        fill: "var(--c-ink-secondary)",
+        mono: true,
+      }),
+    );
+  });
+
+  // Clinical instrument strip along foot — clipboard, vial, cuff hints.
+  const footY = H - padY - 48;
+  parts.push(
+    text("NEAR PLANE · CLINICAL", padX + 14, H - padY + 2, {
+      size: FIG_MONO_PX,
+      fill: "var(--c-ink-tertiary)",
+      mono: true,
+    }),
+  );
+  // Clipboard silhouette
+  parts.push(
+    `<rect x="${round(padX + 28)}" y="${round(footY)}" width="52" height="64" rx="2" fill="color-mix(in srgb, var(--c-ink) 8%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<rect x="${round(padX + 36)}" y="${round(footY + 8)}" width="36" height="6" fill="${ACCENT}" opacity="0.35"/>`,
+  );
+  // Vial silhouette
+  const vialX = padX + 110 + r() * 20;
+  parts.push(
+    `<rect x="${round(vialX)}" y="${round(footY + 18)}" width="14" height="46" rx="4" fill="color-mix(in srgb, ${ACCENT} 22%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(`<rect x="${round(vialX - 2)}" y="${round(footY + 12)}" width="18" height="8" fill="var(--c-ink-tertiary)" opacity="0.5"/>`);
+  // Cuff silhouette
+  const cuffX = W - padX - 120;
+  parts.push(
+    `<ellipse cx="${round(cuffX)}" cy="${round(footY + 38)}" rx="34" ry="18" fill="none" stroke="${LINE}" stroke-width="2" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    `<rect x="${round(cuffX - 8)}" y="${round(footY + 28)}" width="16" height="20" fill="color-mix(in srgb, ${ACCENT} 15%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "care-plate",
+    label: `${productName} care pathway`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
  * Pipeline board — SaaS-marketing fold instrument.
  * Stage columns with deal nodes and a sticky-rail-friendly ordinal strip. Not interfacePlate.
  */
@@ -3019,6 +3195,7 @@ type Kind =
   | "specimen-plate"
   | "press-sheet"
   | "path-plate"
+  | "care-plate"
   | "pipeline-board"
   | "queue-console"
   | "posture-grid"
@@ -3066,6 +3243,8 @@ const ORDER: Record<string, Kind[]> = {
   "press-atelier": ["press-sheet", "flow", "stack", "horizon"],
   // Lantern path: night cartograph owns the fold; horizon keeps scroll rhythm.
   "lantern-path": ["path-plate", "horizon", "flow", "stack"],
+  // Care pathway: clinical pathway spine owns the fold; horizon keeps scroll rhythm.
+  "care-pathway": ["care-plate", "horizon", "flow", "stack"],
 };
 
 export function planFigures(input: {
@@ -3125,6 +3304,8 @@ export function planFigures(input: {
         return pressSheet(input.productName, input.features, seed, role);
       case "path-plate":
         return pathPlate(input.productName, input.features, seed, role);
+      case "care-plate":
+        return carePlate(input.productName, input.features, seed, role);
       case "pipeline-board":
         return pipelineBoard(input.productName, input.features, seed, role);
       case "queue-console":
@@ -3148,8 +3329,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["care-plate", "path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["care-plate", "path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -3192,6 +3373,8 @@ export function planFigures(input: {
               ? ("press-sheet" as Kind)
             : input.siteKind === "lantern-path"
               ? ("path-plate" as Kind)
+            : input.siteKind === "care-pathway"
+              ? ("care-plate" as Kind)
             : input.siteKind === "saas-marketing"
               ? ("pipeline-board" as Kind)
             : input.siteKind === "dashboard-webapp"

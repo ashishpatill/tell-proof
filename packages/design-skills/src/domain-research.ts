@@ -508,6 +508,70 @@ const GENERIC_PACKS: Record<string, DomainResearchPack> = {
       roundingDepth: "sharp",
     },
   }),
+  "care-pathway": DomainResearchPack.parse({
+    domainId: "care-pathway",
+    label: "Clinical care pathway chart",
+    siteKindHint: "care-pathway",
+    culturalThesis:
+      "Clinical pathways are walked stage-by-stage with handoffs — not SaaS deal pipelines or night-walk chapters.",
+    multiPageRoutes: [
+      {
+        id: "home",
+        path: "/",
+        routeClass: "home",
+        purpose: "Care plate fold + rounds entry",
+        captureTargets: ["hero", "mid", "footer"],
+      },
+      {
+        id: "round",
+        path: "/round",
+        routeClass: "detail",
+        purpose: "Single encounter reading",
+        captureTargets: ["hero", "mid"],
+      },
+    ],
+    shellContract: {
+      stickyRegions: ["header", "care-rail"],
+      primaryNavMaxItems: 4,
+      mobileNavPattern: "drawer",
+      footerDepth: "minimal",
+    },
+    navInventory: [
+      { id: "pathway", label: "Pathway", routeClass: "home", priority: "primary" },
+      { id: "rounds", label: "Rounds", routeClass: "detail", priority: "primary" },
+    ],
+    footerInventory: [
+      { id: "chart", title: "Chart", links: ["Care plate", "Rounds"] },
+    ],
+    controlTaxonomy: [
+      {
+        id: "stage",
+        role: "Care stage on pathway rail",
+        states: ["default", "hover", "focus-visible", "active"],
+      },
+    ],
+    variantLenses: [
+      { id: "ward", label: "Ward shift", changesFacts: ["intake", "triage", "discharge"] },
+    ],
+    categoryGaps: [
+      "Essay+aside mid-page clone of other craft templates",
+      "SaaS pipeline stage chips without clinical grammar",
+      "Inverse proof board on a paper care chart",
+    ],
+    uxRules: [
+      "Care plate owns the fold",
+      "Encounters ladder on a vertical spine",
+      "Clinical near-plane enters the first viewport",
+    ],
+    tasteSeed: {
+      aestheticLean: "refined-story",
+      density: "sparse",
+      motion: "light-scroll-reveals",
+      colorMood: "light-airy",
+      typographyWeight: "light-elegant",
+      roundingDepth: "sharp",
+    },
+  }),
   "commerce-loom": DomainResearchPack.parse({
     domainId: "commerce-loom",
     label: "Merchandising loom press",

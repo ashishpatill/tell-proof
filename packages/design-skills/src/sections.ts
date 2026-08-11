@@ -152,13 +152,14 @@ export function buildSections(
         const isField = brief.siteKind === "field-guide";
         const isPress = brief.siteKind === "press-atelier";
         const isLantern = brief.siteKind === "lantern-path";
+        const isClinic = brief.siteKind === "care-pathway";
         const isPipeline = brief.siteKind === "saas-marketing";
         const isQueue = brief.siteKind === "dashboard-webapp";
         const isDiligence = brief.siteKind === "corporate-story";
         const isMechanism = brief.siteKind === "docs-educational";
         const isWire = brief.siteKind === "fintech-marketing";
         const craftFold =
-          isDossier || isObservatory || isArchive || isLoom || isField || isPress || isLantern
+          isDossier || isObservatory || isArchive || isLoom || isField || isPress || isLantern || isClinic
           || isPipeline || isQueue || isDiligence || isMechanism || isWire;
         sections.push(
           SectionSpec.parse({
@@ -242,6 +243,7 @@ export function buildSections(
         const isField = brief.siteKind === "field-guide";
         const isPress = brief.siteKind === "press-atelier";
         const isLantern = brief.siteKind === "lantern-path";
+        const isClinic = brief.siteKind === "care-pathway";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -266,6 +268,8 @@ export function buildSections(
                             ? "Also on the forme"
                           : isLantern
                             ? "Also on the path"
+                          : isClinic
+                            ? "Also on the chart"
                     : "Also included"
               : isStudio
                 ? "Selected work"
@@ -287,6 +291,8 @@ export function buildSections(
                             ? "The plates"
                           : isLantern
                             ? "The chapters"
+                          : isClinic
+                            ? "The rounds"
                     : eyebrow.features,
             title: isSecond
               ? isStudio
@@ -309,6 +315,8 @@ export function buildSections(
                           ? sentence(`The quieter plates that keep a forme honest`)
                         : isLantern
                           ? sentence(`The quieter waypoints that keep a walk honest`)
+                        : isClinic
+                          ? sentence(`The quieter handoffs that keep a pathway honest`)
                   : sentence(`The rest of what ships with ${brief.productName}`)
               : isStudio
                 ? sentence(`Work that still holds after the launch week`)
@@ -328,6 +336,8 @@ export function buildSections(
                             ? sentence(`Traits a field voucher actually keeps`)
                         : isLantern
                           ? sentence(`Chapters a night walk actually keeps`)
+                        : isClinic
+                          ? sentence(`Stages a care pathway actually keeps`)
                   : featuresTitle(brief, features),
             body: isSecond
               ? isStudio
@@ -350,6 +360,8 @@ export function buildSections(
                           ? sentence(`Gather ticks, densitometer marks, and the rails that stop a forme from inventing registration`)
                         : isLantern
                           ? sentence(`Waypoint beads, silhouette handoffs, and the rails that stop a walk from inventing atmosphere`)
+                        : isClinic
+                          ? sentence(`Handoff beads, encounter metas, and the rails that stop a pathway from inventing theatre`)
                   : sentence(`Smaller surface area, same standard — these remove the objections that stall a rollout`)
               : isStudio
                 ? sentence(`Each engagement is a composed surface — identity, product, and motion under one grid`)
@@ -371,6 +383,8 @@ export function buildSections(
                           ? sentence(`Each plate is a numbered signature — not a gallery dressed as a pressroom`)
                         : isLantern
                           ? sentence(`Each chapter is a lantern waypoint — not a dark glow page dressed as cinema`)
+                        : isClinic
+                          ? sentence(`Each stage is a chart waypoint — not a SaaS pipeline dressed as care`)
                   : featuresLede(brief, features),
             blocks: slice,
           }),
@@ -406,6 +420,8 @@ export function buildSections(
                   ? sentence(`${brief.productName} forme field`)
                 : brief.siteKind === "lantern-path"
                   ? sentence(`${brief.productName} path field`)
+                : brief.siteKind === "care-pathway"
+                  ? sentence(`${brief.productName} chart field`)
                 // Dashboard specimen is the quiet valley before the shell — short mark, not a claim.
                 : brief.siteKind === "dashboard-webapp"
                   ? brief.productName.split(/\s+/)[0] ?? brief.productName
@@ -426,6 +442,7 @@ export function buildSections(
         const isField = brief.siteKind === "field-guide";
         const isPress = brief.siteKind === "press-atelier";
         const isLantern = brief.siteKind === "lantern-path";
+        const isClinic = brief.siteKind === "care-pathway";
         sections.push(
           SectionSpec.parse({
             ...base,
@@ -445,6 +462,8 @@ export function buildSections(
                       ? "Forme legend"
                     : isLantern
                       ? "Waypoint legend"
+                    : isClinic
+                      ? "Stage legend"
                   : eyebrow.figure,
             title: isFoundry
               ? sentence(`How ${brief.productName} changes with size`)
@@ -462,6 +481,8 @@ export function buildSections(
                       ? sentence(`How ${brief.productName} locks a forme`)
                     : isLantern
                       ? sentence(`How ${brief.productName} maps a night walk`)
+                    : isClinic
+                      ? sentence(`How ${brief.productName} maps a care pathway`)
               : sentence(`${focal?.name ?? brief.productName}, step by step`),
             body: isFoundry
               ? sentence(`The same face at display, title, deck, text, and caption — drawn, not described`)
@@ -479,6 +500,8 @@ export function buildSections(
                       ? sentence(`Signatures, crop marks, and densitometer patches — the forme drawn rather than claimed`)
                     : isLantern
                       ? sentence(`Elevation, lanterns, and silhouette matter — the atlas drawn rather than claimed`)
+                    : isClinic
+                      ? sentence(`Stage nodes, dwell bars, and handoff beads — the chart drawn rather than claimed`)
               : sentence(
                   `The path work takes through ${brief.productName}, drawn rather than described`,
                 ),
@@ -508,6 +531,8 @@ export function buildSections(
                       ? sentence(`Read the signatures that mark each plate on the forme`)
                     : isLantern
                       ? sentence(`Read the lanterns that mark each chapter on the atlas`)
+                    : isClinic
+                      ? sentence(`Read the stages that mark each encounter on the chart`)
               : sentence(
                   `Drag to step through how ${brief.productName} moves work from ${
                     features[0]?.name.toLowerCase() ?? "input"
@@ -543,6 +568,8 @@ export function buildSections(
                           ? "Gather notes"
                         : brief.siteKind === "lantern-path"
                           ? "Ember notes"
+                        : brief.siteKind === "care-pathway"
+                          ? "Round notes"
                   : eyebrow.story,
             title:
               brief.siteKind === "art-directed-studio"
@@ -565,6 +592,8 @@ export function buildSections(
                           ? sentence(`How a signature is actually gathered`)
                         : brief.siteKind === "lantern-path"
                           ? sentence(`How a night walk is actually read`)
+                        : brief.siteKind === "care-pathway"
+                          ? sentence(`How a care pathway is actually walked`)
                   : brief.siteKind === "saas-marketing"
                     ? sentence(`How ${brief.productName} moves an account`)
                     : brief.siteKind === "dashboard-webapp"
@@ -597,6 +626,8 @@ export function buildSections(
                           ? sentence(`Fold ticks, plate index, and the gathers that keep a forme honest`)
                         : brief.siteKind === "lantern-path"
                           ? sentence(`Lantern beads, chapter index, and the embers that keep a walk honest`)
+                        : brief.siteKind === "care-pathway"
+                          ? sentence(`Handoff beads, encounter index, and the rounds that keep a pathway honest`)
                   : brief.siteKind === "saas-marketing"
                     ? sentence(`From first signal to booked walkthrough — the path revenue leaders actually take`)
                     : brief.siteKind === "dashboard-webapp"
@@ -613,6 +644,8 @@ export function buildSections(
                 title:
                   brief.siteKind === "lantern-path"
                     ? ["Threshold", "Gardens", "Craft", "Rituals", "Afterlight", "Ember"][i] ?? c.title
+                    : brief.siteKind === "care-pathway"
+                      ? ["Intake", "Triage", "Treat", "Follow-up", "Discharge", "Chart"][i] ?? c.title
                     : c.title,
                 body: c.body,
                 meta: brief.siteKind === "signal-observatory"
@@ -627,9 +660,11 @@ export function buildSections(
                           ? `Sig ${"ABCDEFGH"[i] ?? String(i + 1)}`
                         : brief.siteKind === "lantern-path"
                           ? `Ch ${["I","II","III","IV","V","VI"][i] ?? String(i + 1)}`
+                        : brief.siteKind === "care-pathway"
+                          ? `Enc ${String(i + 1).padStart(2, "0")}`
                   : c.meta,
                 kicker:
-                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier" || brief.siteKind === "signal-observatory" || brief.siteKind === "archive-index" || brief.siteKind === "commerce-loom" || brief.siteKind === "field-guide" || brief.siteKind === "press-atelier" || brief.siteKind === "lantern-path"
+                  brief.siteKind === "editorial-foundry" || brief.siteKind === "research-dossier" || brief.siteKind === "signal-observatory" || brief.siteKind === "archive-index" || brief.siteKind === "commerce-loom" || brief.siteKind === "field-guide" || brief.siteKind === "press-atelier" || brief.siteKind === "lantern-path" || brief.siteKind === "care-pathway"
                     ? `Note ${String(i + 1).padStart(2, "0")}`
                     : undefined,
               }),
@@ -714,6 +749,8 @@ export function buildSections(
                                       ? sentence(`Why ${brief.productName} locks the forme`)
                                       : brief.siteKind === "lantern-path"
                                         ? sentence(`Why ${brief.productName} holds the walk`)
+                                      : brief.siteKind === "care-pathway"
+                                        ? sentence(`Why ${brief.productName} holds the chart`)
                                         : sentence(`Why ${brief.productName} states only what it ships`);
         sections.push(
           SectionSpec.parse({
@@ -804,6 +841,8 @@ export function buildSections(
                         ? "Pressroom"
                       : brief.siteKind === "lantern-path"
                         ? "Ember"
+                      : brief.siteKind === "care-pathway"
+                        ? "Chart"
                   : eyebrow.cta,
             title: sentence(
               brief.siteKind === "editorial-foundry"
@@ -822,6 +861,8 @@ export function buildSections(
                         ? `Lock a forme on ${brief.productName}`
                       : brief.siteKind === "lantern-path"
                         ? `Walk the next ${brief.productName} chapter`
+                      : brief.siteKind === "care-pathway"
+                        ? `Walk the next ${brief.productName} round`
                 : brief.businessGoal === "trust"
                   ? `See it against your own material`
                   : `Put ${brief.productName} in front of your ${brief.audience.split(" ").slice(-1)[0] ?? "team"}`,
@@ -845,6 +886,8 @@ export function buildSections(
                         ? `Plate numbers, densitometer marks, and the formes ${brief.audience} actually run`
                       : brief.siteKind === "lantern-path"
                         ? `Waypoint marks, path plates, and the chapters ${brief.audience} actually walk`
+                      : brief.siteKind === "care-pathway"
+                        ? `Stage marks, care plates, and the rounds ${brief.audience} actually chart`
                 : `${count(features.length)[0]!.toUpperCase()}${count(features.length).slice(1)} capabilities, one conversation`,
             ),
             ctaLabel: cta.primary,

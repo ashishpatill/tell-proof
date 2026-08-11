@@ -422,6 +422,18 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
   [data-sitekind="lantern-path"] .ds-path-near .ds-sil{transition:opacity 480ms var(--m-ease-out),transform 480ms var(--m-ease-out)}
 }
 `,
+    "care-pathway": `
+@keyframes ds-care-in{from{opacity:0;transform:translateY(1.4rem) scale(0.99)}to{opacity:1;transform:none}}
+[data-sitekind="care-pathway"]{--m-stagger:48ms;--m-entrance:520ms;--m-reveal:440ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="care-pathway"] .ds-enter,
+  [data-sitekind="care-pathway"] .ds-reveal,
+  [data-sitekind="care-pathway"] .ds-reveal .ds-stagger > *{animation-name:ds-care-in}
+  [data-sitekind="care-pathway"] .ds-reveal:not(.is-in){transform:translateY(1.4rem) scale(0.99)}
+  [data-sitekind="care-pathway"] .ds-care-mark.is-active{transform:translateX(4px)}
+  [data-sitekind="care-pathway"] .ds-care-near .ds-chart-clip{transition:opacity 420ms var(--m-ease-out),transform 420ms var(--m-ease-out)}
+}
+`,
   };
 
   return table[siteKind] ?? "";
@@ -570,6 +582,9 @@ function siteKindCss(): string {
 [data-sitekind="lantern-path"] .ds-hero-path .ds-cta-note,
 [data-sitekind="lantern-path"] .ds-hero-path .ds-actions .ds-btn-ghost,
 [data-sitekind="lantern-path"] .ds-hero-path .ds-actions .ds-btn-secondary{display:none}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-cta-note,
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions .ds-btn-ghost,
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions .ds-btn-secondary{display:none}
 
 /* Fintech: inverse specimen is a stage; product drawing sits on a lit paper plate (readable contrast). */
 [data-sitekind="fintech-marketing"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
@@ -1206,6 +1221,116 @@ body[data-sitekind="lantern-path"]{
   [data-sitekind="lantern-path"] .ds-section-head,
   [data-sitekind="lantern-path"] .ds-ember-trail{padding-left:0;margin-left:0}
 }
+/* Care pathway — stage rail, care plate fold, clinical near-plane, rounds ladder, Chart. */
+[data-sitekind="care-pathway"]{
+  --care-rail:3.5rem;
+  --craft-rail:var(--care-rail);
+}
+body[data-sitekind="care-pathway"]{
+  background-image:
+    linear-gradient(90deg,color-mix(in srgb,var(--c-border) 35%,transparent) 0,transparent 1px),
+    linear-gradient(90deg,transparent 0,transparent var(--care-rail),color-mix(in srgb,var(--c-accent) 18%,transparent) var(--care-rail),transparent calc(var(--care-rail) + 1px));
+  background-size:100% 100%;
+  background-attachment:fixed;
+}
+[data-sitekind="care-pathway"] .ds-brand-mark{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-display{
+  font-size:clamp(2.45rem,3.2vw,3.0rem);
+  letter-spacing:-0.03em;max-width:16ch;line-height:1.05;
+}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-lede{display:none}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-eyebrow{display:none}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-brand-mark{
+  margin:0 0 0.1rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-cta-note{display:none}
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions .ds-btn-ghost,
+[data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions .ds-btn-secondary{display:none}
+[data-sitekind="care-pathway"] .ds-rounds-enc,
+[data-sitekind="care-pathway"] .ds-rounds-bead,
+[data-sitekind="care-pathway"] .ds-care-mark,
+[data-sitekind="care-pathway"] .ds-care-masthead{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;line-height:1.2;
+  opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
+}
+[data-sitekind="care-pathway"] .ds-care-claim{
+  padding:var(--s-md) 0 var(--s-lg);
+  padding-left:var(--care-rail);
+  position:relative;z-index:2;
+  background:var(--c-paper);
+}
+[data-sitekind="care-pathway"] .ds-care-claim .ds-actions{margin-top:0.2rem}
+[data-sitekind="care-pathway"] .ds-care-claim .ds-actions .ds-btn{padding:0.45rem 0.95rem}
+[data-sitekind="care-pathway"] .ds-care-claim .ds-hero-chips,
+[data-sitekind="care-pathway"] .ds-care-claim .ds-capability-list,
+[data-sitekind="care-pathway"] .ds-care-claim .ds-hero-aside,
+[data-sitekind="care-pathway"] .ds-care-claim .ds-hero-facts{display:none}
+[data-sitekind="care-pathway"] .ds-care-field{
+  margin-top:0;position:relative;z-index:1;
+  padding-left:0;
+}
+[data-sitekind="care-pathway"] .ds-care-plate .ds-fig{min-height:min(92vh,960px)}
+[data-sitekind="care-pathway"] .ds-hero-rounds{min-height:min(100vh,920px)}
+[data-sitekind="care-pathway"] .ds-care-masthead{
+  padding-top:calc(var(--nav-h,4.5rem) + var(--s-md));
+  padding-bottom:var(--s-sm);
+  color:var(--c-ink-tertiary);
+}
+[data-sitekind="care-pathway"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="care-pathway"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
+[data-sitekind="care-pathway"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
+[data-sitekind="care-pathway"] .ds-section-head,
+[data-sitekind="care-pathway"] .ds-index-row,
+[data-sitekind="care-pathway"] .ds-rounds-ladder,
+[data-sitekind="care-pathway"] .ds-chapter{padding-left:0;margin-left:var(--care-rail)}
+[data-sitekind="care-pathway"] .ds-closing-colophon{
+  border-top:1px solid var(--c-border);padding-top:var(--s-xl);
+}
+[data-sitekind="care-pathway"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
+[data-sitekind="care-pathway"] .ds-closing-colophon .ds-eyebrow{letter-spacing:0.14em}
+[data-sitekind="care-pathway"] .ds-specimen{margin-bottom:calc(var(--s-xl) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="care-pathway"] .ds-specimen + .ds-section{padding-top:calc(var(--section-y) + var(--s-lg))}
+[data-sitekind="care-pathway"] .ds-proof-figure{margin-top:calc(var(--s-md) * -1);position:relative;z-index:var(--z-raised)}
+[data-sitekind="care-pathway"] .ds-proof-figure,
+[data-sitekind="care-pathway"] .ds-plate-fold,
+[data-sitekind="care-pathway"] .ds-plate-lit,
+[data-sitekind="care-pathway"] .ds-btn{box-shadow:none!important}
+[data-sitekind="care-pathway"] .ds-proof-cell.is-lead,
+[data-sitekind="care-pathway"] .ds-proof-cell:first-child{box-shadow:inset 0 1px 0 var(--c-accent)}
+[data-sitekind="care-pathway"] .ds-care-near{
+  position:absolute;left:var(--care-rail);right:0;bottom:0;height:min(22vh,180px);
+  pointer-events:none;z-index:2;overflow:hidden;
+}
+[data-sitekind="care-pathway"] .ds-chart-clip{
+  position:absolute;bottom:0;display:block;
+  background:color-mix(in srgb,var(--c-accent) 28%,var(--c-ink) 72%);
+  opacity:0.45;transition:opacity 0.5s ease, transform 0.6s ease;
+}
+[data-sitekind="care-pathway"] .ds-chart-clipboard{
+  left:4%;width:64px;height:96px;
+  clip-path:polygon(0 100%,0 8%,12% 0,88% 0,100% 8%,100% 100%,72% 100%,72% 42%,28% 42%,28% 100%);
+}
+[data-sitekind="care-pathway"] .ds-chart-vial{
+  left:38%;width:28px;height:110px;
+  clip-path:polygon(22% 0,78% 0,78% 12%,88% 12%,88% 100%,12% 100%,12% 12%,22% 12%);
+}
+[data-sitekind="care-pathway"] .ds-chart-cuff{
+  right:8%;width:88px;height:48px;
+  clip-path:ellipse(50% 42% at 50% 50%);
+}
+@media (prefers-reduced-motion:reduce){
+  [data-sitekind="care-pathway"] .ds-chart-clip{transition:none}
+}
+@media (max-width:800px){
+  [data-sitekind="care-pathway"]{--care-rail:0px}
+  [data-sitekind="care-pathway"] .ds-care-rail{display:none}
+  [data-sitekind="care-pathway"] .ds-care-claim,
+  [data-sitekind="care-pathway"] .ds-care-field,
+  [data-sitekind="care-pathway"] .ds-section-head,
+  [data-sitekind="care-pathway"] .ds-rounds-ladder{padding-left:0;margin-left:0}
+}
 [data-sitekind="press-atelier"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="press-atelier"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
 [data-sitekind="press-atelier"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
@@ -1559,6 +1684,7 @@ ${surfaceRules()}
 /* Left craft rails (sig / way / alpha / chrono) — bleeds and plates must clear the rail column. */
 [data-sitekind="press-atelier"] .ds-bleed,
 [data-sitekind="lantern-path"] .ds-bleed,
+[data-sitekind="care-pathway"] .ds-bleed,
 [data-sitekind="archive-index"] .ds-bleed,
 [data-sitekind="signal-observatory"] .ds-bleed{
   width:calc(100vw - var(--craft-rail,0px));
@@ -1568,6 +1694,7 @@ ${surfaceRules()}
 }
 [data-sitekind="press-atelier"] .ds-plate-bleed .ds-fig,
 [data-sitekind="lantern-path"] .ds-plate-bleed .ds-fig,
+[data-sitekind="care-pathway"] .ds-plate-bleed .ds-fig,
 [data-sitekind="archive-index"] .ds-plate-bleed .ds-fig,
 [data-sitekind="signal-observatory"] .ds-plate-bleed .ds-fig{
   width:calc(100vw - var(--craft-rail,0px));
@@ -1575,6 +1702,7 @@ ${surfaceRules()}
 }
 [data-sitekind="press-atelier"] .ds-flow-track,
 [data-sitekind="lantern-path"] .ds-flow-track,
+[data-sitekind="care-pathway"] .ds-flow-track,
 [data-sitekind="archive-index"] .ds-flow-track,
 [data-sitekind="signal-observatory"] .ds-flow-track{
   padding-inline:var(--gutter);
@@ -2750,6 +2878,90 @@ ${surfaceRules()}
   .ds-ember-step[data-side="left"] .ds-ember-panel h3,
   .ds-ember-step[data-side="left"] .ds-ember-mark{margin-left:0}
 }
+
+/* Rounds fold + care rail (care pathway). */
+.ds-hero-rounds{
+  position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
+  display:flex;flex-direction:column;
+}
+.ds-care-masthead{
+  display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
+  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding-left:calc(var(--gutter) + var(--care-rail,3.5rem));
+  border-bottom:1px solid var(--c-border);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+.ds-care-mark-product{margin-left:auto;color:var(--c-ink-secondary);letter-spacing:0.18em}
+.ds-care-claim{
+  padding:var(--s-sm) 0 var(--s-xs,0.35rem);
+  padding-left:var(--care-rail,3.5rem);
+}
+.ds-care-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
+.ds-care-field{margin-top:0;position:relative}
+.ds-care-plate{margin:0;width:100%;display:block}
+.ds-care-plate .ds-fig{width:100%;min-height:min(80vh,840px);display:block}
+.ds-care-rail{
+  position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
+  width:var(--care-rail,3.5rem);z-index:var(--z-nav);pointer-events:none;
+  display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
+}
+.ds-care-rail ol{
+  list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;
+  justify-content:space-between;align-items:center;pointer-events:auto;width:100%;
+}
+.ds-care-mark{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;
+  text-decoration:none;min-width:40px;min-height:44px;line-height:1.1;text-align:center;
+  color:var(--c-ink-tertiary);padding:0.2rem;
+}
+.ds-care-mark:hover,.ds-care-mark:focus-visible{color:var(--c-accent);outline:2px solid var(--c-accent);outline-offset:2px}
+.ds-care-mark.is-active{color:var(--c-accent)}
+.ds-care-num{writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:0.08em}
+.ds-care-label{display:none}
+.ds-care-near{position:absolute;inset:auto 0 0 0;height:140px;pointer-events:none;overflow:hidden}
+.ds-chart-clip{position:absolute;bottom:0;background:var(--c-accent);opacity:0.35}
+
+/* Rounds ladder — vertical encounter spine (care pathway). */
+.ds-rounds{padding-block:var(--section-y)}
+.ds-rounds-ladder{
+  list-style:none;margin:var(--s-xl) 0 0;padding:0 0 0 2.5rem;position:relative;
+  display:flex;flex-direction:column;gap:var(--s-xl);
+}
+.ds-rounds-ladder::before{
+  content:"";position:absolute;left:0.85rem;top:0.4rem;bottom:0.4rem;width:1px;
+  background:linear-gradient(180deg,var(--c-accent),var(--c-border));
+}
+.ds-rounds-step{position:relative;display:block}
+.ds-rounds-bead{
+  position:absolute;left:-2.5rem;top:0.45rem;width:0.85rem;height:0.85rem;border-radius:50%;
+  background:var(--c-accent);border:2px solid var(--c-paper);z-index:2;
+  box-shadow:0 0 0 1px var(--c-accent);
+}
+.ds-rounds-panel{
+  max-width:36rem;padding:var(--s-md) var(--s-lg);border:1px solid var(--c-border);
+  background:color-mix(in srgb,var(--c-paper) 94%,var(--c-accent-surface));
+}
+.ds-rounds-enc{
+  margin:0 0 0.2rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-accent);
+}
+.ds-rounds-stage{
+  margin:0 0 0.15rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+.ds-rounds-panel h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15;max-width:20ch}
+.ds-rounds-note{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);margin:var(--s-sm) 0 0;position:relative;z-index:1;
+}
+.ds-rounds-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+.ds-rounds-note + .ds-rounds-mark{margin-top:var(--s-lg)}
+@media (max-width:800px){
+  .ds-rounds-ladder{padding-left:2rem}
+  .ds-rounds-bead{left:-1.65rem}
+  .ds-rounds-panel{max-width:none}
+}
+
 .ds-marginalia-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}
 .ds-marginalia-essay{display:flex;flex-direction:column;gap:var(--s-xl);max-width:42rem}
 .ds-marginalia-beat{position:relative}
