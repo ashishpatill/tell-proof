@@ -265,9 +265,55 @@ main,
   font-size: 0.92rem;
 }
 
+.bl-live-chip-teams .is-serving {
+  color: var(--bl-court-deep);
+}
+
+.bl-live-chip-serve {
+  color: var(--bl-court);
+  font-size: 0.65rem;
+  vertical-align: super;
+}
+
 .bl-live-chip-score {
   font-size: 0.78rem;
   color: var(--bl-muted);
+}
+
+.bl-live-chip-chal {
+  justify-self: start;
+  margin-top: 0.1rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.2rem;
+  border: 1px solid rgba(196, 120, 90, 0.55);
+  color: #9a3412;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.bl-live-chip[data-surface="clay"] {
+  background: linear-gradient(160deg, rgba(196, 120, 90, 0.12), rgba(255, 255, 255, 0.7));
+}
+
+.bl-live-chip[data-surface="grass"] {
+  background: linear-gradient(160deg, rgba(74, 124, 68, 0.12), rgba(255, 255, 255, 0.7));
+}
+
+.bl-live-chip[data-surface="hard"] {
+  background: linear-gradient(160deg, rgba(47, 93, 80, 0.1), rgba(255, 255, 255, 0.7));
+}
+
+.bl-match-row.is-lens-dim {
+  opacity: 0.55;
+}
+
+.bl-score .bl-col-tb {
+  width: 3rem;
+}
+
+.bl-score[data-tb="1"] thead th.is-live-set {
+  color: var(--bl-clay);
 }
 
 .bl-pill {

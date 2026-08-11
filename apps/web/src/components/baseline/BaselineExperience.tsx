@@ -47,16 +47,19 @@ function beadLabel(bead: SetBead): string {
   return `${bead.a}–${bead.b}`;
 }
 
-/** Nested spine: per-set columns when beads exist, else sets|games|pts. */
+/** Nested spine: per-set columns when beads exist, else sets|games|pts.
+ *  Live tie-break replaces G/Pts with a single TB column (vernacular §3b.9). */
 function NestedScore({ match }: { match: LiveMatch }) {
   const rows = [match.playerA, match.playerB] as const;
   const beads = match.setBeads;
   const useSetCols = beads.length > 0;
+  const liveTb = beads.some((b) => b.current && b.tiebreak);
 
   return (
-    <table className="bl-score" data-spine>
+    <table className="bl-score" data-spine data-tb={liveTb ? "1" : undefined}>
       <caption className="sr-only">
         Nested score — sets, games, and points
+        {liveTb ? ", tie-break in progress" : ""}
         {match.playerA.serving
           ? `, ${match.playerA.name} on serve`
           : match.playerB.serving
@@ -71,8 +74,14 @@ function NestedScore({ match }: { match: LiveMatch }) {
             ))
           : null}
         {!useSetCols ? <col className="bl-col-sets" /> : null}
-        <col className="bl-col-games" />
-        <col className="bl-col-pts" />
+        {liveTb ? (
+          <col className="bl-col-tb" />
+        ) : (
+          <>
+            <col className="bl-col-games" />
+            <col className="bl-col-pts" />
+          </>
+        )}
       </colgroup>
       <thead>
         <tr>
@@ -93,8 +102,16 @@ function NestedScore({ match }: { match: LiveMatch }) {
             : (
               <th scope="col">Sets</th>
             )}
-          <th scope="col">G</th>
-          <th scope="col">Pts</th>
+          {liveTb ? (
+            <th scope="col" className="is-live-set">
+              TB
+            </th>
+          ) : (
+            <>
+              <th scope="col">G</th>
+              <th scope="col">Pts</th>
+            </>
+          )}
         </tr>
       </thead>
       <tbody>
@@ -132,8 +149,14 @@ function NestedScore({ match }: { match: LiveMatch }) {
               : (
                 <td className="bl-mono">{match.status === "upcoming" ? "—" : p.setsWon}</td>
               )}
-            <td className="bl-mono">{match.status === "upcoming" ? "—" : p.games}</td>
-            <td className="bl-mono">{match.status === "upcoming" ? "—" : p.points}</td>
+            {liveTb ? (
+              <td className="bl-mono is-live-set">{p.points}</td>
+            ) : (
+              <>
+                <td className="bl-mono">{match.status === "upcoming" ? "—" : p.games}</td>
+                <td className="bl-mono">{match.status === "upcoming" ? "—" : p.points}</td>
+              </>
+            )}
           </tr>
         ))}
       </tbody>
@@ -160,11 +183,11 @@ function SetBeadRail({ match }: { match: LiveMatch }) {
   );
 }
 
-function PointTrail({ trail }: { trail: string[] }) {
+function PointTrail({ trail, liveTb }: { trail: string[]; liveTb?: boolean }) {
   if (!trail.length) return null;
   return (
-    <div className="bl-point-trail" aria-label="Current game point trail">
-      <span className="bl-point-trail__label">This game</span>
+    <div className="bl-point-trail" aria-label={liveTb ? "Tie-break point trail" : "Current game point trail"}>
+      <span className="bl-point-trail__label">{liveTb ? "This tie-break" : "This game"}</span>
       <ol className="bl-point-trail__list">
         {trail.map((pt, i) => (
           <li
@@ -206,11 +229,13 @@ function CourtTheater({
 }) {
   const surface = SURFACE_ATMOSPHERE[match.surface];
   const formatGroupId = useId();
+  const liveTb = match.setBeads.some((b) => b.current && b.tiebreak);
 
   return (
     <div
       className={`bl-theater${compact ? " bl-theater--compact" : ""}`}
       data-surface={match.surface}
+      data-tb={liveTb ? "1" : undefined}
       style={
         {
           "--bl-surface-wash": surface.wash,
@@ -276,7 +301,7 @@ function CourtTheater({
         </p>
       ) : null}
 
-      <PointTrail trail={match.pointTrail} />
+      <PointTrail trail={match.pointTrail} liveTb={liveTb} />
       <FormatLensRail match={match} lens={lens} />
     </div>
   );
@@ -284,6 +309,7 @@ function CourtTheater({
 
 function SituationBlock({ match, lens }: { match: LiveMatch; lens?: FormatLens }) {
   const activeLens = lens ?? match.format;
+  const liveTb = match.setBeads.some((b) => b.current && b.tiebreak);
   return (
     <div className="bl-situation">
       <SetBeadRail match={match} />
@@ -298,7 +324,7 @@ function SituationBlock({ match, lens }: { match: LiveMatch; lens?: FormatLens }
           Challenge pending — score provisional
         </p>
       ) : null}
-      <PointTrail trail={match.pointTrail} />
+      <PointTrail trail={match.pointTrail} liveTb={liveTb} />
       <FormatLensRail match={match} lens={activeLens} />
     </div>
   );
@@ -374,13 +400,22 @@ function RankTable({ rows }: { rows: RankingRow[] }) {
 }
 
 function MatchList({ lens }: { lens?: FormatLens }) {
+  const ordered = [...LIVE_MATCHES].sort((a, b) => {
+    if (!lens) return 0;
+    const aMatch = a.format === lens ? 0 : 1;
+    const bMatch = b.format === lens ? 0 : 1;
+    if (aMatch !== bMatch) return aMatch - bMatch;
+    const statusRank = (s: LiveMatch["status"]) => (s === "live" ? 0 : s === "upcoming" ? 1 : 2);
+    return statusRank(a.status) - statusRank(b.status);
+  });
+
   return (
     <ul className="bl-match-list">
-      {LIVE_MATCHES.map((m, i) => (
+      {ordered.map((m, i) => (
         <li
           key={m.id}
           id={`match-${m.id}`}
-          className="bl-match-row"
+          className={`bl-match-row${lens && m.format !== lens ? " is-lens-dim" : ""}`}
           data-reveal
           data-surface={m.surface}
           style={{ transitionDelay: `${Math.min(i, 4) * 40}ms` }}

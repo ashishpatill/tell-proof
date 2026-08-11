@@ -32,7 +32,19 @@ function chipScore(m: LiveMatch): string {
   if (m.status === "result") {
     return `${m.playerA.setsWon}–${m.playerB.setsWon}`;
   }
-  return `${m.playerA.games}-${m.playerB.games} · ${m.playerA.points}-${m.playerB.points}`;
+  const sets = `${m.playerA.setsWon}–${m.playerB.setsWon}`;
+  const liveTb = m.setBeads.some((b) => b.current && b.tiebreak);
+  if (liveTb) {
+    return `${sets} · TB ${m.playerA.points}–${m.playerB.points}`;
+  }
+  return `${sets} · ${m.playerA.games}-${m.playerB.games} · ${m.playerA.points}-${m.playerB.points}`;
+}
+
+function chipServer(m: LiveMatch): string | null {
+  if (m.status !== "live") return null;
+  if (m.playerA.serving) return m.playerA.short;
+  if (m.playerB.serving) return m.playerB.short;
+  return null;
 }
 
 export function BaselineShell({
@@ -98,20 +110,51 @@ export function BaselineShell({
 
       <div className="bl-live-rail" aria-label="Live and upcoming scores">
         <div className="bl-live-rail-inner">
-          {LIVE_MATCHES.map((m) => (
-            <Link key={m.id} className="bl-live-chip" href="/baseline/live">
-              <span className={`bl-pill bl-pill-${m.status}`}>
-                <span className="bl-pill-dot" aria-hidden="true" />
-                {statusLabel(m.status)}
-              </span>
-              <span className="bl-live-chip-teams">
-                {m.playerA.short}
-                <span aria-hidden="true"> · </span>
-                {m.playerB.short}
-              </span>
-              <span className="bl-live-chip-score bl-mono">{chipScore(m)}</span>
-            </Link>
-          ))}
+          {LIVE_MATCHES.map((m) => {
+            const server = chipServer(m);
+            return (
+              <Link
+                key={m.id}
+                className="bl-live-chip"
+                href="/baseline/live"
+                data-surface={m.surface}
+                data-status={m.status}
+              >
+                <span className={`bl-pill bl-pill-${m.status}`}>
+                  <span className="bl-pill-dot" aria-hidden="true" />
+                  {statusLabel(m.status)}
+                </span>
+                <span className="bl-live-chip-teams">
+                  <span className={m.playerA.serving ? "is-serving" : undefined}>
+                    {m.playerA.short}
+                    {m.playerA.serving ? (
+                      <span className="bl-live-chip-serve" title="On serve">
+                        {" "}
+                        ●
+                      </span>
+                    ) : null}
+                  </span>
+                  <span aria-hidden="true"> · </span>
+                  <span className={m.playerB.serving ? "is-serving" : undefined}>
+                    {m.playerB.short}
+                    {m.playerB.serving ? (
+                      <span className="bl-live-chip-serve" title="On serve">
+                        {" "}
+                        ●
+                      </span>
+                    ) : null}
+                  </span>
+                </span>
+                <span className="bl-live-chip-score bl-mono">{chipScore(m)}</span>
+                {server ? <span className="sr-only">{server} on serve</span> : null}
+                {m.challengePending ? (
+                  <span className="bl-live-chip-chal" title="Challenge pending">
+                    CH
+                  </span>
+                ) : null}
+              </Link>
+            );
+          })}
         </div>
       </div>
 
