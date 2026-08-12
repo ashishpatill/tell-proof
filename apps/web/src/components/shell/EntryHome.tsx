@@ -1,8 +1,12 @@
 "use client";
 
 import { ArrowUp, FileCode2, Github, ImageIcon, PenLine } from "lucide-react";
+import { COMPOSER_STARTER_CHIPS } from "@/lib/composer-starters";
 import type { ComposerMode, RecentSession } from "@/lib/recent-sessions";
 import { svgSessionThumb } from "@/lib/session-thumb";
+
+// Never show third-party product brands as templates/chips under the composer
+// (see composer-brand-denylist.ts). Starters must be Tell specimens only.
 
 const MODES: { id: ComposerMode; label: string; icon: typeof PenLine }[] = [
   { id: "design", label: "Design brief", icon: PenLine },
@@ -93,6 +97,21 @@ export function EntryHome({
           </button>
         </div>
       </form>
+
+      {COMPOSER_STARTER_CHIPS.length > 0 && mode === "design" ? (
+        <div className="tell-modes" role="group" aria-label="Starter templates">
+          {COMPOSER_STARTER_CHIPS.map((chip) => (
+            <button
+              key={chip.id}
+              type="button"
+              className="tell-modes__pill"
+              onClick={() => onChange(chip.brief ?? chip.label)}
+            >
+              {chip.label}
+            </button>
+          ))}
+        </div>
+      ) : null}
 
       <div className="tell-modes" role="group" aria-label="Composer mode">
         {MODES.map((m) => {

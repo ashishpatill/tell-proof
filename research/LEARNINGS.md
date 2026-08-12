@@ -5,6 +5,10 @@ Pattern keys match `tell-recursive-improve`.
 
 ---
 
+## 2026-08-12 — `home:no-third-party-composer-templates`
+
+- **Do not:** Show third-party product brands as starter templates/chips under the Tell home composer. Guard: `apps/web/src/lib/composer-brand-denylist.ts` + vitest. Prefer Tell specimens / `listTemplates()` labels only — or nothing.
+
 ## 2026-08-08 — `template:craft-bleed-into-rail`
 
 - **Failure:** Forme Desk (press-atelier) full-bleed specimen/flow stages painted under the Sig
