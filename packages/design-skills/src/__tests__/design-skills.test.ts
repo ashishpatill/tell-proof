@@ -733,8 +733,18 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain('data-figure="care-plate"');
     expect(previewHtml).toContain('data-dense="ink"');
     expect(previewHtml).toMatch(/data-figure="care-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="care-plate"/);
-    expect(previewHtml).toContain("PATHWAY");
+    // Explanatory chart — not an empty schematic (template:care-plate-empty-schematic).
+    expect(previewHtml).toContain("ACTIVE CASE");
     expect(previewHtml).toContain("STAGES 01–05");
+    expect(previewHtml).toContain("STAGE MAP");
+    expect(previewHtml).toContain("HANDOFF BEADS");
+    expect(previewHtml).toContain("DWELL WINDOWS");
+    expect(previewHtml).toContain("ENCOUNTER LOG");
+    expect(previewHtml).toContain("Desk → Triage");
+    expect(previewHtml).toContain("Named stop");
+    expect(previewHtml).toContain("Who · when · signed");
+    expect(previewHtml).toContain("Time-on-stage · bottleneck");
+    expect(previewHtml).not.toContain("NEAR PLANE");
     expect(previewHtml).toContain("ds-rounds");
     expect(previewHtml).toContain('class="ds-rounds-ladder"');
     expect(previewHtml).toContain('aria-label="Rounds ladder"');

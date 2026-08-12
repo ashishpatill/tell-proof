@@ -984,19 +984,22 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
         {
           id: "r1",
           name: "Stage map",
-          description: "Five named stages on one spine so Intake cannot pretend Discharge is optional",
+          description:
+            "Five ward stages on one citeable spine. Each node is a named stop — Intake through Discharge — so the chart never loses which bay holds the patient.",
           priority: "p0",
         },
         {
           id: "r2",
           name: "Handoff beads",
-          description: "Citeable transfers between stages — who received the chart, and when",
+          description:
+            "Diamond markers between stages. Every bead records who received the chart, the clock time, and the signature — the audit trail that closes the gap.",
           priority: "p0",
         },
         {
           id: "r3",
           name: "Dwell windows",
-          description: "Time-on-stage drawn under each node so a quiet bottleneck cannot hide",
+          description:
+            "Bars under each stage show how long the chart sat before the next transfer. Long dwell surfaces delay before the next handoff, not after the fact.",
           priority: "p0",
         },
         {

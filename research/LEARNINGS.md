@@ -802,3 +802,16 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   handoffs). Alignment collapsed via `--care-inset`. Critique: care **98.5**, axes **4**,
   shape-run **0.364**.
 - **Do not:** Ship another vertical index under a vertical rounds ladder.
+
+## 2026-08-12 — `template:care-plate-empty-schematic`
+
+- **Failure:** Roundspool care-plate was a thin spine in a large gray void — ENC title chips
+  named Stage map / Handoff beads / Dwell windows without teaching them; foot silhouettes and
+  short feature blurbs left the chart looking wireframe and “hardly explaining anything.”
+- **Fix:** Figma reference artboard (Roundspool Care Pathway Chart) → rewrite `carePlate()`:
+  active-case head + citeable claim; stage spine with dwell labels; handoff transfer notes
+  (who/when/signed); three teaching panels with long copy + mini glyphs + lesson lines;
+  encounter log foot. Prefer teaching defaults over short brief blurbs; cap panel height so
+  empty stretch cannot return. Remove SVG instrument silhouettes.
+- **Do not:** Ship a signature clinical figure that only labels concepts — the plate must show
+  stage ownership, handoff audit, and dwell delay as readable matter.

@@ -690,3 +690,16 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** matrix still weak on display-leading / display-scale for non-care siteKinds;
   care band-ink-variation on unseen briefs.
 
+
+## Loop 35 — Care pathway explanatory chart (empty schematic)
+
+- **Goal:** Close user critique that the care-plate looked terrible and explained nothing;
+  design complex concepts in Figma then map into the engine.
+- **Failure named:** `template:care-plate-empty-schematic`.
+- **Challenger:** Figma artboard `dlr8MaNecXaHC6HAaf0oCY` + densified `carePlate()` (active case,
+  transfer notes, teaching panels + glyphs, encounter log); longer clinic feature descriptions.
+- **Score:** design-skills tests green (89); eye pass shows Stage map / Handoff beads / Dwell
+  windows with mini glyphs + signed encounter log (not an empty spine void).
+- **Closed:** `template:care-plate-empty-schematic`.
+- **Next weakest:** fold still crops mid-plate on short viewports — keep claim compact; watch
+  panel/log density on column roles; re-critique matrix if care score drifts.
