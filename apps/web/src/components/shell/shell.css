@@ -27,14 +27,20 @@
 }
 
 .tell-rail {
+  /* Paper glass on dark shell — MUST use ink text, never --text (which is paper-on-dark). */
+  --rail-ink: 24 22 20;
+  --rail-ink-secondary: 61 55 49;
+  --rail-ink-muted: 87 78 69;
+  --rail-paper: 243 237 228;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 0.35rem;
   padding: 1rem 0.75rem;
-  border-right: 1px solid rgb(var(--border) / 0.55);
-  background: var(--surface-glass);
+  border-right: 1px solid rgb(var(--rail-ink-muted) / 0.35);
+  background: rgb(var(--rail-paper) / 0.96);
   backdrop-filter: blur(12px);
+  color: rgb(var(--rail-ink));
   min-height: 100vh;
   position: sticky;
   top: 0;
@@ -83,7 +89,7 @@
   font-family: var(--font-display);
   font-size: 1.35rem;
   letter-spacing: -0.02em;
-  color: rgb(var(--text));
+  color: rgb(var(--rail-ink));
 }
 
 .tell-rail__brand-meta {
@@ -91,7 +97,7 @@
   font-size: 0.65rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgb(var(--text-muted));
+  color: rgb(var(--rail-ink-muted));
 }
 
 .tell-rail__section {
@@ -107,7 +113,7 @@
   font-size: 0.65rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgb(var(--text-muted));
+  color: rgb(var(--rail-ink-muted));
 }
 
 .tell-rail__link,
@@ -121,7 +127,7 @@
   border-radius: 0.65rem;
   border: 1px solid transparent;
   background: transparent;
-  color: rgb(var(--text-secondary));
+  color: rgb(var(--rail-ink-secondary));
   cursor: pointer;
   text-decoration: none;
   font-family: var(--font-sans);
@@ -145,9 +151,9 @@
 
 .tell-rail__link:hover,
 .tell-rail__btn:hover {
-  border-color: rgb(var(--border));
-  color: rgb(var(--text));
-  background: rgb(var(--surface) / 0.55);
+  border-color: rgb(var(--rail-ink-muted) / 0.35);
+  color: rgb(var(--rail-ink));
+  background: rgb(255 255 255 / 0.55);
 }
 
 .tell-rail__link:focus-visible,
@@ -160,9 +166,11 @@
 .tell-rail__link[data-active="true"],
 .tell-rail__btn[aria-current="page"],
 .tell-rail__btn[data-active="true"] {
-  border-color: rgb(var(--accent) / 0.45);
-  background: rgb(var(--accent) / 0.12);
-  color: rgb(var(--accent));
+  border-color: rgb(var(--accent) / 0.55);
+  background: rgb(var(--accent) / 0.14);
+  /* Ink on accent wash — accent-colored text on the wash fails 4.5:1. */
+  color: rgb(var(--rail-ink));
+  font-weight: 600;
 }
 
 .tell-rail__sessions {
@@ -189,7 +197,7 @@
   border-radius: 0.5rem;
   border: 1px solid transparent;
   background: transparent;
-  color: rgb(var(--text-secondary));
+  color: rgb(var(--rail-ink-secondary));
   cursor: pointer;
   font-family: var(--font-sans);
   font-size: 0.8rem;
@@ -197,14 +205,14 @@
 }
 
 .tell-rail__session:hover {
-  background: rgb(var(--surface) / 0.55);
-  color: rgb(var(--text));
+  background: rgb(255 255 255 / 0.55);
+  color: rgb(var(--rail-ink));
 }
 
 .tell-rail__session[data-active="true"] {
-  border-color: rgb(var(--border) / 0.7);
-  background: rgb(var(--surface));
-  color: rgb(var(--text));
+  border-color: rgb(var(--rail-ink-muted) / 0.35);
+  background: rgb(255 255 255 / 0.7);
+  color: rgb(var(--rail-ink));
 }
 
 .tell-rail__session-title {
@@ -221,7 +229,7 @@
   width: 1.15rem;
   height: 1.15rem;
   border-radius: 999px;
-  color: rgb(var(--text-muted));
+  color: rgb(var(--rail-ink-muted));
   flex-shrink: 0;
 }
 

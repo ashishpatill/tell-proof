@@ -837,3 +837,15 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   encounter log. Shrink claim display (~2.45vw) so columns enter the first viewport. Gate
   `care-plate-explains` requires ownership/LIVE/dwell matter.
 - **Do not:** Put marketing cards inside the care-pathway hero figure — teach inside the chart.
+
+## 2026-08-12 — `chrome:rail-ghost-contrast`
+
+- **Failure:** Product sidebar (`.tell-rail`) used paper-glass background
+  (`--surface-glass` / light taupe) with dark-theme `--text` / `--text-secondary`
+  (paper-on-dark light ink). Home / Showcase / Studio labels were nearly invisible.
+  Shipped because agent vision captions did not flag WCAG failure.
+- **Fix:** Scoped `--rail-ink*` tokens on `.tell-rail` (dark ink on nearly opaque paper).
+  Measured gate: `pnpm eye:shell` (Playwright samples computed colors, floor 4.5:1).
+  Dogfood + recursive-improve require the probe — vision alone is not a pass.
+- **Do not:** Put dark-theme light text on a light chrome surface; do not ship shell
+  changes without `pnpm eye:shell`.

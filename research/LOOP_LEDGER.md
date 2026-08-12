@@ -725,3 +725,13 @@ buckets, never names, hosts, or URLs.
 - **Score:** design-skills 89 green; claim height ~96px (was ~173); LIVE Treat column + vitals/orders.
 - **Closed:** wireframe-cards pattern; empty schematic still gated.
 - **Next weakest:** re-critique display corridor after quieter claim; mobile column stack.
+
+## Loop 37 — Shell rail contrast (ghost sidebar)
+
+- **Goal:** Readable Tell app sidebar; durable measured contrast gate so vision misses cannot ship.
+- **Failure named:** `chrome:rail-ghost-contrast`.
+- **Challenger:** `--rail-ink` on paper rail; `scripts/eye-shell-contrast.ts` + `pnpm eye:shell`;
+  dogfood/recursive-improve process update.
+- **Score:** eye:shell must pass (≥4.5:1 on sidebar labels).
+- **Closed:** ghost rail contrast + measured probe.
+- **Next weakest:** extend contrast probe to tabs bar / dialog chrome.

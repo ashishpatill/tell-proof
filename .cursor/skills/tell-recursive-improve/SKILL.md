@@ -15,6 +15,7 @@ Do not brainlessly re-shoot the same nav strip and call it proof.
 | **Eye — showcase** | Preview shows sticky nav + truncated type; empty right gutter; ghosted labels |
 | **Eye — template** | Best craft moment (figure / inverse / claim) not visible in posted shots |
 | **Eye — teach** | Signature figure only labels concepts (empty schematic / title chips) — no citeable teaching matter |
+| **Eye — measured contrast** | `pnpm eye:shell` red, or chrome text looks “fine” only in a vision caption (vision ≠ WCAG) |
 | **Critique** | Matrix or target brief score regresses |
 | **Basics** | `assertBasics` red |
 | **Engine lock-in** | Template/specimen improved but no basics gate, learning, or engine change (`process:template-without-engine`) |
@@ -22,6 +23,8 @@ Do not brainlessly re-shoot the same nav strip and call it proof.
 **Pass bar for showcase shots:** the frame must include a **primary craft beat** (hero claim *with* figure start, or product plate, or inverse proof) — not chrome alone.
 
 **Pass bar for template wins:** every visual improvement must also upgrade Tell Proof's **design engine** (`packages/design-skills`) and **design process** (skills / LEARNINGS / gates). Specimen-only diffs fail this loop.
+
+**Pass bar for shell/chrome:** run `pnpm eye:shell` (Playwright samples computed colors). Do not ship sidebar/rail changes on agent vision alone — captions miss ghost contrast (`chrome:rail-ghost-contrast`).
 
 ## Loop (one cycle)
 
@@ -44,7 +47,9 @@ Do not brainlessly re-shoot the same nav strip and call it proof.
 - `template:sitekind-css-dead` — siteKind rules trapped in wrong lean branch
 - `template:skill-metadata-only` — skills listed in routedSkills/hints but not hard-gated; require `assertSkillWiring` + RESEARCH_GATE.md every agency 2-build
 - `template:care-plate-empty-schematic` — signature plate labels concepts without teaching them
+- `template:care-plate-wireframe-cards` — hero cards + thin spine still read as wireframe
 - `process:template-without-engine` — prettier specimen with no basics gate / LEARNINGS / engine change
+- `chrome:rail-ghost-contrast` — paper-glass sidebar using dark-theme light text; require `pnpm eye:shell`
 
 ## Showcase presentation rules
 
