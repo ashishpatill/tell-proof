@@ -714,3 +714,13 @@ buckets, never names, hosts, or URLs.
 - **Evidence:** `pnpm research:audit archive-index` → **clean**; fold shows claim + ledger.
 - **Next weakest:** foundry-editorial / dossier-research (same enter animation-name pattern).
 
+## Loop — foundry-editorial + global enter shorthand (2026-08-12)
+
+- **Goal:** Clear foundry layout-audit defects; close `animation-name`-only enter bug across
+  remaining siteKinds (display stuck at opacity 0).
+- **Fix:** Full `animation:` shorthand on every siteKind `.ds-enter`; foundry seam claim without
+  double `--nav-h`; opaque/static marginalia rail; full-width marginalia marks; wider index +
+  figure-split measures.
+- **Evidence:** `pnpm research:audit foundry-editorial` → **clean**; design-skills tests green.
+- **Next:** dossier → observatory → studio → press → consumer (audit one at a time).
+

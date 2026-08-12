@@ -252,7 +252,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-saas-in{from{opacity:0;transform:translateY(1.25rem)}to{opacity:1;transform:none}}
 [data-sitekind="saas-marketing"]{--m-stagger:48ms;--m-entrance:420ms;--m-reveal:360ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="saas-marketing"] .ds-enter,
+  [data-sitekind="saas-marketing"] .ds-enter{
+    animation:ds-saas-in var(--m-entrance,420ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,48ms));
+  }
   [data-sitekind="saas-marketing"] .ds-reveal,
   [data-sitekind="saas-marketing"] .ds-reveal .ds-stagger > *{animation-name:ds-saas-in}
   [data-sitekind="saas-marketing"] .ds-reveal:not(.is-in),
@@ -273,7 +276,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-corp-in{from{opacity:0;transform:translateY(2rem);filter:blur(0)}to{opacity:1;transform:none}}
 [data-sitekind="corporate-story"]{--m-stagger:96ms;--m-entrance:720ms;--m-reveal:580ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="corporate-story"] .ds-enter,
+  [data-sitekind="corporate-story"] .ds-enter{
+    animation:ds-corp-in var(--m-entrance,720ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,96ms));
+  }
   [data-sitekind="corporate-story"] .ds-reveal,
   [data-sitekind="corporate-story"] .ds-reveal .ds-stagger > *{animation-name:ds-corp-in}
   [data-sitekind="corporate-story"] .ds-reveal:not(.is-in){transform:translateY(2rem)}
@@ -286,7 +292,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-edu-in{from{opacity:0;transform:translateX(-0.75rem)}to{opacity:1;transform:none}}
 [data-sitekind="docs-educational"]{--m-stagger:36ms;--m-entrance:340ms;--m-reveal:300ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="docs-educational"] .ds-enter,
+  [data-sitekind="docs-educational"] .ds-enter{
+    animation:ds-edu-in var(--m-entrance,340ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,36ms));
+  }
   [data-sitekind="docs-educational"] .ds-reveal,
   [data-sitekind="docs-educational"] .ds-reveal .ds-stagger > *{animation-name:ds-edu-in}
   [data-sitekind="docs-educational"] .ds-reveal:not(.is-in){transform:translateX(-0.75rem)}
@@ -297,7 +306,11 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-fin-in{from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:none}}
 [data-sitekind="fintech-marketing"]{--m-stagger:40ms;--m-entrance:300ms;--m-reveal:260ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="fintech-marketing"] .ds-enter,
+  [data-sitekind="fintech-marketing"] .ds-enter{
+    animation:ds-fin-in var(--m-entrance,300ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,40ms));
+    transform-origin:center center;
+  }
   [data-sitekind="fintech-marketing"] .ds-reveal,
   [data-sitekind="fintech-marketing"] .ds-reveal .ds-stagger > *{animation-name:ds-fin-in;transform-origin:center center}
   [data-sitekind="fintech-marketing"] .ds-reveal:not(.is-in){transform:scale(0.94)}
@@ -310,7 +323,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 [data-sitekind="art-directed-studio"] .ds-chapter-pin{min-height:160vh}
 [data-sitekind="art-directed-studio"] .ds-chapter-progress{height:4px;background:var(--c-accent)}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="art-directed-studio"] .ds-enter,
+  [data-sitekind="art-directed-studio"] .ds-enter{
+    animation:ds-studio-in var(--m-entrance,760ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,80ms));
+  }
   [data-sitekind="art-directed-studio"] .ds-reveal,
   [data-sitekind="art-directed-studio"] .ds-reveal .ds-stagger > *{animation-name:ds-studio-in}
   [data-sitekind="art-directed-studio"] .ds-reveal:not(.is-in){transform:translateY(2.5rem)}
@@ -321,7 +337,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-consumer-in-alt{from{opacity:0;transform:translateX(1.75rem)}to{opacity:1;transform:none}}
 [data-sitekind="consumer-craft"]{--m-stagger:56ms;--m-entrance:540ms;--m-reveal:440ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="consumer-craft"] .ds-enter,
+  [data-sitekind="consumer-craft"] .ds-enter{
+    animation:ds-consumer-in var(--m-entrance,540ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,56ms));
+  }
   [data-sitekind="consumer-craft"] .ds-reveal{animation-name:ds-consumer-in}
   [data-sitekind="consumer-craft"] .ds-reveal .ds-stagger > *:nth-child(odd){animation-name:ds-consumer-in}
   [data-sitekind="consumer-craft"] .ds-reveal .ds-stagger > *:nth-child(even){animation-name:ds-consumer-in-alt}
@@ -333,11 +352,13 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-foundry-mask{from{opacity:0;clip-path:inset(0 0 92% 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
 [data-sitekind="editorial-foundry"]{--m-stagger:28ms;--m-entrance:480ms;--m-reveal:400ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="editorial-foundry"] .ds-enter,
-  [data-sitekind="editorial-foundry"] .ds-reveal,
-  [data-sitekind="editorial-foundry"] .ds-reveal .ds-stagger > *{
-    animation-name:ds-foundry-mask;
+  /* Full shorthand — animation-name-only zeroes duration/fill-mode. */
+  [data-sitekind="editorial-foundry"] .ds-enter{
+    animation:ds-foundry-mask var(--m-entrance,480ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,28ms));
   }
+  [data-sitekind="editorial-foundry"] .ds-reveal,
+  [data-sitekind="editorial-foundry"] .ds-reveal .ds-stagger > *{animation-name:ds-foundry-mask}
   [data-sitekind="editorial-foundry"] .ds-reveal:not(.is-in){clip-path:inset(0 0 92% 0);opacity:0}
 }
 `,
@@ -349,7 +370,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 }
 @keyframes ds-chapter-fill-y{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="research-dossier"] .ds-enter,
+  [data-sitekind="research-dossier"] .ds-enter{
+    animation:ds-dossier-in var(--m-entrance,480ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,44ms));
+  }
   [data-sitekind="research-dossier"] .ds-reveal,
   [data-sitekind="research-dossier"] .ds-reveal .ds-stagger > *{animation-name:ds-dossier-in}
   [data-sitekind="research-dossier"] .ds-reveal:not(.is-in){transform:translateX(1.5rem)}
@@ -364,7 +388,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-obs-in{from{opacity:0;transform:translateY(0.35rem) scale(0.98)}to{opacity:1;transform:none}}
 [data-sitekind="signal-observatory"]{--m-stagger:28ms;--m-entrance:280ms;--m-reveal:240ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="signal-observatory"] .ds-enter,
+  [data-sitekind="signal-observatory"] .ds-enter{
+    animation:ds-obs-in var(--m-entrance,280ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,28ms));
+  }
   [data-sitekind="signal-observatory"] .ds-reveal,
   [data-sitekind="signal-observatory"] .ds-reveal .ds-stagger > *{animation-name:ds-obs-in}
   [data-sitekind="signal-observatory"] .ds-reveal.is-in .ds-cal-tol,
@@ -391,7 +418,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-loom-b{from{opacity:0;transform:translate(1.4rem,0.4rem)}to{opacity:1;transform:none}}
 [data-sitekind="commerce-loom"]{--m-stagger:52ms;--m-entrance:500ms;--m-reveal:420ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="commerce-loom"] .ds-enter{animation-name:ds-loom-a}
+  [data-sitekind="commerce-loom"] .ds-enter{
+    animation:ds-loom-a var(--m-entrance,500ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,52ms));
+  }
   [data-sitekind="commerce-loom"] .ds-reveal{animation-name:ds-loom-a}
   [data-sitekind="commerce-loom"] .ds-reveal .ds-stagger > *:nth-child(odd){animation-name:ds-loom-a}
   [data-sitekind="commerce-loom"] .ds-reveal .ds-stagger > *:nth-child(even){animation-name:ds-loom-b}
@@ -403,7 +433,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-field-in{from{opacity:0;transform:translateY(2.1rem) scale(0.97)}to{opacity:1;transform:none}}
 [data-sitekind="field-guide"]{--m-stagger:70ms;--m-entrance:640ms;--m-reveal:520ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="field-guide"] .ds-enter,
+  [data-sitekind="field-guide"] .ds-enter{
+    animation:ds-field-in var(--m-entrance,640ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,70ms));
+  }
   [data-sitekind="field-guide"] .ds-reveal,
   [data-sitekind="field-guide"] .ds-reveal .ds-stagger > *{animation-name:ds-field-in}
   [data-sitekind="field-guide"] .ds-reveal:not(.is-in){transform:translateY(2.1rem) scale(0.97)}
@@ -413,7 +446,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-press-snap{0%{opacity:0;transform:translateY(0.55rem)}55%{opacity:1;transform:translateY(-0.12rem)}100%{opacity:1;transform:none}}
 [data-sitekind="press-atelier"]{--m-stagger:16ms;--m-entrance:260ms;--m-reveal:220ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="press-atelier"] .ds-enter,
+  [data-sitekind="press-atelier"] .ds-enter{
+    animation:ds-press-snap var(--m-entrance,260ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,16ms));
+  }
   [data-sitekind="press-atelier"] .ds-reveal,
   [data-sitekind="press-atelier"] .ds-reveal .ds-stagger > *{animation-name:ds-press-snap}
 }
@@ -701,16 +737,74 @@ body[data-sitekind="editorial-foundry"]{
   font-family:var(--f-display);
 }
 [data-sitekind="editorial-foundry"] .ds-hero-seam .ds-display{
-  font-size:clamp(2.1rem,3.3vw,3.05rem);max-width:14ch;line-height:1.08;letter-spacing:-0.03em;
+  font-size:clamp(2.35rem,3.5vw,3.2rem);max-width:14ch;line-height:1.06;letter-spacing:-0.03em;
 }
 [data-sitekind="editorial-foundry"] .ds-hero-seam .ds-lede{max-width:36ch}
+/* Sticky nav is in-flow — do NOT add --nav-h on seam claim (nav/hero collision). */
+[data-sitekind="editorial-foundry"] .ds-seam-claim{
+  padding:var(--s-xl) var(--gutter) var(--s-2xl) var(--align-rail);
+}
+[data-sitekind="editorial-foundry"] .ds-spine{
+  top:var(--s-md);
+}
+/* Opaque sticky marginalia — transparent rail ghosts scrolled content. */
+[data-sitekind="editorial-foundry"] .ds-marginalia-rail{
+  background:var(--c-paper);
+  border:1px solid var(--c-border);
+  padding:var(--s-sm) var(--s-md);
+}
+/* Figure split left column — nested spine starves lede (~11ch). */
+[data-sitekind="editorial-foundry"] .ds-split > div .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+[data-sitekind="editorial-foundry"] .ds-split > div .ds-section-head-spine .ds-eyebrow{
+  max-width:none;padding-top:0;
+}
+[data-sitekind="editorial-foundry"] .ds-split > div .ds-section-head-main .ds-title,
+[data-sitekind="editorial-foundry"] .ds-split > div .ds-section-head-main .ds-lede{
+  max-width:30ch;
+}
+/* Marginalia story: full-width stack — side rail + narrow marks left wrap-wide vacancy. */
+[data-sitekind="editorial-foundry"] .ds-marginalia-grid{
+  grid-template-columns:1fr !important;
+  gap:var(--s-xl);
+}
+[data-sitekind="editorial-foundry"] .ds-marginalia-essay{
+  max-width:none;margin-left:0;width:100%;gap:var(--s-md);
+}
+[data-sitekind="editorial-foundry"] .ds-marginalia-mark{
+  width:100%;max-width:none;opacity:1;
+}
+[data-sitekind="editorial-foundry"] .ds-marginalia-mark .ds-fig,
+[data-sitekind="editorial-foundry"] .ds-marginalia-mark svg{
+  width:100%;height:3.25rem;display:block;
+}
+[data-sitekind="editorial-foundry"] .ds-marginalia-rail{position:static}
+[data-sitekind="editorial-foundry"] .ds-marginalia-notes{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:var(--s-md);
+}
+[data-sitekind="editorial-foundry"] .ds-marginalia-title{max-width:none}
+[data-sitekind="editorial-foundry"] .ds-cut-name{max-width:none}
+/* Index body column was ~188px (24ch starve) — give prose a real measure. */
+[data-sitekind="editorial-foundry"] .ds-index-row{
+  grid-template-columns:var(--align-rail) minmax(9rem,18ch) minmax(20rem,1fr) minmax(5rem,7rem);
+}
+[data-sitekind="editorial-foundry"] .ds-index-row > p{max-width:42ch;min-width:0}
+/* Figure split: don't double-inset head with align-rail margin inside an already narrow column. */
+[data-sitekind="editorial-foundry"] .ds-split .ds-section-head{margin-left:0}
+[data-sitekind="editorial-foundry"] [data-section="figure"] > .ds-wrap-wide{
+  padding-left:var(--align-rail);box-sizing:border-box;
+}
+[data-sitekind="editorial-foundry"] [data-section="figure"] .ds-split{
+  grid-template-columns:minmax(20rem,5fr) minmax(0,7fr) !important;
+}
+[data-sitekind="editorial-foundry"] .ds-split > div .ds-section-head-main .ds-lede{max-width:36ch}
 [data-sitekind="editorial-foundry"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="editorial-foundry"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
 [data-sitekind="editorial-foundry"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
 [data-sitekind="editorial-foundry"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
 [data-sitekind="editorial-foundry"] .ds-section-head,
 [data-sitekind="editorial-foundry"] .ds-index-row,
-[data-sitekind="editorial-foundry"] .ds-marginalia-essay,
 [data-sitekind="editorial-foundry"] .ds-chapter{padding-left:0;margin-left:var(--align-rail)}
 [data-sitekind="editorial-foundry"] .ds-closing-colophon{
   border-top:1px solid var(--c-border);

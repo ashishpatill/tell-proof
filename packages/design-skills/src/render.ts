@@ -1301,7 +1301,7 @@ function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
   return `<section class="ds-section ds-story ds-marginalia" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${secMeta("Essay", `${count} cuts · annotated`)}
-      ${sectionHead(section, 2, true)}
+      ${sectionHead(section, 2, false)}
       <div class="ds-marginalia-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
         <div class="ds-marginalia-essay">${essay}</div>
         <aside class="ds-marginalia-rail" aria-label="Marginal notes">
