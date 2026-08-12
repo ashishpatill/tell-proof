@@ -63,6 +63,10 @@ async function main() {
   await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
   await page.waitForSelector('[data-testid="product-sidebar"]', { timeout: 30_000 });
 
+  // Sample while expanded so labels are painted (collapsed still keeps SR text clipped).
+  await page.locator('[data-testid="product-sidebar"]').hover();
+  await page.waitForTimeout(220);
+
   // Collect raw computed strings in the page (no nested helpers — avoids tsx __name injection).
   const raw = (await page.$eval('[data-testid="product-sidebar"]', (root) => {
     const sels =

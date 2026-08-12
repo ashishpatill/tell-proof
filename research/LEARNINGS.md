@@ -849,3 +849,11 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   Dogfood + recursive-improve require the probe — vision alone is not a pass.
 - **Do not:** Put dark-theme light text on a light chrome surface; do not ship shell
   changes without `pnpm eye:shell`.
+
+## 2026-08-12 — `chrome:rail-idle-collapse`
+
+- **Failure:** Product rail stayed fully expanded when unused, stealing viewport from specimens.
+- **Fix:** Default icon strip (`--shell-rail-width: 3.5rem`); expand on hover/focus/pin overlay;
+  collapse after 320ms idle. Pin persists via `tell:rail-pinned`. Labels clipped when collapsed;
+  `title` + `aria-label` remain.
+- **Do not:** Keep a full-width labeled rail open by default on Tell Proof chrome.
