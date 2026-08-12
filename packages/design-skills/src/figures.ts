@@ -2020,10 +2020,11 @@ export function pathPlate(
 /**
  * Care plate — care-pathway signature figure.
  *
- * Explanatory clinical chart (not an empty schematic): active-case head, five-stage spine with
- * dwell labels + handoff transfer notes, three concept panels that teach Stage map / Handoff beads /
- * Dwell windows, and an encounter log foot. Dense citeable matter on cool paper — closes
- * `template:care-plate-empty-schematic`. Hairline 1px only; no emoji; no instrument silhouettes.
+ * Dense clinical chart board (not a thin spine in a gray void, not hero cards):
+ * five stage columns with ownership + traveling notes, handoff gutters with
+ * signed times, a one-line legend that teaches Stage map / Handoff beads / Dwell,
+ * and a citeable encounter log. Closes `template:care-plate-empty-schematic` and
+ * `template:care-plate-wireframe-cards`. Hairline 1px; no emoji; no instrument silhouettes.
  */
 export function carePlate(
   productName: string,
@@ -2032,24 +2033,24 @@ export function carePlate(
   role: FigureRole = "band",
 ): string {
   void rng(`${seed}:care-plate:${role}`);
+  void features;
   const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
-  const H = role === "band" ? 860 : role === "column" ? 620 : 560;
-  const padX = role === "band" ? 40 : 24;
-  const padY = role === "band" ? 36 : 24;
+  const H = role === "band" ? 720 : role === "column" ? 580 : 520;
+  const padX = role === "band" ? 28 : 18;
+  const padY = role === "band" ? 24 : 18;
   const parts: string[] = [];
-  const innerX = padX + 12;
-  const innerW = W - padX * 2 - 24;
+  const innerX = padX + 10;
+  const innerR = W - padX - 10;
+  const innerW = innerR - innerX;
 
-  // Cool clinical paper field — filled matter, not night void.
   parts.push(`<rect x="0" y="0" width="${W}" height="${H}" fill="var(--c-paper)"/>`);
   parts.push(
-    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="color-mix(in srgb, var(--c-paper-raised, var(--c-paper)) 96%, var(--c-accent) 4%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="color-mix(in srgb, var(--c-paper-raised, var(--c-paper)) 94%, var(--c-accent) 6%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
-
   parts.push(`<title>${esc(productName)} pathway chart</title>`);
 
-  // —— Head: active case + citeable claim (explains what the chart is for) ——
-  const headY = padY + 22;
+  // —— Chart head ——
+  const headY = padY + 18;
   parts.push(
     text("ACTIVE CASE  ·  ENC-2841  ·  WARD 3B", innerX, headY, {
       size: FIG_MONO_PX,
@@ -2058,7 +2059,7 @@ export function carePlate(
     }),
   );
   parts.push(
-    text("STAGES 01–05", W - padX - 14, headY, {
+    text("STAGES 01–05  ·  HANDOFFS CITEABLE", innerR, headY, {
       size: FIG_MONO_PX,
       fill: "var(--c-ink-tertiary)",
       mono: true,
@@ -2066,218 +2067,224 @@ export function carePlate(
     }),
   );
   parts.push(
-    text("Citeable pathway — every handoff names who received the chart", innerX, headY + 22, {
+    text("Every handoff names who received the chart — and when", innerX, headY + 20, {
       size: 13,
-      fill: "var(--c-ink-secondary)",
-      weight: 500,
+      fill: "var(--c-ink)",
+      weight: 600,
     }),
   );
   parts.push(
-    `<line x1="${round(innerX)}" y1="${round(headY + 36)}" x2="${round(W - padX - 14)}" y2="${round(headY + 36)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    `<line x1="${round(innerX)}" y1="${round(headY + 32)}" x2="${round(innerR)}" y2="${round(headY + 32)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
 
-  // —— Stage spine (raised so concept panels + log still land in the fold) ——
-  const stageNames = ["Intake", "Triage", "Treat", "Follow-up", "Discharge"];
-  const dwellHeights = [32, 48, 64, 38, 24];
-  const dwellLabels = ["18m desk", "42m bay", "2h 10m", "26m call", "14m desk"];
+  // —— Five stage columns (fills the field — the product surface) ——
+  const stages = [
+    {
+      num: "01",
+      name: "Intake",
+      owner: "Desk A",
+      note: "Chart opened",
+      rows: ["ID verified", "Allergies listed", "Bay unassigned"],
+      dwell: "18m",
+      dwellH: 36,
+      live: false,
+    },
+    {
+      num: "02",
+      name: "Triage",
+      owner: "RN Okonkwo",
+      note: "Vitals in",
+      rows: ["BP 128/82", "Pain 3/10", "ESI 3"],
+      dwell: "42m",
+      dwellH: 52,
+      live: false,
+    },
+    {
+      num: "03",
+      name: "Treat",
+      owner: "MD Chen",
+      note: "Orders live",
+      rows: ["Labs drawn", "Imaging queued", "Meds started"],
+      dwell: "2h 10m",
+      dwellH: 72,
+      live: true,
+    },
+    {
+      num: "04",
+      name: "Follow-up",
+      owner: "Call desk",
+      note: "Queued",
+      rows: ["Callback 14:00", "PCP noted", "Risk low"],
+      dwell: "26m",
+      dwellH: 40,
+      live: false,
+    },
+    {
+      num: "05",
+      name: "Discharge",
+      owner: "Ward desk",
+      note: "Stamped",
+      rows: ["Script printed", "Transport ready", "Pathway closed"],
+      dwell: "14m",
+      dwellH: 28,
+      live: false,
+    },
+  ];
   const transfers = [
     { route: "Desk → Triage", meta: "08:14 · signed" },
     { route: "Triage → Treat", meta: "09:02 · signed" },
     { route: "Treat → Follow", meta: "11:18 · signed" },
     { route: "Follow → Out", meta: "14:40 · signed" },
   ];
-  const n = 5;
-  const spineY = padY + (role === "band" ? 148 : 128);
-  const spineLeft = padX + (role === "band" ? 72 : 48);
-  const spineRight = W - padX - (role === "band" ? 72 : 48);
+  const colTop = headY + 44;
+  const logH = role === "band" ? 120 : 108;
+  const legendH = 34;
+  const hopBandH = 44;
+  const colBottom = H - padY - 14 - logH - legendH - hopBandH - 8;
+  const colH = colBottom - colTop;
+  const gutter = role === "band" ? 10 : 6;
+  const colW = (innerW - gutter * 4) / 5;
+  const colXs: number[] = [];
 
-  parts.push(
-    `<line x1="${round(spineLeft)}" y1="${round(spineY)}" x2="${round(spineRight)}" y2="${round(spineY)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
-  );
-  parts.push(
-    `<line class="ds-draw" pathLength="1" x1="${round(spineLeft)}" y1="${round(spineY)}" x2="${round(spineRight)}" y2="${round(spineY)}" stroke="${ACCENT}" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.9"/>`,
-  );
-
-  const nodes: { x: number; title: string; num: string }[] = [];
-  for (let i = 0; i < n; i += 1) {
-    const t = i / (n - 1);
-    const x = spineLeft + t * (spineRight - spineLeft);
-    nodes.push({ x, title: stageNames[i]!, num: String(i + 1).padStart(2, "0") });
-  }
-
-  const maxDwell = Math.max(...dwellHeights);
-  const nameY = spineY + 22;
-  const barTop = spineY + 34;
-  const hopNoteY = barTop + maxDwell + 22;
-
-  for (let i = 0; i < nodes.length; i += 1) {
-    const node = nodes[i]!;
-    const dwell = dwellHeights[i] ?? 30;
+  stages.forEach((s, i) => {
+    const x = innerX + i * (colW + gutter);
+    colXs.push(x);
+    const fill = s.live
+      ? `color-mix(in srgb, var(--c-paper) 82%, var(--c-accent) 18%)`
+      : `color-mix(in srgb, var(--c-paper) 96%, var(--c-ink) 4%)`;
     parts.push(
-      `<rect x="${round(node.x - 8)}" y="${round(barTop)}" width="16" height="${dwell}" fill="color-mix(in srgb, ${ACCENT} 22%, transparent)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      `<rect x="${round(x)}" y="${round(colTop)}" width="${round(colW)}" height="${round(colH)}" fill="${fill}" stroke="${s.live ? ACCENT : LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
     );
-    parts.push(`<circle cx="${round(node.x)}" cy="${round(spineY)}" r="8" fill="${ACCENT}" opacity="0.92"/>`);
-    parts.push(`<circle cx="${round(node.x)}" cy="${round(spineY)}" r="4" fill="var(--c-paper)"/>`);
     parts.push(
-      text(node.num, node.x, spineY - 20, {
+      text(s.num, x + 12, colTop + 22, {
         size: FIG_MONO_PX,
         fill: "var(--c-accent)",
         mono: true,
-        anchor: "middle",
       }),
     );
+    if (s.live) {
+      parts.push(
+        text("LIVE", x + colW - 12, colTop + 22, {
+          size: FIG_MONO_PX,
+          fill: "var(--c-accent)",
+          mono: true,
+          anchor: "end",
+        }),
+      );
+    }
     parts.push(
-      text(clip(node.title, 12), node.x, nameY, {
-        size: 12,
+      text(s.name, x + 12, colTop + 46, {
+        size: 16,
         fill: "var(--c-ink)",
         weight: 600,
-        anchor: "middle",
       }),
     );
     parts.push(
-      text(dwellLabels[i] ?? "", node.x, barTop + dwell + 14, {
+      text(s.owner, x + 12, colTop + 68, {
+        size: FIG_MONO_PX,
+        fill: "var(--c-ink-secondary)",
+        mono: true,
+      }),
+    );
+    parts.push(
+      text(s.note, x + 12, colTop + 84, {
         size: FIG_MONO_PX,
         fill: "var(--c-ink-tertiary)",
         mono: true,
-        anchor: "middle",
       }),
     );
-
-    // Handoff bead + transfer note (who/when) — the bead must explain itself.
-    if (i < nodes.length - 1) {
-      const next = nodes[i + 1]!;
-      const midX = (node.x + next.x) / 2;
-      const hop = transfers[i]!;
-      const d = 5;
+    // Clinical rows — fill the column so dwell is not an empty placeholder block.
+    s.rows.forEach((row, ri) => {
+      const ry = colTop + 108 + ri * 18;
+      if (ry > colTop + colH - 56) return;
       parts.push(
-        `<path d="M${round(midX)} ${round(spineY - d)} L${round(midX + d)} ${round(spineY)} L${round(midX)} ${round(spineY + d)} L${round(midX - d)} ${round(spineY)} Z" fill="var(--c-ink)" opacity="0.85"/>`,
+        `<line x1="${round(x + 12)}" y1="${round(ry - 10)}" x2="${round(x + colW - 12)}" y2="${round(ry - 10)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke" opacity="0.55"/>`,
       );
       parts.push(
-        text(hop.route, midX, hopNoteY, {
+        text(row, x + 12, ry, {
           size: FIG_MONO_PX,
           fill: "var(--c-ink-secondary)",
           mono: true,
-          anchor: "middle",
-        }),
-      );
-      parts.push(
-        text(hop.meta, midX, hopNoteY + 14, {
-          size: FIG_MONO_PX,
-          fill: "var(--c-ink-tertiary)",
-          mono: true,
-          anchor: "middle",
-        }),
-      );
-    }
-  }
-
-  // —— Concept panels: teach Stage map / Handoff beads / Dwell windows ——
-  // Keep long teaching copy. Brief feature blurbs leave tall empty panels
-  // (template:care-plate-empty-schematic). Feature body only wins when longer.
-  const defaults: { title: string; body: string; lesson: string }[] = [
-    {
-      title: "Stage map",
-      body: "Five ward stages on one citeable spine. Each node is a named stop — Intake through Discharge — so the chart never loses which bay holds the patient.",
-      lesson: "Named stop · bay ownership",
-    },
-    {
-      title: "Handoff beads",
-      body: "Diamond markers between stages. Every bead records who received the chart, the clock time, and the signature — the audit trail that closes the gap.",
-      lesson: "Who · when · signed",
-    },
-    {
-      title: "Dwell windows",
-      body: "Bars under each stage show how long the chart sat before the next transfer. Long dwell surfaces delay before the next handoff, not after the fact.",
-      lesson: "Time-on-stage · bottleneck",
-    },
-  ];
-  const byTitle = new Map(features.map((f) => [f.title.trim().toLowerCase(), f]));
-  const panels = defaults.map((d) => {
-    const hit = byTitle.get(d.title.toLowerCase());
-    const featureBody = hit?.body?.trim() ?? "";
-    return {
-      title: d.title,
-      body: featureBody.length > d.body.length ? featureBody : d.body,
-      lesson: d.lesson,
-    };
-  });
-
-  const panelGap = role === "band" ? 16 : 10;
-  const panelW = (innerW - panelGap * 2) / 3;
-  const panelY = hopNoteY + 24;
-  const logReserve = role === "band" ? 128 : 108;
-  const logFloor = H - padY - 14 - logReserve;
-  // Cap panel height — stretching empty panels recreates the schematic void.
-  const panelH = Math.min(role === "band" ? 200 : 168, Math.max(role === "band" ? 168 : 148, logFloor - panelY - 16));
-  panels.forEach((p, i) => {
-    const px = innerX + i * (panelW + panelGap);
-    parts.push(
-      `<rect x="${round(px)}" y="${round(panelY)}" width="${round(panelW)}" height="${round(panelH)}" fill="color-mix(in srgb, var(--c-paper) 94%, var(--c-accent) 6%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
-    );
-    parts.push(
-      text(p.title.toUpperCase(), px + 14, panelY + 20, {
-        size: FIG_MONO_PX,
-        fill: "var(--c-accent)",
-        mono: true,
-        weight: 600,
-      }),
-    );
-    const cols = Math.max(18, Math.floor((panelW - 28) / approxAdvance(12, false)));
-    wrap(p.body, cols, 5).forEach((ln, j) => {
-      parts.push(
-        text(ln, px + 14, panelY + 42 + j * 15, {
-          size: 12,
-          fill: "var(--c-ink)",
         }),
       );
     });
-
-    // Mini teaching glyph — shows the concept, not only names it.
-    const gx = px + 18;
-    const gy = panelY + panelH - 44;
-    const gw = panelW - 36;
-    if (i === 0) {
-      parts.push(
-        `<line x1="${round(gx)}" y1="${round(gy)}" x2="${round(gx + gw)}" y2="${round(gy)}" stroke="${ACCENT}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
-      );
-      for (let k = 0; k < 5; k += 1) {
-        const cx = gx + (k / 4) * gw;
-        parts.push(`<circle cx="${round(cx)}" cy="${round(gy)}" r="4" fill="${ACCENT}"/>`);
-      }
-    } else if (i === 1) {
-      parts.push(
-        `<line x1="${round(gx)}" y1="${round(gy)}" x2="${round(gx + gw)}" y2="${round(gy)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
-      );
-      for (let k = 0; k < 4; k += 1) {
-        const cx = gx + ((k + 0.5) / 4) * gw;
-        const d = 4;
-        parts.push(
-          `<path d="M${round(cx)} ${round(gy - d)} L${round(cx + d)} ${round(gy)} L${round(cx)} ${round(gy + d)} L${round(cx - d)} ${round(gy)} Z" fill="var(--c-ink)" opacity="0.85"/>`,
-        );
-      }
-    } else {
-      const heights = [10, 18, 28, 14, 8];
-      heights.forEach((h, k) => {
-        const bx = gx + (k / 4) * (gw - 10);
-        parts.push(
-          `<rect x="${round(bx)}" y="${round(gy + 14 - h)}" width="10" height="${h}" fill="color-mix(in srgb, ${ACCENT} 28%, transparent)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
-        );
-      });
-    }
+    // Dwell meter — filled from the foot, labeled; not a hollow gray slab.
+    const barMax = Math.max(22, Math.min(56, colH - 180));
+    const barH = Math.min(barMax, Math.max(18, s.dwellH * 0.55));
+    const barY = colTop + colH - 26 - barH;
+    const barW = Math.max(18, colW - 24);
     parts.push(
-      text(p.lesson, px + 14, panelY + panelH - 12, {
+      `<rect x="${round(x + 12)}" y="${round(barY)}" width="${round(barW)}" height="${round(barH)}" fill="color-mix(in srgb, var(--c-paper) 88%, var(--c-ink) 6%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      `<rect x="${round(x + 12)}" y="${round(barY + (barH - barH * (s.dwellH / 72)))}" width="${round(barW)}" height="${round(barH * (s.dwellH / 72))}" fill="color-mix(in srgb, ${ACCENT} ${s.live ? 42 : 26}%, transparent)"/>`,
+    );
+    parts.push(
+      text(`Dwell ${s.dwell}`, x + 12, colTop + colH - 10, {
         size: FIG_MONO_PX,
         fill: "var(--c-ink-tertiary)",
         mono: true,
       }),
     );
+
+    // Diamond bead on the right edge of the column (handoff out)
+    if (i < stages.length - 1) {
+      const midX = x + colW + gutter / 2;
+      const midY = colTop + colH / 2;
+      const d = 5;
+      parts.push(
+        `<path d="M${round(midX)} ${round(midY - d)} L${round(midX + d)} ${round(midY)} L${round(midX)} ${round(midY + d)} L${round(midX - d)} ${round(midY)} Z" fill="var(--c-ink)" opacity="0.85"/>`,
+      );
+    }
   });
 
-  // —— Encounter log foot: citeable chronology (fills residual field) ——
-  const logTop = Math.min(logFloor, panelY + panelH + 14);
-  const logHeight = H - padY - 14 - logTop;
+  // —— Handoff band under columns (readable who/when — not cramped in gutters) ——
+  const hopY = colBottom + 8;
+  transfers.forEach((hop, i) => {
+    const left = colXs[i]!;
+    const right = colXs[i + 1]!;
+    const midX = (left + colW + right) / 2;
+    parts.push(
+      text(hop.route, midX, hopY + 14, {
+        size: FIG_MONO_PX,
+        fill: "var(--c-ink-secondary)",
+        mono: true,
+        anchor: "middle",
+      }),
+    );
+    parts.push(
+      text(hop.meta, midX, hopY + 30, {
+        size: FIG_MONO_PX,
+        fill: "var(--c-ink-tertiary)",
+        mono: true,
+        anchor: "middle",
+      }),
+    );
+  });
+
+  // —— One-line legend (teaches without hero cards) ——
+  const legendY = hopY + hopBandH;
   parts.push(
-    `<rect x="${round(innerX)}" y="${round(logTop)}" width="${round(innerW)}" height="${round(logHeight)}" fill="color-mix(in srgb, var(--c-paper-raised, var(--c-paper)) 88%, var(--c-ink) 4%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    `<line x1="${round(innerX)}" y1="${round(legendY)}" x2="${round(innerR)}" y2="${round(legendY)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    text(
+      "STAGE MAP · five named stops on one spine    HANDOFF BEADS · who · when · signed    DWELL WINDOWS · time-on-stage before the next transfer",
+      innerX,
+      legendY + 22,
+      {
+        size: FIG_MONO_PX,
+        fill: "var(--c-ink-secondary)",
+        mono: true,
+      },
+    ),
+  );
+
+  // —— Encounter log ——
+  const logTop = legendY + legendH;
+  const logHeight = H - padY - 10 - logTop;
+  parts.push(
+    `<rect x="${round(innerX)}" y="${round(logTop)}" width="${round(innerW)}" height="${round(logHeight)}" fill="color-mix(in srgb, var(--c-paper) 90%, var(--c-ink) 6%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
   parts.push(
     text("ENCOUNTER LOG", innerX + 14, logTop + 20, {
@@ -2292,16 +2299,38 @@ export function carePlate(
     "11:18  Treat closed — bay 4  ·  signed M. Chen  ·  Follow-up queued",
     "14:40  Discharge stamped — ward desk  ·  pathway closed",
   ];
-  logLines.forEach((ln, j) => {
-    if (logTop + 42 + j * 16 > logTop + logHeight - 8) return;
-    parts.push(
-      text(ln, innerX + 14, logTop + 42 + j * 16, {
-        size: FIG_MONO_PX,
-        fill: "var(--c-ink-secondary)",
-        mono: true,
-      }),
-    );
-  });
+  // Two-column log when wide enough
+  if (role === "band") {
+    logLines.slice(0, 2).forEach((ln, j) => {
+      parts.push(
+        text(ln, innerX + 14, logTop + 42 + j * 18, {
+          size: FIG_MONO_PX,
+          fill: "var(--c-ink-secondary)",
+          mono: true,
+        }),
+      );
+    });
+    logLines.slice(2).forEach((ln, j) => {
+      parts.push(
+        text(ln, innerX + innerW / 2 + 8, logTop + 42 + j * 18, {
+          size: FIG_MONO_PX,
+          fill: "var(--c-ink-secondary)",
+          mono: true,
+        }),
+      );
+    });
+  } else {
+    logLines.forEach((ln, j) => {
+      if (logTop + 42 + j * 16 > logTop + logHeight - 8) return;
+      parts.push(
+        text(ln, innerX + 14, logTop + 42 + j * 16, {
+          size: FIG_MONO_PX,
+          fill: "var(--c-ink-secondary)",
+          mono: true,
+        }),
+      );
+    });
+  }
 
   return frame(parts.join(""), {
     width: W,

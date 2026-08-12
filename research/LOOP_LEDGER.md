@@ -715,3 +715,13 @@ buckets, never names, hosts, or URLs.
 - **Closed:** process rule encoded (not specimen-only).
 - **Next weakest:** extend `signature-figure-teaches` teaching surfaces for remaining siteKinds
   beyond care/lantern/press.
+
+## Loop 36 — Care plate stage-column board (wireframe cards)
+
+- **Goal:** Fold must read as a real clinical chart, not a wireframe schematic + cards.
+- **Failure named:** `template:care-plate-wireframe-cards` (eye: “looks terrible”).
+- **Challenger:** Five stage columns with clinical rows + dwell meters; handoff band; compact claim;
+  plate owns ~y181 first viewport.
+- **Score:** design-skills 89 green; claim height ~96px (was ~173); LIVE Treat column + vitals/orders.
+- **Closed:** wireframe-cards pattern; empty schematic still gated.
+- **Next weakest:** re-critique display corridor after quieter claim; mobile column stack.

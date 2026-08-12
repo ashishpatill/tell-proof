@@ -597,10 +597,10 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && /DWELL WINDOWS/.test(html)
           && /ENCOUNTER LOG/.test(html)
           && /Desk → Triage|→/.test(html)
-          && /Named stop|Who · when|Time-on-stage/.test(html)
+          && /Dwell |LIVE|RN Okonkwo|MD Chen/.test(html)
           && !/NEAR PLANE/.test(html)
         ),
-      "Care-plate must teach Stage map / Handoff beads / Dwell windows with citeable matter — not an empty schematic or title-only ENC chips (template:care-plate-empty-schematic).",
+      "Care-plate must teach as a dense stage-column chart with ownership, signed handoffs, and dwell — not an empty schematic or hero cards (template:care-plate-empty-schematic).",
     ),
     check(
       "fig-mono-floor",

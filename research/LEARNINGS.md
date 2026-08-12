@@ -827,3 +827,13 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `signature-figure-teaches`.
 - **Do not:** Mark a prettier `/showcase/*` as done without upgrading Tell Proof’s engine and
   design process.
+
+## 2026-08-12 — `template:care-plate-wireframe-cards`
+
+- **Failure:** After densifying the care-plate with teaching *cards*, the fold still read as a
+  wireframe — huge claim, thin spine in a gray void, three empty-looking panels. Eye: “terrible.”
+- **Fix:** Replace hero cards + spine schematic with a **stage-column chart board**: owner +
+  clinical rows + filled dwell meter per stage, handoff band (who/when/signed), one-line legend,
+  encounter log. Shrink claim display (~2.45vw) so columns enter the first viewport. Gate
+  `care-plate-explains` requires ownership/LIVE/dwell matter.
+- **Do not:** Put marketing cards inside the care-pathway hero figure — teach inside the chart.

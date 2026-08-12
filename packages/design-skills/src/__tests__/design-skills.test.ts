@@ -741,9 +741,13 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain("DWELL WINDOWS");
     expect(previewHtml).toContain("ENCOUNTER LOG");
     expect(previewHtml).toContain("Desk → Triage");
-    expect(previewHtml).toContain("Named stop");
-    expect(previewHtml).toContain("Who · when · signed");
-    expect(previewHtml).toContain("Time-on-stage · bottleneck");
+    expect(previewHtml).toContain("RN Okonkwo");
+    expect(previewHtml).toContain("MD Chen");
+    expect(previewHtml).toContain("Dwell");
+    expect(previewHtml).toContain("LIVE");
+    expect(previewHtml).toContain("Orders live");
+    expect(previewHtml).toContain("BP 128/82");
+    expect(previewHtml).toMatch(/who · when · signed/i);
     expect(previewHtml).not.toContain("NEAR PLANE");
     expect(previewHtml).toContain("ds-rounds");
     expect(previewHtml).toContain('class="ds-rounds-ladder"');
