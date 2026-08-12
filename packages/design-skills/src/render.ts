@@ -1035,11 +1035,11 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
         spec.brief.siteKind === "commerce-loom" ||
         spec.brief.siteKind === "field-guide" ||
         spec.brief.siteKind === "lantern-path" ||
-        spec.brief.siteKind === "care-pathway" ||
         spec.brief.siteKind === "archive-index" ||
         spec.brief.siteKind === "corporate-story" ||
         spec.brief.siteKind === "fintech-marketing" ||
-        spec.brief.siteKind === "saas-marketing";
+        spec.brief.siteKind === "saas-marketing" ||
+        spec.brief.siteKind === "dashboard-webapp";
       return `<ol class="ds-index">${section.blocks
         .map(
           (b, i) => `<li class="ds-index-row" data-feature="${esc(b.title)}">
@@ -1234,13 +1234,22 @@ function renderFigure(section: SectionSpec): string {
   </section>`;
 }
 
-function renderChapters(section: SectionSpec, figures: FigurePlan): string {
+function renderChapters(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
   /*
    * Spined register with a mark per step. Odd-count card grids left a hole; empty chapter bodies
    * read as wireframes. Every row carries index, title, body, and a capability mark sized to
    * count as drawn matter (premium-b2b pages carry dozens of figures, not three plates).
    */
   const count = section.blocks.length;
+  // Titles + marks only when the same catalogue prose already runs in features/hero/proof.
+  const quietChapters =
+    spec?.brief.siteKind === "art-directed-studio" ||
+    spec?.brief.siteKind === "consumer-craft" ||
+    spec?.brief.siteKind === "corporate-story" ||
+    spec?.brief.siteKind === "press-atelier" ||
+    spec?.brief.siteKind === "fintech-marketing" ||
+    spec?.brief.siteKind === "saas-marketing" ||
+    spec?.brief.siteKind === "dashboard-webapp";
   return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" data-editorial-chapters id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${secMeta("Chapters", `${count} beats · editorial order`)}
@@ -1248,10 +1257,10 @@ function renderChapters(section: SectionSpec, figures: FigurePlan): string {
       <ol class="ds-chapters">
         ${section.blocks
           .map(
-            (b, i) => `<li class="ds-chapter">
+            (b, i) => `<li class="ds-chapter${quietChapters ? " ds-chapter-quiet" : ""}">
               <p class="ds-chapter-index">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
               <h3>${esc(b.title)}</h3>
-              ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+              ${!quietChapters && b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
               ${figures.marks[i] ? `<div class="ds-chapter-mark" aria-hidden="true">${figures.marks[i]}</div>` : ""}
             </li>`,
           )
@@ -1557,6 +1566,11 @@ function renderHangtag(section: SectionSpec, figures: FigurePlan): string {
       </article>`;
     })
     .join("");
+  // Dense shelf under the stack — narrow overlapping tags leave wrap-wide vacancy on the right.
+  const shelfRules = Array.from({ length: 32 }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    return `<li class="ds-entry-shelf-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
+  }).join("");
   return `<section class="ds-section ds-story ds-hangtag" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
@@ -1564,6 +1578,7 @@ function renderHangtag(section: SectionSpec, figures: FigurePlan): string {
       ${sectionHead(section, 2, true)}
       <ol class="ds-hang-tape" aria-label="Size tape">${tape}</ol>
       <div class="ds-hang-stack" aria-label="Care tag stack">${tags}</div>
+      <ol class="ds-entry-shelf-rules" aria-hidden="true">${shelfRules}</ol>
     </div>
   </section>`;
 }
@@ -1768,7 +1783,6 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan, spec?: Desi
             ${mark ? `<div class="ds-proof-mark" aria-hidden="true">${mark}</div>` : ""}
             <p class="ds-proof-meta">${esc(b.meta ?? b.kicker ?? "")}</p>
             <h3>${esc(b.title)}</h3>
-            ${b.body ? `<p>${esc(b.body)}</p>` : ""}
             </button>
           </li>`;
         })
@@ -2295,7 +2309,7 @@ function renderSection(
     case "figure-explainer":
       return wrapped(renderFigure(section));
     case "story-chapters":
-      return wrapped(renderChapters(section, figures));
+      return wrapped(renderChapters(section, figures, spec));
     case "story-marginalia":
       return wrapped(renderMarginalia(section, figures));
     case "story-spread":

@@ -815,7 +815,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(press).toMatch(/width:calc\(100vw - var\(--craft-rail,0px\)\)/);
     expect(press).toMatch(/class="ds-bleed ds-press-field">[\s\S]*?ds-press-regs/);
     expect(press).not.toMatch(/\.ds-press-regs\{[^}]*z-index:3/);
-    expect(press).toMatch(/\[data-sitekind="press-atelier"\] \.ds-press-masthead\{[^}]*padding-bottom:var\(--s-sm\)/);
+    expect(press).toMatch(/\[data-sitekind="press-atelier"\] \.ds-press-masthead\{[^}]*padding-bottom:var\(--s-xs/);
   });
 
   it("keeps craft fold claims from pulling labeled fields underneath", () => {

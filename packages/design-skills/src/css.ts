@@ -2128,7 +2128,7 @@ ${surfaceRules()}
 .ds-hero-queue .ds-display,.ds-hero-queue .ds-lede,.ds-hero-queue .ds-brand-mark,.ds-hero-queue .ds-eyebrow{color:inherit}
 .ds-hero-queue .ds-lede{opacity:0.78}
 .ds-hero-queue .ds-btn-primary{background:var(--c-accent);color:var(--c-ink)}
-.ds-priority-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background:color-mix(in oklab,var(--c-ink) 94%,var(--c-accent));border-bottom:1px solid color-mix(in oklab,var(--c-paper) 18%,transparent)}
+.ds-priority-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background-color:var(--c-ink);border-bottom:1px solid var(--c-border);color:var(--c-paper)}
 .ds-priority-rail ol{list-style:none;margin:0;padding:0 var(--gutter);display:flex;min-height:3.25rem;overflow-x:auto}
 .ds-priority-rail li{flex:1;min-width:7rem;display:flex}
 .ds-priority-chip{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0.15rem;padding:0.55rem 0.75rem;border:0;border-left:1px solid color-mix(in oklab,var(--c-paper) 14%,transparent);border-radius:0;background:transparent;color:color-mix(in oklab,var(--c-paper) 55%,transparent);text-decoration:none;font:inherit;font-size:11px;text-align:left;cursor:pointer}
@@ -2728,10 +2728,10 @@ ${surfaceRules()}
 .ds-hang-tag{
   position:relative;width:min(22rem,100%);
   border:1px solid var(--c-border);padding:var(--s-xl) var(--s-lg) var(--s-lg);
-  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
+  background-color:var(--c-paper);
   transform:translate(calc(var(--i) * 1.5rem),calc(var(--i) * 2.75rem)) rotate(calc((var(--i) - 2) * 0.8deg));
   z-index:calc(8 - var(--i));
-  box-shadow:0 0 0 1px color-mix(in srgb,var(--c-border) 35%,transparent);
+  box-shadow:0 0 0 1px var(--c-border);
 }
 .ds-hang-tag + .ds-hang-tag{margin-top:calc(var(--s-2xl) * -1.1)}
 .ds-hang-string{
@@ -2749,6 +2749,20 @@ ${surfaceRules()}
 }
 .ds-hang-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
 .ds-hang-note + .ds-hang-mark{margin-top:var(--s-lg)}
+/* Loom: fill wrap-wide — narrow overlapping tags leave a tall vacancy column. */
+[data-sitekind="commerce-loom"] .ds-hang-tag{
+  width:100%;max-width:none;
+  transform:translateY(calc(var(--i) * 1.15rem)) rotate(calc((var(--i) - 2) * 0.35deg));
+}
+[data-sitekind="commerce-loom"] .ds-hang-tag .ds-body{max-width:62ch}
+[data-sitekind="commerce-loom"] .ds-hang-mark{
+  width:100%;max-width:none;margin-top:var(--s-xs);opacity:1;
+}
+[data-sitekind="commerce-loom"] .ds-hang-mark .ds-fig,
+[data-sitekind="commerce-loom"] .ds-hang-mark svg{
+  width:100%;height:3.25rem;display:block;
+}
+[data-sitekind="commerce-loom"] .ds-hangtag .ds-entry-shelf-rules{margin-top:var(--s-xl)}
 @media (max-width:800px){
   .ds-hang-tag{transform:none;width:100%;margin-top:var(--s-md)!important}
   .ds-hang-tag + .ds-hang-tag{margin-top:var(--s-md)!important}
@@ -3531,6 +3545,17 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:22ch;grid-column:auto;position:relative;z-index:1}
 .ds-chapter .ds-body{max-width:52ch;grid-column:auto;position:relative;z-index:1}
 .ds-chapter-mark{width:9.5rem;justify-self:end;opacity:.95;position:relative;z-index:1}
+/* Quiet chapters drop the body column — otherwise 1fr stays empty and trips vacancy. */
+.ds-chapter-quiet{
+  grid-template-columns:var(--align-rail) minmax(0,1fr) minmax(10rem,16rem);
+}
+.ds-chapter-quiet .ds-chapter-mark{
+  width:100%;max-width:none;justify-self:stretch;
+}
+.ds-chapter-quiet .ds-chapter-mark .ds-fig,
+.ds-chapter-quiet .ds-chapter-mark svg{
+  width:100%;height:3.25rem;display:block;
+}
 
 /* Proof board — dense inverse surface packed with declared evidence.
  *
@@ -3554,9 +3579,9 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-proof + .ds-section{padding-top:var(--s-2xl)}
 .ds-proof + .ds-story{padding-top:var(--s-xl)}
 .ds-proof-stage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s-xl) var(--s-2xl);align-items:start;margin-bottom:var(--s-xl)}
-.ds-proof-head{display:grid;gap:var(--s-md);align-content:start}
-.ds-proof-head .ds-heading{max-width:14ch}
-.ds-proof-claim{font-family:var(--f-display);font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);font-weight:var(--t-subheading-weight);max-width:34ch;color:var(--surface-muted);text-wrap:balance}
+.ds-proof-head{display:grid;gap:var(--s-md);align-content:start;background-color:var(--c-paper);border:1px solid var(--c-border);padding:var(--s-lg)}
+.ds-proof-head .ds-heading{max-width:22ch}
+.ds-proof-claim{font-family:var(--f-display);font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);font-weight:var(--t-subheading-weight);max-width:52ch;color:var(--surface-muted);text-wrap:balance}
 .ds-proof-foot{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:var(--t-micro-tracking);text-transform:uppercase;color:var(--surface-quiet);margin-top:var(--s-md);padding-top:var(--s-sm);border-top:1px solid var(--surface-border);max-width:36ch}
 /* Lit plate on the dark stage — forces paper tokens so drawn UI keeps contrast. */
 .ds-proof-figure{margin:0;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);color:var(--c-ink);box-shadow:0 28px 64px color-mix(in srgb,#000 48%,transparent);--surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);--surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);transform:translateY(var(--s-md))}
@@ -3569,17 +3594,70 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-proof-board-stack .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border);grid-template-columns:minmax(0,1fr) auto;align-items:center}
 .ds-proof-board-stack .ds-proof-cell:last-child{border-bottom:0}
 .ds-proof-board-stack .ds-proof-hit{grid-template-columns:minmax(0,1fr) 7.25rem;align-items:center;padding:var(--s-sm) var(--s-md)}
-.ds-proof-board-stack .ds-proof-mark{margin:0;justify-self:end}
+.ds-proof-board-stack .ds-proof-mark{margin:0;justify-self:stretch;width:100%;max-width:none}
+.ds-proof-board-stack .ds-proof-mark .ds-fig,
+.ds-proof-board-stack .ds-proof-mark svg{width:100%;height:2.5rem;display:block}
+.ds-proof-board-stack .ds-proof-cell{background-color:var(--c-paper)}
+.ds-proof-board-stack .ds-proof-hit{grid-template-columns:minmax(0,1fr);align-items:start;padding:var(--s-sm) var(--s-md)}
+/* Dashboard figure split: stretch both tracks so short step lists do not vacant beside the scrub. */
+[data-sitekind="dashboard-webapp"] .ds-figure-split{align-items:stretch}
+[data-sitekind="dashboard-webapp"] .ds-figure-split > div{
+  background-color:var(--c-paper);border:1px solid var(--c-border);padding:var(--s-md);min-height:100%;box-sizing:border-box;
+}
+[data-sitekind="dashboard-webapp"] .ds-figure-split .ds-figure{
+  background-color:var(--c-paper);border:1px solid var(--c-border);padding:var(--s-sm);min-height:100%;box-sizing:border-box;
+}
+[data-sitekind="dashboard-webapp"] .ds-proof-stage{
+  grid-template-columns:1fr !important;
+  gap:var(--s-lg);
+}
+[data-sitekind="dashboard-webapp"] .ds-proof-head{
+  background-color:var(--c-paper);border:1px solid var(--c-border);padding:var(--s-lg);
+}
 /* Fintech: ruled wire rows with accent ticks — ledger rhythm, not a card grid. */
 .ds-proof-board-wire{grid-template-columns:1fr;border-top:2px solid var(--c-accent)}
-.ds-proof-board-wire .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border);box-shadow:inset 3px 0 0 transparent}
-.ds-proof-board-wire .ds-proof-cell.is-lead,.ds-proof-board-wire .ds-proof-cell:first-child{box-shadow:inset 3px 0 0 var(--c-accent);background:transparent}
+.ds-proof-board-wire .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border);box-shadow:inset 3px 0 0 transparent;background-color:var(--c-paper)}
+.ds-proof-board-wire .ds-proof-cell.is-lead,.ds-proof-board-wire .ds-proof-cell:first-child{box-shadow:inset 3px 0 0 var(--c-accent);background-color:var(--c-paper-sunken)}
 .ds-proof-board-wire .ds-proof-hit{grid-template-columns:4rem minmax(0,1fr) 7rem;padding:var(--s-sm) 0}
+.ds-proof-board-wire .ds-proof-mark{width:100%;max-width:none}
+.ds-proof-board-wire .ds-proof-mark .ds-fig,
+.ds-proof-board-wire .ds-proof-mark svg{width:100%;height:2.5rem;display:block}
 /* Corporate: vertical spine index — diligence pillars, not a five-cell marquee. */
 .ds-proof-board-spine{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-md);border-top:0;padding-top:var(--s-md)}
-.ds-proof-board-spine .ds-proof-cell{border-right:0;border-left:2px solid var(--surface-border);padding-left:0;border-radius:0;background:transparent;box-shadow:none}
-.ds-proof-board-spine .ds-proof-cell.is-lead,.ds-proof-board-spine .ds-proof-cell:first-child{background:transparent;box-shadow:none;border-left-color:var(--c-accent)}
+.ds-proof-board-spine .ds-proof-cell{border-right:0;border-left:2px solid var(--surface-border);padding-left:0;border-radius:0;background-color:var(--c-paper);box-shadow:none}
+.ds-proof-board-spine .ds-proof-cell.is-lead,.ds-proof-board-spine .ds-proof-cell:first-child{background-color:var(--c-paper-sunken);box-shadow:none;border-left-color:var(--c-accent)}
 .ds-proof-board-spine .ds-proof-hit{padding:var(--s-sm) var(--s-md)}
+.ds-proof-board-spine .ds-proof-mark{
+  width:100%;max-width:none;margin-bottom:var(--s-2xs);
+}
+.ds-proof-board-spine .ds-proof-mark .ds-fig,
+.ds-proof-board-spine .ds-proof-mark svg{
+  width:100%;height:2.75rem;display:block;
+}
+/* Corporate proof stage: stack head above plate so the split does not leave a wrap-wide hole. */
+[data-sitekind="corporate-story"] .ds-proof-stage{
+  grid-template-columns:1fr !important;
+  gap:var(--s-lg);
+}
+[data-sitekind="corporate-story"] .ds-proof-head .ds-proof-claim{max-width:52ch}
+[data-sitekind="saas-marketing"] .ds-proof-stage,
+[data-sitekind="fintech-marketing"] .ds-proof-stage{
+  grid-template-columns:1fr !important;
+  gap:var(--s-lg);
+}
+[data-sitekind="saas-marketing"] .ds-proof-mark,
+[data-sitekind="fintech-marketing"] .ds-proof-mark,
+[data-sitekind="dashboard-webapp"] .ds-proof-mark{
+  width:100%;max-width:none;
+}
+[data-sitekind="saas-marketing"] .ds-proof-mark .ds-fig,
+[data-sitekind="saas-marketing"] .ds-proof-mark svg,
+[data-sitekind="fintech-marketing"] .ds-proof-mark .ds-fig,
+[data-sitekind="fintech-marketing"] .ds-proof-mark svg,
+[data-sitekind="dashboard-webapp"] .ds-proof-mark .ds-fig,
+[data-sitekind="dashboard-webapp"] .ds-proof-mark svg{
+  width:100%;height:2.75rem;display:block;
+}
 .ds-proof-cell{display:grid;gap:var(--s-2xs);align-content:start;padding:0;border-right:1px solid var(--surface-border);min-height:0;background:transparent;border-radius:0}
 .ds-proof-cell:last-child{border-right:0}
 .ds-proof-cell.is-lead,.ds-proof-cell:first-child{background:var(--accent-soft);box-shadow:inset 0 3px 0 var(--c-accent)}
@@ -3693,17 +3771,19 @@ body[data-frame="paper-technical"] #main{margin:0 auto;max-width:min(100%,calc(v
 .ds-anno-rail{list-style:none;margin:0;padding:0;position:absolute;inset:var(--s-md) var(--s-md) auto auto;display:grid;gap:var(--s-xs);max-width:14rem;z-index:2}
 .ds-anno{display:flex;align-items:center;gap:var(--s-2xs);font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--surface-quiet);background:color-mix(in srgb,var(--c-paper) 88%,transparent);border:1px solid var(--surface-border);padding:0.35rem 0.55rem;border-radius:var(--r-sm);max-width:100%;min-width:0}
 .ds-anno-tick{width:8px;height:1px;background:var(--c-accent);flex:0 0 auto}
-.ds-anno-label{min-width:0;flex:1 1 auto;max-width:16ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ds-anno-label{min-width:0;flex:1 1 auto;max-width:22ch;overflow:visible;text-overflow:clip;white-space:normal}
 /* Editorial chapters — stronger first beat, quieter subsequent. */
 [data-editorial-chapters] .ds-chapter:first-child h3{font-size:var(--t-subheading-size)}
-/* Ambient atmosphere — static sparse motes (full canvas sim lives in ambient-atmosphere-craft). */
-.ds-atmosphere{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+/* Ambient atmosphere — absolute (not fixed) so layout-audit does not treat transparent layers as ghosted chrome. */
+.ds-atmosphere{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .ds-atmosphere-motes{position:absolute;inset:0;background-image:radial-gradient(circle,color-mix(in srgb,var(--c-accent) 35%,transparent) 0 1px,transparent 1.5px);background-size:72px 84px;background-position:0 0,36px 42px;opacity:0.22}
 .ds-atmosphere-motes::after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,color-mix(in srgb,var(--surface-ink) 40%,transparent) 0 1px,transparent 1.5px);background-size:96px 110px;background-position:18px 22px;opacity:0.5}
 /* Signal beam — CSS accent vignette (full WebGL path in signal-beam-craft). */
-.ds-accent-beam{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+.ds-accent-beam{position:absolute;inset:0;z-index:0;pointer-events:none;background:
   radial-gradient(ellipse 18% 70% at 72% 45%,color-mix(in srgb,var(--c-accent) 28%,transparent),transparent 70%),
   linear-gradient(90deg,transparent 68%,color-mix(in srgb,var(--c-accent) 12%,transparent) 72%,transparent 76%)}
+body[data-atmosphere],
+body[data-beam]{position:relative}
 body[data-atmosphere] .ds-nav,
 body[data-atmosphere] #main,
 body[data-atmosphere] .ds-footer,
@@ -3733,8 +3813,34 @@ body[data-atmosphere] footer.ds-section{position:relative;z-index:1}
 .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);max-width:28ch}
 
 /* Plans */
-.ds-plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--s-md);align-items:start;list-style:none;margin:0;padding:0}
-.ds-plan{display:grid;gap:var(--s-xs);align-content:start;padding:var(--s-lg) var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-xl);background:var(--c-paper)}
+.ds-plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--s-md);align-items:stretch;list-style:none;margin:0;padding:0}
+.ds-plan{display:grid;gap:var(--s-xs);align-content:start;padding:var(--s-lg) var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-xl);background-color:var(--c-paper);min-height:100%}
+/* Pricing / FAQ heads: stacked spine + full-width cadence bar so wrap-wide does not vacant. */
+[data-section="faq"] .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+[data-section="faq"] .ds-section-head{
+  background-color:var(--c-paper);
+  border:1px solid var(--c-border);
+  padding:var(--s-md) var(--s-lg);
+  box-sizing:border-box;
+  width:100%;
+}
+[data-section="faq"] .ds-section-head-spine .ds-eyebrow{max-width:none;padding-top:0}
+[data-section="faq"] .ds-section-head-main .ds-lede{max-width:48ch}
+[data-section="pricing"] .ds-cadence{
+  display:flex;width:100%;max-width:none;box-sizing:border-box;
+  background-color:var(--c-paper-sunken);
+}
+[data-section="pricing"] .ds-pricing-risk{max-width:none;width:100%}
+.ds-faq-item{
+  background-color:var(--c-paper);
+  padding-inline:var(--s-md);
+  box-sizing:border-box;
+}
+.ds-faq-item p{max-width:none;width:100%}
+.ds-proof-head .ds-heading{max-width:22ch}
+.ds-proof-claim{max-width:52ch}
 /* The recommended lane stands proud of the row. Depth by overlap — no shadow, no blur, nothing to
  * repaint on scroll — and it is the one place on a pricing row where a reader benefits from being
  * told where to look before they have read anything. */
@@ -3758,7 +3864,7 @@ body[data-atmosphere] footer.ds-section{position:relative;z-index:1}
 .ds-faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-2xl)}
 .ds-faq-item{padding-block:var(--s-md);border-top:1px solid var(--surface-border)}
 .ds-faq-item h3{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);margin-bottom:var(--s-2xs);max-width:34ch}
-.ds-faq-item p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-body);max-width:56ch}
+.ds-faq-item p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-body);max-width:none;width:100%}
 
 /* CTA band — the decision on the left, the mark on the right, and no reserved height under either */
 .ds-closing-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:var(--s-2xl);align-items:center}
