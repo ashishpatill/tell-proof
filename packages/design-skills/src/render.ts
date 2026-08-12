@@ -768,9 +768,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     const list = `<ol class="ds-figure-steps ds-mechanism-steps">${steps
       .map(
         (s, i) =>
-          `<li data-step="${i}" class="${i === mid ? "is-active" : ""}" role="button" tabindex="0"><strong>${esc(s.title)}</strong>${
-            s.body ? `<span> — ${esc(s.body)}</span>` : ""
-          }</li>`,
+          `<li data-step="${i}" class="${i === mid ? "is-active" : ""}" role="button" tabindex="0"><strong>${esc(s.title)}</strong></li>`,
       )
       .join("")}</ol>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-mechanism" data-surface="${section.surface}" data-section="${esc(section.id)}">
@@ -954,7 +952,7 @@ function renderMetricBand(section: SectionSpec, figures: FigurePlan, spec?: Desi
  * readable measure when there is not. The second track gets `minmax(0, Nfr)` so long content
  * cannot push the grid wider than its container.
  */
-function splitTemplate(cols: string, floor = "16rem"): string {
+function splitTemplate(cols: string, floor = "20rem"): string {
   const parts = cols.trim().split(/\s+/);
   if (parts.length !== 2) return cols;
   const [a, b] = parts as [string, string];
@@ -1027,7 +1025,22 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
         });
         return `<ol class="ds-handoff-strip" aria-label="Handoff strip">${cells.join("")}</ol>`;
       }
-      const quietIndex = spec.brief.siteKind === "docs-educational";
+      const quietIndex =
+        spec.brief.siteKind === "docs-educational" ||
+        spec.brief.siteKind === "press-atelier" ||
+        spec.brief.siteKind === "art-directed-studio" ||
+        spec.brief.siteKind === "consumer-craft" ||
+        spec.brief.siteKind === "signal-observatory" ||
+        spec.brief.siteKind === "editorial-foundry" ||
+        spec.brief.siteKind === "research-dossier" ||
+        spec.brief.siteKind === "commerce-loom" ||
+        spec.brief.siteKind === "field-guide" ||
+        spec.brief.siteKind === "lantern-path" ||
+        spec.brief.siteKind === "care-pathway" ||
+        spec.brief.siteKind === "archive-index" ||
+        spec.brief.siteKind === "corporate-story" ||
+        spec.brief.siteKind === "fintech-marketing" ||
+        spec.brief.siteKind === "saas-marketing";
       return `<ol class="ds-index">${section.blocks
         .map(
           (b, i) => `<li class="ds-index-row" data-feature="${esc(b.title)}">
@@ -1185,9 +1198,8 @@ function renderFigure(section: SectionSpec): string {
         <ol class="ds-figure-steps">${steps
           .map(
             (s, i) =>
-              `<li data-step="${i}" class="${i === mid ? "is-active" : ""}"><strong>${esc(s.title)}</strong>${
-                s.body ? `<span> — ${esc(s.body)}</span>` : ""
-              }</li>`,
+              // Titles only — reprinting feature prose here triples catalogue copy (layout-audit repetition).
+              `<li data-step="${i}" class="${i === mid ? "is-active" : ""}"><strong>${esc(s.title)}</strong></li>`,
           )
           .join("")}</ol>
       </div>

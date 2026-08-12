@@ -1266,8 +1266,8 @@ body[data-sitekind="press-atelier"]{
 [data-sitekind="press-atelier"] .ds-press-sheet .ds-fig{min-height:min(92vh,960px)}
 [data-sitekind="press-atelier"] .ds-hero-press{min-height:min(100vh,920px)}
 [data-sitekind="press-atelier"] .ds-press-masthead{
-  padding-top:calc(var(--nav-h,4.5rem) + var(--s-md));
-  padding-bottom:var(--s-sm);
+  padding-top:var(--s-xs,0.35rem);
+  padding-bottom:var(--s-xs,0.35rem);
   color:var(--c-ink-tertiary);
 }
 [data-sitekind="press-atelier"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
@@ -1869,6 +1869,23 @@ ${surfaceRules()}
 
 
 .ds-split{display:grid;gap:var(--s-xl) var(--s-2xl);align-items:start}
+/* Nested spine inside a split column starves title/lede (~11–22ch). Stack eyebrow above. */
+.ds-split > div > .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+.ds-split > div > .ds-section-head-spine .ds-eyebrow{
+  max-width:none;padding-top:0;
+}
+.ds-split > div > .ds-section-head-main .ds-lede{max-width:36ch}
+/* Craft rails must be opaque — transparent fixed/sticky rails ghost page content. */
+.ds-chapter-rail,
+.ds-sig-rail,
+.ds-care-rail,
+.ds-chrono-rail,
+.ds-alpha-rail,
+.ds-way-rail{
+  background:var(--c-paper);
+}
 /* Chapter / index titles share one inset left — third axis beside wrap-wide and wrap. */
 .ds-chapter h3,.ds-index-row h3{justify-self:start;width:100%}
 
@@ -2186,7 +2203,7 @@ ${surfaceRules()}
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:inherit;flex:1;
 }
 .ds-seam-claim{
-  display:flex;align-items:flex-end;padding:calc(var(--nav-h,4.5rem) + var(--s-xl)) var(--gutter) var(--s-2xl) var(--align-rail);
+  display:flex;align-items:flex-end;padding:var(--s-xl) var(--gutter) var(--s-2xl) var(--align-rail);
   background:var(--c-paper);color:var(--c-ink);
 }
 .ds-seam-claim-inner{max-width:34rem;width:100%}
@@ -2227,7 +2244,7 @@ ${surfaceRules()}
 }
 .ds-folio-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
   padding-right:calc(var(--gutter) + var(--chapter-rail,0px));
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
@@ -2422,7 +2439,7 @@ ${surfaceRules()}
 }
 .ds-register-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
   padding-left:calc(var(--gutter) + var(--alpha-rail,2.75rem));
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
@@ -2938,7 +2955,7 @@ ${surfaceRules()}
 }
 .ds-press-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
   padding-left:calc(var(--gutter) + var(--sig-rail,3.25rem));
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
@@ -3075,7 +3092,7 @@ ${surfaceRules()}
 }
 .ds-path-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
   padding-left:calc(var(--gutter) + var(--way-rail,3.5rem));
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
@@ -3164,7 +3181,7 @@ ${surfaceRules()}
 }
 .ds-care-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
   padding-left:calc(var(--gutter) + var(--care-rail,3.5rem));
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
