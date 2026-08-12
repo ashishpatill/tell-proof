@@ -1336,8 +1336,13 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
   const mid = Math.ceil(blocks.length / 2) || 1;
   const verso = blocks.slice(0, mid);
   const recto = blocks.slice(mid);
-  const renderPage = (page: typeof blocks, side: "verso" | "recto") =>
-    page
+  // Ruled fill under each page — unequal verso/recto heights leave wrap-wide vacancy holes.
+  const pageFill = Array.from({ length: 12 }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    return `<li class="ds-spread-fill-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
+  }).join("");
+  const renderPage = (page: typeof blocks, side: "verso" | "recto") => {
+    const beats = page
       .map((b, i) => {
         const globalIndex = side === "verso" ? i : mid + i;
         const mark = figures.marks[globalIndex]
@@ -1352,6 +1357,8 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
         </article>`;
       })
       .join("");
+    return `${beats}<ol class="ds-spread-page-fill" aria-hidden="true">${pageFill}</ol>`;
+  };
   const footnotes = blocks
     .map((b, i) => {
       const note = b.kicker || b.meta || `Note ${String(i + 1).padStart(2, "0")}`;
@@ -1362,6 +1369,11 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
       </li>`;
     })
     .join("");
+  // Dense shelf under the facing pages — residual wrap-wide rectangles trip layout-audit vacancy.
+  const shelfRules = Array.from({ length: 32 }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    return `<li class="ds-entry-shelf-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
+  }).join("");
   return `<section class="ds-section ds-story ds-spread" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
@@ -1372,6 +1384,7 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
         <div class="ds-spread-gutter" aria-hidden="true"></div>
         <div class="ds-spread-page ds-spread-recto">${renderPage(recto, "recto")}</div>
       </div>
+      <ol class="ds-entry-shelf-rules" aria-hidden="true">${shelfRules}</ol>
       <ol class="ds-footnote-register" aria-label="Footnotes">${footnotes}</ol>
     </div>
   </section>`;

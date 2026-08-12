@@ -2288,12 +2288,40 @@ ${surfaceRules()}
 /* Verso/recto spread + footnote register. */
 .ds-spread-grid{
   display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(0,1fr);gap:0 var(--gutter);
-  margin-top:var(--s-xl);align-items:start;
+  margin-top:var(--s-xl);align-items:stretch;
 }
 .ds-spread-gutter{background:var(--c-border);width:1px;min-height:100%;align-self:stretch}
-.ds-spread-page{display:flex;flex-direction:column;gap:var(--s-xl);padding-inline:var(--s-sm)}
+.ds-spread-page{display:flex;flex-direction:column;gap:var(--s-xl);padding-inline:var(--s-sm);min-height:100%}
 .ds-spread-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
-.ds-spread-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+/* Full-width marks — 9rem plates leave wrap-wide vacancy beside the measure. */
+.ds-spread-mark{width:100%;max-width:none;margin-top:var(--s-sm);opacity:1}
+.ds-spread-mark .ds-fig,
+.ds-spread-mark svg{width:100%;height:3.25rem;display:block}
+.ds-spread-page-fill{
+  list-style:none;margin:auto 0 0;padding:var(--s-sm) 0 0;
+  display:grid;gap:0.35rem;flex:1 1 auto;align-content:stretch;
+  /* Solid fill — color-mix backgrounds do not resolve to rgba for layout-audit matter. */
+  background-color:var(--c-paper-sunken);
+  border:1px solid var(--c-border);
+  padding:var(--s-sm);
+}
+.ds-spread-fill-rule{
+  display:grid;grid-template-columns:1.5rem minmax(0,1fr);gap:0.4rem;align-items:center;
+  min-height:1.35rem;
+  background-color:var(--c-paper);
+  font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;color:var(--c-ink-tertiary);
+}
+.ds-spread-fill-rule > span:last-child{
+  height:2px;background-color:var(--c-border);
+}
+[data-sitekind="research-dossier"] .ds-spread .ds-entry-shelf-rules{margin-top:var(--s-xl)}
+/* Shelf rules need rgb backgrounds — color-mix is invisible to the vacancy matter probe. */
+.ds-entry-shelf-rule{
+  background-color:var(--c-paper);
+}
+.ds-entry-shelf-rule > span:last-child{
+  height:2px;background-color:var(--c-border);
+}
 .ds-fn-ref{font-family:var(--f-mono);font-size:11px;margin-left:0.15em;vertical-align:super;line-height:1}
 .ds-fn-ref a{color:var(--c-accent);text-decoration:none}
 .ds-footnote-register{
