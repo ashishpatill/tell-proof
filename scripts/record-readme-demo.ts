@@ -71,7 +71,7 @@ async function main() {
 
     // 2) Studio create / redesign / magic / viewport
     await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
-    await page.getByTestId("studio-frame").waitFor({ timeout: 30_000 });
+    await page.getByTestId("preview-frame").waitFor({ timeout: 30_000 });
     await pause(page, 2000);
     for (const kind of ["dashboard-webapp", "corporate-story", "docs-educational", "saas-marketing"] as const) {
       await page.getByTestId("input-sitekind").selectOption(kind);
@@ -85,9 +85,9 @@ async function main() {
     await page.getByTestId("input-magic").fill("redesign as dashboard workspace, minimal-clean, no motion");
     await page.getByTestId("btn-magic").click();
     await page.waitForTimeout(2400);
-    await page.getByTestId("viewport-390").click();
+    await page.getByTestId("viewport-mobile").click();
     await pause(page, 1600);
-    await page.getByTestId("viewport-1280").click();
+    await page.getByTestId("viewport-desktop").click();
     await pause(page, 1600);
 
     // 3) Showcases
@@ -98,7 +98,7 @@ async function main() {
     await page.getByTestId("showcase-frame").waitFor({ timeout: 20_000 });
     await pause(page, 2400);
     await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
-    await page.getByTestId("studio-frame").waitFor({ timeout: 20_000 });
+    await page.getByTestId("preview-frame").waitFor({ timeout: 20_000 });
     await pause(page, 2200);
   } finally {
     await context.close();
