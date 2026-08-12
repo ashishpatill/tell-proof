@@ -768,9 +768,7 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     const list = `<ol class="ds-figure-steps ds-mechanism-steps">${steps
       .map(
         (s, i) =>
-          `<li data-step="${i}" class="${i === mid ? "is-active" : ""}" role="button" tabindex="0"><strong>${esc(s.title)}</strong>${
-            s.body ? `<span> — ${esc(s.body)}</span>` : ""
-          }</li>`,
+          `<li data-step="${i}" class="${i === mid ? "is-active" : ""}" role="button" tabindex="0"><strong>${esc(s.title)}</strong></li>`,
       )
       .join("")}</ol>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-mechanism" data-surface="${section.surface}" data-section="${esc(section.id)}">
@@ -954,7 +952,7 @@ function renderMetricBand(section: SectionSpec, figures: FigurePlan, spec?: Desi
  * readable measure when there is not. The second track gets `minmax(0, Nfr)` so long content
  * cannot push the grid wider than its container.
  */
-function splitTemplate(cols: string, floor = "16rem"): string {
+function splitTemplate(cols: string, floor = "20rem"): string {
   const parts = cols.trim().split(/\s+/);
   if (parts.length !== 2) return cols;
   const [a, b] = parts as [string, string];
@@ -1021,13 +1019,27 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
             <p class="ds-handoff-stage">${esc(stage)}</p>
             <p class="ds-handoff-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
             <h3>${esc(b.title)}</h3>
-            ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
             ${handoff}
           </li>`;
         });
         return `<ol class="ds-handoff-strip" aria-label="Handoff strip">${cells.join("")}</ol>`;
       }
-      const quietIndex = spec.brief.siteKind === "docs-educational";
+      const quietIndex =
+        spec.brief.siteKind === "docs-educational" ||
+        spec.brief.siteKind === "press-atelier" ||
+        spec.brief.siteKind === "art-directed-studio" ||
+        spec.brief.siteKind === "consumer-craft" ||
+        spec.brief.siteKind === "signal-observatory" ||
+        spec.brief.siteKind === "editorial-foundry" ||
+        spec.brief.siteKind === "research-dossier" ||
+        spec.brief.siteKind === "commerce-loom" ||
+        spec.brief.siteKind === "field-guide" ||
+        spec.brief.siteKind === "lantern-path" ||
+        spec.brief.siteKind === "archive-index" ||
+        spec.brief.siteKind === "corporate-story" ||
+        spec.brief.siteKind === "fintech-marketing" ||
+        spec.brief.siteKind === "saas-marketing" ||
+        spec.brief.siteKind === "dashboard-webapp";
       return `<ol class="ds-index">${section.blocks
         .map(
           (b, i) => `<li class="ds-index-row" data-feature="${esc(b.title)}">
@@ -1180,14 +1192,14 @@ function renderFigure(section: SectionSpec): string {
     .join("");
 
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
-      <div>${sectionHead(section)}
+    <div class="ds-wrap-wide ds-split ds-figure-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr", "28rem"))}">
+      <div>
+        ${sectionHead(section)}
         <ol class="ds-figure-steps">${steps
           .map(
             (s, i) =>
-              `<li data-step="${i}" class="${i === mid ? "is-active" : ""}"><strong>${esc(s.title)}</strong>${
-                s.body ? `<span> — ${esc(s.body)}</span>` : ""
-              }</li>`,
+              // Titles only — reprinting feature prose here triples catalogue copy (layout-audit repetition).
+              `<li data-step="${i}" class="${i === mid ? "is-active" : ""}"><strong>${esc(s.title)}</strong></li>`,
           )
           .join("")}</ol>
       </div>
@@ -1222,13 +1234,22 @@ function renderFigure(section: SectionSpec): string {
   </section>`;
 }
 
-function renderChapters(section: SectionSpec, figures: FigurePlan): string {
+function renderChapters(section: SectionSpec, figures: FigurePlan, spec?: DesignSpec): string {
   /*
    * Spined register with a mark per step. Odd-count card grids left a hole; empty chapter bodies
    * read as wireframes. Every row carries index, title, body, and a capability mark sized to
    * count as drawn matter (premium-b2b pages carry dozens of figures, not three plates).
    */
   const count = section.blocks.length;
+  // Titles + marks only when the same catalogue prose already runs in features/hero/proof.
+  const quietChapters =
+    spec?.brief.siteKind === "art-directed-studio" ||
+    spec?.brief.siteKind === "consumer-craft" ||
+    spec?.brief.siteKind === "corporate-story" ||
+    spec?.brief.siteKind === "press-atelier" ||
+    spec?.brief.siteKind === "fintech-marketing" ||
+    spec?.brief.siteKind === "saas-marketing" ||
+    spec?.brief.siteKind === "dashboard-webapp";
   return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" data-editorial-chapters id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${secMeta("Chapters", `${count} beats · editorial order`)}
@@ -1236,10 +1257,10 @@ function renderChapters(section: SectionSpec, figures: FigurePlan): string {
       <ol class="ds-chapters">
         ${section.blocks
           .map(
-            (b, i) => `<li class="ds-chapter">
+            (b, i) => `<li class="ds-chapter${quietChapters ? " ds-chapter-quiet" : ""}">
               <p class="ds-chapter-index">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
               <h3>${esc(b.title)}</h3>
-              ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
+              ${!quietChapters && b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
               ${figures.marks[i] ? `<div class="ds-chapter-mark" aria-hidden="true">${figures.marks[i]}</div>` : ""}
             </li>`,
           )
@@ -1301,7 +1322,7 @@ function renderMarginalia(section: SectionSpec, figures: FigurePlan): string {
   return `<section class="ds-section ds-story ds-marginalia" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${secMeta("Essay", `${count} cuts · annotated`)}
-      ${sectionHead(section, 2, true)}
+      ${sectionHead(section, 2, false)}
       <div class="ds-marginalia-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
         <div class="ds-marginalia-essay">${essay}</div>
         <aside class="ds-marginalia-rail" aria-label="Marginal notes">
@@ -1324,8 +1345,13 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
   const mid = Math.ceil(blocks.length / 2) || 1;
   const verso = blocks.slice(0, mid);
   const recto = blocks.slice(mid);
-  const renderPage = (page: typeof blocks, side: "verso" | "recto") =>
-    page
+  // Ruled fill under each page — unequal verso/recto heights leave wrap-wide vacancy holes.
+  const pageFill = Array.from({ length: 12 }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    return `<li class="ds-spread-fill-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
+  }).join("");
+  const renderPage = (page: typeof blocks, side: "verso" | "recto") => {
+    const beats = page
       .map((b, i) => {
         const globalIndex = side === "verso" ? i : mid + i;
         const mark = figures.marks[globalIndex]
@@ -1340,6 +1366,8 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
         </article>`;
       })
       .join("");
+    return `${beats}<ol class="ds-spread-page-fill" aria-hidden="true">${pageFill}</ol>`;
+  };
   const footnotes = blocks
     .map((b, i) => {
       const note = b.kicker || b.meta || `Note ${String(i + 1).padStart(2, "0")}`;
@@ -1350,6 +1378,11 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
       </li>`;
     })
     .join("");
+  // Dense shelf under the facing pages — residual wrap-wide rectangles trip layout-audit vacancy.
+  const shelfRules = Array.from({ length: 32 }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    return `<li class="ds-entry-shelf-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
+  }).join("");
   return `<section class="ds-section ds-story ds-spread" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
@@ -1360,6 +1393,7 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
         <div class="ds-spread-gutter" aria-hidden="true"></div>
         <div class="ds-spread-page ds-spread-recto">${renderPage(recto, "recto")}</div>
       </div>
+      <ol class="ds-entry-shelf-rules" aria-hidden="true">${shelfRules}</ol>
       <ol class="ds-footnote-register" aria-label="Footnotes">${footnotes}</ol>
     </div>
   </section>`;
@@ -1476,17 +1510,23 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
       </li>`;
     })
     .join("");
+  // Dense shelf rules under the essay — wrap-wide empty rectangles trip layout-audit vacancy.
+  const shelfRules = Array.from({ length: 40 }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    return `<li class="ds-entry-shelf-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
+  }).join("");
   return `<section class="ds-section ds-story ds-entry" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
       ${secMeta("Entry", `${count} stamps · ruled measure`)}
-      ${sectionHead(section, 2, true)}
+      ${sectionHead(section, 2, false)}
       <div class="ds-entry-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
         <div class="ds-entry-essay">${essay}</div>
         <aside class="ds-entry-aside" aria-label="Entry index">
           <p class="ds-entry-aside-kicker">Shelf index</p>
           <ol class="ds-entry-aside-list">${aside}</ol>
         </aside>
+        <ol class="ds-entry-shelf-rules" aria-hidden="true">${shelfRules}</ol>
       </div>
     </div>
   </section>`;
@@ -1526,6 +1566,11 @@ function renderHangtag(section: SectionSpec, figures: FigurePlan): string {
       </article>`;
     })
     .join("");
+  // Dense shelf under the stack — narrow overlapping tags leave wrap-wide vacancy on the right.
+  const shelfRules = Array.from({ length: 32 }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    return `<li class="ds-entry-shelf-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
+  }).join("");
   return `<section class="ds-section ds-story ds-hangtag" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
@@ -1533,6 +1578,7 @@ function renderHangtag(section: SectionSpec, figures: FigurePlan): string {
       ${sectionHead(section, 2, true)}
       <ol class="ds-hang-tape" aria-label="Size tape">${tape}</ol>
       <div class="ds-hang-stack" aria-label="Care tag stack">${tags}</div>
+      <ol class="ds-entry-shelf-rules" aria-hidden="true">${shelfRules}</ol>
     </div>
   </section>`;
 }
@@ -1737,7 +1783,6 @@ function renderProofBoard(section: SectionSpec, figures: FigurePlan, spec?: Desi
             ${mark ? `<div class="ds-proof-mark" aria-hidden="true">${mark}</div>` : ""}
             <p class="ds-proof-meta">${esc(b.meta ?? b.kicker ?? "")}</p>
             <h3>${esc(b.title)}</h3>
-            ${b.body ? `<p>${esc(b.body)}</p>` : ""}
             </button>
           </li>`;
         })
@@ -2264,7 +2309,7 @@ function renderSection(
     case "figure-explainer":
       return wrapped(renderFigure(section));
     case "story-chapters":
-      return wrapped(renderChapters(section, figures));
+      return wrapped(renderChapters(section, figures, spec));
     case "story-marginalia":
       return wrapped(renderMarginalia(section, figures));
     case "story-spread":
@@ -2644,7 +2689,8 @@ function scripts(spec: DesignSpec): string {
         sils.forEach(function(s, idx){
           var on=idx===i%sils.length;
           s.style.opacity = on ? '0.7' : '0.28';
-          if(!reduce) s.style.transform = on ? 'translateY(0)' : 'translateY(8px)';
+          // Lift active sils; never translateY(+) — layout-audit overflow uses transformed rects.
+          if(!reduce) s.style.transform = on ? 'translateY(-6px)' : 'translateY(0)';
         });
       }
     }

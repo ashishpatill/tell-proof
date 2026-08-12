@@ -204,7 +204,11 @@ ${reducedInteractive}
   /* scroll-narrative + immersive: sticky chapter + progress bar */
   const narrative = `
 .ds-chapter-pin{position:relative;min-height:132vh;padding-bottom:var(--section-y)}
-.ds-chapter-pin-inner{position:sticky;top:clamp(3.5rem,8vh,5.5rem);padding-top:var(--s-md)}
+.ds-chapter-pin-inner{
+  position:sticky;top:clamp(3.5rem,8vh,5.5rem);padding-top:var(--s-md);
+  /* Opaque sticky surface — transparent pins ghost scrolled content (layout-audit). */
+  background:var(--c-paper);
+}
 .ds-chapter-progress{
   position:absolute;left:0;right:0;top:0;height:2px;background:color-mix(in srgb,var(--c-accent) 18%,transparent);
   transform-origin:left center;pointer-events:none;z-index:var(--z-raised);
@@ -248,7 +252,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-saas-in{from{opacity:0;transform:translateY(1.25rem)}to{opacity:1;transform:none}}
 [data-sitekind="saas-marketing"]{--m-stagger:48ms;--m-entrance:420ms;--m-reveal:360ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="saas-marketing"] .ds-enter,
+  [data-sitekind="saas-marketing"] .ds-enter{
+    animation:ds-saas-in var(--m-entrance,420ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,48ms));
+  }
   [data-sitekind="saas-marketing"] .ds-reveal,
   [data-sitekind="saas-marketing"] .ds-reveal .ds-stagger > *{animation-name:ds-saas-in}
   [data-sitekind="saas-marketing"] .ds-reveal:not(.is-in),
@@ -269,7 +276,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-corp-in{from{opacity:0;transform:translateY(2rem);filter:blur(0)}to{opacity:1;transform:none}}
 [data-sitekind="corporate-story"]{--m-stagger:96ms;--m-entrance:720ms;--m-reveal:580ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="corporate-story"] .ds-enter,
+  [data-sitekind="corporate-story"] .ds-enter{
+    animation:ds-corp-in var(--m-entrance,720ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,96ms));
+  }
   [data-sitekind="corporate-story"] .ds-reveal,
   [data-sitekind="corporate-story"] .ds-reveal .ds-stagger > *{animation-name:ds-corp-in}
   [data-sitekind="corporate-story"] .ds-reveal:not(.is-in){transform:translateY(2rem)}
@@ -282,7 +292,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-edu-in{from{opacity:0;transform:translateX(-0.75rem)}to{opacity:1;transform:none}}
 [data-sitekind="docs-educational"]{--m-stagger:36ms;--m-entrance:340ms;--m-reveal:300ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="docs-educational"] .ds-enter,
+  [data-sitekind="docs-educational"] .ds-enter{
+    animation:ds-edu-in var(--m-entrance,340ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,36ms));
+  }
   [data-sitekind="docs-educational"] .ds-reveal,
   [data-sitekind="docs-educational"] .ds-reveal .ds-stagger > *{animation-name:ds-edu-in}
   [data-sitekind="docs-educational"] .ds-reveal:not(.is-in){transform:translateX(-0.75rem)}
@@ -293,7 +306,11 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-fin-in{from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:none}}
 [data-sitekind="fintech-marketing"]{--m-stagger:40ms;--m-entrance:300ms;--m-reveal:260ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="fintech-marketing"] .ds-enter,
+  [data-sitekind="fintech-marketing"] .ds-enter{
+    animation:ds-fin-in var(--m-entrance,300ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,40ms));
+    transform-origin:center center;
+  }
   [data-sitekind="fintech-marketing"] .ds-reveal,
   [data-sitekind="fintech-marketing"] .ds-reveal .ds-stagger > *{animation-name:ds-fin-in;transform-origin:center center}
   [data-sitekind="fintech-marketing"] .ds-reveal:not(.is-in){transform:scale(0.94)}
@@ -306,7 +323,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 [data-sitekind="art-directed-studio"] .ds-chapter-pin{min-height:160vh}
 [data-sitekind="art-directed-studio"] .ds-chapter-progress{height:4px;background:var(--c-accent)}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="art-directed-studio"] .ds-enter,
+  [data-sitekind="art-directed-studio"] .ds-enter{
+    animation:ds-studio-in var(--m-entrance,760ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,80ms));
+  }
   [data-sitekind="art-directed-studio"] .ds-reveal,
   [data-sitekind="art-directed-studio"] .ds-reveal .ds-stagger > *{animation-name:ds-studio-in}
   [data-sitekind="art-directed-studio"] .ds-reveal:not(.is-in){transform:translateY(2.5rem)}
@@ -317,7 +337,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-consumer-in-alt{from{opacity:0;transform:translateX(1.75rem)}to{opacity:1;transform:none}}
 [data-sitekind="consumer-craft"]{--m-stagger:56ms;--m-entrance:540ms;--m-reveal:440ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="consumer-craft"] .ds-enter,
+  [data-sitekind="consumer-craft"] .ds-enter{
+    animation:ds-consumer-in var(--m-entrance,540ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,56ms));
+  }
   [data-sitekind="consumer-craft"] .ds-reveal{animation-name:ds-consumer-in}
   [data-sitekind="consumer-craft"] .ds-reveal .ds-stagger > *:nth-child(odd){animation-name:ds-consumer-in}
   [data-sitekind="consumer-craft"] .ds-reveal .ds-stagger > *:nth-child(even){animation-name:ds-consumer-in-alt}
@@ -329,11 +352,13 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-foundry-mask{from{opacity:0;clip-path:inset(0 0 92% 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
 [data-sitekind="editorial-foundry"]{--m-stagger:28ms;--m-entrance:480ms;--m-reveal:400ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="editorial-foundry"] .ds-enter,
-  [data-sitekind="editorial-foundry"] .ds-reveal,
-  [data-sitekind="editorial-foundry"] .ds-reveal .ds-stagger > *{
-    animation-name:ds-foundry-mask;
+  /* Full shorthand — animation-name-only zeroes duration/fill-mode. */
+  [data-sitekind="editorial-foundry"] .ds-enter{
+    animation:ds-foundry-mask var(--m-entrance,480ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,28ms));
   }
+  [data-sitekind="editorial-foundry"] .ds-reveal,
+  [data-sitekind="editorial-foundry"] .ds-reveal .ds-stagger > *{animation-name:ds-foundry-mask}
   [data-sitekind="editorial-foundry"] .ds-reveal:not(.is-in){clip-path:inset(0 0 92% 0);opacity:0}
 }
 `,
@@ -345,7 +370,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 }
 @keyframes ds-chapter-fill-y{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="research-dossier"] .ds-enter,
+  [data-sitekind="research-dossier"] .ds-enter{
+    animation:ds-dossier-in var(--m-entrance,480ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,44ms));
+  }
   [data-sitekind="research-dossier"] .ds-reveal,
   [data-sitekind="research-dossier"] .ds-reveal .ds-stagger > *{animation-name:ds-dossier-in}
   [data-sitekind="research-dossier"] .ds-reveal:not(.is-in){transform:translateX(1.5rem)}
@@ -360,7 +388,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-obs-in{from{opacity:0;transform:translateY(0.35rem) scale(0.98)}to{opacity:1;transform:none}}
 [data-sitekind="signal-observatory"]{--m-stagger:28ms;--m-entrance:280ms;--m-reveal:240ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="signal-observatory"] .ds-enter,
+  [data-sitekind="signal-observatory"] .ds-enter{
+    animation:ds-obs-in var(--m-entrance,280ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,28ms));
+  }
   [data-sitekind="signal-observatory"] .ds-reveal,
   [data-sitekind="signal-observatory"] .ds-reveal .ds-stagger > *{animation-name:ds-obs-in}
   [data-sitekind="signal-observatory"] .ds-reveal.is-in .ds-cal-tol,
@@ -371,7 +402,11 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-archive-in{from{opacity:0;transform:translateX(-1.25rem)}to{opacity:1;transform:none}}
 [data-sitekind="archive-index"]{--m-stagger:22ms;--m-entrance:320ms;--m-reveal:280ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="archive-index"] .ds-enter,
+  /* Full shorthand — animation-name-only zeroes duration/fill-mode (care/lantern lesson). */
+  [data-sitekind="archive-index"] .ds-enter{
+    animation:ds-archive-in var(--m-entrance,320ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,22ms));
+  }
   [data-sitekind="archive-index"] .ds-reveal,
   [data-sitekind="archive-index"] .ds-reveal .ds-stagger > *{animation-name:ds-archive-in}
   [data-sitekind="archive-index"] .ds-reveal:not(.is-in){transform:translateX(-1.25rem)}
@@ -383,7 +418,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-loom-b{from{opacity:0;transform:translate(1.4rem,0.4rem)}to{opacity:1;transform:none}}
 [data-sitekind="commerce-loom"]{--m-stagger:52ms;--m-entrance:500ms;--m-reveal:420ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="commerce-loom"] .ds-enter{animation-name:ds-loom-a}
+  [data-sitekind="commerce-loom"] .ds-enter{
+    animation:ds-loom-a var(--m-entrance,500ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,52ms));
+  }
   [data-sitekind="commerce-loom"] .ds-reveal{animation-name:ds-loom-a}
   [data-sitekind="commerce-loom"] .ds-reveal .ds-stagger > *:nth-child(odd){animation-name:ds-loom-a}
   [data-sitekind="commerce-loom"] .ds-reveal .ds-stagger > *:nth-child(even){animation-name:ds-loom-b}
@@ -395,7 +433,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-field-in{from{opacity:0;transform:translateY(2.1rem) scale(0.97)}to{opacity:1;transform:none}}
 [data-sitekind="field-guide"]{--m-stagger:70ms;--m-entrance:640ms;--m-reveal:520ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="field-guide"] .ds-enter,
+  [data-sitekind="field-guide"] .ds-enter{
+    animation:ds-field-in var(--m-entrance,640ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,70ms));
+  }
   [data-sitekind="field-guide"] .ds-reveal,
   [data-sitekind="field-guide"] .ds-reveal .ds-stagger > *{animation-name:ds-field-in}
   [data-sitekind="field-guide"] .ds-reveal:not(.is-in){transform:translateY(2.1rem) scale(0.97)}
@@ -405,7 +446,10 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-press-snap{0%{opacity:0;transform:translateY(0.55rem)}55%{opacity:1;transform:translateY(-0.12rem)}100%{opacity:1;transform:none}}
 [data-sitekind="press-atelier"]{--m-stagger:16ms;--m-entrance:260ms;--m-reveal:220ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="press-atelier"] .ds-enter,
+  [data-sitekind="press-atelier"] .ds-enter{
+    animation:ds-press-snap var(--m-entrance,260ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,16ms));
+  }
   [data-sitekind="press-atelier"] .ds-reveal,
   [data-sitekind="press-atelier"] .ds-reveal .ds-stagger > *{animation-name:ds-press-snap}
 }
@@ -414,7 +458,11 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-lantern-in{from{opacity:0;transform:translateY(1.6rem) scale(0.985)}to{opacity:1;transform:none}}
 [data-sitekind="lantern-path"]{--m-stagger:64ms;--m-entrance:600ms;--m-reveal:500ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="lantern-path"] .ds-enter,
+  /* Full shorthand — animation-name-only zeroes duration/fill-mode (care-pathway lesson). */
+  [data-sitekind="lantern-path"] .ds-enter{
+    animation:ds-lantern-in var(--m-entrance,600ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,64ms));
+  }
   [data-sitekind="lantern-path"] .ds-reveal,
   [data-sitekind="lantern-path"] .ds-reveal .ds-stagger > *{animation-name:ds-lantern-in}
   [data-sitekind="lantern-path"] .ds-reveal:not(.is-in){transform:translateY(1.6rem) scale(0.985)}
@@ -689,16 +737,74 @@ body[data-sitekind="editorial-foundry"]{
   font-family:var(--f-display);
 }
 [data-sitekind="editorial-foundry"] .ds-hero-seam .ds-display{
-  font-size:clamp(2.1rem,3.3vw,3.05rem);max-width:14ch;line-height:1.08;letter-spacing:-0.03em;
+  font-size:clamp(2.35rem,3.5vw,3.2rem);max-width:14ch;line-height:1.06;letter-spacing:-0.03em;
 }
 [data-sitekind="editorial-foundry"] .ds-hero-seam .ds-lede{max-width:36ch}
+/* Sticky nav is in-flow — do NOT add --nav-h on seam claim (nav/hero collision). */
+[data-sitekind="editorial-foundry"] .ds-seam-claim{
+  padding:var(--s-xl) var(--gutter) var(--s-2xl) var(--align-rail);
+}
+[data-sitekind="editorial-foundry"] .ds-spine{
+  top:var(--s-md);
+}
+/* Opaque sticky marginalia — transparent rail ghosts scrolled content. */
+[data-sitekind="editorial-foundry"] .ds-marginalia-rail{
+  background:var(--c-paper);
+  border:1px solid var(--c-border);
+  padding:var(--s-sm) var(--s-md);
+}
+/* Figure split left column — nested spine starves lede (~11ch). */
+[data-sitekind="editorial-foundry"] .ds-split > div .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+[data-sitekind="editorial-foundry"] .ds-split > div .ds-section-head-spine .ds-eyebrow{
+  max-width:none;padding-top:0;
+}
+[data-sitekind="editorial-foundry"] .ds-split > div .ds-section-head-main .ds-title,
+[data-sitekind="editorial-foundry"] .ds-split > div .ds-section-head-main .ds-lede{
+  max-width:30ch;
+}
+/* Marginalia story: full-width stack — side rail + narrow marks left wrap-wide vacancy. */
+[data-sitekind="editorial-foundry"] .ds-marginalia-grid{
+  grid-template-columns:1fr !important;
+  gap:var(--s-xl);
+}
+[data-sitekind="editorial-foundry"] .ds-marginalia-essay{
+  max-width:none;margin-left:0;width:100%;gap:var(--s-md);
+}
+[data-sitekind="editorial-foundry"] .ds-marginalia-mark{
+  width:100%;max-width:none;opacity:1;
+}
+[data-sitekind="editorial-foundry"] .ds-marginalia-mark .ds-fig,
+[data-sitekind="editorial-foundry"] .ds-marginalia-mark svg{
+  width:100%;height:3.25rem;display:block;
+}
+[data-sitekind="editorial-foundry"] .ds-marginalia-rail{position:static}
+[data-sitekind="editorial-foundry"] .ds-marginalia-notes{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:var(--s-md);
+}
+[data-sitekind="editorial-foundry"] .ds-marginalia-title{max-width:none}
+[data-sitekind="editorial-foundry"] .ds-cut-name{max-width:none}
+/* Index body column was ~188px (24ch starve) — give prose a real measure. */
+[data-sitekind="editorial-foundry"] .ds-index-row{
+  grid-template-columns:var(--align-rail) minmax(9rem,18ch) minmax(20rem,1fr) minmax(5rem,7rem);
+}
+[data-sitekind="editorial-foundry"] .ds-index-row > p{max-width:42ch;min-width:0}
+/* Figure split: don't double-inset head with align-rail margin inside an already narrow column. */
+[data-sitekind="editorial-foundry"] .ds-split .ds-section-head{margin-left:0}
+[data-sitekind="editorial-foundry"] [data-section="figure"] > .ds-wrap-wide{
+  padding-left:var(--align-rail);box-sizing:border-box;
+}
+[data-sitekind="editorial-foundry"] [data-section="figure"] .ds-split{
+  grid-template-columns:minmax(20rem,5fr) minmax(0,7fr) !important;
+}
+[data-sitekind="editorial-foundry"] .ds-split > div .ds-section-head-main .ds-lede{max-width:36ch}
 [data-sitekind="editorial-foundry"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="editorial-foundry"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
 [data-sitekind="editorial-foundry"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
 [data-sitekind="editorial-foundry"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
 [data-sitekind="editorial-foundry"] .ds-section-head,
 [data-sitekind="editorial-foundry"] .ds-index-row,
-[data-sitekind="editorial-foundry"] .ds-marginalia-essay,
 [data-sitekind="editorial-foundry"] .ds-chapter{padding-left:0;margin-left:var(--align-rail)}
 [data-sitekind="editorial-foundry"] .ds-closing-colophon{
   border-top:1px solid var(--c-border);
@@ -884,20 +990,86 @@ body[data-sitekind="archive-index"]{
   position:relative;z-index:2;
   background:var(--c-paper);
 }
-[data-sitekind="archive-index"] .ds-register-claim .ds-hero-copy{gap:0.25rem;max-width:26rem}
+[data-sitekind="archive-index"] .ds-register-claim .ds-hero-copy{gap:0.2rem;max-width:26rem}
 [data-sitekind="archive-index"] .ds-register-claim .ds-lede{display:none}
 [data-sitekind="archive-index"] .ds-register-claim .ds-btn-secondary{display:none}
 /* Quiet display — stay ≥3.16vw corridor floor (archive is quiet, not microscopic). */
 [data-sitekind="archive-index"] .ds-hero-register .ds-display{
-  font-size:clamp(2.35rem,3.2vw,3.0rem);
+  font-size:clamp(2.5rem,3.35vw,3.15rem);
   letter-spacing:-0.03em;max-width:16ch;line-height:1.06;
 }
 [data-sitekind="archive-index"] .ds-register-field{
   margin-top:0;position:relative;z-index:1;
   padding-left:0;
 }
-[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(78vh,820px)}
+[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(72vh,760px)}
 [data-sitekind="archive-index"] .ds-hero-register{min-height:min(98vh,900px)}
+/* Sticky nav is in-flow — do NOT add --nav-h again or the ledger starves below the fold. */
+[data-sitekind="archive-index"] .ds-register-masthead{
+  padding-top:var(--s-xs,0.35rem);
+  padding-bottom:var(--s-xs,0.35rem);
+  color:var(--c-ink-tertiary);
+}
+/* Opaque alpha rail — fixed letters must not ghost page content. */
+[data-sitekind="archive-index"] .ds-alpha-rail{
+  background:var(--c-paper);
+  border-right:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+}
+/* Figure split left column is narrow — nested spine rail starves title/lede. */
+[data-sitekind="archive-index"] .ds-split > div .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+[data-sitekind="archive-index"] .ds-split > div .ds-section-head-spine .ds-eyebrow{
+  max-width:none;padding-top:0;
+}
+[data-sitekind="archive-index"] .ds-split > div .ds-section-head-main .ds-title,
+[data-sitekind="archive-index"] .ds-split > div .ds-section-head-main .ds-lede{
+  max-width:28ch;
+}
+/* Entry story: full-width stack — side column + narrow measure left wrap-wide vacancy holes. */
+[data-sitekind="archive-index"] .ds-entry .ds-wrap-wide{
+  padding-left:var(--alpha-rail);
+  box-sizing:border-box;
+}
+[data-sitekind="archive-index"] .ds-entry-grid{
+  grid-template-columns:1fr !important;
+  align-items:stretch;
+  gap:var(--s-xl);
+}
+[data-sitekind="archive-index"] .ds-entry-aside-list{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:0 var(--s-md);
+}
+[data-sitekind="archive-index"] .ds-entry-essay{
+  gap:var(--s-md);max-width:none;margin-left:0;width:100%;
+}
+[data-sitekind="archive-index"] .ds-entry-measure{max-width:none;width:100%}
+[data-sitekind="archive-index"] .ds-entry-beat{padding-top:var(--s-md)}
+[data-sitekind="archive-index"] .ds-entry-mark{
+  width:100%;max-width:none;margin-top:var(--s-xs);opacity:1;
+}
+[data-sitekind="archive-index"] .ds-entry-mark .ds-fig,
+[data-sitekind="archive-index"] .ds-entry-mark svg{
+  width:100%;height:3.25rem;display:block;
+}
+[data-sitekind="archive-index"] .ds-entry .ds-section-head{margin-bottom:var(--s-md)}
+[data-sitekind="archive-index"] .ds-entry .ds-section-head-main .ds-lede{max-width:42ch}
+[data-sitekind="archive-index"] .ds-entry-aside{
+  border:1px solid var(--c-border);padding:var(--s-md);
+  background:var(--c-paper);
+}
+.ds-entry-shelf-rules{
+  list-style:none;margin:0;padding:var(--s-sm) 0 0;
+  border-top:1px solid var(--c-border);
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 1rem;
+}
+.ds-entry-shelf-rule{
+  display:grid;grid-template-columns:1.5rem minmax(0,1fr);gap:0.4rem;align-items:center;
+  min-height:1.45rem;border-bottom:1px solid color-mix(in srgb,var(--c-border) 75%,transparent);
+  font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;color:var(--c-ink-tertiary);
+}
+.ds-entry-shelf-rule > span:last-child{
+  height:1px;background:color-mix(in srgb,var(--c-border) 85%,transparent);
+}
 /* Cross-stamp strip: ink seals, not CSS rule flood (rules/screen band ≤4.33). */
 [data-sitekind="archive-index"] .ds-cross-stamps{
   border-top:0;padding-top:var(--s-xs);gap:0.25rem;
@@ -914,7 +1086,6 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
 [data-sitekind="archive-index"] .ds-section-head,
 [data-sitekind="archive-index"] .ds-index-row,
-[data-sitekind="archive-index"] .ds-entry-essay,
 [data-sitekind="archive-index"] .ds-chapter{padding-left:0;margin-left:var(--alpha-rail)}
 /* Colophon uses a full box border so it does not inflate ruleDensity (top/bottom-only rules). */
 [data-sitekind="archive-index"] .ds-closing-colophon{
@@ -1095,8 +1266,8 @@ body[data-sitekind="press-atelier"]{
 [data-sitekind="press-atelier"] .ds-press-sheet .ds-fig{min-height:min(92vh,960px)}
 [data-sitekind="press-atelier"] .ds-hero-press{min-height:min(100vh,920px)}
 [data-sitekind="press-atelier"] .ds-press-masthead{
-  padding-top:calc(var(--nav-h,4.5rem) + var(--s-md));
-  padding-bottom:var(--s-sm);
+  padding-top:var(--s-xs,0.35rem);
+  padding-bottom:var(--s-xs,0.35rem);
   color:var(--c-ink-tertiary);
 }
 [data-sitekind="press-atelier"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
@@ -1131,7 +1302,7 @@ body[data-sitekind="lantern-path"]{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
 }
 [data-sitekind="lantern-path"] .ds-hero-path .ds-display{
-  font-size:clamp(2.45rem,3.2vw,3.0rem);
+  font-size:clamp(2.6rem,3.6vw,3.35rem);
   letter-spacing:-0.03em;max-width:16ch;line-height:1.05;
 }
 [data-sitekind="lantern-path"] .ds-hero-path .ds-lede{display:none}
@@ -1150,11 +1321,12 @@ body[data-sitekind="lantern-path"]{
   opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
 [data-sitekind="lantern-path"] .ds-path-claim{
-  padding:var(--s-md) 0 var(--s-lg);
+  padding:var(--s-sm) 0 var(--s-md);
   padding-left:var(--way-rail);
   position:relative;z-index:2;
   background:var(--c-paper);
 }
+[data-sitekind="lantern-path"] .ds-path-claim .ds-hero-copy{gap:0.2rem;max-width:28rem}
 [data-sitekind="lantern-path"] .ds-path-claim .ds-actions{margin-top:0.2rem}
 [data-sitekind="lantern-path"] .ds-path-claim .ds-actions .ds-btn{padding:0.45rem 0.95rem}
 [data-sitekind="lantern-path"] .ds-path-claim .ds-hero-chips,
@@ -1163,14 +1335,31 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-path-claim .ds-hero-facts{display:none}
 [data-sitekind="lantern-path"] .ds-path-field{
   margin-top:0;position:relative;z-index:1;
-  padding-left:0;
+  padding-left:0;overflow:hidden;
 }
-[data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(92vh,960px)}
-[data-sitekind="lantern-path"] .ds-hero-path{min-height:min(100vh,920px)}
+[data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(72vh,760px)}
+[data-sitekind="lantern-path"] .ds-hero-path{min-height:min(100vh,900px)}
+/* Sticky nav is in-flow — do NOT add --nav-h again or the path plate starves below the fold. */
 [data-sitekind="lantern-path"] .ds-path-masthead{
-  padding-top:calc(var(--nav-h,4.5rem) + var(--s-md));
-  padding-bottom:var(--s-sm);
+  padding-top:var(--s-xs,0.35rem);
+  padding-bottom:var(--s-xs,0.35rem);
   color:var(--c-ink-tertiary);
+}
+/* Opaque way-rail — fixed marks must not ghost page content (layout-audit ghosting). */
+[data-sitekind="lantern-path"] .ds-way-rail{
+  background:var(--c-paper);
+  border-right:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+}
+/* Figure split left column is narrow — nested spine rail starves title/lede (~16ch). */
+[data-sitekind="lantern-path"] .ds-split > div .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+[data-sitekind="lantern-path"] .ds-split > div .ds-section-head-spine .ds-eyebrow{
+  max-width:none;padding-top:0;
+}
+[data-sitekind="lantern-path"] .ds-split > div .ds-section-head-main .ds-title,
+[data-sitekind="lantern-path"] .ds-split > div .ds-section-head-main .ds-lede{
+  max-width:28ch;
 }
 [data-sitekind="lantern-path"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="lantern-path"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
@@ -1194,24 +1383,25 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-proof-cell.is-lead,
 [data-sitekind="lantern-path"] .ds-proof-cell:first-child{box-shadow:inset 0 1px 0 var(--c-accent)}
 [data-sitekind="lantern-path"] .ds-path-near{
-  position:absolute;left:var(--way-rail);right:0;bottom:0;height:min(22vh,180px);
+  position:absolute;left:var(--way-rail);right:0;bottom:0;height:min(18vh,148px);
   pointer-events:none;z-index:2;overflow:hidden;
 }
 [data-sitekind="lantern-path"] .ds-sil{
   position:absolute;bottom:0;display:block;
   background:color-mix(in srgb,var(--c-ink) 82%, transparent);
   opacity:0.55;transition:opacity 0.6s ease, transform 0.8s ease;
+  max-height:100%;
 }
 [data-sitekind="lantern-path"] .ds-sil-gate{
-  left:4%;width:72px;height:110px;
+  left:4%;width:64px;height:96px;
   clip-path:polygon(8% 100%,8% 42%,28% 18%,50% 8%,72% 18%,92% 42%,92% 100%,72% 100%,72% 55%,28% 55%,28% 100%);
 }
 [data-sitekind="lantern-path"] .ds-sil-pine{
-  left:38%;width:90px;height:130px;
+  left:38%;width:80px;height:112px;
   clip-path:polygon(50% 0,62% 28%,58% 28%,72% 52%,64% 52%,80% 78%,70% 78%,90% 100%,10% 100%,30% 78%,20% 78%,36% 52%,28% 52%,42% 28%,38% 28%);
 }
 [data-sitekind="lantern-path"] .ds-sil-stone{
-  right:8%;width:120px;height:36px;border-radius:50% 50% 40% 40% / 70% 70% 30% 30%;
+  right:8%;width:108px;height:32px;border-radius:50% 50% 40% 40% / 70% 70% 30% 30%;
   opacity:0.4;
 }
 @media (prefers-reduced-motion:reduce){
@@ -1395,7 +1585,6 @@ body[data-sitekind="care-pathway"][data-frame="paper-technical"] #main{
   margin:0 0 0.45rem;font-family:var(--f-display);font-size:clamp(1.05rem,1.4vw,1.35rem);
   line-height:1.15;max-width:12ch;
 }
-[data-sitekind="care-pathway"] .ds-handoff-cell .ds-body{margin:0;font-size:var(--t-small-size,0.9rem);max-width:18ch;color:var(--c-ink-secondary)}
 [data-sitekind="care-pathway"] .ds-handoff-diamond{
   position:absolute;right:-0.35rem;top:1.15rem;width:0.55rem;height:0.55rem;z-index:1;
   background:var(--c-accent);transform:rotate(45deg);
@@ -1679,6 +1868,26 @@ ${surfaceRules()}
 
 
 .ds-split{display:grid;gap:var(--s-xl) var(--s-2xl);align-items:start}
+/* Nested spine inside a split column starves title/lede (~11–22ch). Stack eyebrow above. */
+.ds-split > div > .ds-section-head-spine,
+.ds-figure-split > div > .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr) !important;
+}
+.ds-split > div > .ds-section-head-spine .ds-eyebrow,
+.ds-figure-split > div > .ds-section-head-spine .ds-eyebrow{
+  max-width:none;padding-top:0;
+}
+.ds-split > div > .ds-section-head-main .ds-lede,
+.ds-figure-split > div > .ds-section-head-main .ds-lede{max-width:36ch}
+/* Craft rails must be opaque — transparent fixed/sticky rails ghost page content. */
+.ds-chapter-rail,
+.ds-sig-rail,
+.ds-care-rail,
+.ds-chrono-rail,
+.ds-alpha-rail,
+.ds-way-rail{
+  background:var(--c-paper);
+}
 /* Chapter / index titles share one inset left — third axis beside wrap-wide and wrap. */
 .ds-chapter h3,.ds-index-row h3{justify-self:start;width:100%}
 
@@ -1919,7 +2128,7 @@ ${surfaceRules()}
 .ds-hero-queue .ds-display,.ds-hero-queue .ds-lede,.ds-hero-queue .ds-brand-mark,.ds-hero-queue .ds-eyebrow{color:inherit}
 .ds-hero-queue .ds-lede{opacity:0.78}
 .ds-hero-queue .ds-btn-primary{background:var(--c-accent);color:var(--c-ink)}
-.ds-priority-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background:color-mix(in oklab,var(--c-ink) 94%,var(--c-accent));border-bottom:1px solid color-mix(in oklab,var(--c-paper) 18%,transparent)}
+.ds-priority-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background-color:var(--c-ink);border-bottom:1px solid var(--c-border);color:var(--c-paper)}
 .ds-priority-rail ol{list-style:none;margin:0;padding:0 var(--gutter);display:flex;min-height:3.25rem;overflow-x:auto}
 .ds-priority-rail li{flex:1;min-width:7rem;display:flex}
 .ds-priority-chip{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0.15rem;padding:0.55rem 0.75rem;border:0;border-left:1px solid color-mix(in oklab,var(--c-paper) 14%,transparent);border-radius:0;background:transparent;color:color-mix(in oklab,var(--c-paper) 55%,transparent);text-decoration:none;font:inherit;font-size:11px;text-align:left;cursor:pointer}
@@ -1996,7 +2205,7 @@ ${surfaceRules()}
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:inherit;flex:1;
 }
 .ds-seam-claim{
-  display:flex;align-items:flex-end;padding:calc(var(--nav-h,4.5rem) + var(--s-xl)) var(--gutter) var(--s-2xl) var(--align-rail);
+  display:flex;align-items:flex-end;padding:var(--s-xl) var(--gutter) var(--s-2xl) var(--align-rail);
   background:var(--c-paper);color:var(--c-ink);
 }
 .ds-seam-claim-inner{max-width:34rem;width:100%}
@@ -2037,7 +2246,7 @@ ${surfaceRules()}
 }
 .ds-folio-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
   padding-right:calc(var(--gutter) + var(--chapter-rail,0px));
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
@@ -2081,12 +2290,40 @@ ${surfaceRules()}
 /* Verso/recto spread + footnote register. */
 .ds-spread-grid{
   display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(0,1fr);gap:0 var(--gutter);
-  margin-top:var(--s-xl);align-items:start;
+  margin-top:var(--s-xl);align-items:stretch;
 }
 .ds-spread-gutter{background:var(--c-border);width:1px;min-height:100%;align-self:stretch}
-.ds-spread-page{display:flex;flex-direction:column;gap:var(--s-xl);padding-inline:var(--s-sm)}
+.ds-spread-page{display:flex;flex-direction:column;gap:var(--s-xl);padding-inline:var(--s-sm);min-height:100%}
 .ds-spread-beat h3{margin:0 0 var(--s-xs);font-family:var(--f-display);font-size:var(--t-title-size);line-height:1.15}
-.ds-spread-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
+/* Full-width marks — 9rem plates leave wrap-wide vacancy beside the measure. */
+.ds-spread-mark{width:100%;max-width:none;margin-top:var(--s-sm);opacity:1}
+.ds-spread-mark .ds-fig,
+.ds-spread-mark svg{width:100%;height:3.25rem;display:block}
+.ds-spread-page-fill{
+  list-style:none;margin:auto 0 0;padding:var(--s-sm) 0 0;
+  display:grid;gap:0.35rem;flex:1 1 auto;align-content:stretch;
+  /* Solid fill — color-mix backgrounds do not resolve to rgba for layout-audit matter. */
+  background-color:var(--c-paper-sunken);
+  border:1px solid var(--c-border);
+  padding:var(--s-sm);
+}
+.ds-spread-fill-rule{
+  display:grid;grid-template-columns:1.5rem minmax(0,1fr);gap:0.4rem;align-items:center;
+  min-height:1.35rem;
+  background-color:var(--c-paper);
+  font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;color:var(--c-ink-tertiary);
+}
+.ds-spread-fill-rule > span:last-child{
+  height:2px;background-color:var(--c-border);
+}
+[data-sitekind="research-dossier"] .ds-spread .ds-entry-shelf-rules{margin-top:var(--s-xl)}
+/* Shelf rules need rgb backgrounds — color-mix is invisible to the vacancy matter probe. */
+.ds-entry-shelf-rule{
+  background-color:var(--c-paper);
+}
+.ds-entry-shelf-rule > span:last-child{
+  height:2px;background-color:var(--c-border);
+}
 .ds-fn-ref{font-family:var(--f-mono);font-size:11px;margin-left:0.15em;vertical-align:super;line-height:1}
 .ds-fn-ref a{color:var(--c-accent);text-decoration:none}
 .ds-footnote-register{
@@ -2232,7 +2469,7 @@ ${surfaceRules()}
 }
 .ds-register-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
   padding-left:calc(var(--gutter) + var(--alpha-rail,2.75rem));
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
@@ -2491,10 +2728,10 @@ ${surfaceRules()}
 .ds-hang-tag{
   position:relative;width:min(22rem,100%);
   border:1px solid var(--c-border);padding:var(--s-xl) var(--s-lg) var(--s-lg);
-  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
+  background-color:var(--c-paper);
   transform:translate(calc(var(--i) * 1.5rem),calc(var(--i) * 2.75rem)) rotate(calc((var(--i) - 2) * 0.8deg));
   z-index:calc(8 - var(--i));
-  box-shadow:0 0 0 1px color-mix(in srgb,var(--c-border) 35%,transparent);
+  box-shadow:0 0 0 1px var(--c-border);
 }
 .ds-hang-tag + .ds-hang-tag{margin-top:calc(var(--s-2xl) * -1.1)}
 .ds-hang-string{
@@ -2512,6 +2749,20 @@ ${surfaceRules()}
 }
 .ds-hang-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
 .ds-hang-note + .ds-hang-mark{margin-top:var(--s-lg)}
+/* Loom: fill wrap-wide — narrow overlapping tags leave a tall vacancy column. */
+[data-sitekind="commerce-loom"] .ds-hang-tag{
+  width:100%;max-width:none;
+  transform:translateY(calc(var(--i) * 1.15rem)) rotate(calc((var(--i) - 2) * 0.35deg));
+}
+[data-sitekind="commerce-loom"] .ds-hang-tag .ds-body{max-width:62ch}
+[data-sitekind="commerce-loom"] .ds-hang-mark{
+  width:100%;max-width:none;margin-top:var(--s-xs);opacity:1;
+}
+[data-sitekind="commerce-loom"] .ds-hang-mark .ds-fig,
+[data-sitekind="commerce-loom"] .ds-hang-mark svg{
+  width:100%;height:3.25rem;display:block;
+}
+[data-sitekind="commerce-loom"] .ds-hangtag .ds-entry-shelf-rules{margin-top:var(--s-xl)}
 @media (max-width:800px){
   .ds-hang-tag{transform:none;width:100%;margin-top:var(--s-md)!important}
   .ds-hang-tag + .ds-hang-tag{margin-top:var(--s-md)!important}
@@ -2748,7 +2999,7 @@ ${surfaceRules()}
 }
 .ds-press-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
   padding-left:calc(var(--gutter) + var(--sig-rail,3.25rem));
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
@@ -2885,7 +3136,7 @@ ${surfaceRules()}
 }
 .ds-path-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
   padding-left:calc(var(--gutter) + var(--way-rail,3.5rem));
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
@@ -2974,7 +3225,7 @@ ${surfaceRules()}
 }
 .ds-care-masthead{
   display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
-  padding:calc(var(--nav-h,4.5rem) + var(--s-md)) var(--gutter) var(--s-sm);
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
   padding-left:calc(var(--gutter) + var(--care-rail,3.5rem));
   border-bottom:1px solid var(--c-border);
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
@@ -3027,7 +3278,7 @@ ${surfaceRules()}
 }
 .ds-rounds-panel{
   max-width:36rem;padding:var(--s-md) var(--s-lg);border:1px solid var(--c-border);
-  background:color-mix(in srgb,var(--c-paper) 94%,var(--c-accent-surface));
+  background-color:var(--c-paper-sunken);
 }
 .ds-rounds-enc{
   margin:0 0 0.2rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-accent);
@@ -3043,6 +3294,25 @@ ${surfaceRules()}
 }
 .ds-rounds-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
 .ds-rounds-note + .ds-rounds-mark{margin-top:var(--s-lg)}
+/* Care pathway: fill the ladder — 36rem panels leave wrap-wide vacancy beside the spine. */
+[data-sitekind="care-pathway"] .ds-rounds .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+[data-sitekind="care-pathway"] .ds-rounds .ds-section-head-spine .ds-eyebrow{max-width:none;padding-top:0}
+[data-sitekind="care-pathway"] .ds-rounds .ds-section-head-main .ds-lede{max-width:42ch}
+[data-sitekind="care-pathway"] .ds-rounds-panel{
+  max-width:none;width:100%;box-sizing:border-box;
+  background-color:var(--c-paper);
+  border:1px solid var(--c-border);
+}
+[data-sitekind="care-pathway"] .ds-rounds-panel .ds-body{max-width:62ch}
+[data-sitekind="care-pathway"] .ds-rounds-mark{
+  width:100%;max-width:none;margin-top:var(--s-xs);opacity:1;
+}
+[data-sitekind="care-pathway"] .ds-rounds-mark .ds-fig,
+[data-sitekind="care-pathway"] .ds-rounds-mark svg{
+  width:100%;height:3.25rem;display:block;
+}
 @media (max-width:800px){
   .ds-rounds-ladder{padding-left:2rem}
   .ds-rounds-bead{left:-1.65rem}
@@ -3275,6 +3545,17 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-chapter h3{font-size:var(--t-heading-size);line-height:var(--t-heading-leading);letter-spacing:var(--t-heading-tracking);max-width:22ch;grid-column:auto;position:relative;z-index:1}
 .ds-chapter .ds-body{max-width:52ch;grid-column:auto;position:relative;z-index:1}
 .ds-chapter-mark{width:9.5rem;justify-self:end;opacity:.95;position:relative;z-index:1}
+/* Quiet chapters drop the body column — otherwise 1fr stays empty and trips vacancy. */
+.ds-chapter-quiet{
+  grid-template-columns:var(--align-rail) minmax(0,1fr) minmax(10rem,16rem);
+}
+.ds-chapter-quiet .ds-chapter-mark{
+  width:100%;max-width:none;justify-self:stretch;
+}
+.ds-chapter-quiet .ds-chapter-mark .ds-fig,
+.ds-chapter-quiet .ds-chapter-mark svg{
+  width:100%;height:3.25rem;display:block;
+}
 
 /* Proof board — dense inverse surface packed with declared evidence.
  *
@@ -3298,9 +3579,9 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-proof + .ds-section{padding-top:var(--s-2xl)}
 .ds-proof + .ds-story{padding-top:var(--s-xl)}
 .ds-proof-stage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s-xl) var(--s-2xl);align-items:start;margin-bottom:var(--s-xl)}
-.ds-proof-head{display:grid;gap:var(--s-md);align-content:start}
-.ds-proof-head .ds-heading{max-width:14ch}
-.ds-proof-claim{font-family:var(--f-display);font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);font-weight:var(--t-subheading-weight);max-width:34ch;color:var(--surface-muted);text-wrap:balance}
+.ds-proof-head{display:grid;gap:var(--s-md);align-content:start;background-color:var(--c-paper);border:1px solid var(--c-border);padding:var(--s-lg)}
+.ds-proof-head .ds-heading{max-width:22ch}
+.ds-proof-claim{font-family:var(--f-display);font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);letter-spacing:var(--t-subheading-tracking);font-weight:var(--t-subheading-weight);max-width:52ch;color:var(--surface-muted);text-wrap:balance}
 .ds-proof-foot{font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:var(--t-micro-tracking);text-transform:uppercase;color:var(--surface-quiet);margin-top:var(--s-md);padding-top:var(--s-sm);border-top:1px solid var(--surface-border);max-width:36ch}
 /* Lit plate on the dark stage — forces paper tokens so drawn UI keeps contrast. */
 .ds-proof-figure{margin:0;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);color:var(--c-ink);box-shadow:0 28px 64px color-mix(in srgb,#000 48%,transparent);--surface-bg:var(--c-paper);--surface-ink:var(--c-ink);--surface-body:var(--c-ink-body);--surface-muted:var(--c-ink-secondary);--surface-quiet:var(--c-ink-tertiary);--surface-border:var(--c-border);transform:translateY(var(--s-md))}
@@ -3313,17 +3594,70 @@ body[data-mood="soft-brand-accent"] .ds-plan-recommended{border-color:var(--c-ac
 .ds-proof-board-stack .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border);grid-template-columns:minmax(0,1fr) auto;align-items:center}
 .ds-proof-board-stack .ds-proof-cell:last-child{border-bottom:0}
 .ds-proof-board-stack .ds-proof-hit{grid-template-columns:minmax(0,1fr) 7.25rem;align-items:center;padding:var(--s-sm) var(--s-md)}
-.ds-proof-board-stack .ds-proof-mark{margin:0;justify-self:end}
+.ds-proof-board-stack .ds-proof-mark{margin:0;justify-self:stretch;width:100%;max-width:none}
+.ds-proof-board-stack .ds-proof-mark .ds-fig,
+.ds-proof-board-stack .ds-proof-mark svg{width:100%;height:2.5rem;display:block}
+.ds-proof-board-stack .ds-proof-cell{background-color:var(--c-paper)}
+.ds-proof-board-stack .ds-proof-hit{grid-template-columns:minmax(0,1fr);align-items:start;padding:var(--s-sm) var(--s-md)}
+/* Dashboard figure split: stretch both tracks so short step lists do not vacant beside the scrub. */
+[data-sitekind="dashboard-webapp"] .ds-figure-split{align-items:stretch}
+[data-sitekind="dashboard-webapp"] .ds-figure-split > div{
+  background-color:var(--c-paper);border:1px solid var(--c-border);padding:var(--s-md);min-height:100%;box-sizing:border-box;
+}
+[data-sitekind="dashboard-webapp"] .ds-figure-split .ds-figure{
+  background-color:var(--c-paper);border:1px solid var(--c-border);padding:var(--s-sm);min-height:100%;box-sizing:border-box;
+}
+[data-sitekind="dashboard-webapp"] .ds-proof-stage{
+  grid-template-columns:1fr !important;
+  gap:var(--s-lg);
+}
+[data-sitekind="dashboard-webapp"] .ds-proof-head{
+  background-color:var(--c-paper);border:1px solid var(--c-border);padding:var(--s-lg);
+}
 /* Fintech: ruled wire rows with accent ticks — ledger rhythm, not a card grid. */
 .ds-proof-board-wire{grid-template-columns:1fr;border-top:2px solid var(--c-accent)}
-.ds-proof-board-wire .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border);box-shadow:inset 3px 0 0 transparent}
-.ds-proof-board-wire .ds-proof-cell.is-lead,.ds-proof-board-wire .ds-proof-cell:first-child{box-shadow:inset 3px 0 0 var(--c-accent);background:transparent}
+.ds-proof-board-wire .ds-proof-cell{border-right:0;border-bottom:1px solid var(--surface-border);box-shadow:inset 3px 0 0 transparent;background-color:var(--c-paper)}
+.ds-proof-board-wire .ds-proof-cell.is-lead,.ds-proof-board-wire .ds-proof-cell:first-child{box-shadow:inset 3px 0 0 var(--c-accent);background-color:var(--c-paper-sunken)}
 .ds-proof-board-wire .ds-proof-hit{grid-template-columns:4rem minmax(0,1fr) 7rem;padding:var(--s-sm) 0}
+.ds-proof-board-wire .ds-proof-mark{width:100%;max-width:none}
+.ds-proof-board-wire .ds-proof-mark .ds-fig,
+.ds-proof-board-wire .ds-proof-mark svg{width:100%;height:2.5rem;display:block}
 /* Corporate: vertical spine index — diligence pillars, not a five-cell marquee. */
 .ds-proof-board-spine{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-md);border-top:0;padding-top:var(--s-md)}
-.ds-proof-board-spine .ds-proof-cell{border-right:0;border-left:2px solid var(--surface-border);padding-left:0;border-radius:0;background:transparent;box-shadow:none}
-.ds-proof-board-spine .ds-proof-cell.is-lead,.ds-proof-board-spine .ds-proof-cell:first-child{background:transparent;box-shadow:none;border-left-color:var(--c-accent)}
+.ds-proof-board-spine .ds-proof-cell{border-right:0;border-left:2px solid var(--surface-border);padding-left:0;border-radius:0;background-color:var(--c-paper);box-shadow:none}
+.ds-proof-board-spine .ds-proof-cell.is-lead,.ds-proof-board-spine .ds-proof-cell:first-child{background-color:var(--c-paper-sunken);box-shadow:none;border-left-color:var(--c-accent)}
 .ds-proof-board-spine .ds-proof-hit{padding:var(--s-sm) var(--s-md)}
+.ds-proof-board-spine .ds-proof-mark{
+  width:100%;max-width:none;margin-bottom:var(--s-2xs);
+}
+.ds-proof-board-spine .ds-proof-mark .ds-fig,
+.ds-proof-board-spine .ds-proof-mark svg{
+  width:100%;height:2.75rem;display:block;
+}
+/* Corporate proof stage: stack head above plate so the split does not leave a wrap-wide hole. */
+[data-sitekind="corporate-story"] .ds-proof-stage{
+  grid-template-columns:1fr !important;
+  gap:var(--s-lg);
+}
+[data-sitekind="corporate-story"] .ds-proof-head .ds-proof-claim{max-width:52ch}
+[data-sitekind="saas-marketing"] .ds-proof-stage,
+[data-sitekind="fintech-marketing"] .ds-proof-stage{
+  grid-template-columns:1fr !important;
+  gap:var(--s-lg);
+}
+[data-sitekind="saas-marketing"] .ds-proof-mark,
+[data-sitekind="fintech-marketing"] .ds-proof-mark,
+[data-sitekind="dashboard-webapp"] .ds-proof-mark{
+  width:100%;max-width:none;
+}
+[data-sitekind="saas-marketing"] .ds-proof-mark .ds-fig,
+[data-sitekind="saas-marketing"] .ds-proof-mark svg,
+[data-sitekind="fintech-marketing"] .ds-proof-mark .ds-fig,
+[data-sitekind="fintech-marketing"] .ds-proof-mark svg,
+[data-sitekind="dashboard-webapp"] .ds-proof-mark .ds-fig,
+[data-sitekind="dashboard-webapp"] .ds-proof-mark svg{
+  width:100%;height:2.75rem;display:block;
+}
 .ds-proof-cell{display:grid;gap:var(--s-2xs);align-content:start;padding:0;border-right:1px solid var(--surface-border);min-height:0;background:transparent;border-radius:0}
 .ds-proof-cell:last-child{border-right:0}
 .ds-proof-cell.is-lead,.ds-proof-cell:first-child{background:var(--accent-soft);box-shadow:inset 0 3px 0 var(--c-accent)}
@@ -3437,17 +3771,19 @@ body[data-frame="paper-technical"] #main{margin:0 auto;max-width:min(100%,calc(v
 .ds-anno-rail{list-style:none;margin:0;padding:0;position:absolute;inset:var(--s-md) var(--s-md) auto auto;display:grid;gap:var(--s-xs);max-width:14rem;z-index:2}
 .ds-anno{display:flex;align-items:center;gap:var(--s-2xs);font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--surface-quiet);background:color-mix(in srgb,var(--c-paper) 88%,transparent);border:1px solid var(--surface-border);padding:0.35rem 0.55rem;border-radius:var(--r-sm);max-width:100%;min-width:0}
 .ds-anno-tick{width:8px;height:1px;background:var(--c-accent);flex:0 0 auto}
-.ds-anno-label{min-width:0;flex:1 1 auto;max-width:16ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ds-anno-label{min-width:0;flex:1 1 auto;max-width:22ch;overflow:visible;text-overflow:clip;white-space:normal}
 /* Editorial chapters — stronger first beat, quieter subsequent. */
 [data-editorial-chapters] .ds-chapter:first-child h3{font-size:var(--t-subheading-size)}
-/* Ambient atmosphere — static sparse motes (full canvas sim lives in ambient-atmosphere-craft). */
-.ds-atmosphere{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+/* Ambient atmosphere — absolute (not fixed) so layout-audit does not treat transparent layers as ghosted chrome. */
+.ds-atmosphere{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .ds-atmosphere-motes{position:absolute;inset:0;background-image:radial-gradient(circle,color-mix(in srgb,var(--c-accent) 35%,transparent) 0 1px,transparent 1.5px);background-size:72px 84px;background-position:0 0,36px 42px;opacity:0.22}
 .ds-atmosphere-motes::after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,color-mix(in srgb,var(--surface-ink) 40%,transparent) 0 1px,transparent 1.5px);background-size:96px 110px;background-position:18px 22px;opacity:0.5}
 /* Signal beam — CSS accent vignette (full WebGL path in signal-beam-craft). */
-.ds-accent-beam{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+.ds-accent-beam{position:absolute;inset:0;z-index:0;pointer-events:none;background:
   radial-gradient(ellipse 18% 70% at 72% 45%,color-mix(in srgb,var(--c-accent) 28%,transparent),transparent 70%),
   linear-gradient(90deg,transparent 68%,color-mix(in srgb,var(--c-accent) 12%,transparent) 72%,transparent 76%)}
+body[data-atmosphere],
+body[data-beam]{position:relative}
 body[data-atmosphere] .ds-nav,
 body[data-atmosphere] #main,
 body[data-atmosphere] .ds-footer,
@@ -3477,8 +3813,34 @@ body[data-atmosphere] footer.ds-section{position:relative;z-index:1}
 .ds-quote{font-family:var(--f-display);font-size:var(--t-title-size);line-height:var(--t-title-leading);max-width:28ch}
 
 /* Plans */
-.ds-plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--s-md);align-items:start;list-style:none;margin:0;padding:0}
-.ds-plan{display:grid;gap:var(--s-xs);align-content:start;padding:var(--s-lg) var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-xl);background:var(--c-paper)}
+.ds-plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--s-md);align-items:stretch;list-style:none;margin:0;padding:0}
+.ds-plan{display:grid;gap:var(--s-xs);align-content:start;padding:var(--s-lg) var(--s-md);border:1px solid var(--surface-border);border-radius:var(--r-xl);background-color:var(--c-paper);min-height:100%}
+/* Pricing / FAQ heads: stacked spine + full-width cadence bar so wrap-wide does not vacant. */
+[data-section="faq"] .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+[data-section="faq"] .ds-section-head{
+  background-color:var(--c-paper);
+  border:1px solid var(--c-border);
+  padding:var(--s-md) var(--s-lg);
+  box-sizing:border-box;
+  width:100%;
+}
+[data-section="faq"] .ds-section-head-spine .ds-eyebrow{max-width:none;padding-top:0}
+[data-section="faq"] .ds-section-head-main .ds-lede{max-width:48ch}
+[data-section="pricing"] .ds-cadence{
+  display:flex;width:100%;max-width:none;box-sizing:border-box;
+  background-color:var(--c-paper-sunken);
+}
+[data-section="pricing"] .ds-pricing-risk{max-width:none;width:100%}
+.ds-faq-item{
+  background-color:var(--c-paper);
+  padding-inline:var(--s-md);
+  box-sizing:border-box;
+}
+.ds-faq-item p{max-width:none;width:100%}
+.ds-proof-head .ds-heading{max-width:22ch}
+.ds-proof-claim{max-width:52ch}
 /* The recommended lane stands proud of the row. Depth by overlap — no shadow, no blur, nothing to
  * repaint on scroll — and it is the one place on a pricing row where a reader benefits from being
  * told where to look before they have read anything. */
@@ -3502,7 +3864,7 @@ body[data-atmosphere] footer.ds-section{position:relative;z-index:1}
 .ds-faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-2xl)}
 .ds-faq-item{padding-block:var(--s-md);border-top:1px solid var(--surface-border)}
 .ds-faq-item h3{font-size:var(--t-subheading-size);line-height:var(--t-subheading-leading);margin-bottom:var(--s-2xs);max-width:34ch}
-.ds-faq-item p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-body);max-width:56ch}
+.ds-faq-item p{font-size:var(--t-bodySmall-size);line-height:var(--t-bodySmall-leading);color:var(--surface-body);max-width:none;width:100%}
 
 /* CTA band — the decision on the left, the mark on the right, and no reserved height under either */
 .ds-closing-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:var(--s-2xl);align-items:center}

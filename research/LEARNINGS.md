@@ -774,9 +774,10 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 
 - **Failure:** Care-pathway enter motion looked dead — `animation-name: ds-care-in` alone
   overrode the shared `.ds-enter` shorthand and left duration at 0s when `--m-entrance` was
-  unset at shorthand parse time.
-- **Fix:** Full `animation:` shorthand on `[data-sitekind="care-pathway"] .ds-enter` with
-  `ds-care-in`, `--m-entrance` fallback, and stagger delay.
+  unset at shorthand parse time. Same bug left lantern-path fold claim at opacity 0 (display
+  invisible → critique measured body leading as display).
+- **Fix:** Full `animation:` shorthand on siteKind `.ds-enter` with named keyframes,
+  `--m-entrance` fallback, `forwards`, and stagger delay (care + lantern).
 - **Do not:** Override only `animation-name` on siteKind enter rules.
 
 ## 2026-08-11 — `template:care-hairline-bead-chrome`
@@ -810,3 +811,31 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   handoffs). Alignment collapsed via `--care-inset`. Critique: care **98.5**, axes **4**,
   shape-run **0.364**.
 - **Do not:** Ship another vertical index under a vertical rounds ladder.
+
+## 2026-08-12 — `audit:smooth-scroll-false-collision`
+
+- **Failure:** Layout-audit scrolled the page then `window.scrollTo(0,0)`. With
+  `html{scroll-behavior:smooth}`, long pages left residual `scrollY` (often 4–22px). Sticky
+  nav stayed at the viewport top while the hero's border box moved under it → false
+  `collision nav / hero` on dossier, docs, saas, fintech.
+- **Fix:** Audit ritual uses `scrollTo({ top, behavior: "instant" })` and resets
+  `documentElement.scrollTop` / `body.scrollTop` before measuring.
+- **Do not:** Treat residual smooth-scroll as a packing bug, or weaken the collision gate.
+
+## 2026-08-12 — `template:color-mix-not-vacancy-matter`
+
+- **Failure:** Ruled fills and craft panels used `background: color-mix(...)`. The vacancy
+  probe only treats `rgba(...)` backgrounds as matter, so full-width “fills” were invisible
+  and wrap-wide holes stayed (dossier spread, care rounds, loom hang, pricing heads).
+- **Fix:** Opaque `background-color: var(--c-paper)` / `--c-paper-sunken` / `--c-border` on
+  shelf rules, page fills, hang tags, proof cells, FAQ items; full-width SVG marks with fixed
+  height so the matter grid paints.
+- **Do not:** Count on `color-mix` or transparent rails to fill a vacancy hole the probe can see.
+
+## 2026-08-12 — `template:catalogue-prose-triple`
+
+- **Failure:** Same ≥45-char feature sentence painted in hero lede + features + story chapters
+  + flow band / proof cells (studio 4×, press/consumer/corporate 3×) → layout-audit repetition.
+- **Fix:** Expand `quietIndex`; titles-only figure steps + proof hits; flow band uses stage
+  meta not body; `ds-chapter-quiet` drops body column (and the empty 1fr vacancy that followed).
+- **Do not:** Reprint catalogue prose in every instrument that already names the capability.

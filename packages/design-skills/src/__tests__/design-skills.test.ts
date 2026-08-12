@@ -815,7 +815,7 @@ describe("research-backed offerings + implementation basics", () => {
     expect(press).toMatch(/width:calc\(100vw - var\(--craft-rail,0px\)\)/);
     expect(press).toMatch(/class="ds-bleed ds-press-field">[\s\S]*?ds-press-regs/);
     expect(press).not.toMatch(/\.ds-press-regs\{[^}]*z-index:3/);
-    expect(press).toMatch(/\[data-sitekind="press-atelier"\] \.ds-press-masthead\{[^}]*padding-bottom:var\(--s-sm\)/);
+    expect(press).toMatch(/\[data-sitekind="press-atelier"\] \.ds-press-masthead\{[^}]*padding-bottom:var\(--s-xs/);
   });
 
   it("keeps craft fold claims from pulling labeled fields underneath", () => {
@@ -830,6 +830,17 @@ describe("research-backed offerings + implementation basics", () => {
     const { previewHtml: lantern } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
     expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-claim\{[^}]*background:var\(--c-paper\)/);
     expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-field\{[^}]*margin-top:0/);
+    // animation-name-only zeroes duration/fill-mode — require full enter shorthand (care lesson).
+    expect(lantern).toMatch(
+      /\[data-sitekind="lantern-path"\] \.ds-enter\{[^}]*animation:ds-lantern-in var\(--m-entrance/,
+    );
+    expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-masthead\{[^}]*padding-top:var\(--s-xs/);
+    const { previewHtml: archive } = designFromFeatures(SHOWCASE_BRIEFS.archive!);
+    expect(archive).toMatch(
+      /\[data-sitekind="archive-index"\] \.ds-enter\{[^}]*animation:ds-archive-in var\(--m-entrance/,
+    );
+    expect(archive).toMatch(/\[data-sitekind="archive-index"\] \.ds-register-masthead\{[^}]*padding-top:var\(--s-xs/);
+    expect(archive).toContain("ds-entry-shelf-rules");
     expect(clinic).toMatch(/\[data-sitekind="care-pathway"\] \.ds-care-claim\{[^}]*background:var\(--c-paper\)/);
     expect(clinic).toMatch(/\[data-sitekind="care-pathway"\] \.ds-care-field\{[^}]*margin-top:0/);
   });
