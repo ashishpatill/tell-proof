@@ -375,7 +375,11 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-archive-in{from{opacity:0;transform:translateX(-1.25rem)}to{opacity:1;transform:none}}
 [data-sitekind="archive-index"]{--m-stagger:22ms;--m-entrance:320ms;--m-reveal:280ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="archive-index"] .ds-enter,
+  /* Full shorthand — animation-name-only zeroes duration/fill-mode (care/lantern lesson). */
+  [data-sitekind="archive-index"] .ds-enter{
+    animation:ds-archive-in var(--m-entrance,320ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,22ms));
+  }
   [data-sitekind="archive-index"] .ds-reveal,
   [data-sitekind="archive-index"] .ds-reveal .ds-stagger > *{animation-name:ds-archive-in}
   [data-sitekind="archive-index"] .ds-reveal:not(.is-in){transform:translateX(-1.25rem)}
@@ -892,20 +896,86 @@ body[data-sitekind="archive-index"]{
   position:relative;z-index:2;
   background:var(--c-paper);
 }
-[data-sitekind="archive-index"] .ds-register-claim .ds-hero-copy{gap:0.25rem;max-width:26rem}
+[data-sitekind="archive-index"] .ds-register-claim .ds-hero-copy{gap:0.2rem;max-width:26rem}
 [data-sitekind="archive-index"] .ds-register-claim .ds-lede{display:none}
 [data-sitekind="archive-index"] .ds-register-claim .ds-btn-secondary{display:none}
 /* Quiet display — stay ≥3.16vw corridor floor (archive is quiet, not microscopic). */
 [data-sitekind="archive-index"] .ds-hero-register .ds-display{
-  font-size:clamp(2.35rem,3.2vw,3.0rem);
+  font-size:clamp(2.5rem,3.35vw,3.15rem);
   letter-spacing:-0.03em;max-width:16ch;line-height:1.06;
 }
 [data-sitekind="archive-index"] .ds-register-field{
   margin-top:0;position:relative;z-index:1;
   padding-left:0;
 }
-[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(78vh,820px)}
+[data-sitekind="archive-index"] .ds-register-ledger .ds-fig{min-height:min(72vh,760px)}
 [data-sitekind="archive-index"] .ds-hero-register{min-height:min(98vh,900px)}
+/* Sticky nav is in-flow — do NOT add --nav-h again or the ledger starves below the fold. */
+[data-sitekind="archive-index"] .ds-register-masthead{
+  padding-top:var(--s-xs,0.35rem);
+  padding-bottom:var(--s-xs,0.35rem);
+  color:var(--c-ink-tertiary);
+}
+/* Opaque alpha rail — fixed letters must not ghost page content. */
+[data-sitekind="archive-index"] .ds-alpha-rail{
+  background:var(--c-paper);
+  border-right:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+}
+/* Figure split left column is narrow — nested spine rail starves title/lede. */
+[data-sitekind="archive-index"] .ds-split > div .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+[data-sitekind="archive-index"] .ds-split > div .ds-section-head-spine .ds-eyebrow{
+  max-width:none;padding-top:0;
+}
+[data-sitekind="archive-index"] .ds-split > div .ds-section-head-main .ds-title,
+[data-sitekind="archive-index"] .ds-split > div .ds-section-head-main .ds-lede{
+  max-width:28ch;
+}
+/* Entry story: full-width stack — side column + narrow measure left wrap-wide vacancy holes. */
+[data-sitekind="archive-index"] .ds-entry .ds-wrap-wide{
+  padding-left:var(--alpha-rail);
+  box-sizing:border-box;
+}
+[data-sitekind="archive-index"] .ds-entry-grid{
+  grid-template-columns:1fr !important;
+  align-items:stretch;
+  gap:var(--s-xl);
+}
+[data-sitekind="archive-index"] .ds-entry-aside-list{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:0 var(--s-md);
+}
+[data-sitekind="archive-index"] .ds-entry-essay{
+  gap:var(--s-md);max-width:none;margin-left:0;width:100%;
+}
+[data-sitekind="archive-index"] .ds-entry-measure{max-width:none;width:100%}
+[data-sitekind="archive-index"] .ds-entry-beat{padding-top:var(--s-md)}
+[data-sitekind="archive-index"] .ds-entry-mark{
+  width:100%;max-width:none;margin-top:var(--s-xs);opacity:1;
+}
+[data-sitekind="archive-index"] .ds-entry-mark .ds-fig,
+[data-sitekind="archive-index"] .ds-entry-mark svg{
+  width:100%;height:3.25rem;display:block;
+}
+[data-sitekind="archive-index"] .ds-entry .ds-section-head{margin-bottom:var(--s-md)}
+[data-sitekind="archive-index"] .ds-entry .ds-section-head-main .ds-lede{max-width:42ch}
+[data-sitekind="archive-index"] .ds-entry-aside{
+  border:1px solid var(--c-border);padding:var(--s-md);
+  background:var(--c-paper);
+}
+.ds-entry-shelf-rules{
+  list-style:none;margin:0;padding:var(--s-sm) 0 0;
+  border-top:1px solid var(--c-border);
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 1rem;
+}
+.ds-entry-shelf-rule{
+  display:grid;grid-template-columns:1.5rem minmax(0,1fr);gap:0.4rem;align-items:center;
+  min-height:1.45rem;border-bottom:1px solid color-mix(in srgb,var(--c-border) 75%,transparent);
+  font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;color:var(--c-ink-tertiary);
+}
+.ds-entry-shelf-rule > span:last-child{
+  height:1px;background:color-mix(in srgb,var(--c-border) 85%,transparent);
+}
 /* Cross-stamp strip: ink seals, not CSS rule flood (rules/screen band ≤4.33). */
 [data-sitekind="archive-index"] .ds-cross-stamps{
   border-top:0;padding-top:var(--s-xs);gap:0.25rem;
@@ -922,7 +992,6 @@ body[data-sitekind="archive-index"]{
 [data-sitekind="archive-index"] .ds-proof{padding-block:var(--s-2xl) var(--section-y)}
 [data-sitekind="archive-index"] .ds-section-head,
 [data-sitekind="archive-index"] .ds-index-row,
-[data-sitekind="archive-index"] .ds-entry-essay,
 [data-sitekind="archive-index"] .ds-chapter{padding-left:0;margin-left:var(--alpha-rail)}
 /* Colophon uses a full box border so it does not inflate ruleDensity (top/bottom-only rules). */
 [data-sitekind="archive-index"] .ds-closing-colophon{

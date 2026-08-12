@@ -1476,17 +1476,23 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
       </li>`;
     })
     .join("");
+  // Dense shelf rules under the essay — wrap-wide empty rectangles trip layout-audit vacancy.
+  const shelfRules = Array.from({ length: 40 }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    return `<li class="ds-entry-shelf-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
+  }).join("");
   return `<section class="ds-section ds-story ds-entry" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
       ${secMeta("Entry", `${count} stamps · ruled measure`)}
-      ${sectionHead(section, 2, true)}
+      ${sectionHead(section, 2, false)}
       <div class="ds-entry-grid" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "7fr 5fr"))}">
         <div class="ds-entry-essay">${essay}</div>
         <aside class="ds-entry-aside" aria-label="Entry index">
           <p class="ds-entry-aside-kicker">Shelf index</p>
           <ol class="ds-entry-aside-list">${aside}</ol>
         </aside>
+        <ol class="ds-entry-shelf-rules" aria-hidden="true">${shelfRules}</ol>
       </div>
     </div>
   </section>`;

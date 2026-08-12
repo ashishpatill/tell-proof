@@ -703,3 +703,14 @@ buckets, never names, hosts, or URLs.
   `@tell/design-skills` tests green.
 - **Next weakest:** archive-index / foundry / dossier (same animation-name pattern + display bands).
 
+## Loop — archive-index fold claim + audit clean (2026-08-12)
+
+- **Goal:** Clear archive-index layout-audit defects and restore a readable register fold claim.
+- **Failure named:** `template:animation-name-zeroes-duration` on archive enter; double `--nav-h`
+  masthead; transparent alpha-rail ghosting; figure-split starved lede; story vacancy from
+  wrap-wide empty rectangles beside narrow entry marks / short aside.
+- **Fix:** Full `animation:ds-archive-in … forwards`; masthead `padding-top:var(--s-xs)`; opaque
+  alpha-rail; collapse figure-split heads; full-width entry stack + shelf rules; full-width marks.
+- **Evidence:** `pnpm research:audit archive-index` → **clean**; fold shows claim + ledger.
+- **Next weakest:** foundry-editorial / dossier-research (same enter animation-name pattern).
+

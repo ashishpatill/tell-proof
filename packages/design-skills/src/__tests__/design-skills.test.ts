@@ -835,6 +835,12 @@ describe("research-backed offerings + implementation basics", () => {
       /\[data-sitekind="lantern-path"\] \.ds-enter\{[^}]*animation:ds-lantern-in var\(--m-entrance/,
     );
     expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-masthead\{[^}]*padding-top:var\(--s-xs/);
+    const { previewHtml: archive } = designFromFeatures(SHOWCASE_BRIEFS.archive!);
+    expect(archive).toMatch(
+      /\[data-sitekind="archive-index"\] \.ds-enter\{[^}]*animation:ds-archive-in var\(--m-entrance/,
+    );
+    expect(archive).toMatch(/\[data-sitekind="archive-index"\] \.ds-register-masthead\{[^}]*padding-top:var\(--s-xs/);
+    expect(archive).toContain("ds-entry-shelf-rules");
     expect(clinic).toMatch(/\[data-sitekind="care-pathway"\] \.ds-care-claim\{[^}]*background:var\(--c-paper\)/);
     expect(clinic).toMatch(/\[data-sitekind="care-pathway"\] \.ds-care-field\{[^}]*margin-top:0/);
   });
