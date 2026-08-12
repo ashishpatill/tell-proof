@@ -768,6 +768,8 @@ describe("research-backed offerings + implementation basics", () => {
     const report = assertBasics(spec, previewHtml);
     const failed = report.findings.filter((f) => !f.ok).map((f) => f.id);
     expect(failed, failed.join(", ")).toEqual([]);
+    expect(report.findings.some((f) => f.id === "care-plate-explains" && f.ok)).toBe(true);
+    expect(report.findings.some((f) => f.id === "signature-figure-teaches" && f.ok)).toBe(true);
   });
 
   it("exposes reusable densify helpers for cell-grid figures", async () => {

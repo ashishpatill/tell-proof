@@ -65,6 +65,17 @@ One template per `siteKind` (saas, dashboard, corporate, educational, fintech, s
 | `lantern` | Lantern path — chapter waypoints, path cartograph fold, night trail, Ember close |
 | `clinic` | Care pathway — stage rail, care-plate spine, rounds ladder, Chart close |
 
+## Template → engine lock-in
+
+Every `/showcase/*` or template craft win must also upgrade Tell Proof:
+
+1. **Engine** — change lives in `@tell/design-skills` (figures / CSS / composition / route), not a one-off HTML paste
+2. **Gate** — `assertBasics` check so the failure cannot regress (`care-plate-explains`, `signature-figure-teaches`, …)
+3. **Learning** — `research/LEARNINGS.md` pattern key + `LOOP_LEDGER.md` row
+4. **Process** — update `.cursor/skills/tell-template-craft` / `tell-recursive-improve` / agency DESIGN_RIGOR when the miss was procedural
+
+Specimen-only polish without the above is `process:template-without-engine`. Complex concepts: compose in Figma → map into engine figures. Signature plates must **teach** (citeable matter), not only label.
+
 ## Quality bar (Phase 7)
 
 Preview HTML must clear this craft floor — routing alone is not enough:
@@ -77,6 +88,7 @@ Preview HTML must clear this craft floor — routing alone is not enough:
 6. **Educational figure** — scrub instrument + `<figcaption>` when site kind is docs-educational
 7. **Product-proof workflow (SaaS)** — `workflow-proof` layout with labeled Sample workflow stages (input → process → draft → review → approve), human gate, HTMX panel swaps
 8. **A11y / mobile** — `:focus-visible`, 44px controls, stacked layout under 800px, reduced-motion safe
+9. **Signature figure teaches** — craft plates explain the product concept (not empty schematics / title-only chips); `assertBasics` gates `care-plate-explains` + `signature-figure-teaches` + `craft-figure-dense`
 
 ## Workflow
 

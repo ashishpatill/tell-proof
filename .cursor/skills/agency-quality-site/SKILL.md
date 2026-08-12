@@ -25,6 +25,7 @@ Learn (automatic): `.cursor/skills/agency-run-learn` · `research/design-data.RE
 11. **Media performance is automatic** — `responsive-performance` is always routed; `pnpm media:site` runs at end of `agency:run` **and** on `agency:pipeline --mark-pass 4-ship`. Specimen UIs use `SiteImg`.
 12. **Research gate is automatic on every template** — `designFromFeatures` attaches `researchPlan` (LoadPrior → gap → sport-site-research when sport → IA → training) and merges `followOnCraft` into `routedSkills`.
 13. **Skill wiring is a hard gate** — `assertSkillWiring` (via `assertBasics`) + agency `2-build` artifacts `RESEARCH_GATE.md` / `SKILL_WIRING.json`. Phase fails if research/craft/optim wiring is red.
+14. **Template wins upgrade the engine** — every specimen/template improvement must also land a basics gate, LEARNINGS pattern, and (when relevant) figure/CSS/route change in `@tell/design-skills`. Specimen-only polish is `process:template-without-engine`. Complex concepts: compose in Figma → map into engine figures. Signature plates must **teach**, not only label (`care-plate-explains` / `signature-figure-teaches`).
 
 ## Session opener (auto)
 

@@ -815,3 +815,15 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   empty stretch cannot return. Remove SVG instrument silhouettes.
 - **Do not:** Ship a signature clinical figure that only labels concepts — the plate must show
   stage ownership, handoff audit, and dwell delay as readable matter.
+
+## 2026-08-12 — `process:template-without-engine`
+
+- **Failure:** Template/showcase craft wins that only change a specimen (or one SVG) leave the
+  next agent free to reintroduce the same empty schematic / fold miss — no basics gate, no
+  process rule, no LEARNINGS pattern.
+- **Fix:** Mandatory Phase C lock-in (`tell-template-craft`): engine change + `assertBasics`
+  gate + LEARNINGS/LOOP_LEDGER + process skill update when procedural. Agency DESIGN_RIGOR §3b
+  and `docs/09` “Template → engine lock-in.” Gates: `care-plate-explains`,
+  `signature-figure-teaches`.
+- **Do not:** Mark a prettier `/showcase/*` as done without upgrading Tell Proof’s engine and
+  design process.

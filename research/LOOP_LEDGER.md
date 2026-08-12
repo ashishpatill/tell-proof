@@ -703,3 +703,15 @@ buckets, never names, hosts, or URLs.
 - **Closed:** `template:care-plate-empty-schematic`.
 - **Next weakest:** fold still crops mid-plate on short viewports — keep claim compact; watch
   panel/log density on column roles; re-critique matrix if care score drifts.
+
+## Loop 35b — Template→engine process lock-in
+
+- **Goal:** Every template improvement also upgrades Tell Proof engine + design process.
+- **Failure named:** `process:template-without-engine`.
+- **Challenger:** `care-plate-explains` + `signature-figure-teaches` basics gates; Phase C in
+  `tell-template-craft`; eye-teach + engine-lock-in gates in `tell-recursive-improve`;
+  DESIGN_RIGOR §3b; `docs/09` lock-in section; agency-quality-site rule 14.
+- **Score:** design-skills tests + typecheck green; clinic assertBasics requires teaching matter.
+- **Closed:** process rule encoded (not specimen-only).
+- **Next weakest:** extend `signature-figure-teaches` teaching surfaces for remaining siteKinds
+  beyond care/lantern/press.

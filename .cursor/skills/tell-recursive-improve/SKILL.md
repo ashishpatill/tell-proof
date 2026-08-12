@@ -14,10 +14,14 @@ Do not brainlessly re-shoot the same nav strip and call it proof.
 |---|---|
 | **Eye — showcase** | Preview shows sticky nav + truncated type; empty right gutter; ghosted labels |
 | **Eye — template** | Best craft moment (figure / inverse / claim) not visible in posted shots |
+| **Eye — teach** | Signature figure only labels concepts (empty schematic / title chips) — no citeable teaching matter |
 | **Critique** | Matrix or target brief score regresses |
 | **Basics** | `assertBasics` red |
+| **Engine lock-in** | Template/specimen improved but no basics gate, learning, or engine change (`process:template-without-engine`) |
 
 **Pass bar for showcase shots:** the frame must include a **primary craft beat** (hero claim *with* figure start, or product plate, or inverse proof) — not chrome alone.
+
+**Pass bar for template wins:** every visual improvement must also upgrade Tell Proof's **design engine** (`packages/design-skills`) and **design process** (skills / LEARNINGS / gates). Specimen-only diffs fail this loop.
 
 ## Loop (one cycle)
 
@@ -28,7 +32,9 @@ Do not brainlessly re-shoot the same nav strip and call it proof.
 5. **Eval** — Playwright eye on `/showcase` + offering; `pnpm research:critique` if engine touched; typecheck.
 6. **Promote or revert** — keep only if eye + critique clear.
 7. **Write the lesson** — append to `research/LEARNINGS.md` with pattern key + anti-pattern.
-8. **Screenshot contract** — post gallery + at least one mid-page craft beat (or cinema reel frame), never nav-only.
+8. **Lock into the engine** — add/adjust `assertBasics` (or figure/CSS/route) so the failure cannot
+   silently return; update process skills when the miss was procedural.
+9. **Screenshot contract** — post gallery + at least one mid-page craft beat (or cinema reel frame), never nav-only.
 
 ## Pattern keys (examples)
 
@@ -37,6 +43,8 @@ Do not brainlessly re-shoot the same nav strip and call it proof.
 - `template:label-under-claim` — absolute overfigure under type
 - `template:sitekind-css-dead` — siteKind rules trapped in wrong lean branch
 - `template:skill-metadata-only` — skills listed in routedSkills/hints but not hard-gated; require `assertSkillWiring` + RESEARCH_GATE.md every agency 2-build
+- `template:care-plate-empty-schematic` — signature plate labels concepts without teaching them
+- `process:template-without-engine` — prettier specimen with no basics gate / LEARNINGS / engine change
 
 ## Showcase presentation rules
 
