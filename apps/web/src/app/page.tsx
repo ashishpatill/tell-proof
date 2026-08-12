@@ -45,6 +45,11 @@ import {
 } from "@/lib/recent-sessions";
 import { svgSessionThumb, thumbFromScreenshotBase64 } from "@/lib/session-thumb";
 import {
+  DEFAULT_DESIGN_CONTROLS,
+  serializeDesignControls,
+  type DesignControlsValue,
+} from "@/lib/design-controls-catalog";
+import {
   AppShell,
   EntryHome,
   ProductSidebar,
@@ -138,6 +143,7 @@ export default function HomePage() {
   const [sessionId, setSessionId] = useState(() => newSessionId());
   const [sessionTitle, setSessionTitle] = useState("Session");
   const [designBrief, setDesignBrief] = useState("");
+  const [designControls, setDesignControls] = useState<DesignControlsValue>(DEFAULT_DESIGN_CONTROLS);
   const [recent, setRecent] = useState<RecentSession[]>([]);
   const [showAllRecent, setShowAllRecent] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -1131,9 +1137,12 @@ export default function HomePage() {
   }
 
 
-  const studioBriefHref = designBrief
-    ? `/studio?brief=${encodeURIComponent(designBrief)}`
-    : "/studio";
+  const studioBriefHref = (() => {
+    const q = new URLSearchParams(serializeDesignControls(designControls));
+    if (designBrief) q.set("brief", designBrief);
+    const qs = q.toString();
+    return qs ? `/studio?${qs}` : "/studio";
+  })();
 
   const showProofWorkflow = Boolean(proposal) || proofState !== "idle";
   const showStateProbes = selectedFinding?.detector === "StateGap";
@@ -1606,6 +1615,8 @@ export default function HomePage() {
             onOpenRecent={openRecent}
             showAllRecent={showAllRecent}
             onToggleShowAll={() => setShowAllRecent((v) => !v)}
+            designControls={designControls}
+            onDesignControlsChange={setDesignControls}
           />
         ) : (
           <ProjectWorkspace
