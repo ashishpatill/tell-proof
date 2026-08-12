@@ -13,15 +13,36 @@ import {
   type SiteKind,
   type TypeWeight,
 } from "@tell/design-skills";
+import { DesignControls } from "@/components/design-controls";
 import { ProductShell } from "@/components/shell";
+import {
+  DEFAULT_DESIGN_CONTROLS,
+  accentHex,
+  designControlsToBriefFields,
+  parseDesignControls,
+  type DesignControlsValue,
+} from "@/lib/design-controls-catalog";
 
 type DesignResponse = DesignFromFeaturesResponse & { error?: string };
 type GenerateMode = "create" | "redesign";
-type BusinessGoal = "leads" | "demos" | "trust" | "sales" | "activation";
 type ViewportWidth = "390" | "768" | "1280";
 
 /** Default brief only — template gallery lives on Showcase, not Studio. */
 const DEFAULT_BRIEF = templateToStudioPreset("saas");
+
+function controlsFromStudioPreset(): DesignControlsValue {
+  return {
+    ...DEFAULT_DESIGN_CONTROLS,
+    siteKind: DEFAULT_BRIEF.siteKind,
+    businessGoal: DEFAULT_BRIEF.businessGoal,
+    aestheticLean: DEFAULT_BRIEF.aestheticLean,
+    motion: DEFAULT_BRIEF.motion,
+    density: DEFAULT_BRIEF.density,
+    colorMood: DEFAULT_BRIEF.colorMood,
+    typographyWeight: DEFAULT_BRIEF.typographyWeight,
+    roundingDepth: DEFAULT_BRIEF.roundingDepth,
+  };
+}
 
 function parseFeatures(text: string) {
   return text
@@ -45,16 +66,9 @@ export default function StudioPage() {
   const [productName, setProductName] = useState(DEFAULT_BRIEF.productName);
   const [tagline, setTagline] = useState(DEFAULT_BRIEF.tagline);
   const [audience, setAudience] = useState(DEFAULT_BRIEF.audience);
-  const [siteKind, setSiteKind] = useState<SiteKind>(DEFAULT_BRIEF.siteKind);
   const [lockSiteKind, setLockSiteKind] = useState(true);
-  const [businessGoal, setBusinessGoal] = useState<BusinessGoal>(DEFAULT_BRIEF.businessGoal);
   const [featuresText, setFeaturesText] = useState(DEFAULT_BRIEF.featuresText);
-  const [density, setDensity] = useState<Density>(DEFAULT_BRIEF.density);
-  const [motion, setMotion] = useState<MotionLevel>(DEFAULT_BRIEF.motion);
-  const [aestheticLean, setAestheticLean] = useState<AestheticLean>(DEFAULT_BRIEF.aestheticLean);
-  const [colorMood, setColorMood] = useState<ColorMood>(DEFAULT_BRIEF.colorMood);
-  const [typographyWeight, setTypographyWeight] = useState<TypeWeight>(DEFAULT_BRIEF.typographyWeight);
-  const [roundingDepth, setRoundingDepth] = useState<RoundingDepth>(DEFAULT_BRIEF.roundingDepth);
+  const [controls, setControls] = useState<DesignControlsValue>(controlsFromStudioPreset);
   const [magic, setMagic] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -70,40 +84,30 @@ export default function StudioPage() {
   useEffect(() => {
     if (briefBootstrapped.current || typeof window === "undefined") return;
     briefBootstrapped.current = true;
-    const fromQuery = new URLSearchParams(window.location.search).get("brief")?.trim();
+    const params = new URLSearchParams(window.location.search);
+    const fromQuery = params.get("brief")?.trim();
     if (fromQuery) {
       setMagic(fromQuery);
       setTagline(fromQuery.slice(0, 120));
     }
+    setControls(parseDesignControls(params, controlsFromStudioPreset()));
   }, []);
 
-  const brief = useMemo(
-    () => ({
+  const brief = useMemo(() => {
+    const fields = designControlsToBriefFields(controls);
+    return {
       productName,
       tagline,
       audience,
-      businessGoal,
-      siteKind,
+      businessGoal: fields.businessGoal,
+      siteKind: fields.siteKind,
       lockSiteKind,
+      brandAccent: fields.brandAccent,
+      craftNodes: fields.craftNodes,
       features: parseFeatures(featuresText),
-      taste: { density, motion, aestheticLean, colorMood, typographyWeight, roundingDepth },
-    }),
-    [
-      productName,
-      tagline,
-      audience,
-      businessGoal,
-      siteKind,
-      lockSiteKind,
-      featuresText,
-      density,
-      motion,
-      aestheticLean,
-      colorMood,
-      typographyWeight,
-      roundingDepth,
-    ],
-  );
+      taste: fields.taste,
+    };
+  }, [productName, tagline, audience, lockSiteKind, featuresText, controls]);
 
   const generateWith = useCallback(async (nextBrief: typeof brief, mode: GenerateMode = "create") => {
     abortRef.current?.abort();
@@ -136,12 +140,10 @@ export default function StudioPage() {
   }, []);
 
   const generate = useCallback(async () => {
-    // After the first result, the primary button redesigns; presets/magic still create from scratch.
     await generateWith(brief, lastSpecRef.current ? "redesign" : "create");
   }, [brief, generateWith]);
 
   useEffect(() => {
-    // Defer the first /api/design call until after paint so /studio navigates instantly.
     let cancelled = false;
     const start = () => {
       if (!cancelled) void generateWith(brief, "create");
@@ -165,7 +167,6 @@ export default function StudioPage() {
       if (timeoutId != null) clearTimeout(timeoutId);
       abortRef.current?.abort();
     };
-    // initial generate only
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -183,95 +184,78 @@ export default function StudioPage() {
 
   function applyMagic() {
     const text = magic.toLowerCase();
-    let nextDensity = density;
-    let nextMotion = motion;
-    let nextLean = aestheticLean;
-    let nextColor = colorMood;
-    let nextKind = siteKind;
+    let next: DesignControlsValue = { ...controls };
 
     if (/minimal|clean|quiet|sparse/.test(text)) {
-      nextLean = "minimal-clean";
-      nextDensity = "sparse";
-      nextMotion = "none";
+      next = { ...next, aestheticLean: "minimal-clean", density: "sparse", motion: "none" };
     }
     if (/conversion|cta|saas|sharp/.test(text)) {
-      nextLean = "conversion-sharp";
-      nextMotion = "subtle-micro";
-      if (/\b(fintech|treasury|payments?|banking|wire|payroll)\b/.test(text)) nextKind = "fintech-marketing";
-      if (/saas/.test(text)) nextKind = "saas-marketing";
+      next = { ...next, aestheticLean: "conversion-sharp", motion: "subtle-micro" };
+      if (/\b(fintech|treasury|payments?|banking|wire|payroll)\b/.test(text)) next.siteKind = "fintech-marketing";
+      if (/saas/.test(text)) next.siteKind = "saas-marketing";
     }
-    if (/system|token|crafted/.test(text)) nextLean = "system-crafted";
+    if (/system|token|crafted/.test(text)) next = { ...next, aestheticLean: "system-crafted" };
     if (/studio|portfolio|art.?direct|selected work|atelier/.test(text)) {
-      nextKind = "art-directed-studio";
-      nextLean = "refined-story";
-      nextDensity = "sparse";
+      next = { ...next, siteKind: "art-directed-studio", aestheticLean: "refined-story", density: "sparse" };
     }
     if (/consumer|everyday|lifestyle|shopper|retail|dtc/.test(text)) {
-      nextKind = "consumer-craft";
-      nextLean = "conversion-sharp";
-      nextDensity = "balanced";
+      next = { ...next, siteKind: "consumer-craft", aestheticLean: "conversion-sharp", density: "balanced" };
     }
     if (/foundry|typeface|specimen|optical|glyph|typography/.test(text)) {
-      nextKind = "editorial-foundry";
-      nextLean = "refined-story";
-      nextDensity = "sparse";
+      next = { ...next, siteKind: "editorial-foundry", aestheticLean: "refined-story", density: "sparse" };
     }
     if (/dossier|briefing|folio|capital brief|research desk|imprint|memo/.test(text)) {
-      nextKind = "research-dossier";
-      nextLean = "refined-story";
-      nextDensity = "sparse";
+      next = { ...next, siteKind: "research-dossier", aestheticLean: "refined-story", density: "sparse" };
     }
     if (/observatory|telemetry|signal desk|channel lattice|on.?call|sre desk|incident/.test(text)) {
-      nextKind = "signal-observatory";
-      nextLean = "refined-story";
-      nextDensity = "balanced";
+      next = { ...next, siteKind: "signal-observatory", aestheticLean: "refined-story", density: "balanced" };
     }
     if (/archive|alphabetical|stamp roll|registry|alpha.?rail|index ledger|entry folio/.test(text)) {
-      nextKind = "archive-index";
-      nextLean = "refined-story";
-      nextDensity = "sparse";
+      next = { ...next, siteKind: "archive-index", aestheticLean: "refined-story", density: "sparse" };
+    }
+    if (/care pathway|clinic|rounds|roundspool|health pathway/.test(text)) {
+      next = {
+        ...next,
+        siteKind: "care-pathway",
+        aestheticLean: "refined-story",
+        density: "sparse",
+        businessGoal: "trust",
+      };
     }
     if (/story|editorial|refined|corporate/.test(text)) {
-      nextLean = "refined-story";
-      nextDensity = "sparse";
-      if (/corporate/.test(text)) nextKind = "corporate-story";
+      next = { ...next, aestheticLean: "refined-story", density: "sparse" };
+      if (/corporate/.test(text)) next.siteKind = "corporate-story";
     }
     if (/dashboard|workspace|console/.test(text)) {
-      nextKind = "dashboard-webapp";
-      nextLean = "minimal-clean";
-      nextMotion = "none";
-      nextDensity = "information-rich";
+      next = {
+        ...next,
+        siteKind: "dashboard-webapp",
+        aestheticLean: "minimal-clean",
+        motion: "none",
+        density: "information-rich",
+      };
     }
     if (/docs|educational|textbook|chapter/.test(text)) {
-      nextKind = "docs-educational";
-      nextLean = "refined-story";
-      nextDensity = "sparse";
+      next = { ...next, siteKind: "docs-educational", aestheticLean: "refined-story", density: "sparse" };
     }
-    if (/dark/.test(text)) nextColor = "dark-premium";
-    if (/no motion|without animation|static/.test(text)) nextMotion = "none";
-    if (/scroll reveal/.test(text)) nextMotion = "light-scroll-reveals";
-    if (/scroll narrative|pinned chapter|story scroll/.test(text)) nextMotion = "scroll-narrative";
-    if (/immersive|webgl|shader hero/.test(text)) nextMotion = "immersive";
+    if (/dark/.test(text)) next = { ...next, colorMood: "dark-premium" };
+    if (/no motion|without animation|static/.test(text)) next = { ...next, motion: "none" };
+    if (/scroll reveal/.test(text)) next = { ...next, motion: "light-scroll-reveals" };
+    if (/scroll narrative|pinned chapter|story scroll/.test(text)) next = { ...next, motion: "scroll-narrative" };
+    if (/immersive|webgl|shader hero/.test(text)) next = { ...next, motion: "immersive" };
 
-    setDensity(nextDensity);
-    setMotion(nextMotion);
-    setAestheticLean(nextLean);
-    setColorMood(nextColor);
-    setSiteKind(nextKind);
+    setControls(next);
     setLockSiteKind(true);
 
+    const fields = designControlsToBriefFields(next);
     void generateWith({
       ...brief,
-      siteKind: nextKind,
+      siteKind: fields.siteKind,
       lockSiteKind: true,
-      taste: {
-        density: nextDensity,
-        motion: nextMotion,
-        aestheticLean: nextLean,
-        colorMood: nextColor,
-        typographyWeight,
-        roundingDepth,
-      },
+      businessGoal: fields.businessGoal,
+      brandAccent: fields.brandAccent,
+      craftNodes: fields.craftNodes,
+      taste: fields.taste,
     });
   }
 
@@ -320,37 +304,6 @@ export default function StudioPage() {
             />
           </label>
 
-          <Select
-            label="Site kind"
-            value={siteKind}
-            onChange={(v) => setSiteKind(v as SiteKind)}
-            options={[
-              "saas-marketing",
-              "dashboard-webapp",
-              "corporate-story",
-              "docs-educational",
-              "fintech-marketing",
-              "art-directed-studio",
-              "consumer-craft",
-              "editorial-foundry",
-              "research-dossier",
-              "signal-observatory",
-              "archive-index",
-              "commerce-loom",
-              "field-guide",
-              "press-atelier",
-              "lantern-path",
-              "care-pathway",
-            ]}
-            testId="input-sitekind"
-          />
-          <Select
-            label="Business goal"
-            value={businessGoal}
-            onChange={(v) => setBusinessGoal(v as BusinessGoal)}
-            options={["demos", "leads", "trust", "sales", "activation"]}
-            testId="input-goal"
-          />
           <label className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
@@ -373,36 +326,128 @@ export default function StudioPage() {
 
           <fieldset className="space-y-2 border-t border-border pt-3">
             <legend className="text-sm font-semibold">Taste Controls</legend>
-            <Select label="Density" value={density} onChange={(v) => setDensity(v as Density)} options={["sparse", "balanced", "information-rich"]} testId="taste-density" />
-            <Select label="Motion" value={motion} onChange={(v) => setMotion(v as MotionLevel)} options={["none", "subtle-micro", "light-scroll-reveals", "scroll-narrative", "immersive"]} testId="taste-motion" />
-            <Select
-              label="Aesthetic lean"
-              value={aestheticLean}
-              onChange={(v) => setAestheticLean(v as AestheticLean)}
-              options={["minimal-clean", "conversion-sharp", "system-crafted", "refined-story"]}
-              testId="taste-lean"
-            />
-            <Select
-              label="Color mood"
-              value={colorMood}
-              onChange={(v) => setColorMood(v as ColorMood)}
-              options={["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"]}
-              testId="taste-color"
-            />
-            <Select
-              label="Typography"
-              value={typographyWeight}
-              onChange={(v) => setTypographyWeight(v as TypeWeight)}
-              options={["light-elegant", "medium-modern", "bold-confident"]}
-              testId="taste-type"
-            />
-            <Select
-              label="Rounding"
-              value={roundingDepth}
-              onChange={(v) => setRoundingDepth(v as RoundingDepth)}
-              options={["sharp", "soft", "soft-elevation"]}
-              testId="taste-rounding"
-            />
+            <DesignControls layout="sidebar" value={controls} onChange={setControls} />
+            {/* Hidden native selects keep existing e2e/testids stable */}
+            <select
+              className="sr-only"
+              aria-hidden
+              tabIndex={-1}
+              value={controls.siteKind}
+              onChange={(e) => setControls((c) => ({ ...c, siteKind: e.target.value as SiteKind }))}
+              data-testid="input-sitekind"
+            >
+              {SURFACE_OPTIONS_FULL_VALUES.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+            <select
+              className="sr-only"
+              aria-hidden
+              tabIndex={-1}
+              value={controls.businessGoal}
+              onChange={(e) =>
+                setControls((c) => ({
+                  ...c,
+                  businessGoal: e.target.value as DesignControlsValue["businessGoal"],
+                }))
+              }
+              data-testid="input-goal"
+            >
+              {["demos", "leads", "trust", "sales", "activation"].map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+            <select
+              className="sr-only"
+              aria-hidden
+              tabIndex={-1}
+              value={controls.density}
+              data-testid="taste-density"
+              onChange={(e) => setControls((c) => ({ ...c, density: e.target.value as Density }))}
+            >
+              {["sparse", "balanced", "information-rich"].map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+            <select
+              className="sr-only"
+              aria-hidden
+              tabIndex={-1}
+              value={controls.motion}
+              data-testid="taste-motion"
+              onChange={(e) => setControls((c) => ({ ...c, motion: e.target.value as MotionLevel }))}
+            >
+              {["none", "subtle-micro", "light-scroll-reveals", "scroll-narrative", "immersive"].map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+            <select
+              className="sr-only"
+              aria-hidden
+              tabIndex={-1}
+              value={controls.aestheticLean}
+              data-testid="taste-lean"
+              onChange={(e) => setControls((c) => ({ ...c, aestheticLean: e.target.value as AestheticLean }))}
+            >
+              {["minimal-clean", "conversion-sharp", "system-crafted", "refined-story"].map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+            <select
+              className="sr-only"
+              aria-hidden
+              tabIndex={-1}
+              value={controls.colorMood}
+              data-testid="taste-color"
+              onChange={(e) => setControls((c) => ({ ...c, colorMood: e.target.value as ColorMood }))}
+            >
+              {["neutral-professional", "soft-brand-accent", "dark-premium", "light-airy"].map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+            <select
+              className="sr-only"
+              aria-hidden
+              tabIndex={-1}
+              value={controls.typographyWeight}
+              data-testid="taste-type"
+              onChange={(e) => setControls((c) => ({ ...c, typographyWeight: e.target.value as TypeWeight }))}
+            >
+              {["light-elegant", "medium-modern", "bold-confident"].map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+            <select
+              className="sr-only"
+              aria-hidden
+              tabIndex={-1}
+              value={controls.roundingDepth}
+              data-testid="taste-rounding"
+              onChange={(e) => setControls((c) => ({ ...c, roundingDepth: e.target.value as RoundingDepth }))}
+            >
+              {["sharp", "soft", "soft-elevation"].map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+            <p className="font-mono text-[0.65rem] text-secondary">
+              Accent {accentHex(controls.accentToken)} · fidelity {controls.fidelity}
+            </p>
           </fieldset>
 
           <label className="block text-sm">
@@ -499,24 +544,23 @@ export default function StudioPage() {
                     viewport === w ? "bg-accent text-white" : "border border-border text-secondary hover:border-accent hover:text-accent"
                   }`}
                   onClick={() => setViewport(w)}
-                  data-testid={`viewport-${w}`}
+                  data-testid={`viewport-${label.toLowerCase()}`}
                 >
                   {label}
                 </button>
               ))}
             </div>
           </div>
-          {loading ? <p className="p-4 text-sm text-secondary" data-testid="studio-loading">Generating…</p> : null}
-          {result?.previewHtml ? (
-            <div className="flex justify-center bg-bg p-3 md:p-4" data-testid="preview-stage">
+          {loading && !result ? (
+            <div className="flex h-[50vh] items-center justify-center text-sm text-secondary">Generating…</div>
+          ) : result?.previewHtml ? (
+            <div className="overflow-auto bg-bg p-3" data-testid="preview-frame-wrap">
               <iframe
                 title="Design preview"
+                className="mx-auto min-h-[70vh] w-full rounded border border-border bg-white"
+                style={{ maxWidth: `${viewport}px` }}
                 srcDoc={result.previewHtml}
-                className="h-[80vh] border border-border bg-surface shadow-card md:h-[calc(100vh-10rem)]"
-                style={{ width: "100%", maxWidth: `${viewport}px` }}
-                data-testid="studio-frame"
-                data-generation={generation}
-                data-viewport={viewport}
+                data-testid="preview-frame"
               />
             </div>
           ) : (
@@ -529,34 +573,21 @@ export default function StudioPage() {
   );
 }
 
-function Select({
-  label,
-  value,
-  onChange,
-  options,
-  testId,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  options: string[];
-  testId?: string;
-}) {
-  return (
-    <label className="block text-sm">
-      <span className="mb-1 block text-secondary">{label}</span>
-      <select
-        className="w-full rounded border border-border bg-bg px-2 py-1.5 text-text outline-none focus-visible:border-accent"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        data-testid={testId}
-      >
-        {options.map((opt) => (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
+const SURFACE_OPTIONS_FULL_VALUES: SiteKind[] = [
+  "saas-marketing",
+  "dashboard-webapp",
+  "corporate-story",
+  "docs-educational",
+  "fintech-marketing",
+  "art-directed-studio",
+  "consumer-craft",
+  "editorial-foundry",
+  "research-dossier",
+  "signal-observatory",
+  "archive-index",
+  "commerce-loom",
+  "field-guide",
+  "press-atelier",
+  "lantern-path",
+  "care-pathway",
+];

@@ -5,6 +5,14 @@ Pattern keys match `tell-recursive-improve`.
 
 ---
 
+## 2026-08-12 — `home:no-third-party-composer-templates`
+
+- **Do not:** Show third-party product brands as starter templates/chips under the Tell home composer. Guard: `apps/web/src/lib/composer-brand-denylist.ts` + vitest. Prefer Tell specimens / `listTemplates()` labels only — or nothing.
+
+## 2026-08-12 — `home:design-controls-shared`
+
+- **Do:** Home Design brief chip bar and Studio Taste Controls share `DesignControls` + `design-controls-catalog.ts` mapping to `DesignBrief` / `TasteControls` (Surface→siteKind, Goal→businessGoal, Lean→aestheticLean, Mood→colorMood, etc.). Fidelity is a UI ladder that nudges craftNodes / motion — not a parallel brief schema.
+
 ## 2026-08-08 — `template:craft-bleed-into-rail`
 
 - **Failure:** Forme Desk (press-atelier) full-bleed specimen/flow stages painted under the Sig

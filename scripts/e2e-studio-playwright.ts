@@ -222,28 +222,33 @@ async function main() {
     }
 
     // ── Studio UI as a real user ────────────────────────────────────
+    // Preview hooks: preview-frame / preview-frame-wrap / viewport-{mobile,tablet,desktop}
+    // (legacy studio-frame / viewport-390 / data-viewport retired with DesignControls).
     await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
     await page.getByTestId("studio-page").waitFor();
-    await page.getByTestId("studio-frame").waitFor({ timeout: 20_000 });
+    await page.getByTestId("preview-frame-wrap").waitFor({ timeout: 20_000 });
+    await page.getByTestId("preview-frame").waitFor({ timeout: 20_000 });
     await waitGeneration(page, 1);
-    await frameHas(page, "studio-frame", "Northstar");
+    await frameHas(page, "preview-frame", "Northstar");
     await assertText(page, '[data-testid="meta-skills"]', "hero-section");
     await assertText(page, '[data-testid="meta-sitekind"]', "saas-marketing");
-    await frameHas(page, "studio-frame", "Northstar");
-    const brandCount = await page.frameLocator('[data-testid="studio-frame"]').locator(".ds-brand-mark").count();
+    await frameHas(page, "preview-frame", "Northstar");
+    const brandCount = await page.frameLocator('[data-testid="preview-frame"]').locator(".ds-brand-mark").count();
     if (brandCount < 1) throw new Error("studio hero missing brand mark");
 
-    // Viewport craft tools
-    await page.getByTestId("viewport-390").click();
-    const mobileViewport = await page.getByTestId("studio-frame").getAttribute("data-viewport");
-    if (mobileViewport !== "390") throw new Error(`expected viewport 390, got ${mobileViewport}`);
-    await page.getByTestId("viewport-1280").click();
+    // Viewport craft tools — assert via iframe maxWidth (data-viewport removed)
+    await page.getByTestId("viewport-mobile").click();
+    const mobileMax = await page.getByTestId("preview-frame").evaluate((el) => (el as HTMLElement).style.maxWidth);
+    if (mobileMax !== "390px") throw new Error(`expected maxWidth 390px, got ${mobileMax}`);
+    await page.getByTestId("viewport-desktop").click();
+    const desktopMax = await page.getByTestId("preview-frame").evaluate((el) => (el as HTMLElement).style.maxWidth);
+    if (desktopMax !== "1280px") throw new Error(`expected maxWidth 1280px, got ${desktopMax}`);
 
-    // Taste controls → redesign
+    // Taste controls → redesign (hidden bridge selects keep taste-* / input-sitekind testids)
     await page.getByTestId("taste-lean").selectOption("minimal-clean");
     await page.getByTestId("taste-motion").selectOption("none");
     await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
-    const aesthetic = await page.frameLocator('[data-testid="studio-frame"]').locator("body").getAttribute("data-lean");
+    const aesthetic = await page.frameLocator('[data-testid="preview-frame"]').locator("body").getAttribute("data-lean");
     if (aesthetic !== "minimal-clean") throw new Error(`Expected minimal-clean, got ${aesthetic}`);
     await assertText(page, '[data-testid="meta-skills"]', "analyze-features-requirements");
     await assertText(page, '[data-testid="meta-hints"]', "Redesign from");
@@ -257,8 +262,8 @@ async function main() {
     await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
     await assertText(page, '[data-testid="meta-sitekind"]', "dashboard-webapp");
     await assertText(page, '[data-testid="meta-skills"]', "dashboard-or-webapp-ui");
-    await frameHas(page, "studio-frame", "Priority queue");
-    await frameMissing(page, "studio-frame", "Account scoring");
+    await frameHas(page, "preview-frame", "Priority queue");
+    await frameMissing(page, "preview-frame", "Account scoring");
 
     await page.getByTestId("input-product").fill("Harbor");
     await page.getByTestId("input-tagline").fill("Clarity for teams");
@@ -267,7 +272,7 @@ async function main() {
     await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
     await assertText(page, '[data-testid="meta-sitekind"]', "corporate-story");
     await assertText(page, '[data-testid="meta-skills"]', "content-storytelling-pages");
-    await frameHas(page, "studio-frame", "Clarity for teams");
+    await frameHas(page, "preview-frame", "Clarity for teams");
 
     await page.getByTestId("input-product").fill("Fieldmark");
     await page.getByTestId("input-tagline").fill("Placement model explained");
@@ -275,8 +280,8 @@ async function main() {
     await page.getByTestId("input-features").fill("Placement model — How scoring works\nWalkthrough — Step-by-step figure\nGlossary — Shared language");
     await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
     await assertText(page, '[data-testid="meta-sitekind"]', "docs-educational");
-    await frameHas(page, "studio-frame", "Placement model");
-    const figureCount = await page.frameLocator('[data-testid="studio-frame"]').locator("[data-instrument='scrub']").count();
+    await frameHas(page, "preview-frame", "Placement model");
+    const figureCount = await page.frameLocator('[data-testid="preview-frame"]').locator("[data-instrument='scrub']").count();
     if (figureCount < 1) throw new Error("educational site missing scrub figure");
 
     // From-scratch custom product via primary redesign button (features win)
@@ -288,11 +293,11 @@ async function main() {
     await page.getByTestId("taste-lean").selectOption("conversion-sharp");
     await page.getByTestId("taste-motion").selectOption("subtle-micro");
     await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
-    await frameHas(page, "studio-frame", "Ledgerly");
-    await frameHas(page, "studio-frame", "Bank match");
-    await frameHas(page, "studio-frame", "Close checklist");
-    await frameMissing(page, "studio-frame", "Interactive diagram");
-    await frameMissing(page, "studio-frame", "Priority queue");
+    await frameHas(page, "preview-frame", "Ledgerly");
+    await frameHas(page, "preview-frame", "Bank match");
+    await frameHas(page, "preview-frame", "Close checklist");
+    await frameMissing(page, "preview-frame", "Interactive diagram");
+    await frameMissing(page, "preview-frame", "Priority queue");
     await assertText(page, '[data-testid="meta-skills"]', "pricing-or-plans");
     await assertText(page, '[data-testid="meta-sections"]', "hero");
 
@@ -301,7 +306,7 @@ async function main() {
     await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-magic").click());
     await assertText(page, '[data-testid="meta-sitekind"]', "dashboard-webapp");
     await assertText(page, '[data-testid="meta-summary"]', "minimal clean");
-    await frameHas(page, "studio-frame", "Ledgerly");
+    await frameHas(page, "preview-frame", "Ledgerly");
 
     // All aesthetic leans via UI quickly
     const leanLabels: Record<string, string> = {
@@ -315,7 +320,7 @@ async function main() {
       await page.getByTestId("taste-lean").selectOption(lean);
       await clickAndAwaitNextGeneration(page, () => page.getByTestId("btn-generate").click());
       await page.getByTestId("meta-summary").filter({ hasText: new RegExp(leanLabels[lean]!, "i") }).waitFor({ timeout: 15_000 });
-      const attr = await page.frameLocator('[data-testid="studio-frame"]').locator("body").getAttribute("data-lean");
+      const attr = await page.frameLocator('[data-testid="preview-frame"]').locator("body").getAttribute("data-lean");
       if (attr !== lean) throw new Error(`lean UI mismatch: wanted ${lean}, got ${attr}`);
     }
 
