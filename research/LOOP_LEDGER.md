@@ -690,3 +690,16 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** matrix still weak on display-leading / display-scale for non-care siteKinds;
   care band-ink-variation on unseen briefs.
 
+## Loop — lantern-path fold claim + audit clean (2026-08-12)
+
+- **Goal:** Clear lantern-path layout-audit defects and restore a readable fold claim (display was
+  stuck at opacity 0).
+- **Failure named:** `template:animation-name-zeroes-duration` (lantern still used name-only),
+  double `--nav-h` on in-flow path masthead, nested spine starve in figure split, sil
+  `translateY(+)` overflow, transparent chapter-pin / way-rail ghosting.
+- **Fix:** Full `animation:ds-lantern-in … forwards` on `.ds-enter`; masthead `padding-top:var(--s-xs)`;
+  split heads collapse to one column; sil lift-up only; opaque way-rail + chapter-pin-inner paper.
+- **Evidence:** `pnpm research:audit lantern-path` → **clean**; fold shot shows claim + path atlas;
+  `@tell/design-skills` tests green.
+- **Next weakest:** archive-index / foundry / dossier (same animation-name pattern + display bands).
+

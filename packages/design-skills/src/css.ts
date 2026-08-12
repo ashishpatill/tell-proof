@@ -204,7 +204,11 @@ ${reducedInteractive}
   /* scroll-narrative + immersive: sticky chapter + progress bar */
   const narrative = `
 .ds-chapter-pin{position:relative;min-height:132vh;padding-bottom:var(--section-y)}
-.ds-chapter-pin-inner{position:sticky;top:clamp(3.5rem,8vh,5.5rem);padding-top:var(--s-md)}
+.ds-chapter-pin-inner{
+  position:sticky;top:clamp(3.5rem,8vh,5.5rem);padding-top:var(--s-md);
+  /* Opaque sticky surface — transparent pins ghost scrolled content (layout-audit). */
+  background:var(--c-paper);
+}
 .ds-chapter-progress{
   position:absolute;left:0;right:0;top:0;height:2px;background:color-mix(in srgb,var(--c-accent) 18%,transparent);
   transform-origin:left center;pointer-events:none;z-index:var(--z-raised);
@@ -414,7 +418,11 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
 @keyframes ds-lantern-in{from{opacity:0;transform:translateY(1.6rem) scale(0.985)}to{opacity:1;transform:none}}
 [data-sitekind="lantern-path"]{--m-stagger:64ms;--m-entrance:600ms;--m-reveal:500ms}
 @media (prefers-reduced-motion: no-preference){
-  [data-sitekind="lantern-path"] .ds-enter,
+  /* Full shorthand — animation-name-only zeroes duration/fill-mode (care-pathway lesson). */
+  [data-sitekind="lantern-path"] .ds-enter{
+    animation:ds-lantern-in var(--m-entrance,600ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,64ms));
+  }
   [data-sitekind="lantern-path"] .ds-reveal,
   [data-sitekind="lantern-path"] .ds-reveal .ds-stagger > *{animation-name:ds-lantern-in}
   [data-sitekind="lantern-path"] .ds-reveal:not(.is-in){transform:translateY(1.6rem) scale(0.985)}
@@ -1131,7 +1139,7 @@ body[data-sitekind="lantern-path"]{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
 }
 [data-sitekind="lantern-path"] .ds-hero-path .ds-display{
-  font-size:clamp(2.45rem,3.2vw,3.0rem);
+  font-size:clamp(2.6rem,3.6vw,3.35rem);
   letter-spacing:-0.03em;max-width:16ch;line-height:1.05;
 }
 [data-sitekind="lantern-path"] .ds-hero-path .ds-lede{display:none}
@@ -1150,11 +1158,12 @@ body[data-sitekind="lantern-path"]{
   opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
 [data-sitekind="lantern-path"] .ds-path-claim{
-  padding:var(--s-md) 0 var(--s-lg);
+  padding:var(--s-sm) 0 var(--s-md);
   padding-left:var(--way-rail);
   position:relative;z-index:2;
   background:var(--c-paper);
 }
+[data-sitekind="lantern-path"] .ds-path-claim .ds-hero-copy{gap:0.2rem;max-width:28rem}
 [data-sitekind="lantern-path"] .ds-path-claim .ds-actions{margin-top:0.2rem}
 [data-sitekind="lantern-path"] .ds-path-claim .ds-actions .ds-btn{padding:0.45rem 0.95rem}
 [data-sitekind="lantern-path"] .ds-path-claim .ds-hero-chips,
@@ -1163,14 +1172,31 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-path-claim .ds-hero-facts{display:none}
 [data-sitekind="lantern-path"] .ds-path-field{
   margin-top:0;position:relative;z-index:1;
-  padding-left:0;
+  padding-left:0;overflow:hidden;
 }
-[data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(92vh,960px)}
-[data-sitekind="lantern-path"] .ds-hero-path{min-height:min(100vh,920px)}
+[data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(72vh,760px)}
+[data-sitekind="lantern-path"] .ds-hero-path{min-height:min(100vh,900px)}
+/* Sticky nav is in-flow — do NOT add --nav-h again or the path plate starves below the fold. */
 [data-sitekind="lantern-path"] .ds-path-masthead{
-  padding-top:calc(var(--nav-h,4.5rem) + var(--s-md));
-  padding-bottom:var(--s-sm);
+  padding-top:var(--s-xs,0.35rem);
+  padding-bottom:var(--s-xs,0.35rem);
   color:var(--c-ink-tertiary);
+}
+/* Opaque way-rail — fixed marks must not ghost page content (layout-audit ghosting). */
+[data-sitekind="lantern-path"] .ds-way-rail{
+  background:var(--c-paper);
+  border-right:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+}
+/* Figure split left column is narrow — nested spine rail starves title/lede (~16ch). */
+[data-sitekind="lantern-path"] .ds-split > div .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+[data-sitekind="lantern-path"] .ds-split > div .ds-section-head-spine .ds-eyebrow{
+  max-width:none;padding-top:0;
+}
+[data-sitekind="lantern-path"] .ds-split > div .ds-section-head-main .ds-title,
+[data-sitekind="lantern-path"] .ds-split > div .ds-section-head-main .ds-lede{
+  max-width:28ch;
 }
 [data-sitekind="lantern-path"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
 [data-sitekind="lantern-path"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
@@ -1194,24 +1220,25 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-proof-cell.is-lead,
 [data-sitekind="lantern-path"] .ds-proof-cell:first-child{box-shadow:inset 0 1px 0 var(--c-accent)}
 [data-sitekind="lantern-path"] .ds-path-near{
-  position:absolute;left:var(--way-rail);right:0;bottom:0;height:min(22vh,180px);
+  position:absolute;left:var(--way-rail);right:0;bottom:0;height:min(18vh,148px);
   pointer-events:none;z-index:2;overflow:hidden;
 }
 [data-sitekind="lantern-path"] .ds-sil{
   position:absolute;bottom:0;display:block;
   background:color-mix(in srgb,var(--c-ink) 82%, transparent);
   opacity:0.55;transition:opacity 0.6s ease, transform 0.8s ease;
+  max-height:100%;
 }
 [data-sitekind="lantern-path"] .ds-sil-gate{
-  left:4%;width:72px;height:110px;
+  left:4%;width:64px;height:96px;
   clip-path:polygon(8% 100%,8% 42%,28% 18%,50% 8%,72% 18%,92% 42%,92% 100%,72% 100%,72% 55%,28% 55%,28% 100%);
 }
 [data-sitekind="lantern-path"] .ds-sil-pine{
-  left:38%;width:90px;height:130px;
+  left:38%;width:80px;height:112px;
   clip-path:polygon(50% 0,62% 28%,58% 28%,72% 52%,64% 52%,80% 78%,70% 78%,90% 100%,10% 100%,30% 78%,20% 78%,36% 52%,28% 52%,42% 28%,38% 28%);
 }
 [data-sitekind="lantern-path"] .ds-sil-stone{
-  right:8%;width:120px;height:36px;border-radius:50% 50% 40% 40% / 70% 70% 30% 30%;
+  right:8%;width:108px;height:32px;border-radius:50% 50% 40% 40% / 70% 70% 30% 30%;
   opacity:0.4;
 }
 @media (prefers-reduced-motion:reduce){

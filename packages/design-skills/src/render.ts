@@ -2644,7 +2644,8 @@ function scripts(spec: DesignSpec): string {
         sils.forEach(function(s, idx){
           var on=idx===i%sils.length;
           s.style.opacity = on ? '0.7' : '0.28';
-          if(!reduce) s.style.transform = on ? 'translateY(0)' : 'translateY(8px)';
+          // Lift active sils; never translateY(+) — layout-audit overflow uses transformed rects.
+          if(!reduce) s.style.transform = on ? 'translateY(-6px)' : 'translateY(0)';
         });
       }
     }

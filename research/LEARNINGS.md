@@ -774,9 +774,10 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 
 - **Failure:** Care-pathway enter motion looked dead — `animation-name: ds-care-in` alone
   overrode the shared `.ds-enter` shorthand and left duration at 0s when `--m-entrance` was
-  unset at shorthand parse time.
-- **Fix:** Full `animation:` shorthand on `[data-sitekind="care-pathway"] .ds-enter` with
-  `ds-care-in`, `--m-entrance` fallback, and stagger delay.
+  unset at shorthand parse time. Same bug left lantern-path fold claim at opacity 0 (display
+  invisible → critique measured body leading as display).
+- **Fix:** Full `animation:` shorthand on siteKind `.ds-enter` with named keyframes,
+  `--m-entrance` fallback, `forwards`, and stagger delay (care + lantern).
 - **Do not:** Override only `animation-name` on siteKind enter rules.
 
 ## 2026-08-11 — `template:care-hairline-bead-chrome`

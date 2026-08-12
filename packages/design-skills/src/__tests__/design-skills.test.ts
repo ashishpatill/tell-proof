@@ -830,6 +830,11 @@ describe("research-backed offerings + implementation basics", () => {
     const { previewHtml: lantern } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
     expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-claim\{[^}]*background:var\(--c-paper\)/);
     expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-field\{[^}]*margin-top:0/);
+    // animation-name-only zeroes duration/fill-mode — require full enter shorthand (care lesson).
+    expect(lantern).toMatch(
+      /\[data-sitekind="lantern-path"\] \.ds-enter\{[^}]*animation:ds-lantern-in var\(--m-entrance/,
+    );
+    expect(lantern).toMatch(/\[data-sitekind="lantern-path"\] \.ds-path-masthead\{[^}]*padding-top:var\(--s-xs/);
     expect(clinic).toMatch(/\[data-sitekind="care-pathway"\] \.ds-care-claim\{[^}]*background:var\(--c-paper\)/);
     expect(clinic).toMatch(/\[data-sitekind="care-pathway"\] \.ds-care-field\{[^}]*margin-top:0/);
   });
