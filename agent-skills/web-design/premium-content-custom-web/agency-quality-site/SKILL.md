@@ -26,6 +26,7 @@ Agencies bill for the polish stage because **quality compounds across isolated p
 6. Direction line always: *Match typography scale, spacing rhythm, and motion of the refs. Do not copy the layouts.*
 7. **Learn is automatic** — every `agency:run` and every `--mark-pass 4-ship`. Do not schedule a separate learn step. Opt out only with `AGENCY_SKIP_LEARN=1`.
 8. **Personal design-data** — `TELL_DESIGN_DATA` / `research/design-data.local.json` supplies seeds + memory + corridor bands (see `research/design-data.README.md`).
+9. **Template wins upgrade the engine** — every specimen/template improvement must also land a basics gate, LEARNINGS pattern, and (when relevant) figure/CSS/route change in `@tell/design-skills`. Specimen-only polish is `process:template-without-engine`. Signature plates must **teach**, not only label (`care-plate-explains` / `signature-figure-teaches`). See DESIGN_RIGOR §3b.
 
 ### Autonomous entry (`agency:run`)
 

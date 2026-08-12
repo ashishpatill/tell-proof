@@ -588,6 +588,21 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Care-pathway offerings use rounds fold + care rail + care plate + rounds ladder + Chart — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
+      "care-plate-explains",
+      spec.brief.siteKind !== "care-pathway"
+        || (
+          /ACTIVE CASE/.test(html)
+          && /STAGE MAP/.test(html)
+          && /HANDOFF BEADS/.test(html)
+          && /DWELL WINDOWS/.test(html)
+          && /ENCOUNTER LOG/.test(html)
+          && /Desk → Triage|→/.test(html)
+          && /Dwell |LIVE|RN Okonkwo|MD Chen/.test(html)
+          && !/NEAR PLANE/.test(html)
+        ),
+      "Care-plate must teach as a dense stage-column chart with ownership, signed handoffs, and dwell — not an empty schematic or hero cards (template:care-plate-empty-schematic).",
+    ),
+    check(
       "fig-mono-floor",
       !Array.from(html.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)).some((m) => Number(m[1]) > 0 && Number(m[1]) < 11),
       "SVG figure labels stay at ≥11px — smaller mono invents a type-step the probe counts but the eye cannot use.",
@@ -598,6 +613,25 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
         && (!/data-figure="path-plate"/.test(html) || /data-figure="path-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="path-plate"/.test(html))
         && (!/data-figure="care-plate"/.test(html) || /data-figure="care-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="care-plate"/.test(html)),
       "Cell-grid craft figures must carry drawn page matter (data-dense=ink) — empty stroked voids fail the eye.",
+    ),
+    check(
+      "signature-figure-teaches",
+      (() => {
+        // Signature plates that only stamp a title fail the eye. When a craft figure is present,
+        // require at least one teaching surface beyond chrome labels (log / legend / concept panel).
+        const kind = spec.brief.siteKind;
+        if (kind === "care-pathway") {
+          return /ENCOUNTER LOG/.test(html) && /STAGE MAP/.test(html);
+        }
+        if (kind === "lantern-path") {
+          return /PATH ATLAS|WAYPOINT|ELEV/.test(html);
+        }
+        if (kind === "press-atelier") {
+          return /PRESS SHEET|SIG /.test(html);
+        }
+        return true;
+      })(),
+      "Signature craft figures must teach the product concept — title chrome alone is an empty schematic.",
     ),
     check(
       "fold-owns-craft",

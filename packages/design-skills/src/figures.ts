@@ -2020,9 +2020,11 @@ export function pathPlate(
 /**
  * Care plate — care-pathway signature figure.
  *
- * Horizontal clinical pathway spine on cool paper/ink: five stage nodes with dwell bars,
- * handoff beads between stages, encounter callouts from feature titles. Dense ink on paper —
- * not a night void like path-plate, not a SaaS pipeline board.
+ * Dense clinical chart board (not a thin spine in a gray void, not hero cards):
+ * five stage columns with ownership + traveling notes, handoff gutters with
+ * signed times, a one-line legend that teaches Stage map / Handoff beads / Dwell,
+ * and a citeable encounter log. Closes `template:care-plate-empty-schematic` and
+ * `template:care-plate-wireframe-cards`. Hairline 1px; no emoji; no instrument silhouettes.
  */
 export function carePlate(
   productName: string,
@@ -2030,158 +2032,305 @@ export function carePlate(
   seed: string,
   role: FigureRole = "band",
 ): string {
-  const r = rng(`${seed}:care-plate:${role}`);
+  void rng(`${seed}:care-plate:${role}`);
+  void features;
   const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
-  const H = role === "band" ? 860 : role === "column" ? 560 : 520;
-  const padX = role === "band" ? 40 : 24;
-  const padY = role === "band" ? 36 : 24;
+  const H = role === "band" ? 720 : role === "column" ? 580 : 520;
+  const padX = role === "band" ? 28 : 18;
+  const padY = role === "band" ? 24 : 18;
   const parts: string[] = [];
+  const innerX = padX + 10;
+  const innerR = W - padX - 10;
+  const innerW = innerR - innerX;
 
-  // Cool clinical paper field — filled matter, not night void.
   parts.push(`<rect x="0" y="0" width="${W}" height="${H}" fill="var(--c-paper)"/>`);
   parts.push(
-    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="color-mix(in srgb, var(--c-paper-raised, var(--c-paper)) 96%, var(--c-accent) 4%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="color-mix(in srgb, var(--c-paper-raised, var(--c-paper)) 94%, var(--c-accent) 6%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
-
-  // Plate head — stage chrome only (product name lives in nav + claim; avoid a fourth stamp).
-  const headY = padY + 18;
   parts.push(`<title>${esc(productName)} pathway chart</title>`);
-  parts.push(text("PATHWAY", padX + 14, headY, { size: FIG_MONO_PX, fill: "var(--c-ink-tertiary)", mono: true }));
+
+  // —— Chart head ——
+  const headY = padY + 18;
   parts.push(
-    text("STAGES 01–05", W - padX - 14, headY, {
+    text("ACTIVE CASE  ·  ENC-2841  ·  WARD 3B", innerX, headY, {
+      size: FIG_MONO_PX,
+      fill: "var(--c-ink-tertiary)",
+      mono: true,
+    }),
+  );
+  parts.push(
+    text("STAGES 01–05  ·  HANDOFFS CITEABLE", innerR, headY, {
       size: FIG_MONO_PX,
       fill: "var(--c-ink-tertiary)",
       mono: true,
       anchor: "end",
     }),
   );
-
-  const stageNames = ["Intake", "Triage", "Treat", "Follow-up", "Discharge"];
-  const n = 5;
-  // Raise spine into the first viewport — claim-starved folds hid stages below y≈900.
-  const spineY = H * 0.4;
-  const spineLeft = padX + 56;
-  const spineRight = W - padX - 56;
-  const dwellHeights = [28, 42, 56, 34, 22];
-
-  // Horizontal spine baseline — 1px only (hairline corridor; 1.5–2px tanks the band).
   parts.push(
-    `<line x1="${round(spineLeft)}" y1="${round(spineY)}" x2="${round(spineRight)}" y2="${round(spineY)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    text("Every handoff names who received the chart — and when", innerX, headY + 20, {
+      size: 13,
+      fill: "var(--c-ink)",
+      weight: 600,
+    }),
   );
   parts.push(
-    `<line class="ds-draw" pathLength="1" x1="${round(spineLeft)}" y1="${round(spineY)}" x2="${round(spineRight)}" y2="${round(spineY)}" stroke="${ACCENT}" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.9"/>`,
+    `<line x1="${round(innerX)}" y1="${round(headY + 32)}" x2="${round(innerR)}" y2="${round(headY + 32)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
 
-  const nodes: { x: number; title: string; num: string }[] = [];
-  for (let i = 0; i < n; i += 1) {
-    const t = i / (n - 1);
-    const x = spineLeft + t * (spineRight - spineLeft);
-    nodes.push({ x, title: stageNames[i]!, num: String(i + 1).padStart(2, "0") });
-  }
+  // —— Five stage columns (fills the field — the product surface) ——
+  const stages = [
+    {
+      num: "01",
+      name: "Intake",
+      owner: "Desk A",
+      note: "Chart opened",
+      rows: ["ID verified", "Allergies listed", "Bay unassigned"],
+      dwell: "18m",
+      dwellH: 36,
+      live: false,
+    },
+    {
+      num: "02",
+      name: "Triage",
+      owner: "RN Okonkwo",
+      note: "Vitals in",
+      rows: ["BP 128/82", "Pain 3/10", "ESI 3"],
+      dwell: "42m",
+      dwellH: 52,
+      live: false,
+    },
+    {
+      num: "03",
+      name: "Treat",
+      owner: "MD Chen",
+      note: "Orders live",
+      rows: ["Labs drawn", "Imaging queued", "Meds started"],
+      dwell: "2h 10m",
+      dwellH: 72,
+      live: true,
+    },
+    {
+      num: "04",
+      name: "Follow-up",
+      owner: "Call desk",
+      note: "Queued",
+      rows: ["Callback 14:00", "PCP noted", "Risk low"],
+      dwell: "26m",
+      dwellH: 40,
+      live: false,
+    },
+    {
+      num: "05",
+      name: "Discharge",
+      owner: "Ward desk",
+      note: "Stamped",
+      rows: ["Script printed", "Transport ready", "Pathway closed"],
+      dwell: "14m",
+      dwellH: 28,
+      live: false,
+    },
+  ];
+  const transfers = [
+    { route: "Desk → Triage", meta: "08:14 · signed" },
+    { route: "Triage → Treat", meta: "09:02 · signed" },
+    { route: "Treat → Follow", meta: "11:18 · signed" },
+    { route: "Follow → Out", meta: "14:40 · signed" },
+  ];
+  const colTop = headY + 44;
+  const logH = role === "band" ? 120 : 108;
+  const legendH = 34;
+  const hopBandH = 44;
+  const colBottom = H - padY - 14 - logH - legendH - hopBandH - 8;
+  const colH = colBottom - colTop;
+  const gutter = role === "band" ? 10 : 6;
+  const colW = (innerW - gutter * 4) / 5;
+  const colXs: number[] = [];
 
-  for (let i = 0; i < nodes.length; i += 1) {
-    const node = nodes[i]!;
-    const dwell = dwellHeights[i] ?? 30;
-    // Dwell bar underneath — relative time at stage.
+  stages.forEach((s, i) => {
+    const x = innerX + i * (colW + gutter);
+    colXs.push(x);
+    const fill = s.live
+      ? `color-mix(in srgb, var(--c-paper) 82%, var(--c-accent) 18%)`
+      : `color-mix(in srgb, var(--c-paper) 96%, var(--c-ink) 4%)`;
     parts.push(
-      `<rect x="${round(node.x - 14)}" y="${round(spineY + 6)}" width="28" height="${dwell}" fill="color-mix(in srgb, ${ACCENT} 18%, transparent)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      `<rect x="${round(x)}" y="${round(colTop)}" width="${round(colW)}" height="${round(colH)}" fill="${fill}" stroke="${s.live ? ACCENT : LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
     );
-    // Filled stage disc on spine.
-    parts.push(`<circle cx="${round(node.x)}" cy="${round(spineY)}" r="8" fill="${ACCENT}" opacity="0.92"/>`);
-    parts.push(`<circle cx="${round(node.x)}" cy="${round(spineY)}" r="4" fill="var(--c-paper)"/>`);
     parts.push(
-      text(node.num, node.x, spineY - 22, {
+      text(s.num, x + 12, colTop + 22, {
         size: FIG_MONO_PX,
         fill: "var(--c-accent)",
         mono: true,
-        anchor: "middle",
       }),
     );
-    parts.push(
-      text(clip(node.title, 12), node.x, spineY + dwell + 22, {
-        size: FIG_MONO_PX,
-        fill: "var(--c-ink-secondary)",
-        mono: true,
-        anchor: "middle",
-      }),
-    );
-    // Handoff bead between stages — geometric diamond, never emoji chrome.
-    if (i < nodes.length - 1) {
-      const next = nodes[i + 1]!;
-      const midX = (node.x + next.x) / 2;
-      parts.push(`<circle cx="${round(midX)}" cy="${round(spineY)}" r="3.5" fill="var(--c-ink-tertiary)" opacity="0.7"/>`);
-      const d = 4.5;
+    if (s.live) {
       parts.push(
-        `<path d="M${round(midX)} ${round(spineY - 16 - d)} L${round(midX + d)} ${round(spineY - 16)} L${round(midX)} ${round(spineY - 16 + d)} L${round(midX - d)} ${round(spineY - 16)} Z" fill="${ACCENT}" opacity="0.9"/>`,
+        text("LIVE", x + colW - 12, colTop + 22, {
+          size: FIG_MONO_PX,
+          fill: "var(--c-accent)",
+          mono: true,
+          anchor: "end",
+        }),
       );
     }
-  }
-
-  // Encounter callouts — three citeable cards (four identical ENC rects over-ran repeated-shape).
-  const callouts = (features.length ? features : [{ title: "Encounter" } as Block]).slice(0, 3);
-  const shortLabel = (title: string): string => {
-    const t = title.trim();
-    if (t.length <= 14) return t;
-    const first = t.split(/\s+/)[0] ?? t;
-    return first.length <= 14 ? first : clip(t, 14);
-  };
-  const calloutY = padY + 56;
-  const calloutW = 138;
-  const calloutMin = padX + 12;
-  const calloutMax = W - padX - calloutW - 12;
-  callouts.forEach((f, i) => {
-    const span = Math.max(1, callouts.length - 1);
-    const cx = calloutMin + (i / span) * (calloutMax - calloutMin);
-    const lx = Math.min(calloutMax, Math.max(calloutMin, cx));
     parts.push(
-      `<rect x="${round(lx)}" y="${round(calloutY)}" width="${calloutW}" height="36" fill="color-mix(in srgb, var(--c-accent-surface) 55%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      text(s.name, x + 12, colTop + 46, {
+        size: 16,
+        fill: "var(--c-ink)",
+        weight: 600,
+      }),
     );
     parts.push(
-      text(`ENC ${String(i + 1).padStart(2, "0")}`, lx + 8, calloutY + 13, {
+      text(s.owner, x + 12, colTop + 68, {
         size: FIG_MONO_PX,
-        fill: "var(--c-accent)",
+        fill: "var(--c-ink-secondary)",
         mono: true,
       }),
     );
     parts.push(
-      text(shortLabel(f.title), lx + 8, calloutY + 28, {
+      text(s.note, x + 12, colTop + 84, {
+        size: FIG_MONO_PX,
+        fill: "var(--c-ink-tertiary)",
+        mono: true,
+      }),
+    );
+    // Clinical rows — fill the column so dwell is not an empty placeholder block.
+    s.rows.forEach((row, ri) => {
+      const ry = colTop + 108 + ri * 18;
+      if (ry > colTop + colH - 56) return;
+      parts.push(
+        `<line x1="${round(x + 12)}" y1="${round(ry - 10)}" x2="${round(x + colW - 12)}" y2="${round(ry - 10)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke" opacity="0.55"/>`,
+      );
+      parts.push(
+        text(row, x + 12, ry, {
+          size: FIG_MONO_PX,
+          fill: "var(--c-ink-secondary)",
+          mono: true,
+        }),
+      );
+    });
+    // Dwell meter — filled from the foot, labeled; not a hollow gray slab.
+    const barMax = Math.max(22, Math.min(56, colH - 180));
+    const barH = Math.min(barMax, Math.max(18, s.dwellH * 0.55));
+    const barY = colTop + colH - 26 - barH;
+    const barW = Math.max(18, colW - 24);
+    parts.push(
+      `<rect x="${round(x + 12)}" y="${round(barY)}" width="${round(barW)}" height="${round(barH)}" fill="color-mix(in srgb, var(--c-paper) 88%, var(--c-ink) 6%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+    );
+    parts.push(
+      `<rect x="${round(x + 12)}" y="${round(barY + (barH - barH * (s.dwellH / 72)))}" width="${round(barW)}" height="${round(barH * (s.dwellH / 72))}" fill="color-mix(in srgb, ${ACCENT} ${s.live ? 42 : 26}%, transparent)"/>`,
+    );
+    parts.push(
+      text(`Dwell ${s.dwell}`, x + 12, colTop + colH - 10, {
+        size: FIG_MONO_PX,
+        fill: "var(--c-ink-tertiary)",
+        mono: true,
+      }),
+    );
+
+    // Diamond bead on the right edge of the column (handoff out)
+    if (i < stages.length - 1) {
+      const midX = x + colW + gutter / 2;
+      const midY = colTop + colH / 2;
+      const d = 5;
+      parts.push(
+        `<path d="M${round(midX)} ${round(midY - d)} L${round(midX + d)} ${round(midY)} L${round(midX)} ${round(midY + d)} L${round(midX - d)} ${round(midY)} Z" fill="var(--c-ink)" opacity="0.85"/>`,
+      );
+    }
+  });
+
+  // —— Handoff band under columns (readable who/when — not cramped in gutters) ——
+  const hopY = colBottom + 8;
+  transfers.forEach((hop, i) => {
+    const left = colXs[i]!;
+    const right = colXs[i + 1]!;
+    const midX = (left + colW + right) / 2;
+    parts.push(
+      text(hop.route, midX, hopY + 14, {
         size: FIG_MONO_PX,
         fill: "var(--c-ink-secondary)",
         mono: true,
+        anchor: "middle",
+      }),
+    );
+    parts.push(
+      text(hop.meta, midX, hopY + 30, {
+        size: FIG_MONO_PX,
+        fill: "var(--c-ink-tertiary)",
+        mono: true,
+        anchor: "middle",
       }),
     );
   });
 
-  // Clinical instrument strip along foot — clipboard, vial, cuff hints.
-  const footY = H - padY - 48;
+  // —— One-line legend (teaches without hero cards) ——
+  const legendY = hopY + hopBandH;
   parts.push(
-    text("NEAR PLANE · CLINICAL", padX + 14, H - padY + 2, {
+    `<line x1="${round(innerX)}" y1="${round(legendY)}" x2="${round(innerR)}" y2="${round(legendY)}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    text(
+      "STAGE MAP · five named stops on one spine    HANDOFF BEADS · who · when · signed    DWELL WINDOWS · time-on-stage before the next transfer",
+      innerX,
+      legendY + 22,
+      {
+        size: FIG_MONO_PX,
+        fill: "var(--c-ink-secondary)",
+        mono: true,
+      },
+    ),
+  );
+
+  // —— Encounter log ——
+  const logTop = legendY + legendH;
+  const logHeight = H - padY - 10 - logTop;
+  parts.push(
+    `<rect x="${round(innerX)}" y="${round(logTop)}" width="${round(innerW)}" height="${round(logHeight)}" fill="color-mix(in srgb, var(--c-paper) 90%, var(--c-ink) 6%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    text("ENCOUNTER LOG", innerX + 14, logTop + 20, {
       size: FIG_MONO_PX,
       fill: "var(--c-ink-tertiary)",
       mono: true,
     }),
   );
-  // Clipboard silhouette
-  parts.push(
-    `<rect x="${round(padX + 28)}" y="${round(footY)}" width="52" height="64" rx="2" fill="color-mix(in srgb, var(--c-ink) 8%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
-  );
-  parts.push(
-    `<rect x="${round(padX + 36)}" y="${round(footY + 8)}" width="36" height="6" fill="${ACCENT}" opacity="0.35"/>`,
-  );
-  // Vial silhouette
-  const vialX = padX + 110 + r() * 20;
-  parts.push(
-    `<rect x="${round(vialX)}" y="${round(footY + 18)}" width="14" height="46" rx="4" fill="color-mix(in srgb, ${ACCENT} 22%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
-  );
-  parts.push(`<rect x="${round(vialX - 2)}" y="${round(footY + 12)}" width="18" height="8" fill="var(--c-ink-tertiary)" opacity="0.5"/>`);
-  // Cuff silhouette
-  const cuffX = W - padX - 120;
-  parts.push(
-    `<ellipse cx="${round(cuffX)}" cy="${round(footY + 38)}" rx="34" ry="18" fill="none" stroke="${LINE}" stroke-width="2" vector-effect="non-scaling-stroke"/>`,
-  );
-  parts.push(
-    `<rect x="${round(cuffX - 8)}" y="${round(footY + 28)}" width="16" height="20" fill="color-mix(in srgb, ${ACCENT} 15%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
-  );
+  const logLines = [
+    "08:14  Intake opened — desk A",
+    "09:02  Triage accepted — bay 2  ·  signed R. Okonkwo",
+    "11:18  Treat closed — bay 4  ·  signed M. Chen  ·  Follow-up queued",
+    "14:40  Discharge stamped — ward desk  ·  pathway closed",
+  ];
+  // Two-column log when wide enough
+  if (role === "band") {
+    logLines.slice(0, 2).forEach((ln, j) => {
+      parts.push(
+        text(ln, innerX + 14, logTop + 42 + j * 18, {
+          size: FIG_MONO_PX,
+          fill: "var(--c-ink-secondary)",
+          mono: true,
+        }),
+      );
+    });
+    logLines.slice(2).forEach((ln, j) => {
+      parts.push(
+        text(ln, innerX + innerW / 2 + 8, logTop + 42 + j * 18, {
+          size: FIG_MONO_PX,
+          fill: "var(--c-ink-secondary)",
+          mono: true,
+        }),
+      );
+    });
+  } else {
+    logLines.forEach((ln, j) => {
+      if (logTop + 42 + j * 16 > logTop + logHeight - 8) return;
+      parts.push(
+        text(ln, innerX + 14, logTop + 42 + j * 16, {
+          size: FIG_MONO_PX,
+          fill: "var(--c-ink-secondary)",
+          mono: true,
+        }),
+      );
+    });
+  }
 
   return frame(parts.join(""), {
     width: W,

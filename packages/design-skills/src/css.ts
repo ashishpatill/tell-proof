@@ -1256,15 +1256,15 @@ body[data-sitekind="care-pathway"][data-frame="paper-technical"] #main{
 [data-sitekind="care-pathway"] .ds-brand-mark{
   font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
 }
-/* Quiet-but-in-band display — pathway owns the fold; keep ≥~3.2vw for critique corridor. */
+/* Quiet display — the chart board owns the fold, not a shouty claim. */
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-display{
-  font-size:clamp(2.4rem,3.3vw,2.9rem);
-  letter-spacing:-0.03em;max-width:17ch;line-height:1.06;
+  font-size:clamp(1.65rem,2.45vw,2.15rem);
+  letter-spacing:-0.028em;max-width:22ch;line-height:1.08;
 }
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-lede{display:none}
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-eyebrow{display:none}
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-brand-mark{
-  margin:0 0 0.05rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  margin:0 0 0.02rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
 }
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-cta-note{display:none}
 /* Nav already carries the primary CTA — fold keeps brand+claim only so the plate enters the viewport. */
@@ -1277,13 +1277,12 @@ body[data-sitekind="care-pathway"][data-frame="paper-technical"] #main{
   opacity:1;color:var(--c-ink-tertiary);font-variation-settings:normal;
 }
 [data-sitekind="care-pathway"] .ds-care-claim{
-  padding:0.15rem 0 0.35rem;
-  /* wrap-wide supplies --gutter; only add rail here so inset == --care-inset. */
+  padding:0.05rem 0 0.2rem;
   padding-left:var(--care-rail);
   position:relative;z-index:2;
   background:var(--c-paper);
 }
-[data-sitekind="care-pathway"] .ds-care-claim .ds-hero-copy{gap:0.12rem;max-width:28rem}
+[data-sitekind="care-pathway"] .ds-care-claim .ds-hero-copy{gap:0.06rem;max-width:34rem}
 [data-sitekind="care-pathway"] .ds-care-claim .ds-hero-chips,
 [data-sitekind="care-pathway"] .ds-care-claim .ds-capability-list,
 [data-sitekind="care-pathway"] .ds-care-claim .ds-hero-aside,
@@ -1292,12 +1291,12 @@ body[data-sitekind="care-pathway"][data-frame="paper-technical"] #main{
   margin-top:0;position:relative;z-index:1;
   padding-left:0;
 }
-[data-sitekind="care-pathway"] .ds-care-plate .ds-fig{min-height:min(78vh,820px)}
+[data-sitekind="care-pathway"] .ds-care-plate .ds-fig{min-height:min(82vh,760px)}
 [data-sitekind="care-pathway"] .ds-hero-rounds{min-height:min(100vh,900px)}
 /* Sticky nav is in-flow — do NOT add --nav-h again or the care-plate starves below y≈360. */
 [data-sitekind="care-pathway"] .ds-care-masthead{
-  padding-top:var(--s-xs,0.35rem);
-  padding-bottom:var(--s-xs,0.35rem);
+  padding-top:0.2rem;
+  padding-bottom:0.2rem;
   padding-left:var(--care-inset);
   padding-right:var(--gutter);
   color:var(--c-ink-tertiary);
@@ -2988,7 +2987,7 @@ ${surfaceRules()}
 .ds-care-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
 .ds-care-field{margin-top:0;position:relative}
 .ds-care-plate{margin:0;width:100%;display:block}
-.ds-care-plate .ds-fig{width:100%;min-height:min(80vh,840px);display:block}
+.ds-care-plate .ds-fig{width:100%;min-height:min(82vh,760px);display:block}
 .ds-care-rail{
   position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
   width:var(--care-rail,3.5rem);z-index:var(--z-nav);pointer-events:none;

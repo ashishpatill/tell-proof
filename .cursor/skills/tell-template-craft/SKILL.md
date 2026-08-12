@@ -50,9 +50,27 @@ for *measurement and eye* only; encode results as anonymised corridors (same as 
    pnpm research:shots -- --page <critique-brief-id>
    ```
 4. **Read the PNGs** (fold + scroll slices) like a human. Score ≠ quality. Fix collisions, sparse
-   airways, cream/terracotta AI clusters, SaaS residue CTAs.
+   airways, cream/terracotta AI clusters, SaaS residue CTAs. **Signature figures must teach** —
+   title chips / empty spines are `template:*-empty-schematic` failures; use Figma (or equivalent)
+   to compose complex concepts, then map into `packages/design-skills` figures + CSS.
 5. Re-critique. Score must not regress. Record the loop in `research/LOOP_LEDGER.md`.
 6. Only then start the **next** template.
+
+## Phase C — Engine & process lock-in (mandatory with every template win)
+
+A specimen-only fix is incomplete. Every template improvement must leave the **Tell Proof
+engine and process** stronger for the next run:
+
+| Lock-in | Where | Pass if |
+|---|---|---|
+| **Basics gate** | `packages/design-skills/src/basics-checklist.ts` | Named failure cannot regress silently |
+| **Figure / CSS / route** | `figures.ts` / `css.ts` / `route.ts` / `composition.ts` | Fix lives in the engine, not a one-off HTML paste |
+| **Tests** | `packages/design-skills/src/__tests__` | Assert the teaching matter / corridor |
+| **Learning** | `research/LEARNINGS.md` + `LOOP_LEDGER.md` | Pattern key + anti-pattern + closed loop |
+| **Process skill** | `.cursor/skills/tell-*` / agency DESIGN_RIGOR when the miss is procedural | Next agent inherits the rule |
+
+**Do not:** Ship a prettier `/showcase/*` page without a gate, learning, or engine change.
+That is `process:template-without-engine` — treat as a fail.
 
 ## Screenshot contract (always)
 

@@ -25,6 +25,9 @@ Dev corpus itself requires `research/design-data.local.json` or `TELL_DESIGN_DAT
 3. Do not weaken gates to make a run green.
 4. No third-party hosts in Tell commits.
 5. Do not store end-user profiles in the design-data repo.
+6. Template/specimen improvements must write back into engine memory + LEARNINGS — never
+   learn from a prettier showcase alone without a named pattern / gate
+   (`process:template-without-engine`).
 
 ## Commands
 

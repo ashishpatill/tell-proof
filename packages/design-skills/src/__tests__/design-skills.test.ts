@@ -733,8 +733,22 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).toContain('data-figure="care-plate"');
     expect(previewHtml).toContain('data-dense="ink"');
     expect(previewHtml).toMatch(/data-figure="care-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="care-plate"/);
-    expect(previewHtml).toContain("PATHWAY");
+    // Explanatory chart — not an empty schematic (template:care-plate-empty-schematic).
+    expect(previewHtml).toContain("ACTIVE CASE");
     expect(previewHtml).toContain("STAGES 01–05");
+    expect(previewHtml).toContain("STAGE MAP");
+    expect(previewHtml).toContain("HANDOFF BEADS");
+    expect(previewHtml).toContain("DWELL WINDOWS");
+    expect(previewHtml).toContain("ENCOUNTER LOG");
+    expect(previewHtml).toContain("Desk → Triage");
+    expect(previewHtml).toContain("RN Okonkwo");
+    expect(previewHtml).toContain("MD Chen");
+    expect(previewHtml).toContain("Dwell");
+    expect(previewHtml).toContain("LIVE");
+    expect(previewHtml).toContain("Orders live");
+    expect(previewHtml).toContain("BP 128/82");
+    expect(previewHtml).toMatch(/who · when · signed/i);
+    expect(previewHtml).not.toContain("NEAR PLANE");
     expect(previewHtml).toContain("ds-rounds");
     expect(previewHtml).toContain('class="ds-rounds-ladder"');
     expect(previewHtml).toContain('aria-label="Rounds ladder"');
@@ -758,6 +772,8 @@ describe("research-backed offerings + implementation basics", () => {
     const report = assertBasics(spec, previewHtml);
     const failed = report.findings.filter((f) => !f.ok).map((f) => f.id);
     expect(failed, failed.join(", ")).toEqual([]);
+    expect(report.findings.some((f) => f.id === "care-plate-explains" && f.ok)).toBe(true);
+    expect(report.findings.some((f) => f.id === "signature-figure-teaches" && f.ok)).toBe(true);
   });
 
   it("exposes reusable densify helpers for cell-grid figures", async () => {

@@ -802,3 +802,58 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   handoffs). Alignment collapsed via `--care-inset`. Critique: care **98.5**, axes **4**,
   shape-run **0.364**.
 - **Do not:** Ship another vertical index under a vertical rounds ladder.
+
+## 2026-08-12 — `template:care-plate-empty-schematic`
+
+- **Failure:** Roundspool care-plate was a thin spine in a large gray void — ENC title chips
+  named Stage map / Handoff beads / Dwell windows without teaching them; foot silhouettes and
+  short feature blurbs left the chart looking wireframe and “hardly explaining anything.”
+- **Fix:** Figma reference artboard (Roundspool Care Pathway Chart) → rewrite `carePlate()`:
+  active-case head + citeable claim; stage spine with dwell labels; handoff transfer notes
+  (who/when/signed); three teaching panels with long copy + mini glyphs + lesson lines;
+  encounter log foot. Prefer teaching defaults over short brief blurbs; cap panel height so
+  empty stretch cannot return. Remove SVG instrument silhouettes.
+- **Do not:** Ship a signature clinical figure that only labels concepts — the plate must show
+  stage ownership, handoff audit, and dwell delay as readable matter.
+
+## 2026-08-12 — `process:template-without-engine`
+
+- **Failure:** Template/showcase craft wins that only change a specimen (or one SVG) leave the
+  next agent free to reintroduce the same empty schematic / fold miss — no basics gate, no
+  process rule, no LEARNINGS pattern.
+- **Fix:** Mandatory Phase C lock-in (`tell-template-craft`): engine change + `assertBasics`
+  gate + LEARNINGS/LOOP_LEDGER + process skill update when procedural. Agency DESIGN_RIGOR §3b
+  and `docs/09` “Template → engine lock-in.” Gates: `care-plate-explains`,
+  `signature-figure-teaches`.
+- **Do not:** Mark a prettier `/showcase/*` as done without upgrading Tell Proof’s engine and
+  design process.
+
+## 2026-08-12 — `template:care-plate-wireframe-cards`
+
+- **Failure:** After densifying the care-plate with teaching *cards*, the fold still read as a
+  wireframe — huge claim, thin spine in a gray void, three empty-looking panels. Eye: “terrible.”
+- **Fix:** Replace hero cards + spine schematic with a **stage-column chart board**: owner +
+  clinical rows + filled dwell meter per stage, handoff band (who/when/signed), one-line legend,
+  encounter log. Shrink claim display (~2.45vw) so columns enter the first viewport. Gate
+  `care-plate-explains` requires ownership/LIVE/dwell matter.
+- **Do not:** Put marketing cards inside the care-pathway hero figure — teach inside the chart.
+
+## 2026-08-12 — `chrome:rail-ghost-contrast`
+
+- **Failure:** Product sidebar (`.tell-rail`) used paper-glass background
+  (`--surface-glass` / light taupe) with dark-theme `--text` / `--text-secondary`
+  (paper-on-dark light ink). Home / Showcase / Studio labels were nearly invisible.
+  Shipped because agent vision captions did not flag WCAG failure.
+- **Fix:** Scoped `--rail-ink*` tokens on `.tell-rail` (dark ink on nearly opaque paper).
+  Measured gate: `pnpm eye:shell` (Playwright samples computed colors, floor 4.5:1).
+  Dogfood + recursive-improve require the probe — vision alone is not a pass.
+- **Do not:** Put dark-theme light text on a light chrome surface; do not ship shell
+  changes without `pnpm eye:shell`.
+
+## 2026-08-12 — `chrome:rail-idle-collapse`
+
+- **Failure:** Product rail stayed fully expanded when unused, stealing viewport from specimens.
+- **Fix:** Default icon strip (`--shell-rail-width: 3.5rem`); expand on hover/focus/pin overlay;
+  collapse after 320ms idle. Pin persists via `tell:rail-pinned`. Labels clipped when collapsed;
+  `title` + `aria-label` remain.
+- **Do not:** Keep a full-width labeled rail open by default on Tell Proof chrome.

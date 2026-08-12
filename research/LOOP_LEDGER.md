@@ -690,3 +690,48 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** matrix still weak on display-leading / display-scale for non-care siteKinds;
   care band-ink-variation on unseen briefs.
 
+
+## Loop 35 — Care pathway explanatory chart (empty schematic)
+
+- **Goal:** Close user critique that the care-plate looked terrible and explained nothing;
+  design complex concepts in Figma then map into the engine.
+- **Failure named:** `template:care-plate-empty-schematic`.
+- **Challenger:** Figma artboard `dlr8MaNecXaHC6HAaf0oCY` + densified `carePlate()` (active case,
+  transfer notes, teaching panels + glyphs, encounter log); longer clinic feature descriptions.
+- **Score:** design-skills tests green (89); eye pass shows Stage map / Handoff beads / Dwell
+  windows with mini glyphs + signed encounter log (not an empty spine void).
+- **Closed:** `template:care-plate-empty-schematic`.
+- **Next weakest:** fold still crops mid-plate on short viewports — keep claim compact; watch
+  panel/log density on column roles; re-critique matrix if care score drifts.
+
+## Loop 35b — Template→engine process lock-in
+
+- **Goal:** Every template improvement also upgrades Tell Proof engine + design process.
+- **Failure named:** `process:template-without-engine`.
+- **Challenger:** `care-plate-explains` + `signature-figure-teaches` basics gates; Phase C in
+  `tell-template-craft`; eye-teach + engine-lock-in gates in `tell-recursive-improve`;
+  DESIGN_RIGOR §3b; `docs/09` lock-in section; agency-quality-site rule 14.
+- **Score:** design-skills tests + typecheck green; clinic assertBasics requires teaching matter.
+- **Closed:** process rule encoded (not specimen-only).
+- **Next weakest:** extend `signature-figure-teaches` teaching surfaces for remaining siteKinds
+  beyond care/lantern/press.
+
+## Loop 36 — Care plate stage-column board (wireframe cards)
+
+- **Goal:** Fold must read as a real clinical chart, not a wireframe schematic + cards.
+- **Failure named:** `template:care-plate-wireframe-cards` (eye: “looks terrible”).
+- **Challenger:** Five stage columns with clinical rows + dwell meters; handoff band; compact claim;
+  plate owns ~y181 first viewport.
+- **Score:** design-skills 89 green; claim height ~96px (was ~173); LIVE Treat column + vitals/orders.
+- **Closed:** wireframe-cards pattern; empty schematic still gated.
+- **Next weakest:** re-critique display corridor after quieter claim; mobile column stack.
+
+## Loop 37 — Shell rail contrast (ghost sidebar)
+
+- **Goal:** Readable Tell app sidebar; durable measured contrast gate so vision misses cannot ship.
+- **Failure named:** `chrome:rail-ghost-contrast`.
+- **Challenger:** `--rail-ink` on paper rail; `scripts/eye-shell-contrast.ts` + `pnpm eye:shell`;
+  dogfood/recursive-improve process update.
+- **Score:** eye:shell must pass (≥4.5:1 on sidebar labels).
+- **Closed:** ghost rail contrast + measured probe.
+- **Next weakest:** extend contrast probe to tabs bar / dialog chrome.

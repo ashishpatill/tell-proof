@@ -55,6 +55,24 @@ Never pretend a corridor fallback was a finished craft board. `agency-run-learn`
 - Static first frame must read complete with JS / motion / WebGL off.
 - Pointer effects are additive; keyboard, touch, blur, and visibility must not leave a broken state.
 - Do not open with stats strip + gradient accent as the default thesis.
+- **Signature figure teaches:** if the fold owns a craft plate (care / path / press / pipeline / …),
+  the plate must explain the product concept with citeable matter — not an empty schematic or
+  title-only chips. Compose complex concepts in Figma (or equivalent), then map into
+  `@tell/design-skills` figures. Gates: `care-plate-explains`, `signature-figure-teaches`,
+  `craft-figure-dense`.
+
+---
+
+## 3b. Template → engine lock-in
+
+Every template / showcase improvement must strengthen Tell Proof for the next run:
+
+1. Engine change in `packages/design-skills` (figure, CSS, composition, or route)
+2. `assertBasics` gate so the failure cannot regress silently
+3. `research/LEARNINGS.md` pattern key + `LOOP_LEDGER.md` row
+4. Process skill update when the miss was procedural (`.cursor/skills/*`, this file)
+
+Do not mark ship on a prettier specimen alone (`process:template-without-engine`).
 
 ---
 
