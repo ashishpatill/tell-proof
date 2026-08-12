@@ -1019,7 +1019,6 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
             <p class="ds-handoff-stage">${esc(stage)}</p>
             <p class="ds-handoff-num">${esc(b.meta ?? String(i + 1).padStart(2, "0"))}</p>
             <h3>${esc(b.title)}</h3>
-            ${b.body ? `<p class="ds-body">${esc(b.body)}</p>` : ""}
             ${handoff}
           </li>`;
         });
@@ -1193,8 +1192,9 @@ function renderFigure(section: SectionSpec): string {
     .join("");
 
   return `<section class="ds-section" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
-    <div class="ds-wrap-wide ds-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr"))}">
-      <div>${sectionHead(section)}
+    <div class="ds-wrap-wide ds-split ds-figure-split" style="grid-template-columns:${esc(splitTemplate(section.columns ?? "5fr 7fr", "28rem"))}">
+      <div>
+        ${sectionHead(section)}
         <ol class="ds-figure-steps">${steps
           .map(
             (s, i) =>

@@ -1585,7 +1585,6 @@ body[data-sitekind="care-pathway"][data-frame="paper-technical"] #main{
   margin:0 0 0.45rem;font-family:var(--f-display);font-size:clamp(1.05rem,1.4vw,1.35rem);
   line-height:1.15;max-width:12ch;
 }
-[data-sitekind="care-pathway"] .ds-handoff-cell .ds-body{margin:0;font-size:var(--t-small-size,0.9rem);max-width:18ch;color:var(--c-ink-secondary)}
 [data-sitekind="care-pathway"] .ds-handoff-diamond{
   position:absolute;right:-0.35rem;top:1.15rem;width:0.55rem;height:0.55rem;z-index:1;
   background:var(--c-accent);transform:rotate(45deg);
@@ -1870,13 +1869,16 @@ ${surfaceRules()}
 
 .ds-split{display:grid;gap:var(--s-xl) var(--s-2xl);align-items:start}
 /* Nested spine inside a split column starves title/lede (~11–22ch). Stack eyebrow above. */
-.ds-split > div > .ds-section-head-spine{
-  grid-template-columns:minmax(0,1fr);
+.ds-split > div > .ds-section-head-spine,
+.ds-figure-split > div > .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr) !important;
 }
-.ds-split > div > .ds-section-head-spine .ds-eyebrow{
+.ds-split > div > .ds-section-head-spine .ds-eyebrow,
+.ds-figure-split > div > .ds-section-head-spine .ds-eyebrow{
   max-width:none;padding-top:0;
 }
-.ds-split > div > .ds-section-head-main .ds-lede{max-width:36ch}
+.ds-split > div > .ds-section-head-main .ds-lede,
+.ds-figure-split > div > .ds-section-head-main .ds-lede{max-width:36ch}
 /* Craft rails must be opaque — transparent fixed/sticky rails ghost page content. */
 .ds-chapter-rail,
 .ds-sig-rail,
@@ -3262,7 +3264,7 @@ ${surfaceRules()}
 }
 .ds-rounds-panel{
   max-width:36rem;padding:var(--s-md) var(--s-lg);border:1px solid var(--c-border);
-  background:color-mix(in srgb,var(--c-paper) 94%,var(--c-accent-surface));
+  background-color:var(--c-paper-sunken);
 }
 .ds-rounds-enc{
   margin:0 0 0.2rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-accent);
@@ -3278,6 +3280,25 @@ ${surfaceRules()}
 }
 .ds-rounds-mark{width:9rem;margin-top:var(--s-sm);opacity:.9}
 .ds-rounds-note + .ds-rounds-mark{margin-top:var(--s-lg)}
+/* Care pathway: fill the ladder — 36rem panels leave wrap-wide vacancy beside the spine. */
+[data-sitekind="care-pathway"] .ds-rounds .ds-section-head-spine{
+  grid-template-columns:minmax(0,1fr);
+}
+[data-sitekind="care-pathway"] .ds-rounds .ds-section-head-spine .ds-eyebrow{max-width:none;padding-top:0}
+[data-sitekind="care-pathway"] .ds-rounds .ds-section-head-main .ds-lede{max-width:42ch}
+[data-sitekind="care-pathway"] .ds-rounds-panel{
+  max-width:none;width:100%;box-sizing:border-box;
+  background-color:var(--c-paper);
+  border:1px solid var(--c-border);
+}
+[data-sitekind="care-pathway"] .ds-rounds-panel .ds-body{max-width:62ch}
+[data-sitekind="care-pathway"] .ds-rounds-mark{
+  width:100%;max-width:none;margin-top:var(--s-xs);opacity:1;
+}
+[data-sitekind="care-pathway"] .ds-rounds-mark .ds-fig,
+[data-sitekind="care-pathway"] .ds-rounds-mark svg{
+  width:100%;height:3.25rem;display:block;
+}
 @media (max-width:800px){
   .ds-rounds-ladder{padding-left:2rem}
   .ds-rounds-bead{left:-1.65rem}
