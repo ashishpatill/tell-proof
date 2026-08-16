@@ -874,3 +874,14 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Fix:** Bead `grid-column:1 / -1; grid-row:1`; rest + panel explicit `grid-row:1` and
   matching columns; `align-items:stretch`.
 - **Do not:** Assume `position:absolute` grid children skip auto-placement.
+
+## 2026-08-16 — `readme:fold-owns-claim-and-figure`
+
+- **Failure:** README fold stills scrolled to the inner field/plate then nudged into
+  `.ds-plate-bleed` whenever `scrollY < 120`. First-five folds lost the claim and showed a
+  sparse SVG (dashboard 3KB dark timeline, educational floating labels).
+- **Fix:** Capture the `*-fold` wrapper (claim + instrument). Skip nested-plate nudge when
+  the named selector already matched. Demo recorder uses EntryHome Live URL composer, not
+  `input[type=url]`. Poster from ~8s (report findings + captured/reconciled), not t=2 home.
+- **Do not:** Treat the nested figure as the fold if the signature is a split claim | instrument.
+

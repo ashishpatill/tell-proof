@@ -1,6 +1,6 @@
 /**
- * Craft-reel animated WebPs for the first five marketing templates (fold → mid beat → proof/features).
- * Encodes at 480w for README table cells. Usage: pnpm -F @tell/core exec tsx ../../scripts/capture-first5-reels.ts
+ * Craft-reel animated WebPs for README table cells (fold → mid beat → proof/close).
+ * Encodes at 480w. Usage: pnpm capture:readme-reels
  */
 import { createServer } from "node:http";
 import { mkdirSync, existsSync, copyFileSync } from "node:fs";
@@ -15,11 +15,17 @@ const TMP = resolve("/tmp/tell-first5-reels");
 const VIEWPORT = { width: 1440, height: 900 };
 
 const KEYS = [
-  { key: "saas", beats: [".ds-pipeline-field, .ds-hero-pipeline", "#features", "#proof"] },
-  { key: "dashboard", beats: [".ds-queue-field, .ds-hero-queue", "#app, .ds-app", "#proof"] },
-  { key: "corporate", beats: [".ds-diligence-field, .ds-hero-diligence", "#story", "#proof"] },
-  { key: "educational", beats: [".ds-mechanism-stage, .ds-hero-mechanism", ".ds-mechanism-fold", "#features"] },
-  { key: "fintech", beats: [".ds-wire-field, .ds-hero-wire", "#features", "#proof"] },
+  { key: "saas", beats: [".ds-pipeline-fold, .ds-hero-pipeline", "#features", "#proof"] },
+  { key: "dashboard", beats: [".ds-queue-fold, .ds-hero-queue", "#app, .ds-app", "#proof"] },
+  { key: "corporate", beats: [".ds-diligence-fold, .ds-hero-diligence", "#story", "#proof"] },
+  { key: "educational", beats: [".ds-mechanism-fold, .ds-hero-mechanism", ".ds-mechanism-stage", "#features"] },
+  { key: "fintech", beats: [".ds-wire-fold, .ds-hero-wire", "#features", "#proof"] },
+  { key: "archive", beats: [".ds-register-ledger, .ds-hero-register", ".ds-entry, [data-section='story']", ".ds-closing"] },
+  { key: "observatory", beats: [".ds-chrono-lattice, .ds-hero-chrono", ".ds-chrono, [data-section='story']", ".ds-closing"] },
+  { key: "dossier", beats: [".ds-folio-plate, .ds-hero-folio", ".ds-spread, [data-section='story']", ".ds-closing"] },
+  { key: "foundry", beats: [".ds-seam-figure, .ds-hero-seam", ".ds-marginalia, [data-section='story']", ".ds-closing"] },
+  { key: "lantern", beats: [".ds-path-plate, .ds-hero-path", ".ds-ember-trail, [data-section='story']", ".ds-closing"] },
+  { key: "loom", beats: [".ds-loom-plate, .ds-hero-loom", ".ds-hangtag, [data-section='story']", ".ds-closing"] },
 ];
 
 async function main(): Promise<void> {

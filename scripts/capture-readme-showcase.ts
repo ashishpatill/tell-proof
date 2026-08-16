@@ -66,7 +66,7 @@ const TEMPLATES: Array<{
   {
     key: "saas",
     beats: [
-      { id: "fold", sel: ".ds-pipeline-field, .ds-hero-pipeline, .ds-hero", yPad: 8 },
+      { id: "fold", sel: ".ds-pipeline-fold, .ds-pipeline-field, .ds-hero-pipeline", yPad: 12 },
       { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
       { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
     ],
@@ -74,7 +74,7 @@ const TEMPLATES: Array<{
   {
     key: "dashboard",
     beats: [
-      { id: "fold", sel: ".ds-queue-field, .ds-hero-queue, .ds-hero", yPad: 8 },
+      { id: "fold", sel: ".ds-queue-fold, .ds-queue-console, .ds-hero-queue", yPad: 12 },
       { id: "shell", sel: "#app, .ds-app-band, .ds-app", yPad: 20 },
       { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
     ],
@@ -82,7 +82,7 @@ const TEMPLATES: Array<{
   {
     key: "corporate",
     beats: [
-      { id: "fold", sel: ".ds-diligence-field, .ds-hero-diligence, .ds-hero", yPad: 8 },
+      { id: "fold", sel: ".ds-diligence-fold, .ds-posture-plate, .ds-hero-diligence", yPad: 12 },
       { id: "story", sel: "#story, [data-section='story']", yPad: 36 },
       { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
     ],
@@ -90,7 +90,7 @@ const TEMPLATES: Array<{
   {
     key: "educational",
     beats: [
-      { id: "fold", sel: ".ds-mechanism-stage, .ds-hero-mechanism, .ds-hero", yPad: 8 },
+      { id: "fold", sel: ".ds-mechanism-fold, .ds-mechanism-stage, .ds-hero-mechanism", yPad: 12 },
       { id: "scrub", sel: ".ds-mechanism-fold, #features", yPad: 28 },
       { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
     ],
@@ -98,9 +98,25 @@ const TEMPLATES: Array<{
   {
     key: "fintech",
     beats: [
-      { id: "fold", sel: ".ds-wire-field, .ds-hero-wire, .ds-hero", yPad: 8 },
+      { id: "fold", sel: ".ds-wire-fold, .ds-wire-ledger, .ds-hero-wire", yPad: 12 },
       { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
       { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
+    ],
+  },
+  {
+    key: "lantern",
+    beats: [
+      { id: "fold", sel: ".ds-path-plate, .ds-hero-path, .ds-hero", yPad: 8 },
+      { id: "ember", sel: ".ds-ember-trail, [data-section='story']", yPad: 36 },
+      { id: "close", sel: ".ds-closing, .ds-closing-colophon, #cta", yPad: 24 },
+    ],
+  },
+  {
+    key: "loom",
+    beats: [
+      { id: "fold", sel: ".ds-loom-plate, .ds-hero-loom, .ds-hero", yPad: 8 },
+      { id: "hangtag", sel: ".ds-hangtag, [data-section='story']", yPad: 36 },
+      { id: "close", sel: ".ds-closing, .ds-closing-colophon, #cta", yPad: 24 },
     ],
   },
 ];
@@ -216,7 +232,8 @@ async function main(): Promise<void> {
 
     for (const beat of t.beats) {
       if (beat.id === "fold") {
-        // Prefer figure-owned fold: scroll so ledger/lattice/plate is in the first viewport.
+        // Scroll to the named fold instrument (claim+figure wrappers, ledger, plate).
+        // Do not then nudge into a nested plate — that crops the claim and leaves a sparse SVG.
         const figOk = await scrollTo(page, beat.sel, beat.yPad ?? 8);
         if (!figOk) {
           await page.evaluate(() => {
@@ -225,21 +242,6 @@ async function main(): Promise<void> {
             window.scrollTo(0, Math.max(0, h - 4));
           });
           await page.waitForTimeout(200);
-        }
-        // If still mostly claim, nudge further into the plate.
-        const y = await page.evaluate(() => window.scrollY);
-        if (y < 120) {
-          const plate = await page.evaluate(() => {
-            const el = document.querySelector(
-              ".ds-register-ledger, .ds-chrono-lattice, .ds-folio-plate, .ds-seam-figure, .ds-plate-bleed",
-            );
-            if (!el) return null;
-            return Math.max(0, Math.round(el.getBoundingClientRect().top + window.scrollY - 48));
-          });
-          if (plate != null && plate > y) {
-            await page.evaluate((top) => window.scrollTo(0, top), plate);
-            await page.waitForTimeout(240);
-          }
         }
       } else {
         const ok = await scrollTo(page, beat.sel, beat.yPad ?? 28);
