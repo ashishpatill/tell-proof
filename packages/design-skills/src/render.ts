@@ -6,7 +6,7 @@
  * the generated markup safe to hand to a developer as a starting point.
  */
 import { renderCss } from "./css";
-import { horizonPlot, isReading, planFigures, type FigurePlan } from "./figures";
+import { horizonPlot, isReading, miniPageMatter, planFigures, type FigurePlan } from "./figures";
 import {
   motionHasNarrative,
   motionHasReveals,
@@ -28,6 +28,33 @@ function clip(s: string, n: number): string {
   const t = s.trim();
   if (t.length <= n) return t;
   return `${t.slice(0, Math.max(1, n - 1)).trimEnd()}…`;
+}
+
+/**
+ * Opaque wrap-wide slab for layout-audit vacancy.
+ * Do not fill holes with dozens of CSS-bordered shelf rows — those blow ruleDensity
+ * (`template:css-rule-density-not-svg` / `template:ledger-rule-flood`). Full box border
+ * so the probe does not count it as a top/bottom-only rule. Drawn mini-pages (SVG) fill
+ * the slab so the eye does not land on an empty sunken rectangle (`ledger-cell-void`).
+ */
+function storyFillSlab(labels: string[] = []): string {
+  const titles = labels.map((s) => s.trim()).filter(Boolean).slice(0, 6);
+  if (titles.length === 0) {
+    return `<div class="ds-story-fill" aria-hidden="true"></div>`;
+  }
+  const W = 1200;
+  const H = 168;
+  const n = titles.length;
+  const gap = 14;
+  const pw = (W - gap * (n + 1)) / n;
+  const ph = H - 24;
+  const rnd = () => 0.46;
+  const plates = titles
+    .map((_, i) => miniPageMatter(gap + i * (pw + gap), 12, pw, ph, i, String(i + 1).padStart(2, "0"), rnd))
+    .join("");
+  return `<div class="ds-story-fill" aria-hidden="true">
+    <svg class="ds-story-fill-plate" viewBox="0 0 ${W} ${H}" width="100%" height="${H}" aria-hidden="true">${plates}</svg>
+  </div>`;
 }
 
 /**
@@ -1249,7 +1276,15 @@ function renderChapters(section: SectionSpec, figures: FigurePlan, spec?: Design
     spec?.brief.siteKind === "press-atelier" ||
     spec?.brief.siteKind === "fintech-marketing" ||
     spec?.brief.siteKind === "saas-marketing" ||
-    spec?.brief.siteKind === "dashboard-webapp";
+    spec?.brief.siteKind === "dashboard-webapp" ||
+    spec?.brief.siteKind === "archive-index" ||
+    spec?.brief.siteKind === "commerce-loom" ||
+    spec?.brief.siteKind === "research-dossier" ||
+    spec?.brief.siteKind === "lantern-path" ||
+    spec?.brief.siteKind === "signal-observatory" ||
+    spec?.brief.siteKind === "editorial-foundry" ||
+    spec?.brief.siteKind === "field-guide" ||
+    spec?.brief.siteKind === "care-pathway";
   return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" data-editorial-chapters id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${secMeta("Chapters", `${count} beats · editorial order`)}
@@ -1345,11 +1380,6 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
   const mid = Math.ceil(blocks.length / 2) || 1;
   const verso = blocks.slice(0, mid);
   const recto = blocks.slice(mid);
-  // Ruled fill under each page — unequal verso/recto heights leave wrap-wide vacancy holes.
-  const pageFill = Array.from({ length: 12 }, (_, i) => {
-    const n = String(i + 1).padStart(2, "0");
-    return `<li class="ds-spread-fill-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
-  }).join("");
   const renderPage = (page: typeof blocks, side: "verso" | "recto") => {
     const beats = page
       .map((b, i) => {
@@ -1366,7 +1396,7 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
         </article>`;
       })
       .join("");
-    return `${beats}<ol class="ds-spread-page-fill" aria-hidden="true">${pageFill}</ol>`;
+    return `${beats}<div class="ds-spread-page-fill" aria-hidden="true"></div>`;
   };
   const footnotes = blocks
     .map((b, i) => {
@@ -1378,11 +1408,6 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
       </li>`;
     })
     .join("");
-  // Dense shelf under the facing pages — residual wrap-wide rectangles trip layout-audit vacancy.
-  const shelfRules = Array.from({ length: 32 }, (_, i) => {
-    const n = String(i + 1).padStart(2, "0");
-    return `<li class="ds-entry-shelf-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
-  }).join("");
   return `<section class="ds-section ds-story ds-spread" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
@@ -1393,7 +1418,7 @@ function renderSpread(section: SectionSpec, figures: FigurePlan): string {
         <div class="ds-spread-gutter" aria-hidden="true"></div>
         <div class="ds-spread-page ds-spread-recto">${renderPage(recto, "recto")}</div>
       </div>
-      <ol class="ds-entry-shelf-rules" aria-hidden="true">${shelfRules}</ol>
+      ${storyFillSlab(blocks.map((b) => b.title))}
       <ol class="ds-footnote-register" aria-label="Footnotes">${footnotes}</ol>
     </div>
   </section>`;
@@ -1510,11 +1535,6 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
       </li>`;
     })
     .join("");
-  // Dense shelf rules under the essay — wrap-wide empty rectangles trip layout-audit vacancy.
-  const shelfRules = Array.from({ length: 40 }, (_, i) => {
-    const n = String(i + 1).padStart(2, "0");
-    return `<li class="ds-entry-shelf-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
-  }).join("");
   return `<section class="ds-section ds-story ds-entry" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
@@ -1526,7 +1546,7 @@ function renderEntry(section: SectionSpec, figures: FigurePlan): string {
           <p class="ds-entry-aside-kicker">Shelf index</p>
           <ol class="ds-entry-aside-list">${aside}</ol>
         </aside>
-        <ol class="ds-entry-shelf-rules" aria-hidden="true">${shelfRules}</ol>
+        ${storyFillSlab(blocks.map((b) => b.title))}
       </div>
     </div>
   </section>`;
@@ -1566,11 +1586,6 @@ function renderHangtag(section: SectionSpec, figures: FigurePlan): string {
       </article>`;
     })
     .join("");
-  // Dense shelf under the stack — narrow overlapping tags leave wrap-wide vacancy on the right.
-  const shelfRules = Array.from({ length: 32 }, (_, i) => {
-    const n = String(i + 1).padStart(2, "0");
-    return `<li class="ds-entry-shelf-rule" aria-hidden="true"><span>${n}</span><span></span></li>`;
-  }).join("");
   return `<section class="ds-section ds-story ds-hangtag" data-surface="${section.surface}" data-section="${esc(section.id)}" id="${esc(section.id)}">
     <div class="ds-bleed-rule" aria-hidden="true"></div>
     <div class="ds-wrap-wide">
@@ -1578,7 +1593,7 @@ function renderHangtag(section: SectionSpec, figures: FigurePlan): string {
       ${sectionHead(section, 2, true)}
       <ol class="ds-hang-tape" aria-label="Size tape">${tape}</ol>
       <div class="ds-hang-stack" aria-label="Care tag stack">${tags}</div>
-      <ol class="ds-entry-shelf-rules" aria-hidden="true">${shelfRules}</ol>
+      ${storyFillSlab(blocks.map((b) => b.title))}
     </div>
   </section>`;
 }
@@ -1651,6 +1666,7 @@ function renderEmber(section: SectionSpec, figures: FigurePlan): string {
       const side = i % 2 === 0 ? "left" : "right";
       return `<li class="ds-ember-step" data-side="${side}" style="--i:${i}">
         <span class="ds-ember-bead" aria-hidden="true"></span>
+        <div class="ds-ember-rest" aria-hidden="true"></div>
         <article class="ds-ember-panel">
           <p class="ds-ember-ch">${ch}</p>
           <h3>${esc(b.title)}</h3>

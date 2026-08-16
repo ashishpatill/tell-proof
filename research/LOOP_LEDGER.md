@@ -724,3 +724,23 @@ buckets, never names, hosts, or URLs.
 - **Evidence:** `pnpm research:audit foundry-editorial` → **clean**; design-skills tests green.
 - **Next:** dossier → observatory → studio → press → consumer (audit one at a time).
 
+## Loop — vacancy slabs + alignment-axes (2026-08-16)
+
+- **Goal:** Close CSS rule-density floods from shelf-row vacancy fills, then bring alignment-axes
+  into band (3–6) on the six over-count craft briefs without regressing audit or overall score.
+- **Failure named:** `template:vacancy-slab-not-rule-flood`, `template:register-faq-mint-axes`,
+  `template:grid-absolute-first-child-row`.
+- **Challenger:** `ds-story-fill` + SVG mini-pages instead of 32–40 bordered shelf rows; 1px
+  lantern chrome; 2-col register + 1-col FAQ + paper-frame flatten last in `siteKindCss()`;
+  ember rest cell with explicit grid placement so the bead does not steal row 1.
+- **Score:** overall **98.0 → 98.9**; holdout **96.7** (held; gap 1.3 → 2.2 as the matrix moved).
+  Alignment-axes: archive/loom **9→5**, dossier **8→5**, foundry **8→5**, lantern **8→6**,
+  observatory **8→4**. Dossier **97.4 → 99.5**, archive **97.3 → 99.7**, lantern **97.3 → 99.6**,
+  loom **97.5 → 99.4**, observatory **96.7 → 99.9**, foundry **97.5 → 99.9**.
+- **Side effect:** 1-col FAQ at `width:100%` stole body measure (145ch). Capped FAQ copy at 62ch;
+  body measure returned to band. Ember rest needed `grid-row:1` after the bead auto-placed.
+- **Evidence:** `pnpm research:audit` → **0 defects / 17 pages**; `@tell/design-skills` tests
+  **90/90**; fold + mid shots under `/opt/cursor/artifacts/screenshots/` (claim+figure, not nav-only).
+- **Next weakest:** alignment-axes still 7 on consumer-craft / field-herbarium / care-pathway;
+  shadow coverage on holdout (`soft-elevation` taste); fold-figure on saas/holdout.
+

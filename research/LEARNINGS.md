@@ -839,3 +839,38 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
 - **Fix:** Expand `quietIndex`; titles-only figure steps + proof hits; flow band uses stage
   meta not body; `ds-chapter-quiet` drops body column (and the empty 1fr vacancy that followed).
 - **Do not:** Reprint catalogue prose in every instrument that already names the capability.
+
+## 2026-08-16 — `template:vacancy-slab-not-rule-flood`
+
+- **Failure:** Aug 12 vacancy fills used 32–40 CSS-bordered shelf rows (`ds-entry-shelf-rule`)
+  plus 12×2 spread fill-rule 2px spans. `composition.ruleDensity` counts wide top/bottom-only
+  borders and `height ≤ 3px` bars — not SVG. Dossier/archive/loom blew rules/screen (band ≤4.33).
+  Empty sunken rectangles then read as `ledger-cell-void`.
+- **Fix:** One opaque `ds-story-fill` slab with a full 1px box border and SVG `miniPageMatter`
+  plates. Spread page fill is a single `ds-spread-page-fill`. Lantern bleed/beads/plate crops
+  at 1px; ember panels opaque paper. Dossier masthead `padding-top: var(--s-xs)` (no `--nav-h`).
+  Gate `no-rule-flood-fill`.
+- **Do not:** Fill wrap-wide holes with dozens of CSS hairline rows, or ship an empty sunken
+  rectangle and call vacancy closed.
+
+## 2026-08-16 — `template:register-faq-mint-axes`
+
+- **Failure:** Alignment-axes band is 3–6. Archive/loom sat at 9; dossier/foundry/observatory/
+  lantern at 8. Causes: 4-col index/chapter (title + body + mark lefts), extra `margin-left`
+  on rail siteKinds (overwritten unless last in `siteKindCss()`), 2-col FAQ, paper-technical
+  `#main` inset vs nav (~12px), FAQ `p { width:100% }` stealing body measure (145ch).
+- **Fix:** 2-col register (rail | stacked title+mark) **appended at end of `siteKindCss()`**;
+  1-col FAQ with `padding-inline:0` and `max-width:62ch`; flatten paper-technical `#main` on
+  those six siteKinds (care-pathway pattern). Quiet chapters on the same kinds.
+- **Do not:** Put collapse rules in the generic sheet — `siteKindCss()` is emitted last and
+  wins. Do not let FAQ prose run the full wrap-wide measure.
+
+## 2026-08-16 — `template:grid-absolute-first-child-row`
+
+- **Failure:** Ember zigzag empty cells tripped layout-audit vacancy after the paper frame
+  flattened (hole ≥28% vw). A `ds-ember-rest` fill on `data-side=left` painted 2px tall
+  because `.ds-ember-bead` (first child, `position:absolute`) still auto-placed into grid
+  cell (1,1), pushing the panel to row 2.
+- **Fix:** Bead `grid-column:1 / -1; grid-row:1`; rest + panel explicit `grid-row:1` and
+  matching columns; `align-items:stretch`.
+- **Do not:** Assume `position:absolute` grid children skip auto-placement.

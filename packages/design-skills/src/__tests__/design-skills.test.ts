@@ -840,9 +840,29 @@ describe("research-backed offerings + implementation basics", () => {
       /\[data-sitekind="archive-index"\] \.ds-enter\{[^}]*animation:ds-archive-in var\(--m-entrance/,
     );
     expect(archive).toMatch(/\[data-sitekind="archive-index"\] \.ds-register-masthead\{[^}]*padding-top:var\(--s-xs/);
-    expect(archive).toContain("ds-entry-shelf-rules");
+    expect(archive).toContain("ds-story-fill");
+    expect(archive).not.toContain("ds-entry-shelf-rule");
     expect(clinic).toMatch(/\[data-sitekind="care-pathway"\] \.ds-care-claim\{[^}]*background:var\(--c-paper\)/);
     expect(clinic).toMatch(/\[data-sitekind="care-pathway"\] \.ds-care-field\{[^}]*margin-top:0/);
+  });
+
+  it("fills wrap-wide vacancy with opaque slabs instead of CSS-bordered shelf rows", () => {
+    for (const key of ["dossier", "archive", "loom"] as const) {
+      const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS[key]!);
+      expect(previewHtml, key).toContain('class="ds-story-fill"');
+      expect(previewHtml, key).toContain("ds-story-fill-plate");
+      expect(previewHtml, key).not.toContain("ds-entry-shelf-rule");
+      expect(previewHtml, key).not.toContain("ds-spread-fill-rule");
+    }
+    const { previewHtml: dossier } = designFromFeatures(SHOWCASE_BRIEFS.dossier!);
+    expect(dossier).toMatch(
+      /\[data-sitekind="research-dossier"\] \.ds-folio-masthead\{[^}]*padding-top:var\(--s-xs/,
+    );
+    const { previewHtml: lantern } = designFromFeatures(SHOWCASE_BRIEFS.lantern!);
+    expect(lantern).toMatch(/\.ds-ember-bead\{[^}]*border:1px solid var\(--c-paper\)/);
+    expect(lantern).toMatch(/\.ds-bleed-rule\{[^}]*height:1px/);
+    expect(lantern).toContain('[data-sitekind="lantern-path"]');
+    expect(lantern).toMatch(/\.ds-faq\{\s*grid-template-columns:1fr/);
   });
 
   it("keeps story Note labels from sliding under capability marks", () => {
