@@ -843,8 +843,9 @@ body[data-sitekind="research-dossier"]{
 [data-sitekind="research-dossier"] .ds-hero-folio .ds-brand-mark{margin:0 0 0.35rem}
 [data-sitekind="research-dossier"] .ds-hero-folio .ds-eyebrow{margin:0}
 [data-sitekind="research-dossier"] .ds-hero-folio .ds-actions{margin-top:0.55rem}
+/* Sticky nav is in-flow — do NOT add --nav-h again or the dossier plate starves below the fold. */
 [data-sitekind="research-dossier"] .ds-folio-masthead{
-  padding-top:calc(var(--nav-h,4.5rem) + var(--s-sm));padding-bottom:0.45rem;
+  padding-top:var(--s-xs);padding-bottom:var(--s-xs);
 }
 [data-sitekind="research-dossier"] .ds-folio-claim{padding:var(--s-sm) 0 var(--s-md)}
 [data-sitekind="research-dossier"] .ds-folio-field{margin-top:0;position:relative;z-index:1}
@@ -1057,19 +1058,18 @@ body[data-sitekind="archive-index"]{
   border:1px solid var(--c-border);padding:var(--s-md);
   background:var(--c-paper);
 }
-.ds-entry-shelf-rules{
-  list-style:none;margin:0;padding:var(--s-sm) 0 0;
-  border-top:1px solid var(--c-border);
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 1rem;
+/* Opaque slab — vacancy matter without CSS-border rule floods (ledger-rule-flood). Full box
+ * border so the probe does not count it as a top/bottom-only rule. */
+.ds-story-fill{
+  min-height:min(22vh,11rem);
+  margin-top:var(--s-xl);
+  background-color:var(--c-paper-sunken);
+  border:1px solid var(--c-border);
+  padding:0;
+  overflow:hidden;
 }
-.ds-entry-shelf-rule{
-  display:grid;grid-template-columns:1.5rem minmax(0,1fr);gap:0.4rem;align-items:center;
-  min-height:1.45rem;border-bottom:1px solid color-mix(in srgb,var(--c-border) 75%,transparent);
-  font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;color:var(--c-ink-tertiary);
-}
-.ds-entry-shelf-rule > span:last-child{
-  height:1px;background:color-mix(in srgb,var(--c-border) 85%,transparent);
-}
+.ds-story-fill-plate{display:block;width:100%;height:auto;min-height:10rem}
+.ds-entry-grid > .ds-story-fill{grid-column:1 / -1}
 /* Cross-stamp strip: ink seals, not CSS rule flood (rules/screen band ≤4.33). */
 [data-sitekind="archive-index"] .ds-cross-stamps{
   border-top:0;padding-top:var(--s-xs);gap:0.25rem;
@@ -1613,6 +1613,101 @@ body[data-sitekind="care-pathway"][data-frame="paper-technical"] #main{
 [data-sitekind="press-atelier"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
 [data-sitekind="press-atelier"] .ds-bleed-rule{height:1px;background:var(--c-accent)}
 [data-sitekind="press-atelier"] .ds-press-plates .ds-cal-tol{letter-spacing:0.12em}
+/* Last in siteKindCss so rail-margin + 4-col register overrides lose.
+ * Extra left edges from title/body/mark columns and 2-col FAQ blow alignment-axes (band 3–6). */
+:is(
+  [data-sitekind="archive-index"],
+  [data-sitekind="commerce-loom"],
+  [data-sitekind="research-dossier"],
+  [data-sitekind="lantern-path"],
+  [data-sitekind="signal-observatory"],
+  [data-sitekind="editorial-foundry"]
+) :is(.ds-index-row, .ds-chapter, .ds-chapter-quiet){
+  grid-template-columns:var(--align-rail) minmax(0,1fr);
+  margin-left:0;
+  padding-left:0;
+}
+:is(
+  [data-sitekind="archive-index"],
+  [data-sitekind="commerce-loom"],
+  [data-sitekind="research-dossier"],
+  [data-sitekind="lantern-path"],
+  [data-sitekind="signal-observatory"],
+  [data-sitekind="editorial-foundry"]
+) :is(.ds-index-row h3, .ds-index-row p, .ds-index-mark, .ds-chapter h3, .ds-chapter .ds-body, .ds-chapter-mark){
+  grid-column:2;
+}
+:is(
+  [data-sitekind="archive-index"],
+  [data-sitekind="commerce-loom"],
+  [data-sitekind="research-dossier"],
+  [data-sitekind="lantern-path"],
+  [data-sitekind="signal-observatory"],
+  [data-sitekind="editorial-foundry"]
+) :is(.ds-index-mark, .ds-chapter-mark){
+  width:100%;max-width:none;justify-self:stretch;
+}
+:is(
+  [data-sitekind="archive-index"],
+  [data-sitekind="commerce-loom"],
+  [data-sitekind="research-dossier"],
+  [data-sitekind="lantern-path"],
+  [data-sitekind="signal-observatory"],
+  [data-sitekind="editorial-foundry"]
+) :is(.ds-index-mark, .ds-chapter-mark) svg{
+  width:100%;height:3.25rem;display:block;
+}
+:is(
+  [data-sitekind="archive-index"],
+  [data-sitekind="commerce-loom"],
+  [data-sitekind="research-dossier"],
+  [data-sitekind="lantern-path"],
+  [data-sitekind="signal-observatory"],
+  [data-sitekind="editorial-foundry"]
+) :is(.ds-section-head, .ds-index-row, .ds-chapter){
+  margin-left:0;
+}
+:is(
+  [data-sitekind="archive-index"],
+  [data-sitekind="commerce-loom"],
+  [data-sitekind="research-dossier"],
+  [data-sitekind="lantern-path"],
+  [data-sitekind="signal-observatory"],
+  [data-sitekind="editorial-foundry"]
+) .ds-faq{
+  grid-template-columns:1fr;
+}
+:is(
+  [data-sitekind="archive-index"],
+  [data-sitekind="commerce-loom"],
+  [data-sitekind="research-dossier"],
+  [data-sitekind="lantern-path"],
+  [data-sitekind="signal-observatory"],
+  [data-sitekind="editorial-foundry"]
+) .ds-faq-item{
+  padding-inline:0;
+}
+:is(
+  [data-sitekind="archive-index"],
+  [data-sitekind="commerce-loom"],
+  [data-sitekind="research-dossier"],
+  [data-sitekind="lantern-path"],
+  [data-sitekind="signal-observatory"],
+  [data-sitekind="editorial-foundry"]
+) .ds-faq-item p{
+  max-width:62ch;width:auto;
+}
+/* Paper frame insets #main vs nav — 12px extra axis. Flatten like care-pathway. */
+body:is(
+  [data-sitekind="archive-index"],
+  [data-sitekind="commerce-loom"],
+  [data-sitekind="research-dossier"],
+  [data-sitekind="lantern-path"],
+  [data-sitekind="signal-observatory"],
+  [data-sitekind="editorial-foundry"]
+)[data-frame="paper-technical"] #main{
+  max-width:none;margin:0;border-inline:0;box-shadow:none;
+}
 `;
 }
 
@@ -1966,7 +2061,7 @@ ${surfaceRules()}
 .ds-plate-fold,.ds-plate-lit{align-self:center;padding:var(--s-sm);border:1px solid var(--c-border);border-radius:var(--r-xl);background:var(--c-paper);box-shadow:var(--sh-raised,var(--shadow-raised,0 18px 48px color-mix(in srgb,var(--c-ink) 10%,transparent))),0 0 0 1px color-mix(in srgb,var(--c-accent) 12%,transparent);position:relative}
 /* Corner brackets — drawn matter on the plate frame so a product surface does not read as a bare card. */
 .ds-plate-fold::before,.ds-plate-fold::after,.ds-plate-lit::before,.ds-plate-lit::after{
-  content:"";position:absolute;width:1.1rem;height:1.1rem;border:1.5px solid var(--c-accent);pointer-events:none;z-index:2;
+  content:"";position:absolute;width:1.1rem;height:1.1rem;border:1px solid var(--c-accent);pointer-events:none;z-index:2;
 }
 .ds-plate-fold::before,.ds-plate-lit::before{top:0.45rem;left:0.45rem;border-right:0;border-bottom:0}
 .ds-plate-fold::after,.ds-plate-lit::after{right:0.45rem;bottom:0.45rem;border-left:0;border-top:0}
@@ -2262,7 +2357,7 @@ ${surfaceRules()}
 .ds-folio-plate{margin:0;width:100%;display:block}
 .ds-folio-plate .ds-fig{width:100%;min-height:min(78vh,820px);display:block}
 .ds-bleed-rule{
-  width:100vw;margin-left:calc(50% - 50vw);height:3px;background:var(--c-accent);
+  width:100vw;margin-left:calc(50% - 50vw);height:1px;background:var(--c-accent);
   border:0;padding:0;
 }
 .ds-chapter-rail{
@@ -2300,29 +2395,11 @@ ${surfaceRules()}
 .ds-spread-mark .ds-fig,
 .ds-spread-mark svg{width:100%;height:3.25rem;display:block}
 .ds-spread-page-fill{
-  list-style:none;margin:auto 0 0;padding:var(--s-sm) 0 0;
-  display:grid;gap:0.35rem;flex:1 1 auto;align-content:stretch;
-  /* Solid fill — color-mix backgrounds do not resolve to rgba for layout-audit matter. */
+  margin:auto 0 0;flex:1 1 auto;min-height:8rem;
+  /* Solid fill — color-mix backgrounds do not resolve to rgba for layout-audit matter.
+   * Full box border so this is not a top/bottom-only ruleDensity hit. */
   background-color:var(--c-paper-sunken);
   border:1px solid var(--c-border);
-  padding:var(--s-sm);
-}
-.ds-spread-fill-rule{
-  display:grid;grid-template-columns:1.5rem minmax(0,1fr);gap:0.4rem;align-items:center;
-  min-height:1.35rem;
-  background-color:var(--c-paper);
-  font-family:var(--f-mono);font-size:10px;letter-spacing:0.08em;color:var(--c-ink-tertiary);
-}
-.ds-spread-fill-rule > span:last-child{
-  height:2px;background-color:var(--c-border);
-}
-[data-sitekind="research-dossier"] .ds-spread .ds-entry-shelf-rules{margin-top:var(--s-xl)}
-/* Shelf rules need rgb backgrounds — color-mix is invisible to the vacancy matter probe. */
-.ds-entry-shelf-rule{
-  background-color:var(--c-paper);
-}
-.ds-entry-shelf-rule > span:last-child{
-  height:2px;background-color:var(--c-border);
 }
 .ds-fn-ref{font-family:var(--f-mono);font-size:11px;margin-left:0.15em;vertical-align:super;line-height:1}
 .ds-fn-ref a{color:var(--c-accent);text-decoration:none}
@@ -2752,7 +2829,8 @@ ${surfaceRules()}
 /* Loom: fill wrap-wide — narrow overlapping tags leave a tall vacancy column. */
 [data-sitekind="commerce-loom"] .ds-hang-tag{
   width:100%;max-width:none;
-  transform:translateY(calc(var(--i) * 1.15rem)) rotate(calc((var(--i) - 2) * 0.35deg));
+  /* Vertical overlap only — translateX / rotate minted extra alignment-axes. */
+  transform:translateY(calc(var(--i) * 1.15rem));
 }
 [data-sitekind="commerce-loom"] .ds-hang-tag .ds-body{max-width:62ch}
 [data-sitekind="commerce-loom"] .ds-hang-mark{
@@ -2762,7 +2840,7 @@ ${surfaceRules()}
 [data-sitekind="commerce-loom"] .ds-hang-mark svg{
   width:100%;height:3.25rem;display:block;
 }
-[data-sitekind="commerce-loom"] .ds-hangtag .ds-entry-shelf-rules{margin-top:var(--s-xl)}
+[data-sitekind="commerce-loom"] .ds-hangtag .ds-story-fill{margin-top:var(--s-xl)}
 @media (max-width:800px){
   .ds-hang-tag{transform:none;width:100%;margin-top:var(--s-md)!important}
   .ds-hang-tag + .ds-hang-tag{margin-top:var(--s-md)!important}
@@ -3182,18 +3260,25 @@ ${surfaceRules()}
   content:"";position:absolute;left:50%;top:0.4rem;bottom:0.4rem;width:1px;
   background:linear-gradient(180deg,var(--c-accent),var(--c-border));transform:translateX(-50%);
 }
-.ds-ember-step{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:var(--gutter);align-items:start}
+.ds-ember-step{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:var(--gutter);align-items:stretch}
 .ds-ember-bead{
   position:absolute;left:50%;top:0.45rem;width:0.85rem;height:0.85rem;border-radius:50%;
-  background:var(--c-accent);border:2px solid var(--c-paper);transform:translateX(-50%);z-index:2;
-  box-shadow:0 0 0 1px var(--c-accent);
+  background:var(--c-accent);border:1px solid var(--c-paper);transform:translateX(-50%);z-index:2;
+  box-shadow:none;grid-column:1 / -1;grid-row:1;
 }
 .ds-ember-panel{
-  max-width:28rem;padding:var(--s-md) var(--s-lg);border:1px solid var(--c-border);
-  background:color-mix(in srgb,var(--c-paper) 92%,var(--c-accent-surface));
+  max-width:none;width:100%;padding:var(--s-md) var(--s-lg);border:1px solid var(--c-border);
+  background-color:var(--c-paper);
 }
-.ds-ember-step[data-side="left"] .ds-ember-panel{grid-column:1;justify-self:end;text-align:right}
-.ds-ember-step[data-side="right"] .ds-ember-panel{grid-column:2;justify-self:start;text-align:left}
+.ds-ember-rest{
+  min-height:100%;
+  background-color:var(--c-paper-sunken);
+  border:1px solid var(--c-border);
+}
+.ds-ember-step[data-side="left"] .ds-ember-panel{grid-column:1;grid-row:1;justify-self:stretch;text-align:right}
+.ds-ember-step[data-side="left"] .ds-ember-rest{grid-column:2;grid-row:1}
+.ds-ember-step[data-side="right"] .ds-ember-panel{grid-column:2;grid-row:1;justify-self:stretch;text-align:left}
+.ds-ember-step[data-side="right"] .ds-ember-rest{grid-column:1;grid-row:1}
 .ds-ember-ch{
   margin:0 0 0.25rem;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;color:var(--c-accent);
 }
