@@ -1337,7 +1337,10 @@ body[data-sitekind="lantern-path"]{
   margin-top:0;position:relative;z-index:1;
   padding-left:0;overflow:hidden;
 }
-[data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(72vh,760px)}
+[data-sitekind="lantern-path"] .ds-path-field.ds-bleed{
+  width:100vw;margin-left:calc(50% - 50vw);
+}
+[data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(56vh,520px)}
 [data-sitekind="lantern-path"] .ds-hero-path{min-height:min(100vh,900px)}
 /* Sticky nav is in-flow — do NOT add --nav-h again or the path plate starves below the fold. */
 [data-sitekind="lantern-path"] .ds-path-masthead{
@@ -1345,17 +1348,21 @@ body[data-sitekind="lantern-path"]{
   padding-bottom:var(--s-xs,0.35rem);
   color:var(--c-ink-tertiary);
 }
-/* Atlas-local way-rail — tracks the path-plate height, not the viewport. */
+/* Compact chapter key on the walk band — not a viewport-tall Y-axis. */
 [data-sitekind="lantern-path"] .ds-way-rail{
-  position:absolute;left:0;top:0;bottom:0;
+  position:absolute;left:0;top:22%;bottom:auto;height:auto;
   width:var(--way-rail);z-index:3;
   background:var(--c-paper);
   border-right:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
-  padding:0;
+  border-bottom:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+  padding:0.35rem 0 0.5rem;
 }
 [data-sitekind="lantern-path"] .ds-way-rail ol{
-  justify-content:center;gap:0.12rem;
-  padding-top:26%;padding-bottom:0;
+  justify-content:flex-start;gap:0.12rem;
+  padding:0;
+}
+[data-sitekind="lantern-path"] .ds-way-num{
+  writing-mode:horizontal-tb;transform:none;letter-spacing:0.1em;
 }
 /* Figure split left column is narrow — nested spine rail starves title/lede (~16ch). */
 [data-sitekind="lantern-path"] .ds-split > div .ds-section-head-spine{
@@ -1374,7 +1381,7 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-section-head,
 [data-sitekind="lantern-path"] .ds-index-row,
 [data-sitekind="lantern-path"] .ds-ember-trail,
-[data-sitekind="lantern-path"] .ds-chapter{padding-left:0;margin-left:var(--way-rail)}
+[data-sitekind="lantern-path"] .ds-chapter{padding-left:0;margin-left:0}
 [data-sitekind="lantern-path"] .ds-closing-colophon{
   border-top:1px solid var(--c-border);padding-top:var(--s-xl);
 }
@@ -1390,7 +1397,7 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-proof-cell.is-lead,
 [data-sitekind="lantern-path"] .ds-proof-cell:first-child{box-shadow:inset 0 1px 0 var(--c-accent)}
 [data-sitekind="lantern-path"] .ds-path-near{
-  position:absolute;left:var(--way-rail);right:0;bottom:0;height:64px;
+  position:absolute;left:0;right:0;bottom:0;height:64px;
   pointer-events:none;z-index:1;overflow:hidden;background:transparent;
 }
 [data-sitekind="lantern-path"] .ds-sil{
@@ -3235,12 +3242,17 @@ ${surfaceRules()}
 .ds-path-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
 .ds-path-field{margin-top:0;position:relative}
 .ds-path-plate{margin:0;width:100%;display:block}
-.ds-path-plate .ds-fig{width:100%;min-height:min(80vh,840px);display:block}
+.ds-path-plate .ds-fig{width:100%;min-height:min(56vh,520px);display:block}
 .ds-way-rail{
   position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
   width:var(--way-rail,3.5rem);z-index:var(--z-nav);pointer-events:none;
   display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
 }
+.ds-path-field > .ds-way-rail{
+  position:absolute;left:0;top:18%;bottom:auto;height:auto;z-index:3;
+  padding:0.35rem 0 0.55rem;align-items:flex-start;
+}
+.ds-path-field > .ds-way-rail ol{flex:none;justify-content:flex-start;gap:0.12rem}
 .ds-way-rail ol{
   list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;
   justify-content:space-between;align-items:center;pointer-events:auto;width:100%;

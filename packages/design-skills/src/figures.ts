@@ -1814,9 +1814,10 @@ export function pathPlate(
   const r = rng(`${seed}:path-plate:${role}`);
   void features;
   const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
-  const H = role === "band" ? 860 : role === "column" ? 560 : 520;
-  const padX = role === "band" ? 40 : 24;
-  const padY = role === "band" ? 36 : 24;
+  /* Band is fold-wide and shallow so meet fills width — 860-tall plates letterbox. */
+  const H = role === "band" ? 500 : role === "column" ? 560 : 520;
+  const padX = role === "band" ? 36 : 24;
+  const padY = 24;
   const parts: string[] = [];
   const paper = "color-mix(in srgb, var(--c-paper) 88%, transparent)";
   const quiet = "color-mix(in srgb, var(--c-paper) 55%, transparent)";
@@ -1857,11 +1858,11 @@ export function pathPlate(
   const walkLeft = padX + 64;
   const walkRight = W - padX - 64;
   const walkSpan = walkRight - walkLeft;
-  const walkY = padY + (role === "band" ? 268 : 168);
-  const amp = role === "band" ? 22 : 12;
+  const walkY = padY + (role === "band" ? 132 : 128);
+  const amp = role === "band" ? 16 : 12;
   const walkAt = (t: number) => walkY + Math.sin(t * Math.PI * 2) * amp;
-  const captionY = walkY + amp + 72;
-  const footTop = H - padY - 88;
+  const captionY = walkY + amp + 56;
+  const footTop = H - padY - 64;
 
   /* Sky ticks + sparse stars — cartograph, not a mid-plate haze slab. */
   const starN = role === "band" ? 18 : 10;
@@ -1918,7 +1919,7 @@ export function pathPlate(
     parts.push(`<circle cx="${round(w.x)}" cy="${round(w.y - 30)}" r="3" fill="${ACCENT}"/>`);
     parts.push(`<circle cx="${round(w.x)}" cy="${round(w.y)}" r="3.5" fill="var(--c-paper)" stroke="${ACCENT}" stroke-width="1.5"/>`);
     parts.push(
-      `<rect x="${round(w.x - chipW / 2)}" y="${round(captionY - 16)}" width="${round(chipW)}" height="36" rx="2" fill="color-mix(in srgb, var(--c-ink) 92%, var(--c-paper) 8%)" stroke="color-mix(in srgb, var(--c-paper) 22%, transparent)" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+      `<rect x="${round(w.x - chipW / 2)}" y="${round(captionY - 16)}" width="${round(chipW)}" height="36" rx="2" fill="var(--c-ink)" stroke="color-mix(in srgb, var(--c-paper) 28%, transparent)" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
     );
     parts.push(text(`CH ${w.roman}`, w.x, captionY, { size: FIG_MONO_PX, fill: ACCENT, mono: true, anchor: "middle" }));
     parts.push(text(clip(w.title, 12), w.x, captionY + 14, { size: FIG_MONO_PX, fill: paper, mono: true, anchor: "middle" }));
@@ -1980,7 +1981,7 @@ export function pathPlate(
     height: H,
     kind: "path-plate",
     label: `${productName} path atlas`,
-    inset: role === "band" ? BLEED_INSET : 0,
+    inset: 0,
     dense: true,
   });
 }
