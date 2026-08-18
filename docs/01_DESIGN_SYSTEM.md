@@ -103,6 +103,8 @@ Components consume only these.
 - `--text-disabled` = paper-500
 - `--text-on-accent` = paper-50
 - `--text-display` = paper-50 (display headlines)
+- `--text-on-paper` = paper-950 (ink on `--surface-paper`; light panels only)
+- `--text-on-paper-muted` = paper-800 (captions / meta on paper)
 
 **Interactive (primary)**
 - `--accent` = terra-500
@@ -420,9 +422,12 @@ Tell Proof’s primary surface is an **entry-rail / split-shell**, not a KPI das
 | Critic pane | Findings, voice director, draft fix, Connect Agent |
 | Proof canvas | Capture / setup, pages strip, reveal seam, verified proof |
 
-Shell chrome may use warm **`--surface-glass`** frosted panels derived from paper tokens. Do not
-adopt cool slate SaaS chrome, Inter, violet gradients, or shadow-everywhere. Split resize and
-canvas focus mode are first-class; mobile stacks panes with Critic / Canvas switcher.
+The icon rail is an opaque **`--surface-paper`** panel. Labels use **`--text-on-paper`** (ink),
+never `--text` / `--text-secondary` / `--text-muted` — those cream tokens are for dark `--bg`
+chrome and fail 4.5:1 on paper. Frosted **`--surface-glass`** is for overlays sitting on the
+dark canvas, not for the rail. Do not adopt cool slate SaaS chrome, Inter, violet gradients, or
+shadow-everywhere. Split resize and canvas focus mode are first-class; mobile stacks panes with
+Critic / Canvas switcher.
 
 BYOK keys live in browser `localStorage` only; deterministic core needs no keys.
 

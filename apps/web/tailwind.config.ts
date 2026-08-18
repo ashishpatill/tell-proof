@@ -11,6 +11,8 @@ const config: Config = {
         text: "rgb(var(--text) / <alpha-value>)",
         secondary: "rgb(var(--text-secondary) / <alpha-value>)",
         muted: "rgb(var(--text-muted) / <alpha-value>)",
+        "on-paper": "rgb(var(--text-on-paper) / <alpha-value>)",
+        "on-paper-muted": "rgb(var(--text-on-paper-muted) / <alpha-value>)",
         accent: "rgb(var(--accent) / <alpha-value>)",
         "accent-hover": "rgb(var(--accent-hover) / <alpha-value>)",
         ok: "rgb(var(--ok) / <alpha-value>)",

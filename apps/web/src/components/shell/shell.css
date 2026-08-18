@@ -32,9 +32,10 @@
   align-items: stretch;
   gap: 0.35rem;
   padding: 1rem 0.75rem;
-  border-right: 1px solid rgb(var(--border) / 0.55);
-  background: var(--surface-glass);
-  backdrop-filter: blur(12px);
+  border-right: 1px solid rgb(var(--border) / 0.45);
+  /* Opaque paper — cream --text* tokens are for dark --bg, not this panel. */
+  background: var(--surface-paper);
+  color: rgb(var(--text-on-paper));
   min-height: 100vh;
   position: sticky;
   top: 0;
@@ -60,16 +61,16 @@
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 999px;
-  border: 1px solid rgb(var(--accent) / 0.5);
-  background: rgb(var(--accent) / 0.12);
-  color: rgb(var(--accent));
+  border: 1px solid rgb(var(--text-on-paper));
+  background: rgb(var(--text-on-paper));
+  color: var(--surface-paper);
   font-family: var(--font-mono);
   font-size: 0.875rem;
 }
 
 .tell-rail__brand:hover .tell-rail__mark,
 .tell-rail__brand:focus-visible .tell-rail__mark {
-  background: rgb(var(--accent) / 0.2);
+  box-shadow: 0 0 0 3px rgb(var(--accent) / 0.28);
 }
 
 .tell-rail__brand-text {
@@ -83,7 +84,7 @@
   font-family: var(--font-display);
   font-size: 1.35rem;
   letter-spacing: -0.02em;
-  color: rgb(var(--text));
+  color: rgb(var(--text-on-paper));
 }
 
 .tell-rail__brand-meta {
@@ -91,7 +92,7 @@
   font-size: 0.65rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgb(var(--text-muted));
+  color: rgb(var(--text-on-paper-muted));
 }
 
 .tell-rail__section {
@@ -107,7 +108,7 @@
   font-size: 0.65rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgb(var(--text-muted));
+  color: rgb(var(--text-on-paper-muted));
 }
 
 .tell-rail__link,
@@ -121,13 +122,14 @@
   border-radius: 0.65rem;
   border: 1px solid transparent;
   background: transparent;
-  color: rgb(var(--text-secondary));
+  color: rgb(var(--text-on-paper));
   cursor: pointer;
   text-decoration: none;
   font-family: var(--font-sans);
   font-size: 0.9rem;
   text-align: left;
-  transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
+  font-weight: 500;
+  transition: border-color 120ms ease, background 120ms ease, color 120ms ease, box-shadow 120ms ease;
 }
 
 .tell-rail__icon {
@@ -145,9 +147,9 @@
 
 .tell-rail__link:hover,
 .tell-rail__btn:hover {
-  border-color: rgb(var(--border));
-  color: rgb(var(--text));
-  background: rgb(var(--surface) / 0.55);
+  border-color: rgb(var(--border) / 0.45);
+  color: rgb(var(--text-on-paper));
+  background: rgb(var(--text-on-paper) / 0.06);
 }
 
 .tell-rail__link:focus-visible,
@@ -156,13 +158,29 @@
   outline-offset: 2px;
 }
 
+.tell-rail__link:disabled,
+.tell-rail__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .tell-rail__link[aria-current="page"],
 .tell-rail__link[data-active="true"],
 .tell-rail__btn[aria-current="page"],
 .tell-rail__btn[data-active="true"] {
-  border-color: rgb(var(--accent) / 0.45);
-  background: rgb(var(--accent) / 0.12);
-  color: rgb(var(--accent));
+  border-color: rgb(var(--accent) / 0.4);
+  background: rgb(var(--accent) / 0.18);
+  color: rgb(var(--text-on-paper));
+  box-shadow: inset 3px 0 0 rgb(var(--accent));
+  font-weight: 600;
+}
+
+.tell-rail__link[aria-current="page"]:hover,
+.tell-rail__link[data-active="true"]:hover,
+.tell-rail__btn[aria-current="page"]:hover,
+.tell-rail__btn[data-active="true"]:hover {
+  background: rgb(var(--accent) / 0.24);
+  color: rgb(var(--text-on-paper));
 }
 
 .tell-rail__sessions {
@@ -189,7 +207,7 @@
   border-radius: 0.5rem;
   border: 1px solid transparent;
   background: transparent;
-  color: rgb(var(--text-secondary));
+  color: rgb(var(--text-on-paper));
   cursor: pointer;
   font-family: var(--font-sans);
   font-size: 0.8rem;
@@ -197,14 +215,16 @@
 }
 
 .tell-rail__session:hover {
-  background: rgb(var(--surface) / 0.55);
-  color: rgb(var(--text));
+  background: rgb(var(--text-on-paper) / 0.06);
+  color: rgb(var(--text-on-paper));
 }
 
 .tell-rail__session[data-active="true"] {
-  border-color: rgb(var(--border) / 0.7);
-  background: rgb(var(--surface));
-  color: rgb(var(--text));
+  border-color: rgb(var(--accent) / 0.4);
+  background: rgb(var(--accent) / 0.18);
+  color: rgb(var(--text-on-paper));
+  box-shadow: inset 3px 0 0 rgb(var(--accent));
+  font-weight: 600;
 }
 
 .tell-rail__session-title {
@@ -221,14 +241,14 @@
   width: 1.15rem;
   height: 1.15rem;
   border-radius: 999px;
-  color: rgb(var(--text-muted));
+  color: rgb(var(--text-on-paper-muted));
   flex-shrink: 0;
 }
 
 .tell-rail__session-close:hover,
 .tell-rail__session-close:focus-visible {
-  background: rgb(var(--accent) / 0.15);
-  color: rgb(var(--accent));
+  background: rgb(var(--accent) / 0.2);
+  color: rgb(var(--text-on-paper));
 }
 
 .tell-rail__spacer {
@@ -241,7 +261,7 @@
   flex-direction: column;
   gap: 0.2rem;
   padding-top: 0.35rem;
-  border-top: 1px solid rgb(var(--border) / 0.4);
+  border-top: 1px solid rgb(var(--border) / 0.35);
 }
 
 .tell-tabs {
