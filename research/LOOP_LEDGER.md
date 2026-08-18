@@ -755,3 +755,16 @@ buckets, never names, hosts, or URLs.
   `/opt/cursor/artifacts/screenshots/` (`lattice-fold-no-z.png`, `pipeline-fold-no-title-rail.png`).
 - **Next weakest:** still consumer/herbarium/care alignment-axes at 7; do not reopen those here.
 
+## Loop — no catalogue pair under fold (2026-08-18)
+
+- **Goal:** Stop the fold showing the same four capabilities twice (instrument + “What X covers” metric row).
+- **Failure named:** `template:no-catalogue-pair-under-fold`.
+- **Challenger:** Drop metrics band on catalog-fold kinds (corporate, SaaS, dashboard, fintech);
+  fill first viewport with the fold (`min-height: min(100vh, 920px)`). Gate
+  `catalog-fold-no-metric-reprint`.
+- **Score:** overall **98.9 → 99.0**. Corporate-story **98.5 → 99.5**. SaaS **99.1 → 98.4**
+  (inverse metrics gone; proof + CTA still inverse). Holdout **96.8** (gap 2.2).
+- **Evidence:** `@tell/design-skills` tests **92/92**; typecheck green. One fold PNG per
+  template under `/opt/cursor/artifacts/screenshots/` (`corporate-fold.png`, `saas-fold.png`).
+- **Next weakest:** consumer/herbarium/care alignment-axes still 7.
+
