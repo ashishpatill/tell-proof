@@ -5,6 +5,18 @@ Pattern keys match `tell-recursive-improve`.
 
 ---
 
+## 2026-08-18 — `template:path-atlas-labels-off-walk`
+
+- **Failure:** Ember Gate PATH ATLAS connected chapter labels with a fat V-scribble (sine amplitude
+  through the plate + 10px paper underlay). A mid-plate haze rect sat on CH II–IV; DOM `.ds-path-near`
+  silhouettes (`z-index:2`, ~148px, `translateY(-6px)`) ghosted the walk. Fixed `ds-way-rail` spanned
+  the viewport so Ch I–V did not track the atlas.
+- **Fix:** Sampled left-to-right walk (amp ~22px); captions on opaque chips in a register below the
+  stroke; ridges/elevation in the foot only; near-plane 64px / z-index 1 / no lift; way-rail
+  `position:absolute` inside `.ds-path-field`. Gate `path-plate-walk-not-scribble`.
+- **Do not:** Connect night-walk labels with a fat V or a mid-plate haze bar. Do not park a
+  viewport-tall chapter rail beside a left-to-right walk and expect Y-alignment.
+
 ## 2026-08-12 — `home:no-third-party-composer-templates`
 
 - **Do not:** Show third-party product brands as starter templates/chips under the Tell home composer. Guard: `apps/web/src/lib/composer-brand-denylist.ts` + vitest. Prefer Tell specimens / `listTemplates()` labels only — or nothing.

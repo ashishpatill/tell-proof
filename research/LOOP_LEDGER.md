@@ -744,3 +744,15 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** alignment-axes still 7 on consumer-craft / field-herbarium / care-pathway;
   shadow coverage on holdout (`soft-elevation` taste); fold-figure on saas/holdout.
 
+## Loop — lantern-path PATH ATLAS walk (2026-08-18)
+
+- **Goal:** Ember Gate path-plate read as a night walk, not a broken diagram (fat V, haze bar,
+  stroke-through-type, viewport-tall Ch I–V rail, near-plane ghosting).
+- **Failure named:** `template:path-atlas-labels-off-walk`.
+- **Fix:** Sampled gentle walk; caption chips in a register below the stroke; ridges/elev in the
+  foot; `.ds-path-near` 64px / z-index 1; way-rail absolute inside `.ds-path-field`; gate
+  `path-plate-walk-not-scribble`.
+- **Evidence:** `@tell/design-skills` tests; `pnpm research:critique` lantern-path (must not
+  regress); fold PNG under `/opt/cursor/artifacts/screenshots/`.
+- **Next weakest:** remaining craft templates whose signature figures still put stroke through type.
+

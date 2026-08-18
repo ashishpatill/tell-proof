@@ -467,7 +467,7 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
   [data-sitekind="lantern-path"] .ds-reveal .ds-stagger > *{animation-name:ds-lantern-in}
   [data-sitekind="lantern-path"] .ds-reveal:not(.is-in){transform:translateY(1.6rem) scale(0.985)}
   [data-sitekind="lantern-path"] .ds-way-mark.is-active{transform:translateX(4px)}
-  [data-sitekind="lantern-path"] .ds-path-near .ds-sil{transition:opacity 480ms var(--m-ease-out),transform 480ms var(--m-ease-out)}
+  [data-sitekind="lantern-path"] .ds-path-near .ds-sil{transition:opacity 480ms var(--m-ease-out)}
 }
 `,
     "care-pathway": `
@@ -1345,10 +1345,17 @@ body[data-sitekind="lantern-path"]{
   padding-bottom:var(--s-xs,0.35rem);
   color:var(--c-ink-tertiary);
 }
-/* Opaque way-rail — fixed marks must not ghost page content (layout-audit ghosting). */
+/* Atlas-local way-rail — tracks the path-plate height, not the viewport. */
 [data-sitekind="lantern-path"] .ds-way-rail{
+  position:absolute;left:0;top:0;bottom:0;
+  width:var(--way-rail);z-index:3;
   background:var(--c-paper);
   border-right:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+  padding:0;
+}
+[data-sitekind="lantern-path"] .ds-way-rail ol{
+  justify-content:center;gap:0.12rem;
+  padding-top:26%;padding-bottom:0;
 }
 /* Figure split left column is narrow — nested spine rail starves title/lede (~16ch). */
 [data-sitekind="lantern-path"] .ds-split > div .ds-section-head-spine{
@@ -1383,26 +1390,26 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-proof-cell.is-lead,
 [data-sitekind="lantern-path"] .ds-proof-cell:first-child{box-shadow:inset 0 1px 0 var(--c-accent)}
 [data-sitekind="lantern-path"] .ds-path-near{
-  position:absolute;left:var(--way-rail);right:0;bottom:0;height:min(18vh,148px);
-  pointer-events:none;z-index:2;overflow:hidden;
+  position:absolute;left:var(--way-rail);right:0;bottom:0;height:64px;
+  pointer-events:none;z-index:1;overflow:hidden;background:transparent;
 }
 [data-sitekind="lantern-path"] .ds-sil{
   position:absolute;bottom:0;display:block;
-  background:color-mix(in srgb,var(--c-ink) 82%, transparent);
-  opacity:0.55;transition:opacity 0.6s ease, transform 0.8s ease;
+  background:color-mix(in srgb,var(--c-ink) 70%, transparent);
+  opacity:0.35;transition:opacity 0.6s ease;
   max-height:100%;
 }
 [data-sitekind="lantern-path"] .ds-sil-gate{
-  left:4%;width:64px;height:96px;
+  left:6%;width:36px;height:48px;
   clip-path:polygon(8% 100%,8% 42%,28% 18%,50% 8%,72% 18%,92% 42%,92% 100%,72% 100%,72% 55%,28% 55%,28% 100%);
 }
 [data-sitekind="lantern-path"] .ds-sil-pine{
-  left:38%;width:80px;height:112px;
+  left:42%;width:44px;height:56px;
   clip-path:polygon(50% 0,62% 28%,58% 28%,72% 52%,64% 52%,80% 78%,70% 78%,90% 100%,10% 100%,30% 78%,20% 78%,36% 52%,28% 52%,42% 28%,38% 28%);
 }
 [data-sitekind="lantern-path"] .ds-sil-stone{
-  right:8%;width:108px;height:32px;border-radius:50% 50% 40% 40% / 70% 70% 30% 30%;
-  opacity:0.4;
+  right:10%;width:72px;height:18px;border-radius:50% 50% 40% 40% / 70% 70% 30% 30%;
+  opacity:0.28;
 }
 @media (prefers-reduced-motion:reduce){
   [data-sitekind="lantern-path"] .ds-sil{transition:none}
