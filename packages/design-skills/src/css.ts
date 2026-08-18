@@ -1350,7 +1350,7 @@ body[data-sitekind="lantern-path"]{
 }
 /* Compact chapter key on the walk band — ink on the night plate, not a paper slab. */
 [data-sitekind="lantern-path"] .ds-way-rail{
-  position:absolute;left:0;top:22%;bottom:auto;height:auto;
+  position:absolute;left:0;top:32%;bottom:auto;height:auto;
   width:var(--way-rail);z-index:3;
   background:color-mix(in srgb,var(--c-ink) 88%, var(--c-paper) 12%);
   border-right:1px solid color-mix(in srgb,var(--c-paper) 18%,transparent);
@@ -3253,7 +3253,7 @@ ${surfaceRules()}
   display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
 }
 .ds-path-field > .ds-way-rail{
-  position:absolute;left:0;top:18%;bottom:auto;height:auto;z-index:3;
+  position:absolute;left:0;top:32%;bottom:auto;height:auto;z-index:3;
   padding:0.35rem 0 0.55rem;align-items:flex-start;
 }
 .ds-path-field > .ds-way-rail ol{flex:none;justify-content:flex-start;gap:0.12rem}
