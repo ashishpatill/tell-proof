@@ -752,7 +752,9 @@ buckets, never names, hosts, or URLs.
 - **Fix:** Sampled gentle walk; caption chips in a register below the stroke; ridges/elev in the
   foot; `.ds-path-near` 64px / z-index 1; way-rail absolute inside `.ds-path-field`; gate
   `path-plate-walk-not-scribble`.
-- **Evidence:** `@tell/design-skills` tests; `pnpm research:critique` lantern-path (must not
-  regress); fold PNG under `/opt/cursor/artifacts/screenshots/`.
+- **Evidence:** `@tell/design-skills` tests 90/90; `pnpm research:audit lantern-path` clean;
+  `pnpm research:critique` overall **98.9** (held), lantern-path **98.8** (was 99.6 — fold-figure
+  now 1.0 filling the plate; remaining gap is section-coverage / body measure). Fold PNG under
+  `/opt/cursor/artifacts/screenshots/ember-gate-fold.png`.
 - **Next weakest:** remaining craft templates whose signature figures still put stroke through type.
 

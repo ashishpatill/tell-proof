@@ -1381,7 +1381,7 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-section-head,
 [data-sitekind="lantern-path"] .ds-index-row,
 [data-sitekind="lantern-path"] .ds-ember-trail,
-[data-sitekind="lantern-path"] .ds-chapter{padding-left:0;margin-left:0}
+[data-sitekind="lantern-path"] .ds-chapter{padding-left:0;margin-left:var(--way-rail)}
 [data-sitekind="lantern-path"] .ds-closing-colophon{
   border-top:1px solid var(--c-border);padding-top:var(--s-xl);
 }
