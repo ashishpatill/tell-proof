@@ -2198,7 +2198,7 @@ ${surfaceRules()}
 /* First-five marketing fold instruments — unreplicable DOM (not stackfold retunes).
  * Split folds: claim + instrument share the viewport. Never a tall left-only claim
  * with the craft figure shoved below the fold (empty right half / empty bottom void). */
-.ds-hero-pipeline{position:relative;isolation:isolate;padding:0;min-height:0;display:flex;flex-direction:column}
+.ds-hero-pipeline{position:relative;isolation:isolate;padding:0;min-height:min(100vh,920px);display:flex;flex-direction:column}
 .ds-stage-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background:var(--c-paper);border-bottom:1px solid var(--c-border)}
 .ds-stage-rail ol{list-style:none;margin:0;padding:0 var(--gutter);display:flex;min-height:3.25rem}
 .ds-stage-rail li{flex:1;display:flex}
@@ -2210,7 +2210,7 @@ ${surfaceRules()}
 .ds-stage-label{text-transform:uppercase}
 .ds-rail-caption{margin:0;padding:0.35rem var(--gutter) 0;font-family:var(--f-mono);font-size:var(--t-caption-size);letter-spacing:0.08em;text-transform:uppercase;color:var(--c-ink-tertiary)}
 .ds-hero-queue .ds-rail-caption{color:color-mix(in oklab,var(--c-paper) 55%,transparent)}
-.ds-pipeline-fold{flex:0 1 auto;display:grid;grid-template-columns:minmax(0,5.5fr) minmax(0,6.5fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:start;padding:var(--s-md) 0 var(--s-xl);min-height:0}
+.ds-pipeline-fold{flex:1 1 auto;display:grid;grid-template-columns:minmax(0,5.5fr) minmax(0,6.5fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:stretch;padding:var(--s-md) 0 var(--s-xl);min-height:0}
 .ds-pipeline-claim{padding:var(--s-sm) 0 0;display:flex;flex-direction:column;justify-content:flex-start;gap:var(--s-sm)}
 .ds-pipeline-claim .ds-display{max-width:16ch;font-size:clamp(2rem,3.4vw,3.1rem);line-height:1.05}
 .ds-pipeline-claim .ds-lede{max-width:36ch}
@@ -2219,7 +2219,7 @@ ${surfaceRules()}
 .ds-pipeline-field .ds-pipeline-board,.ds-pipeline-field figure{flex:1;display:flex;min-height:0;margin:0;width:100%}
 .ds-pipeline-field .ds-fig{width:100%;height:auto;min-height:min(62vh,580px);display:block}
 
-.ds-hero-queue{position:relative;isolation:isolate;padding:0;min-height:0;display:flex;flex-direction:column;background:var(--c-ink);color:var(--c-paper)}
+.ds-hero-queue{position:relative;isolation:isolate;padding:0;min-height:min(100vh,920px);display:flex;flex-direction:column;background:var(--c-ink);color:var(--c-paper)}
 .ds-hero-queue .ds-display,.ds-hero-queue .ds-lede,.ds-hero-queue .ds-brand-mark,.ds-hero-queue .ds-eyebrow{color:inherit}
 .ds-hero-queue .ds-lede{opacity:0.78}
 .ds-hero-queue .ds-btn-primary{background:var(--c-accent);color:var(--c-ink)}
@@ -2231,20 +2231,20 @@ ${surfaceRules()}
 .ds-priority-chip.is-live,.ds-priority-chip:hover,.ds-priority-chip:focus-visible{color:var(--c-accent);background:color-mix(in oklab,var(--c-accent) 12%,transparent)}
 .ds-priority-chip:focus-visible{outline:2px solid var(--c-accent);outline-offset:-2px}
 .ds-priority-meta,.ds-priority-label{font-family:var(--f-mono);letter-spacing:0.08em}
-.ds-queue-fold{flex:0 1 auto;display:grid;grid-template-columns:minmax(0,4.5fr) minmax(0,7.5fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:start;padding:var(--s-md) 0 var(--s-xl);min-height:0}
+.ds-queue-fold{flex:1 1 auto;display:grid;grid-template-columns:minmax(0,4.5fr) minmax(0,7.5fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:stretch;padding:var(--s-md) 0 var(--s-xl);min-height:0}
 .ds-queue-claim{padding:var(--s-sm) 0 0;display:flex;flex-direction:column;justify-content:flex-start;gap:var(--s-sm)}
 .ds-queue-claim .ds-display{max-width:15ch;font-size:clamp(1.85rem,3.1vw,2.75rem);line-height:1.05}
 .ds-queue-field{align-self:start;display:flex;min-height:0;width:100%}
 .ds-queue-field .ds-queue-console,.ds-queue-field figure{flex:1;display:flex;min-height:0;margin:0;width:100%}
 .ds-queue-field .ds-fig{width:100%;height:auto;min-height:min(60vh,560px);display:block}
 
-.ds-hero-diligence{position:relative;isolation:isolate;padding:0;min-height:0;display:flex;flex-direction:column}
+.ds-hero-diligence{position:relative;isolation:isolate;padding:0;min-height:min(100vh,920px);display:flex;flex-direction:column}
 .ds-principle-spine{position:absolute;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-md));bottom:var(--s-xl);width:3.5rem;z-index:3;pointer-events:none;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:flex-start;border-right:1px solid var(--c-border);padding:var(--s-sm) 0}
 .ds-principle-spine ol{list-style:none;margin:0;padding:0;display:flex;gap:var(--s-md)}
 .ds-principle-spine li{font-family:var(--f-mono);font-size:11px;letter-spacing:0.12em;color:var(--c-ink-tertiary);display:flex;gap:0.35rem;align-items:center}
 .ds-principle-spine li.is-live{color:var(--c-accent)}
 .ds-principle-spine b{font-weight:500;font-family:var(--f-sans)}
-.ds-diligence-fold{flex:0 1 auto;display:grid;grid-template-columns:minmax(0,5.5fr) minmax(0,6.5fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:start;padding:var(--s-md) 0 var(--s-xl);padding-left:clamp(3.25rem,5vw,4.5rem);min-height:0}
+.ds-diligence-fold{flex:1 1 auto;display:grid;grid-template-columns:minmax(0,5.5fr) minmax(0,6.5fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:stretch;padding:var(--s-md) 0 var(--s-xl);padding-left:clamp(3.25rem,5vw,4.5rem);min-height:0}
 .ds-diligence-claim{padding:var(--s-sm) 0 0;display:flex;flex-direction:column;justify-content:flex-start;gap:var(--s-sm)}
 .ds-diligence-claim .ds-display{max-width:18ch;font-family:var(--f-serif);font-size:clamp(2rem,3.6vw,3.25rem);line-height:1.08}
 .ds-diligence-claim .ds-lede{max-width:38ch}
@@ -2265,7 +2265,7 @@ ${surfaceRules()}
 .ds-mechanism-stage .ds-fig{width:100%;height:auto;min-height:min(58vh,540px);display:block}
 .ds-mechanism-plate{display:grid;gap:var(--s-sm)}
 
-.ds-hero-wire{position:relative;isolation:isolate;padding:0;min-height:0;display:flex;flex-direction:column}
+.ds-hero-wire{position:relative;isolation:isolate;padding:0;min-height:min(100vh,920px);display:flex;flex-direction:column}
 .ds-cutoff-rail{position:sticky;top:var(--nav-h,4.5rem);z-index:4;background:var(--c-paper);border-bottom:1px solid var(--c-border)}
 .ds-cutoff-rail ol{list-style:none;margin:0;padding:0 var(--gutter);display:flex;min-height:3.25rem}
 .ds-cutoff-rail li{flex:1;display:flex}
@@ -2273,7 +2273,7 @@ ${surfaceRules()}
 .ds-cutoff-rail li:first-child .ds-cutoff-chip{border-left:0}
 .ds-cutoff-chip.is-live,.ds-cutoff-chip:hover{color:var(--c-accent)}
 .ds-cutoff-meta,.ds-cutoff-label{font-family:var(--f-mono);letter-spacing:0.1em}
-.ds-wire-fold{flex:0 1 auto;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:start;padding:var(--s-md) 0 var(--s-md);min-height:0}
+.ds-wire-fold{flex:1 1 auto;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1rem,2.2vw,1.75rem);align-items:stretch;padding:var(--s-md) 0 var(--s-md);min-height:0}
 .ds-wire-claim{padding:var(--s-sm) 0 0;display:flex;flex-direction:column;justify-content:flex-start;gap:var(--s-sm)}
 .ds-wire-claim .ds-display{max-width:15ch;font-size:clamp(1.95rem,3.3vw,2.95rem);line-height:1.05}
 .ds-wire-field{align-self:start;display:flex;min-height:0;width:100%}

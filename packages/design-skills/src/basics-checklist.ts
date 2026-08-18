@@ -196,6 +196,18 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Corporate owns a diligence fold (principle spine + posture grid) — not editorial stackfold.",
     ),
     check(
+      "catalog-fold-no-metric-reprint",
+      (() => {
+        const catalog = /data-figure="(?:posture-grid|pipeline-board|queue-console|wire-ledger)"/.test(html);
+        if (!catalog) return true;
+        if (!/ds-metrics-band/.test(html)) return true;
+        return !spec.brief.features.some((f) =>
+          html.includes(`ds-metric-value">${f.name}<`),
+        );
+      })(),
+      "A fold that already catalogs capabilities must not reprint those names as a metric card row.",
+    ),
+    check(
       "posture-grid-no-centroid-stroke",
       (() => {
         const svg = svgFigure(html, "posture-grid");

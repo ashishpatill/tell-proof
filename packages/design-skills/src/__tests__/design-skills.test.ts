@@ -829,6 +829,15 @@ describe("research-backed offerings + implementation basics", () => {
     expect((d.match(/L/g) ?? []).length).toBe(1);
   });
 
+  it("does not reprint fold capabilities as a paired metric card row", () => {
+    for (const key of ["corporate", "saas", "dashboard", "fintech"] as const) {
+      const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS[key]!);
+      expect(spec.sections.some((s) => s.kind === "metrics"), key).toBe(false);
+      expect(previewHtml, key).not.toMatch(/<section[^>]*ds-metrics-band/);
+      expect(previewHtml, key).not.toMatch(/What \w+ covers/);
+    }
+  });
+
   it("keeps craft bleeds clear of left rails and press regs off the claim", () => {
     const { previewHtml: press } = designFromFeatures(SHOWCASE_BRIEFS.press!);
     expect(press).toMatch(/--craft-rail:var\(--sig-rail\)/);
