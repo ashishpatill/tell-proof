@@ -26,7 +26,7 @@
 
 ## Specimens — craft reels, not theme packs
 
-Tell ships a fourteen-offering catalog under [`/showcase`](./apps/web/src/app/showcase). The hero stage **slowly tours** the best craft beat from each specimen. Filmstrip cells stay still until **hover** — then that offering’s reel plays. Not a cropped nav strip and not a one-size card grid restyled with new colors.
+Tell ships **sixteen engine offerings** plus Crease and Baseline matchday specimens under [`/showcase`](./apps/web/src/app/showcase). The hero stage **slowly tours** the best craft beat from each specimen. Filmstrip cells stay still until **hover** — then that offering’s reel plays. Not a cropped nav strip and not a one-size card grid restyled with new colors.
 
 ![Tell Specimens — featured craft reel](./docs/media/showcase/01-showcase-featured.webp)
 
@@ -61,18 +61,26 @@ These are not “SaaS with a different accent.” Each `siteKind` owns unreplica
 | Archive index · Stamp Roll | Signal observatory · Nightglass |
 |:---:|:---:|
 | ![Archive index fold — A–Z rail + ruled ledger](./docs/media/showcase/archive-fold.webp) | ![Signal observatory fold — LIVE window + signal lattice](./docs/media/showcase/observatory-fold.webp) |
+| ![Archive craft reel](./docs/media/showcase/archive-reel.webp) | ![Observatory craft reel](./docs/media/showcase/observatory-reel.webp) |
 | Quiet register, sticky alpha rail, multi-column ledger | Chronometer fold, scrub rail, channel lattice |
 
 | Research dossier · Meridian Atlas | Editorial foundry · Glyph Press |
 |:---:|:---:|
 | ![Research dossier fold — cartographic plate with pin callouts](./docs/media/showcase/dossier-fold.webp) | ![Editorial foundry fold — optical-size ladder seam](./docs/media/showcase/foundry-fold.webp) |
+| ![Dossier craft reel](./docs/media/showcase/dossier-reel.webp) | ![Foundry craft reel](./docs/media/showcase/foundry-reel.webp) |
 | Folio masthead, chapter rail, dossier plate, imprint | Hard-seam fold, type ladder, marginalia, colophon |
 
-Regenerate README frames + first-five reels (web on `:3000`), then optimize to WebP:
+| Lantern path · Ember Gate | Commerce loom · Warp Desk |
+|:---:|:---:|
+| ![Lantern path fold — night cartograph + waypoints](./docs/media/showcase/lantern-fold.webp) | ![Commerce loom fold — drawloom plate + weft claim](./docs/media/showcase/loom-fold.webp) |
+| ![Lantern craft reel](./docs/media/showcase/lantern-reel.webp) | ![Loom craft reel](./docs/media/showcase/loom-reel.webp) |
+| Path atlas fold, ember trail, Ember close | Weave plate, hang-tag stack, Care label close |
+
+Regenerate README frames + craft reels (web on `:3000`), then optimize to WebP:
 
 ```bash
 pnpm capture:readme-showcase
-pnpm -F @tell/core exec tsx ../../scripts/capture-first5-reels.ts
+pnpm capture:readme-reels
 pnpm media:webp
 ```
 
@@ -108,7 +116,7 @@ Most agent UI pipelines stop at HTML that compiles and looks fine in a thumbnail
 
 | Prompt-only / generic kit | Tell |
 |---|---|
-| One layout grammar restyled per product | **Twelve site kinds** with distinct fold grammar (press sheet, ledger, lattice, dossier plate, optical seam, …) |
+| One layout grammar restyled per product | **Sixteen engine offerings** with distinct fold grammar (press sheet, ledger, lattice, dossier plate, optical seam, path atlas, …) |
 | Taste lives only in the model’s prior | **Deterministic detectors + critique bands** — scores and evidence, not vibes |
 | Nav crop as “proof” of craft | **Craft reels** that scroll to plate / spread / imprint beats |
 | Filler tiers and lorem sections | **Feature-derived** pricing, proof, and instruments from the brief you typed |
@@ -141,7 +149,7 @@ In Cursor Agent chat you can run the same engine through MCP (`tell_diagnose`, `
 
 ## Demo
 
-The GIF above walks the full product loop:
+The recording above walks the full product loop:
 
 1. **Tell Report** — paste a live URL, capture the fixture app, read named findings on the real surface.
 2. **Reconciliation** — before/after reveal with contrast, type scale, spacing, depth, and accent discipline.
@@ -154,7 +162,8 @@ Regenerate media locally (web on `:3000`, fixture on `:3001`):
 
 ```bash
 pnpm record:readme-demo
-pnpm capture:readme-showcase   # /showcase + top template folds for README
+pnpm capture:readme-showcase   # /showcase + template folds for README
+pnpm capture:readme-reels      # animated WebP craft reels
 ```
 
 ---
@@ -236,6 +245,8 @@ pnpm auth:fixture        # mint Playwright storageState for /account (fixture mu
 pnpm capture:matrix      # live scenario matrix (set TELL_MATRIX_URL)
 pnpm verify:directions   # screenshot all 6 reconcile directions (requires Playwright)
 pnpm record:readme-demo  # regenerate docs/media/tell-proof-demo.{mp4,poster.webp}
+pnpm capture:readme-showcase
+pnpm capture:readme-reels
 pnpm media:webp          # README + site photography → display-sized WebP (prunes sources)
 pnpm media:site          # apps/web/public specimens only (auto on agency:run)
 ```

@@ -329,10 +329,13 @@ export async function auditBriefs(ids?: string[]): Promise<AuditResult[]> {
     await p.evaluate(async () => {
       const step = window.innerHeight * 0.8;
       for (let y = 0; y < document.body.scrollHeight; y += step) {
-        window.scrollTo(0, y);
+        window.scrollTo({ top: y, left: 0, behavior: "instant" });
         await new Promise((r) => setTimeout(r, 90));
       }
-      window.scrollTo(0, 0);
+      // Instant — smooth scroll-behavior leaves residual scrollY and false nav/hero collisions.
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     });
     await p.waitForTimeout(500);
     const found = (await p.evaluate(AUDIT_PROBE)) as Omit<AuditResult, "id">;

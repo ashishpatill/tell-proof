@@ -33,14 +33,22 @@ async function main() {
   const page = await context.newPage();
 
   try {
-    // 1) Tell Report capture loop
+    // 1) Tell Report capture loop — EntryHome composer, then workspace
     await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
     await pause(page, 1800);
-    const urlInput = page.locator('input[type="url"], input[placeholder*="http"], input').first();
-    await urlInput.click({ clickCount: 3 });
-    await urlInput.fill(FIXTURE);
+    const liveUrlMode = page.getByRole("button", { name: /live url/i });
+    if (await liveUrlMode.count()) {
+      await liveUrlMode.click();
+      await pause(page, 500);
+    }
+    const composer = page.locator("textarea.tell-composer__input, [data-testid='capture-url']").first();
+    await composer.click({ clickCount: 3 });
+    await composer.fill(FIXTURE);
     await pause(page, 900);
-    const captureBtn = page.getByRole("button", { name: /capture|set up|diagnose/i }).first();
+    const captureBtn = page
+      .locator(".tell-composer__submit, [data-testid='capture-submit']")
+      .or(page.getByRole("button", { name: /capture|set up|diagnose|start/i }))
+      .first();
     await captureBtn.click();
     await page.getByText(/finding|generic|drift|tell/i).first().waitFor({ timeout: 90_000 }).catch(() => {});
     await pause(page, 2200);
@@ -71,7 +79,7 @@ async function main() {
 
     // 2) Studio create / redesign / magic / viewport
     await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
-    await page.getByTestId("studio-frame").waitFor({ timeout: 30_000 });
+    await page.getByTestId("preview-frame").waitFor({ timeout: 30_000 });
     await pause(page, 2000);
     for (const kind of ["dashboard-webapp", "corporate-story", "docs-educational", "saas-marketing"] as const) {
       await page.getByTestId("input-sitekind").selectOption(kind);
@@ -85,20 +93,31 @@ async function main() {
     await page.getByTestId("input-magic").fill("redesign as dashboard workspace, minimal-clean, no motion");
     await page.getByTestId("btn-magic").click();
     await page.waitForTimeout(2400);
-    await page.getByTestId("viewport-390").click();
+    await page.getByTestId("viewport-mobile").click();
     await pause(page, 1600);
-    await page.getByTestId("viewport-1280").click();
+    await page.getByTestId("viewport-desktop").click();
     await pause(page, 1600);
 
-    // 3) Showcases
-    await page.goto(`${BASE}/showcase/saas`, { waitUntil: "domcontentloaded" });
+    // 3) Specimens gallery (anthology + filmstrip) then two craft proofs
+    await page.goto(`${BASE}/showcase`, { waitUntil: "domcontentloaded" });
+    await page
+      .locator('[data-testid="showcase-featured-preview"][data-ready="true"]')
+      .waitFor({ timeout: 45_000 })
+      .catch(() => {});
+    await pause(page, 2800);
+    const filmstrip = page.locator("#reels, .sx-filmstrip").first();
+    if (await filmstrip.count()) {
+      await filmstrip.scrollIntoViewIfNeeded().catch(() => {});
+      await pause(page, 1600);
+    }
+    await page.goto(`${BASE}/showcase/archive`, { waitUntil: "domcontentloaded" });
     await page.getByTestId("showcase-frame").waitFor({ timeout: 20_000 });
     await pause(page, 2200);
-    await page.goto(`${BASE}/showcase/educational`, { waitUntil: "domcontentloaded" });
+    await page.goto(`${BASE}/showcase/lantern`, { waitUntil: "domcontentloaded" });
     await page.getByTestId("showcase-frame").waitFor({ timeout: 20_000 });
     await pause(page, 2400);
     await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
-    await page.getByTestId("studio-frame").waitFor({ timeout: 20_000 });
+    await page.getByTestId("preview-frame").waitFor({ timeout: 20_000 });
     await pause(page, 2200);
   } finally {
     await context.close();
@@ -141,7 +160,7 @@ async function main() {
     [
       "-y",
       "-ss",
-      "2",
+      "8",
       "-i",
       mp4Out,
       "-frames:v",

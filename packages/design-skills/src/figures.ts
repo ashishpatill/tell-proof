@@ -611,17 +611,15 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
   const cards = items
     .map((b, i) => {
       const lead = i === pivot;
-      const matter =
-        (b.points?.[0] && String(b.points[0])) ||
-        (b.body && String(b.body)) ||
-        (b.meta && !/^0?\d+$/.test(String(b.meta)) ? String(b.meta) : "") ||
-        `What ${b.title.toLowerCase()} covers on this path.`;
       const body = band
-        ? `<span class="ds-flow-body">${esc(clip(matter, 110))}</span>`
+        ? // Meta/stage only — feature prose already appears in catalogue/story (layout-audit repetition).
+          b.meta && !/^0?\d+$/.test(String(b.meta))
+          ? `<span class="ds-flow-meta">${esc(clip(String(b.meta), 28))}</span>`
+          : `<span class="ds-flow-meta">${esc(clip(`Stage ${String(i + 1).padStart(2, "0")}`, 28))}</span>`
         : b.meta && !/^0?\d+$/.test(String(b.meta))
           ? `<span class="ds-flow-meta">${esc(clip(String(b.meta), 28))}</span>`
           : "";
-      const label = clip(b.body || matter || b.title, 140);
+      const label = clip(b.title, 80);
       return `<li class="ds-flow-item">
         <button type="button" class="ds-flow-card${lead ? " is-live" : ""}" data-step="${i}" data-label="${esc(label)}" aria-pressed="${lead ? "true" : "false"}">
           <span class="ds-flow-num">${String(i + 1).padStart(2, "0")}</span>
@@ -634,7 +632,7 @@ export function flowDiagram(steps: Block[], seed: string, role: FigureRole = "pl
     })
     .join(`<li class="ds-flow-arrow" aria-hidden="true"><span></span></li>`);
 
-  const caption = items[pivot]?.body || items[pivot]?.title || "";
+  const caption = items[pivot]?.title || "";
   return `<div class="ds-flow-track" data-figure="flow" data-dense="ink" data-role="${role}" data-instrument="flow" role="group" aria-label="Sequence: ${esc(items.map((b) => b.title).join(", "))}">
     <ol class="ds-flow-list">${cards}</ol>
     <p class="ds-flow-caption"><span class="ds-flow-caption-meta">${items.length} stages</span><span data-flow-caption>${esc(clip(caption, 140))}</span></p>

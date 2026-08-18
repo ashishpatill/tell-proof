@@ -600,6 +600,18 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Cell-grid craft figures must carry drawn page matter (data-dense=ink) — empty stroked voids fail the eye.",
     ),
     check(
+      "no-rule-flood-fill",
+      !/ds-entry-shelf-rule/.test(html)
+        && !/ds-spread-fill-rule/.test(html)
+        && (
+          spec.brief.siteKind !== "research-dossier"
+          && spec.brief.siteKind !== "archive-index"
+          && spec.brief.siteKind !== "commerce-loom"
+          || /class="ds-story-fill"/.test(html)
+        ),
+      "Vacancy fills must be opaque ds-story-fill slabs — not dozens of CSS-bordered shelf rows that blow ruleDensity.",
+    ),
+    check(
       "fold-owns-craft",
       (() => {
         const kind = spec.brief.siteKind;

@@ -7,14 +7,25 @@ import {
   findDeniedComposerBrands,
 } from "./composer-brand-denylist";
 import { COMPOSER_STARTER_CHIPS } from "./composer-starters";
+import {
+  allDesignControlLabels,
+  designControlsToBriefFields,
+  DEFAULT_DESIGN_CONTROLS,
+  parseDesignControls,
+  serializeDesignControls,
+  SURFACE_OPTIONS_COMPACT,
+  SURFACE_OPTIONS_FULL,
+} from "./design-controls-catalog";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const webSrc = path.resolve(here, "..");
 
-/** User-facing home composer / shell surfaces that must stay brand-clean. */
+/** User-facing home composer / design-control surfaces that must stay brand-clean. */
 const COMPOSER_UI_SOURCES = [
   path.join(webSrc, "components/shell/EntryHome.tsx"),
   path.join(webSrc, "lib/composer-starters.ts"),
+  path.join(webSrc, "lib/design-controls-catalog.ts"),
+  path.join(webSrc, "components/design-controls/DesignControls.tsx"),
 ] as const;
 
 describe("composer brand denylist", () => {
@@ -49,6 +60,15 @@ describe("composer brand denylist", () => {
     }
   });
 
+  it("keeps DesignControls option labels Tell-owned (no competitor brands)", () => {
+    for (const label of allDesignControlLabels()) {
+      expect(findDeniedComposerBrands(label), label).toEqual([]);
+    }
+    for (const opt of [...SURFACE_OPTIONS_COMPACT, ...SURFACE_OPTIONS_FULL]) {
+      expect(findDeniedComposerBrands(`${opt.value} ${opt.label} ${opt.hint ?? ""}`)).toEqual([]);
+    }
+  });
+
   it("keeps home composer UI sources free of denylisted brand strings", () => {
     const violations: string[] = [];
     for (const file of COMPOSER_UI_SOURCES) {
@@ -59,5 +79,28 @@ describe("composer brand denylist", () => {
       }
     }
     expect(violations).toEqual([]);
+  });
+});
+
+describe("design-controls catalog", () => {
+  it("round-trips serialize/parse for DesignBrief-aligned fields", () => {
+    const qs = serializeDesignControls(DEFAULT_DESIGN_CONTROLS);
+    const parsed = parseDesignControls(new URLSearchParams(qs));
+    expect(parsed).toEqual(DEFAULT_DESIGN_CONTROLS);
+  });
+
+  it("maps controls into Studio brief taste + brandAccent", () => {
+    const fields = designControlsToBriefFields(DEFAULT_DESIGN_CONTROLS);
+    expect(fields.siteKind).toBe("care-pathway");
+    expect(fields.businessGoal).toBe("trust");
+    expect(fields.brandAccent).toMatch(/^#[0-9A-Fa-f]{6}$/);
+    expect(fields.taste.aestheticLean).toBe("refined-story");
+    expect(fields.lockSiteKind).toBe(true);
+  });
+
+  it("defaults Surface compact catalog to Care pathway Roundspool specimen", () => {
+    const care = SURFACE_OPTIONS_COMPACT.find((o) => o.value === "care-pathway");
+    expect(care?.label).toBe("Care pathway");
+    expect(care?.hint?.toLowerCase()).toContain("roundspool");
   });
 });
