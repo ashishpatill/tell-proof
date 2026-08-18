@@ -1348,15 +1348,19 @@ body[data-sitekind="lantern-path"]{
   padding-bottom:var(--s-xs,0.35rem);
   color:var(--c-ink-tertiary);
 }
-/* Compact chapter key on the walk band — not a viewport-tall Y-axis. */
+/* Compact chapter key on the walk band — ink on the night plate, not a paper slab. */
 [data-sitekind="lantern-path"] .ds-way-rail{
   position:absolute;left:0;top:22%;bottom:auto;height:auto;
   width:var(--way-rail);z-index:3;
-  background:var(--c-paper);
-  border-right:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
-  border-bottom:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+  background:color-mix(in srgb,var(--c-ink) 88%, var(--c-paper) 12%);
+  border-right:1px solid color-mix(in srgb,var(--c-paper) 18%,transparent);
+  border-bottom:1px solid color-mix(in srgb,var(--c-paper) 18%,transparent);
   padding:0.35rem 0 0.5rem;
 }
+[data-sitekind="lantern-path"] .ds-path-field .ds-way-mark{color:color-mix(in srgb,var(--c-paper) 72%,transparent)}
+[data-sitekind="lantern-path"] .ds-path-field .ds-way-mark.is-active,
+[data-sitekind="lantern-path"] .ds-path-field .ds-way-mark:hover,
+[data-sitekind="lantern-path"] .ds-path-field .ds-way-mark:focus-visible{color:var(--c-accent)}
 [data-sitekind="lantern-path"] .ds-way-rail ol{
   justify-content:flex-start;gap:0.12rem;
   padding:0;

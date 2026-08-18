@@ -1903,7 +1903,6 @@ export function pathPlate(
   parts.push(
     rule(walkLeft, captionY + 22, walkRight, captionY + 22, "color-mix(in srgb, var(--c-paper) 16%, transparent)"),
   );
-  parts.push(text("REGISTER", walkLeft, captionY + 36, { size: FIG_MONO_PX, fill: quiet, mono: true }));
 
   for (const w of waypoints) {
     parts.push(
@@ -1959,7 +1958,6 @@ export function pathPlate(
     `<polyline points="${elevPts.join(" ")}" fill="none" stroke="color-mix(in srgb, var(--c-paper) 22%, transparent)" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
   );
   parts.push(text("ELEV", walkLeft, elevY + 38, { size: FIG_MONO_PX, fill: quiet, mono: true }));
-  parts.push(text("NEAR PLANE", walkRight, elevY + 38, { size: FIG_MONO_PX, fill: quiet, mono: true, anchor: "end" }));
 
   const silBase = H - padY - 8;
   parts.push(
