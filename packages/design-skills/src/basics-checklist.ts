@@ -34,6 +34,25 @@ function check(id: string, ok: boolean, detail: string): BasicsFinding {
   return { id, ok, detail };
 }
 
+function svgFigure(html: string, kind: string): string {
+  const m = html.match(new RegExp(`<svg[^>]*data-figure="${kind}"[^>]*>[\\s\\S]*?</svg>`));
+  return m?.[0] ?? "";
+}
+
+/** Stroke-draw on labeled cards must be a single header segment — never a hop through titles. */
+function dsDrawIsHeaderHairline(svg: string): boolean {
+  const draws = [...svg.matchAll(/<(?:path|polyline|line)[^>]*class="[^"]*ds-draw[^"]*"[^>]*>/g)].map(
+    (m) => m[0],
+  );
+  if (!draws.length) return false;
+  return draws.every((el) => {
+    if (el.startsWith("<polyline")) return false;
+    const d = el.match(/\bd="([^"]+)"/)?.[1] ?? "";
+    if (d) return (d.match(/L/g) ?? []).length <= 1;
+    return true;
+  });
+}
+
 /**
  * Fast, deterministic gates over a generated spec + preview HTML.
  * Meant for vitest and as a preflight before burning a research loop on craft score.
@@ -132,6 +151,15 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "SaaS owns a pipeline fold (stage rail + pipeline board) — not the shared stackfold skeleton.",
     ),
     check(
+      "pipeline-board-no-title-rail",
+      (() => {
+        const svg = svgFigure(html, "pipeline-board");
+        if (!svg) return true;
+        return dsDrawIsHeaderHairline(svg);
+      })(),
+      "Pipeline board stroke-draw is a header hairline — never a rail through column numbers and titles.",
+    ),
+    check(
       "kind-fintech-wire",
       spec.brief.siteKind !== "fintech-marketing"
         || (
@@ -166,6 +194,16 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           && !/class="[^"]*ds-hero-stackfold/.test(html)
         ),
       "Corporate owns a diligence fold (principle spine + posture grid) — not editorial stackfold.",
+    ),
+    check(
+      "posture-grid-no-centroid-stroke",
+      (() => {
+        const svg = svgFigure(html, "posture-grid");
+        if (!svg) return true;
+        if (/<polyline\b/.test(svg)) return false;
+        return dsDrawIsHeaderHairline(svg);
+      })(),
+      "Posture grid sequence is 01–04 on the cards — never an accent polyline through cell titles.",
     ),
     check(
       "kind-app-id",

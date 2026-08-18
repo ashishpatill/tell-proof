@@ -2215,7 +2215,6 @@ export function pipelineBoard(
   ];
   const n = Math.min(5, Math.max(3, stages.length));
   const colW = (W - pad * 2 - 12 * (n - 1)) / n;
-  const pipePts: string[] = [];
   parts.push(
     text("PIPELINE", pad, pad + 4, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.2 }),
   );
@@ -2226,6 +2225,10 @@ export function pipelineBoard(
       mono: true,
       anchor: "end",
     }),
+  );
+  // Header rail in the gap under the plate title — never through column numbers/titles.
+  parts.push(
+    `<path class="ds-draw" pathLength="1" d="M${round(pad)} ${round(pad + 18)} L${round(W - pad)} ${round(pad + 18)}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linecap="round"/>`,
   );
   for (let i = 0; i < n; i += 1) {
     const x = pad + i * (colW + 12);
@@ -2283,12 +2286,6 @@ export function pipelineBoard(
       const cy = y + 48;
       parts.push(rule(cx + 2, cy, cx + 10, cy, LINE));
     }
-    pipePts.push(`${i === 0 ? "M" : "L"}${round(x + colW / 2)} ${round(y + 40)}`);
-  }
-  if (pipePts.length >= 2) {
-    parts.push(
-      `<path class="ds-draw" pathLength="1" d="${pipePts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>`,
-    );
   }
   parts.push(rule(pad, H - pad - 10, W - pad, H - pad - 10));
   parts.push(
@@ -2398,19 +2395,21 @@ export function postureGrid(
   parts.push(
     text(clip(productName, 32), W - pad, pad + 8, { size: FIG_MONO_PX, fill: QUIET, mono: true, anchor: "end" }),
   );
-  parts.push(rule(pad, pad + 28, W - pad, pad + 28));
+  // Header hairline only — sequence lives on the 01–04 ordinals. A polyline through
+  // cell centroids reads as a scribble across titles (the orange Z on Lattice).
+  parts.push(
+    `<path class="ds-draw" pathLength="1" d="M${round(pad)} ${round(pad + 28)} L${round(W - pad)} ${round(pad + 28)}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linecap="round"/>`,
+  );
   const cols = 2;
   const rows = 2;
   const gap = 28;
   const cellW = (W - pad * 2 - gap) / cols;
   const cellH = (H - pad * 2 - 56 - gap) / rows;
-  const linkPts: string[] = [];
   items.slice(0, 4).forEach((b, i) => {
     const c = i % cols;
     const row = Math.floor(i / cols);
     const x = pad + c * (cellW + gap);
     const y = pad + 48 + row * (cellH + gap);
-    linkPts.push(`${round(x + cellW / 2)},${round(y + 28)}`);
     parts.push(box(x, y, cellW, cellH, { r: 0, fill: PAPER, stroke: LINE }));
     parts.push(
       text(String(i + 1).padStart(2, "0"), x + 20, y + 36, {
@@ -2434,11 +2433,6 @@ export function postureGrid(
       }),
     );
   });
-  if (linkPts.length >= 2) {
-    parts.push(
-      `<polyline class="ds-draw" pathLength="1" points="${linkPts.join(" ")}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linejoin="round" opacity="0.7"/>`,
-    );
-  }
   return frame(parts.join(""), {
     width: W,
     height: H,

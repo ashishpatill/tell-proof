@@ -5,6 +5,16 @@ Pattern keys match `tell-recursive-improve`.
 
 ---
 
+## 2026-08-18 — `template:no-stroke-through-type`
+
+- **Failure:** Corporate Lattice 2×2 (`postureGrid`) drew an accent `polyline` through cell centroids
+  in reading order — a Z across titles that looked like a bug, not sequence. SaaS `pipelineBoard`
+  did the same class of miss: a `ds-draw` path at `y+40` through column numbers and titles.
+- **Fix:** Stroke-draw lives on a **header hairline** (gap under the plate label). Sequence is the
+  01–04 ordinals / gutters. Basics gates `posture-grid-no-centroid-stroke`,
+  `pipeline-board-no-title-rail`. Charts on axes, night-walk atlases, and ledger cutoffs stay.
+- **Do not:** Connect labeled card centroids with accent polylines. Numbers and gutters carry order.
+
 ## 2026-08-12 — `home:no-third-party-composer-templates`
 
 - **Do not:** Show third-party product brands as starter templates/chips under the Tell home composer. Guard: `apps/web/src/lib/composer-brand-denylist.ts` + vitest. Prefer Tell specimens / `listTemplates()` labels only — or nothing.

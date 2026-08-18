@@ -351,6 +351,10 @@ describe("measured craft floors", () => {
     expect(fintech.previewHtml).toMatch(/class="ds-draw"/);
     expect(foundry.previewHtml).toMatch(/class="ds-draw"/);
     expect(corporate.previewHtml).toMatch(/class="ds-draw"/);
+    expect(corporate.previewHtml).not.toMatch(/data-figure="posture-grid"[^>]*>[\s\S]*?<polyline/);
+    expect(saas.previewHtml).not.toMatch(
+      /data-figure="pipeline-board"[^>]*>[\s\S]*?<path class="ds-draw"[^>]*d="M[^"]* L[^"]* L/,
+    );
     expect(observatory.previewHtml).toContain("ds-lattice-bar");
     expect(edu.previewHtml).toMatch(/ds-draw|data-scrub/);
     expect(lantern.previewHtml).toContain('data-motion-instrument="field"');
@@ -807,6 +811,25 @@ describe("research-backed offerings + implementation basics", () => {
     expect(svg).toMatch(/· \d+k</);
     // Mono floor preserved.
     expect(svg).toContain(`font-size="${FIG_MONO_PX}"`);
+  });
+
+  it("keeps accent stroke-draw off labeled card titles", async () => {
+    const { postureGrid, pipelineBoard } = await import("../figures");
+    const features = [
+      { title: "One visual language", body: "Shared marks, not a kit.", emphasis: "normal" as const, points: [] as string[] },
+      { title: "Operating principles", body: "How the room decides.", emphasis: "normal" as const, points: [] as string[] },
+      { title: "Measured outcomes", body: "What the board can read.", emphasis: "normal" as const, points: [] as string[] },
+      { title: "Security posture", body: "Access, audit, rollback.", emphasis: "normal" as const, points: [] as string[] },
+    ];
+    const posture = postureGrid("Lattice", features, "z-audit", "column");
+    expect(posture).toMatch(/class="ds-draw"/);
+    expect(posture).not.toMatch(/<polyline/);
+    expect(posture).toMatch(/<path class="ds-draw"[^>]*d="M[\d.]+ [\d.]+ L[\d.]+ [\d.]+"/);
+
+    const pipe = pipelineBoard("Northstar", features, "z-audit", "column");
+    expect(pipe).toMatch(/class="ds-draw"/);
+    const d = pipe.match(/<path class="ds-draw"[^>]*d="([^"]+)"/)?.[1] ?? "";
+    expect((d.match(/L/g) ?? []).length).toBe(1);
   });
 
   it("keeps craft bleeds clear of left rails and press regs off the claim", () => {
