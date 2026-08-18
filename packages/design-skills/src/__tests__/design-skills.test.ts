@@ -351,10 +351,7 @@ describe("measured craft floors", () => {
     expect(fintech.previewHtml).toMatch(/class="ds-draw"/);
     expect(foundry.previewHtml).toMatch(/class="ds-draw"/);
     expect(corporate.previewHtml).toMatch(/class="ds-draw"/);
-    expect(corporate.previewHtml).not.toMatch(/data-figure="posture-grid"[^>]*>[\s\S]*?<polyline/);
-    expect(saas.previewHtml).not.toMatch(
-      /data-figure="pipeline-board"[^>]*>[\s\S]*?<path class="ds-draw"[^>]*d="M[^"]* L[^"]* L/,
-    );
+    expect(corporate.previewHtml).not.toMatch(/<svg[^>]*data-figure="posture-grid"[^>]*>[\s\S]*?<polyline/);
     expect(observatory.previewHtml).toContain("ds-lattice-bar");
     expect(edu.previewHtml).toMatch(/ds-draw|data-scrub/);
     expect(lantern.previewHtml).toContain('data-motion-instrument="field"');

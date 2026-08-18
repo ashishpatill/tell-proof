@@ -744,3 +744,14 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** alignment-axes still 7 on consumer-craft / field-herbarium / care-pathway;
   shadow coverage on holdout (`soft-elevation` taste); fold-figure on saas/holdout.
 
+## Loop — no stroke through type (2026-08-18)
+
+- **Goal:** Kill the orange Z on Lattice's 2×2 and the same class of accent rail through SaaS column titles.
+- **Failure named:** `template:no-stroke-through-type`.
+- **Challenger:** `postureGrid` / `pipelineBoard` stroke-draw moved to a header hairline; ordinals
+  carry sequence. Basics gates `posture-grid-no-centroid-stroke`, `pipeline-board-no-title-rail`.
+- **Score:** overall **98.9** (held). Holdout **96.7** (gap 2.2). Corporate-story **98.5**.
+- **Evidence:** `@tell/design-skills` tests **91/91**; typecheck green. Fold PNGs under
+  `/opt/cursor/artifacts/screenshots/` (`lattice-fold-no-z.png`, `pipeline-fold-no-title-rail.png`).
+- **Next weakest:** still consumer/herbarium/care alignment-axes at 7; do not reopen those here.
+
