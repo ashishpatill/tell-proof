@@ -47,22 +47,25 @@ This plan turns peer learnings into a **Tell-shaped** platform layer:
 | Auth | Demo harness | Playwright `storageState`; setup token; no run-scoped MCP tokens |
 | Publish | Missing | All packages `private: true` |
 
-**Known drift:** `.cursor/skills/tell-mcp-tools` and `mcp-engineer` agent still document 4 tools; server ships 8. Fix in Wave 0.
+**Catalog honesty:** Server + `@tell/schema` `MCP_TOOL_NAMES` ship **eleven** tools. Skill `tell-mcp-tools`, `mcp-engineer`, README, AGENTS.md, and BUILD.md must list the same set (no public MCP host).
 
 ### 1.1 MCP tools inventory (source of truth = code)
 
 | Tool | Role in Ashish loop |
 |---|---|
 | `tell_capture` | Capture rendered URL → fingerprint input |
-| `tell_diagnose` | Capture + detect (+ optional taste) → report |
+| `tell_diagnose` | Capture + detect (+ optional taste) → report; no URL/path → committed fixture report (not live) |
 | `tell_redesign` | Direction → patch proposal |
 | `tell_apply` | **Patch text + instructions only** — never writes repo |
 | `tell_capture_matrix` | Route × viewport × theme × interaction |
-| `tell_proof_verify` | Proof compare / verify |
-| `tell_proof_revert` | Revert disposable proof checkout |
-| `tell_design_from_features` | Brief → deterministic design spec + HTML |
+| `tell_proof_verify` | Report prove: apply patch, recapture, pass/review/fail |
+| `tell_proof_revert` | Revert last proof patch marker |
+| `tell_design_from_features` | Studio author: brief → deterministic design spec + HTML |
+| `tell_voice` | Voice/text art-direction → action items (parity with `/api/voice`) |
+| `tell_install_info` | Install snippets + deeplink shape for Connect Agent |
+| `tell_resolve_intent` | Free text → scenario defaults (deterministic) |
 
-Web-only today (MCP gap): `/api/voice`, `/api/setup/*`, share links, health.
+Web-only today (MCP gap): `/api/setup/*`, share links, health.
 
 ---
 
@@ -98,10 +101,11 @@ Web-only today (MCP gap): `/api/voice`, `/api/setup/*`, share links, health.
 
 ### Wave 0 — Correctness & drift (do first, small)
 
-- [ ] Sync `tell-mcp-tools` skill + `mcp-engineer` agent to all 8 tools
-- [ ] Add vitest/CI assertion: MCP tool names exported ≡ skill table ≡ schema enum
-- [ ] Add `McpToolName` (or equivalent) to `@tell/schema`
-- [ ] Document web-only routes as explicit “not in MCP yet” in skill
+- [x] Sync `tell-mcp-tools` skill + `mcp-engineer` agent to all eleven tools
+- [x] Add vitest/CI assertion: MCP tool names exported ≡ skill table ≡ schema enum
+- [x] Add `McpToolName` (or equivalent) to `@tell/schema`
+- [x] Document web-only routes as explicit “not in MCP yet” in skill
+- [x] Align README / AGENTS.md / BUILD.md catalogs to the same eleven-tool list (no invented public host)
 
 **DoD:** Agent docs cannot drift from `packages/mcp/src/index.ts` without CI red.
 
@@ -249,10 +253,10 @@ Peer lesson: GUI-stripped PATH + user toolchain dirs (`~/.local/bin`, mise/nvm/f
 
 ### Wave 7 — MCP ↔ web parity
 
-- [ ] `tell_voice` tool → same as `/api/voice`
+- [x] `tell_voice` tool → same as `/api/voice`
 - [ ] Optional `tell_setup_*` **local-only** tools gated like `setup-guard.ts`
 - [ ] `tell_health` → capture readiness
-- [ ] Session state: prefer explicit `reportId` / file path over sole in-memory `lastReport` for redesign→apply chain
+- [x] Session state: prefer explicit `reportId` / file path over sole in-memory `lastReport` for redesign→apply chain
 
 **DoD:** Agent can drive diagnose → voice direction → redesign → copy patch without leaving Chat.
 
@@ -370,6 +374,7 @@ web typecheck stay green.
 ## 10. Status log
 
 ```
+[2026-08-21] Catalog honesty: README / AGENTS / BUILD (+ this inventory) aligned to eleven registered tools; local stdio only.
 [2026-08-07] Waves 0–2 + voice + install_info tools shipped in code (see PLAN Phase 8).
-[2026-08-07] Plan authored from peer plumbing study (anonymised). Baseline: stdio MCP 8 tools, Cursor-only install, no install-info/CLI/deeplink.
+[2026-08-07] Plan authored from peer plumbing study (anonymised). Baseline then: stdio MCP 8 tools, Cursor-only install, no install-info/CLI/deeplink — now eleven tools + multi-platform install.
 ```
