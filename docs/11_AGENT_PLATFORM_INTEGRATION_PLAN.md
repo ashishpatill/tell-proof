@@ -38,7 +38,7 @@ This plan turns peer learnings into a **Tell-shaped** platform layer:
 
 | Surface | Status | Notes |
 |---|---|---|
-| MCP server | Shipped (partial) | `packages/mcp` — stdio, 8 `tell_*` tools, in-process engine |
+| MCP server | Shipped (partial) | `packages/mcp` — stdio, eleven `tell_*` tools, in-process engine |
 | MCP registration | Manual | Committed `.cursor/mcp.json` → `pnpm -F @tell/mcp start` |
 | Web API | Shipped | `/api/diagnose`, `/api/redesign`, `/api/voice`, `/api/design`, `/api/proof/*`, `/api/setup/*` |
 | CLI | Partial | Root `pnpm` scripts; `tell-mcp` bin private; no unified `tell` |
