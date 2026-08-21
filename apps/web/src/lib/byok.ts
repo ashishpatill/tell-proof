@@ -5,6 +5,7 @@ export const BYOK_STORAGE_KEY = "tell:byok";
 export const ByokConfig = z.object({
   geminiApiKey: z.string().optional(),
   cursorApiKey: z.string().optional(),
+  /** @deprecated Not sent by byokHeaders — capture uses server TELL_CAPTURE_API_URL. Kept for localStorage parse only. */
   captureApiUrl: z.string().optional(),
 });
 export type ByokConfig = z.infer<typeof ByokConfig>;
@@ -26,10 +27,11 @@ export function loadByok(): ByokConfig {
 
 export function saveByok(config: ByokConfig): void {
   if (typeof window === "undefined") return;
+  // Intentionally omit captureApiUrl — it was never applied by byokHeaders();
+  // live capture reads server TELL_CAPTURE_API_URL (see GET /api/health/capture).
   const cleaned: ByokConfig = {
     geminiApiKey: config.geminiApiKey?.trim() || undefined,
     cursorApiKey: config.cursorApiKey?.trim() || undefined,
-    captureApiUrl: config.captureApiUrl?.trim() || undefined,
   };
   localStorage.setItem(BYOK_STORAGE_KEY, JSON.stringify(cleaned));
 }
@@ -39,7 +41,10 @@ export function clearByok(): void {
   localStorage.removeItem(BYOK_STORAGE_KEY);
 }
 
-/** Client fetch headers: content-type + optional BYOK overrides (never log these). */
+/**
+ * Client fetch headers: content-type + optional Gemini/Cursor BYOK overrides (never log these).
+ * Does not send captureApiUrl — capture backends use server env only.
+ */
 export function byokHeaders(extra?: HeadersInit): HeadersInit {
   const byok = loadByok();
   const headers = new Headers(extra);
