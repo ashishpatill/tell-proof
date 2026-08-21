@@ -3,6 +3,10 @@
 import { useEffect, useId, useState } from "react";
 import { X } from "lucide-react";
 import { ByokConfig, clearByok, loadByok, saveByok, byokHeaders } from "@/lib/byok";
+import {
+  formatCaptureHealth,
+  type CaptureHealthPayload,
+} from "@/lib/capture-honesty";
 
 export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const titleId = useId();
@@ -10,6 +14,8 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
   const [saved, setSaved] = useState(false);
   const [testState, setTestState] = useState<"idle" | "testing" | "ok" | "error">("idle");
   const [testMessage, setTestMessage] = useState("");
+  const [captureHealth, setCaptureHealth] = useState<CaptureHealthPayload | null>(null);
+  const [captureHealthState, setCaptureHealthState] = useState<"idle" | "loading" | "error">("idle");
 
   useEffect(() => {
     if (!open) return;
@@ -17,6 +23,25 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
     setSaved(false);
     setTestState("idle");
     setTestMessage("");
+    setCaptureHealth(null);
+    setCaptureHealthState("loading");
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch("/api/health/capture", { cache: "no-store" });
+        const data = (await res.json().catch(() => ({}))) as CaptureHealthPayload;
+        if (cancelled) return;
+        setCaptureHealth(data);
+        setCaptureHealthState("idle");
+      } catch {
+        if (cancelled) return;
+        setCaptureHealth(null);
+        setCaptureHealthState("error");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [open]);
 
   useEffect(() => {
@@ -58,6 +83,9 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
       setTestMessage(error instanceof Error ? error.message : String(error));
     }
   };
+
+  const captureLine = formatCaptureHealth(captureHealth, captureHealthState);
+  const captureOk = captureHealthState === "idle" && captureHealth?.ok === true;
 
   return (
     <div className="tell-dialog-backdrop" role="presentation" onClick={onClose}>
@@ -113,21 +141,29 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
           />
         </label>
 
-        <label htmlFor="tell-byok-capture">
-          Capture API URL
-          <input
-            id="tell-byok-capture"
-            type="url"
-            spellCheck={false}
-            value={config.captureApiUrl ?? ""}
-            onChange={(e) => setConfig((c) => ({ ...c, captureApiUrl: e.target.value }))}
-            placeholder="Optional override (else server env)"
-          />
-        </label>
+        <p
+          className={`mt-4 rounded-md border px-3 py-2 font-mono text-meta ${
+            captureOk
+              ? "border-ok/30 bg-ok/10 text-secondary"
+              : captureHealthState === "loading"
+                ? "border-border bg-bg/40 text-muted"
+                : "border-drift/30 bg-drift/10 text-secondary"
+          }`}
+          role="status"
+          aria-live="polite"
+        >
+          {captureLine}
+        </p>
+        <p className="mt-2 font-mono text-meta text-muted">
+          Live capture uses server Playwright (or{" "}
+          <code className="text-secondary">TELL_CAPTURE_API_URL</code>). Browser settings do not override
+          that URL.
+        </p>
 
-        <p className="mt-4 rounded-md border border-ok/30 bg-ok/10 px-3 py-2 font-mono text-meta text-secondary">
-          Deterministic core (capture → fingerprint → detect → reconcile) makes zero LLM calls. Missing keys fall
-          back to local parsers and offline fixtures.
+        <p className="mt-4 rounded-md border border-border bg-bg/40 px-3 py-2 font-mono text-meta text-secondary">
+          Deterministic core (capture → fingerprint → detect → reconcile) makes zero LLM calls. Missing
+          Gemini or Cursor keys fall back to local parsers — not a live-capture substitute. Offline fixture
+          is opt-in only.
         </p>
 
         <div className="mt-4 flex flex-wrap gap-2">

@@ -28,6 +28,7 @@ import {
   suggestedDirectionId,
 } from "@/lib/user-session-learn";
 import { byokHeaders } from "@/lib/byok";
+import { projectCanvasTitle } from "@/lib/capture-honesty";
 import {
   isGitHubRepoUrl,
   normalizeCaptureUrl,
@@ -854,12 +855,26 @@ export default function HomePage() {
   }
 
   const liveCapture = captureMeta?.live === true && Boolean(report.capture.snapshotHtml || report.capture.screenshotBase64);
-  const hasProofSurface = (liveCapture || offlineDemo) && captureState === "done" && Boolean(report.capture.snapshotHtml || report.capture.screenshotBase64);
+  const offlineFixtureSession =
+    offlineDemo || captureMeta?.fallback === "offline-fixture" || captureMeta?.offlineFixture === true;
+  /** Canvas content gate — live proof or opt-in offline fixture (not the same as a proof surface label). */
+  const hasProofSurface =
+    (liveCapture || offlineFixtureSession) &&
+    captureState === "done" &&
+    Boolean(report.capture.snapshotHtml || report.capture.screenshotBase64);
   const scannedSite = hasProofSurface
     ? siteLabel(report.capture.url)
     : captureMeta?.requestedUrl
       ? siteLabel(captureMeta.requestedUrl)
       : null;
+  const canvasTitle = projectCanvasTitle({
+    captureState,
+    captureNote,
+    scannedSite,
+    hasLiveProofSurface: liveCapture && captureState === "done",
+    offlineFixture: offlineFixtureSession && captureState === "done",
+    captureError: captureMeta?.error,
+  });
   const captureBelongsToSetup = Boolean(
     setupJob?.state === "ready" &&
     setupJob.url &&
@@ -931,8 +946,8 @@ export default function HomePage() {
       const cells = proofCells.length ? proofCells : matrixCells;
       const proofMode = data.meta?.proofMode === "baseline-compare" ? "baseline-compare" : "capture-only";
       setMatrixProof({
-        status: data.proof?.status ?? "captured",
-        matchedCells: data.proof?.matchedCells ?? cells.length,
+        status: proofMode === "baseline-compare" ? (data.proof?.status ?? "review") : "captured",
+        matchedCells: proofMode === "baseline-compare" ? (data.proof?.matchedCells ?? 0) : 0,
         skippedCells: data.proof?.skippedCells ?? data.meta?.authCellsDropped ?? 0,
         cells,
         cellCount: data.meta?.cellCount ?? cells.length,
@@ -1509,7 +1524,7 @@ export default function HomePage() {
         <div className="mb-3 flex items-center justify-between gap-3">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-secondary" aria-live="polite">
-              {captureState === "capturing" ? captureNote : scannedSite && hasProofSurface ? `Proof surface · ${scannedSite}` : captureMeta?.error ? `Capture failed · ${scannedSite ?? "page"}` : "No capture yet"}
+              {canvasTitle}
             </p>
             {hasProofSurface ? <p className="mt-1 font-mono text-meta text-muted">{scoreLine}</p> : null}
           </div>
