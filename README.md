@@ -182,7 +182,7 @@ pnpm capture:readme-reels      # animated WebP craft reels
 | **Visual worktree proof** | Candidate patches run inside a disposable checkout. Tell applies, waits for HMR, recaptures, compares score/focus/structure, and auto-reverts failed attempts. |
 | **GitHub setup runner** | Paste `github.com/owner/repo`; local Tell clones it, reads `README` and `package.json`, installs dependencies, starts the dev server, and captures the reachable URL. |
 | **Multi-page scanning** | Routes discovered from the snapshot can be scanned individually, exposing drift that only appears on pricing, docs, onboarding, or secondary pages. |
-| **Cursor MCP** | `tell_capture`, `tell_diagnose`, `tell_redesign`, `tell_apply`, `tell_proof_verify`, `tell_proof_revert`, `tell_capture_matrix`, and `tell_design_from_features` expose the same engine inside Cursor Agent chat. |
+| **Cursor MCP** | Eleven local stdio tools (`tell_capture` … `tell_resolve_intent`) expose the same engine inside Cursor Agent chat — Report prove (`tell_diagnose` / `tell_proof_verify`) and Studio author (`tell_design_from_features`). |
 | **Scenario matrix** | Live Playwright capture across route × viewport × theme × interaction × auth (storageState), with CI smoke against the fixture and a Tell Report panel. |
 
 Tell is not a replacement for functional, responsive, accessibility, or security testing. It is a focused visual evidence and craft layer — the piece most agent harnesses still skip.
@@ -265,23 +265,29 @@ TELL_CAPTURE_API_URL=      # remote Playwright backend for hosted UI
 
 ## Cursor MCP
 
-Tell registers as a local MCP server via `.cursor/mcp.json`. Open this repo in Cursor and ask Agent chat to run the tools directly.
+Tell registers as a **local stdio** MCP server via `.cursor/mcp.json` (`pnpm -F @tell/mcp start`). Wire or refresh with `tell mcp install cursor --project`. There is no public MCP host or marketplace plugin — open this repo in Cursor and ask Agent chat to run the tools directly.
+
+Source of truth: `@tell/schema` `MCP_TOOL_NAMES` ≡ `packages/mcp` `REGISTERED_MCP_TOOLS` (eleven tools).
 
 ```text
 Run tell_diagnose on http://localhost:3001 and draft an editorial redesign.
 Design a dashboard from these features with tell_design_from_features.
+Parse voice: warmer, editorial, less shadow via tell_voice.
 ```
 
 | Tool | Purpose |
 |---|---|
-| `tell_capture` | Capture screenshot and computed-style evidence for a URL. |
-| `tell_diagnose` | Return the full Tell report, findings, verdicts, and score. |
-| `tell_redesign` | Draft a redesign proposal for a finding or whole report. |
-| `tell_apply` | Return patch text and instructions; it never writes files for you. |
-| `tell_proof_verify` | Apply a patch, recapture the URL, and return pass/review/fail with measured deltas. |
-| `tell_proof_revert` | Revert the last proof patch in the workspace. |
+| `tell_capture` | Capture a rendered URL with Playwright and return computed UI evidence. |
+| `tell_diagnose` | Full Tell report (findings, verdicts, score) from a URL or report path; without either, loads the committed fixture report (not a live capture). |
+| `tell_redesign` | Draft a redesign proposal for a finding or whole report (patch text only). |
+| `tell_apply` | Return patch text and instructions; it never writes files. |
 | `tell_capture_matrix` | Live Playwright scenario matrix (route × viewport × theme × interaction × auth). |
-| `tell_design_from_features` | Generate a premium layout from a product brief (Studio skill graph). |
+| `tell_proof_verify` | Apply a candidate patch, recapture the URL, return pass/review/fail with measured deltas (Report prove). |
+| `tell_proof_revert` | Revert the last `tell_proof_verify` patch in the workspace. |
+| `tell_design_from_features` | Studio author: premium layout / DesignSpec (+ HTML) from a product brief via the skill graph. |
+| `tell_voice` | Parse voice/text art-direction into action items (Gemini when keyed; else local). |
+| `tell_install_info` | Versioned MCP/CLI install snippets, Cursor deeplink shape, and demo URLs. |
+| `tell_resolve_intent` | Map free text to a Tell scenario with defaults (deterministic heuristics). |
 
 ---
 
