@@ -652,12 +652,11 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
       <span class="ds-sil ds-sil-stone"></span>
     </div>`;
     return `<section id="top" class="ds-section ds-hero ds-hero-path" data-surface="${section.surface}" data-section="${esc(section.id)}">
-      ${rail}
       ${mast}
       <div class="ds-path-claim"><div class="ds-wrap-wide">${copy}</div></div>
       <div class="ds-bleed ds-path-field"${
         spec.taste.motion === "immersive" ? ` data-motion-instrument="field"` : ""
-      }>${plateFig}${near}</div>
+      }>${rail}${plateFig}${near}</div>
       <div class="ds-bleed-rule" aria-hidden="true"></div>
     </section>`;
   }
@@ -2698,15 +2697,13 @@ function scripts(spec: DesignSpec): string {
     var marks=[].slice.call(document.querySelectorAll('.ds-way-mark[data-way]'));
     var sils=[].slice.call(document.querySelectorAll('.ds-path-near .ds-sil'));
     if(!marks.length) return;
-    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function setActive(i){
       marks.forEach(function(m, idx){ m.classList.toggle('is-active', idx===i); });
       if(sils.length){
         sils.forEach(function(s, idx){
           var on=idx===i%sils.length;
-          s.style.opacity = on ? '0.7' : '0.28';
-          // Lift active sils; never translateY(+) — layout-audit overflow uses transformed rects.
-          if(!reduce) s.style.transform = on ? 'translateY(-6px)' : 'translateY(0)';
+          s.style.opacity = on ? '0.55' : '0.22';
+          s.style.transform = 'none';
         });
       }
     }
