@@ -3,9 +3,21 @@ import { designFromFeatures } from "../orchestrate";
 import { SHOWCASE_BRIEFS, listTemplates } from "../templates";
 import { assertBasics } from "../basics-checklist";
 import { contrastHex } from "../color";
+import { renderCss } from "../css";
 import { buildPalette } from "../palette";
 import { buildTypeLadder } from "../scale";
 import { DesignBrief, SkillNodeId, type ColorMood } from "../types";
+
+/** Brace depth at `index` — `{` +1, `}` −1. Nested `body[data-mood]` would compile to `body body[data-mood]`. */
+function braceDepthAt(css: string, index: number): number {
+  let depth = 0;
+  for (let i = 0; i < index; i++) {
+    const ch = css[i];
+    if (ch === "{") depth += 1;
+    else if (ch === "}") depth -= 1;
+  }
+  return depth;
+}
 
 const ALL_SKILLS: SkillNodeId[] = [
   "analyze-features-requirements",
@@ -273,6 +285,25 @@ describe("measured craft floors", () => {
     expect(spec.tokens.declared).toBeGreaterThanOrEqual(100);
     const declaredInCss = (previewHtml.match(/--[a-z0-9-]+\s*:/g) ?? []).length;
     expect(declaredInCss).toBeGreaterThanOrEqual(100);
+  });
+
+  it("emits soft-brand-accent mood as a top-level body sibling, not nested under body{}", () => {
+    const { spec } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    const css = renderCss(spec);
+    const needle = 'body[data-mood="soft-brand-accent"]';
+    let from = 0;
+    let found = 0;
+    while (from < css.length) {
+      const idx = css.indexOf(needle, from);
+      if (idx < 0) break;
+      found += 1;
+      expect(braceDepthAt(css, idx), `nested ${needle} at index ${idx} would compile to body ${needle}`).toBe(0);
+      from = idx + needle.length;
+    }
+    expect(found, "soft-brand-accent mood selector missing from generated CSS").toBeGreaterThan(0);
+    expect(css).toContain(
+      "radial-gradient(ellipse 90% 55% at 80% -8%,color-mix(in srgb,var(--c-accent) 5%,transparent),transparent 60%)",
+    );
   });
 
   it("gives every site kind a long enough argument and enough named parts", () => {
