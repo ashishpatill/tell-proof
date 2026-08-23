@@ -1,12 +1,61 @@
 import { describe, expect, it } from "vitest";
+import { analyzeFeatures } from "../analyze";
 import { designFromFeatures } from "../orchestrate";
 import { SHOWCASE_BRIEFS, listTemplates } from "../templates";
 import { assertBasics } from "../basics-checklist";
 import { contrastHex } from "../color";
 import { renderCss } from "../css";
-import { buildPalette } from "../palette";
+import { ACCENT_HUE_VARIANTS, buildPalette, pickAccentHue } from "../palette";
 import { buildTypeLadder } from "../scale";
 import { DesignBrief, SkillNodeId, type ColorMood } from "../types";
+
+/** Approval-language SaaS brief — still earns the interactive workflow-proof stage. */
+function ledgerkeepBrief() {
+  return DesignBrief.parse({
+    productName: "Ledgerkeep",
+    tagline: "Month-end drafts wait for a named approval before anything posts",
+    audience: "controllers who sign the close",
+    businessGoal: "demos",
+    siteKind: "saas-marketing",
+    lockSiteKind: true,
+    features: [
+      {
+        id: "lk1",
+        name: "Close drafts",
+        description: "Every posting stays a draft until a named owner approves it",
+        priority: "p0",
+      },
+      {
+        id: "lk2",
+        name: "Approval queue",
+        description: "Controllers approve exceptions; nothing auto-applies behind the close",
+        priority: "p0",
+      },
+      {
+        id: "lk3",
+        name: "Audit trail",
+        description: "Who signed, when, and which draft they released",
+        priority: "p1",
+      },
+      {
+        id: "lk4",
+        name: "Reversal path",
+        description: "A failed posting returns to draft instead of vanishing",
+        priority: "p1",
+      },
+      {
+        id: "lk5",
+        name: "Period lock",
+        description: "Once approved, the period cannot silently reopen",
+        priority: "p2",
+      },
+    ],
+    taste: { aestheticLean: "conversion-sharp", motion: "light-scroll-reveals", colorMood: "neutral-professional" },
+  });
+}
+
+const hasLiveWorkflow = (html: string) => /<section[^>]*\bdata-workflow-proof\b/.test(html);
+const hasLiveBoard = (html: string) => /<ul[^>]*\bdata-proof-board\b/.test(html);
 
 /** Brace depth at `index` — `{` +1, `}` −1. Nested `body[data-mood]` would compile to `body body[data-mood]`. */
 function braceDepthAt(css: string, index: number): number {
@@ -72,7 +121,8 @@ describe("premium-content-custom-web engine", () => {
     expect(spec.routedSkills[0]).toBe("website-domain-research");
     expect(spec.customizationHints.some((h) => h.startsWith("Research gate:"))).toBe(true);
     expect(spec.sections.some((s) => s.kind === "hero")).toBe(true);
-    expect(spec.sections.some((s) => s.layout === "workflow-proof")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "marquee-proof")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "workflow-proof")).toBe(false);
     expect(previewHtml).toContain("Northstar");
     expect(previewHtml).toContain("Account scoring");
     expect(previewHtml).toContain('data-motion="light-scroll-reveals"');
@@ -80,11 +130,12 @@ describe("premium-content-custom-web engine", () => {
     expect(previewHtml).toContain("animation-timeline:view()");
     expect(previewHtml).toContain(":focus-visible");
     expect(previewHtml).toContain("Skip to content");
-    expect(previewHtml).toContain("data-workflow-proof");
-    expect(previewHtml).toContain("htmx.org");
-    expect(previewHtml).toContain("Sample workflow");
-    expect(previewHtml).toContain("Human gate");
-    expect(previewHtml).toContain('data-workflow-step="approve"');
+    expect(hasLiveBoard(previewHtml)).toBe(true);
+    expect(hasLiveWorkflow(previewHtml)).toBe(false);
+    expect(previewHtml).not.toContain("htmx.org");
+    expect(previewHtml).not.toContain("Sample workflow");
+    expect(previewHtml).not.toContain("Human gate");
+    expect(previewHtml).not.toContain('data-workflow-step="approve"');
     expect(spec.routedSkills).toContain("conversion-landing-craft");
     expect(spec.routedSkills).toContain("pricing-decision-craft");
     expect(previewHtml).toContain("data-pricing-cadence");
@@ -260,6 +311,19 @@ describe("measured craft floors", () => {
     const p = buildPalette("light-airy", "#B23A1F");
     expect(p.contrast.inkOnAccent).toBeGreaterThanOrEqual(4.5);
     expect(p.contrast.bodyOnPaper).toBeGreaterThanOrEqual(11);
+  });
+
+  it("keeps the historical accent hue when no variant seed is passed", () => {
+    for (const mood of MOODS) {
+      expect(pickAccentHue(mood)).toBe(ACCENT_HUE_VARIANTS[mood]![0]);
+      expect(buildPalette(mood).accent).toBe(buildPalette(mood, undefined, undefined).accent);
+    }
+  });
+
+  it("varies accent hex by brief seed so ordinary products do not share one colour", () => {
+    const seeds = ["Freightlane|accent", "Willowvet|accent", "Scalehouse|accent"];
+    const accents = seeds.map((s) => buildPalette("neutral-professional", undefined, s).accent);
+    expect(new Set(accents).size).toBeGreaterThan(1);
   });
 
   it("builds a type ladder inside the measured range and step corridors", () => {
@@ -938,24 +1002,44 @@ describe("research-backed offerings + implementation basics", () => {
   });
 
   it("keeps the workflow lit plate from hanging into the swap panel", () => {
-    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.saas!);
-    expect(previewHtml).toContain("data-workflow-proof");
+    const { previewHtml } = designFromFeatures(ledgerkeepBrief());
+    expect(hasLiveWorkflow(previewHtml)).toBe(true);
     expect(previewHtml).toMatch(/\.ds-workflow-field \.ds-proof-figure\{transform:none/);
     expect(previewHtml).toMatch(/\.ds-workflow-field\{[^}]*gap:var\(--s-xl\)/);
     expect(previewHtml).toMatch(/\.ds-proof\.ds-workflow\{[^}]*margin-bottom:0/);
     expect(previewHtml).toMatch(/\.ds-workflow-rail ol\{[^}]*gap:var\(--s-sm\)/);
   });
 
-  it("fills marketing proof bands with dense evidence — SaaS uses workflow, others use marquee boards", () => {
-    const hasLiveBoard = (html: string) => /<ul[^>]*\bdata-proof-board\b/.test(html);
+  it("gives Northstar a feature-evidence board and Ledgerkeep the approval workflow stage", () => {
+    const northstar = analyzeFeatures(SHOWCASE_BRIEFS.saas!);
+    expect(northstar.hasApprovalWorkflow).toBe(false);
+    const north = designFromFeatures(SHOWCASE_BRIEFS.saas!);
+    expect(hasLiveBoard(north.previewHtml)).toBe(true);
+    expect(hasLiveWorkflow(north.previewHtml)).toBe(false);
+    expect(north.previewHtml).not.toContain("htmx.org");
+    expect(north.previewHtml).not.toContain('data-workflow-step="approve"');
 
+    const ledgerAnalysis = analyzeFeatures(ledgerkeepBrief());
+    expect(ledgerAnalysis.hasApprovalWorkflow).toBe(true);
+    const ledger = designFromFeatures(ledgerkeepBrief());
+    expect(hasLiveWorkflow(ledger.previewHtml)).toBe(true);
+    expect(ledger.previewHtml).toContain("htmx.org");
+    expect(ledger.previewHtml).toContain('data-workflow-step="approve"');
+    expect(ledger.spec.sections.some((s) => s.layout === "workflow-proof")).toBe(true);
+  });
+
+  it("fills marketing proof bands with dense evidence — ordinary SaaS uses a board, approval briefs use workflow", () => {
     const saas = designFromFeatures(SHOWCASE_BRIEFS.saas!);
-    expect(saas.previewHtml).toContain("data-workflow-proof");
+    expect(hasLiveBoard(saas.previewHtml)).toBe(true);
+    expect(hasLiveWorkflow(saas.previewHtml)).toBe(false);
     expect(saas.previewHtml).toContain("ds-proof-claim");
     expect(saas.previewHtml).toContain("ds-story");
-    expect(hasLiveBoard(saas.previewHtml)).toBe(false);
     expect(saas.previewHtml).not.toContain("How to read this page");
     expect(saas.previewHtml).not.toContain("min-height:min(140vh");
+
+    const ledger = designFromFeatures(ledgerkeepBrief());
+    expect(hasLiveWorkflow(ledger.previewHtml)).toBe(true);
+    expect(hasLiveBoard(ledger.previewHtml)).toBe(false);
 
     const fintech = designFromFeatures(SHOWCASE_BRIEFS.fintech!);
     expect(hasLiveBoard(fintech.previewHtml)).toBe(true);

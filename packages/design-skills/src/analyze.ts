@@ -7,9 +7,25 @@ export type FeatureAnalysis = {
   siteKind: SiteKind;
   recommendedSections: string[];
   goals: string[];
+  /** True when tagline/features name a draft → approval / human-gate workflow. */
+  hasApprovalWorkflow: boolean;
   /** Resolved sport pack when brief.sportId set or query language matches. */
   sportId?: SportId;
 };
+
+/**
+ * Brief language that asks for the interactive sample-path stage
+ * (input → process → draft → review → approve). Ordinary SaaS briefs
+ * without this signal keep a feature-evidence board instead.
+ */
+export const APPROVAL_WORKFLOW_SIGNAL =
+  /\b(?:approv(?:e|ed|al|als|ing)|drafts?|human\s+gate|auto-?apply)\b/i;
+
+/** Scan tagline + declared features only — not product name or audience. */
+export function hasApprovalWorkflowSignal(brief: DesignBrief): boolean {
+  const blob = [brief.tagline, ...brief.features.map((f) => `${f.name} ${f.description}`)].join(" ");
+  return APPROVAL_WORKFLOW_SIGNAL.test(blob);
+}
 
 /** Infer site kind from brief + feature language unless locked. */
 export function inferSiteKind(brief: DesignBrief): SiteKind {
@@ -69,10 +85,15 @@ export function inferSiteKind(brief: DesignBrief): SiteKind {
 
 export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
   const siteKind = inferSiteKind(brief);
+  const hasApprovalWorkflow = hasApprovalWorkflowSignal(brief);
   const prioritized = [...brief.features].sort((a, b) => {
     const rank = { p0: 0, p1: 1, p2: 2 } as const;
     return rank[a.priority] - rank[b.priority];
   });
+
+  const saasMarketingSections = hasApprovalWorkflow
+    ? ["nav", "hero", "features", "workflow-proof", "proof", "pricing", "cta", "footer"]
+    : ["nav", "hero", "features", "proof", "pricing", "cta", "footer"];
 
   const recommendedSections =
     siteKind === "dashboard-webapp"
@@ -97,7 +118,7 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
                         ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                         : siteKind === "press-atelier" || siteKind === "lantern-path" || siteKind === "care-pathway"
                           ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
-                : ["nav", "hero", "features", "workflow-proof", "proof", "pricing", "cta", "footer"];
+                : saasMarketingSections;
 
   const goals = [
     `Serve ${brief.audience}`,
@@ -119,5 +140,5 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
     goals.push(`Honor ${sportId} vernacular — research gate + score-spine / format lens`);
   }
 
-  return { prioritized, siteKind, recommendedSections, goals, sportId };
+  return { prioritized, siteKind, recommendedSections, goals, hasApprovalWorkflow, sportId };
 }
