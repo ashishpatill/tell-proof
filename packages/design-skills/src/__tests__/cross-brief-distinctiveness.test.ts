@@ -8,10 +8,10 @@
  * authored-node list only.
  *
  * Scored nodes (Design Expert lock):
- * - CTA: ctaFor primary / secondary in the CTA band, plus riskReversal as cta-note
- * - FAQ: every questions() title + body
+ * - CTA: ctaFor primary / secondary / note (when rendered) + riskReversal in the CTA band
+ * - FAQ: every questions() title + body (incl. corporate/fintech approve pair when present)
  * - Proof: marquee ds-proof-claim + data-proof-board items (or workflow stages when
- *   hasApprovalWorkflow)
+ *   hasApprovalWorkflowSignal)
  *
  * Not scored: nav/footer chrome, Privacy/Terms/Careers, eyebrows(), headline/heroLede,
  * pullQuote outside the proof claim, plan-lane titles (Core / Standard / Full).
@@ -128,12 +128,18 @@ export function extractAuthoredNodes(html: string, hasApprovalWorkflow: boolean)
   const faq: string[] = [];
   const proof: string[] = [];
 
+  // CTA band: primary + secondary buttons + riskReversal (saas/fintech cta-note).
   const ctaSection = page.match(/<section[^>]*\bid="cta"[^>]*>[\s\S]*?<\/section>/i)?.[0] ?? "";
   const ctaInner = ctaSection.match(/<div class="ds-cta">[\s\S]*?<\/div>/)?.[0] ?? ctaSection;
   for (const m of ctaInner.matchAll(/class="ds-btn[^"]*"[^>]*>([^<]+)</g)) {
     cta.push(m[1]!.trim());
   }
   for (const m of ctaInner.matchAll(/class="ds-cta-note"[^>]*>([^<]+)</g)) {
+    cta.push(m[1]!.trim());
+  }
+  // ctaFor().note when the hero still renders it (omitted on craftFold saas today).
+  const hero = page.match(/<section[^>]*\bid="top"[^>]*>[\s\S]*?<\/section>/i)?.[0] ?? "";
+  for (const m of hero.matchAll(/class="ds-cta-note"[^>]*>([^<]+)</g)) {
     cta.push(m[1]!.trim());
   }
 
