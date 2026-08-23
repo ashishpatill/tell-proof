@@ -126,9 +126,11 @@ async function main() {
     if (!saas.previewHtml.includes("ds-brand-mark")) throw new Error("saas missing brand-first hero mark");
     if (!saas.previewHtml.includes(":focus-visible")) throw new Error("saas missing focus-visible styles");
     if (saas.previewHtml.includes("Starter — core features")) throw new Error("saas invented filler pricing");
-    if (!saas.previewHtml.includes("data-workflow-proof")) throw new Error("saas missing product-proof workflow");
-    if (!saas.previewHtml.includes("Sample workflow")) throw new Error("saas workflow must be labeled sample");
-    if (!saas.previewHtml.includes("htmx.org")) throw new Error("saas workflow should load HTMX for panel swaps");
+    if (!saas.previewHtml.includes("data-proof-board")) throw new Error("ordinary saas missing feature-evidence board");
+    if (saas.previewHtml.includes("data-workflow-proof")) {
+      throw new Error("ordinary saas forced operator/approve workflow without approval language");
+    }
+    if (saas.previewHtml.includes("htmx.org")) throw new Error("ordinary saas should not load HTMX for workflow swaps");
     if (saas.spec.routedSkills[0] !== "website-domain-research") {
       throw new Error("saas must route website-domain-research first");
     }

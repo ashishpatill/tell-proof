@@ -116,6 +116,7 @@ export function buildSections(
     featureCount: features.length,
     p0Count: p0.length,
     goal: brief.businessGoal,
+    hasApprovalWorkflow: analysis.hasApprovalWorkflow,
   });
 
   const eyebrow = eyebrows(brief);
