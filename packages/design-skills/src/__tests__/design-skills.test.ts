@@ -54,6 +54,9 @@ function ledgerkeepBrief() {
   });
 }
 
+const hasLiveWorkflow = (html: string) => /<section[^>]*\bdata-workflow-proof\b/.test(html);
+const hasLiveBoard = (html: string) => /<ul[^>]*\bdata-proof-board\b/.test(html);
+
 /** Brace depth at `index` — `{` +1, `}` −1. Nested `body[data-mood]` would compile to `body body[data-mood]`. */
 function braceDepthAt(css: string, index: number): number {
   let depth = 0;
@@ -127,8 +130,8 @@ describe("premium-content-custom-web engine", () => {
     expect(previewHtml).toContain("animation-timeline:view()");
     expect(previewHtml).toContain(":focus-visible");
     expect(previewHtml).toContain("Skip to content");
-    expect(previewHtml).toContain("data-proof-board");
-    expect(previewHtml).not.toContain("data-workflow-proof");
+    expect(hasLiveBoard(previewHtml)).toBe(true);
+    expect(hasLiveWorkflow(previewHtml)).toBe(false);
     expect(previewHtml).not.toContain("htmx.org");
     expect(previewHtml).not.toContain("Sample workflow");
     expect(previewHtml).not.toContain("Human gate");
@@ -1000,7 +1003,7 @@ describe("research-backed offerings + implementation basics", () => {
 
   it("keeps the workflow lit plate from hanging into the swap panel", () => {
     const { previewHtml } = designFromFeatures(ledgerkeepBrief());
-    expect(previewHtml).toContain("data-workflow-proof");
+    expect(hasLiveWorkflow(previewHtml)).toBe(true);
     expect(previewHtml).toMatch(/\.ds-workflow-field \.ds-proof-figure\{transform:none/);
     expect(previewHtml).toMatch(/\.ds-workflow-field\{[^}]*gap:var\(--s-xl\)/);
     expect(previewHtml).toMatch(/\.ds-proof\.ds-workflow\{[^}]*margin-bottom:0/);
@@ -1011,33 +1014,31 @@ describe("research-backed offerings + implementation basics", () => {
     const northstar = analyzeFeatures(SHOWCASE_BRIEFS.saas!);
     expect(northstar.hasApprovalWorkflow).toBe(false);
     const north = designFromFeatures(SHOWCASE_BRIEFS.saas!);
-    expect(north.previewHtml).toContain("data-proof-board");
-    expect(north.previewHtml).not.toContain("data-workflow-proof");
+    expect(hasLiveBoard(north.previewHtml)).toBe(true);
+    expect(hasLiveWorkflow(north.previewHtml)).toBe(false);
     expect(north.previewHtml).not.toContain("htmx.org");
     expect(north.previewHtml).not.toContain('data-workflow-step="approve"');
 
     const ledgerAnalysis = analyzeFeatures(ledgerkeepBrief());
     expect(ledgerAnalysis.hasApprovalWorkflow).toBe(true);
     const ledger = designFromFeatures(ledgerkeepBrief());
-    expect(ledger.previewHtml).toContain("data-workflow-proof");
+    expect(hasLiveWorkflow(ledger.previewHtml)).toBe(true);
     expect(ledger.previewHtml).toContain("htmx.org");
     expect(ledger.previewHtml).toContain('data-workflow-step="approve"');
     expect(ledger.spec.sections.some((s) => s.layout === "workflow-proof")).toBe(true);
   });
 
   it("fills marketing proof bands with dense evidence — ordinary SaaS uses a board, approval briefs use workflow", () => {
-    const hasLiveBoard = (html: string) => /<ul[^>]*\bdata-proof-board\b/.test(html);
-
     const saas = designFromFeatures(SHOWCASE_BRIEFS.saas!);
     expect(hasLiveBoard(saas.previewHtml)).toBe(true);
-    expect(saas.previewHtml).not.toContain("data-workflow-proof");
+    expect(hasLiveWorkflow(saas.previewHtml)).toBe(false);
     expect(saas.previewHtml).toContain("ds-proof-claim");
     expect(saas.previewHtml).toContain("ds-story");
     expect(saas.previewHtml).not.toContain("How to read this page");
     expect(saas.previewHtml).not.toContain("min-height:min(140vh");
 
     const ledger = designFromFeatures(ledgerkeepBrief());
-    expect(ledger.previewHtml).toContain("data-workflow-proof");
+    expect(hasLiveWorkflow(ledger.previewHtml)).toBe(true);
     expect(hasLiveBoard(ledger.previewHtml)).toBe(false);
 
     const fintech = designFromFeatures(SHOWCASE_BRIEFS.fintech!);
