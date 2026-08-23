@@ -4,6 +4,7 @@
  * Every string on the page traces back to something the brief declared. No invented customer
  * names, no fabricated percentages, no "trusted by thousands of teams".
  */
+import type { AuthoredConnectiveTissue } from "./author";
 import { planSections, type SectionPlan } from "./composition";
 import {
   chapters,
@@ -32,6 +33,12 @@ import type { FeatureAnalysis } from "./analyze";
 export type BuildSectionsOptions = {
   /** When a DomainResearchPack exists, prefer its primary nav + multipage paths. */
   domainPack?: DomainResearchPack;
+  /**
+   * Phase 1 connective tissue (CTA / FAQ / proof). When present and validated
+   * upstream, replaces `ctaFor` / `questions` / proof claim+workflow roles.
+   * Headline, heroLede, eyebrows, palette, and tokens stay on the brief path.
+   */
+  authored?: AuthoredConnectiveTissue;
 };
 
 /** Primary nav from a domain / sport pack — never blank-slate when pack has inventory. */
@@ -120,7 +127,16 @@ export function buildSections(
   });
 
   const eyebrow = eyebrows(brief);
-  const cta = ctaFor(brief.businessGoal, brief.siteKind, brief.primaryCta);
+  const authored = options.authored;
+  const cta = authored
+    ? {
+        primary: authored.cta.primary,
+        secondary: authored.cta.secondary,
+        note: authored.cta.note,
+      }
+    : ctaFor(brief.businessGoal, brief.siteKind, brief.primaryCta);
+  const faqItems = authored?.faq?.length ? authored.faq : questions(brief, features);
+  const riskLine = authored?.cta.riskReversal ?? riskReversal(brief);
   const packNav =
     options.domainPack &&
     (options.domainPack.domainId.startsWith("sport:") || Boolean(analysis.sportId))
@@ -720,18 +736,22 @@ export function buildSections(
         /*
          * Workflow proof stages — five named handoffs that mirror how a careful product ships work.
          * Titles stay fixed (mechanism vocabulary); bodies come only from declared features.
+         * Authored role/gate copy is used only when hasApprovalWorkflowSignal (and provided).
          */
         const workflowBodies = features.slice(0, 5);
+        const defaultStages = [
+          { id: "input", title: "Input", role: "Capture what the operator already knows" },
+          { id: "process", title: "Process", role: "Run the declared mechanism — no magic" },
+          { id: "draft", title: "Draft", role: "Surface a reviewable result" },
+          { id: "review", title: "Review", role: "Human edits before anything ships" },
+          { id: "approve", title: "Approve", role: "Explicit gate — never auto-apply" },
+        ] as const;
+        const stageDefs =
+          isWorkflow && analysis.hasApprovalWorkflow && authored?.proof.stages?.length === 5
+            ? authored.proof.stages
+            : defaultStages;
         const workflowStages = isWorkflow
-          ? (
-              [
-                { id: "input", title: "Input", role: "Capture what the operator already knows" },
-                { id: "process", title: "Process", role: "Run the declared mechanism — no magic" },
-                { id: "draft", title: "Draft", role: "Surface a reviewable result" },
-                { id: "review", title: "Review", role: "Human edits before anything ships" },
-                { id: "approve", title: "Approve", role: "Explicit gate — never auto-apply" },
-              ] as const
-            ).map((stage, i) => {
+          ? stageDefs.map((stage, i) => {
               const src = workflowBodies[i] ?? workflowBodies[workflowBodies.length - 1] ?? features[0];
               return block({
                 title: stage.title,
@@ -781,18 +801,24 @@ export function buildSections(
                                       : brief.siteKind === "care-pathway"
                                         ? sentence(`Why ${brief.productName} holds the chart`)
                                         : sentence(`Why ${brief.productName} states only what it ships`);
+        const workflowClaim =
+          authored?.proof.claim ??
+          sentence(
+            `Five named states. Every panel traces to a declared capability — nothing invented for theatre`,
+          );
+        const marqueeClaim = authored?.proof.claim ?? q.quote;
+        const gateCopy =
+          analysis.hasApprovalWorkflow && authored?.proof.gateCopy
+            ? authored.proof.gateCopy
+            : "Human approves before apply";
         sections.push(
           SectionSpec.parse({
             ...base,
             eyebrow: isWorkflow ? "Sample workflow" : eyebrow.proof,
             title: proofTitle,
-            body: isWorkflow
-              ? sentence(
-                  `Five named states. Every panel traces to a declared capability — nothing invented for theatre`,
-                )
-              : q.quote,
-            quote: isWorkflow ? undefined : q.quote,
-            quoteAttribution: isWorkflow ? "Human approves before apply" : q.attribution,
+            body: isWorkflow ? workflowClaim : marqueeClaim,
+            quote: isWorkflow ? undefined : marqueeClaim,
+            quoteAttribution: isWorkflow ? gateCopy : q.attribution,
             blocks: isWorkflow ? workflowStages : evidence,
           }),
         );
@@ -844,7 +870,7 @@ export function buildSections(
             ...base,
             eyebrow: eyebrow.faq,
             title: sentence(`Questions ${brief.audience} ask first`),
-            blocks: questions(brief, features).map((q) => block({ title: q.title, body: q.body })),
+            blocks: faqItems.map((q) => block({ title: q.title, body: q.body })),
           }),
         );
         break;
@@ -924,7 +950,7 @@ export function buildSections(
             // Conversion landing craft — name the reversible path once, at the close.
             ctaNote:
               brief.siteKind === "saas-marketing" || brief.siteKind === "fintech-marketing"
-                ? riskReversal(brief)
+                ? riskLine
                 : undefined,
           }),
         );
