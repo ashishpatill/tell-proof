@@ -7,22 +7,23 @@
  * reports phrase-overlap + brief-vocabulary specificity on Design Expert's
  * authored-node list only.
  *
- * Scored nodes (Design Expert lock):
- * - CTA: ctaFor primary / secondary / note (when rendered) + riskReversal in the CTA band
- * - FAQ: every questions() title + body (incl. corporate/fintech approve pair when present)
- * - Proof: marquee ds-proof-claim + data-proof-board items (or workflow stages when
- *   hasApprovalWorkflowSignal)
+ * Scored nodes (Design Expert lock) — ONLY these:
+ * - CTA: ctaFor() primary + secondary + note, plus riskReversal() (CTA band)
+ * - FAQ: every questions() title + body (incl. corporate/fintech approve pair)
+ * - Proof: workflow stage labels + gate copy when hasApprovalWorkflowSignal;
+ *   else marquee ds-proof-claim / data-proof-board items (from real HTML)
  *
  * Not scored: nav/footer chrome, Privacy/Terms/Careers, eyebrows(), headline/heroLede,
- * pullQuote outside the proof claim, plan-lane titles (Core / Standard / Full).
+ * pullQuote (outside the proof claim), plan-lane titles (Core / Standard / Full).
  *
  * Measured on master (Freightlane / Willowvet / Scalehouse, saas-marketing + demos):
- * authored-node phrase overlap ≈ 55.6% (15/27 shared÷min). Residual CTA/FAQ scaffolding
- * is expected; operator/approve workflow narrative must not be shared after PR 69.
- * Ceiling is 70% so current master passes — tightening is the next PR.
+ * authored-node phrase overlap ≈ 57.1% (16/28 shared÷min) with ctaFor().note scored
+ * even when craftFold omits it from HTML. Residual CTA/FAQ scaffolding expected;
+ * operator/approve workflow narrative must not be shared after PR 69. Ceiling 70%.
  */
 import { describe, expect, it } from "vitest";
 import { analyzeFeatures } from "../analyze";
+import { ctaFor, questions, riskReversal } from "../copy";
 import { designFromFeatures } from "../orchestrate";
 import { DesignBrief, type DesignBrief as DesignBriefT } from "../types";
 
@@ -119,40 +120,27 @@ export type AuthoredBuckets = {
 };
 
 /**
- * Design Expert authored nodes from real generated HTML.
- * CTA band only for buttons + riskReversal note; FAQ register; proof claim + board (or workflow).
+ * Design Expert authored nodes.
+ * CTA + FAQ from copy helpers (exact locked list). Proof from real designFromFeatures HTML.
  */
-export function extractAuthoredNodes(html: string, hasApprovalWorkflow: boolean): AuthoredBuckets {
+export function extractAuthoredNodes(
+  brief: DesignBriefT,
+  html: string,
+  hasApprovalWorkflow: boolean,
+): AuthoredBuckets {
+  const ctaCfg = ctaFor(brief.businessGoal, brief.siteKind, brief.primaryCta);
+  const cta = [ctaCfg.primary, ctaCfg.secondary, ctaCfg.note, riskReversal(brief)];
+  const faq = questions(brief, brief.features).flatMap((q) => [q.title, q.body]);
+
   const page = stripChrome(html);
-  const cta: string[] = [];
-  const faq: string[] = [];
   const proof: string[] = [];
-
-  // CTA band: primary + secondary buttons + riskReversal (saas/fintech cta-note).
-  const ctaSection = page.match(/<section[^>]*\bid="cta"[^>]*>[\s\S]*?<\/section>/i)?.[0] ?? "";
-  const ctaInner = ctaSection.match(/<div class="ds-cta">[\s\S]*?<\/div>/)?.[0] ?? ctaSection;
-  for (const m of ctaInner.matchAll(/class="ds-btn[^"]*"[^>]*>([^<]+)</g)) {
-    cta.push(m[1]!.trim());
-  }
-  for (const m of ctaInner.matchAll(/class="ds-cta-note"[^>]*>([^<]+)</g)) {
-    cta.push(m[1]!.trim());
-  }
-  // ctaFor().note when the hero still renders it (omitted on craftFold saas today).
-  const hero = page.match(/<section[^>]*\bid="top"[^>]*>[\s\S]*?<\/section>/i)?.[0] ?? "";
-  for (const m of hero.matchAll(/class="ds-cta-note"[^>]*>([^<]+)</g)) {
-    cta.push(m[1]!.trim());
-  }
-
-  for (const m of page.matchAll(/<div class="ds-faq-item">\s*<h3>([^<]*)<\/h3>\s*<p>([^<]*)<\/p>/g)) {
-    faq.push(m[1]!.trim(), m[2]!.trim());
-  }
-
   const proofSection =
     page.match(/<section[^>]*\bds-proof\b[^>]*>[\s\S]*?<\/section>/)?.[0] ??
     page.match(/<section[^>]*\bdata-workflow-proof\b[^>]*>[\s\S]*?<\/section>/)?.[0] ??
     "";
 
   if (hasApprovalWorkflow && /data-workflow-proof/.test(proofSection)) {
+    // Workflow stage labels + gate copy
     for (const m of proofSection.matchAll(/data-workflow-step="[^"]*"[^>]*>([^<]+)/g)) {
       proof.push(m[1]!.trim());
     }
@@ -162,11 +150,11 @@ export function extractAuthoredNodes(html: string, hasApprovalWorkflow: boolean)
     for (const m of proofSection.matchAll(/class="ds-proof-foot"[^>]*>([^<]+)/g)) {
       proof.push(m[1]!.trim());
     }
-    // Stage body copy inside workflow rail items
     for (const m of proofSection.matchAll(/<li[^>]*data-workflow-step[\s\S]*?<\/li>/g)) {
       proof.push(...textBetweenTags(m[0]!));
     }
   } else {
+    // Marquee: ds-proof-claim + data-proof-board items only (not pullQuote attribution foot)
     for (const m of proofSection.matchAll(/class="ds-proof-claim"[^>]*>([^<]+)/g)) {
       proof.push(m[1]!.trim());
     }
@@ -313,11 +301,11 @@ const APPROVAL_NARRATIVE = [
   "explicit gate — never auto-apply",
 ];
 
-/** Honest ceiling: measured ≈55.6% on these briefs; leave headroom so master passes. */
+/** Honest ceiling: measured ≈57.1% (16/28) on these briefs with ctaFor().note scored. */
 const OVERLAP_CEILING = 0.7;
 
 describe("cross-brief distinctiveness (Phase 0 honesty)", () => {
-  it("authored-node phrase overlap ≤70% on ordinary saas-marketing/demos (measured ~55.6%; residual CTA/FAQ scaffolding expected)", () => {
+  it("authored-node phrase overlap ≤70% on ordinary saas-marketing/demos (measured ~57.1%; residual CTA/FAQ scaffolding expected)", () => {
     const briefs = ordinaryBriefs();
     const pages = briefs.map((brief) => {
       const analysis = analyzeFeatures(brief);
@@ -331,10 +319,16 @@ describe("cross-brief distinctiveness (Phase 0 honesty)", () => {
       expect(spec.sections.some((s) => s.layout === "workflow-proof")).toBe(false);
       expect(spec.sections.some((s) => s.layout === "marquee-proof")).toBe(true);
 
-      const buckets = extractAuthoredNodes(previewHtml, analysis.hasApprovalWorkflow);
+      const buckets = extractAuthoredNodes(brief, previewHtml, analysis.hasApprovalWorkflow);
+      expect(buckets.cta.length, `${brief.productName} CTA nodes`).toBe(4);
       expect(buckets.faq.length, `${brief.productName} FAQ nodes`).toBeGreaterThan(0);
-      expect(buckets.cta.length, `${brief.productName} CTA nodes`).toBeGreaterThan(0);
       expect(buckets.proof.length, `${brief.productName} proof nodes`).toBeGreaterThan(0);
+
+      // Real generation still emits primary / secondary / riskReversal into HTML.
+      const ctaCfg = ctaFor(brief.businessGoal, brief.siteKind, brief.primaryCta);
+      expect(previewHtml).toContain(ctaCfg.primary);
+      expect(previewHtml).toContain(ctaCfg.secondary);
+      expect(previewHtml).toContain(riskReversal(brief));
 
       return {
         brief,
@@ -385,7 +379,7 @@ describe("cross-brief distinctiveness (Phase 0 honesty)", () => {
     for (const brief of ordinaryBriefs()) {
       const analysis = analyzeFeatures(brief);
       const { previewHtml } = designFromFeatures(brief);
-      const buckets = extractAuthoredNodes(previewHtml, analysis.hasApprovalWorkflow);
+      const buckets = extractAuthoredNodes(brief, previewHtml, analysis.hasApprovalWorkflow);
       const metric = contentSpecificity(buckets, brief);
 
       expect(Number.isFinite(metric.ratio), `${brief.productName} specificity ratio`).toBe(true);
@@ -407,6 +401,52 @@ describe("cross-brief distinctiveness (Phase 0 honesty)", () => {
 
       // Do not fail on overall ratio — goal-keyed CTA/FAQ scaffolding is still generic (next PR).
       expect(metric.ratio).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it("scores corporate/fintech “Who approves irreversible actions?” FAQ when questions() emits it", () => {
+    const corporate = DesignBrief.parse({
+      productName: "Boardpack",
+      tagline: "Diligence packs for mid-market boards",
+      audience: "corporate secretaries",
+      businessGoal: "trust",
+      siteKind: "corporate-story",
+      lockSiteKind: true,
+      features: [
+        { id: "c1", name: "Board pack", description: "Assemble the packet the board actually opens", priority: "p0" },
+        { id: "c2", name: "Sign-off log", description: "Named approvals before irreversible sends", priority: "p0" },
+        { id: "c3", name: "Exception path", description: "Surface failures with a rollback note", priority: "p1" },
+      ],
+      taste: { aestheticLean: "system-crafted", motion: "subtle-micro", colorMood: "neutral-professional" },
+    });
+    const fintech = DesignBrief.parse({
+      productName: "Wiredesk",
+      tagline: "Treasury controls for mid-market cash",
+      audience: "treasury operators",
+      businessGoal: "demos",
+      siteKind: "fintech-marketing",
+      lockSiteKind: true,
+      features: [
+        { id: "w1", name: "Wire queue", description: "Queue outbound wires with dual control", priority: "p0" },
+        { id: "w2", name: "Wallet map", description: "See balances across banks in one surface", priority: "p0" },
+        { id: "w3", name: "Audit export", description: "Export who approved each payment", priority: "p1" },
+      ],
+      taste: { aestheticLean: "conversion-sharp", motion: "light-scroll-reveals", colorMood: "neutral-professional" },
+    });
+
+    for (const brief of [corporate, fintech]) {
+      const analysis = analyzeFeatures(brief);
+      const { previewHtml } = designFromFeatures(brief);
+      const buckets = extractAuthoredNodes(brief, previewHtml, analysis.hasApprovalWorkflow);
+      expect(
+        buckets.faq.some((l) => /who approves irreversible actions/i.test(l)),
+        `${brief.productName} must score the approve FAQ title`,
+      ).toBe(true);
+      expect(
+        buckets.faq.some((l) => /operators approve/i.test(l)),
+        `${brief.productName} must score the approve FAQ body`,
+      ).toBe(true);
+      expect(previewHtml).toMatch(/Who approves irreversible actions/i);
     }
   });
 });
