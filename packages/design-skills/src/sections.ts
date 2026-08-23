@@ -134,7 +134,7 @@ export function buildSections(
         secondary: authored.cta.secondary,
         note: authored.cta.note,
       }
-    : ctaFor(brief.businessGoal, brief.siteKind, brief.primaryCta);
+    : { ...ctaFor(brief.businessGoal, brief.siteKind, brief.primaryCta) };
   const faqItems = authored?.faq?.length ? authored.faq : questions(brief, features);
   const riskLine = authored?.cta.riskReversal ?? riskReversal(brief);
   const packNav =
@@ -216,7 +216,10 @@ export function buildSections(
             ctaLabel: cta.primary,
             secondaryLabel: craftFold ? undefined : cta.secondary,
             // Compact claim — leave the fold to the instrument plate / rail.
-            ctaNote: craftFold ? undefined : cta.note,
+            // When Phase-1 `authored` is present (incl. no-key deterministicAuthored),
+            // surface the grounded note even on craft folds so product-specific CTA
+            // copy actually reaches HTML. Sync path without authored stays compact.
+            ctaNote: craftFold && !authored ? undefined : cta.note,
             blocks: named.map((b, i) => {
               const src = (core.length ? core : editorial.features.slice(0, 3))[i];
               return src

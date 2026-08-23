@@ -180,7 +180,9 @@ export function ctaFor(
     return GOAL_CTA[goal];
   })();
   // Agency brief "one CTA" wins when set — every page repeats the same verb.
-  return override ? { ...base, primary: override } : base;
+  // Always spread: GOAL_CTA[goal] is a module singleton; returning it lets callers
+  // mutate .note and poison later briefs that share the same businessGoal.
+  return override ? { ...base, primary: override } : { ...base };
 }
 
 /** Section eyebrows read like an index of an argument, not like decoration. */

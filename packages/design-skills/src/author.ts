@@ -11,7 +11,7 @@
  * CI / no-key path stays on deterministic tables — missing Gemini must not fail.
  */
 import { hasApprovalWorkflowSignal } from "./analyze";
-import { ctaFor, questions, riskReversal, sentence } from "./copy";
+import { ctaFor, lower, questions, riskReversal, sentence } from "./copy";
 import type { DesignBrief, FeatureSpec } from "./types";
 
 const STOP = new Set([
@@ -263,7 +263,42 @@ export function authoredDiffersFromFallback(
   return false;
 }
 
-/** Today's copy.ts lookups — offline-safe baseline for CI / no-key. */
+/** Clamp authored CTA note / stage role to schema-friendly lengths. */
+function clampLine(text: string, max: number): string {
+  const t = text.replace(/\s+/g, " ").trim();
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max - 1);
+  const at = cut.lastIndexOf(" ");
+  return `${(at > 40 ? cut.slice(0, at) : cut).trim()}…`;
+}
+
+/** Goal-keyed CTA note grounded in the lead feature (tone from copy.ts, product from brief). */
+function groundedCtaNote(brief: DesignBrief, goalNote: string): string {
+  const lead = brief.features[0]?.name?.trim();
+  if (!lead) return goalNote;
+  const tone = lower(goalNote.replace(/[.!?]+$/, ""));
+  return clampLine(sentence(`${lead} ships first — ${tone}`), 240);
+}
+
+/** Workflow stage roles grounded in declared feature names (approval-signal path only). */
+function groundedWorkflowStages(brief: DesignBrief): AuthoredWorkflowStage[] {
+  const features = brief.features;
+  const nameAt = (i: number): string => {
+    const f = features[i % Math.max(features.length, 1)];
+    return f?.name?.trim() || "capability";
+  };
+  const role = (verb: string, featureName: string, tail: string): string =>
+    clampLine(`${verb} ${featureName} — ${tail}`, 140);
+  return [
+    { id: "input", title: "Input", role: role("Capture", nameAt(0), "what the operator already knows") },
+    { id: "process", title: "Process", role: role("Run", nameAt(1), "the declared mechanism, no magic") },
+    { id: "draft", title: "Draft", role: role("Draft", nameAt(2), "a reviewable result") },
+    { id: "review", title: "Review", role: role("Review", nameAt(3), "human edits before anything ships") },
+    { id: "approve", title: "Approve", role: role("Approve", nameAt(4), "explicit gate, never auto-apply") },
+  ];
+}
+
+/** Today's copy.ts lookups — offline-safe baseline for CI / no-key, grounded in brief features. */
 export function deterministicAuthored(brief: DesignBrief): AuthoredConnectiveTissue {
   const cta = ctaFor(brief.businessGoal, brief.siteKind, brief.primaryCta);
   const faq = questions(brief, brief.features);
@@ -271,13 +306,7 @@ export function deterministicAuthored(brief: DesignBrief): AuthoredConnectiveTis
 
   const proof: AuthoredProof = {};
   if (hasWorkflow) {
-    proof.stages = [
-      { id: "input", title: "Input", role: "Capture what the operator already knows" },
-      { id: "process", title: "Process", role: "Run the declared mechanism — no magic" },
-      { id: "draft", title: "Draft", role: "Surface a reviewable result" },
-      { id: "review", title: "Review", role: "Human edits before anything ships" },
-      { id: "approve", title: "Approve", role: "Explicit gate — never auto-apply" },
-    ];
+    proof.stages = groundedWorkflowStages(brief);
     proof.gateCopy = "Human approves before apply";
     proof.claim = sentence(
       `Five named states. Every panel traces to a declared capability — nothing invented for theatre`,
@@ -290,7 +319,7 @@ export function deterministicAuthored(brief: DesignBrief): AuthoredConnectiveTis
     cta: {
       primary: cta.primary,
       secondary: cta.secondary,
-      note: cta.note,
+      note: groundedCtaNote(brief, cta.note),
       riskReversal: riskReversal(brief),
     },
     faq,

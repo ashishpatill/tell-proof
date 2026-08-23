@@ -10,8 +10,10 @@ import {
   contentContextFromBrief,
   contradictionReason,
   createContentAuthor,
+  ctaFor,
   deterministicAuthored,
   designFromFeatures,
+  designFromFeaturesAuthored,
   isConnectiveAuthorEligible,
   sentenceSharesFactToken,
   type AuthoredConnectiveTissue,
@@ -298,7 +300,7 @@ describe("Phase 1 connective author", () => {
     expect(authMax).toBeLessThan(0.45);
   });
 
-  it("authorConnectiveTissue without key matches copy.ts and never throws", async () => {
+  it("authorConnectiveTissue without key returns deterministic tissue and never throws", async () => {
     const tissue = await authorConnectiveTissue(freightlane(), {});
     expect(tissue.source).toBe("deterministic");
     expect(
@@ -339,4 +341,122 @@ describe("Phase 1 connective author", () => {
     expect(tissue.proof.stages).toBeUndefined();
     expect(tissue.proof.gateCopy).toBeUndefined();
   });
+
+  it("ctaFor always returns a fresh object (GOAL_CTA singleton cannot leak across briefs)", () => {
+    const first = ctaFor("demos", "saas-marketing");
+    const originalNote = first.note;
+    first.note = "Ropewalk ships first — poisoned singleton note that must not leak into Petal.";
+    const second = ctaFor("demos", "saas-marketing");
+    expect(second.note).toBe(originalNote);
+    expect(second.note).not.toContain("Ropewalk");
+    expect(second).not.toBe(first);
+    second.note = "Fretboard append";
+    expect(ctaFor("demos", "saas-marketing").note).toBe(originalNote);
+  });
+
+  it("deterministic CTA notes differ across same-goal products and reach no-key HTML", async () => {
+    const briefs = [freightlane(), willowvet(), scalehouse()];
+    const notes: string[] = [];
+    for (const brief of briefs) {
+      const tissue = deterministicAuthored(brief);
+      const lead = brief.features[0]!.name;
+      expect(tissue.cta.note.toLowerCase()).toContain(lead.split(/\s+/)[0]!.toLowerCase());
+      expect(tissue.cta.note.length).toBeLessThanOrEqual(240);
+      notes.push(tissue.cta.note);
+
+      const { previewHtml } = await designFromFeaturesAuthored(brief, {});
+      expect(previewHtml).toContain(tissue.cta.note);
+    }
+    expect(notes[0]).not.toBe(notes[1]);
+    expect(notes[1]).not.toBe(notes[2]);
+    expect(notes[0]).not.toBe(notes[2]);
+
+    // Regression: second HTML must not carry the first product's lead feature name in the CTA note.
+    const firstLead = briefs[0]!.features[0]!.name;
+    const { previewHtml: secondHtml } = await designFromFeaturesAuthored(briefs[1]!, {});
+    const secondNote = deterministicAuthored(briefs[1]!).cta.note;
+    expect(secondHtml).toContain(secondNote);
+    expect(secondNote).not.toContain(firstLead);
+  });
+
+  it("grounds workflow stage roles in feature names when approval signal is present", async () => {
+    const payments = DesignBrief.parse({
+      productName: "Paygate",
+      tagline: "Draft payment instructions with human approval before send",
+      audience: "finance ops leads",
+      businessGoal: "demos",
+      siteKind: "saas-marketing",
+      lockSiteKind: true,
+      features: [
+        { id: "p1", name: "Payment draft", description: "Draft ACH instructions from invoice lines", priority: "p0" },
+        { id: "p2", name: "Risk screen", description: "Flag unusual payees before review", priority: "p0" },
+        { id: "p3", name: "Approver queue", description: "Route drafts to a named approver", priority: "p1" },
+        { id: "p4", name: "Send ledger", description: "Record approved sends with a timestamp", priority: "p1" },
+        { id: "p5", name: "Exception tray", description: "Hold rejected drafts for rework", priority: "p2" },
+      ],
+      taste: {
+        aestheticLean: "conversion-sharp",
+        motion: "light-scroll-reveals",
+        colorMood: "neutral-professional",
+      },
+    });
+    const moderation = DesignBrief.parse({
+      productName: "Moddesk",
+      tagline: "Draft trust decisions and approve before anything auto-applies",
+      audience: "trust and safety leads",
+      businessGoal: "demos",
+      siteKind: "saas-marketing",
+      lockSiteKind: true,
+      features: [
+        { id: "m1", name: "Report intake", description: "Capture abuse reports with evidence links", priority: "p0" },
+        { id: "m2", name: "Policy match", description: "Score reports against published policies", priority: "p0" },
+        { id: "m3", name: "Moderator draft", description: "Draft a take-down or warn action", priority: "p1" },
+        { id: "m4", name: "Approval gate", description: "Require a second human before apply", priority: "p1" },
+        { id: "m5", name: "Appeal log", description: "Record appeals against prior decisions", priority: "p2" },
+      ],
+      taste: {
+        aestheticLean: "conversion-sharp",
+        motion: "light-scroll-reveals",
+        colorMood: "neutral-professional",
+      },
+    });
+
+    const sharedLegacy = "Capture what the operator already knows";
+    for (const brief of [payments, moderation]) {
+      const tissue = deterministicAuthored(brief);
+      expect(tissue.proof.stages).toHaveLength(5);
+      for (const stage of tissue.proof.stages!) {
+        expect(stage.role).not.toBe(sharedLegacy);
+        expect(stage.role.length).toBeLessThanOrEqual(140);
+        expect(
+          brief.features.some((f) => stage.role.includes(f.name)),
+          `${brief.productName} role "${stage.role}" must name a feature`,
+        ).toBe(true);
+      }
+      const { previewHtml } = await designFromFeaturesAuthored(brief, {});
+      expect(previewHtml).not.toContain(sharedLegacy);
+      for (const stage of tissue.proof.stages!) {
+        expect(previewHtml).toContain(stage.role);
+      }
+    }
+
+    const payRoles = deterministicAuthored(payments).proof.stages!.map((s) => s.role).join("\n");
+    const modRoles = deterministicAuthored(moderation).proof.stages!.map((s) => s.role).join("\n");
+    expect(payRoles).not.toBe(modRoles);
+    expect(payRoles).toMatch(/Payment draft|Risk screen|Approver queue/i);
+    expect(modRoles).toMatch(/Report intake|Policy match|Moderator draft/i);
+    expect(payRoles).not.toMatch(/Report intake/);
+    expect(modRoles).not.toMatch(/Payment draft/);
+  });
+
+  it("ordinary briefs without approval language still get the evidence board, not approve stages", async () => {
+    const tissue = deterministicAuthored(freightlane());
+    expect(tissue.proof.stages).toBeUndefined();
+    expect(tissue.proof.gateCopy).toBeUndefined();
+    const { previewHtml, spec } = await designFromFeaturesAuthored(freightlane(), {});
+    expect(previewHtml).not.toContain("Capture what the operator already knows");
+    expect(spec.sections.some((s) => s.layout === "workflow-proof")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "marquee-proof" || s.kind === "proof")).toBe(true);
+  });
+
 });
