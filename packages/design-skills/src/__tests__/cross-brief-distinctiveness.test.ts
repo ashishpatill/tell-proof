@@ -20,6 +20,10 @@
  * authored-node phrase overlap ≈ 57.1% (16/28 shared÷min) with ctaFor().note scored
  * even when craftFold omits it from HTML. Residual CTA/FAQ scaffolding expected;
  * operator/approve workflow narrative must not be shared after PR 69. Ceiling 70%.
+ *
+ * Phase 1 (`author.ts`) can inject brief-grounded CTA/FAQ/proof when GEMINI_API_KEY
+ * is set; this suite stays on the no-key / sync `designFromFeatures` path so CI
+ * never requires a live model. See `author.test.ts` for stubbed injection proof.
  */
 import { describe, expect, it } from "vitest";
 import { analyzeFeatures } from "../analyze";

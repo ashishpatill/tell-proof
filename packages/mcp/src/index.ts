@@ -21,7 +21,7 @@ import {
 } from "@tell/schema";
 import { OfflineRedesignGenerator, type SourceFile } from "@tell/redesign";
 import { classifyWithTaste, parseDirection, parseDirectionPlan, parseDirectionWithGemini } from "@tell/taste";
-import { DesignBrief, designFromFeatures } from "@tell/design-skills";
+import { DesignBrief, designFromFeaturesAuthored } from "@tell/design-skills";
 import type { Finding, TasteVerdict } from "@tell/schema";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
@@ -239,7 +239,7 @@ server.tool(
 
 server.tool(
   "tell_design_from_features",
-  "Run the premium-content-custom-web skill graph: analyze features, route sub-skills, build tokens/sections, and return a DesignSpec plus preview HTML. Deterministic; no LLM. Use Taste Controls to customize.",
+  "Run the premium-content-custom-web skill graph: analyze features, route sub-skills, build tokens/sections, and return a DesignSpec plus preview HTML. For ordinary saas-marketing/demos briefs, authors CTA/FAQ/proof via Gemini when GEMINI_API_KEY is set; otherwise deterministic copy tables (safe without a key).",
   {
     productName: z.string().min(1),
     tagline: z.string().optional(),
@@ -285,7 +285,8 @@ server.tool(
       })),
       taste: input.taste,
     });
-    const result = designFromFeatures(brief);
+    const apiKey = process.env.GEMINI_API_KEY?.trim();
+    const result = await designFromFeaturesAuthored(brief, { apiKey });
     if (input.includePreviewHtml === false) {
       return asJson({ spec: result.spec });
     }
