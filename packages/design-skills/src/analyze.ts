@@ -61,6 +61,13 @@ export function inferSiteKind(brief: DesignBrief): SiteKind {
   if (/\b(care.?pathway|clinical pathway|handoff bead|rounds ladder|ward ledger|chart close|triage stage|discharge stage|roundspool)\b/.test(blob)) {
     return "care-pathway";
   }
+  if (
+    /\b(agent.?harness|turn tape|tool permit|steer pin|done-?when|allow once|local session|harness engineer|coding agent|tiller|eval close|mid-run redirect)\b/.test(
+      blob,
+    )
+  ) {
+    return "agent-harness";
+  }
   if (/\b(fintech|treasury|payments?|banking|ledger|payroll|expense|card|wire|ach|fx|currency)\b/.test(blob)) {
     return "fintech-marketing";
   }
@@ -116,7 +123,10 @@ export function analyzeFeatures(brief: DesignBrief): FeatureAnalysis {
                       ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                       : siteKind === "archive-index" || siteKind === "commerce-loom" || siteKind === "field-guide"
                         ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
-                        : siteKind === "press-atelier" || siteKind === "lantern-path" || siteKind === "care-pathway"
+                        : siteKind === "press-atelier" ||
+                            siteKind === "lantern-path" ||
+                            siteKind === "care-pathway" ||
+                            siteKind === "agent-harness"
                           ? ["nav", "hero", "features", "figure", "specimen", "story", "proof", "cta", "footer"]
                 : saasMarketingSections;
 

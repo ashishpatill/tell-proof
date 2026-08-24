@@ -141,6 +141,7 @@ export type FigureKind =
   | "press-sheet"
   | "path-plate"
   | "care-plate"
+  | "permit-plate"
   | "pipeline-board"
   | "queue-console"
   | "posture-grid"
@@ -2161,6 +2162,144 @@ export function carePlate(
 }
 
 /**
+ * Permit plate — agent-harness fold instrument.
+ *
+ * One pending local tool on cool paper: tool name, one command from the lead feature, two or three
+ * paths it will touch, blast radius, ALLOW ONCE / DENY. Dense mono ≤11px. Never deal chips, dollar
+ * amounts, or Input/Process/Draft/Review/Approve vocabulary. Not a pipeline board or queue console.
+ */
+export function permitPlate(
+  productName: string,
+  features: Block[],
+  seed: string,
+  role: FigureRole = "band",
+): string {
+  const r = rng(`${seed}:permit-plate:${role}`);
+  const W = role === "band" ? 1280 : role === "column" ? 560 : 720;
+  const H = role === "band" ? 720 : role === "column" ? 560 : 520;
+  const padX = role === "band" ? 36 : 24;
+  const padY = role === "band" ? 28 : 20;
+  const parts: string[] = [];
+
+  parts.push(`<rect x="0" y="0" width="${W}" height="${H}" fill="var(--c-paper)"/>`);
+  parts.push(
+    `<rect x="${round(padX)}" y="${round(padY)}" width="${round(W - padX * 2)}" height="${round(H - padY * 2)}" fill="color-mix(in srgb, var(--c-paper-raised, var(--c-paper)) 94%, var(--c-accent) 6%)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  const headY = padY + 18;
+  parts.push(`<title>${esc(productName)} tool permit</title>`);
+  parts.push(text("PERMIT", padX + 14, headY, { size: FIG_MONO_PX, fill: "var(--c-ink-tertiary)", mono: true }));
+  parts.push(
+    text("ONE PENDING TOOL", W - padX - 14, headY, {
+      size: FIG_MONO_PX,
+      fill: "var(--c-ink-tertiary)",
+      mono: true,
+      anchor: "end",
+    }),
+  );
+  parts.push(
+    `<line class="ds-draw" pathLength="1" x1="${round(padX + 14)}" y1="${round(headY + 10)}" x2="${round(W - padX - 14)}" y2="${round(headY + 10)}" stroke="${ACCENT}" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.9"/>`,
+  );
+
+  const lead =
+    features.find((f) => /permit|shell|write|network/i.test(`${f.title} ${f.body}`)) ??
+    features[0] ??
+    ({ title: "Shell", body: "Local command waits on Allow once or Deny" } as Block);
+  const toolName = /shell|write|network/i.test(lead.title)
+    ? clip(lead.title, 18)
+    : /permit/i.test(lead.title)
+      ? "Shell"
+      : clip(lead.title.split(/\s+/)[0] ?? "Shell", 18);
+  const command = (() => {
+    const blob = `${lead.body} ${features.map((f) => f.body).join(" ")}`;
+    if (/\btypecheck\b/i.test(blob)) return "pnpm typecheck";
+    if (/\btests?\b/i.test(blob)) return "pnpm test";
+    return "shell: local run";
+  })();
+  const paths = [
+    "./session/turns",
+    "./permit/scope",
+    "./finish/when",
+  ].slice(0, 2 + (r() > 0.5 ? 1 : 0));
+  const blast = "local write · network hold until Allow";
+
+  const plateX = padX + 24;
+  const plateY = padY + 48;
+  const plateW = W - padX * 2 - 48;
+  const plateH = H - padY * 2 - 72;
+  parts.push(
+    `<rect x="${round(plateX)}" y="${round(plateY)}" width="${round(plateW)}" height="${round(plateH)}" fill="color-mix(in srgb, ${ACCENT_FIELD} 70%, var(--c-paper))" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+
+  let y = plateY + 28;
+  parts.push(text("TOOL", plateX + 20, y, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.1 }));
+  y += 22;
+  parts.push(text(toolName, plateX + 20, y, { size: FT.title, fill: INK, weight: 600 }));
+  y += 28;
+  parts.push(text("COMMAND", plateX + 20, y, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.1 }));
+  y += 20;
+  parts.push(text(clip(command, 42), plateX + 20, y, { size: FIG_MONO_PX, fill: ACCENT, mono: true }));
+  y += 28;
+  parts.push(text("PATHS", plateX + 20, y, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.1 }));
+  y += 18;
+  paths.forEach((p, i) => {
+    parts.push(text(p, plateX + 20, y + i * 16, { size: FIG_MONO_PX, fill: BODY, mono: true }));
+  });
+  y += paths.length * 16 + 22;
+  parts.push(text("BLAST RADIUS", plateX + 20, y, { size: FIG_MONO_PX, fill: QUIET, mono: true, track: 1.1 }));
+  y += 18;
+  parts.push(text(clip(blast, 48), plateX + 20, y, { size: FIG_MONO_PX, fill: BODY, mono: true }));
+
+  const btnY = plateY + plateH - 56;
+  const btnH = 36;
+  const btnGap = 16;
+  const btnW = Math.min(180, (plateW - 60 - btnGap) / 2);
+  const allowX = plateX + 20;
+  const denyX = allowX + btnW + btnGap;
+  parts.push(
+    `<rect x="${round(allowX)}" y="${round(btnY)}" width="${round(btnW)}" height="${btnH}" fill="${ACCENT}" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    text("ALLOW ONCE", allowX + btnW / 2, btnY + 23, {
+      size: FIG_MONO_PX,
+      fill: "var(--c-accent-ink, var(--c-paper))",
+      mono: true,
+      anchor: "middle",
+      weight: 600,
+    }),
+  );
+  parts.push(
+    `<rect x="${round(denyX)}" y="${round(btnY)}" width="${round(btnW)}" height="${btnH}" fill="var(--c-paper)" stroke="${LINE}" stroke-width="1" vector-effect="non-scaling-stroke"/>`,
+  );
+  parts.push(
+    text("DENY", denyX + btnW / 2, btnY + 23, {
+      size: FIG_MONO_PX,
+      fill: INK,
+      mono: true,
+      anchor: "middle",
+      weight: 600,
+    }),
+  );
+
+  parts.push(
+    text(`LOCAL · ${clip(productName, 20)}`, padX + 14, H - padY + 2, {
+      size: FIG_MONO_PX,
+      fill: "var(--c-ink-tertiary)",
+      mono: true,
+    }),
+  );
+
+  return frame(parts.join(""), {
+    width: W,
+    height: H,
+    kind: "permit-plate",
+    label: `${productName} tool permit`,
+    inset: role === "band" ? BLEED_INSET : 0,
+    dense: true,
+  });
+}
+
+/**
  * Pipeline board — SaaS-marketing fold instrument.
  * Stage columns with deal nodes and a sticky-rail-friendly ordinal strip. Not interfacePlate.
  */
@@ -3158,6 +3297,7 @@ type Kind =
   | "press-sheet"
   | "path-plate"
   | "care-plate"
+  | "permit-plate"
   | "pipeline-board"
   | "queue-console"
   | "posture-grid"
@@ -3207,6 +3347,8 @@ const ORDER: Record<string, Kind[]> = {
   "lantern-path": ["path-plate", "horizon", "flow", "stack"],
   // Care pathway: clinical pathway spine owns the fold; horizon keeps scroll rhythm.
   "care-pathway": ["care-plate", "horizon", "flow", "stack"],
+  // Agent harness: permit plate owns the fold; horizon keeps scroll rhythm.
+  "agent-harness": ["permit-plate", "horizon", "flow", "stack"],
 };
 
 export function planFigures(input: {
@@ -3268,6 +3410,8 @@ export function planFigures(input: {
         return pathPlate(input.productName, input.features, seed, role);
       case "care-plate":
         return carePlate(input.productName, input.features, seed, role);
+      case "permit-plate":
+        return permitPlate(input.productName, input.features, seed, role);
       case "pipeline-board":
         return pipelineBoard(input.productName, input.features, seed, role);
       case "queue-console":
@@ -3291,8 +3435,8 @@ export function planFigures(input: {
    * its labels go under seven pixels. So the slot picks from the kinds that can hold its shape,
    * and only falls back to the site kind's order when none can.
    */
-  const SPANNING: Kind[] = ["care-plate", "path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "flow", "horizon", "series", "interface", "stack"];
-  const COLUMNAR: Kind[] = ["care-plate", "path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "interface", "stack", "series"];
+  const SPANNING: Kind[] = ["permit-plate", "care-plate", "path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "flow", "horizon", "series", "interface", "stack"];
+  const COLUMNAR: Kind[] = ["permit-plate", "care-plate", "path-plate", "press-sheet", "specimen-plate", "loom-weave", "index-ledger", "signal-lattice", "dossier-plate", "type-ladder", "work-board", "interface", "stack", "series"];
 
   const heroSpans = input.heroLayout !== "hero-split";
   /*
@@ -3337,6 +3481,8 @@ export function planFigures(input: {
               ? ("path-plate" as Kind)
             : input.siteKind === "care-pathway"
               ? ("care-plate" as Kind)
+            : input.siteKind === "agent-harness"
+              ? ("permit-plate" as Kind)
             : input.siteKind === "saas-marketing"
               ? ("pipeline-board" as Kind)
             : input.siteKind === "dashboard-webapp"

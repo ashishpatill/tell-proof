@@ -171,6 +171,28 @@ describe("Phase 1 connective author", () => {
       isConnectiveAuthorEligible(
         DesignBrief.parse({
           ...freightlane(),
+          siteKind: "dashboard-webapp",
+          lockSiteKind: true,
+        }),
+      ),
+    ).toBe(false);
+    expect(
+      isConnectiveAuthorEligible(
+        DesignBrief.parse({
+          productName: "Tiller",
+          tagline: "The session that names its finish before the first tool runs",
+          audience: "harness engineers",
+          businessGoal: "demos",
+          siteKind: "agent-harness",
+          lockSiteKind: true,
+          features: [{ id: "1", name: "Turn tape", description: "T01–Tn", priority: "p0" }],
+        }),
+      ),
+    ).toBe(false);
+    expect(
+      isConnectiveAuthorEligible(
+        DesignBrief.parse({
+          ...freightlane(),
           businessGoal: "leads",
         }),
       ),

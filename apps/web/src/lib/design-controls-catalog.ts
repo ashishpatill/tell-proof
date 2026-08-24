@@ -49,6 +49,7 @@ export const ACCENT_HEX: Record<AccentToken, string> = {
 
 /** Curated Surfaces for home chip bar (Tell specimens / SiteKind only). */
 export const SURFACE_OPTIONS_COMPACT: readonly DesignControlOption<SiteKind>[] = [
+  { value: "agent-harness", label: "Agent harness", hint: "harness · Tiller specimen" },
   { value: "care-pathway", label: "Care pathway", hint: "clinic · Roundspool specimen" },
   { value: "saas-marketing", label: "Marketing landing", hint: "story · conversion" },
   { value: "docs-educational", label: "Product docs", hint: "clarity · dense type" },
@@ -59,6 +60,7 @@ export const SURFACE_OPTIONS_COMPACT: readonly DesignControlOption<SiteKind>[] =
 
 /** Full SiteKind catalog for Studio sidebar. */
 export const SURFACE_OPTIONS_FULL: readonly DesignControlOption<SiteKind>[] = [
+  { value: "agent-harness", label: "Agent harness", hint: "harness · Tiller" },
   { value: "care-pathway", label: "Care pathway", hint: "clinic · Roundspool" },
   { value: "saas-marketing", label: "Marketing landing", hint: "conversion" },
   { value: "dashboard-webapp", label: "Ops dashboard", hint: "scan density" },

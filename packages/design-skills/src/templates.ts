@@ -33,7 +33,8 @@ export type TemplateKey =
   | "herbarium"
   | "press"
   | "lantern"
-  | "clinic";
+  | "clinic"
+  | "harness";
 
 export interface DesignTemplate {
   /** Stable key used by /showcase/*, /studio presets, and GET /api/design?showcase= */
@@ -1024,6 +1025,83 @@ export const DESIGN_TEMPLATES: DesignTemplate[] = [
         motion: "light-scroll-reveals",
         colorMood: "light-airy",
         typographyWeight: "light-elegant",
+        roundingDepth: "sharp",
+      },
+    }),
+  },
+  {
+    key: "harness",
+    label: "Agent harness",
+    marketJob:
+      "Local coding-agent harness landing — turn tape, permit-plate fold, sticky steer pin, Session/Permit/Finish for harness engineers.",
+    siteKind: "agent-harness",
+    researchBasis:
+      "Measured demand gap: no catalog kind covers local agent-session grammar. SaaS pipeline is deal stages; dashboard is queue console; care pathway is clinical handoff. Agent harness needs T01–Tn turn tape, one pending tool permit (Allow once / Deny), and a sticky FINISH WHEN pin (typecheck, tests, no public host) — paper-led LOCAL session, never LIVE host theatre. Distinct craft: hero-helm, ds-turn-rail, data-permit-plate / permit-plate (dense mono ≤11px), data-steer-pin sticky in the first viewport — no pricing, no metrics theatre, no workflow-proof, zero inverse bands. Not a recolored SaaS pipeline or care plate.",
+    brief: DesignBrief.parse({
+      productName: "Tiller",
+      tagline: "The session that names its finish before the first tool runs",
+      audience: "harness engineers running a coding agent on their own machine",
+      businessGoal: "trust",
+      siteKind: "agent-harness",
+      lockSiteKind: true,
+      primaryCta: "Start a local session",
+      brandAccent: "#1C3D42",
+      banList: [
+        "pipeline board",
+        "queue console",
+        "workflow-proof approve stamp",
+        "What X covers cards",
+        "invented public host",
+        "waitlist",
+        "Inter-only",
+        "violet hero",
+        "sport nav",
+        "ds-dash-grid as the fold",
+      ],
+      features: [
+        {
+          id: "h1",
+          name: "Turn tape",
+          description: "User, agent, and tool turns accumulate as T01–Tn on one session. A turn is not a product stage.",
+          priority: "p0",
+        },
+        {
+          id: "h2",
+          name: "Tool permit",
+          description: "Shell, write, and network wait on Allow once or Deny. Scope and blast radius sit on the plate before anything runs.",
+          priority: "p0",
+        },
+        {
+          id: "h3",
+          name: "Steer pin",
+          description: "Done-when is written before the first tool (typecheck, tests, no public host) and stays in the first viewport while turns stack.",
+          priority: "p0",
+        },
+        {
+          id: "h4",
+          name: "Mid-run redirect",
+          description: "Interrupt keeps the same session. The finish does not reset.",
+          priority: "p1",
+        },
+        {
+          id: "h5",
+          name: "Eval close",
+          description: "Finished means the named checks passed, not that a button said done.",
+          priority: "p1",
+        },
+        {
+          id: "h6",
+          name: "Local session",
+          description: "Runs on the operator’s machine. No invented host, no waitlist.",
+          priority: "p2",
+        },
+      ],
+      taste: {
+        aestheticLean: "system-crafted",
+        density: "information-rich",
+        motion: "subtle-micro",
+        colorMood: "light-airy",
+        typographyWeight: "medium-modern",
         roundingDepth: "sharp",
       },
     }),

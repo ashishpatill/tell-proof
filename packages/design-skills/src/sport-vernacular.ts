@@ -546,7 +546,7 @@ export const SPORT_PACKS: Record<SportId, SportVernacularPack> = {
 };
 
 const QUERY_MATCH: { id: SportId; re: RegExp }[] = [
-  { id: "cricket", re: /cricket|cric|ipl|test match|t20|odi|wicket|crease|howzat|over rate/i },
+  { id: "cricket", re: /cricket|\bcric\b|ipl|test match|\bt20\b|\bodi\b|wicket|crease|howzat|over rate/i },
   { id: "football", re: /football|soccer|premier league|world cup|goal line|var\b|kick-?off/i },
   { id: "hockey", re: /\bhockey\b|nhl|power play|face-?off|rink\b/i },
   { id: "tennis", re: /tennis|grand slam|wimbledon|break point|tie-?break|racket/i },

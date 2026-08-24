@@ -487,6 +487,20 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
   [data-sitekind="care-pathway"] .ds-handoff-cell{transition:opacity 420ms var(--m-ease-out),transform 420ms var(--m-ease-out)}
 }
 `,
+    "agent-harness": `
+@keyframes ds-helm-in{from{opacity:0;transform:translateY(0.8rem)}to{opacity:1;transform:none}}
+[data-sitekind="agent-harness"]{--m-stagger:32ms;--m-entrance:360ms;--m-reveal:300ms}
+@media (prefers-reduced-motion: no-preference){
+  [data-sitekind="agent-harness"] .ds-enter{
+    animation:ds-helm-in var(--m-entrance,360ms) var(--m-ease-out,cubic-bezier(0.22,1,0.36,1)) forwards;
+    animation-delay:calc(var(--enter-i,0) * var(--m-stagger,32ms));
+  }
+  [data-sitekind="agent-harness"] .ds-reveal,
+  [data-sitekind="agent-harness"] .ds-reveal .ds-stagger > *{animation-name:ds-helm-in}
+  [data-sitekind="agent-harness"] .ds-reveal:not(.is-in){transform:translateY(0.8rem)}
+  [data-sitekind="agent-harness"] .ds-turn-beat.is-current{transform:translateY(-1px)}
+}
+`,
   };
 
   return table[siteKind] ?? "";
@@ -637,6 +651,8 @@ function siteKindCss(): string {
 [data-sitekind="lantern-path"] .ds-hero-path .ds-actions .ds-btn-secondary{display:none}
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-cta-note,
 [data-sitekind="care-pathway"] .ds-hero-rounds .ds-actions{display:none}
+[data-sitekind="agent-harness"] .ds-hero-helm .ds-cta-note,
+[data-sitekind="agent-harness"] .ds-hero-helm .ds-actions{display:none}
 
 /* Fintech: inverse specimen is a stage; product drawing sits on a lit paper plate (readable contrast). */
 [data-sitekind="fintech-marketing"] .ds-specimen{padding-block:var(--s-xl) var(--s-2xl)}
@@ -1626,6 +1642,55 @@ body[data-sitekind="care-pathway"][data-frame="paper-technical"] #main{
   [data-sitekind="care-pathway"] .ds-handoff-strip{grid-template-columns:1fr}
   [data-sitekind="care-pathway"] .ds-handoff-cell{border-right:0;border-bottom:1px solid var(--c-border);min-height:0}
 }
+
+/* Agent harness — paper-led helm fold: turn tape + permit plate + sticky steer pin. */
+[data-sitekind="agent-harness"]{
+  --helm-pin:28%;
+  --align-rail:3.5rem;
+}
+body[data-sitekind="agent-harness"]{
+  background:var(--c-paper);
+}
+[data-sitekind="agent-harness"] .ds-brand-mark{
+  font-family:var(--f-mono);letter-spacing:0.08em;
+}
+[data-sitekind="agent-harness"] .ds-hero-helm .ds-display{
+  font-size:clamp(1.85rem,3.2vw,2.65rem);max-width:22ch;line-height:1.08;letter-spacing:-0.03em;
+}
+[data-sitekind="agent-harness"] .ds-hero-helm .ds-lede{display:none}
+[data-sitekind="agent-harness"] .ds-hero-helm .ds-eyebrow{display:none}
+[data-sitekind="agent-harness"] .ds-hero-helm .ds-brand-mark{font-size:var(--t-small-size,0.85rem)}
+[data-sitekind="agent-harness"] .ds-hero-helm .ds-cta-note,
+[data-sitekind="agent-harness"] .ds-hero-helm .ds-actions{display:none}
+[data-sitekind="agent-harness"] .ds-helm-claim{
+  background:var(--c-paper);
+  padding:var(--s-sm) 0 var(--s-xs);
+}
+[data-sitekind="agent-harness"] .ds-helm-claim .ds-hero-copy{gap:0.12rem;max-width:32rem}
+[data-sitekind="agent-harness"] .ds-helm-claim .ds-hero-chips,
+[data-sitekind="agent-harness"] .ds-helm-claim .ds-capability-list,
+[data-sitekind="agent-harness"] .ds-helm-claim .ds-hero-aside,
+[data-sitekind="agent-harness"] .ds-helm-claim .ds-hero-facts{display:none}
+[data-sitekind="agent-harness"] .ds-helm-field{margin-top:0}
+[data-sitekind="agent-harness"] .ds-permit-plate .ds-fig{min-height:min(58vh,640px)}
+[data-sitekind="agent-harness"] .ds-hero-helm{min-height:min(100vh,900px)}
+[data-sitekind="agent-harness"] .ds-specimen{padding-block:var(--s-2xl) var(--s-3xl,var(--s-2xl))}
+[data-sitekind="agent-harness"] .ds-specimen-head .ds-heading{font-size:var(--t-title-size);max-width:16ch}
+[data-sitekind="agent-harness"] .ds-closing-colophon .ds-title{font-family:var(--f-display);max-width:18ch}
+[data-sitekind="agent-harness"] .ds-btn,
+[data-sitekind="agent-harness"] .ds-nav{box-shadow:none!important}
+[data-sitekind="agent-harness"] .ds-bleed-rule{height:1px;border:0;background:var(--c-border)}
+[data-sitekind="agent-harness"] .ds-closing-colophon{border-top:1px solid var(--c-border)}
+[data-sitekind="agent-harness"] .ds-helm-masthead,
+[data-sitekind="agent-harness"] .ds-turn-rail,
+[data-sitekind="agent-harness"] .ds-steer-pin{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.08em;
+}
+@media (max-width:900px){
+  [data-sitekind="agent-harness"] .ds-helm-fold{grid-template-columns:1fr}
+  [data-sitekind="agent-harness"] .ds-steer-pin{position:static}
+}
+
 [data-sitekind="press-atelier"] .ds-closing-mark{margin-top:calc(var(--s-lg) * -1);position:relative;z-index:var(--z-raised)}
 [data-sitekind="press-atelier"] .ds-specimen .ds-plate-bleed .ds-fig{min-height:min(72vh,740px)}
 [data-sitekind="press-atelier"] .ds-index-row{border-color:color-mix(in srgb,var(--surface-border) 70%,transparent)}
@@ -3427,6 +3492,83 @@ ${surfaceRules()}
   .ds-rounds-ladder{padding-left:2rem}
   .ds-rounds-bead{left:-1.65rem}
   .ds-rounds-panel{max-width:none}
+}
+
+/* Helm fold + turn rail + permit plate + steer pin (agent harness). */
+.ds-hero-helm{
+  position:relative;isolation:isolate;padding:0;min-height:min(100vh,960px);
+  display:flex;flex-direction:column;
+}
+.ds-helm-masthead{
+  display:flex;flex-wrap:wrap;gap:0.55rem 1.25rem;align-items:baseline;
+  padding:var(--s-xs,0.35rem) var(--gutter) var(--s-sm);
+  border-bottom:1px solid var(--c-border);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--c-ink-tertiary);
+}
+.ds-helm-session,.ds-helm-locale{color:var(--c-accent)}
+.ds-helm-product{color:var(--c-ink);letter-spacing:0.08em}
+.ds-helm-claim{padding-inline:var(--gutter)}
+.ds-helm-fold{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(12rem,28%);
+  gap:0;align-items:start;padding-inline:var(--gutter);padding-bottom:var(--s-lg);
+}
+.ds-helm-main{min-width:0;display:flex;flex-direction:column;gap:0}
+.ds-turn-rail{
+  height:72px;max-height:72px;overflow:hidden;
+  border:1px solid var(--c-border);border-bottom:0;
+  background:var(--c-paper);
+}
+.ds-turn-rail ol{
+  list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+  height:100%;
+}
+.ds-turn-beat{
+  display:flex;flex-direction:column;justify-content:center;gap:0.15rem;
+  padding:0.35rem 0.55rem;border-right:1px solid var(--c-border);
+  font-family:var(--f-mono);font-size:11px;line-height:1.2;color:var(--c-ink-secondary);
+  min-width:0;
+}
+.ds-turn-beat:last-child{border-right:0}
+.ds-turn-beat.is-current{
+  background:color-mix(in srgb,var(--c-accent-surface) 70%,var(--c-paper));
+  color:var(--c-ink);
+}
+.ds-turn-id{color:var(--c-accent);letter-spacing:0.1em}
+.ds-turn-tag{text-transform:uppercase;letter-spacing:0.12em;color:var(--c-ink-tertiary);font-size:11px}
+.ds-turn-beat.is-current .ds-turn-tag{color:var(--c-accent)}
+.ds-turn-label{
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--c-ink-secondary);
+}
+.ds-turn-beat.is-current .ds-turn-label{color:var(--c-ink);white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.ds-helm-field{margin:0}
+.ds-permit-plate{margin:0;width:100%;display:block;border:1px solid var(--c-border);border-top:0}
+.ds-permit-plate .ds-fig{width:100%;min-height:min(58vh,640px);display:block}
+.ds-steer-pin{
+  position:sticky;top:calc(var(--nav-h,4.5rem) + var(--s-sm));
+  align-self:start;margin-left:var(--s-md);
+  padding:var(--s-md);border:1px solid var(--c-border);background:var(--c-paper);
+  min-height:12rem;
+}
+.ds-steer-kicker{
+  margin:0 0 var(--s-sm);font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--c-accent);
+}
+.ds-steer-checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.55rem}
+.ds-steer-checks li{
+  display:grid;grid-template-columns:0.65rem minmax(0,1fr);gap:0.55rem;align-items:start;
+  font-family:var(--f-mono);font-size:11px;line-height:1.35;color:var(--c-ink-secondary);
+}
+.ds-steer-mark{
+  width:0.55rem;height:0.55rem;margin-top:0.2rem;border:1px solid var(--c-accent);
+  background:color-mix(in srgb,var(--c-accent) 22%,transparent);
+}
+@media (max-width:900px){
+  .ds-helm-fold{grid-template-columns:1fr;padding-inline:var(--gutter)}
+  .ds-steer-pin{position:static;margin:var(--s-md) 0 0}
+  .ds-turn-rail{height:auto;max-height:none}
+  .ds-turn-rail ol{grid-template-columns:1fr;height:auto}
+  .ds-turn-beat{border-right:0;border-bottom:1px solid var(--c-border)}
 }
 
 .ds-marginalia-grid{display:grid;gap:var(--gutter);align-items:start;margin-top:var(--s-xl)}

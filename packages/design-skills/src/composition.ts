@@ -672,6 +672,42 @@ export function planSections(input: CompositionInput): SectionPlan[] {
   }
 
   /*
+   * Agent harness — local coding-agent session craft.
+   *
+   * Turn tape + permit-plate + sticky steer pin own the fold. Not a SaaS pipeline, not a queue
+   * console, not workflow-proof. Story turn-ledger and Done close land in a later pass.
+   */
+  if (siteKind === "agent-harness") {
+    plans.push({ id: "hero", kind: "hero", layout: "hero-helm", surface: "paper", columns: split.wide });
+    plans.push({
+      id: "features",
+      kind: "features",
+      layout: "feature-index",
+      surface: "paper",
+      columns: split.wide,
+    });
+    plans.push({
+      id: "figure",
+      kind: "figure",
+      layout: "figure-explainer",
+      surface: "raised",
+      columns: split.wide,
+    });
+    plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
+    plans.push({
+      id: "story",
+      kind: "story",
+      layout: "story-chapters",
+      surface: "paper",
+      bond: true,
+    });
+    plans.push({ id: "faq", kind: "faq", layout: "faq-columns", surface: "paper", columns: "5fr 7fr", bond: true });
+    plans.push({ id: "cta", kind: "cta", layout: "cta-band", surface: "paper" });
+    plans.push({ id: "footer", kind: "footer", layout: "footer-columns", surface: "paper" });
+    return plans;
+  }
+
+  /*
    * Field guide — herbarium / voucher craft.
    *
    * Personal-craft + brand-agency corridors favour figure-dense paper surfaces and quiet display.
@@ -822,6 +858,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "lantern-path") px = 50;
   // Care pathway: quiet-but-in-band display (~3.3vw) so care-plate still owns the fold.
   if (siteKind === "care-pathway") px = 48;
+  if (siteKind === "agent-harness") px = 48;
   if (lean === "refined-story") px += 6;
   if (lean === "minimal-clean") px -= 6;
   if (lean === "conversion-sharp") px += 2;
@@ -837,6 +874,7 @@ export function displaySizeFor(siteKind: SiteKind, lean: AestheticLean, density:
   if (siteKind === "press-atelier") return Math.max(46, Math.min(56, px));
   if (siteKind === "lantern-path") return Math.max(46, Math.min(56, px));
   if (siteKind === "care-pathway") return Math.max(44, Math.min(52, px));
+  if (siteKind === "agent-harness") return Math.max(44, Math.min(52, px));
   const ceiling = siteKind === "art-directed-studio" ? 88 : 86;
   return Math.max(48, Math.min(ceiling, px));
 }

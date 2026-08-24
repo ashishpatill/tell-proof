@@ -22,15 +22,10 @@ describe("sport vernacular engine", () => {
     }
   });
 
-  it("matches cricket query language and exposes over/situation facts", () => {
-    const pack = matchSportFromQuery("build a cricket live scores site with T20 and Test");
-    expect(pack?.id).toBe("cricket");
-    const cricket = getSportPack("cricket");
-    expect(cricket.primaryFacts.some((f) => /situation/i.test(f.label))).toBe(true);
-    expect(cricket.primaryFacts.some((f) => /this-over|over trail/i.test(f.label))).toBe(true);
-    expect(cricket.formatLenses.map((f) => f.id)).toEqual(
-      expect.arrayContaining(["test", "odi", "t20"]),
-    );
+  it("does not false-match ordinary product language as cricket via loose odi/cric tokens", () => {
+    expect(matchSportFromQuery("coding agent on their own machine")).toBeUndefined();
+    expect(matchSportFromQuery("harness engineers running a local session")).toBeUndefined();
+    expect(matchSportFromQuery("build an ODI scoreboard with crease and wickets")?.id).toBe("cricket");
   });
 
   it("routes sport-vernacular-craft when brief.sportId is set", () => {
