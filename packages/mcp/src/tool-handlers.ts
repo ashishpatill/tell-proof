@@ -1,6 +1,15 @@
 /**
- * MCP tool handlers that also record into the shared training-data sink
- * (same writer as Studio `/api/design`).
+ * MCP tool handlers that record into the shared training-data sink
+ * (`@tell/design-skills/training-data-sink` — same writer Studio `/api/*` uses).
+ *
+ * Kind map (do not collapse):
+ * - tell_design_from_features → "design" → raw/design/
+ * - tell_diagnose → "diagnose" → raw/episodes/
+ * - tell_redesign → "redesign" → raw/redesign/
+ * - tell_proof_verify → "proof" → raw/proof/
+ *
+ * MCP does not install or sync the sibling tell-design-data repo (Frontend owns that).
+ * Missing sibling ⇒ same honest no-op as the web helper.
  */
 import { randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -63,7 +72,7 @@ export function rememberReport(
   return withId;
 }
 
-/** tell_design_from_features — same episode shape as POST /api/design. */
+/** tell_design_from_features — same raw/design dump as POST /api/design. */
 export async function handleDesignFromFeatures(
   input: DesignFromFeaturesInput,
   opts: { awaitSink?: boolean } = {},
