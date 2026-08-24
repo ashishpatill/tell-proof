@@ -58,6 +58,8 @@ export interface CompositionInput {
   featureCount: number;
   p0Count: number;
   goal: "leads" | "demos" | "trust" | "sales" | "activation";
+  /** SaaS-only: interactive workflow-proof when the brief names drafts/approval. */
+  hasApprovalWorkflow: boolean;
 }
 
 /**
@@ -120,7 +122,7 @@ function featureLayouts(count: number, p0: number, lean: AestheticLean): LayoutV
 }
 
 export function planSections(input: CompositionInput): SectionPlan[] {
-  const { siteKind, lean, featureCount, p0Count, goal, density } = input;
+  const { siteKind, lean, featureCount, p0Count, goal, density, hasApprovalWorkflow } = input;
   const split = SPLIT[lean];
   const plans: SectionPlan[] = [];
 
@@ -740,12 +742,13 @@ export function planSections(input: CompositionInput): SectionPlan[] {
   });
 
   // Dense proof board on inverse — never a lonely quote floating in a dark void.
-  // SaaS uses the interactive workflow-proof stage (product-as-evidence); other kinds keep marquee.
+  // SaaS uses the interactive workflow-proof stage only when the brief names
+  // drafts / approval / a human gate. Ordinary SaaS keeps the feature-evidence board.
   // Bonded to the specimen above so a light airway cannot open between drawn product and proof.
   plans.push({
     id: "proof",
     kind: "proof",
-    layout: siteKind === "saas-marketing" ? "workflow-proof" : "marquee-proof",
+    layout: siteKind === "saas-marketing" && hasApprovalWorkflow ? "workflow-proof" : "marquee-proof",
     surface: "inverse",
     bond: true,
     columns: split.feature,

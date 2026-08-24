@@ -737,7 +737,9 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           "care-pathway",
         ].includes(kind);
         if (craftProof) return !hasBoard;
-        if (kind === "saas-marketing") return /data-workflow-proof/.test(html) && !hasBoard;
+        if (kind === "saas-marketing") {
+          return hasBoard || /data-workflow-proof/.test(html);
+        }
         return hasBoard;
       })(),
       "Craft templates prove with their own story instrument; marketing pages keep a filled proof board or workflow stage — never a lonely quote, never one shared board on every offering.",

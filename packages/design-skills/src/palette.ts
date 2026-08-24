@@ -97,6 +97,36 @@ const MOODS: Record<ColorMood, MoodSeed> = {
 };
 
 /**
+ * Per-mood accent hues. Index 0 is the historical seed so unseeded
+ * `buildPalette(mood)` stays bit-identical to the pre-variant palette.
+ * Later slots stay off the purple/violet cluster (≈250–280).
+ */
+export const ACCENT_HUE_VARIANTS: Record<ColorMood, readonly number[]> = {
+  "neutral-professional": [215, 198, 172, 228, 152],
+  "soft-brand-accent": [55, 32, 78, 18, 96],
+  "dark-premium": [195, 168, 212, 148, 232],
+  "light-airy": [205, 188, 164, 222, 142],
+};
+
+/** FNV-1a — same mixer as `tokens.ts` so brief seeds stay stable. */
+function seedIndex(seed: string, length: number): number {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i += 1) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return Math.abs(h) % length;
+}
+
+/** Historical hue when `variantSeed` is omitted; otherwise a stable slot from the seed. */
+export function pickAccentHue(mood: ColorMood, variantSeed?: string): number {
+  const variants = ACCENT_HUE_VARIANTS[mood];
+  const historical = variants[0] ?? MOODS[mood].accentHue;
+  if (!variantSeed) return historical;
+  return variants[seedIndex(variantSeed, variants.length)] ?? historical;
+}
+
+/**
  * Pull a hue and chroma out of a supplied brand hex so the accent family re-tunes around it.
  * The neutral ramp deliberately does not move: a brand colour is not a licence to tint the ink.
  */
@@ -140,8 +170,11 @@ function greyAtContrast(startL: number, against: string, min: number, dark: bool
   return grey(Math.max(0, Math.min(1, l)));
 }
 
-export function buildPalette(mood: ColorMood, brandAccent?: string): Palette {
-  const seed = brandAccent ? seedFromAccent(brandAccent, MOODS[mood]) : MOODS[mood];
+export function buildPalette(mood: ColorMood, brandAccent?: string, variantSeed?: string): Palette {
+  const base = MOODS[mood];
+  const seed = brandAccent
+    ? seedFromAccent(brandAccent, base)
+    : { ...base, accentHue: pickAccentHue(mood, variantSeed) };
   const { paperHue: ph, paperChroma: pc, accentHue: ah, accentChroma: ac, signalHue: sh, dark } = seed;
 
   // Paper stock may carry warmth. Everything structural below it does not.

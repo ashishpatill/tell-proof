@@ -473,14 +473,21 @@ Follow exactly. Each milestone has a DoD; do not advance until met.
 }
 ```
 
-MCP tools to expose:
+MCP tools to expose (must match `@tell/schema` `MCP_TOOL_NAMES` / `REGISTERED_MCP_TOOLS` — eleven tools; local stdio only via `.cursor/mcp.json` → `pnpm -F @tell/mcp start` or `tell mcp install cursor --project`):
 
 | Tool | Args | Returns |
 |---|---|---|
 | `tell_capture` | `{ url: string }` | `CapturePayload` |
-| `tell_diagnose` | `{ url?: string, reportPath?: string }` | `TellReport` |
-| `tell_redesign` | `{ findingId?: string, direction: string }` | `RedesignProposal` |
-| `tell_apply` | `{ proposalId: string }` | `{ patches: string[], instruction: string }` |
+| `tell_diagnose` | `{ url?: string, reportPath?: string }` | `TellReport` (no args → committed fixture report, not live) |
+| `tell_redesign` | `{ direction: string, findingId?: string, reportId?: string }` | `RedesignProposal` |
+| `tell_apply` | `{ proposalId?: string, projectRoot?: string }` | `{ patches: string[], instruction: string }` — **never writes files** |
+| `tell_capture_matrix` | `{ url: string, routes?: string[], compare?: boolean }` | matrix (+ meta; capture-only without baseline) |
+| `tell_proof_verify` | `{ url, patch, projectRoot?, waitMs?, revertOnFail? }` | proof verdict (Report prove) |
+| `tell_proof_revert` | `{ projectRoot?: string, patch?: string }` | `{ reverted, instruction }` |
+| `tell_design_from_features` | product brief + optional taste | `DesignSpec` (+ preview HTML) — Studio author |
+| `tell_voice` | `{ transcript: string }` | direction plan + `source` |
+| `tell_install_info` | `{ launch?: "pnpm" \| "tell-mcp" }` | `InstallInfo` |
+| `tell_resolve_intent` | `{ text: string, fixtureUrl?: string }` | `ResolvedIntent` |
 
 Each returns schema-validated JSON. Keep tool descriptions crisp so the Cursor agent calls them
 correctly. `tell_apply` never writes files — it returns the patch for the human/agent to apply.

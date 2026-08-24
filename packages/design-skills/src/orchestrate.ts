@@ -1,4 +1,10 @@
 import { analyzeFeatures, inferSiteKind } from "./analyze";
+import {
+  authorConnectiveTissue,
+  isConnectiveAuthorEligible,
+  type AuthoredConnectiveTissue,
+  type ContentAuthor,
+} from "./author";
 import { routeDomainResearchSkills } from "./domain-research";
 import { renderPreviewHtml } from "./render";
 import { routeSkills } from "./route";
@@ -94,12 +100,19 @@ export function resolveTaste(brief: DesignBrief): TasteControls {
 export type DesignFromFeaturesOptions = {
   /** Prior DesignSpec — regenerates from the new brief; prior features never leak. */
   redesignFrom?: DesignSpec;
+  /**
+   * Phase 1 connective tissue from `authorConnectiveTissue` / `createContentAuthor`.
+   * When present (and validated upstream), CTA / FAQ / proof use authored copy.
+   * CI and callers without a model omit this — `copy.ts` tables stay in force.
+   */
+  authored?: AuthoredConnectiveTissue;
 };
 
 /**
  * Main skill entry: analyze → research plan → route → tokens → compose → render.
  * Deterministic. No LLM. Safe for demos without keys.
  * Pass `redesignFrom` to mark a redesign while still building from scratch from the brief.
+ * Pass `authored` (from the Gemini/deterministic content author) to swap CTA/FAQ/proof.
  *
  * Research nodes are planned here and attached to the spec so agents / agency:run
  * execute them (LoadPrior → gap → walkthrough → IA → training) before treating craft as done.
@@ -140,8 +153,11 @@ export function designFromFeatures(
     brief: effectiveBrief,
   });
   const tokens = buildTokens(taste, analysis.siteKind, brief.brandAccent, brief.productName);
+  const authored =
+    options.authored && isConnectiveAuthorEligible(effectiveBrief) ? options.authored : undefined;
   const sections = buildSections(effectiveBrief, analysis, taste, {
     domainPack: researchPlanRaw.pack,
+    authored,
   });
   const profile = AESTHETIC_PROFILES[taste.aestheticLean];
 
@@ -240,6 +256,40 @@ export function designFromFeatures(
     spec,
     previewHtml: renderPreviewHtml(spec),
     redesigned: Boolean(prior),
+  });
+}
+
+export type DesignFromFeaturesAuthorOptions = DesignFromFeaturesOptions & {
+  /** Gate like taste / tell_voice — omit or empty → deterministic copy.ts. */
+  apiKey?: string;
+  author?: ContentAuthor;
+  fetchImpl?: typeof fetch;
+  model?: string;
+};
+
+/**
+ * Same as `designFromFeatures`, but authors CTA/FAQ/proof first when the brief
+ * is Phase-1 eligible (saas-marketing + demos) and a Gemini key / author is supplied.
+ * Without a key, identical to the sync path — never fails CI on missing Gemini.
+ */
+export async function designFromFeaturesAuthored(
+  briefInput: DesignBrief,
+  options: DesignFromFeaturesAuthorOptions = {},
+): Promise<DesignFromFeaturesResponse> {
+  const brief = DesignBrief.parse(briefInput);
+  const authored =
+    options.authored ??
+    (isConnectiveAuthorEligible(brief)
+      ? await authorConnectiveTissue(brief, {
+          apiKey: options.apiKey,
+          author: options.author,
+          fetchImpl: options.fetchImpl,
+          model: options.model,
+        })
+      : undefined);
+  return designFromFeatures(brief, {
+    redesignFrom: options.redesignFrom,
+    authored,
   });
 }
 

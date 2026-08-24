@@ -49,11 +49,20 @@ Merge only after schema is frozen.
 
 ## MCP tools (use in Agent chat)
 
+Local stdio only — `.cursor/mcp.json` → `pnpm -F @tell/mcp start`, or `tell mcp install cursor --project`. Catalog must match `@tell/schema` `MCP_TOOL_NAMES` / `REGISTERED_MCP_TOOLS` (eleven tools). `tell_apply` returns patch text only — never writes files.
+
 ```
 tell_capture({ url })
-tell_diagnose({ url?, reportPath? })
-tell_redesign({ direction, findingId? })
-tell_apply({ proposalId })
+tell_diagnose({ url?, reportPath? })          # no args → committed fixture report (not live)
+tell_redesign({ direction, findingId?, reportId? })
+tell_apply({ proposalId?, projectRoot? })     # patch text + instructions; never writes
+tell_capture_matrix({ url, routes?, compare? })
+tell_proof_verify({ url, patch, projectRoot?, … })   # Report prove
+tell_proof_revert({ projectRoot?, patch? })
+tell_design_from_features({ …brief })         # Studio author
+tell_voice({ transcript })
+tell_install_info({ launch? })
+tell_resolve_intent({ text, fixtureUrl? })
 ```
 
 ## Testing before claiming done

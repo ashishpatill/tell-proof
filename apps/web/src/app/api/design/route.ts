@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   DesignFromFeaturesRequest,
   designFromFeatures,
+  designFromFeaturesAuthored,
   getTemplate,
   listTemplates,
 } from "@tell/design-skills";
@@ -29,14 +30,18 @@ function recordDesignResult(
   );
 }
 
-/** POST { brief, redesignFrom? } → DesignSpec + previewHtml (deterministic skill graph). */
+/** POST { brief, redesignFrom? } → DesignSpec + preview HTML. Authors CTA/FAQ/proof when GEMINI_API_KEY is set (saas-marketing/demos only). */
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const parsed = DesignFromFeaturesRequest.parse(
       body.brief !== undefined ? body : { brief: body },
     );
-    const result = designFromFeatures(parsed.brief, { redesignFrom: parsed.redesignFrom });
+    const apiKey = process.env.GEMINI_API_KEY?.trim();
+    const result = await designFromFeaturesAuthored(parsed.brief, {
+      redesignFrom: parsed.redesignFrom,
+      apiKey,
+    });
     recordDesignResult(result, {
       via: "api.design.post",
       siteKind: parsed.brief.siteKind,
