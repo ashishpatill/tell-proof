@@ -925,6 +925,29 @@ describe("research-backed offerings + implementation basics", () => {
     expect(failed, failed.join(", ")).toEqual([]);
   });
 
+  it("makes the Tiller turn tape a session of work, not a feature-name reprint", () => {
+    const { previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.harness!);
+    const labels = [...previewHtml.matchAll(/class="ds-turn-label">([^<]*)</g)].map((m) => m[1]!);
+    expect(labels).toHaveLength(5);
+    // Catalog feature titles must not be the five beat labels.
+    for (const banned of ["Turn tape", "Tool permit", "Steer pin", "Mid-run redirect", "Eval close", "Local session"]) {
+      expect(labels, `turn label must not be feature name "${banned}"`).not.toContain(banned);
+      expect(previewHtml).not.toMatch(
+        new RegExp(`class="ds-turn-label">${banned.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}<`),
+      );
+    }
+    // Session-of-work wording (design lock).
+    expect(previewHtml).toMatch(/class="ds-turn-label">You name the finish\.</);
+    expect(previewHtml).toMatch(/class="ds-turn-label">The agent proposes a local command\.</);
+    expect(previewHtml).toMatch(/class="ds-turn-label">That command waits on Allow or Deny\.</);
+    expect(previewHtml).toMatch(/class="ds-turn-label">The agent keeps the same session\.</);
+    expect(previewHtml).toMatch(/class="ds-turn-label">You can redirect without starting over\.</);
+    // Middle beat is the live tool turn.
+    expect(previewHtml).toMatch(
+      /class="ds-turn-beat is-current"[^>]*data-turn-tag="tool"[\s\S]*?class="ds-turn-label">That command waits on Allow or Deny\.</,
+    );
+  });
+
   it("keeps Tiller-like briefs on agent-harness and never routes them to saas-marketing", () => {
     const unlocked = {
       ...SHOWCASE_BRIEFS.harness!,
