@@ -3515,7 +3515,7 @@ ${surfaceRules()}
 }
 .ds-helm-main{min-width:0;display:flex;flex-direction:column;gap:0}
 .ds-turn-rail{
-  height:72px;max-height:72px;overflow:hidden;
+  height:88px;max-height:88px;overflow:hidden;
   border:1px solid var(--c-border);border-bottom:0;
   background:var(--c-paper);
 }
@@ -3538,9 +3538,10 @@ ${surfaceRules()}
 .ds-turn-tag{text-transform:uppercase;letter-spacing:0.12em;color:var(--c-ink-tertiary);font-size:11px}
 .ds-turn-beat.is-current .ds-turn-tag{color:var(--c-accent)}
 .ds-turn-label{
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--c-ink-secondary);
+  overflow:hidden;color:var(--c-ink-secondary);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
 }
-.ds-turn-beat.is-current .ds-turn-label{color:var(--c-ink);white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.ds-turn-beat.is-current .ds-turn-label{color:var(--c-ink)}
 .ds-helm-field{margin:0}
 .ds-permit-plate{margin:0;width:100%;display:block;border:1px solid var(--c-border);border-top:0}
 .ds-permit-plate .ds-fig{width:100%;min-height:min(58vh,640px);display:block}

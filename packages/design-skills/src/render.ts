@@ -5,6 +5,7 @@
  * what keeps the emitted page consistent with the design system it declares, and it is what makes
  * the generated markup safe to hand to a developer as a starting point.
  */
+import { helmSessionTurns } from "./copy";
 import { renderCss } from "./css";
 import { horizonPlot, isReading, miniPageMatter, planFigures, type FigurePlan } from "./figures";
 import {
@@ -710,21 +711,8 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
     const plateFig = figures.hero
       ? `<figure class="ds-permit-plate" data-permit-plate aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
       : "";
-    const named = [...section.blocks, ...section.aside];
-    const uniqueTitles: string[] = [];
-    for (const b of named) {
-      if (b.title && !uniqueTitles.includes(b.title)) uniqueTitles.push(b.title);
-    }
-    while (uniqueTitles.length < 5) {
-      uniqueTitles.push(`Turn ${uniqueTitles.length + 1}`);
-    }
-    const turns: Array<{ id: string; tag: "user" | "agent" | "tool"; label: string }> = [
-      { id: "T01", tag: "user", label: uniqueTitles[0]! },
-      { id: "T02", tag: "agent", label: uniqueTitles[2] ?? uniqueTitles[1]! },
-      { id: "T03", tag: "tool", label: uniqueTitles[1]! },
-      { id: "T04", tag: "agent", label: uniqueTitles[3]! },
-      { id: "T05", tag: "user", label: uniqueTitles[4]! },
-    ];
+    // Session-of-work beats — never features[i].name as T01–T05 (catalog echo).
+    const turns = helmSessionTurns();
     const currentIdx = turns.findIndex((t) => t.tag === "tool");
     const rail = `<nav class="ds-turn-rail" aria-label="Session turn tape"><ol>${turns
       .map((t, i) => {

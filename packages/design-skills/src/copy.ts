@@ -576,6 +576,27 @@ export function pullQuote(brief: DesignBrief, features: FeatureSpec[]): { quote:
 }
 
 /**
+ * Agent-harness turn tape: five beats that read as one local session of work.
+ *
+ * Never map feature names (Turn tape / Tool permit / Steer pin / …) onto T01–T05 —
+ * that reprints the catalog on the fold. Tags stay user / agent / tool; the tool beat
+ * is the live (is-current) middle turn.
+ */
+export function helmSessionTurns(): Array<{
+  id: string;
+  tag: "user" | "agent" | "tool";
+  label: string;
+}> {
+  return [
+    { id: "T01", tag: "user", label: "You name the finish." },
+    { id: "T02", tag: "agent", label: "The agent proposes a local command." },
+    { id: "T03", tag: "tool", label: "That command waits on Allow or Deny." },
+    { id: "T04", tag: "agent", label: "The agent keeps the same session." },
+    { id: "T05", tag: "user", label: "You can redirect without starting over." },
+  ];
+}
+
+/**
  * Navigation derived from the sections that will actually exist.
  *
  * Deduplicated by label: a page with two capability sections used to render "Capabilities" twice
