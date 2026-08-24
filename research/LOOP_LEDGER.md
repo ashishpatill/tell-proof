@@ -744,6 +744,30 @@ buckets, never names, hosts, or URLs.
 - **Next weakest:** alignment-axes still 7 on consumer-craft / field-herbarium / care-pathway;
   shadow coverage on holdout (`soft-elevation` taste); fold-figure on saas/holdout.
 
+## Loop — no stroke through type (2026-08-18)
+
+- **Goal:** Kill the orange Z on Lattice's 2×2 and the same class of accent rail through SaaS column titles.
+- **Failure named:** `template:no-stroke-through-type`.
+- **Challenger:** `postureGrid` / `pipelineBoard` stroke-draw moved to a header hairline; ordinals
+  carry sequence. Basics gates `posture-grid-no-centroid-stroke`, `pipeline-board-no-title-rail`.
+- **Score:** overall **98.9** (held). Holdout **96.7** (gap 2.2). Corporate-story **98.5**.
+- **Evidence:** `@tell/design-skills` tests **91/91**; typecheck green. Fold PNGs under
+  `/opt/cursor/artifacts/screenshots/` (`lattice-fold-no-z.png`, `pipeline-fold-no-title-rail.png`).
+- **Next weakest:** still consumer/herbarium/care alignment-axes at 7; do not reopen those here.
+
+## Loop — no catalogue pair under fold (2026-08-18)
+
+- **Goal:** Stop the fold showing the same four capabilities twice (instrument + “What X covers” metric row).
+- **Failure named:** `template:no-catalogue-pair-under-fold`.
+- **Challenger:** Drop metrics band on catalog-fold kinds (corporate, SaaS, dashboard, fintech);
+  fill first viewport with the fold (`min-height: min(100vh, 920px)`). Gate
+  `catalog-fold-no-metric-reprint`.
+- **Score:** overall **98.9 → 99.0**. Corporate-story **98.5 → 99.5**. SaaS **99.1 → 98.4**
+  (inverse metrics gone; proof + CTA still inverse). Holdout **96.8** (gap 2.2).
+- **Evidence:** `@tell/design-skills` tests **92/92**; typecheck green. One fold PNG per
+  template under `/opt/cursor/artifacts/screenshots/` (`corporate-fold.png`, `saas-fold.png`).
+- **Next weakest:** consumer/herbarium/care alignment-axes still 7.
+
 ## Loop — lantern-path PATH ATLAS walk (2026-08-18)
 
 - **Goal:** Ember Gate path-plate read as a night walk, not a broken diagram (fat V, haze bar,
@@ -757,4 +781,3 @@ buckets, never names, hosts, or URLs.
   now 1.0 filling the plate; remaining gap is section-coverage / body measure). Fold PNG under
   `/opt/cursor/artifacts/screenshots/ember-gate-fold.png`.
 - **Next weakest:** remaining craft templates whose signature figures still put stroke through type.
-

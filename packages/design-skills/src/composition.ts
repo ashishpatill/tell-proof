@@ -140,8 +140,7 @@ export function planSections(input: CompositionInput): SectionPlan[] {
      * strip is ink-heavy and character-light — then pack shell + index + proof as density peaks.
      */
     plans.push({ id: "hero", kind: "hero", layout: "hero-queue", surface: "paper", columns: split.hero });
-    plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "inverse" });
-    // Quiet sunken valley — titles + drawing only; honest weight contrast before the shell.
+    // Quiet sunken valley after the queue fold — not a metric row reprinting the same priorities.
     plans.push({ id: "specimen", kind: "specimen", layout: "specimen-band", surface: "sunken" });
     plans.push({ id: "app", kind: "app", layout: "app-shell", surface: "paper", columns: "260px 1fr" });
     // Index bonded to the shell — legend for the board above (density peak).
@@ -170,7 +169,6 @@ export function planSections(input: CompositionInput): SectionPlan[] {
    */
   if (siteKind === "fintech-marketing") {
     plans.push({ id: "hero", kind: "hero", layout: "hero-wire", surface: "paper", columns: split.hero });
-    plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: "inverse" });
     plans.push({
       id: "features",
       kind: "features",
@@ -715,9 +713,13 @@ export function planSections(input: CompositionInput): SectionPlan[] {
 
   plans.push({ id: "hero", kind: "hero", layout: heroLayout(siteKind, lean), surface: "paper", columns: split.hero });
 
-  // A metric band immediately after the fold is how premium pages state the stakes without
-  // asking the reader to scroll through the whole argument first.
-  plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: lean === "refined-story" ? "raised" : "inverse" });
+  // Catalog folds (pipeline / posture / queue / wire) already name the capabilities.
+  // A metric row of the same titles under the fold reads as a paired screenshot, not stakes.
+  const foldOwnsCatalog =
+    siteKind === "saas-marketing" || siteKind === "corporate-story";
+  if (!foldOwnsCatalog) {
+    plans.push({ id: "metrics", kind: "metrics", layout: "metric-band", surface: lean === "refined-story" ? "raised" : "inverse" });
+  }
 
   const featureVariants = featureLayouts(featureCount, p0Count, lean);
   featureVariants.forEach((layout, i) => {
