@@ -40,12 +40,14 @@ and **local stdio MCP tools** write automatically on every successful run
 - `/api/diagnose` · `/api/voice` · `/api/redesign` · `/api/restyle`
 - `/api/proof/apply` · `/api/proof/verify` · `/api/proof/matrix`
 - `/api/design` · `/api/design/html` (templates / studio / showcase websites)
-- MCP (local stdio only — not a public host): `tell_diagnose` · `tell_redesign` ·
-  `tell_proof_verify` · `tell_design_from_features`
+- MCP (local stdio only — not a public host): `tell_diagnose` → `raw/episodes/` ·
+  `tell_redesign` → `raw/redesign/` · `tell_proof_verify` → `raw/proof/` ·
+  `tell_design_from_features` → `raw/design/` (same dump Studio `/api/design` writes)
 
 `tell_apply` still returns patch text only (never silent-applies, never invents a sink).
 Missing sibling checkout ⇒ no-op with `trainingSinkStatus().reason` (e.g.
-`tell-design-data_not_found`) — frontend owns install/sync; Tell does not clone a host.
+`tell-design-data_not_found`) — Frontend owns sibling install + harness sync;
+MCP does not clone or install that repo.
 
 After each write Tell debounces **`tell-design-data sync`** (inbox ingest + curated JSONL).
 
