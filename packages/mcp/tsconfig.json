@@ -5,6 +5,7 @@
     "paths": {
       "@tell/core": ["../core/src"],
       "@tell/design-skills": ["../design-skills/src"],
+      "@tell/design-skills/training-data-sink": ["../design-skills/src/training-data-sink.ts"],
       "@tell/redesign": ["../redesign/src"],
       "@tell/schema": ["../schema/src"],
       "@tell/taste": ["../taste/src"]

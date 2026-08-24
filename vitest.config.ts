@@ -12,7 +12,12 @@ export default defineConfig({
       "@tell/schema": path.resolve(__dirname, "packages/schema/src"),
       "@tell/core": path.resolve(__dirname, "packages/core/src"),
       "@tell/redesign": path.resolve(__dirname, "packages/redesign/src"),
+      "@tell/taste": path.resolve(__dirname, "packages/taste/src"),
       "@tell/design-skills": path.resolve(__dirname, "packages/design-skills/src"),
+      "@tell/design-skills/training-data-sink": path.resolve(
+        __dirname,
+        "packages/design-skills/src/training-data-sink.ts",
+      ),
     },
   },
 });
