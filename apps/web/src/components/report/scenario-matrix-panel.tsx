@@ -2,6 +2,7 @@
 
 import { Activity, Loader2, Split } from "lucide-react";
 import type { MatrixProofSummary } from "@/components/report/types";
+import { isBaselineCompareMode } from "@/lib/capture-honesty";
 
 export function ScenarioMatrixPanel({
   state,
@@ -16,6 +17,8 @@ export function ScenarioMatrixPanel({
   disabled: boolean;
   onScan: () => void;
 }) {
+  const isCompare = isBaselineCompareMode(proof?.proofMode);
+
   return (
     <section className="rounded-card border border-border bg-surface p-4">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
@@ -27,7 +30,12 @@ export function ScenarioMatrixPanel({
             Live Playwright cells across route × viewport × theme × interaction
             {proof?.authStorage ? " · auth session loaded" : ""}
             {proof?.authCellsDropped ? ` · ${proof.authCellsDropped} auth skipped` : ""}
-            {proof?.proofMode === "capture-only" ? " · capture-only (no baseline compare)" : ""}.
+            {proof
+              ? isCompare
+                ? " · baseline compare"
+                : " · capture-only (no baseline compare)"
+              : ""}
+            .
           </p>
         </div>
         <button
@@ -44,22 +52,24 @@ export function ScenarioMatrixPanel({
       {proof ? (
         <div className="space-y-3">
           <div className="flex flex-wrap gap-3 font-mono text-meta text-muted">
-            <span>
-              Overall{" "}
-              <span
-                className={
-                  proof.status === "passed"
-                    ? "text-ok"
-                    : proof.status === "failed"
-                      ? "text-drift"
-                      : "text-accent"
-                }
-              >
-                {proof.status}
+            {isCompare ? (
+              <span>
+                Overall{" "}
+                <span
+                  className={
+                    proof.status === "passed"
+                      ? "text-ok"
+                      : proof.status === "failed"
+                        ? "text-drift"
+                        : "text-accent"
+                  }
+                >
+                  {proof.status}
+                </span>
               </span>
-            </span>
+            ) : null}
             <span>{proof.cellCount} cells</span>
-            <span>{proof.matchedCells} matched</span>
+            {isCompare ? <span>{proof.matchedCells} matched</span> : null}
             {proof.skippedCells ? <span>{proof.skippedCells} skipped</span> : null}
           </div>
           <div className="overflow-x-auto">
@@ -68,8 +78,12 @@ export function ScenarioMatrixPanel({
                 <tr className="border-b border-border text-muted">
                   <th className="py-1.5 pr-3 font-medium">Scenario</th>
                   <th className="py-1.5 pr-3 font-medium">Status</th>
-                  <th className="py-1.5 pr-3 font-medium">Δ score</th>
-                  <th className="py-1.5 font-medium">Flags</th>
+                  {isCompare ? (
+                    <>
+                      <th className="py-1.5 pr-3 font-medium">Δ score</th>
+                      <th className="py-1.5 font-medium">Flags</th>
+                    </>
+                  ) : null}
                 </tr>
               </thead>
               <tbody>
@@ -77,12 +91,16 @@ export function ScenarioMatrixPanel({
                   <tr key={cell.scenarioId} className="border-b border-border/60 text-secondary">
                     <td className="py-1.5 pr-3 text-text">{cell.scenarioId}</td>
                     <td className="py-1.5 pr-3">{cell.status}</td>
-                    <td className="py-1.5 pr-3">{cell.scoreDelta}</td>
-                    <td className="py-1.5">
-                      {[cell.focusRegressed ? "focus" : null, cell.structureRegressed ? "structure" : null]
-                        .filter(Boolean)
-                        .join(" · ") || "—"}
-                    </td>
+                    {isCompare ? (
+                      <>
+                        <td className="py-1.5 pr-3">{cell.scoreDelta}</td>
+                        <td className="py-1.5">
+                          {[cell.focusRegressed ? "focus" : null, cell.structureRegressed ? "structure" : null]
+                            .filter(Boolean)
+                            .join(" · ") || "—"}
+                        </td>
+                      </>
+                    ) : null}
                   </tr>
                 ))}
               </tbody>

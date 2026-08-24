@@ -1761,12 +1761,6 @@ body{
     radial-gradient(ellipse 70% 50% at 8% 12%,color-mix(in srgb,var(--c-accent) 4%,transparent),transparent 55%),
     linear-gradient(180deg,var(--c-paper) 0%,var(--c-paper-sunken) 42%,var(--c-paper) 100%);
   background-attachment:fixed;
-/* Soft-brand + client hex: keep atmosphere as stock, not a chromatic flood (accent-coverage ceiling). */
-body[data-mood="soft-brand-accent"]{
-  background-image:
-    radial-gradient(ellipse 90% 55% at 80% -8%,color-mix(in srgb,var(--c-accent) 5%,transparent),transparent 60%),
-    linear-gradient(180deg,var(--c-paper) 0%,var(--c-paper-sunken) 48%,var(--c-paper) 100%);
-}
   color:var(--c-ink);
   font-family:var(--f-body);
   font-size:var(--t-body-size);
@@ -1774,6 +1768,14 @@ body[data-mood="soft-brand-accent"]{
   letter-spacing:var(--t-body-tracking);
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
+}
+/* Nesting body[data-mood] inside body{} silently drops the variant:
+   native CSS nesting compiles it to body body[data-mood=...], which never matches. */
+/* Soft-brand + client hex: keep atmosphere as stock, not a chromatic flood (accent-coverage ceiling). */
+body[data-mood="soft-brand-accent"]{
+  background-image:
+    radial-gradient(ellipse 90% 55% at 80% -8%,color-mix(in srgb,var(--c-accent) 5%,transparent),transparent 60%),
+    linear-gradient(180deg,var(--c-paper) 0%,var(--c-paper-sunken) 48%,var(--c-paper) 100%);
 }
 body::before{
   content:"";

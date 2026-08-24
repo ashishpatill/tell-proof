@@ -75,8 +75,10 @@ Preview HTML must clear this craft floor — routing alone is not enough:
 4. **One dashboard shell** — aside + main in a single `.ds-dash-grid`
 5. **No filler** — pricing lanes and proof lines derive from declared features (never invented Starter/Growth tiers)
 6. **Educational figure** — scrub instrument + `<figcaption>` when site kind is docs-educational
-7. **Product-proof workflow (SaaS)** — `workflow-proof` layout with labeled Sample workflow stages (input → process → draft → review → approve), human gate, HTMX panel swaps
+7. **Product-proof (SaaS)** — a filled feature-evidence board (`data-proof-board`) by default. Use `workflow-proof` (labeled stages, human gate, HTMX panel swaps) only when the brief's own language describes a draft/review/approve product (`hasApprovalWorkflowSignal` on tagline + feature names/descriptions). Never require the Tell-shaped approve stage on a brief that does not mention drafts, review, or approval.
 8. **A11y / mobile** — `:focus-visible`, 44px controls, stacked layout under 800px, reduced-motion safe
+9. **Authored connective tissue** — CTA (`ctaFor` primary/secondary/note + `riskReversal`), FAQ (`questions` title + body), and proof sentences (workflow stage labels + gate copy, or marquee `ds-proof-claim` / `data-proof-board` items) must share vocabulary with the brief. A sentence that would read the same for a different product does not ship. Nav/footer chrome, section eyebrows, and `headline`/`heroLede` are out of this bar this pass.
+   - **Phase 1 path** (`packages/design-skills/src/author.ts`): for ordinary `saas-marketing` + `demos` briefs only, optional Gemini authors those nodes (facts → judgment → validate against brief tokens → fall back to `copy.ts`). Gate is `GEMINI_API_KEY` (same as taste / `tell_voice`). CI / no-key stays on deterministic tables. Does not rewrite headline, heroLede, eyebrows, palette, tokens; does not touch `css.ts` or Method B.
 
 ## Workflow
 

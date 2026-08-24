@@ -78,12 +78,11 @@
 ### 1.4 Art-direct with voice / text
 
 1. “warmer, editorial, less shadow”
-2. `/api/voice` → action items + reconciliation table update
-3. MCP missing `tell_voice` today
+2. `/api/voice` **or** MCP `tell_voice` → action items + reconciliation table update
 
 **Gaps**
 
-- [ ] MCP + CLI parity
+- [x] MCP + CLI parity (`tell_voice` / `tell voice`)
 - [ ] Compound direction → structured action items always schema-valid with deterministic fallback
 
 ### 1.5 Seam / reconcile preview
@@ -147,7 +146,7 @@ Peer lesson: home submit never “naked” — kind maps to default scenario.
 
 **Tell-shaped**
 
-- [ ] `tell_resolve_intent({ text, context? })` → zod:
+- [x] `tell_resolve_intent({ text, fixtureUrl? })` → zod:
 
 ```ts
 ResolvedIntent = {
@@ -165,8 +164,8 @@ ResolvedIntent = {
 }
 ```
 
-- [ ] Shared implementation used by web CaptureBar suggestions, MCP, CLI
-- [ ] Deterministic keyword/heuristic first; optional LLM refine later with fallback
+- [x] Shared implementation used by web CaptureBar suggestions, MCP, CLI
+- [x] Deterministic keyword/heuristic first; optional LLM refine later with fallback
 
 ### 2.2 Push / pull design context
 
@@ -274,9 +273,9 @@ Authority: `tell-template-craft` + `design-research-loop`.
 
 ### Wave C0 — Parity & intent
 
-- [ ] `tell_voice` + CLI voice
-- [ ] `tell_resolve_intent` + CaptureBar suggestions
-- [ ] Persist `reportId` across redesign/apply
+- [x] `tell_voice` + CLI voice
+- [x] `tell_resolve_intent` + CaptureBar suggestions
+- [x] Persist `reportId` across redesign/apply
 
 ### Wave C1 — Run staging
 
@@ -323,6 +322,7 @@ Done when Wave DoD is met and tests stay green.
 ## 7. Status log
 
 ```
-[2026-08-07] Wave C0 partial: tell_voice MCP + CLI; report id on diagnose for redesign chain. Intent resolver still open.
-[2026-08-07] Plan authored. Core loop strong; gaps: voice MCP, intent resolver, run staging, preview edit contract.
+[2026-08-21] Catalog honesty: tell_voice + tell_resolve_intent are registered MCP tools (eleven total); docs no longer claim they are missing.
+[2026-08-07] Wave C0: tell_voice MCP + CLI; report id on diagnose for redesign chain; intent resolver shipped later same day.
+[2026-08-07] Plan authored. Core loop strong; remaining gaps: run staging, preview edit contract.
 ```

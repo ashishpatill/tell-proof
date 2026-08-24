@@ -10,8 +10,39 @@ export * from "./tokens";
 export * from "./css";
 export * from "./sections";
 export * from "./render";
-export { designFromFeatures, resolveTaste } from "./orchestrate";
-export type { DesignFromFeaturesOptions } from "./orchestrate";
+export {
+  designFromFeatures,
+  designFromFeaturesAuthored,
+  resolveTaste,
+} from "./orchestrate";
+export type {
+  DesignFromFeaturesAuthorOptions,
+  DesignFromFeaturesOptions,
+} from "./orchestrate";
+export {
+  GeminiContentAuthor,
+  DeterministicContentAuthor,
+  authorConnectiveTissue,
+  authoredDiffersFromFallback,
+  briefFactTokens,
+  contentContextFromBrief,
+  contradictionReason,
+  createContentAuthor,
+  deterministicAuthored,
+  isConnectiveAuthorEligible,
+  mergeWithFallback,
+  sentenceSharesFactToken,
+} from "./author";
+export type {
+  AuthoredConnectiveTissue,
+  AuthoredCta,
+  AuthoredFaqItem,
+  AuthoredProof,
+  AuthoredWorkflowStage,
+  ContentAuthor,
+  ContentContext,
+  GeminiAuthorConfig,
+} from "./author";
 export {
   DESIGN_TEMPLATES,
   SHOWCASE_BRIEFS,

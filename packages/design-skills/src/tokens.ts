@@ -197,7 +197,7 @@ export function buildTokens(
   brandAccent?: string,
   seed = "",
 ): DesignTokens {
-  const palette = buildPalette(taste.colorMood, brandAccent);
+  const palette = buildPalette(taste.colorMood, brandAccent, seed ? `${seed}|accent` : undefined);
   const pairing = resolvePairing(taste.aestheticLean, taste.typographyWeight, `${seed}|${siteKind}`);
   const displayPx = displaySizeFor(siteKind, taste.aestheticLean, taste.density);
   const bodyPx = bodySizeFor(taste.density, siteKind);

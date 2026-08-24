@@ -9,8 +9,11 @@
   --text: 243 237 228;
   --text-secondary: 212 201 186;
   --text-muted: 184 170 152;
+  --text-on-paper: 24 22 20;
+  --text-on-paper-muted: 61 55 49;
   --accent: 212 113 74;
   --accent-hover: 232 146 111;
+  --accent-press: 184 90 50;
   --ok: 58 99 88;
   --drift: 196 160 53;
   --border: 87 78 69;
