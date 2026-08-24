@@ -222,6 +222,15 @@ export default function StudioPage() {
         businessGoal: "trust",
       };
     }
+    if (/agent.?harness|turn tape|tool permit|steer pin|tiller|coding agent|harness engineer|local session/.test(text)) {
+      next = {
+        ...next,
+        siteKind: "agent-harness",
+        aestheticLean: "system-crafted",
+        density: "information-rich",
+        businessGoal: "trust",
+      };
+    }
     if (/story|editorial|refined|corporate/.test(text)) {
       next = { ...next, aestheticLean: "refined-story", density: "sparse" };
       if (/corporate/.test(text)) next.siteKind = "corporate-story";
@@ -590,4 +599,5 @@ const SURFACE_OPTIONS_FULL_VALUES: SiteKind[] = [
   "press-atelier",
   "lantern-path",
   "care-pathway",
+  "agent-harness",
 ];

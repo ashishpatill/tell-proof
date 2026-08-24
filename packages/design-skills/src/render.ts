@@ -701,6 +701,68 @@ function renderHero(section: SectionSpec, spec: DesignSpec, figures: FigurePlan)
   }
 
   /*
+   * Helm fold — the agent-harness signature.
+   *
+   * Session masthead (LOCAL, never LIVE), compact claim, turn tape (T01–Tn), spanning permit-plate,
+   * sticky steer pin with named finish checks. Not pipeline, queue, care-plate, or workflow-proof.
+   */
+  if (section.layout === "hero-helm") {
+    const plateFig = figures.hero
+      ? `<figure class="ds-permit-plate" data-permit-plate aria-label="${esc(caption)}">${figures.hero}<figcaption class="ds-sr">${esc(caption)}</figcaption></figure>`
+      : "";
+    const named = [...section.blocks, ...section.aside];
+    const uniqueTitles: string[] = [];
+    for (const b of named) {
+      if (b.title && !uniqueTitles.includes(b.title)) uniqueTitles.push(b.title);
+    }
+    while (uniqueTitles.length < 5) {
+      uniqueTitles.push(`Turn ${uniqueTitles.length + 1}`);
+    }
+    const turns: Array<{ id: string; tag: "user" | "agent" | "tool"; label: string }> = [
+      { id: "T01", tag: "user", label: uniqueTitles[0]! },
+      { id: "T02", tag: "agent", label: uniqueTitles[2] ?? uniqueTitles[1]! },
+      { id: "T03", tag: "tool", label: uniqueTitles[1]! },
+      { id: "T04", tag: "agent", label: uniqueTitles[3]! },
+      { id: "T05", tag: "user", label: uniqueTitles[4]! },
+    ];
+    const currentIdx = turns.findIndex((t) => t.tag === "tool");
+    const rail = `<nav class="ds-turn-rail" aria-label="Session turn tape"><ol>${turns
+      .map((t, i) => {
+        const live = i === currentIdx;
+        return `<li class="ds-turn-beat${live ? " is-current" : ""}" data-turn-tag="${t.tag}">
+          <span class="ds-turn-id">${t.id}</span>
+          <span class="ds-turn-tag">${t.tag}</span>
+          <span class="ds-turn-label">${esc(t.label)}</span>
+        </li>`;
+      })
+      .join("")}</ol></nav>`;
+    const mast = `<header class="ds-helm-masthead" aria-label="Session masthead">
+      <span class="ds-helm-session">SESSION</span>
+      <span class="ds-helm-product">${esc(spec.brief.productName)}</span>
+      <span class="ds-helm-locale">LOCAL</span>
+    </header>`;
+    const checks = ["typecheck", "tests", "no public host"];
+    const pin = `<aside class="ds-steer-pin" data-steer-pin aria-label="Steer pin">
+      <p class="ds-steer-kicker">FINISH WHEN</p>
+      <ul class="ds-steer-checks">${checks
+        .map((c) => `<li><span class="ds-steer-mark" aria-hidden="true"></span><span>${esc(c)}</span></li>`)
+        .join("")}</ul>
+    </aside>`;
+    return `<section id="top" class="ds-section ds-hero ds-hero-helm" data-surface="${section.surface}" data-section="${esc(section.id)}">
+      ${mast}
+      <div class="ds-helm-claim"><div class="ds-wrap-wide">${copy}</div></div>
+      <div class="ds-helm-fold">
+        <div class="ds-helm-main">
+          ${rail}
+          <div class="ds-bleed ds-helm-field">${plateFig}</div>
+        </div>
+        ${pin}
+      </div>
+      <div class="ds-bleed-rule" aria-hidden="true"></div>
+    </section>`;
+  }
+
+  /*
    * Pipeline fold — SaaS-marketing signature.
    * Sticky stage rail + split fold: claim left, pipeline board right (fills the viewport).
    * Never a tall left-only claim band with the board shoved below the fold.
@@ -1065,7 +1127,8 @@ function renderFeatures(section: SectionSpec, spec: DesignSpec, figures: FigureP
         spec.brief.siteKind === "corporate-story" ||
         spec.brief.siteKind === "fintech-marketing" ||
         spec.brief.siteKind === "saas-marketing" ||
-        spec.brief.siteKind === "dashboard-webapp";
+        spec.brief.siteKind === "dashboard-webapp" ||
+        spec.brief.siteKind === "agent-harness";
       return `<ol class="ds-index">${section.blocks
         .map(
           (b, i) => `<li class="ds-index-row" data-feature="${esc(b.title)}">
@@ -1283,7 +1346,8 @@ function renderChapters(section: SectionSpec, figures: FigurePlan, spec?: Design
     spec?.brief.siteKind === "signal-observatory" ||
     spec?.brief.siteKind === "editorial-foundry" ||
     spec?.brief.siteKind === "field-guide" ||
-    spec?.brief.siteKind === "care-pathway";
+    spec?.brief.siteKind === "care-pathway" ||
+    spec?.brief.siteKind === "agent-harness";
   return `<section class="ds-section ds-story" data-surface="${section.surface}" data-section="${esc(section.id)}" data-editorial-chapters id="${esc(section.id)}">
     <div class="ds-wrap-wide">
       ${secMeta("Chapters", `${count} beats · editorial order`)}
@@ -2306,6 +2370,7 @@ function renderSection(
     case "hero-press":
     case "hero-path":
     case "hero-rounds":
+    case "hero-helm":
     case "hero-pipeline":
     case "hero-queue":
     case "hero-diligence":

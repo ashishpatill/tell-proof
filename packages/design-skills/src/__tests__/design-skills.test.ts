@@ -488,7 +488,7 @@ describe("measured craft floors", () => {
 describe("research-backed offerings + implementation basics", () => {
   it("keeps a depth-first offering catalog with measured gap kinds filled", () => {
     const templates = listTemplates();
-    expect(templates).toHaveLength(16);
+    expect(templates).toHaveLength(17);
     expect(templates.map((t) => t.key).sort()).toEqual([
       "archive",
       "clinic",
@@ -499,6 +499,7 @@ describe("research-backed offerings + implementation basics", () => {
       "educational",
       "fintech",
       "foundry",
+      "harness",
       "herbarium",
       "lantern",
       "loom",
@@ -535,6 +536,8 @@ describe("research-backed offerings + implementation basics", () => {
     expect(lantern.siteKind).toBe("lantern-path");
     const clinic = templates.find((t) => t.key === "clinic")!;
     expect(clinic.siteKind).toBe("care-pathway");
+    const harness = templates.find((t) => t.key === "harness")!;
+    expect(harness.siteKind).toBe("agent-harness");
   });
 
   it("gives fintech an inverse-heavy plan distinct from SaaS conversion", () => {
@@ -869,6 +872,72 @@ describe("research-backed offerings + implementation basics", () => {
     const report = assertBasics(spec, previewHtml);
     const failed = report.findings.filter((f) => !f.ok).map((f) => f.id);
     expect(failed, failed.join(", ")).toEqual([]);
+  });
+
+  it("gives agent harness a turn rail + permit plate + steer pin distinct from SaaS pipeline and care pathway", () => {
+    const { spec, previewHtml } = designFromFeatures(SHOWCASE_BRIEFS.harness!);
+    expect(spec.brief.siteKind).toBe("agent-harness");
+    expect(spec.sections.some((s) => s.kind === "pricing")).toBe(false);
+    expect(spec.sections.some((s) => s.kind === "metrics")).toBe(false);
+    expect(spec.sections.some((s) => s.layout === "hero-helm")).toBe(true);
+    expect(spec.sections.some((s) => s.layout === "workflow-proof")).toBe(false);
+    const inverse = spec.sections.filter((s) => s.surface === "inverse");
+    expect(inverse.length).toBe(0);
+    expect(previewHtml).toContain('data-sitekind="agent-harness"');
+    expect(previewHtml).toContain("ds-hero-helm");
+    expect(previewHtml).toContain("ds-helm-masthead");
+    expect(previewHtml).toContain("ds-turn-rail");
+    expect(previewHtml).toContain("T01");
+    expect(previewHtml).toContain('data-turn-tag="user"');
+    expect(previewHtml).toContain('data-turn-tag="agent"');
+    expect(previewHtml).toContain('data-turn-tag="tool"');
+    expect(previewHtml).toContain("is-current");
+    expect(previewHtml).toContain('data-figure="permit-plate"');
+    expect(previewHtml).toContain("data-permit-plate");
+    expect(previewHtml).toContain('data-dense="ink"');
+    expect(previewHtml).toContain("ALLOW ONCE");
+    expect(previewHtml).toContain("DENY");
+    expect(previewHtml).toContain("data-steer-pin");
+    expect(previewHtml).toContain("FINISH WHEN");
+    expect(previewHtml).toContain("typecheck");
+    expect(previewHtml).toContain("tests");
+    expect(previewHtml).toContain("no public host");
+    expect(previewHtml).toContain("LOCAL");
+    expect(previewHtml).toContain("Start a local session");
+    expect(previewHtml).toContain(">Session</");
+    expect(previewHtml).toContain(">Permit</");
+    expect(previewHtml).toContain(">Finish</");
+    expect(previewHtml).not.toMatch(/ds-helm-locale">LIVE</);
+    expect(previewHtml).not.toContain('data-figure="pipeline-board"');
+    expect(previewHtml).not.toContain('data-figure="queue-console"');
+    expect(previewHtml).not.toMatch(/<section[^>]*\bdata-workflow-proof\b/);
+    expect(previewHtml).not.toContain("What Tiller covers");
+    expect(previewHtml).not.toMatch(/class="[^"]*ds-dash-grid/);
+    expect(previewHtml).not.toMatch(/class="[^"]*ds-pipeline-board/);
+    expect(previewHtml).not.toMatch(/class="[^"]*ds-queue-console/);
+    expect(previewHtml).not.toMatch(/tiller\.(app|io|dev|com)/i);
+    expect(previewHtml).not.toMatch(/waitlist/i);
+    expect(previewHtml).not.toContain('data-research-domain="sport:');
+    const svgSizes = [...previewHtml.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)].map((m) => Number(m[1]));
+    expect(svgSizes.every((n) => n >= 11)).toBe(true);
+    const report = assertBasics(spec, previewHtml);
+    const failed = report.findings.filter((f) => !f.ok).map((f) => f.id);
+    expect(failed, failed.join(", ")).toEqual([]);
+  });
+
+  it("keeps Tiller-like briefs on agent-harness and never routes them to saas-marketing", () => {
+    const unlocked = {
+      ...SHOWCASE_BRIEFS.harness!,
+      lockSiteKind: false,
+      siteKind: "saas-marketing" as const,
+    };
+    const analysis = analyzeFeatures(unlocked);
+    expect(analysis.siteKind).toBe("agent-harness");
+    expect(analysis.hasApprovalWorkflow).toBe(false);
+    const locked = designFromFeatures(SHOWCASE_BRIEFS.harness!);
+    expect(locked.spec.brief.siteKind).toBe("agent-harness");
+    expect(locked.previewHtml).toMatch(/<body[^>]*data-sitekind="agent-harness"/);
+    expect(locked.previewHtml).not.toMatch(/<body[^>]*data-sitekind="saas-marketing"/);
   });
 
   it("exposes reusable densify helpers for cell-grid figures", async () => {

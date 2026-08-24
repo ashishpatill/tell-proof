@@ -177,6 +177,13 @@ export function ctaFor(
         note: "Walkthroughs ship with stage maps and handoff beads — not a demo theatre.",
       };
     }
+    if (siteKind === "agent-harness") {
+      return {
+        primary: "Start a local session",
+        secondary: "Read the permit",
+        note: "Runs on your machine — no invented host, no waitlist.",
+      };
+    }
     return GOAL_CTA[goal];
   })();
   // Agency brief "one CTA" wins when set — every page repeats the same verb.
@@ -220,6 +227,8 @@ export function eyebrows(brief: DesignBrief): Record<string, string> {
                                   ? "Why the path holds"
                                 : brief.siteKind === "care-pathway"
                                   ? "Why the chart holds"
+                                  : brief.siteKind === "agent-harness"
+                                    ? "Why the finish holds"
                                   : "Why the argument holds";
   return {
     metrics: "What changes",
@@ -248,6 +257,8 @@ export function eyebrows(brief: DesignBrief): Record<string, string> {
                           ? "The ember walk"
                         : brief.siteKind === "care-pathway"
                           ? "The rounds"
+                          : brief.siteKind === "agent-harness"
+                            ? "The turns"
                           : brief.siteKind === "editorial-foundry"
                             ? "The marginalia"
                             : brief.siteKind === "research-dossier"
@@ -551,6 +562,10 @@ export function pullQuote(brief: DesignBrief, features: FeatureSpec[]): { quote:
       quote: `${brief.productName} holds the chart because every handoff is on the pathway spine — not a SaaS deal board with stage chips.`,
       attribution: `Care plate · ${n} rounds · chart close`,
     },
+    "agent-harness": {
+      quote: `${brief.productName} names its finish before the first tool runs — turn tape, tool permit, and steer pin on one local session.`,
+      attribution: `Permit plate · ${n} turns · local session`,
+    },
   };
   return (
     byKind[brief.siteKind] ?? {
@@ -570,6 +585,13 @@ export function navFor(
   sections: Array<{ kind: string; id: string }>,
   siteKind?: string,
 ): Array<{ label: string; href: string }> {
+  if (siteKind === "agent-harness") {
+    return [
+      { label: "Session", href: "#top" },
+      { label: "Permit", href: "#features" },
+      { label: "Finish", href: "#cta" },
+    ];
+  }
   const proofLabel =
     siteKind === "saas-marketing"
       ? "Why demos convert"

@@ -112,7 +112,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     check(
       "asymmetric-or-statement-fold",
       (() => {
-        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam|ds-hero-folio|ds-hero-chrono|ds-hero-register|ds-hero-loom|ds-hero-voucher|ds-hero-press|ds-hero-drawloom|ds-hero-glassine/.test(html)) return true;
+        if (/ds-hero-spanning|ds-hero-overfigure|ds-hero-claimband|ds-hero-stackfold|ds-hero-seam|ds-hero-folio|ds-hero-chrono|ds-hero-register|ds-hero-loom|ds-hero-voucher|ds-hero-press|ds-hero-drawloom|ds-hero-glassine|ds-hero-rounds|ds-hero-helm|ds-hero-path|ds-hero-pipeline|ds-hero-queue|ds-hero-diligence|ds-hero-mechanism|ds-hero-wire/.test(html)) return true;
         const splits = html.match(/grid-template-columns:[^";]+/g) ?? [];
         return splits.some((s) => {
           const fr = Array.from(s.matchAll(/(\d+(?:\.\d+)?)fr/g)).map((m) => Number(m[1]));
@@ -245,7 +245,13 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
     ),
     check(
       "no-footer-top-spam",
-      !/<footer[\s\S]*?<a href="#top">/.test(html),
+      (() => {
+        const footer =
+          html.match(/<footer\b[^>]*data-section="footer"[^>]*>[\s\S]*?<\/footer>/)?.[0] ??
+          html.match(/<footer class="ds-footer" data-surface=[\s\S]*?<\/footer>/)?.[0] ??
+          "";
+        return footer.length > 0 && !/<a href="#top">/.test(footer);
+      })(),
       "Footer links must target real sections (or be plain text) — never mass-link to #top. Brand wordmark → #top is fine.",
     ),
     check(
@@ -654,6 +660,63 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Care-pathway offerings use rounds fold + care rail + care plate + rounds ladder + Chart — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
+      "kind-harness",
+      spec.brief.siteKind !== "agent-harness"
+        || (
+          !spec.sections.some((s) => s.kind === "pricing")
+          && !spec.sections.some((s) => s.kind === "metrics")
+          && /ds-hero-helm/.test(html)
+          && /ds-helm-masthead/.test(html)
+          && /ds-turn-rail/.test(html)
+          && /data-figure="permit-plate"/.test(html)
+          && /data-permit-plate/.test(html)
+          && /data-steer-pin/.test(html)
+          && /ds-helm-locale">LOCAL</.test(html)
+          && !/<section[^>]*\bdata-workflow-proof\b/.test(html)
+          && !/data-figure="pipeline-board"/.test(html)
+          && !/data-figure="queue-console"/.test(html)
+          && !/class="[^"]*ds-dash-grid/.test(html)
+          && /ds-bleed-rule/.test(html)
+          && spec.sections.filter((s) => s.surface === "inverse").length === 0
+        ),
+      "Agent-harness offerings use helm fold + turn rail + permit plate + steer pin + LOCAL — no pricing, no metrics theatre, no workflow-proof, no pipeline/queue, zero inverse bands.",
+    ),
+    check(
+      "helm-has-permit-plate",
+      spec.brief.siteKind !== "agent-harness"
+        || (/data-figure="permit-plate"/.test(html) && /data-permit-plate/.test(html) && /ALLOW ONCE/.test(html) && /DENY/.test(html)),
+      "Helm fold carries exactly one pending permit plate with Allow once / Deny — never approve-stage vocabulary.",
+    ),
+    check(
+      "helm-has-turn-rail",
+      spec.brief.siteKind !== "agent-harness"
+        || (/ds-turn-rail/.test(html) && /T01/.test(html) && /data-turn-tag="tool"/.test(html) && /is-current/.test(html)),
+      "Helm fold carries a turn tape (T01–Tn) with user/agent/tool tags and the current tool beat expanded.",
+    ),
+    check(
+      "helm-has-steer-pin",
+      spec.brief.siteKind !== "agent-harness"
+        || (/data-steer-pin/.test(html) && /FINISH WHEN/.test(html) && /typecheck/.test(html) && /tests/.test(html) && /no public host/.test(html)),
+      "Helm fold keeps a sticky steer pin in the first viewport with the three finish checks.",
+    ),
+    check(
+      "helm-not-workflow-proof",
+      spec.brief.siteKind !== "agent-harness" || !/<section[^>]*\bdata-workflow-proof\b/.test(html),
+      "Agent-harness never inherits workflow-proof — a tool permit is not a document approve.",
+    ),
+    check(
+      "helm-not-pipeline-or-queue",
+      spec.brief.siteKind !== "agent-harness"
+        || (
+          !/data-figure="pipeline-board"/.test(html)
+          && !/data-figure="queue-console"/.test(html)
+          && !/class="[^"]*ds-pipeline-board/.test(html)
+          && !/class="[^"]*ds-queue-console/.test(html)
+          && !/class="[^"]*ds-dash-grid/.test(html)
+        ),
+      "Agent-harness fold is never a pipeline board, queue console, or ds-dash-grid.",
+    ),
+    check(
       "fig-mono-floor",
       !Array.from(html.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)).some((m) => Number(m[1]) > 0 && Number(m[1]) < 11),
       "SVG figure labels stay at ≥11px — smaller mono invents a type-step the probe counts but the eye cannot use.",
@@ -662,7 +725,8 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "craft-figure-dense",
       (!/data-figure="press-sheet"/.test(html) || /data-figure="press-sheet"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="press-sheet"/.test(html))
         && (!/data-figure="path-plate"/.test(html) || /data-figure="path-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="path-plate"/.test(html))
-        && (!/data-figure="care-plate"/.test(html) || /data-figure="care-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="care-plate"/.test(html)),
+          && (!/data-figure="care-plate"/.test(html) || /data-figure="care-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="care-plate"/.test(html))
+          && (!/data-figure="permit-plate"/.test(html) || /data-figure="permit-plate"[^>]*data-dense="ink"|data-dense="ink"[^>]*data-figure="permit-plate"/.test(html)),
       "Cell-grid craft figures must carry drawn page matter (data-dense=ink) — empty stroked voids fail the eye.",
     ),
     check(
@@ -693,6 +757,15 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
             /ds-care-claim/.test(html) &&
             /ds-hero-rounds \.ds-actions\{display:none\}/.test(html) &&
             /\[data-sitekind="care-pathway"\] \.ds-care-claim\{[^}]*background:var\(--c-paper\)/.test(html)
+          );
+        }
+        if (kind === "agent-harness") {
+          return (
+            /ds-helm-field/.test(html) &&
+            /ds-helm-claim/.test(html) &&
+            /ds-hero-helm/.test(html) &&
+            /data-steer-pin/.test(html) &&
+            /ds-turn-rail/.test(html)
           );
         }
         if (kind === "archive-index") {
@@ -785,6 +858,7 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
           "press-atelier",
           "lantern-path",
           "care-pathway",
+          "agent-harness",
         ].includes(kind);
         if (craftProof) return !hasBoard;
         if (kind === "saas-marketing") {

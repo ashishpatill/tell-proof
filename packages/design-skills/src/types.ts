@@ -149,6 +149,14 @@ export const SiteKind = z.enum([
    * Not SaaS deal pipelines, not night-walk lantern chapters, not essay+aside clones.
    */
   "care-pathway",
+  /**
+   * Agent harness / local coding-agent session craft — turn tape, permit-plate owning the fold,
+   * sticky steer pin with named finish checks. Calibrated to system-crafted information-rich
+   * corridors (foldFigure high, figureArea ~0.4–0.7, invertedShare ~0, quiet-moderate display,
+   * dense plate matter, paper-led LOCAL session — never LIVE host theatre).
+   * Not SaaS pipeline boards, not queue consoles, not workflow-proof approve stamps, not care plates.
+   */
+  "agent-harness",
 ]);
 export type SiteKind = z.infer<typeof SiteKind>;
 
@@ -492,6 +500,11 @@ export const LayoutVariant = z.enum([
    * Care-pathway signature; not lantern path atlas, press forme, or SaaS pipeline.
    */
   "hero-rounds",
+  /**
+   * Helm fold — turn tape + spanning permit-plate + sticky steer pin.
+   * Agent-harness signature; not pipeline board, queue console, care plate, or workflow-proof.
+   */
+  "hero-helm",
   /**
    * Rounds ladder — vertical stage beads + encounter panels — care-pathway craft.
    * Not ember zigzag, gather signatures, range beads, or essay+aside.
