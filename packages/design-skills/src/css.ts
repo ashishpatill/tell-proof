@@ -467,7 +467,7 @@ function motionSignatureCss(siteKind: DesignSpec["brief"]["siteKind"]): string {
   [data-sitekind="lantern-path"] .ds-reveal .ds-stagger > *{animation-name:ds-lantern-in}
   [data-sitekind="lantern-path"] .ds-reveal:not(.is-in){transform:translateY(1.6rem) scale(0.985)}
   [data-sitekind="lantern-path"] .ds-way-mark.is-active{transform:translateX(4px)}
-  [data-sitekind="lantern-path"] .ds-path-near .ds-sil{transition:opacity 480ms var(--m-ease-out),transform 480ms var(--m-ease-out)}
+  [data-sitekind="lantern-path"] .ds-path-near .ds-sil{transition:opacity 480ms var(--m-ease-out)}
 }
 `,
     "care-pathway": `
@@ -1337,7 +1337,10 @@ body[data-sitekind="lantern-path"]{
   margin-top:0;position:relative;z-index:1;
   padding-left:0;overflow:hidden;
 }
-[data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(72vh,760px)}
+[data-sitekind="lantern-path"] .ds-path-field.ds-bleed{
+  width:100vw;margin-left:calc(50% - 50vw);
+}
+[data-sitekind="lantern-path"] .ds-path-plate .ds-fig{min-height:min(56vh,520px)}
 [data-sitekind="lantern-path"] .ds-hero-path{min-height:min(100vh,900px)}
 /* Sticky nav is in-flow — do NOT add --nav-h again or the path plate starves below the fold. */
 [data-sitekind="lantern-path"] .ds-path-masthead{
@@ -1345,10 +1348,25 @@ body[data-sitekind="lantern-path"]{
   padding-bottom:var(--s-xs,0.35rem);
   color:var(--c-ink-tertiary);
 }
-/* Opaque way-rail — fixed marks must not ghost page content (layout-audit ghosting). */
+/* Compact chapter key on the walk band — ink on the night plate, not a paper slab. */
 [data-sitekind="lantern-path"] .ds-way-rail{
-  background:var(--c-paper);
-  border-right:1px solid color-mix(in srgb,var(--c-border) 70%,transparent);
+  position:absolute;left:0;top:32%;bottom:auto;height:auto;
+  width:var(--way-rail);z-index:3;
+  background:color-mix(in srgb,var(--c-ink) 88%, var(--c-paper) 12%);
+  border-right:1px solid color-mix(in srgb,var(--c-paper) 18%,transparent);
+  border-bottom:1px solid color-mix(in srgb,var(--c-paper) 18%,transparent);
+  padding:0.35rem 0 0.5rem;
+}
+[data-sitekind="lantern-path"] .ds-path-field .ds-way-mark{color:color-mix(in srgb,var(--c-paper) 72%,transparent)}
+[data-sitekind="lantern-path"] .ds-path-field .ds-way-mark.is-active,
+[data-sitekind="lantern-path"] .ds-path-field .ds-way-mark:hover,
+[data-sitekind="lantern-path"] .ds-path-field .ds-way-mark:focus-visible{color:var(--c-accent)}
+[data-sitekind="lantern-path"] .ds-way-rail ol{
+  justify-content:flex-start;gap:0.12rem;
+  padding:0;
+}
+[data-sitekind="lantern-path"] .ds-way-num{
+  writing-mode:horizontal-tb;transform:none;letter-spacing:0.1em;
 }
 /* Figure split left column is narrow — nested spine rail starves title/lede (~16ch). */
 [data-sitekind="lantern-path"] .ds-split > div .ds-section-head-spine{
@@ -1383,26 +1401,26 @@ body[data-sitekind="lantern-path"]{
 [data-sitekind="lantern-path"] .ds-proof-cell.is-lead,
 [data-sitekind="lantern-path"] .ds-proof-cell:first-child{box-shadow:inset 0 1px 0 var(--c-accent)}
 [data-sitekind="lantern-path"] .ds-path-near{
-  position:absolute;left:var(--way-rail);right:0;bottom:0;height:min(18vh,148px);
-  pointer-events:none;z-index:2;overflow:hidden;
+  position:absolute;left:0;right:0;bottom:0;height:64px;
+  pointer-events:none;z-index:1;overflow:hidden;background:transparent;
 }
 [data-sitekind="lantern-path"] .ds-sil{
   position:absolute;bottom:0;display:block;
-  background:color-mix(in srgb,var(--c-ink) 82%, transparent);
-  opacity:0.55;transition:opacity 0.6s ease, transform 0.8s ease;
+  background:color-mix(in srgb,var(--c-ink) 70%, transparent);
+  opacity:0.35;transition:opacity 0.6s ease;
   max-height:100%;
 }
 [data-sitekind="lantern-path"] .ds-sil-gate{
-  left:4%;width:64px;height:96px;
+  left:6%;width:36px;height:48px;
   clip-path:polygon(8% 100%,8% 42%,28% 18%,50% 8%,72% 18%,92% 42%,92% 100%,72% 100%,72% 55%,28% 55%,28% 100%);
 }
 [data-sitekind="lantern-path"] .ds-sil-pine{
-  left:38%;width:80px;height:112px;
+  left:42%;width:44px;height:56px;
   clip-path:polygon(50% 0,62% 28%,58% 28%,72% 52%,64% 52%,80% 78%,70% 78%,90% 100%,10% 100%,30% 78%,20% 78%,36% 52%,28% 52%,42% 28%,38% 28%);
 }
 [data-sitekind="lantern-path"] .ds-sil-stone{
-  right:8%;width:108px;height:32px;border-radius:50% 50% 40% 40% / 70% 70% 30% 30%;
-  opacity:0.4;
+  right:10%;width:72px;height:18px;border-radius:50% 50% 40% 40% / 70% 70% 30% 30%;
+  opacity:0.28;
 }
 @media (prefers-reduced-motion:reduce){
   [data-sitekind="lantern-path"] .ds-sil{transition:none}
@@ -3230,12 +3248,17 @@ ${surfaceRules()}
 .ds-path-claim .ds-hero-copy{max-width:30rem;gap:0.45rem}
 .ds-path-field{margin-top:0;position:relative}
 .ds-path-plate{margin:0;width:100%;display:block}
-.ds-path-plate .ds-fig{width:100%;min-height:min(80vh,840px);display:block}
+.ds-path-plate .ds-fig{width:100%;min-height:min(56vh,520px);display:block}
 .ds-way-rail{
   position:fixed;left:0;top:calc(var(--nav-h,4.5rem) + var(--s-sm));bottom:var(--s-sm);
   width:var(--way-rail,3.5rem);z-index:var(--z-nav);pointer-events:none;
   display:flex;align-items:stretch;justify-content:center;padding:var(--s-xs) 0;
 }
+.ds-path-field > .ds-way-rail{
+  position:absolute;left:0;top:32%;bottom:auto;height:auto;z-index:3;
+  padding:0.35rem 0 0.55rem;align-items:flex-start;
+}
+.ds-path-field > .ds-way-rail ol{flex:none;justify-content:flex-start;gap:0.12rem}
 .ds-way-rail ol{
   list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;
   justify-content:space-between;align-items:center;pointer-events:auto;width:100%;

@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-18T05:14:25.199Z",
-  "overall": 0.9895,
+  "generatedAt": "2026-08-24T08:15:00.000Z",
+  "overall": 0.989,
   "holdout": {
     "id": "holdout-commerce",
     "total": 0.9675,
-    "gap": 0.022
+    "gap": 0.0215
   },
   "pages": [
     {
@@ -230,7 +230,7 @@
             0.96
           ],
           "score": 0.656,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -296,7 +296,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -307,7 +307,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -428,7 +428,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -721,7 +721,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -897,7 +897,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -1190,7 +1190,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -1256,7 +1256,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -1267,7 +1267,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -1388,7 +1388,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -1681,7 +1681,7 @@
             0.96
           ],
           "score": 0.965,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -1835,7 +1835,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -2128,7 +2128,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -2194,7 +2194,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -2205,7 +2205,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -2326,7 +2326,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -2619,7 +2619,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -2685,7 +2685,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -2696,7 +2696,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -2817,7 +2817,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -3110,7 +3110,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -3176,7 +3176,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -3187,7 +3187,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -3308,7 +3308,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -3601,7 +3601,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -3667,7 +3667,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -3678,7 +3678,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -3799,7 +3799,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -4092,7 +4092,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -4158,7 +4158,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -4169,7 +4169,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -4290,7 +4290,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -4583,7 +4583,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -4649,7 +4649,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -4660,7 +4660,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -4781,7 +4781,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -5074,7 +5074,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -5140,7 +5140,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -5151,7 +5151,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -5272,7 +5272,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -5565,7 +5565,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -5631,7 +5631,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -5642,7 +5642,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -5763,7 +5763,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -6056,7 +6056,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -6122,7 +6122,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -6133,7 +6133,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -6254,7 +6254,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -6547,7 +6547,7 @@
             0.96
           ],
           "score": 0.691,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -6613,7 +6613,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -6624,7 +6624,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -6745,7 +6745,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -6817,7 +6817,7 @@
     },
     {
       "id": "lantern-path",
-      "total": 0.9961,
+      "total": 0.9875,
       "holdout": false,
       "rows": [
         {
@@ -6977,7 +6977,7 @@
         {
           "id": "grid-conformity",
           "label": "Spacing grid conformity",
-          "value": 0.779,
+          "value": 0.768,
           "band": [
             0.611,
             1
@@ -7010,7 +7010,7 @@
         {
           "id": "scroll-length",
           "label": "Document height (vh)",
-          "value": 9.74,
+          "value": 9.49,
           "band": [
             5.99,
             12.6
@@ -7021,7 +7021,7 @@
         {
           "id": "band-variation",
           "label": "Section weight variation",
-          "value": 0.642,
+          "value": 0.733,
           "band": [
             0.422,
             0.896
@@ -7032,13 +7032,13 @@
         {
           "id": "band-ink-variation",
           "label": "Section coverage variation",
-          "value": 0.702,
+          "value": 0.35,
           "band": [
             0.447,
             0.96
           ],
-          "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "score": 0.621,
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -7076,7 +7076,7 @@
         {
           "id": "motion-restraint",
           "label": "Transition coverage",
-          "value": 0.057,
+          "value": 0.054,
           "band": [
             0.021,
             0.154
@@ -7104,7 +7104,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -7115,7 +7115,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -7153,7 +7153,7 @@
         {
           "id": "fold-density",
           "label": "Above-fold characters",
-          "value": 424,
+          "value": 399,
           "band": [
             242,
             1139
@@ -7186,7 +7186,7 @@
         {
           "id": "width-tiers",
           "label": "Content width tiers",
-          "value": 8,
+          "value": 7,
           "band": [
             5,
             10
@@ -7197,7 +7197,7 @@
         {
           "id": "alignment-axes",
           "label": "Alignment axes",
-          "value": 6,
+          "value": 5,
           "band": [
             3,
             6
@@ -7236,7 +7236,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -7252,7 +7252,7 @@
         {
           "id": "figure-weight",
           "label": "Drawn matter (share of page)",
-          "value": 0.3318,
+          "value": 0.2888,
           "band": [
             0.196,
             0.778
@@ -7296,7 +7296,7 @@
         {
           "id": "rule-structure",
           "label": "Rules per screen",
-          "value": 2.67,
+          "value": 2.95,
           "band": [
             0.42,
             4.33
@@ -7529,7 +7529,7 @@
             0.96
           ],
           "score": 1,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -7595,7 +7595,7 @@
             40
           ],
           "score": 1,
-          "why": "A page can sit in the restraint band and still feel lifeless — missable choreography needs reveal nodes in the DOM."
+          "why": "A page can sit in the restraint band and still feel lifeless \u2014 missable choreography needs reveal nodes in the DOM."
         },
         {
           "id": "motion-choreography",
@@ -7606,7 +7606,7 @@
             40
           ],
           "score": 1,
-          "why": "Hero entrance, staggered children, or a scroll chapter — at least one intentional beat beyond hover."
+          "why": "Hero entrance, staggered children, or a scroll chapter \u2014 at least one intentional beat beyond hover."
         },
         {
           "id": "token-system",
@@ -7727,7 +7727,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -8020,7 +8020,7 @@
             0.96
           ],
           "score": 0.996,
-          "why": "How much of each screen is painted should change as you scroll — a quiet band next to a dense one."
+          "why": "How much of each screen is painted should change as you scroll \u2014 a quiet band next to a dense one."
         },
         {
           "id": "radius-system",
@@ -8196,7 +8196,7 @@
             7
           ],
           "score": 1,
-          "why": "Split, grid, list, table, media — a page that makes one shape is a page nobody composed."
+          "why": "Split, grid, list, table, media \u2014 a page that makes one shape is a page nobody composed."
         },
         {
           "id": "shape-repetition",
@@ -8275,7 +8275,7 @@
         3,
         6
       ],
-      "mean": 0.882,
+      "mean": 5.0,
       "scoredOn": 17,
       "values": [
         {
@@ -8336,7 +8336,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 6
+          "value": 5
         },
         {
           "page": "care-pathway",
@@ -8355,7 +8355,7 @@
         0.42,
         4.33
       ],
-      "mean": 0.92,
+      "mean": 4.1906,
       "scoredOn": 17,
       "values": [
         {
@@ -8416,7 +8416,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 2.67
+          "value": 2.95
         },
         {
           "page": "care-pathway",
@@ -8435,7 +8435,7 @@
         0,
         0.014
       ],
-      "mean": 0.934,
+      "mean": 0.0066,
       "scoredOn": 17,
       "values": [
         {
@@ -8515,7 +8515,7 @@
         5,
         10
       ],
-      "mean": 0.941,
+      "mean": 8.0,
       "scoredOn": 17,
       "values": [
         {
@@ -8576,7 +8576,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 8
+          "value": 7
         },
         {
           "page": "care-pathway",
@@ -8595,7 +8595,7 @@
         0.337,
         1
       ],
-      "mean": 0.951,
+      "mean": 0.4509,
       "scoredOn": 17,
       "values": [
         {
@@ -8675,7 +8675,7 @@
         0.447,
         0.96
       ],
-      "mean": 0.959,
+      "mean": 0.5426,
       "scoredOn": 17,
       "values": [
         {
@@ -8736,7 +8736,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 0.702
+          "value": 0.35
         },
         {
           "page": "care-pathway",
@@ -8755,7 +8755,7 @@
         0.196,
         0.778
       ],
-      "mean": 0.971,
+      "mean": 0.2269,
       "scoredOn": 17,
       "values": [
         {
@@ -8816,7 +8816,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 0.3318
+          "value": 0.2888
         },
         {
           "page": "care-pathway",
@@ -8835,7 +8835,7 @@
         44.4,
         82.5
       ],
-      "mean": 0.983,
+      "mean": 66.4941,
       "scoredOn": 17,
       "values": [
         {
@@ -8915,7 +8915,7 @@
         11,
         157
       ],
-      "mean": 0.985,
+      "mean": 11.0,
       "scoredOn": 17,
       "values": [
         {
@@ -8995,7 +8995,7 @@
         0.1,
         1.375
       ],
-      "mean": 0.986,
+      "mean": 0.2359,
       "scoredOn": 17,
       "values": [
         {
@@ -9075,7 +9075,7 @@
         36,
         120
       ],
-      "mean": 0.989,
+      "mean": 71.4706,
       "scoredOn": 17,
       "values": [
         {
@@ -9155,7 +9155,7 @@
         0,
         0.5
       ],
-      "mean": 0.991,
+      "mean": 0.2785,
       "scoredOn": 17,
       "values": [
         {
@@ -9235,7 +9235,7 @@
         3.16,
         6.11
       ],
-      "mean": 0.996,
+      "mean": 3.4124,
       "scoredOn": 17,
       "values": [
         {
@@ -9315,7 +9315,7 @@
         3.833,
         8.8
       ],
-      "mean": 1,
+      "mean": 4.6857,
       "scoredOn": 17,
       "values": [
         {
@@ -9395,7 +9395,7 @@
         6,
         14
       ],
-      "mean": 1,
+      "mean": 12.2941,
       "scoredOn": 17,
       "values": [
         {
@@ -9475,7 +9475,7 @@
         0.975,
         1.15
       ],
-      "mean": 1,
+      "mean": 1.0576,
       "scoredOn": 17,
       "values": [
         {
@@ -9555,7 +9555,7 @@
         12.8,
         32.9
       ],
-      "mean": 1,
+      "mean": 17.7294,
       "scoredOn": 17,
       "values": [
         {
@@ -9635,7 +9635,7 @@
         1.3,
         1.5
       ],
-      "mean": 1,
+      "mean": 1.48,
       "scoredOn": 17,
       "values": [
         {
@@ -9715,7 +9715,7 @@
         3,
         8
       ],
-      "mean": 1,
+      "mean": 4.3529,
       "scoredOn": 17,
       "values": [
         {
@@ -9795,7 +9795,7 @@
         4,
         26
       ],
-      "mean": 1,
+      "mean": 5.9412,
       "scoredOn": 17,
       "values": [
         {
@@ -9875,7 +9875,7 @@
         4,
         28
       ],
-      "mean": 1,
+      "mean": 7.4118,
       "scoredOn": 17,
       "values": [
         {
@@ -9955,7 +9955,7 @@
         0,
         5
       ],
-      "mean": 1,
+      "mean": 2.1765,
       "scoredOn": 17,
       "values": [
         {
@@ -10035,7 +10035,7 @@
         0,
         2.5
       ],
-      "mean": 1,
+      "mean": 0.0,
       "scoredOn": 17,
       "values": [
         {
@@ -10115,7 +10115,7 @@
         8.74,
         21
       ],
-      "mean": 1,
+      "mean": 15.2006,
       "scoredOn": 17,
       "values": [
         {
@@ -10195,7 +10195,7 @@
         0.611,
         1
       ],
-      "mean": 1,
+      "mean": 0.8142,
       "scoredOn": 17,
       "values": [
         {
@@ -10256,7 +10256,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 0.779
+          "value": 0.768
         },
         {
           "page": "care-pathway",
@@ -10275,7 +10275,7 @@
         0.285,
         0.854
       ],
-      "mean": 1,
+      "mean": 0.7629,
       "scoredOn": 17,
       "values": [
         {
@@ -10355,7 +10355,7 @@
         0,
         1
       ],
-      "mean": 1,
+      "mean": 0.9035,
       "scoredOn": 17,
       "values": [
         {
@@ -10435,7 +10435,7 @@
         5.99,
         12.6
       ],
-      "mean": 1,
+      "mean": 9.4006,
       "scoredOn": 17,
       "values": [
         {
@@ -10496,7 +10496,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 9.74
+          "value": 9.49
         },
         {
           "page": "care-pathway",
@@ -10515,7 +10515,7 @@
         0.422,
         0.896
       ],
-      "mean": 1,
+      "mean": 0.6231,
       "scoredOn": 17,
       "values": [
         {
@@ -10576,7 +10576,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 0.642
+          "value": 0.733
         },
         {
           "page": "care-pathway",
@@ -10595,7 +10595,7 @@
         4,
         20
       ],
-      "mean": 1,
+      "mean": 5.4118,
       "scoredOn": 17,
       "values": [
         {
@@ -10675,7 +10675,7 @@
         0.947,
         1
       ],
-      "mean": 1,
+      "mean": 0.9972,
       "scoredOn": 17,
       "values": [
         {
@@ -10755,7 +10755,7 @@
         0.021,
         0.154
       ],
-      "mean": 1,
+      "mean": 0.0536,
       "scoredOn": 16,
       "values": [
         {
@@ -10816,7 +10816,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 0.057
+          "value": 0.054
         },
         {
           "page": "care-pathway",
@@ -10835,7 +10835,7 @@
         150,
         300
       ],
-      "mean": 1,
+      "mean": 180.0,
       "scoredOn": 16,
       "values": [
         {
@@ -10915,7 +10915,7 @@
         2,
         40
       ],
-      "mean": 1,
+      "mean": 4.3571,
       "scoredOn": 14,
       "values": [
         {
@@ -10995,7 +10995,7 @@
         3,
         40
       ],
-      "mean": 1,
+      "mean": 13.3571,
       "scoredOn": 14,
       "values": [
         {
@@ -11075,7 +11075,7 @@
         87,
         1983
       ],
-      "mean": 1,
+      "mean": 135.9412,
       "scoredOn": 17,
       "values": [
         {
@@ -11155,7 +11155,7 @@
         1,
         55
       ],
-      "mean": 1,
+      "mean": 8.4118,
       "scoredOn": 17,
       "values": [
         {
@@ -11235,7 +11235,7 @@
         0,
         7
       ],
-      "mean": 1,
+      "mean": 2.4706,
       "scoredOn": 17,
       "values": [
         {
@@ -11315,7 +11315,7 @@
         242,
         1139
       ],
-      "mean": 1,
+      "mean": 543.8824,
       "scoredOn": 17,
       "values": [
         {
@@ -11376,7 +11376,7 @@
         },
         {
           "page": "lantern-path",
-          "value": 424
+          "value": 399
         },
         {
           "page": "care-pathway",
@@ -11395,7 +11395,7 @@
         14,
         115
       ],
-      "mean": 1,
+      "mean": 30.0,
       "scoredOn": 17,
       "values": [
         {
@@ -11475,7 +11475,7 @@
         0,
         28
       ],
-      "mean": 1,
+      "mean": 14.7647,
       "scoredOn": 17,
       "values": [
         {
@@ -11555,7 +11555,7 @@
         0,
         100
       ],
-      "mean": 1,
+      "mean": 5.6941,
       "scoredOn": 17,
       "values": [
         {
@@ -11635,7 +11635,7 @@
         2,
         7
       ],
-      "mean": 1,
+      "mean": 4.4118,
       "scoredOn": 17,
       "values": [
         {
@@ -11715,7 +11715,7 @@
         0.001,
         0.469
       ],
-      "mean": 1,
+      "mean": 0.0724,
       "scoredOn": 17,
       "values": [
         {

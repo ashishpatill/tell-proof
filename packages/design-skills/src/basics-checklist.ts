@@ -616,6 +616,22 @@ export function assertBasics(spec: DesignSpec, html: string): BasicsReport {
       "Lantern-path offerings use path fold + waypoint rail + path plate + night trail + Ember — no pricing, no metrics theatre, zero inverse bands.",
     ),
     check(
+      "path-plate-walk-not-scribble",
+      (() => {
+        if (spec.brief.siteKind !== "lantern-path") return true;
+        const plate = html.match(/<svg[^>]*data-figure="path-plate"[^>]*>[\s\S]*?<\/svg>/)?.[0] ?? "";
+        return (
+          plate.length > 0
+          && !/stroke-width="10"/.test(plate)
+          && /CH I/.test(plate)
+          && /Threshold/.test(plate)
+          && /PATH ATLAS/.test(plate)
+          && /class="ds-draw"/.test(plate)
+        );
+      })(),
+      "Path-plate is a left-to-right night walk with captions off the stroke — never a 10px V through type.",
+    ),
+    check(
       "kind-clinic",
       spec.brief.siteKind !== "care-pathway"
         || (

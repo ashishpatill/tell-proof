@@ -8,6 +8,7 @@ import { renderCss } from "../css";
 import { ACCENT_HUE_VARIANTS, buildPalette, pickAccentHue } from "../palette";
 import { buildTypeLadder } from "../scale";
 import { DesignBrief, SkillNodeId, type ColorMood } from "../types";
+import { pathPlate } from "../figures";
 
 /** Approval-language SaaS brief — still earns the interactive workflow-proof stage. */
 function ledgerkeepBrief() {
@@ -811,6 +812,20 @@ describe("research-backed offerings + implementation basics", () => {
     expect(previewHtml).not.toContain('class="ds-scrub-rail"');
     const svgSizes = [...previewHtml.matchAll(/font-size="(\d+(?:\.\d+)?)"/g)].map((m) => Number(m[1]));
     expect(svgSizes.every((n) => n >= 11)).toBe(true);
+    expect(previewHtml).toMatch(/class="ds-bleed ds-path-field"[^>]*>[\s\S]*?class="ds-way-rail"/);
+    const plate = previewHtml.match(/<svg[^>]*data-figure="path-plate"[^>]*>[\s\S]*?<\/svg>/)?.[0] ?? "";
+    expect(plate).toContain("CH I");
+    expect(plate).toContain("Threshold");
+    expect(plate).toContain('class="ds-draw"');
+    expect(plate).not.toContain('stroke-width="10"');
+    const drawn = pathPlate("Ember Gate", [], "ember-gate-atlas", "band");
+    expect(drawn).toContain("PATH ATLAS");
+    expect(drawn).toContain("CH I");
+    expect(drawn).toContain("Threshold");
+    expect(drawn).toContain('class="ds-draw"');
+    expect(drawn).not.toContain('stroke-width="10"');
+    const basics = assertBasics(spec, previewHtml);
+    expect(basics.findings.filter((f) => !f.ok).map((f) => f.id)).not.toContain("path-plate-walk-not-scribble");
   });
 
   it("gives care pathway a stage rail + care plate + rounds ladder distinct from lantern and SaaS pipelines", () => {
