@@ -46,8 +46,9 @@ and **local stdio MCP tools** write automatically on every successful run
 
 `tell_apply` still returns patch text only (never silent-applies, never invents a sink).
 Missing sibling checkout ⇒ no-op with `trainingSinkStatus().reason` (e.g.
-`tell-design-data_not_found`) — Frontend owns sibling install + harness sync;
-MCP does not clone or install that repo.
+`tell-design-data_not_found`) — Frontend owns sibling install + harness CLI;
+MCP does not clone or install that repo. Writes go through the shared sink, so
+an already-installed sibling may still receive the same debounced `sync` as Studio.
 
 After each write Tell debounces **`tell-design-data sync`** (inbox ingest + curated JSONL).
 
