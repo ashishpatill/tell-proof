@@ -37,6 +37,10 @@ Web-only today: `/api/setup/*`, share links (see `docs/11`).
 3. `tell_diagnose` without URL/report falls back to `fixtures/reports/tell-report.json`
 4. Tool names must match `MCP_TOOL_NAMES` (vitest drift guard)
 5. MCP and web API share the same engine contracts
+6. When sibling `tell-design-data` exists, `tell_diagnose` / `tell_redesign` /
+   `tell_proof_verify` / `tell_design_from_features` write raw episodes via the
+   same sink as `/api/design` (`@tell/design-skills/training-data-sink`). Missing
+   sink ⇒ no-op. Still eleven tools; no public MCP host.
 
 ## One-click / install
 

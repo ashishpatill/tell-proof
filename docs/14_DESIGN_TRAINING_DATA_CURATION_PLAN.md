@@ -22,7 +22,7 @@
 |---|---|
 | Literature survey + this plan | Convert / watch / reward / SFT·DPO export CLI |
 | Product loop (diagnose → redesign → proof) | Raw episodes + curated JSONL store |
-| Thin **local-only** sink (`training-data-sink.ts`) writing into the sibling repo | Schema for curated rows + anonymisation |
+| Thin **local-only** sink (`packages/design-skills` → `training-data-sink`; Studio + MCP) writing into the sibling repo | Schema for curated rows + anonymisation |
 | Nothing committed as training JSONL | All local data under `training-data/` |
 
 **Do not** commit training JSONL anywhere in Tell.  
@@ -33,12 +33,22 @@
 ## 1. How auto collection works (developer machine)
 
 **Built into tell-proof (local/dev):** when this repo is checked out next to Tell as
-`../tell-design-data` (or `TELL_DESIGN_DATA_REPO` is set), these routes write
-automatically on every successful run:
+`../tell-design-data` (or `TELL_DESIGN_DATA_REPO` is set), these **Studio routes**
+and **local stdio MCP tools** write automatically on every successful run
+(same writer: `@tell/design-skills/training-data-sink`):
 
 - `/api/diagnose` · `/api/voice` · `/api/redesign` · `/api/restyle`
 - `/api/proof/apply` · `/api/proof/verify` · `/api/proof/matrix`
 - `/api/design` · `/api/design/html` (templates / studio / showcase websites)
+- MCP (local stdio only — not a public host): `tell_diagnose` → `raw/episodes/` ·
+  `tell_redesign` → `raw/redesign/` · `tell_proof_verify` → `raw/proof/` ·
+  `tell_design_from_features` → `raw/design/` (same dump Studio `/api/design` writes)
+
+`tell_apply` still returns patch text only (never silent-applies, never invents a sink).
+Missing sibling checkout ⇒ no-op with `trainingSinkStatus().reason` (e.g.
+`tell-design-data_not_found`) — Frontend owns sibling install + harness CLI;
+MCP does not clone or install that repo. Writes go through the shared sink, so
+an already-installed sibling may still receive the same debounced `sync` as Studio.
 
 After each write Tell debounces **`tell-design-data sync`** (inbox ingest + curated JSONL).
 

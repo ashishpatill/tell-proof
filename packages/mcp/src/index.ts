@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -7,10 +6,7 @@ import { z } from "zod";
 import {
   captureUrl,
   captureScenarioMatrix,
-  diagnoseCapture,
   liveScenarioPlan,
-  verifyProofPatch,
-  revertProofPatch,
 } from "@tell/core";
 import {
   CapturePayload,
@@ -20,12 +16,18 @@ import {
   resolveIntent,
 } from "@tell/schema";
 import { OfflineRedesignGenerator, type SourceFile } from "@tell/redesign";
-import { classifyWithTaste, parseDirection, parseDirectionPlan, parseDirectionWithGemini } from "@tell/taste";
-import { DesignBrief, designFromFeaturesAuthored } from "@tell/design-skills";
-import type { Finding, TasteVerdict } from "@tell/schema";
+import { parseDirectionPlan, parseDirectionWithGemini } from "@tell/taste";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { REGISTERED_MCP_TOOLS } from "./registered-tools";
+import {
+  handleDesignFromFeatures,
+  handleDiagnose,
+  handleProofRevert,
+  handleProofVerify,
+  handleRedesign,
+  rememberReport,
+} from "./tool-handlers";
 
 if (REGISTERED_MCP_TOOLS.join("\0") !== MCP_TOOL_NAMES.join("\0")) {
   throw new Error("MCP registered tools drifted from @tell/schema MCP_TOOL_NAMES");
@@ -40,16 +42,10 @@ const reportById = new Map<string, TellReport>();
 let lastReport: TellReport | undefined;
 let lastProposal: Awaited<ReturnType<OfflineRedesignGenerator["propose"]>> | undefined;
 
-function rememberReport(report: TellReport): TellReport {
-  const withId = TellReport.parse({ ...report, id: report.id ?? randomUUID() });
-  reportById.set(withId.id!, withId);
+function trackReport(report: TellReport): TellReport {
+  const withId = rememberReport(report, reportById);
   lastReport = withId;
   return withId;
-}
-
-function resolveReport(reportId?: string): TellReport | undefined {
-  if (reportId) return reportById.get(reportId) ?? lastReport;
-  return lastReport;
 }
 
 server.tool(
@@ -64,47 +60,32 @@ server.tool(
 
 server.tool(
   "tell_diagnose",
-  "Diagnose genericness tells and consistency drift from a URL or committed report artifact. Returns a TellReport with id for redesign/apply chaining.",
+  "Diagnose genericness tells and consistency drift from a URL or committed report artifact. Returns a TellReport with id for redesign/apply chaining. When a sibling tell-design-data checkout is present, writes a raw diagnose episode (same sink as /api/diagnose).",
   { url: z.string().url().optional(), reportPath: z.string().optional() },
   async ({ url, reportPath }) => {
-    if (reportPath) {
-      const raw = await readFile(reportPath, "utf8");
-      return asJson(rememberReport(TellReport.parse(JSON.parse(raw))));
-    }
-    if (url) {
-      const capture = await captureUrl(url);
-      const base = diagnoseCapture(capture);
-      const verdicts = await classifyWithTaste(base.findings, base.fingerprint, {
-        apiKey: process.env.GEMINI_API_KEY,
-      });
-      return asJson(
-        rememberReport(
-          TellReport.parse({ ...base, verdicts, score: scoreOf(verdicts, base.findings) }),
-        ),
-      );
-    }
-    const artifact = process.env.TELL_REPORT_ARTIFACT ?? "fixtures/reports/tell-report.json";
-    const raw = await readFile(artifact, "utf8");
-    return asJson(rememberReport(TellReport.parse(JSON.parse(raw))));
+    const report = await handleDiagnose({ url, reportPath }, reportById);
+    lastReport = report;
+    return asJson(report);
   },
 );
 
 server.tool(
   "tell_redesign",
-  "Draft a redesign proposal for a finding or whole report. Returns patch text only; never applies it.",
+  "Draft a redesign proposal for a finding or whole report. Returns patch text only; never applies it. When a sibling tell-design-data checkout is present, writes a raw redesign episode (same sink as /api/redesign).",
   {
     direction: z.string(),
     findingId: z.string().optional(),
     reportId: z.string().optional(),
   },
   async ({ direction, findingId, reportId }) => {
-    let report = resolveReport(reportId);
-    if (!report) {
-      const artifact = process.env.TELL_REPORT_ARTIFACT ?? "fixtures/reports/tell-report.json";
-      report = rememberReport(TellReport.parse(JSON.parse(await readFile(artifact, "utf8"))));
-    }
-    const generator = new OfflineRedesignGenerator();
-    lastProposal = await generator.propose(report, parseDirection(direction), findingId);
+    lastProposal = await handleRedesign(
+      { direction, findingId, reportId },
+      {
+        reportById,
+        lastReport,
+        remember: trackReport,
+      },
+    );
     return asJson(lastProposal);
   },
 );
@@ -202,7 +183,7 @@ server.tool(
 
 server.tool(
   "tell_proof_verify",
-  "Apply a candidate patch in the project workspace, recapture the live URL, and return an independent pass/review/fail verdict with before/after scores. Failed attempts auto-revert when revertOnFail is true (default). Requires a reachable dev server at url.",
+  "Apply a candidate patch in the project workspace, recapture the live URL, and return an independent pass/review/fail verdict with before/after scores. Failed attempts auto-revert when revertOnFail is true (default). Requires a reachable dev server at url. When a sibling tell-design-data checkout is present, writes a raw proof episode (same sink as /api/proof/verify).",
   {
     url: z.string().url(),
     patch: z.string().min(1),
@@ -211,13 +192,7 @@ server.tool(
     revertOnFail: z.boolean().optional(),
   },
   async ({ url, patch, projectRoot, waitMs, revertOnFail }) => {
-    const result = await verifyProofPatch({
-      url,
-      patch,
-      projectRoot: projectRoot ?? process.cwd(),
-      waitMs,
-      revertOnFail,
-    });
+    const result = await handleProofVerify({ url, patch, projectRoot, waitMs, revertOnFail });
     return asJson(result);
   },
 );
@@ -227,19 +202,13 @@ server.tool(
   "Revert the last tell_proof_verify patch in the project workspace using the saved marker patch.",
   { projectRoot: z.string().optional(), patch: z.string().optional() },
   async ({ projectRoot, patch }) => {
-    const reverted = await revertProofPatch(projectRoot ?? process.cwd(), patch);
-    return asJson({
-      reverted,
-      instruction: reverted
-        ? "Proof patch reverted. Recapture the URL if you need a fresh baseline."
-        : "No proof patch marker found to revert.",
-    });
+    return asJson(await handleProofRevert({ projectRoot, patch }));
   },
 );
 
 server.tool(
   "tell_design_from_features",
-  "Run the premium-content-custom-web skill graph: analyze features, route sub-skills, build tokens/sections, and return a DesignSpec plus preview HTML. For ordinary saas-marketing/demos briefs, authors CTA/FAQ/proof via Gemini when GEMINI_API_KEY is set; otherwise deterministic copy tables (safe without a key).",
+  "Run the premium-content-custom-web skill graph: analyze features, route sub-skills, build tokens/sections, and return a DesignSpec plus preview HTML. For ordinary saas-marketing/demos briefs, authors CTA/FAQ/proof via Gemini when GEMINI_API_KEY is set; otherwise deterministic copy tables (safe without a key). When a sibling tell-design-data checkout is present, writes a raw design episode (same sink and shape as /api/design).",
   {
     productName: z.string().min(1),
     tagline: z.string().optional(),
@@ -270,27 +239,7 @@ server.tool(
     includePreviewHtml: z.boolean().optional(),
   },
   async (input) => {
-    const brief = DesignBrief.parse({
-      productName: input.productName,
-      tagline: input.tagline ?? "",
-      audience: input.audience ?? "B2B buyers",
-      businessGoal: input.businessGoal ?? "demos",
-      siteKind: input.siteKind ?? "saas-marketing",
-      lockSiteKind: input.lockSiteKind ?? true,
-      features: input.features.map((f, i) => ({
-        id: f.id ?? `f-${i}`,
-        name: f.name,
-        description: f.description ?? "",
-        priority: f.priority ?? "p1",
-      })),
-      taste: input.taste,
-    });
-    const apiKey = process.env.GEMINI_API_KEY?.trim();
-    const result = await designFromFeaturesAuthored(brief, { apiKey });
-    if (input.includePreviewHtml === false) {
-      return asJson({ spec: result.spec });
-    }
-    return asJson(result);
+    return asJson(await handleDesignFromFeatures(input));
   },
 );
 
@@ -372,16 +321,6 @@ async function collectSources(root: string): Promise<SourceFile[]> {
 }
 
 await server.connect(new StdioServerTransport());
-
-function scoreOf(verdicts: TasteVerdict[], findings: Finding[]) {
-  return {
-    total: findings.length,
-    generic: verdicts.filter((v) => v.verdict === "generic").length,
-    drift: verdicts.filter((v) => v.verdict === "drift").length,
-    intentional: verdicts.filter((v) => v.verdict === "intentional").length,
-    uncertain: verdicts.filter((v) => v.verdict === "uncertain").length,
-  };
-}
 
 function asJson(value: unknown) {
   return {

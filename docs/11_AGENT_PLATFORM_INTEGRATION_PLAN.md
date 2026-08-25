@@ -60,10 +60,12 @@ This plan turns peer learnings into a **Tell-shaped** platform layer:
 | `tell_capture_matrix` | Route × viewport × theme × interaction |
 | `tell_proof_verify` | Report prove: apply patch, recapture, pass/review/fail |
 | `tell_proof_revert` | Revert last proof patch marker |
-| `tell_design_from_features` | Studio author: brief → deterministic design spec + HTML |
+| `tell_design_from_features` | Studio author: brief → deterministic design spec + HTML; raw design episode → sibling tell-design-data when present |
 | `tell_voice` | Voice/text art-direction → action items (parity with `/api/voice`) |
 | `tell_install_info` | Install snippets + deeplink shape for Connect Agent |
 | `tell_resolve_intent` | Free text → scenario defaults (deterministic) |
+
+Local training sink (not extra MCP tools): `tell_diagnose`, `tell_redesign`, `tell_proof_verify`, and `tell_design_from_features` reuse the same writer as `/api/design*` when `../tell-design-data` (or `TELL_DESIGN_DATA_REPO`) exists. Still eleven tools; no public MCP host.
 
 Web-only today (MCP gap): `/api/setup/*`, share links, health.
 

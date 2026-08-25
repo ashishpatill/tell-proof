@@ -29,6 +29,9 @@
       ],
       "@tell/design-skills": [
         "../../packages/design-skills/src"
+      ],
+      "@tell/design-skills/training-data-sink": [
+        "../../packages/design-skills/src/training-data-sink.ts"
       ]
     },
     "allowJs": true,

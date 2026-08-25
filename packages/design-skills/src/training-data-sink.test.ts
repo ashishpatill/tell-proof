@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -119,6 +120,19 @@ describe("training-data-sink", () => {
     expect(result!.path).toContain(`${path.sep}raw${path.sep}design${path.sep}`);
     const inbox = await readdir(path.join(repo, "training-data", "inbox"));
     expect(inbox.some((f) => f.startsWith("design_"))).toBe(true);
+  });
+
+  it("writes redesign events under raw/redesign, not raw/episodes", async () => {
+    const repo = await seedRepo();
+    const result = await writeTrainingEvent(
+      "redesign",
+      { directionText: "warmer", proposal: { id: "p1" } },
+      { via: "test" },
+    );
+    expect(result).not.toBeNull();
+    expect(result!.path).toContain(`${path.sep}raw${path.sep}redesign${path.sep}`);
+    const episodesDir = path.join(repo, "training-data", "raw", "episodes");
+    expect(existsSync(episodesDir) ? await readdir(episodesDir) : []).toEqual([]);
   });
 
   it("stays off on Vercel by default", async () => {
