@@ -14,10 +14,13 @@ Do not brainlessly re-shoot the same nav strip and call it proof.
 |---|---|
 | **Eye — showcase** | Preview shows sticky nav + truncated type; empty right gutter; ghosted labels |
 | **Eye — template** | Best craft moment (figure / inverse / claim) not visible in posted shots |
+| **Eye — measured contrast** | `pnpm eye:shell` red, or chrome text looks "fine" only in a vision caption (vision ≠ WCAG) |
 | **Critique** | Matrix or target brief score regresses |
 | **Basics** | `assertBasics` red |
 
 **Pass bar for showcase shots:** the frame must include a **primary craft beat** (hero claim *with* figure start, or product plate, or inverse proof) — not chrome alone.
+
+**Pass bar for shell/chrome:** run `pnpm eye:shell` (Playwright samples computed colors). Do not ship sidebar/rail changes on agent vision alone - captions miss ghost contrast (`chrome:rail-ghost-contrast`).
 
 ## Loop (one cycle)
 
@@ -37,6 +40,7 @@ Do not brainlessly re-shoot the same nav strip and call it proof.
 - `template:label-under-claim` — absolute overfigure under type
 - `template:sitekind-css-dead` — siteKind rules trapped in wrong lean branch
 - `template:skill-metadata-only` — skills listed in routedSkills/hints but not hard-gated; require `assertSkillWiring` + RESEARCH_GATE.md every agency 2-build
+- `chrome:rail-ghost-contrast` — paper sidebar using dark-theme light text; require `pnpm eye:shell`
 
 ## Showcase presentation rules
 
