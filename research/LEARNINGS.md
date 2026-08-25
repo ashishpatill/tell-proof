@@ -919,3 +919,16 @@ Ship with `ship-loop`: analyze → fix → semantic commits (no attribution) →
   `input[type=url]`. Poster from ~8s (report findings + captured/reconciled), not t=2 home.
 - **Do not:** Treat the nested figure as the fold if the signature is a split claim | instrument.
 
+## 2026-08-25 — `chrome:rail-ghost-contrast`
+
+- **Failure:** Product sidebar (`.tell-rail`) is a light `--surface-paper` panel. Labels used
+  dark-theme cream `--text` (paper-on-dark). Home / Showcase / Studio were nearly invisible.
+  `#64` added `--text-on-paper` but painted with `rgb(var(--text-on-paper))`, which Next CSS
+  minify can drop, so cream leaked again. The measured gate `pnpm eye:shell` never landed on
+  master, so the regression shipped in README stills.
+- **Fix:** Scope hex `--ink-on-paper` / `--ink-on-paper-muted` on `.tell-rail`. Restore
+  `scripts/eye-shell-contrast.ts` (`pnpm eye:shell`, floor 4.5:1). Dogfood + recursive-improve
+  require the probe - vision captions miss this.
+- **Do not:** Put dark-theme light text on a light chrome surface. Do not ship shell changes
+  without `pnpm eye:shell`. Do not rely on `rgb(var(--text-on-paper))` for rail labels.
+

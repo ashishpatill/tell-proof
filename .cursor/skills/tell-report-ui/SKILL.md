@@ -45,11 +45,7 @@ Follow `docs/01_DESIGN_SYSTEM.md`:
 
 ## DoD
 
-<<<<<<< HEAD
 - Ashish journey works: home composer → capture → finding → seam → voice → draft fix
-=======
-- Ashish journey works: capture → finding → seam → voice → draft fix
->>>>>>> 62555a2 (docs: rename product persona from Priya to Ashish)
 - Keyboard and a11y floor from design system §9
 - Tell UI does not trigger its own generic tells
 - Showcase / Studio / Kinetic remain rail destinations

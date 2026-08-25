@@ -11,6 +11,11 @@
   --text-muted: 184 170 152;
   --text-on-paper: 24 22 20;
   --text-on-paper-muted: 61 55 49;
+  /* Hex ink for light panels. Do not paint rail labels with rgb(var(--text-on-paper)) —
+     Next/lightningcss can rewrite that to invalid rgba(var(--text-on-paper), 1) so cream
+     --text leaks onto paper (chrome:rail-ghost-contrast). */
+  --ink-on-paper: #181614;
+  --ink-on-paper-muted: #3d3731;
   --accent: 212 113 74;
   --accent-hover: 232 146 111;
   --accent-press: 184 90 50;
