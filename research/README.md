@@ -3,6 +3,8 @@
 Evidence for the design engine. Everything here exists so that visual decisions can be argued with
 measurements instead of taste claims.
 
+Product stills (one fold per offering, no duplicate reel-under-fold) live in the root [`README.md`](../README.md) Specimens section.
+
 ## What is committed
 
 | Path | Contents |
