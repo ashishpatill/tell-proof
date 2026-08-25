@@ -8,7 +8,8 @@
  * - tell_redesign → "redesign" → raw/redesign/
  * - tell_proof_verify → "proof" → raw/proof/
  *
- * MCP does not install or sync the sibling tell-design-data repo (Frontend owns that).
+ * MCP does not clone or install the sibling tell-design-data repo (Frontend owns that).
+ * Writes reuse the shared sink, including optional harness debounce when the sibling CLI is already installed.
  * Missing sibling ⇒ same honest no-op as the web helper.
  */
 import { randomUUID } from "node:crypto";
@@ -126,6 +127,7 @@ export async function handleDesignFromFeatures(
 export async function handleDiagnose(
   args: { url?: string; reportPath?: string },
   reportById: Map<string, TellReport>,
+  opts: { awaitSink?: boolean } = {},
 ): Promise<TellReport> {
   let report: TellReport;
   let live = false;
@@ -152,16 +154,17 @@ export async function handleDiagnose(
     report = rememberReport(TellReport.parse(JSON.parse(raw)), reportById);
   }
 
-  recordTrainingEvent(
-    "diagnose",
-    { report },
-    {
-      via: "mcp.tell_diagnose",
-      live,
-      requestedUrl: requestedUrl || report.capture?.url || "",
-      capturedUrl: report.capture?.url || "",
-    },
-  );
+  const diagnoseMeta = {
+    via: "mcp.tell_diagnose",
+    live,
+    requestedUrl: requestedUrl || report.capture?.url || "",
+    capturedUrl: report.capture?.url || "",
+  };
+  if (opts.awaitSink) {
+    await writeTrainingEvent("diagnose", { report }, diagnoseMeta);
+  } else {
+    recordTrainingEvent("diagnose", { report }, diagnoseMeta);
+  }
   return report;
 }
 
@@ -173,6 +176,7 @@ export async function handleRedesign(
     lastReport?: TellReport;
     remember: (r: TellReport) => TellReport;
   },
+  opts: { awaitSink?: boolean } = {},
 ): Promise<Awaited<ReturnType<OfflineRedesignGenerator["propose"]>>> {
   let report =
     (args.reportId ? ctx.reportById.get(args.reportId) : undefined) ?? ctx.lastReport;
@@ -185,20 +189,22 @@ export async function handleRedesign(
   const generator = new OfflineRedesignGenerator();
   const proposal = await generator.propose(report, direction, args.findingId);
 
-  recordTrainingEvent(
-    "redesign",
-    {
-      directionText,
-      findingId: args.findingId ?? null,
-      direction,
-      directionPlan: null,
-      dna: null,
-      proposal,
-      patchSource: "offline",
-      reportUrl: report.capture?.url ?? "",
-    },
-    { via: "mcp.tell_redesign" },
-  );
+  const redesignMeta = { via: "mcp.tell_redesign" };
+  const redesignPayload = {
+    directionText,
+    findingId: args.findingId ?? null,
+    direction,
+    directionPlan: null,
+    dna: null,
+    proposal,
+    patchSource: "offline",
+    reportUrl: report.capture?.url ?? "",
+  };
+  if (opts.awaitSink) {
+    await writeTrainingEvent("redesign", redesignPayload, redesignMeta);
+  } else {
+    recordTrainingEvent("redesign", redesignPayload, redesignMeta);
+  }
   return proposal;
 }
 
