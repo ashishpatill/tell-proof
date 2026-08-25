@@ -1,11 +1,14 @@
 /**
- * Capture /showcase + top template craft beats for README + agent walkthrough.
+ * Capture /showcase + one fold still per specimen for README.
  *
- * - Showcase routes: real Tell Specimens UI (featured cinema + filmstrip).
- * - Template folds: full-bleed HTML from designFromFeatures at 1440×900 (no chrome).
- * - Writes display-sized WebP (hero 1100w, beats 720w).
+ * One still per offering — do not also capture a reel still of the same fold
+ * (GitHub shows the reel's first frame, which duplicated every template).
  *
- * Requires `@tell/web` on :3000 for showcase frames.
+ * - Showcase routes: live Tell Specimens UI (featured cinema + filmstrip).
+ * - Sport: live /crease and /baseline.
+ * - Engine templates: full-bleed HTML from designFromFeatures at 1440×900.
+ *
+ * Requires `@tell/web` on :3000 for showcase + sport frames.
  *
  * Usage: pnpm capture:readme-showcase
  */
@@ -27,98 +30,30 @@ function webpWidthFor(name: string): number {
   return 720;
 }
 
-/** Newest / most distinctive offerings featured on the README — plus fixed first-five marketing kinds. */
-const TEMPLATES: Array<{
-  key: string;
-  beats: Array<{ id: string; sel: string; yPad?: number }>;
-}> = [
-  {
-    key: "archive",
-    beats: [
-      { id: "fold", sel: ".ds-register-ledger, .ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 },
-      { id: "entry", sel: ".ds-entry, [data-section='story']", yPad: 36 },
-      { id: "registry", sel: ".ds-closing, .ds-closing-colophon, #cta", yPad: 24 },
-    ],
-  },
-  {
-    key: "observatory",
-    beats: [
-      { id: "fold", sel: ".ds-chrono-lattice, .ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 },
-      { id: "chrono", sel: ".ds-chrono, [data-section='story']", yPad: 36 },
-      { id: "calibration", sel: ".ds-closing, .ds-cal-strip, #cta", yPad: 24 },
-    ],
-  },
-  {
-    key: "dossier",
-    beats: [
-      { id: "fold", sel: ".ds-folio-plate, .ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 },
-      { id: "spread", sel: ".ds-spread, [data-section='story']", yPad: 36 },
-      { id: "imprint", sel: ".ds-closing, .ds-closing-colophon, #cta", yPad: 24 },
-    ],
-  },
-  {
-    key: "foundry",
-    beats: [
-      { id: "fold", sel: ".ds-seam-figure, .ds-hero .ds-plate-bleed, .ds-hero", yPad: 8 },
-      { id: "marginalia", sel: ".ds-marginalia, [data-section='story']", yPad: 36 },
-    ],
-  },
-  {
-    key: "saas",
-    beats: [
-      { id: "fold", sel: ".ds-pipeline-fold, .ds-pipeline-field, .ds-hero-pipeline", yPad: 12 },
-      { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
-      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
-    ],
-  },
-  {
-    key: "dashboard",
-    beats: [
-      { id: "fold", sel: ".ds-queue-fold, .ds-queue-console, .ds-hero-queue", yPad: 12 },
-      { id: "shell", sel: "#app, .ds-app-band, .ds-app", yPad: 20 },
-      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
-    ],
-  },
-  {
-    key: "corporate",
-    beats: [
-      { id: "fold", sel: ".ds-diligence-fold, .ds-posture-plate, .ds-hero-diligence", yPad: 12 },
-      { id: "story", sel: "#story, [data-section='story']", yPad: 36 },
-      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
-    ],
-  },
-  {
-    key: "educational",
-    beats: [
-      { id: "fold", sel: ".ds-mechanism-fold, .ds-mechanism-stage, .ds-hero-mechanism", yPad: 12 },
-      { id: "scrub", sel: ".ds-mechanism-fold, #features", yPad: 28 },
-      { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
-    ],
-  },
-  {
-    key: "fintech",
-    beats: [
-      { id: "fold", sel: ".ds-wire-fold, .ds-wire-ledger, .ds-hero-wire", yPad: 12 },
-      { id: "features", sel: "#features, [data-section='features']", yPad: 36 },
-      { id: "proof", sel: "#proof, [data-section='proof']", yPad: 36 },
-    ],
-  },
-  {
-    key: "lantern",
-    beats: [
-      { id: "fold", sel: ".ds-path-plate, .ds-hero-path, .ds-hero", yPad: 8 },
-      { id: "ember", sel: ".ds-ember-trail, [data-section='story']", yPad: 36 },
-      { id: "close", sel: ".ds-closing, .ds-closing-colophon, #cta", yPad: 24 },
-    ],
-  },
-  {
-    key: "loom",
-    beats: [
-      { id: "fold", sel: ".ds-loom-plate, .ds-hero-loom, .ds-hero", yPad: 8 },
-      { id: "hangtag", sel: ".ds-hangtag, [data-section='story']", yPad: 36 },
-      { id: "close", sel: ".ds-closing, .ds-closing-colophon, #cta", yPad: 24 },
-    ],
-  },
+/** One fold selector per engine offering — the unreplicable first-viewport instrument. */
+const TEMPLATES: Array<{ key: string; fold: string }> = [
+  { key: "saas", fold: ".ds-pipeline-fold, .ds-hero-pipeline" },
+  { key: "dashboard", fold: ".ds-queue-fold, .ds-hero-queue" },
+  { key: "corporate", fold: ".ds-diligence-fold, .ds-hero-diligence" },
+  { key: "educational", fold: ".ds-mechanism-fold, .ds-hero-mechanism" },
+  { key: "fintech", fold: ".ds-wire-fold, .ds-hero-wire" },
+  { key: "studio", fold: ".ds-hero-overfigure, .ds-hero-stackfold, .ds-hero" },
+  { key: "consumer", fold: ".ds-hero-overfigure, .ds-hero-stackfold, .ds-hero" },
+  { key: "foundry", fold: ".ds-seam-figure, .ds-hero-seam, .ds-hero" },
+  { key: "dossier", fold: ".ds-folio-plate, .ds-hero-folio, .ds-hero" },
+  { key: "observatory", fold: ".ds-chrono-lattice, .ds-hero-chrono, .ds-hero" },
+  { key: "archive", fold: ".ds-register-ledger, .ds-hero-register, .ds-hero" },
+  { key: "loom", fold: ".ds-loom-plate, .ds-hero-loom, .ds-hero" },
+  { key: "herbarium", fold: ".ds-hero-glassine, .ds-press-plate, .ds-hero-tray" },
+  { key: "press", fold: ".ds-press-sheet, .ds-hero-press" },
+  { key: "lantern", fold: ".ds-path-plate, .ds-hero-path, .ds-hero" },
+  { key: "clinic", fold: ".ds-care-plate, .ds-hero-rounds, .ds-hero" },
+  { key: "harness", fold: ".ds-helm-fold, .ds-permit-plate, .ds-hero-helm" },
+];
+
+const LIVE_FOLDS: Array<{ name: string; path: string; wait: string }> = [
+  { name: "crease-fold", path: "/crease", wait: "[data-testid='crease-site'], .cr-hero" },
+  { name: "baseline-fold", path: "/baseline", wait: "[data-testid='baseline-site'], .bl-hero" },
 ];
 
 async function shot(page: Page, name: string): Promise<void> {
@@ -211,17 +146,28 @@ async function main(): Promise<void> {
   await page.waitForSelector('[data-testid="showcase-featured-preview"][data-ready="true"]', {
     timeout: 45_000,
   });
-  await page.waitForTimeout(900);
+  await page.waitForTimeout(1400);
   await shot(page, "01-showcase-featured");
 
   await page.locator("#reels, .sx-filmstrip").first().scrollIntoViewIfNeeded();
   await page
     .waitForSelector(".sx-filmstrip [data-ready='true']", { timeout: 30_000 })
     .catch(() => undefined);
-  await page.waitForTimeout(600);
+  // Let at least two filmstrip cells paint so Crease is not copied into Baseline.
+  await page.waitForTimeout(1800);
   await shot(page, "02-showcase-gallery");
 
-  // ——— Full-bleed template craft ———
+  // ——— Sport matchday (live app, one fold each) ———
+  for (const live of LIVE_FOLDS) {
+    await page.goto(`${BASE}${live.path}`, { waitUntil: "domcontentloaded", timeout: 60_000 });
+    await page.waitForSelector(live.wait, { timeout: 30_000 });
+    await page.waitForTimeout(700);
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(200);
+    await shot(page, live.name);
+  }
+
+  // ——— Engine templates: one fold still each ———
   for (const t of pages) {
     await page.goto(`http://127.0.0.1:4323/${t.key}`, {
       waitUntil: "domcontentloaded",
@@ -230,33 +176,21 @@ async function main(): Promise<void> {
     await page.waitForSelector(".ds-hero, h1, [data-sitekind]", { timeout: 20_000 });
     await page.waitForTimeout(500);
 
-    for (const beat of t.beats) {
-      if (beat.id === "fold") {
-        // Scroll to the named fold instrument (claim+figure wrappers, ledger, plate).
-        // Do not then nudge into a nested plate — that crops the claim and leaves a sparse SVG.
-        const figOk = await scrollTo(page, beat.sel, beat.yPad ?? 8);
-        if (!figOk) {
-          await page.evaluate(() => {
-            const nav = document.querySelector(".ds-nav");
-            const h = nav ? Math.round((nav as HTMLElement).getBoundingClientRect().height) : 0;
-            window.scrollTo(0, Math.max(0, h - 4));
-          });
-          await page.waitForTimeout(200);
-        }
-      } else {
-        const ok = await scrollTo(page, beat.sel, beat.yPad ?? 28);
-        if (!ok) {
-          console.warn(`[readme-shots] miss ${t.key}/${beat.id}`);
-          continue;
-        }
-      }
-      await shot(page, `${t.key}-${beat.id}`);
+    const figOk = await scrollTo(page, t.fold, 8);
+    if (!figOk) {
+      await page.evaluate(() => {
+        const nav = document.querySelector(".ds-nav");
+        const h = nav ? Math.round((nav as HTMLElement).getBoundingClientRect().height) : 0;
+        window.scrollTo(0, Math.max(0, h - 4));
+      });
+      await page.waitForTimeout(200);
     }
+    await shot(page, `${t.key}-fold`);
   }
 
   await browser.close();
   server.close();
-  console.log(`[readme-shots] wrote frames to ${OUT}`);
+  console.log(`[readme-shots] wrote one fold per offering to ${OUT}`);
 }
 
 main().catch((err) => {
