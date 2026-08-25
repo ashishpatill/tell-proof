@@ -33,15 +33,23 @@
   gap: 0.35rem;
   padding: 1rem 0.75rem;
   border-right: 1px solid rgb(var(--border) / 0.45);
-  /* Opaque paper — cream --text* tokens are for dark --bg, not this panel. */
+  /* Opaque paper. Scope hex ink here so dark-theme cream --text cannot leak
+     onto this panel (rgb(var(--text-on-paper)) is not reliable after CSS minify). */
+  --ink-on-paper: #181614;
+  --ink-on-paper-muted: #3d3731;
   background: var(--surface-paper);
-  color: rgb(var(--text-on-paper));
+  color: var(--ink-on-paper);
   min-height: 100vh;
   position: sticky;
   top: 0;
   align-self: start;
   max-height: 100vh;
   overflow-y: auto;
+}
+
+.tell-rail a,
+.tell-rail button {
+  color: inherit;
 }
 
 .tell-rail__brand {
@@ -61,8 +69,8 @@
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 999px;
-  border: 1px solid rgb(var(--text-on-paper));
-  background: rgb(var(--text-on-paper));
+  border: 1px solid var(--ink-on-paper);
+  background: var(--ink-on-paper);
   color: var(--surface-paper);
   font-family: var(--font-mono);
   font-size: 0.875rem;
@@ -84,7 +92,7 @@
   font-family: var(--font-display);
   font-size: 1.35rem;
   letter-spacing: -0.02em;
-  color: rgb(var(--text-on-paper));
+  color: var(--ink-on-paper);
 }
 
 .tell-rail__brand-meta {
@@ -92,7 +100,7 @@
   font-size: 0.65rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgb(var(--text-on-paper-muted));
+  color: var(--ink-on-paper-muted);
 }
 
 .tell-rail__section {
@@ -108,7 +116,7 @@
   font-size: 0.65rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgb(var(--text-on-paper-muted));
+  color: var(--ink-on-paper-muted);
 }
 
 .tell-rail__link,
@@ -122,7 +130,7 @@
   border-radius: 0.65rem;
   border: 1px solid transparent;
   background: transparent;
-  color: rgb(var(--text-on-paper));
+  color: rgb(var(--text-secondary));
   cursor: pointer;
   text-decoration: none;
   font-family: var(--font-sans);
@@ -132,10 +140,16 @@
   transition: border-color 120ms ease, background 120ms ease, color 120ms ease, box-shadow 120ms ease;
 }
 
+.tell-rail .tell-rail__link,
+.tell-rail .tell-rail__btn {
+  color: var(--ink-on-paper);
+}
+
 .tell-rail__icon {
   width: 1rem;
   height: 1rem;
   flex-shrink: 0;
+  color: inherit;
 }
 
 .tell-rail__label {
@@ -143,13 +157,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: inherit;
 }
 
 .tell-rail__link:hover,
 .tell-rail__btn:hover {
   border-color: rgb(var(--border) / 0.45);
-  color: rgb(var(--text-on-paper));
-  background: rgb(var(--text-on-paper) / 0.06);
+  color: rgb(var(--text));
+  background: rgb(var(--surface) / 0.5);
+}
+
+.tell-rail .tell-rail__link:hover,
+.tell-rail .tell-rail__btn:hover {
+  color: var(--ink-on-paper);
+  background: rgba(24, 22, 20, 0.06);
 }
 
 .tell-rail__link:focus-visible,
@@ -170,9 +191,16 @@
 .tell-rail__btn[data-active="true"] {
   border-color: rgb(var(--accent) / 0.4);
   background: rgb(var(--accent) / 0.18);
-  color: rgb(var(--text-on-paper));
+  color: rgb(var(--text));
   box-shadow: inset 3px 0 0 rgb(var(--accent));
   font-weight: 600;
+}
+
+.tell-rail .tell-rail__link[aria-current="page"],
+.tell-rail .tell-rail__link[data-active="true"],
+.tell-rail .tell-rail__btn[aria-current="page"],
+.tell-rail .tell-rail__btn[data-active="true"] {
+  color: var(--ink-on-paper);
 }
 
 .tell-rail__link[aria-current="page"]:hover,
@@ -180,7 +208,14 @@
 .tell-rail__btn[aria-current="page"]:hover,
 .tell-rail__btn[data-active="true"]:hover {
   background: rgb(var(--accent) / 0.24);
-  color: rgb(var(--text-on-paper));
+  color: rgb(var(--text));
+}
+
+.tell-rail .tell-rail__link[aria-current="page"]:hover,
+.tell-rail .tell-rail__link[data-active="true"]:hover,
+.tell-rail .tell-rail__btn[aria-current="page"]:hover,
+.tell-rail .tell-rail__btn[data-active="true"]:hover {
+  color: var(--ink-on-paper);
 }
 
 .tell-rail__sessions {
@@ -207,7 +242,7 @@
   border-radius: 0.5rem;
   border: 1px solid transparent;
   background: transparent;
-  color: rgb(var(--text-on-paper));
+  color: var(--ink-on-paper);
   cursor: pointer;
   font-family: var(--font-sans);
   font-size: 0.8rem;
@@ -215,14 +250,14 @@
 }
 
 .tell-rail__session:hover {
-  background: rgb(var(--text-on-paper) / 0.06);
-  color: rgb(var(--text-on-paper));
+  background: rgba(24, 22, 20, 0.06);
+  color: var(--ink-on-paper);
 }
 
 .tell-rail__session[data-active="true"] {
   border-color: rgb(var(--accent) / 0.4);
   background: rgb(var(--accent) / 0.18);
-  color: rgb(var(--text-on-paper));
+  color: var(--ink-on-paper);
   box-shadow: inset 3px 0 0 rgb(var(--accent));
   font-weight: 600;
 }
@@ -241,14 +276,14 @@
   width: 1.15rem;
   height: 1.15rem;
   border-radius: 999px;
-  color: rgb(var(--text-on-paper-muted));
+  color: var(--ink-on-paper-muted);
   flex-shrink: 0;
 }
 
 .tell-rail__session-close:hover,
 .tell-rail__session-close:focus-visible {
   background: rgb(var(--accent) / 0.2);
-  color: rgb(var(--text-on-paper));
+  color: var(--ink-on-paper);
 }
 
 .tell-rail__spacer {

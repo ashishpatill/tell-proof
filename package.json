@@ -26,6 +26,7 @@
     "sync:demo-report": "pnpm -F @tell/core exec tsx ../../scripts/sync-demo-report.ts",
     "deploy:vercel": "bash scripts/deploy-vercel.sh",
     "e2e:studio": "pnpm -F @tell/core exec tsx ../../scripts/e2e-studio-playwright.ts",
+    "eye:shell": "pnpm -F @tell/core exec tsx ../../scripts/eye-shell-contrast.ts",
     "record:readme-demo": "pnpm -F @tell/core exec tsx ../../scripts/record-readme-demo.ts",
     "record:template-motion": "pnpm -F @tell/design-skills exec tsx ../../scripts/record-template-motion.ts",
     "capture:readme-showcase": "pnpm -F @tell/core exec tsx ../../scripts/capture-readme-showcase.ts",

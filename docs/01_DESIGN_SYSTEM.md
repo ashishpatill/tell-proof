@@ -422,12 +422,14 @@ Tell Proof’s primary surface is an **entry-rail / split-shell**, not a KPI das
 | Critic pane | Findings, voice director, draft fix, Connect Agent |
 | Proof canvas | Capture / setup, pages strip, reveal seam, verified proof |
 
-The icon rail is an opaque **`--surface-paper`** panel. Labels use **`--text-on-paper`** (ink),
-never `--text` / `--text-secondary` / `--text-muted` — those cream tokens are for dark `--bg`
-chrome and fail 4.5:1 on paper. Frosted **`--surface-glass`** is for overlays sitting on the
+The icon rail is an opaque **`--surface-paper`** panel. Labels use **`--ink-on-paper`**
+(hex ink, paper-950) - never `--text` / `--text-secondary` / `--text-muted`, and never
+`rgb(var(--text-on-paper))` for rail chrome. Those cream tokens and the `rgb(var(--x))`
+pattern are for dark `--bg` surfaces; on paper they fail 4.5:1 (or the declaration is
+dropped after CSS minify). Frosted **`--surface-glass`** is for overlays sitting on the
 dark canvas, not for the rail. Do not adopt cool slate SaaS chrome, Inter, violet gradients, or
 shadow-everywhere. Split resize and canvas focus mode are first-class; mobile stacks panes with
-Critic / Canvas switcher.
+Critic / Canvas switcher. Gate: `pnpm eye:shell`.
 
 BYOK keys live in browser `localStorage` only; deterministic core needs no keys.
 
