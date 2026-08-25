@@ -1,54 +1,66 @@
 # Tell Proof
 
-Tell Proof is a design-focused toolset and research engine that helps teams make user interfaces feel intentional, distinctive, and production-ready. It was built to sit alongside developer workflows and agent-driven code generation systems (like Cursor) to catch the visual mistakes that automated pipelines often miss, and to provide concrete, measurable guidance and fixes.
+[![Tell Proof demo poster](./docs/media/tell-proof-demo-poster.webp)](./docs/media/tell-proof-demo.mp4)
+
+Tell Proof is a design-focused toolkit and research engine that helps teams make user interfaces feel intentional, distinctive, and production-ready. It was built to sit alongside developer workflows and agent-driven code generation systems (like Cursor) to catch the visual and compositional mistakes automated pipelines often miss, and to provide concrete, source-aware fixes backed by evidence.
 
 Why this repository exists
 
-Developer tools and code-writing agents are great at shipping working software, but they are weak at visual authorship. When a UI is "good enough" to compile, it can still look generic, inconsistent, or hard to use. Tell Proof exists to close that gap: it observes real rendered pages, detects where the design is generic or drifting, offers concrete direction, and helps produce source-level patches that can be reviewed and proven in an isolated environment.
+Developer tools and code-writing agents are excellent at shipping working software, but they are not specialized at visual authorship. A page that compiles can still be generic, inconsistent, or hard to trust. Tell Proof closes that gap by observing rendered pages, naming where design is generic or drifting, suggesting direction, and producing patches that can be reviewed and proven before they land in production.
+
+Quick showcase — curated visuals
+
+These images and the demo video show Tell Proof’s strengths: independent capture, measurable critique, and premium redesigns that read as authored, not accidental.
+
+| Featured demo | Practical example 1 | Practical example 2 |
+|---:|:---:|:---:|
+| [![Featured craft reel](./docs/media/showcase/01-showcase-featured.webp)](./docs/media/tell-proof-demo.mp4) <br/>Demo video | ![SaaS fold example](./docs/media/showcase/saas-fold.webp) <br/>SaaS fold — brand-first composition | ![Dashboard fold example](./docs/media/showcase/dashboard-fold.webp) <br/>Dashboard — priority rail + queue console |
+
+The poster above links to the full demo video (click the image to play). I kept a small set of assets that best demonstrate Tell Proof’s ability to turn evidence into design: a hero poster/video, a featured craft image, and two representative folds (SaaS and Dashboard).
 
 What Tell Proof does (short)
 
-- Capture: record a rendered page, including screenshots, computed styles, and state probes.
-- Detect: run deterministic detectors that name issues like low contrast, radius monotony, shadow overuse, and spacing inconsistencies.
-- Explain: turn findings into plain-language verdicts and evidence so humans can understand what is wrong and why.
-- Direct: accept voice or text art-direction (for example "warmer" or "more editorial") and map that to concrete action items.
-- Repair: create source-aware diffs that target the files responsible for the problem rather than guessing from images.
-- Prove: apply candidate patches in a disposable checkout, run the app, recapture the page, and measure the improvement before any change lands.
-- Author: provide a Studio mode to generate or refine premium layouts from feature briefs when design intent is supplied.
+- Capture: record a rendered page, including screenshots, computed styles, CSS variables, and state probes.
+- Detect: run deterministic detectors that name issues like low contrast, radius monotony, shadow overuse, token misuse, and spacing inconsistencies.
+- Explain: produce plain-language findings with evidence so humans understand what is wrong and why.
+- Direct: accept voice or text art-direction (for example: "warmer" or "more editorial") and map that intent to concrete action items.
+- Repair: create source-aware diffs that modify the files responsible for the problem rather than guessing from images.
+- Prove: apply candidate patches in a disposable checkout, recapture, and measure improvement before changes land.
+- Author: offer a Studio mode that generates premium previews from feature briefs and routes edits through a skill graph.
 
 Why Tell Proof matters
 
-- It raises the visual quality bar: instead of relying on model priors or random prompt variations, Tell Proof enforces measurable design signals (contrast, type rhythm, spacing, state coverage). This makes UIs more readable, trustworthy, and distinct.
-- It provides independent evidence: agents should not grade their own homework. Tell Proof captures the rendered result and offers an independent, reproducible critique with evidence you can point at in code reviews.
-- It reduces breakage risk: patches are proven in disposable worktrees with recapture and automated comparisons. If a candidate patch regresses, the system auto-reverts and reports the failure.
-- It improves collaboration: designers, product people, and engineers can share the same findings and patch proposals, shortening the feedback loop and producing changes that reviewers can accept with confidence.
+- Raises the visual quality floor: measurable signals (contrast, type rhythm, spacing, state coverage) become first-class checks rather than subjective preferences.
+- Provides independent evidence: an external capture-and-diagnose loop prevents agents from self-validating and gives reviewers concrete screenshots and metrics.
+- Reduces risk: patches are proven in disposable worktrees and auto-reverted if they regress.
+- Improves collaboration: designers, engineers, and product people share the same findings, edits, and evidence, shortening feedback loops and increasing reviewer confidence.
 
-A human-friendly overview of how it works
+How it works (human-friendly)
 
-1. You give Tell Proof a URL or point it at a local app.
-2. Playwright launches the page and captures screenshots, computed styles, CSS variables, and interactive state samples.
-3. A set of deterministic detectors analyzes those captures and produces named findings with concrete evidence.
-4. The user or an agent can request a redesign or give art-direction in natural language. Tell Proof maps that direction to presets and actionable edits.
-5. When source is available, Tell Proof ranks candidate files and drafts a unified diff that changes tokens, spacing, type scale, and other design primitives.
-6. The patch is applied to a disposable checkout, the app is rebuilt (HMR or dev server), and the page is recaptured.
-7. Tell Proof compares the before and after captures, reports the deltas (contrast, type scale, spacing, state coverage), and marks the patch as pass, review, or fail.
-8. Approved patches are then ready for normal review and merge in your repository.
+1. Point Tell Proof at a URL or local app.
+2. Playwright captures screenshots, computed styles, CSS variables, and interactive-state probes.
+3. Deterministic detectors analyze the captures and return named findings with supporting evidence.
+4. A user or agent requests a redesign or gives art-direction. Tell Proof maps that input to presets and concrete edits.
+5. When source is available, Tell Proof ranks candidate files and drafts a unified diff that updates tokens, spacing, type scale, and other primitives.
+6. The patch is applied to a disposable checkout; HMR or the dev server updates and the page is recaptured.
+7. Tell Proof compares before-and-after captures, reports deltas (contrast, rhythm, spacing, state coverage), and marks the result pass, review, or fail.
+8. Approved patches are ready for normal review and merge.
 
 Who should use Tell Proof
 
-- Engineering teams who ship UI changes automatically or with agent assistance and want predictable visual quality.
-- Designers who want repeatable evidence and code-oriented patches to bring production UIs in line with design goals.
-- Platform teams that need a scalable, deterministic way to enforce visual standards across many microapps or product surfaces.
+- Engineering teams shipping UI changes automatically or with agent assistance who want predictable visual quality.
+- Designers who want reproducible evidence and code-oriented patches to bring production UIs in line with design goals.
+- Platform teams that need a deterministic way to enforce visual standards across many apps.
 
 Key features at a glance
 
-- Deterministic detectors for visual issues (contrast, spacing, radius, shadows, token misuse).
-- Evidence-rich reports with screenshots and computed style samples.
-- Voice and text art-direction that maps to concrete design changes.
-- Source-aware diff generation for TSX/JSX/CSS when a repository is available.
+- Deterministic detectors for contrast, spacing, radius, shadows, token misuse, and responsive drift.
+- Evidence-rich reports with screenshots, computed style samples, and state probes.
+- Voice and text art-direction mapping to actionable edits.
+- Source-aware diff generation for TSX/JSX/CSS when the repository is available.
 - Disposable proof checkouts that apply patches, recapture, and measure improvements.
 - Tell Studio: a skill-driven authoring surface that generates premium previews from feature briefs.
-- Cursor MCP integration: local stdio tools so the engine can be used inside Cursor Agent chat.
+- Cursor MCP integration: local stdio tools for Cursor Agent chat.
 
 Quick start
 
@@ -61,7 +73,7 @@ pnpm install
 pnpm dev
 ```
 
-Open http://localhost:3000 for Tell Report or http://localhost:3000/studio for Tell Studio. A demo fixture runs on http://localhost:3001 if you run pnpm dev:fixture.
+Open http://localhost:3000 for Tell Report or http://localhost:3000/studio for Tell Studio. Run the demo fixture on http://localhost:3001 with `pnpm dev:fixture`.
 
 Development and testing
 
@@ -73,9 +85,9 @@ Development and testing
 
 Contributing
 
-Contributions are welcome. High impact areas include: additional detectors, improved mapping from art-direction to edits, better evidence reporting, and stronger source-to-render mapping when generating diffs.
+Contributions are welcome. High-impact areas include new detectors, better mapping from art-direction to edits, improved evidence reporting, and stronger source-to-render mapping for diffs.
 
-Please run:
+Please run before opening a PR:
 
 ```bash
 pnpm typecheck && pnpm test
