@@ -18,7 +18,7 @@
 
 [![Tell Proof end-to-end: capture rendered UI, name genericness and drift, art-direct reconciliation, then generate premium layouts in Tell Studio](./docs/media/tell-proof-demo-poster.webp)](./docs/media/tell-proof-demo.mp4)
 
-<p><a href="./docs/media/tell-proof-demo.mp4">Watch the MP4</a> · ~90s · Ashish loop (capture, named tells, seam, voice, draft fix) + Studio + specimens</p>
+<p><a href="./docs/media/tell-proof-demo.mp4">Watch the MP4</a> · ~47s · Ashish loop (capture, named tells, seam, voice, draft fix) + Studio + specimens</p>
 
 </div>
 

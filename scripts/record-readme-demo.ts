@@ -70,6 +70,11 @@ async function injectDemoChrome(page: Page) {
         color: #faf7f2;
         text-align: center;
         padding: 48px;
+        pointer-events: auto;
+      }
+      #tell-demo-title[hidden] {
+        display: none !important;
+        pointer-events: none !important;
       }
       #tell-demo-title .kicker {
         font-family: ui-monospace, "IBM Plex Mono", monospace;
@@ -150,14 +155,13 @@ async function showTitle(page: Page, kicker: string, title: string, sub: string)
 
 async function hideTitle(page: Page) {
   await page.evaluate(() => {
-    const el = document.getElementById("tell-demo-title");
-    if (el) el.hidden = true;
+    document.getElementById("tell-demo-title")?.remove();
   });
 }
 
 async function maybeClick(page: Page, locator: ReturnType<Page["locator"]>, ms = 400) {
   if (await locator.count()) {
-    await locator.first().click({ timeout: 4000 }).catch(() => {});
+    await locator.first().click({ timeout: 4000, force: true }).catch(() => {});
     await pause(page, ms);
     return true;
   }
@@ -165,15 +169,20 @@ async function maybeClick(page: Page, locator: ReturnType<Page["locator"]>, ms =
 }
 
 async function loadReport(page: Page) {
-  await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
+  if (!page.url().startsWith(BASE)) {
+    await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
+  }
   await injectDemoChrome(page);
   await setCaption(page, "1 · Setup", "Shipped in a weekend with AI. Looks familiar.");
   await pause(page, 2200);
 
   const liveUrlMode = page.getByRole("button", { name: /live url/i });
   if (await liveUrlMode.count()) {
-    await liveUrlMode.click();
-    await pause(page, 500);
+    const already = await liveUrlMode.first().getAttribute("data-active");
+    if (already !== "true") {
+      await liveUrlMode.click();
+      await pause(page, 500);
+    }
   }
 
   const composer = page.locator("textarea.tell-composer__input, [data-testid='capture-url']").first();
@@ -209,49 +218,42 @@ async function loadReport(page: Page) {
 
   await pause(page, 1800);
   await setCaption(page, "2 · Diagnose", "Named tells. Evidence on the real surface.");
-  await pause(page, 1600);
+  await pause(page, 1800);
 
   await setCaption(page, "3 · Taste", "SystemFontTell - Inter on every role. The default AI type stack.");
   const systemFont = page.getByRole("button", { name: /SystemFontTell/i }).first();
   if (await systemFont.count()) {
     await systemFont.click();
-    await pause(page, 2200);
+    await pause(page, 2400);
   }
 
-  const intentional = page.getByRole("button", { name: /intentional/i }).first();
-  if (await intentional.count()) {
-    await setCaption(page, "3 · Taste", "Intentional, not lint - Tell can tell a choice from a default.");
-    await intentional.click();
-    await pause(page, 1800);
-  } else {
-    const brutalistFinding = page.getByRole("button", { name: /AcidAccentTell|EmojiChromeTell|CenteredEverythingTell/i }).first();
-    if (await brutalistFinding.count()) {
-      await brutalistFinding.click();
-      await pause(page, 900);
-    }
-    const mark = page.getByRole("button", { name: /mark intentional/i });
-    if (await mark.count()) {
-      await setCaption(page, "3 · Taste", "A critic, not a linter - mark a documented choice as intentional.");
-      await mark.click();
-      await pause(page, 1400);
-    }
+  const brutalistFinding = page.getByRole("button", { name: /AcidAccentTell|EmojiChromeTell|CenteredEverythingTell/i }).first();
+  if (await brutalistFinding.count()) {
+    await setCaption(page, "3 · Taste", "Generic vs drift - named, evidenced, not a vibe check.");
+    await brutalistFinding.click();
+    await pause(page, 1400);
+    if (await systemFont.count()) await systemFont.click();
+    await pause(page, 800);
   }
 
   await setCaption(page, "4 · Before / after", "Drag the seam. Contrast floor stays readable.");
   const seam = page.locator('[aria-label*="seam" i], .seam-handle').first();
   if (await seam.count()) {
-    await seam.scrollIntoViewIfNeeded().catch(() => {});
-    const box = await seam.boundingBox();
+      await seam.scrollIntoViewIfNeeded().catch(() => {});
+      await pause(page, 400);
+      const box = await seam.boundingBox();
     if (box) {
-      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      const y = box.y + box.height / 2;
+      const x = box.x + box.width / 2;
+      await page.mouse.move(x, y);
       await page.mouse.down();
-      await page.mouse.move(box.x + box.width / 2 - 220, box.y + box.height / 2, { steps: 18 });
-      await pause(page, 900);
-      await page.mouse.move(box.x + box.width / 2 + 160, box.y + box.height / 2, { steps: 18 });
-      await pause(page, 700);
-      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 12 });
-      await page.mouse.up();
+      await page.mouse.move(x - 280, y, { steps: 24 });
       await pause(page, 1100);
+      await page.mouse.move(x + 240, y, { steps: 24 });
+      await pause(page, 1100);
+      await page.mouse.move(x, y, { steps: 16 });
+      await page.mouse.up();
+      await pause(page, 1400);
     }
   }
 
@@ -281,13 +283,16 @@ async function studioCoda(page: Page) {
   await page.goto(`${BASE}/studio`, { waitUntil: "domcontentloaded" });
   await injectDemoChrome(page);
   await setCaption(page, "Studio", "Author a distinctive layout from a feature brief - not another generic kit.");
-  await page.getByTestId("preview-frame").waitFor({ timeout: 30_000 });
-  await pause(page, 1600);
+  const existingPreview = page.getByTestId("preview-frame");
+  if (await existingPreview.count()) {
+    await pause(page, 1400);
+  }
 
   await page.getByTestId("input-sitekind").selectOption("saas-marketing");
   await page.getByTestId("taste-lean").selectOption("refined-story");
   await page.getByTestId("btn-generate").click();
-  await pause(page, 2400);
+  await page.getByTestId("preview-frame").waitFor({ timeout: 45_000 });
+  await pause(page, 2200);
 
   await page.getByTestId("input-magic").fill("warmer editorial landing, less shadow, no violet");
   await page.getByTestId("btn-magic").click();
@@ -354,7 +359,7 @@ async function encodeOutputs(raw: string) {
     [
       "-y",
       "-ss",
-      "8",
+      "14",
       "-i",
       mp4Out,
       "-frames:v",
