@@ -16,9 +16,9 @@
 
 <br/>
 
-[![Tell Proof end-to-end: capture rendered UI, name genericness and drift, art-direct reconciliation, then generate premium layouts in Tell Studio](./docs/media/tell-proof-demo-poster.webp)](./docs/media/tell-proof-demo.mp4)
+[![Tell Proof product demo: capture the generic fixture, name tells, drag the before/after seam, art-direct with voice, draft a Cursor patch, then Studio and specimens](./docs/media/tell-proof-demo-poster.webp)](./docs/media/tell-proof-demo.mp4)
 
-<p><a href="./docs/media/tell-proof-demo.mp4">Watch the MP4</a> · ~40s · Report loop + Studio create/redesign + showcases</p>
+<p><a href="./docs/media/tell-proof-demo.mp4">Watch the product demo</a> · ~47s · captioned walkthrough of capture → named tells → seam → voice → draft fix, then Studio and specimens</p>
 
 </div>
 
@@ -109,7 +109,19 @@ The authoring agent proposes. Tell measures, critiques, redesigns, and verifies.
 
 ## Demo
 
-The recording above walks the full product loop. The stills below are the live Report UI against the fixture at `http://127.0.0.1:3001`.
+**[Watch the ~47s MP4](./docs/media/tell-proof-demo.mp4)** - captioned, no narrator. It is the product loop, not a dashboard tour. The bland landing in the capture is [`fixtures/generic-app`](./fixtures/generic-app) (demo input, not Tell).
+
+| Beat | On screen |
+|---|---|
+| Setup | Paste `http://127.0.0.1:3001` - shipped in a weekend with AI, looks familiar |
+| Capture + diagnose | Live capture, then 14 findings (`SystemFontTell`, drift, generic) |
+| Taste | Click a named tell; evidence on the rendered page, not a vibe check |
+| Before / after | Drag the seam - captured purple vs reconciled editorial, contrast floor held |
+| Voice + Cursor | "Warmer, more editorial, less shadow" → draft fix → Send to Cursor |
+| Studio + specimens | Feature brief → Northstar landing; Crease / filmstrip close |
+| Dogfood | Tell runs on itself: zero tells |
+
+The stills below are the same Report UI, frozen, if you cannot play the video.
 
 ### 1. Capture
 
@@ -141,12 +153,12 @@ Source-aware diffs update the files responsible for the problem. Copy the patch 
 
 Apply the candidate in a disposable checkout, recapture, and measure improvement (contrast, rhythm, spacing, state coverage) before anything lands.
 
-Studio authoring and plain-language Explain sit on the same engine: generate a premium preview from a feature brief, or read findings with evidence so a human can see what is wrong and why.
+Studio authoring sits on the same engine: generate a premium preview from a feature brief after the critic loop.
 
-Regenerate media locally (web on `:3000`, fixture on `:3001`):
+Regenerate the video and stills locally (web on `:3000`, fixture on `:3001`):
 
 ```bash
-pnpm record:readme-demo
+pnpm record:readme-demo    # docs/media/tell-proof-demo.mp4 + poster
 pnpm capture:readme-showcase
 pnpm capture:readme-steps
 ```
@@ -226,6 +238,7 @@ pnpm typecheck
 pnpm capture:fixture
 pnpm diagnose:fixture
 pnpm e2e:studio
+pnpm record:readme-demo    # README hero MP4
 pnpm capture:readme-showcase
 ```
 
